@@ -1,0 +1,6 @@
+# Procfile for development using HMR
+
+web: rails s -p 3000 -b 0.0.0.0
+
+# Run the webpack-dev-server for client and maybe server files
+webpack-dev-server: bin/webpack-dev-server

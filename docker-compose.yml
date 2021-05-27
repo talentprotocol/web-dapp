@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/mvp:cached
+      - /mvp/node_modules
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+      DATABASE_HOST: "db"
+      DATABASE_USERNAME: "postgres"
+      DATABASE_PASSWORD: "password"
+    depends_on:
+      - db
