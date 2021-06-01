@@ -6,10 +6,21 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import Rails from "@rails/ujs"
-import * as ActiveStorage from "@rails/activestorage"
+
 import "channels"
 
-require("stylesheets/application.scss")
+import ReactOnRails from "react-on-rails";
+import Hello from "src/hello";
+
+import "stylesheets/application.scss"
+const images = require.context('../images', true)
+
+ReactOnRails.register({
+  Hello,
+});
 
 Rails.start()
-ActiveStorage.start()
+
+// TO ENABLE ACTIVE STORAGE LATER
+// import * as ActiveStorage from "@rails/activestorage"
+// ActiveStorage.start()

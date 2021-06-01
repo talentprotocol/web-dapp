@@ -40,4 +40,4 @@ bin/rails db:schema:load
 
 - Project homepage: https://talentprotocol.com
 - Twitter: https://twitter.com/talentprotocol
-- LinkedIn: https://www.linkedin.com/company/talentprotocol/
+- LinkedIn: https://linkedin.com/company/talentprotocol/
