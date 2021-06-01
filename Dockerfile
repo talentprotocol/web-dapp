@@ -2,7 +2,7 @@
 
 # Add node and ruby
 FROM node:14.16.1-alpine as node-builder
-FROM ruby:2.7.2-alpine as ruby-builder
+FROM ruby:2.7.3-alpine as ruby-builder
 
 # Add Yarn repository
 RUN apk add --no-cache alpine-sdk tzdata postgresql-client postgresql-dev git build-base file yarn libcurl curl
