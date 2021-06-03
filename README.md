@@ -33,9 +33,14 @@ For the initial configuration all you need is to setup your database
 
 ```shell
 bin/rails db:create
-bin/rails db:schema:load
+bin/rails db:migrate
 ```
 
+We provide a rake task to setup some initial data in the application.
+
+```shell
+bin/rails dev:prime
+```
 ## Links
 
 - Project homepage: https://talentprotocol.com
