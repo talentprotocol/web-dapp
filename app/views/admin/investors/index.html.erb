@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h1>Manage Investors</h1>
+
+  <%= link_to "New Investor", new_admin_investor_path, class: "btn btn-primary mt-4" %>
+
+  <table class="table table-hover mt-4">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Wallet ID</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @investors.each do |investor|%>
+        <tr>
+          <th scope="row"><%= investor.id%></th>
+          <td><%= investor.username %></td>
+          <td><%= investor.display_wallet_id %></td>
+          <td><%= link_to "Edit", edit_admin_investor_path(investor), class: "btn btn-primary", role: "button" %></td>
+          <td><%= button_to "Delete", admin_investor_path(investor), class: "btn btn-danger", method: :delete %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

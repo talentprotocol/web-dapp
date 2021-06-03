@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Admin Area</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Count</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Investors</th>
+        <th scope="row"><%= @investor_count %></th>
+        <td><%= link_to "Manage", admin_investors_path, class: "btn btn-primary", role: "button" %></td>
+      </tr>
+      <tr>
+        <th scope="row">Talents</th>
+        <th scope="row"><%= @talent_count %></th>
+        <td><%= link_to "Manage", admin_talents_path, class: "btn btn-primary", role: "button" %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

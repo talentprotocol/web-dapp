@@ -13,6 +13,9 @@ gem "webpacker", github: "rails/webpacker", branch: "master"
 gem "jbuilder", "~> 2.7"
 gem "react_on_rails", "= 12.2.0"
 
+# Auth
+gem "clearance"
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 gem "bcrypt"

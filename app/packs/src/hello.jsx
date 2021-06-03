@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Hello = props => (
-  <div className="text-primary">Hello {props.name} Investor!</div>
+  <div className="text-primary">Hello I'm a react component being used inside Rails! My name is {props.name}</div>
 )
 
 Hello.defaultProps = {
