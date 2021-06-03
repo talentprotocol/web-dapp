@@ -1,0 +1,33 @@
+<div class="container">
+  <h1>Talent</h1>
+
+  <dl class="row">
+    <dt class="col-md-3 text-right">ID</dt>
+    <dd class="col-md-9"><%= @talent.id %></dd>
+
+    <dt class="col-md-3 text-right">Username</dt>
+    <dd class="col-md-9"><%= @talent.username %></dd>
+
+    <dt class="col-md-3 text-right">Wallet ID</dt>
+    <dd class="col-md-9"><%= @talent.wallet_id %></dd>
+
+    <dt class="col-md-3 text-right">Description</dt>
+    <dd class="col-md-9"><%= @talent.description %></dd>
+
+    <dt class="col-md-3 text-right">Public Key</dt>
+    <dd class="col-md-9"><%= @talent.public_key || "-" %></dd>
+
+    <dt class="col-md-3 text-right">Created at</dt>
+    <dd class="col-md-9"><%= l(@talent.created_at, format: :long) %></dd>
+
+    <dt class="col-md-3 text-right">Updated at</dt>
+    <dd class="col-md-9"><%= l(@talent.updated_at, format: :long) %></dd>
+  </dl>
+
+  <div class="row">
+    <div class="col-md-9 offset-md-3">
+      <%= link_to "Edit Talent", edit_admin_talent_path(@talent), class: "btn btn-primary" %>
+      <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger", method: :delete %>
+    </div>
+  </div>
+</div>

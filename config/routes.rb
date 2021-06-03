@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  namespace :api, constraints: { format: :json } do
-    namespace :v1 do
-      resources :users
+  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
+    root to: "admin/dashboards#show", as: :admin_root
+
+    namespace :admin do
+      resources :dashboards, only: [:show]
+      resources :investors
+      resources :talents
     end
   end
 
-  get "investor(/*path)" => "pages#investor", as: :investor
-  get "talent(/*path)" => "pages#talent", as: :talent
-  get "admin(/*path)" => "pages#admin", as: :admin
-  
+  resources :investors, only: [:index, :show]
+  resources :talents, only: [:index, :show]
+
   root to: "pages#home", as: :root
 end

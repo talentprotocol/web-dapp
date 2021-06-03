@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h1>Talents</h1>
+
+  <table class="table table-hover">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Wallet ID</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @talents.each do |talent|%>
+        <tr>
+          <th scope="row"><%= talent.id %></th>
+          <td><%= talent.username %></td>
+          <td><%= talent.display_wallet_id %></td>
+          <td><%= link_to "Invest", talent_path(talent.id), class: "btn btn-primary", role: "button" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

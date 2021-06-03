@@ -1,0 +1,38 @@
+<header class="navbar navbar-expand-md border-bottom">
+  <nav class="container-xl flex-wrap flex-md-nowrap justify-content-start" aria-label="Main navigation">
+    <%= link_to "Talent Protocol", root_path, class: "navbar-brand" %>
+    <div class="collapse navbar-collapse" id="header-navbar">
+      <ul class="navbar-nav flex-row flex wrap">
+        <li class="nav-item col-6 col-md-auto">
+          <%= link_to "Talent", talents_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item col-6 col-md-auto">
+          <%= link_to "Investors", investors_path, class: "nav-link" %>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-md-auto">
+        <% if signed_in? %>
+          <% if current_user.admin? %>
+            <li class="nav-item col-6 col-md-auto d-flex align-items-center">
+              <%= link_to "Manage Investors", admin_investors_path, class: "nav-link" %>
+            </li>
+
+            <li class="nav-item col-6 col-md-auto d-flex align-items-center">
+              <%= link_to "Manage Talent", admin_talents_path, class: "nav-link" %>
+            </li>
+          <% end %>
+          <li class="nav-item col-6 col-md-auto d-flex align-items-center">
+            <%= current_user.username %>
+          </li>
+          <li class="nav-item col-6 col-md-auto">
+            <%= button_to 'Sign out', sign_out_path, method: :delete, class:"btn btn-primary" %>
+          </li>
+        <% else %>
+          <li class="nav-item col-6 col-md-auto">
+            <%= link_to 'Sign in', sign_in_path, class:"btn btn-primary" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</header>
