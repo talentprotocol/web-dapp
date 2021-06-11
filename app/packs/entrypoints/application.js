@@ -11,12 +11,15 @@ import "channels"
 
 import ReactOnRails from "react-on-rails";
 import Hello from "src/hello";
+import Button from "src/components/button";
 
 import "stylesheets/application.scss"
-const images = require.context('../images', true)
+
+require.context('../images', true)
 
 ReactOnRails.register({
   Hello,
+  Button
 });
 
 Rails.start()
