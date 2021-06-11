@@ -148,6 +148,7 @@ GEM
     nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    pagy (4.8.0)
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
@@ -289,6 +290,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mini_racer
+  pagy (~> 4.8)
   pg (~> 1.1)
   pry-byebug
   pry-rails

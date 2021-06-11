@@ -16,6 +16,9 @@ gem "react_on_rails", "= 12.2.0"
 # Auth
 gem "clearance"
 
+# Pagination
+gem "pagy", "~> 4.8"
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 gem "bcrypt"
