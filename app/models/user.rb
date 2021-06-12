@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_one :talent
   has_one :investor
 
-  VALID_ROLES = ["admin", "investor"].freeze
+  VALID_ROLES = ["admin", "investor", "talent"].freeze
 
   def admin?
     role == "admin"
