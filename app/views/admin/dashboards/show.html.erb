@@ -13,12 +13,12 @@
       <tr>
         <th scope="row">Investors</th>
         <th scope="row"><%= @investor_count %></th>
-        <td><%= link_to "Manage", admin_investors_path, class: "btn btn-primary", role: "button" %></td>
+        <td><%= react_component("Button", props: { type: "primary", href: admin_investors_path, text: "Manage"}, prerender: false) %></td>
       </tr>
       <tr>
         <th scope="row">Talents</th>
         <th scope="row"><%= @talent_count %></th>
-        <td><%= link_to "Manage", admin_talents_path, class: "btn btn-primary", role: "button" %></td>
+        <td><%= react_component("Button", props: { type: "primary", href: admin_talents_path, text: "Manage"}, prerender: false) %></td>
       </tr>
     </tbody>
   </table>

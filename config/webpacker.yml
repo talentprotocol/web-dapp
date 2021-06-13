@@ -6,7 +6,7 @@ default: &default
   public_root_path: public
   public_output_path: packs
   cache_path: tmp/webpacker
-  webpack_compile_output: true
+  webpack_compile_output: false
 
   # Additional paths webpack should look up modules
   # ['app/assets', 'engine/foo/app/assets']
@@ -14,6 +14,7 @@ default: &default
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
+  extract_css: true
 
 development:
   <<: *default
@@ -28,7 +29,7 @@ development:
     # Inject browserside javascript that is required by both HMR and Live (full) reload
     inject_client: true
     # Hot Module Replacement updates modules while the application is running without a full reload
-    hmr: true
+    hmr: false
     # Inline should be set to true if using HMR; it inserts a script to take care of live reloading
     inline: true
     # Should we show a full-screen overlay in the browser when there are compiler errors or warnings?

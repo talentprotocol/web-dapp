@@ -1,0 +1,32 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Button from 'src/components/button';
+
+<Meta title="Components/Button" component={Button} />
+
+# Buttons
+
+Custom button styles for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
+
+## Examples
+
+There are two currently supported types, `primary` and `secondary`. We use react-bootstrap button underneath so we accept any prop they use.
+
+export const Template = (args) => <Button {...args} />
+
+<Canvas>
+  <Story name="Primary" args={{ 
+      text: "Primary!",
+      onClick: () => null,
+      type: "primary"
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="Checked" args={{ 
+      text: "Secondary!",
+      onClick: () => null,
+      type: "secondary"
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>
