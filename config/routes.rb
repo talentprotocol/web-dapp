@@ -24,9 +24,12 @@ Rails.application.routes.draw do
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
   get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
-  # Views
+  # Business
   resources :investors, only: [:index, :show]
   resources :talents, only: [:index, :show]
+
+  resources :messages, only: [:index, :show, :create]
+  mount ActionCable.server => "/cable"
 
   root to: "pages#home", as: :root
 end

@@ -20,7 +20,7 @@ gem "clearance"
 gem "pagy", "~> 4.8"
 
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.3'
 gem "bcrypt"
 
 # Use Active Storage variant
