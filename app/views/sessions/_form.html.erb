@@ -1,0 +1,22 @@
+<%= form_for :session, url: session_path do |form| %>
+  <div class="text-field form-group">
+    <%= form.label :email %>
+    <%= form.text_field :email, type: 'email', class: "form-control" %>
+  </div>
+
+  <div class="password-field form-group">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: "form-control" %>
+  </div>
+
+  <div class="submit-field form-group">
+    <%= form.submit "Sign In", class: "btn btn-primary" %>
+  </div>
+
+  <div class="other-links">
+    <% if Clearance.configuration.allow_sign_up? %>
+      <%= link_to t(".sign_up"), sign_up_path %>
+    <% end %>
+    <%= link_to t(".forgot_password"), new_password_path %>
+  </div>
+<% end %>

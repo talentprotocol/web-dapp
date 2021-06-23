@@ -1,0 +1,10 @@
+<%= form_for :session, url: session_path do |form| %>
+  <div class="text-field form-group">
+    <%= form.label :metamask %>
+    <%= form.text_field :metamask_id, class: "form-control" %>
+  </div>
+
+  <div class="submit-field form-group">
+    <%= form.submit "Sign In", class: "btn btn-primary" %>
+  </div>
+<% end %>

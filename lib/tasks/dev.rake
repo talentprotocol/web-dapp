@@ -9,11 +9,18 @@ if Rails.env.development?
         role: "admin"
       )
 
+      investor = User.create!(
+        username: "Investor",
+        external_id: "123",
+        role: "investor"
+      )
+
       puts "Setting up Investors.."
       Investor.create!(
         username: "John Doe",
         wallet_id: "0x#{SecureRandom.hex(32)}",
-        description: "I'm so wealthy..."
+        description: "I'm so wealthy...",
+        user: investor
       )
       Investor.create!(
         username: "James Marco",

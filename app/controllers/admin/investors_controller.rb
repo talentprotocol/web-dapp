@@ -2,7 +2,7 @@ class Admin::InvestorsController < ApplicationController
   before_action :set_investor, only: [:show, :edit, :update, :destroy]
 
   def index
-    @investors = Investor.all
+    @pagy, @investors = pagy(Investor.all)
   end
 
   def show

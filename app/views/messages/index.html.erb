@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Messages</h1>
+  <div>
+    Hello, <%= current_user.display_name %><br>
+    Who do you want to chat with?<br>
+    <% @users.each do |user| %>
+      <div>
+        <%= user.display_name %>
+        <%= link_to "Chat", message_path(user.id), class: "btn btn-primary", role: "button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

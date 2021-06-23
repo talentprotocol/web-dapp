@@ -12,6 +12,7 @@ import "channels"
 import ReactOnRails from "react-on-rails";
 import Hello from "src/hello";
 import Button from "src/components/button";
+import MessageBoard from "src/components/message_board";
 
 import "stylesheets/application.scss"
 
@@ -19,7 +20,8 @@ require.context('../images', true)
 
 ReactOnRails.register({
   Hello,
-  Button
+  Button,
+  MessageBoard
 });
 
 Rails.start()
