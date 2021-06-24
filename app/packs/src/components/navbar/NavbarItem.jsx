@@ -10,7 +10,7 @@ const NavbarItem = props => {
   return (
     <li className="nav-item my-1">
       <a className={`nav-link ${active ? "text-primary" : "text-secondary"}`} href={props.url}>
-        {props.icon ? <FontAwesomeIcon icon={props.icon} /> : null} {props.text}
+        {props.icon} {props.text}
       </a>
     </li>
   )
