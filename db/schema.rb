@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_194633) do
+ActiveRecord::Schema.define(version: 2021_06_27_215939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "coins", force: :cascade do |t|
+    t.integer "price"
+    t.integer "market_cap"
+    t.string "ticker"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_coins_on_talent_id"
+    t.index ["ticker"], name: "index_coins_on_ticker"
+  end
 
   create_table "investors", force: :cascade do |t|
     t.string "username", null: false
@@ -38,7 +49,7 @@ ActiveRecord::Schema.define(version: 2021_06_14_194633) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
-  create_table "talents", force: :cascade do |t|
+  create_table "talent", force: :cascade do |t|
     t.string "username", null: false
     t.string "wallet_id", null: false
     t.string "description"
@@ -46,9 +57,26 @@ ActiveRecord::Schema.define(version: 2021_06_14_194633) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
-    t.index ["public_key"], name: "index_talents_on_public_key", unique: true
-    t.index ["user_id"], name: "index_talents_on_user_id"
-    t.index ["username"], name: "index_talents_on_username", unique: true
+    t.datetime "ito_date"
+    t.string "category"
+    t.integer "activity_count"
+    t.index ["activity_count"], name: "index_talent_on_activity_count"
+    t.index ["category"], name: "index_talent_on_category"
+    t.index ["ito_date"], name: "index_talent_on_ito_date"
+    t.index ["public_key"], name: "index_talent_on_public_key", unique: true
+    t.index ["user_id"], name: "index_talent_on_user_id"
+    t.index ["username"], name: "index_talent_on_username", unique: true
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer "amount"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "coin_id"
+    t.bigint "investor_id"
+    t.index ["coin_id"], name: "index_transactions_on_coin_id"
+    t.index ["investor_id"], name: "index_transactions_on_investor_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -69,4 +97,7 @@ ActiveRecord::Schema.define(version: 2021_06_14_194633) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "coins", "talent"
+  add_foreign_key "transactions", "coins"
+  add_foreign_key "transactions", "investors"
 end

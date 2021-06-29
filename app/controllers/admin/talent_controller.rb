@@ -1,4 +1,4 @@
-class Admin::TalentsController < ApplicationController
+class Admin::TalentController < ApplicationController
   before_action :set_talent, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -17,7 +17,7 @@ class Admin::TalentsController < ApplicationController
 
     if @talent.save
       redirect_to(
-        admin_talent_path(@talent),
+        admin_talent_index_path(@talent),
         notice: "Talent successfully created."
       )
     else
@@ -31,7 +31,7 @@ class Admin::TalentsController < ApplicationController
   def update
     if @talent.update(talent_params)
       redirect_to(
-        admin_talent_path(@talent),
+        admin_talent_index_path(@talent),
         notice: "Talent successfully updated."
       )
     else
@@ -42,7 +42,7 @@ class Admin::TalentsController < ApplicationController
   def destroy
     if @talent.destroy
       redirect_to(
-        admin_talents_path,
+        admin_talent_index_path,
         notice: "Talent successfully destroyed."
       )
     else
