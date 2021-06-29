@@ -1,13 +1,13 @@
 <div class="container mt-4">
   <h1>Talent</h1>
 
-  <%= link_to "All", talent_index_path, class: "btn btn-primary", role: "button" %>
-  <%= link_to "Active", talent_active_path, class: "btn btn-primary", role: "button" %>
-  <%= link_to "Upcoming", talent_upcoming_path, class: "btn btn-primary", role: "button" %>
+  <%= link_to "All", talent_index_path, class: "btn btn-primary talent-button", role: "button" %>
+  <%= link_to "Active", talent_active_path, class: "btn btn-primary talent-button", role: "button" %>
+  <%= link_to "Upcoming", talent_upcoming_path, class: "btn btn-primary talent-button", role: "button" %>
 
-  <%= link_to "Newest", url_for(sort: "newest"), class: "btn btn-primary", role: "button" %>
-  <%= link_to "Market Cap", url_for(sort: "market_cap"), class: "btn btn-primary", role: "button" %>
-  <%= link_to "Activity", url_for(sort: "activity"), class: "btn btn-primary", role: "button" %>
+  <%= link_to "Newest", url_for(sort: "newest"), class: "btn btn-primary talent-button", role: "button" %>
+  <%= link_to "Market Cap", url_for(sort: "market_cap"), class: "btn btn-primary talent-button", role: "button" %>
+  <%= link_to "Activity", url_for(sort: "activity"), class: "btn btn-primary talent-button", role: "button" %>
 
   <div class="d-flex flex-row flex-wrap">
     <% @talents.each do |talent| %>
@@ -28,7 +28,7 @@
           <p>Price: <%= talent.coin.display_price %></p>
           <p>Market cap: <%= talent.coin.display_market_cap %></p>
           <p>Sponsors: <%= talent.investors.count %></p>
-          <%= link_to "Buy Coin", talent_path(talent.id), class: "btn btn-primary", role: "button" %>
+          <%= link_to "Buy Coin", talent_path(talent.id), class: "btn btn-primary talent-button", role: "button" %>
         </div>
       </div>
     <% end %>

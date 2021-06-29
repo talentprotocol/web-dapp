@@ -12,6 +12,7 @@ gem "sass-rails", ">= 6"
 gem "webpacker", github: "rails/webpacker", branch: "master"
 gem "jbuilder", "~> 2.7"
 gem "react_on_rails", "= 12.2.0"
+gem 'mini_racer', platforms: :ruby
 
 # Auth
 gem "clearance"
@@ -54,4 +55,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-gem 'mini_racer', platforms: :ruby

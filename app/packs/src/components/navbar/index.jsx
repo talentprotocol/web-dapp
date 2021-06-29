@@ -33,15 +33,15 @@ const Navbar = props => {
         <ul className={`navbar-nav mt-2 ${smallStyle} d-md-flex`}>
           <NavbarItem icon={icon(faHome)} text={"Home"} url={"/"} exact/>
           <NavbarItem icon={icon(faUserFriends)} text={"Talent"} url={talentPath}/>
-          <NavbarItem icon={icon(faHandHoldingUsd)} text={"Portfolio"} url={portfolioPath}/>
+          <NavbarItem icon={icon(faHandHoldingUsd)} text={"Portfolio"} url={portfolioPath} exact/>
           <NavbarItem icon={icon(faEnvelope)} text={"Messages"} url={messagesPath}/>
-          <NavbarItem icon={icon(faStar)} text={"Trade $TAL"} url={tradePath}/>
+          <NavbarItem icon={icon(faStar)} text={"Trade $TAL"} url={tradePath} exact/>
         </ul>
       </nav>
       <nav aria-label="Secondary navigation" className={`${smallStyle} d-md-flex flex-column w-100`}>
         <ul className="navbar-nav">
-          <NavbarItem text={"Settings"} url={settingsPath}/>
-          <NavbarItem text={"Help"} url={helpPath}/>
+          <NavbarItem text={"Settings"} url={settingsPath} exact/>
+          <NavbarItem text={"Help"} url={helpPath} exact/>
         </ul>
         <TalBox price="1.58" variance="+12%"/>
       </nav>
