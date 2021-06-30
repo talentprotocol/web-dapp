@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
   private
 
   def talent_sort(talents)
-    if params[:sort].present?
-      if params[:sort] == "market_cap"
+    if sort_params[:sort].present?
+      if sort_params[:sort] == "market_cap"
         talents.joins(:coin).order(market_cap: :desc)
-      elsif params[:sort] == "activity"
+      elsif sort_params[:sort] == "activity"
         talents.order(activity_count: :desc)
       else
         talents.order(created_at: :desc)
@@ -18,5 +18,9 @@ class ApplicationController < ActionController::Base
     else
       talents
     end
+  end
+
+  def sort_params
+    params.permit(:sort)
   end
 end
