@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :dashboards, only: [:show]
       resources :investors
-      resources :talents
+      resources :talent
     end
   end
 
@@ -26,7 +26,10 @@ Rails.application.routes.draw do
 
   # Business
   resources :investors, only: [:index, :show]
-  resources :talents, only: [:index, :show]
+
+  get "/talent/active", to: "talent/searches#active"
+  get "/talent/upcoming", to: "talent/searches#upcoming"
+  resources :talent, only: [:index, :show]
 
   resources :messages, only: [:index, :show, :create]
   mount ActionCable.server => "/cable"

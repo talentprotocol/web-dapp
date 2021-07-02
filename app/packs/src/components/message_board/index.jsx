@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { format } from 'date-fns'
 
 import { setupChannel } from "channels/message_channel"
-import Message from "src/components/message"
+import Message from "./Message"
 import { post } from "src/utils/requests"
 
 const MessageBoard = props => {

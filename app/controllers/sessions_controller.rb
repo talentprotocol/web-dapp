@@ -20,7 +20,11 @@ class SessionsController < Clearance::SessionsController
     true # implement later
   end
 
+  def metamask_params
+    params.permit(session: :metamask_id)
+  end
+
   def metamask_id
-    params[:session][:metamask_id]
+    metamask_params[:session][:metamask_id]
   end
 end

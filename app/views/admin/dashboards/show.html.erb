@@ -16,9 +16,9 @@
         <td><%= react_component("Button", props: { type: "primary", href: admin_investors_path, text: "Manage"}, prerender: false) %></td>
       </tr>
       <tr>
-        <th scope="row">Talents</th>
+        <th scope="row">Talent</th>
         <th scope="row"><%= @talent_count %></th>
-        <td><%= react_component("Button", props: { type: "primary", href: admin_talents_path, text: "Manage"}, prerender: false) %></td>
+        <td><%= react_component("Button", props: { type: "primary", href: admin_talent_index_path, text: "Manage"}, prerender: false) %></td>
       </tr>
     </tbody>
   </table>

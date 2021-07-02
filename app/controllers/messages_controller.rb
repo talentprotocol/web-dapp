@@ -5,7 +5,9 @@ class MessagesController < ApplicationController
   end
 
   def show
+    # required for frontend show
     @sender = current_user
+
     @messages = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
       .or(Message.where(sender_id: @receiver.id, receiver_id: current_user.id))
 
@@ -13,7 +15,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    message = Message.create(sender: current_user, receiver: @receiver, text: params[:message])
+    message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
 
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)
@@ -25,5 +27,9 @@ class MessagesController < ApplicationController
 
   def set_receiver
     @receiver = User.find(params[:id])
+  end
+
+  def message_params
+    params.permit(:message)
   end
 end

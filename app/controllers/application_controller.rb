@@ -3,4 +3,24 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   layout "application"
+
+  private
+
+  def talent_sort(talents)
+    if sort_params[:sort].present?
+      if sort_params[:sort] == "market_cap"
+        talents.joins(:coin).order(market_cap: :desc)
+      elsif sort_params[:sort] == "activity"
+        talents.order(activity_count: :desc)
+      else
+        talents.order(created_at: :desc)
+      end
+    else
+      talents
+    end
+  end
+
+  def sort_params
+    params.permit(:sort)
+  end
 end
