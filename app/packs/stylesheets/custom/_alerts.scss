@@ -1,22 +1,40 @@
+@import "../bootstrap/overrides";
+
 .talent-alert {
   border-radius: 0px;
 }
 
 .talent-alert-info {
-  box-shadow: 3px 3px 0px 0px #44C6DC;
+  box-shadow: 3px 3px 0px 0px $info;
+  color: $info;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), $info;
+  border-color: $info;
 }
 
 .talent-alert-primary {
-  box-shadow: 3px 3px 0px 0px #6037F4;
+  box-shadow: 3px 3px 0px 0px $primary;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), $primary;
+  color: $primary;
+  border-color: $primary;
 }
 
 .talent-alert-warning {
-  box-shadow: 3px 3px 0px 0px #F59E0B;
+  box-shadow: 3px 3px 0px 0px $warning;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), $warning;
+  color: $warning;
+  border-color: $warning;
 }
 
 .talent-alert-danger {
-  box-shadow: 3px 3px 0px 0px #EF4444;
+  box-shadow: 3px 3px 0px 0px $danger;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), $danger;
+  color: $danger;
+  border-color: $danger;
 }
 
 .talent-alert-success {
-  box-shadow: 3px 3px 0px 0px #10B981}
+  box-shadow: 3px 3px 0px 0px $success;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), $success;
+  color: $success;
+  border-color: $success;
+}
