@@ -1,0 +1,2 @@
+class AlertConfiguration < ApplicationRecord
+end

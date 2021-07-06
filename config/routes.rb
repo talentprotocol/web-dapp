@@ -24,15 +24,17 @@ Rails.application.routes.draw do
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
   get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
-  # Business
-  resources :investors, only: [:index, :show]
+  # Business - require log-in
+  constraints Clearance::Constraints::SignedIn.new do
+    resources :investors, only: [:index, :show]
 
-  get "/talent/active", to: "talent/searches#active"
-  get "/talent/upcoming", to: "talent/searches#upcoming"
-  resources :talent, only: [:index, :show]
+    get "/talent/active", to: "talent/searches#active"
+    get "/talent/upcoming", to: "talent/searches#upcoming"
+    resources :talent, only: [:index, :show]
 
-  resources :messages, only: [:index, :show, :create]
-  mount ActionCable.server => "/cable"
+    resources :messages, only: [:index, :show, :create]
+    mount ActionCable.server => "/cable"
+  end
 
   root to: "pages#home", as: :root
 end

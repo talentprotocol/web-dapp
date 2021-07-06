@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   include Clearance::User
 
-  validates :role, presence: true
-  validate :role_is_valid
+  validate :role_is_valid, if: -> { role.present? }
   validate :external_id_or_email_and_password
 
   has_one :talent
@@ -13,10 +12,18 @@ class User < ApplicationRecord
   has_many :messaged, foreign_key: :sender_id, class_name: "Message"
   has_many :receivers, through: :messaged
 
-  VALID_ROLES = ["admin", "investor", "talent"].freeze
+  VALID_ROLES = ["admin"].freeze
 
   def admin?
     role == "admin"
+  end
+
+  def talent?
+    talent.exists?
+  end
+
+  def investor?
+    investor.exists?
   end
 
   def display_name

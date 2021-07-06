@@ -37,6 +37,7 @@ group :development, :test do
   gem "bundler-audit"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "dotenv-rails"
+  gem "factory_bot_rails", "~> 6.2.0"
   gem "pry-byebug"
   gem "pry-rails"
   gem "standard"
@@ -52,6 +53,8 @@ end
 
 group :test do
   gem "capybara", ">= 3.26"
+  gem "rspec-rails", '~> 5.0.1'
   gem "selenium-webdriver"
+  gem 'shoulda-matchers', '~> 4.5.1'
   gem "webdrivers"
 end

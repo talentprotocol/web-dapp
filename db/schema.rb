@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_215939) do
+ActiveRecord::Schema.define(version: 2021_07_06_231344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alert_configurations", force: :cascade do |t|
+    t.string "page", null: false
+    t.string "alert_type"
+    t.string "text"
+    t.string "href"
+    t.string "button_text"
+    t.string "css_class"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["page"], name: "index_alert_configurations_on_page", unique: true
+  end
 
   create_table "coins", force: :cascade do |t|
     t.integer "price"
@@ -84,7 +96,7 @@ ActiveRecord::Schema.define(version: 2021_06_27_215939) do
     t.string "email"
     t.string "encrypted_password", limit: 128
     t.string "remember_token", limit: 128, null: false
-    t.string "role", null: false
+    t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "confirmation_token", limit: 128
