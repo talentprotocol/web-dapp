@@ -26,7 +26,7 @@ class Admin::Talent::CoinsController < ApplicationController
 
   def talent
     @talent ||=
-      if id_param
+      if talent_id_param
         Talent.find(params[:talent_id])
       else
         Talent.find_by!(public_key: params[:talent_id])

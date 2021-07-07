@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Reward - For <%= @talent.username %></h1>
+
+  <dl class="row">
+    <dt class="col-md-3 text-right">ID</dt>
+    <dd class="col-md-9"><%= @reward.id %></dd>
+
+    <dt class="col-md-3 text-right">Required Amount</dt>
+    <dd class="col-md-9"><%= @reward.required_amount.to_s(:delimited) %></dd>
+
+    <dt class="col-md-3 text-right">Description</dt>
+    <dd class="col-md-9"><%= @reward.description %></dd>
+
+    <dt class="col-md-3 text-right">Created at</dt>
+    <dd class="col-md-9"><%= l(@reward.created_at, format: :long) %></dd>
+
+    <dt class="col-md-3 text-right">Updated at</dt>
+    <dd class="col-md-9"><%= l(@reward.updated_at, format: :long) %></dd>
+  </dl>
+
+  <div class="row">
+    <div class="col-md-9 offset-md-3">
+      <%= link_to "Edit Reward", edit_admin_talent_reward_path(@talent, @reward), class: "btn btn-primary" %>
+      <%= link_to "Destroy Reward", admin_talent_reward_path(@talent, @reward), class: "btn btn-danger", method: :delete %>
+    </div>
+  </div>
+</div>

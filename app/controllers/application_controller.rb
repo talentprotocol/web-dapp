@@ -18,6 +18,12 @@ class ApplicationController < ActionController::Base
     0
   end
 
+  def talent_id_param
+    Integer(params[:talent_id])
+  rescue
+    0
+  end
+
   def talent_sort(talents)
     if sort_params[:sort].present?
       if sort_params[:sort] == "market_cap"
