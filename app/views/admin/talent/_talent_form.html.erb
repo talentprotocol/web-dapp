@@ -11,9 +11,19 @@
     <%= form.text_field :wallet_id, required: true, class: "form-control" %>
   </div>
 
-  <div class="form-group is-required">
+  <div class="form-group">
     <%= form.label :public_key %>
     <%= form.text_field :public_key, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :linkedin_url %>
+    <%= form.text_field :linkedin_url, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :ito_date %>
+    <%= form.datetime_local_field :ito_date, required: true, class: "form-control" %>
   </div>
 
   <div class="form-group">

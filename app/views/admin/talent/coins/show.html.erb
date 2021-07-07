@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Edit Coin - from <%= @talent.username %></h1>
+
+  <dl class="row">
+    <dt class="col-md-3 text-right">ID</dt>
+    <dd class="col-md-9"><%= @coin.id %></dd>
+
+    <dt class="col-md-3 text-right">Ticker</dt>
+    <dd class="col-md-9"><%= @coin.ticker %></dd>
+
+    <dt class="col-md-3 text-right">Price</dt>
+    <dd class="col-md-9"><%= @coin.price %></dd>
+
+    <dt class="col-md-3 text-right">Market Cap</dt>
+    <dd class="col-md-9"><%= @coin.market_cap %></dd>
+
+    <dt class="col-md-3 text-right">Created at</dt>
+    <dd class="col-md-9"><%= l(@coin.created_at, format: :long) %></dd>
+
+    <dt class="col-md-3 text-right">Updated at</dt>
+    <dd class="col-md-9"><%= l(@coin.updated_at, format: :long) %></dd>
+  </dl>
+
+  <div class="row">
+    <div class="col-md-9 offset-md-3">
+      <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent), class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

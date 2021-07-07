@@ -54,7 +54,7 @@ class Admin::InvestorsController < ApplicationController
 
   def set_investor
     @investor =
-      if params[:id].to_i > 0
+      if id_param
         Investor.find(params[:id])
       else
         Investor.find_by!(public_key: params[:id])

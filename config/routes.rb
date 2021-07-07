@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :dashboards, only: [:show]
       resources :investors
-      resources :talent
+      resources :talent do
+        resources :coins, only: [:show, :edit, :update], module: "talent"
+      end
     end
   end
 

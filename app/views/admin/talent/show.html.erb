@@ -8,6 +8,19 @@
     <dt class="col-md-3 text-right">Username</dt>
     <dd class="col-md-9"><%= @talent.username %></dd>
 
+    <% if @talent.profile_picture.present? %>
+      <dt class="col-md-3 text-right">Profile picture</dt>
+      <dd class="col-md-9"><%= image_tag @talent.profile_picture_url %></dd>
+    <% end %>
+
+    <dt class="col-md-3 text-right">Linkedin</dt>
+    <dd class="col-md-9">
+      <%= link_to @talent.linkedin_url %>
+    </dd>
+
+    <dt class="col-md-3 text-right">ITO Date</dt>
+    <dd class="col-md-9"><%= @talent.ito_date %></dd>
+
     <dt class="col-md-3 text-right">Wallet ID</dt>
     <dd class="col-md-9"><%= @talent.wallet_id %></dd>
 
@@ -17,17 +30,56 @@
     <dt class="col-md-3 text-right">Public Key</dt>
     <dd class="col-md-9"><%= @talent.public_key || "-" %></dd>
 
+    <dt class="col-md-3 text-right">Sponsors</dt>
+    <dd class="col-md-9"><%= @talent.investors.count %></dd>
+
+    <dt class="col-md-3 text-right">Activity</dt>
+    <dd class="col-md-9"><%= @talent.activity_count %></dd>
+
     <dt class="col-md-3 text-right">Created at</dt>
     <dd class="col-md-9"><%= l(@talent.created_at, format: :long) %></dd>
 
     <dt class="col-md-3 text-right">Updated at</dt>
     <dd class="col-md-9"><%= l(@talent.updated_at, format: :long) %></dd>
-  </dl>
 
-  <div class="row">
     <div class="col-md-9 offset-md-3">
       <%= link_to "Edit Talent", edit_admin_talent_path(@talent), class: "btn btn-primary" %>
       <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger", method: :delete %>
     </div>
-  </div>
+
+    <hr class="col-md-12">
+
+    <dt class="col-md-3 text-right">Ticker</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
+
+    <dt class="col-md-3 text-right">Coin Price</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_price %></dd>
+
+    <dt class="col-md-3 text-right">Coin Market Cap</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
+
+    <div class="offset-md-3 col-md-9">
+      <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent), class: "btn btn-primary" %>
+    </div>
+
+    <hr class="col-md-12">
+
+    <dt class="col-md-3 text-right">Career Goal</dt>
+    <dd class="col-md-9"><%= @talent.career_goal %></dd>
+
+    <div class="offset-md-3 col-md-9">
+      <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent), class: "btn btn-primary" %>
+    </div>
+
+    <hr class="col-md-12">
+
+    <dt class="col-md-3 text-right">Rewards</dt>
+    <dd class="col-md-9">
+      <%= @talent.rewards.map(&:to_s).join(" | ") %>
+    </dd>
+
+    <div class="offset-md-3 col-md-9">
+      <%= link_to "Edit Rewards", admin_talent_rewards_path(@talent), class: "btn btn-primary" %>
+    </div>
+  </dl>
 </div>

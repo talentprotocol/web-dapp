@@ -11,6 +11,7 @@
         <th scope="col">Wallet ID</th>
         <th scope="col"></th>
         <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
           <td><%= talent.username %></td>
           <td><%= talent.display_wallet_id %></td>
           <td><%= link_to "Edit", edit_admin_talent_path(talent), class: "btn btn-primary", role: "button" %></td>
+          <td><%= link_to "Details", admin_talent_path(talent), class: "btn btn-info", role: "button" %></td>
           <td><%= button_to "Delete", admin_talent_path(talent), class: "btn btn-danger", method: :delete %></td>
         </tr>
       <% end %>

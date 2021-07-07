@@ -4,7 +4,19 @@ class ApplicationController < ActionController::Base
 
   layout "application"
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
+  def render_404
+    render "errors/404", status: :not_found
+  end
+
   private
+
+  def id_param
+    Integer(params[:id])
+  rescue
+    0
+  end
 
   def talent_sort(talents)
     if sort_params[:sort].present?

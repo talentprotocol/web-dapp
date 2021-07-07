@@ -54,7 +54,7 @@ class Admin::TalentController < ApplicationController
 
   def set_talent
     @talent =
-      if params[:id].to_i > 0
+      if id_param > 0
         Talent.find(params[:id])
       else
         Talent.find_by!(public_key: params[:id])
@@ -67,7 +67,9 @@ class Admin::TalentController < ApplicationController
       :wallet_id,
       :public_key,
       :description,
-      :profile_picture
+      :profile_picture,
+      :linkedin_url,
+      :ito_date
     )
   end
 end

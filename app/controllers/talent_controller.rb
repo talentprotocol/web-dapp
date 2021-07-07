@@ -12,7 +12,7 @@ class TalentController < ApplicationController
 
   def show
     @talent =
-      if params[:id].to_i > 0
+      if id_param
         Talent.find(params[:id])
       else
         Talent.find_by!(public_key: params[:id])
