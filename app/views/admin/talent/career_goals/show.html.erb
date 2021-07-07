@@ -2,19 +2,19 @@
   <h1>Career Goal - from <%= @talent.username %></h1>
 
   <dl class="row">
-    <dt class="col-md-3 text-right">ID</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
     <dd class="col-md-9"><%= @career_goal.id %></dd>
 
-    <dt class="col-md-3 text-right">Target Date</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Target Date</dt>
     <dd class="col-md-9"><%= @career_goal.target_date %></dd>
 
-    <dt class="col-md-3 text-right">Description</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
     <dd class="col-md-9"><%= @career_goal.description %></dd>
 
-    <dt class="col-md-3 text-right">Created at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
     <dd class="col-md-9"><%= l(@career_goal.created_at, format: :long) %></dd>
 
-    <dt class="col-md-3 text-right">Updated at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
     <dd class="col-md-9"><%= l(@career_goal.updated_at, format: :long) %></dd>
   </dl>
 

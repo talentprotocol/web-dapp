@@ -15,6 +15,7 @@ import Logo from "src/components/logo"
 
 const icon = (i) => <FontAwesomeIcon icon={i} />
 
+// break this component into two separate components, SmNavbar (non-fixed) & MdNavbar (Fixed)
 const Navbar = props => {
   const { talentPath, portfolioPath, messagesPath, tradePath, settingsPath, helpPath } = props
 

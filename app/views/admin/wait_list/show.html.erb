@@ -2,19 +2,19 @@
   <h1>Wait list</h1>
 
   <dl class="row">
-    <dt class="col-md-3 text-right">ID</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
     <dd class="col-md-9"><%= @wait_list.id %></dd>
 
-    <dt class="col-md-3 text-right">Email</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Email</dt>
     <dd class="col-md-9"><%= @wait_list.email %></dd>
 
-    <dt class="col-md-3 text-right">Approved</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Approved</dt>
     <dd class="col-md-9"><%= @wait_list.approved %></dd>
 
-    <dt class="col-md-3 text-right">Created at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
     <dd class="col-md-9"><%= l(@wait_list.created_at, format: :long) %></dd>
 
-    <dt class="col-md-3 text-right">Updated at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
     <dd class="col-md-9"><%= l(@wait_list.updated_at, format: :long) %></dd>
   </dl>
 

@@ -2,25 +2,25 @@
   <h1>Investor</h1>
 
   <dl class="row">
-    <dt class="col-md-3 text-right">ID</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
     <dd class="col-md-9"><%= @investor.id %></dd>
 
-    <dt class="col-md-3 text-right">Username</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Username</dt>
     <dd class="col-md-9"><%= @investor.username %></dd>
 
-    <dt class="col-md-3 text-right">Wallet ID</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Wallet ID</dt>
     <dd class="col-md-9"><%= @investor.wallet_id %></dd>
 
-    <dt class="col-md-3 text-right">Description</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
     <dd class="col-md-9"><%= @investor.description %></dd>
 
-    <dt class="col-md-3 text-right">Public Key</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Public Key</dt>
     <dd class="col-md-9"><%= @investor.public_key || "-" %></dd>
 
-    <dt class="col-md-3 text-right">Created at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
     <dd class="col-md-9"><%= l(@investor.created_at, format: :long) %></dd>
 
-    <dt class="col-md-3 text-right">Updated at</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
     <dd class="col-md-9"><%= l(@investor.updated_at, format: :long) %></dd>
   </dl>
 
