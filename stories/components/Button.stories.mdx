@@ -10,7 +10,7 @@ Custom button styles for actions in forms, dialogs, and more with support for mu
 
 ## Examples
 
-There are two currently supported types, `primary` and `secondary`. We use react-bootstrap button underneath so we accept any prop they use.
+There are 6 currently supported types, `primary`, `info`, `success`, `warning`, `danger` and `secondary`. We use react-bootstrap button underneath so we accept any prop they use.
 
 export const Template = (args) => <Button {...args} />
 
@@ -26,6 +26,34 @@ export const Template = (args) => <Button {...args} />
       text: "Secondary!",
       onClick: () => null,
       type: "secondary"
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="Danger" args={{ 
+      text: "Danger!",
+      onClick: () => null,
+      type: "danger"
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="Warning" args={{ 
+      text: "Warning!",
+      onClick: () => null,
+      type: "warning"
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="Info" args={{ 
+      text: "Info!",
+      onClick: () => null,
+      type: "info"
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="Success" args={{ 
+      text: "Success!",
+      onClick: () => null,
+      type: "success"
     }}>
     {Template.bind({})}
    </Story>

@@ -9,7 +9,7 @@ const Alert = (props) => {
 
   return (
     <div className={`alert talent-alert d-flex flex-row align-items-center justify-content-between ${typeStyles}`} role="alert">
-      <p className="mb-0">{text}</p>{href && <Button type={type} text={buttonText} href={href} />}
+      <p className="mb-0 mr-3">{text}</p>{href && <Button type={type} text={buttonText} href={href} />}
     </div>
   )
 }
