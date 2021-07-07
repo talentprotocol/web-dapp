@@ -1,4 +1,6 @@
 class Talent < ApplicationRecord
+  include ::ProfilePictureUploader::Attachment(:profile_picture)
+
   belongs_to :user, optional: true
 
   has_one :coin

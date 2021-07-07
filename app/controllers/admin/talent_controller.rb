@@ -66,7 +66,8 @@ class Admin::TalentController < ApplicationController
       :username,
       :wallet_id,
       :public_key,
-      :description
+      :description,
+      :profile_picture
     )
   end
 end

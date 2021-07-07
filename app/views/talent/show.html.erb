@@ -8,6 +8,11 @@
     <dt class="col-md-3">Username</dt>
     <dd class="col-md-9"><%= @talent.username %></dd>
 
+    <% if @talent.profile_picture.present? %>
+      <dt class="col-md-3">Profile picture</dt>
+      <dd class="col-md-9"><%= image_tag @talent.profile_picture_url %></dd>
+    <% end %>
+
     <dt class="col-md-3">Ticker</dt>
     <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
 

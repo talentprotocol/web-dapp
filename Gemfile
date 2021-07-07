@@ -24,8 +24,8 @@ gem "pagy", "~> 4.8"
 gem 'redis', '~> 4.3'
 gem "bcrypt"
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+# File Attachment toolkit
+gem "shrine", "~> 3.0"
 
 gem "bootsnap", ">= 1.4.4", require: false
 

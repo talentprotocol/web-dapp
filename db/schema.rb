@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_164859) do
+ActiveRecord::Schema.define(version: 2021_07_07_170433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2021_07_07_164859) do
     t.string "category"
     t.integer "activity_count", default: 0
     t.string "linkedin_url"
+    t.text "profile_picture_data"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["category"], name: "index_talent_on_category"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
