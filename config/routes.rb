@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :investors
       resources :talent do
         resources :coins, only: [:show, :edit, :update], module: "talent"
+        resources :career_goals, only: [:show, :edit, :update], module: "talent"
+        resources :rewards, module: "talent"
       end
     end
   end
