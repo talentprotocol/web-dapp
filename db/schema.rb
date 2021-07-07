@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_231344) do
+ActiveRecord::Schema.define(version: 2021_07_07_164859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2021_07_06_231344) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["page"], name: "index_alert_configurations_on_page", unique: true
+  end
+
+  create_table "career_goals", force: :cascade do |t|
+    t.text "description"
+    t.bigint "talent_id", null: false
+    t.date "target_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["talent_id"], name: "index_career_goals_on_talent_id"
   end
 
   create_table "coins", force: :cascade do |t|
@@ -61,6 +70,15 @@ ActiveRecord::Schema.define(version: 2021_07_06_231344) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.integer "required_amount"
+    t.text "description"
+    t.bigint "talent_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["talent_id"], name: "index_rewards_on_talent_id"
+  end
+
   create_table "talent", force: :cascade do |t|
     t.string "username", null: false
     t.string "wallet_id", null: false
@@ -71,7 +89,8 @@ ActiveRecord::Schema.define(version: 2021_07_06_231344) do
     t.bigint "user_id"
     t.datetime "ito_date"
     t.string "category"
-    t.integer "activity_count"
+    t.integer "activity_count", default: 0
+    t.string "linkedin_url"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["category"], name: "index_talent_on_category"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
@@ -109,7 +128,9 @@ ActiveRecord::Schema.define(version: 2021_07_06_231344) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "career_goals", "talent"
   add_foreign_key "coins", "talent"
+  add_foreign_key "rewards", "talent"
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "investors"
 end
