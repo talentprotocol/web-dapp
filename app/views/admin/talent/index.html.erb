@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <h1>Talent</h1>
 
-  <%= link_to "New Talent", new_admin_talent_path, class: "btn btn-primary mt-4" %>
+  <%= link_to "New Talent", new_admin_talent_path, class: "btn btn-primary mt-4 talent-button" %>
 
   <table class="table table-hover mt-4">
     <thead class="table-primary">
@@ -20,9 +20,9 @@
           <th scope="row"><%= talent.id%></th>
           <td><%= talent.username %></td>
           <td><%= talent.display_wallet_id %></td>
-          <td><%= link_to "Edit", edit_admin_talent_path(talent), class: "btn btn-primary", role: "button" %></td>
-          <td><%= link_to "Details", admin_talent_path(talent), class: "btn btn-info", role: "button" %></td>
-          <td><%= button_to "Delete", admin_talent_path(talent), class: "btn btn-danger", method: :delete %></td>
+          <td><%= link_to "Edit", edit_admin_talent_path(talent), class: "btn btn-primary talent-button", role: "button" %></td>
+          <td><%= link_to "Details", admin_talent_path(talent), class: "btn btn-info talent-button", role: "button" %></td>
+          <td><%= button_to "Delete", admin_talent_path(talent), class: "btn btn-danger talent-button", method: :delete %></td>
         </tr>
       <% end %>
     </tbody>

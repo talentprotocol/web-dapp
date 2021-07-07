@@ -43,8 +43,8 @@
     <dd class="col-md-9"><%= l(@talent.updated_at, format: :long) %></dd>
 
     <div class="col-md-9 offset-md-3">
-      <%= link_to "Edit Talent", edit_admin_talent_path(@talent), class: "btn btn-primary" %>
-      <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger", method: :delete %>
+      <%= link_to "Edit Talent", edit_admin_talent_path(@talent), class: "btn btn-primary talent-button" %>
+      <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger talent-button", method: :delete %>
     </div>
 
     <hr class="col-md-12">
@@ -59,7 +59,7 @@
     <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
 
     <div class="offset-md-3 col-md-9">
-      <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent, @talent.coin), class: "btn btn-primary" %>
+      <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent, @talent.coin), class: "btn btn-primary talent-button" %>
     </div>
 
     <hr class="col-md-12">
@@ -68,7 +68,7 @@
     <dd class="col-md-9"><%= @talent.career_goal %></dd>
 
     <div class="offset-md-3 col-md-9">
-      <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent, @talent.career_goal), class: "btn btn-primary" %>
+      <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent, @talent.career_goal), class: "btn btn-primary talent-button" %>
     </div>
 
     <hr class="col-md-12">
@@ -79,7 +79,7 @@
     </dd>
 
     <div class="offset-md-3 col-md-9">
-      <%= link_to "Edit Rewards", admin_talent_rewards_path(@talent), class: "btn btn-primary" %>
+      <%= link_to "Edit Rewards", admin_talent_rewards_path(@talent), class: "btn btn-primary talent-button" %>
     </div>
   </dl>
 </div>

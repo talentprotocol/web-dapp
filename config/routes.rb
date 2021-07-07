@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
         resources :rewards, module: "talent"
       end
+      resources :wait_list
     end
   end
 
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
+    root to: "talent#index", as: :user_root
+
     resources :investors, only: [:index, :show]
 
     get "/talent/active", to: "talent/searches#active"
@@ -39,6 +42,8 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
   end
+
+  post "/wait_list", to: "pages#wait_list"
 
   root to: "pages#home", as: :root
 end

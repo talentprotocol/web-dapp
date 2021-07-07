@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Wait list</h1>
+
+  <dl class="row">
+    <dt class="col-md-3 text-right">ID</dt>
+    <dd class="col-md-9"><%= @wait_list.id %></dd>
+
+    <dt class="col-md-3 text-right">Email</dt>
+    <dd class="col-md-9"><%= @wait_list.email %></dd>
+
+    <dt class="col-md-3 text-right">Approved</dt>
+    <dd class="col-md-9"><%= @wait_list.approved %></dd>
+
+    <dt class="col-md-3 text-right">Created at</dt>
+    <dd class="col-md-9"><%= l(@wait_list.created_at, format: :long) %></dd>
+
+    <dt class="col-md-3 text-right">Updated at</dt>
+    <dd class="col-md-9"><%= l(@wait_list.updated_at, format: :long) %></dd>
+  </dl>
+
+  <div class="row">
+    <div class="col-md-9 offset-md-3">
+      <%= link_to "Edit Wait list item", edit_admin_wait_list_path(@wait_list), class: "btn btn-primary talent-button" %>
+      <%= link_to "Destroy Wait list item", admin_wait_list_path(@wait_list), class: "btn btn-danger talent-button", method: :delete %>
+    </div>
+  </div>
+</div>

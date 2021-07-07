@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-actions">
-    <%= link_to "Cancel", reward.persisted? && admin_talent_rewards_path(talent, reward) || admin_talent_rewards_path(talent), class: "btn btn-secondary", role: "button"%>
-    <%= form.submit "Save Reward", class: "btn btn-primary" %>
+    <%= link_to "Cancel", reward.persisted? && admin_talent_rewards_path(talent, reward) || admin_talent_rewards_path(talent), class: "btn btn-secondary talent-button", role: "button"%>
+    <%= form.submit "Save Reward", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

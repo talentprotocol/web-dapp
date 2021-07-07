@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-actions">
-    <%= link_to "Cancel", career_goal.persisted? && admin_talent_path(career_goal.talent) || admin_talent_index_path, class: "btn btn-secondary", role: "button"%>
-    <%= form.submit "Save Career Goal", class: "btn btn-primary" %>
+    <%= link_to "Cancel", career_goal.persisted? && admin_talent_path(career_goal.talent) || admin_talent_index_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= form.submit "Save Career Goal", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

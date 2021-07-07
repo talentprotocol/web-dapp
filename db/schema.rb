@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_170433) do
+ActiveRecord::Schema.define(version: 2021_07_07_222156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,15 @@ ActiveRecord::Schema.define(version: 2021_07_07_170433) do
     t.index ["external_id"], name: "index_users_on_external_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "wait_list", force: :cascade do |t|
+    t.boolean "approved", default: false
+    t.string "email", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["approved"], name: "index_wait_list_on_approved"
+    t.index ["email"], name: "index_wait_list_on_email", unique: true
   end
 
   add_foreign_key "career_goals", "talent"
