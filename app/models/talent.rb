@@ -1,9 +1,13 @@
 class Talent < ApplicationRecord
+  include ::ProfilePictureUploader::Attachment(:profile_picture)
+
   belongs_to :user, optional: true
 
   has_one :coin
   has_many :transactions, through: :coin
   has_many :investors, through: :transactions
+  has_one :career_goal
+  has_many :rewards
 
   scope :active, -> { where("ito_date <= ?", Time.current) }
   scope :upcoming, -> { where("ito_date > ?", Time.current) }

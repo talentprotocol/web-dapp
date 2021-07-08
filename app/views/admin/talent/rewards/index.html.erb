@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h1>Rewards - for <%= @talent.username %></h1>
+
+  <%= link_to "New Reward", new_admin_talent_reward_path(@talent), class: "btn btn-primary talent-button mt-4" %>
+
+  <table class="table table-hover mt-4">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Required Amount</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rewards.each do |reward|%>
+        <tr>
+          <th scope="row"><%= reward.id%></th>
+          <td><%= reward.required_amount.to_s(:delimited) %></td>
+          <td><%= reward.description %></td>
+          <td><%= link_to "Details", admin_talent_reward_path(@talent, reward), class: "btn btn-info talent-button", role: "button" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= link_to "Back to Talent", admin_talent_path(@talent), class: "btn btn-secondary talent-button" %>
+    </div>
+  </div>
+</div>

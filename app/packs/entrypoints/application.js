@@ -10,20 +10,20 @@ import Rails from "@rails/ujs"
 import "channels"
 
 import ReactOnRails from "react-on-rails";
-import Hello from "src/hello";
 import Button from "src/components/button";
 import MessageBoard from "src/components/message_board";
 import Navbar from "src/components/navbar";
+import Alert from "src/components/alert";
 
 import "stylesheets/application.scss"
 
 require.context('../images', true)
 
 ReactOnRails.register({
-  Hello,
   Button,
   MessageBoard,
-  Navbar
+  Navbar,
+  Alert
 });
 
 Rails.start()

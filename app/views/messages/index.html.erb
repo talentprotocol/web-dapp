@@ -6,7 +6,7 @@
     <% @users.each do |user| %>
       <div>
         <%= user.display_name %>
-        <%= link_to "Chat", message_path(user.id), class: "btn btn-primary", role: "button" %>
+        <%= link_to "Chat", message_path(user.id), class: "btn btn-primary talent-button", role: "button" %>
       </div>
     <% end %>
   </div>

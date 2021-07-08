@@ -2,16 +2,52 @@
   <h1>Talent</h1>
 
   <dl class="row">
-    <dt class="col-md-3">ID</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
     <dd class="col-md-9"><%= @talent.id %></dd>
 
-    <dt class="col-md-3">Username</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Username</dt>
     <dd class="col-md-9"><%= @talent.username %></dd>
 
-    <dt class="col-md-3">Wallet ID</dt>
+    <% if @talent.profile_picture.present? %>
+      <dt class="col-md-3 sm-text-left md-text-right">Profile picture</dt>
+      <dd class="col-md-9"><%= image_tag @talent.profile_picture_url %></dd>
+    <% end %>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Ticker</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Linkedin</dt>
+    <dd class="col-md-9">
+      <%= link_to "Linkedin", @talent.linkedin_url, class: "btn btn-primary talent-button", role: "button" %>
+    </dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">ITO Date</dt>
+    <dd class="col-md-9"><%= @talent.ito_date %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Wallet ID</dt>
     <dd class="col-md-9"><%= @talent.wallet_id %></dd>
 
-    <dt class="col-md-3">Description</dt>
+    <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
     <dd class="col-md-9"><%= @talent.description %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Coin Price</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_price %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Coin Market Cap</dt>
+    <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Sponsors</dt>
+    <dd class="col-md-9"><%= @talent.investors.count %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Activity</dt>
+    <dd class="col-md-9"><%= @talent.activity_count %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Career Goal</dt>
+    <dd class="col-md-9"><%= @talent.career_goal %></dd>
+
+    <dt class="col-md-3 sm-text-left md-text-right">Rewards</dt>
+    <dd class="col-md-9">
+      <%= @talent.rewards.map(&:to_s).join(" | ") %>
+    </dd>
   </dl>
 </div>

@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :dashboards, only: [:show]
       resources :investors
-      resources :talent
+      resources :talent do
+        resources :coins, only: [:show, :edit, :update], module: "talent"
+        resources :career_goals, only: [:show, :edit, :update], module: "talent"
+        resources :rewards, module: "talent"
+      end
+      resources :wait_list
     end
   end
 
@@ -24,15 +29,21 @@ Rails.application.routes.draw do
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
   get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
-  # Business
-  resources :investors, only: [:index, :show]
+  # Business - require log-in
+  constraints Clearance::Constraints::SignedIn.new do
+    root to: "talent#index", as: :user_root
 
-  get "/talent/active", to: "talent/searches#active"
-  get "/talent/upcoming", to: "talent/searches#upcoming"
-  resources :talent, only: [:index, :show]
+    resources :investors, only: [:index, :show]
 
-  resources :messages, only: [:index, :show, :create]
-  mount ActionCable.server => "/cable"
+    get "/talent/active", to: "talent/searches#active"
+    get "/talent/upcoming", to: "talent/searches#upcoming"
+    resources :talent, only: [:index, :show]
+
+    resources :messages, only: [:index, :show, :create]
+    mount ActionCable.server => "/cable"
+  end
+
+  post "/wait_list", to: "pages#wait_list"
 
   root to: "pages#home", as: :root
 end

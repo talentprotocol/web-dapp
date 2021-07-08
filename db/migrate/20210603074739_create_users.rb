@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :email
       t.string :encrypted_password, limit: 128
       t.string :remember_token, limit: 128, null: false
-      t.string :role, null: false
+      t.string :role
 
       t.timestamps
     end
