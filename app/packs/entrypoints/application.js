@@ -14,6 +14,7 @@ import Button from "src/components/button";
 import MessageBoard from "src/components/message_board";
 import Navbar from "src/components/navbar";
 import Alert from "src/components/alert";
+import TalentCard from "src/components/talent/TalentCard";
 
 import "stylesheets/application.scss"
 
@@ -23,7 +24,8 @@ ReactOnRails.register({
   Button,
   MessageBoard,
   Navbar,
-  Alert
+  Alert,
+  TalentCard
 });
 
 Rails.start()

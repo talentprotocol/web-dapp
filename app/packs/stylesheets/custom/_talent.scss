@@ -1,3 +1,5 @@
+@import "../bootstrap/overrides";
+
 .talent-status-badge {
   top: 15px;
   right: 15px;
@@ -10,4 +12,53 @@
 }
 .talent-status-badge.upcoming {
   background-color:#f8f8e7;
+}
+
+.talent-link {
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    border-color: $primary !important;
+  }
+}
+
+.talent-border-separator-dashed {
+  border-top: 1px dashed $secondary;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+.md-talent-card-spacing {
+  padding-right: 24px;
+  padding-left: 0px;
+  &:nth-child(3n) {
+    padding-right: 0px;
+  }
+}
+
+.talent-card-spacing{
+  @media (min-width: 576px) {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  @media (min-width: 768px) {
+    padding-right: 12px;
+    padding-left: 0px;
+    &:nth-child(2n) {
+      padding-left: 12px;
+      padding-right: 0px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    padding-right: 24px;
+    padding-left: 0px;
+    &:nth-child(3n) {
+      padding-right: 0px;
+    }
+  }
 }
