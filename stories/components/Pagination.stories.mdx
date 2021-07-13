@@ -14,9 +14,44 @@ We currently only support one type of pagination style.
 
 export const Template = (args) => <Pagination {...args} />
 
-<Canvas>
-  <Story name="default" args={{ 
-      text: "Primary!"
+<Canvas isColumn>
+  <Story name="with just 2 pages" args={{ 
+      prev: null,
+      next: 2,
+      page: 1,
+      last: 2
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="with a small total number of pages" args={{ 
+      prev: 1,
+      next: 3,
+      page: 2,
+      last: 6
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story name="with just a single page" args={{ 
+      prev: null,
+      next: null,
+      page: 1,
+      last: 1
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story name="with many pages" args={{ 
+      prev: 15,
+      next: 17,
+      page: 16,
+      last: 30
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story name="close to the last page" args={{ 
+      prev: 28,
+      next: 30,
+      page: 29,
+      last: 30
     }}>
     {Template.bind({})}
    </Story>

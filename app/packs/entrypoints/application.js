@@ -15,6 +15,7 @@ import MessageBoard from "src/components/message_board";
 import Navbar from "src/components/navbar";
 import Alert from "src/components/alert";
 import TalentCard from "src/components/talent/TalentCard";
+import Pagination from "src/components/pagination";
 
 import "stylesheets/application.scss"
 
@@ -25,7 +26,8 @@ ReactOnRails.register({
   MessageBoard,
   Navbar,
   Alert,
-  TalentCard
+  TalentCard,
+  Pagination
 });
 
 Rails.start()
