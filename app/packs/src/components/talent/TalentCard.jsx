@@ -1,5 +1,6 @@
 import React from "react"
-import DefaultProfilePicture from "images/default-profile-icon.jpg"
+import TalentProfilePicture from './TalentProfilePicture'
+import TalentTags from "./TalentTags"
 
 const TalentBadge = ({ status }) => {
   if (status.toLowerCase() == "active") {
@@ -17,32 +18,11 @@ const TalentBadge = ({ status }) => {
   }
 }
 
-const TalentProfilePicture = ({ src }) => {
-  const imgSrc = src || DefaultProfilePicture
-  return (<img className="rounded-circle" src={imgSrc} height="64" alt="Profile Picture" />)
-}
-
-const TalentTags = ({ tags, talent_id }) => {
-  if (tags && tags.length > 0) {
-    return (
-      <div className="d-flex flex-row">
-        {tags.map((tag) =>
-          (<div key={`${talent_id}_${tag}`} className="text-regular px-1 mr-1 border border-light rounded-pill">
-            <small><strong>{tag}</strong></small>
-          </div>))
-        }
-      </div>
-    )
-  } else {
-    return null
-  }
-}
-
 const TalentCard = ({ talent, href }) => {
   return (
     <a href={href} className="card talent-link border py-3 h-100">
       <div className="card-body px-3 position-relative">
-        <TalentProfilePicture src={talent.profile_picture_url}/>
+        <TalentProfilePicture src={talent.profilePictureUrl} height={64}/>
         <h4 className="card-title mt-2"><strong>{talent.username}</strong></h4>
         <h6 className="card-subtitle mb-2 text-primary"><strong>{talent.coin.display_ticker}</strong></h6>
         <TalentBadge status={talent.status} />
