@@ -1,5 +1,5 @@
-<div class="d-flex d-row">
-  <div class="col-sm-12 col-md-7">
+<div class="d-flex d-row h-100">
+  <div class="col-sm-12 col-md-7 h-100 bg-white px-4 py-5 border-right">
     <%= react_component("TalentShow", props:
       {
         talent: {
@@ -14,7 +14,16 @@
       }, prerender: false, html_options: { class: "h-100" })
     %>
   </div>
-  <div class="col-sm-12 col-md-5">
-    other top talents
+  <div class="col-sm-12 col-md-5 mt-5">
+    <%= react_component("TalentCoin", props:
+      {
+        price: @talent.coin.display_price,
+        marketCap: @talent.coin.market_cap,
+        sponsors: @talent.investors.count,
+        circulatingSupply: "5837",
+        priceVariance7d: "-2.14",
+        priceVariance30d: "29.39"
+      }, prerender: false, html_options: { class: "h-100" })
+    %>
   </div>
 </div>

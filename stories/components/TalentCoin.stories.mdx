@@ -1,0 +1,27 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks'
+
+import TalentCoin from 'src/components/talent/TalentCoin'
+
+<Meta title="Components/TalentCoin" component={TalentCoin} />
+
+# Talent Show page
+
+Custom component to render a talent's profile in a page.
+
+## Demo
+
+export const Template = (args) => <TalentCoin {...args} />
+
+<Canvas isColumn>
+  <Story name="default"
+    args={{
+      price: "$50.00",
+      marketCap: "$73,810.00",
+      sponsors: 84,
+      circulatingSupply: "5837",
+      priceVariance7d: "-2.14",
+      priceVariance30d: "29.39"
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>

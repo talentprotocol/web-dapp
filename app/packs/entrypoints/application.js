@@ -18,6 +18,7 @@ import TalentCard from "src/components/talent/TalentCard";
 import Pagination from "src/components/pagination";
 import NavTabs from 'src/components/navbar/NavTabs';
 import TalentShow from "src/components/talent/TalentShow"
+import TalentCoin from "src/components/talent/TalentCoin"
 
 import "stylesheets/application.scss"
 
@@ -31,7 +32,8 @@ ReactOnRails.register({
   TalentCard,
   Pagination,
   NavTabs,
-  TalentShow
+  TalentShow,
+  TalentCoin
 });
 
 Rails.start()

@@ -45,7 +45,7 @@ const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }
         <h1 className="h2"><small>{username} <span className="text-muted">({ticker})</span></small></h1>
         <TalentTags tags={tags}/>
       </div>
-      <a className="ml-auto align-self-start" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
+      <a className="ml-auto" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
     </div>
   )
 }
