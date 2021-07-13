@@ -18,6 +18,8 @@ class TalentController < ApplicationController
         Talent.find_by!(public_key: params[:id])
       end
 
+    @talent_leaderboard = Talent.order(id: :desc).limit(10)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @talent }

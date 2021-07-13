@@ -19,6 +19,7 @@ import Pagination from "src/components/pagination";
 import NavTabs from 'src/components/navbar/NavTabs';
 import TalentShow from "src/components/talent/TalentShow"
 import TalentCoin from "src/components/talent/TalentCoin"
+import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard"
 
 import "stylesheets/application.scss"
 
@@ -33,7 +34,8 @@ ReactOnRails.register({
   Pagination,
   NavTabs,
   TalentShow,
-  TalentCoin
+  TalentCoin,
+  TalentLeaderboard
 });
 
 Rails.start()
