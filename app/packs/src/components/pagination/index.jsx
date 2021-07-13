@@ -6,13 +6,13 @@ const PreviousButton = ({ prev, url }) => {
 
     return (
       <li className="page-item">
-        <a className="page-link" href={url.toString()}>{'\u2190'} Previous</a>
+        <a className="page-link" href={url.toString()}><small>{'\u2190'} Previous</small></a>
       </li>
     )
   } else {
     return (
       <li className="page-item disabled">
-        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">{'\u2190'} Previous</a>
+        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true"><small>{'\u2190'} Previous</small></a>
       </li>
     )
   }
@@ -24,13 +24,13 @@ const NextButton = ({ next, url }) => {
 
     return (
       <li className="page-item">
-        <a className="page-link" href={url.toString()}>Next {'\u2192'}</a>
+        <a className="page-link" href={url.toString()}><small>Next {'\u2192'}</small></a>
       </li>
     )
   } else {
     return (
       <li className="page-item disabled">
-        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">Next {'\u2192'}</a>
+        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true"><small>Next {'\u2192'}</small></a>
       </li>
     )
   }
