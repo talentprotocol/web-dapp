@@ -1,0 +1,23 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Pagination from 'src/components/pagination';
+
+<Meta title="Components/Pagination" component={Pagination} />
+
+# Pagination
+
+Custom style for the pagination component integrated with pagy.
+
+## Examples
+
+We currently only support one type of pagination style.
+
+export const Template = (args) => <Pagination {...args} />
+
+<Canvas>
+  <Story name="default" args={{ 
+      text: "Primary!"
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>
