@@ -10,6 +10,14 @@ class ApplicationController < ActionController::Base
     render "errors/404", status: :not_found
   end
 
+  def route_not_found
+    if Rails.env.development?
+      raise ActionController::RoutingError.new("We didn't find any routes that match your request.")
+    else
+      redirect_to root_path
+    end
+  end
+
   private
 
   def id_param

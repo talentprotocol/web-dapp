@@ -20,6 +20,9 @@ import NavTabs from 'src/components/navbar/NavTabs';
 import TalentShow from "src/components/talent/TalentShow"
 import TalentCoin from "src/components/talent/TalentCoin"
 import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard"
+import PortfolioTable from "src/components/portfolio/PortfolioTable"
+import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview"
+import DisplayCoinVariance from "src/components/coin/DisplayCoinVariance"
 
 import "stylesheets/application.scss"
 
@@ -35,7 +38,10 @@ ReactOnRails.register({
   NavTabs,
   TalentShow,
   TalentCoin,
-  TalentLeaderboard
+  TalentLeaderboard,
+  PortfolioTable,
+  PortfolioTalOverview,
+  DisplayCoinVariance
 });
 
 Rails.start()

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     end
   end
 
+  # end Admin
+
   # Auth - Clearance generated routes
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
@@ -29,16 +31,24 @@ Rails.application.routes.draw do
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
   get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
+  # end Auth
+
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
     root to: "talent#index", as: :user_root
 
+    # Show investor list (remove?)
     resources :investors, only: [:index, :show]
 
+    # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show]
 
+    # Portfolio
+    resources :portfolio, only: [:index, :show]
+
+    # Chat
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
   end
@@ -46,4 +56,6 @@ Rails.application.routes.draw do
   post "/wait_list", to: "pages#wait_list"
 
   root to: "pages#home", as: :root
+
+  match "*unmatched", to: "application#route_not_found", via: :all
 end

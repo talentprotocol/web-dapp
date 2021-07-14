@@ -1,15 +1,6 @@
 import React from 'react'
 import Button from '../button'
-
-const displayVariance = (variance) => {
-  const dVariance = variance.replace("-", "")
-
-  if (variance[0] == "-") {
-    return (<div className="text-danger"><strong>{'\u2228'} {dVariance}%</strong></div>)
-  } else {
-    return (<div className="text-success"><strong>{'\u2227'} {dVariance}%</strong></div>)
-  }
-}
+import DisplayCoinVariance from '../coin/DisplayCoinVariance'
 
 const TalentCoin = ({
   price,
@@ -48,13 +39,13 @@ const TalentCoin = ({
       <div className="col-6 mt-2 px-1">
         <div className="d-flex flex-column align-items-center border">
           <div className="text-muted"><small>Price (7D)</small></div>
-          {displayVariance(priceVariance7d)}
+          <DisplayCoinVariance variance={priceVariance7d}/>
         </div>
       </div>
       <div className="col-6 mt-2 px-1">
         <div className="d-flex flex-column align-items-center border">
           <div className="text-muted"><small>Price (30D)</small></div>
-          {displayVariance(priceVariance30d)}
+          <DisplayCoinVariance variance={priceVariance30d}/>
         </div>
       </div>
       <div className="col-12 mt-2 px-1">
