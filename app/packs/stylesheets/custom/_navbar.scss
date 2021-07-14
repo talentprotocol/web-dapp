@@ -1,4 +1,5 @@
 @import "../bootstrap/overrides";
+@import "~bootstrap/scss/variables";
 
 .tal-variance-box {
   border-radius: 25px;
@@ -6,9 +7,17 @@
 }
 
 @media (min-width: 768px) {
-  .md-vh-100 {
-    height: 100vh !important;
+  .md-border {
+    border: 1px solid $border-color;
   }
+}
+
+.tal-sidebar {
+  min-width: 45px;
+}
+
+.tal-content {
+  max-width: calc(100% - 95px) !important;
 }
 
 .tal-nav-item-active {

@@ -11,12 +11,12 @@
   </head>
 
   <body>
-    <div class="container-xl md-vh-100">
-      <div class="row md-vh-100">
-        <div class="col-md-3 md-vh-100 border-right border-bottom">
+    <div class="container-xl vh-100">
+      <div class="row vh-100">
+        <div class="tal-sidebar col-1 col-md-3 vh-100 border-right">
           <%= render "shared/navbar" %>
         </div>
-        <div class="col-md-9 md-vh-100 px-0 overflow-auto">
+        <div class="col-11 col-md-9 vh-100 px-0 overflow-auto tal-content">
           <%= render "shared/flashes" %>
           <%= yield %>
         </div>
