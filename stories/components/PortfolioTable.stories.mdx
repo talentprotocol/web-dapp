@@ -1,0 +1,31 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import PortfolioTable from 'src/components/portfolio/PortfolioTable';
+
+<Meta title="Components/PortfolioTable" component={PortfolioTable} />
+
+# PortfolioTable
+
+Custom style for the portofolio's table.
+
+## Examples
+
+This example is extracted from the portfolio page.
+
+export const Template = (args) => <PortfolioTable {...args} />
+
+<Canvas isColumn>
+  <Story name="default" args={{ 
+      transactions: [
+        { id: 1, coin_ticker: "$JDOE", talent_name: "John Doe", talent_url: "/talent/1", amount: "200", price: "$11.85", price_in_tal: "7.5 ✦", value: "$2,370.00", value_in_tal: "1,500.00 ✦", priceVariance7d: "-2.75" },
+        { id: 2, coin_ticker: "$JANE", talent_name: "Jane Doe", talent_url: "/talent/2", amount: "800", price: "$3.95", price_in_tal: "2.5 ✦", value: "$3,160.00", value_in_tal: "2,000.00 ✦", priceVariance7d: "30,2" },
+      ]
+    }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="without investments" args={{ 
+      transactions: []
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>

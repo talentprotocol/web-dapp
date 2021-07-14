@@ -17,5 +17,6 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.uncountable "talent"
+  inflect.uncountable "portfolio"
   inflect.uncountable "wait_list"
 end

@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row align-items-end">
+      <h1 class="mb-0 mr-2">Portfolio</h1>
+      <%= react_component("DisplayCoinVariance", props: { variance: "30.02", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
+    </div>
+      
+    <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL" }, prerender: false )%>
+  </div>
+
+  <%= react_component("PortfolioTalOverview",
+    props: {
+      talAvailable: "150",
+      talCommited: "75",
+      talTotalInUSD: "$355.50",
+      talentCount: "5",
+    },
+    prerender: false)
+  %>
+
+  <%= react_component("PortfolioTable",
+    props: {
+      transactions: @transactions.map { |transaction| transaction.to_json_view.merge(talentUrl: talent_path(transaction.coin.talent)) }
+    },
+    prerender: false, html_options: { class: "mt-4" })
+  %>
+
+  <%= react_component("Pagination", props:
+    {
+      prev: @pagy.prev,
+      next: @pagy.next,
+      page: @pagy.page,
+      last: @pagy.last
+    }, prerender: false, html_options: { class: "mt-3" }) %>
+</div>

@@ -1,0 +1,29 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import PortfolioTalOverview from 'src/components/portfolio/PortfolioTalOverview';
+
+<Meta title="Components/PortfolioTalOverview" component={PortfolioTalOverview} />
+
+# Portfolio Tal Overview
+
+Provides an overview of the investments for a given sponsor.
+
+## Examples
+
+This example is extracted from the portfolio page.
+
+export const Template = (args) => <PortfolioTalOverview {...args} />
+
+<Canvas isColumn>
+  <Story name="default" args={{ 
+      talAvailable: "150",
+      talCommited: "75",
+      talTotal: "225",
+      talTotalInUSD: "$355.50",
+      talentCount: "5",
+      priceVariance7d: "-2.75",
+      priceVariance30d: "28.34"
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>

@@ -12,7 +12,7 @@ if Rails.env.development?
       )
 
       puts "Setting up Users.."
-      User.create!(
+      admin = User.create!(
         username: "Admin",
         email: "admin@talentprotocol.com",
         password: "password",
@@ -25,6 +25,13 @@ if Rails.env.development?
       )
 
       puts "Setting up Investors.."
+      admin_investor = Investor.create!(
+        username: "Admin Investor",
+        wallet_id: "0x#{SecureRandom.hex(32)}",
+        description: "I own this",
+        user: admin
+      )
+
       john_doe = Investor.create!(
         username: "John Doe",
         wallet_id: "0x#{SecureRandom.hex(32)}",
@@ -43,6 +50,7 @@ if Rails.env.development?
         wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I want to revolutionize the socioeconomic system.",
         ito_date: Time.current + 1.week,
+        activity_count: 2,
         linkedin_url: "https://www.linkedin.com/"
       )
       elon = Talent.create!(
@@ -50,12 +58,12 @@ if Rails.env.development?
         wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I want to take mankind to Pluto!",
         ito_date: Time.current - 1.week,
-        activity_count: 1,
+        activity_count: 2,
         linkedin_url: "https://www.linkedin.com/"
       )
 
       puts "Setting up Coins.."
-      Coin.create!(
+      marx_coin = Coin.create!(
         ticker: "MARX",
         price: 2,
         market_cap: 3_000_000_00,
@@ -73,6 +81,16 @@ if Rails.env.development?
         coin: elon_coin,
         investor: john_doe,
         amount: 1000
+      )
+      Transaction.create(
+        coin: elon_coin,
+        investor: admin_investor,
+        amount: 500
+      )
+      Transaction.create(
+        coin: marx_coin,
+        investor: admin_investor,
+        amount: 350
       )
 
       puts "Setting up Career Goals.."
