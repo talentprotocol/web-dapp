@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
         talents.order(created_at: :desc)
       end
     else
-      talents
+      talents.order(created_at: :desc)
     end
   end
 

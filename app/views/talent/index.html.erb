@@ -1,5 +1,6 @@
 <div class="container mt-4">
-  <h1>Talent</h1>
+  <h1>Top Talents</h1>
+  <p><small>Sponsor talent and be rewarded when they succeed.</small></p>
 
   <% if @alert.present? %>
     <div class="d-flex w-100">
@@ -14,17 +15,22 @@
         html_options: { class: @alert.css_class }) %>
     </div>
   <% end %>
-  <div class="d-flex flex-row justify-content-between mt-2">
-    <%= link_to "All", talent_index_path, class: "btn btn-primary talent-button", role: "button" %>
-    <%= link_to "Active", talent_active_path, class: "btn btn-primary talent-button", role: "button" %>
-    <%= link_to "Upcoming", talent_upcoming_path, class: "btn btn-primary talent-button", role: "button" %>
 
-    <%= link_to "Newest", url_for(sort: "newest"), class: "btn btn-primary talent-button", role: "button" %>
-    <%= link_to "Market Cap", url_for(sort: "market_cap"), class: "btn btn-primary talent-button", role: "button" %>
-    <%= link_to "Activity", url_for(sort: "activity"), class: "btn btn-primary talent-button", role: "button" %>
-  </div>
+  <%= react_component("NavTabs", props:
+    {
+      tabs: [
+        { name: "All", url: talent_index_path },
+        { name: "Active", url: talent_active_path },
+        { name: "Upcoming", url: talent_upcoming_path }
+      ],
+      sortOptions: [
+        { label: "Newest", param: "newest" },
+        { label: "Market Cap", param: "market_cap" },
+        { label: "Activity", param: "activity" }
+      ]
+    }, prerender: false) %>
 
-  <div class="d-flex flex-row flex-wrap my-2">
+  <div class="d-flex flex-row flex-wrap my-2 flex-grow-1">
     <% @talents.each do |talent| %>
       <div class="col-sm-12 col-md-6 col-lg-4 talent-card-spacing">
         <%= react_component("TalentCard", props:
@@ -49,5 +55,11 @@
     <% end %>
   </div>
 
-  <%== pagy_bootstrap_nav(@pagy) %>
+  <%= react_component("Pagination", props:
+    {
+      prev: @pagy.prev,
+      next: @pagy.next,
+      page: @pagy.page,
+      last: @pagy.last
+    }, prerender: false) %>
 </div>
