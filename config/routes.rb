@@ -46,7 +46,7 @@ Rails.application.routes.draw do
     resources :talent, only: [:index, :show]
 
     # Portfolio
-    resources :portfolio, only: [:index, :show]
+    resources :portfolio, only: [:index]
 
     # Chat
     resources :messages, only: [:index, :show, :create]
