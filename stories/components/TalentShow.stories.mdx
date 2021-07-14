@@ -1,0 +1,36 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks'
+
+import TalentShow from 'src/components/talent/TalentShow'
+
+<Meta title="Components/TalentShow" component={TalentShow} />
+
+# Talent Show page
+
+Custom component to render a talent's profile in a page.
+
+## Demo
+
+export const Template = (args) => <TalentShow {...args} />
+
+<Canvas isColumn>
+  <Story name="John Doe"
+    args={{
+      talent: {
+        username: "John Doe",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra vitae id mi nibh. Ultricies lorem sit id augue amet nisl. At posuere pulvinar rutrum curabitur sapien id viverra quam. Turpis volutpat, consectetur urna sollicitudin habitant tortor nibh non. \
+          Mauris ut egestas feugiat sociis mi. Suscipit in magna ut vel eget aliquam ultricies nec. Nunc urna integer duis vitae gravida. Id lobortis odio semper mollis. Pretium libero arcu facilisis sagittis, elit velit elit ac, cum. Elit, pellentesque et tincidunt tristique urna, id. Nisl et purus ornare porttitor sodales ut nunc ultrices. Morbi eu diam vel in risus.",
+        ticker: "$JDOE",
+        tags: ["Space", "Enterpreneur"],
+        linkedinUrl: "https://www.linkedin.com/"
+      },
+      careerGoals: [{ description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra vitae id mi nibh. Ultricies lorem sit id augue amet nisl. At posuere pulvinar rutrum curabitur sapien id viverra quam. Turpis volutpat, consectetur urna sollicitudin habitant tortor nibh non. \
+Mauris ut egestas feugiat sociis mi. Suscipit in magna ut vel eget aliquam ultricies nec. Nunc urna integer duis vitae gravida. Id lobortis odio semper mollis. Pretium libero arcu facilisis sagittis, elit velit elit ac, cum. Elit, pellentesque et tincidunt tristique urna, id. Nisl et purus ornare porttitor sodales ut nunc ultrices. Morbi eu diam vel in risus."}],
+      rewards: [
+        { required_amount: "100", description: "Personal meeting w/ launch per year"},
+        { required_amount: "2000", description: "I will post on my Twitter (+800k followers) about your product or service." },
+        { required_amount: "5000", description: "I will do whatever you want."}
+      ]
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
