@@ -5,6 +5,7 @@ import { setupChannel, removeChannel } from "channels/message_channel"
 
 import MessageUserList from './MessageUserList'
 import MessageExchange from './MessageExchange'
+import { useWindowDimensionsHook } from '../../utils/window'
 
 const Chat = ({ users }) => {
   const [activeUserId, setActiveUserId] = useState(0)
@@ -14,6 +15,7 @@ const Chat = ({ users }) => {
   const [userId, setUserId] = useState(0)
   const [lastMessageId, setLastMessageId] = useState(0)
   const [chatId, setChatId] = useState("")
+  const { height, width } = useWindowDimensionsHook();
 
   useEffect(() => {
     if (activeUserId == 0){
@@ -47,7 +49,7 @@ const Chat = ({ users }) => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
     }
-  }, [lastMessageId])
+  }, [lastMessageId, messages])
 
   const getNewMessage = (response) => {
     setMessages([...messages, response.message])
@@ -76,18 +78,28 @@ const Chat = ({ users }) => {
     })
   }
 
+  const clearActiveUser = () => {
+    setActiveUserId(0)
+    setMessages([])
+    setMessage("")
+  }
+
   return (
     <>
-      <section className="col-12 col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-scroll border-right pt-3">
-        <MessageUserList
-          onClick={(user_id) => setActiveUserId(user_id)}
-          activeUserId={activeUserId}
-          users={users}
-        />
-      </section>
-      <section className="col-12 col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-hidden">
-        <MessageExchange value={message} onChange={setMessage} onSubmit={sendNewMessage} messages={messages} userId={userId}/>
-      </section>
+      {(width > 992 || activeUserId == 0) &&
+        <section className="col-12 col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-scroll border-right pt-3">
+          <MessageUserList
+            onClick={(user_id) => setActiveUserId(user_id)}
+            activeUserId={activeUserId}
+            users={users}
+          />
+        </section>
+      }
+      {(width > 992 || activeUserId > 0) &&
+        <section className="col-12 col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-hidden">
+          <MessageExchange smallScreen={width <= 992} clearActiveUserId={() => clearActiveUser()} value={message} onChange={setMessage} onSubmit={sendNewMessage} messages={messages} userId={userId}/>
+        </section>
+      }
     </>
   )
 }

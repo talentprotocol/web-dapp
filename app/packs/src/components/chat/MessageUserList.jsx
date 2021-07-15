@@ -43,7 +43,7 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
   const [search, setSearch] = useState("")
 
   return (
-    <div className="d-flex flex-column align-items-stretch h-100">
+    <div className="d-flex flex-column align-items-stretch lg-h-100">
       <h1 className="h6 px-3"><strong>Messages</strong></h1>
       <div className="w-100 p-2 border-top position-relative">
         <input
