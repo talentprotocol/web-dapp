@@ -13,6 +13,7 @@ const Chat = ({ users }) => {
   const [message, setMessage] = useState("")
   const [userId, setUserId] = useState(0)
   const [lastMessageId, setLastMessageId] = useState(0)
+  const [chatId, setChatId] = useState("")
 
   useEffect(() => {
     if (activeUserId == 0){
@@ -21,20 +22,25 @@ const Chat = ({ users }) => {
 
     setMessage("")
     setMessages([])
+
     get(`messages/${activeUserId}.json`)
       .then((response) => {
         setMessages(response.messages)
         setLastMessageId(response.messages[response.messages.length - 1].id)
         setUserId(response.current_user_id)
-        setActiveChannel(setupChannel(response.chat_id, getNewMessage))
+        setChatId(response.chat_id)
       })
-    
+  }, [activeUserId]);
+
+  useEffect(() => {
+    setActiveChannel(setupChannel(chatId, getNewMessage))
+
     return () => {
       if (activeChannel) {
         removeChannel(activeChannel)
       }
     }
-  }, [activeUserId]);
+  }, [chatId, messages])
 
   useEffect(() => {
     const element = document.getElementById(`message-date-${lastMessageId}`)
@@ -44,8 +50,8 @@ const Chat = ({ users }) => {
   }, [lastMessageId])
 
   const getNewMessage = (response) => {
+    setMessages([...messages, response.message])
     setLastMessageId(response.message.id)
-    return setMessages([...messages, response.message])
   }
 
   const sendNewMessage = (e) => {
