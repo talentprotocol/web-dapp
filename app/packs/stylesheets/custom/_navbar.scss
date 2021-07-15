@@ -13,11 +13,12 @@
 }
 
 .tal-sidebar {
-  min-width: 45px;
+  min-width: 55px;
+  max-width: 250px;
 }
 
 .tal-content {
-  max-width: calc(100% - 95px) !important;
+  max-width: calc(100% - 55px) !important;
 }
 
 .tal-nav-item-active {

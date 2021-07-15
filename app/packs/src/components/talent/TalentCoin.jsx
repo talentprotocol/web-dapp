@@ -11,7 +11,7 @@ const TalentCoin = ({
   priceVariance30d
 }) => {
   return (
-    <div className="d-flex flex-row flex-wrap border p-4 bg-white">
+    <div className="d-flex flex-row flex-wrap border p-2 p-md-4 bg-white">
       <div className="col-6 mt-2 px-1">
         <div className="d-flex flex-column align-items-center border">
           <div className="text-muted"><small>Price</small></div>

@@ -5,7 +5,7 @@ import LinkedInIcon from "images/linkedin.png"
 
 const CareerGoals = ({ careerGoals }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline">CAREER GOALS</h6>
       {careerGoals.map((careerGoal, index) => (<p className="mt-3 mb-0" key={`career-goal-${index}`}>{careerGoal.description}</p>))}
     </div>
@@ -14,7 +14,7 @@ const CareerGoals = ({ careerGoals }) => {
 
 const Rewards = ({ rewards }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline mb-2">REWARDS</h6>
       {rewards.map((reward, index) => (
         <div className={`${index > 0 ? 'mt-3' : 'mt-4'}`} key={`reward-description-${index}`}>
@@ -30,7 +30,7 @@ const Rewards = ({ rewards }) => {
 
 const AboutMe = ({ description }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline mb-3">ABOUT ME</h6>
       <p className="mt-3 mb-0" >{description}</p>
     </div>
@@ -39,13 +39,13 @@ const AboutMe = ({ description }) => {
 
 const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }) => {
   return (
-    <div className="mb-5 d-flex flex-row align-items-center">
+    <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
       <TalentProfilePicture src={profilePictureUrl} height={96}/>
       <div className="d-flex flex-column ml-2">
         <h1 className="h2"><small>{username} <span className="text-muted">({ticker})</span></small></h1>
         <TalentTags tags={tags}/>
       </div>
-      <a className="ml-auto" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
+      <a className="mr-auto ml-2 mr-md-0 ml-md-auto mt-2 mt-md-0" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
     </div>
   )
 }

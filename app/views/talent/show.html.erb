@@ -1,5 +1,5 @@
-<div class="d-flex d-row h-100">
-  <div class="col-sm-12 col-md-7 h-100 bg-white px-4 py-5 border-right">
+<div class="d-flex flex-column flex-md-row h-100">
+  <div class="col-sm-12 col-md-7 bg-white px-2 py-3 px-md-4 py-md-5 border-right">
     <%= react_component("TalentShow", props:
       {
         talent: {
@@ -12,7 +12,7 @@
         },
         careerGoals: [{ description: @talent.career_goal.description }],
         rewards: @talent.rewards.map { |reward| { required_amount: reward.required_amount.to_s(:delimited), description: reward.description } }
-      }, prerender: false, html_options: { class: "h-100" })
+      }, prerender: false)
     %>
   </div>
   <div class="col-sm-12 col-md-5 d-flex flex-column">
@@ -28,7 +28,7 @@
         }, prerender: false)
       %>
     </div>
-    <div class="mt-5">
+    <div class="mt-md-5 mt-3 mb-2">
       <%= react_component("TalentLeaderboard", props:
         {
           topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.coin.display_ticker, price: tal.coin.display_price } }

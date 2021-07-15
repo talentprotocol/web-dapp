@@ -20,7 +20,7 @@ const Navbar = props => {
 
   return (
     <header className="d-flex flex-column justify-content-between navbar vh-100 py-4 px-0">
-      <nav className="w-100" aria-label="Main navigation">
+      <nav className="w-100 align-items-center align-items-md-start" aria-label="Main navigation">
         <Logo />
         <ul className="navbar-nav mt-2 align-items-center align-items-md-start">
           <NavbarItem icon={icon(faUserFriends)} text={"Talent"} url={talentPath}/>
