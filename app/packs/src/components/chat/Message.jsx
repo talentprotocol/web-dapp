@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { format } from 'date-fns'
 
 const Message = props => {
@@ -14,7 +13,7 @@ const Message = props => {
       <p key={`message_text_${message.id}`} className={`chat-message text-break mt-2 p-3 ${messageStyle}`}>
         {message.text}
       </p>
-      <span key={`message_date_${message.id}`} className={`chat-message-date ${dateStyle}`}>{sentDate}</span>
+      <span id={`message-date-${message.id}`} key={`message_date_${message.id}`} className={`chat-message-date mb-2 ${dateStyle}`}>{sentDate}</span>
     </>
   )
 }

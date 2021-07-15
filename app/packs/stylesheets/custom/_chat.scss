@@ -6,9 +6,24 @@
   color: #A9ACB7;
 }
 
+.display-messages {
+  height: calc(100% - 80px);
+}
+
+.input-message-height {
+  height: 80px;
+}
+
+.messages-background {
+  background-color: $primary-light;
+}
+
 .chat-user {
+  cursor: pointer;
+
   &:hover {
     background-color: $primary-light;
+    text-decoration: none;
   }
 }
 
@@ -27,7 +42,7 @@
 
 .chat-message {
   max-width: 75%;
-  border-radius: 20px;
+  border-radius: 16px;
   font-size: 0.9rem;
   margin-bottom: 0px;
 }

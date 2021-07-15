@@ -1,34 +1,4 @@
-<main class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row" style="max-width: 1200px">
-  <section class="col-12 col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-scroll">
-    <%= react_component("MessageUserList",
-      props: {
-        users: [
-          { id: 1, username: "John Doe", ticker: "$JDOE", last_message: "Lorem ipsum dolor sit amet, conseslqjbeoqbweqowebqobe", last_message_date: "Jan 27"},
-          { id: 2, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 3, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 4, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 5, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 6, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 7, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 8, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 9, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 10, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 11, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 12, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 13, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 14, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 15, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 16, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 17, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 18, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 19, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 20, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 21, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"},
-          { id: 22, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"}
-        ],
-      }, prerender: false) %>
-  </section>
-  <section class="col-12 col-lg-7 bg-white px-3 py-3 px-sm-5 px-lg-4 py-lg-5 border-right talent-content-body-700 lg-overflow-scroll">
-    # message list
-  </section>
-</main>
+<%= react_component("Chat",
+  props: {
+    users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.coin&.ticker, last_message: current_user.last_message_with(user).text, last_message_date: current_user.last_message_with(user).created_at.strftime("%b %d")} },
+  }, prerender: false, html_options: { class: "col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row" }) %>

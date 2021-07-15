@@ -16,6 +16,11 @@ class MessagesController < ApplicationController
       .or(Message.where(sender_id: @receiver.id, receiver_id: current_user.id))
 
     @chat_id = current_user.sender_chat_id(@receiver)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: {messages: @messages, chat_id: @chat_id, current_user_id: @sender.id} }
+    end
   end
 
   def create

@@ -7,12 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import TalentProfilePicture from '../talent/TalentProfilePicture'
 import Button from '../button'
 
-const UserMessage = ({ user, activeUserId }) => {
+const UserMessage = ({ user, activeUserId, onClick }) => {
   const message = user.last_message.length > 30 ? `${user.last_message.substring(0,28)}...` : user.last_message
   const active = user.id == activeUserId ? " active" : ""
 
   return (
-    <div className={`w-100 p-3 border-top chat-user${active}`}>
+    <a className={`w-100 p-3 border-top chat-user${active} text-reset`} onClick={() => onClick(user.id)}>
       <div className="d-flex flex-row justify-content-between align-items-center">
         <TalentProfilePicture src={user.profilePictureUrl} height={40} greyscale={!active}/>
         <div className="d-flex flex-column w-100 pl-2">
@@ -26,25 +26,25 @@ const UserMessage = ({ user, activeUserId }) => {
           <p className="mb-0"><small>{message}</small></p>
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 
 const filteredUsers = (users, search) => users.filter((user) => user.username.includes(search))
 
 const EmptyUsers = () => (
-  <div className="w-100 p-2 border-top d-flex flex-column align-items-center">
+  <div className="w-100 p-3 border-top d-flex flex-column align-items-center">
     <p className="text-muted mb-0"><small>You need to start a chat with someone!</small></p>
     <Button type="primary" text="See Talents" href="/talent" size="sm"/>
   </div>
 )
 
-const MessageUserList = ({ users, activeUserId }) => {
+const MessageUserList = ({ users, activeUserId, onClick }) => {
   const [search, setSearch] = useState("")
 
   return (
     <div className="d-flex flex-column align-items-stretch h-100">
-      <h1 className="h6 px-2"><strong>Messages</strong></h1>
+      <h1 className="h6 px-3"><strong>Messages</strong></h1>
       <div className="w-100 p-2 border-top position-relative">
         <input
           type="text"
@@ -59,7 +59,7 @@ const MessageUserList = ({ users, activeUserId }) => {
         <FontAwesomeIcon icon={faSearch} className="position-absolute chat-search-icon" size="lg"/>
       </div>
       {users.length == 0 && <EmptyUsers />}
-      {filteredUsers(users, search).map((user) => <UserMessage key={`user-message-list-${user.id}`} user={user} activeUserId={activeUserId}/>)}
+      {filteredUsers(users, search).map((user) => <UserMessage onClick={onClick} key={`user-message-list-${user.id}`} user={user} activeUserId={activeUserId}/>)}
     </div>
   )
 }

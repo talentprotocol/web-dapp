@@ -11,4 +11,16 @@ const post = (url, content) =>
     body: JSON.stringify(content)
   }).then((response) => response.json())
 
-export { post }
+const get = (url) =>
+  fetch(url, {
+    credentials: "include",
+    method: "GET",
+    headers: {
+      "X-CSRF-Token": getAuthToken(),
+      "Content-Type": "application/json"
+    }
+  }).then((response) => {
+    return response.json()
+  })
+
+export { post, get }

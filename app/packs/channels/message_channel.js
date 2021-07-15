@@ -11,4 +11,7 @@ const setupChannel = (chat_id, onMessageReceived) =>
     }
   });
 
-export { setupChannel }
+const removeChannel = (subscription) =>
+  consumer.subscriptions.remove(subscription)
+
+export { setupChannel, removeChannel }
