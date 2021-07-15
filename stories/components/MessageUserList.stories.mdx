@@ -1,0 +1,38 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import MessageUserList from 'src/components/chat/MessageUserList';
+
+<Meta title="Components/MessageUserList" component={MessageUserList} />
+
+# MessageUserList
+
+Custom style for the listing of users that you can send a message to.
+
+## Examples
+
+export const Template = (args) => <MessageUserList {...args} />
+
+<Canvas isColumn>
+  <Story name="with users" args={{ 
+      users: [
+        { id: 1, username: "John Doe", ticker: "$JDOE", last_message: "Lorem ipsum dolor sit amet, conseslqjbeoqbweqowebqobe", last_message_date: "Jan 27"},
+        { id: 2, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"}
+      ]
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="with users and user active" args={{ 
+      users: [
+        { id: 1, username: "John Doe", ticker: "$JDOE", last_message: "Lorem ipsum dolor sit amet, conseslqjbeoqbweqowebqobe", last_message_date: "Jan 27"},
+        { id: 2, username: "Jane Doe", ticker: "$JANE", last_message: "conseslqjbeoqbweqowebqobe Lorem ipsum dolor sit amet, ", last_message_date: "Jan 28"}
+      ],
+      activeUserId: 1
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story name="without users" args={{ 
+      users: []
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>

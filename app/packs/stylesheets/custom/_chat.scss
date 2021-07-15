@@ -1,3 +1,26 @@
+@import "../bootstrap/overrides";
+
+.chat-search-icon {
+  top: 20px;
+  left: 20px;
+  color: #A9ACB7;
+}
+
+.chat-user {
+  &:hover {
+    background-color: $primary-light;
+  }
+}
+
+.image-greyscale {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.chat-user.active {
+  background-color: $primary-light;
+}
+
 .chat-messages {
   background-color: #f8f2fe;
 }

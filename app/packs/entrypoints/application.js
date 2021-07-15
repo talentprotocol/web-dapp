@@ -23,6 +23,7 @@ import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard"
 import PortfolioTable from "src/components/portfolio/PortfolioTable"
 import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview"
 import DisplayCoinVariance from "src/components/coin/DisplayCoinVariance"
+import MessageUserList from "src/components/chat/MessageUserList"
 
 import "stylesheets/application.scss"
 
@@ -41,7 +42,8 @@ ReactOnRails.register({
   TalentLeaderboard,
   PortfolioTable,
   PortfolioTalOverview,
-  DisplayCoinVariance
+  DisplayCoinVariance,
+  MessageUserList
 });
 
 Rails.start()

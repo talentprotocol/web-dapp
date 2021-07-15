@@ -11,15 +11,12 @@
   </head>
 
   <body>
-
-    <div class="d-flex flex-row flex-wrap align-items-start align-items-lg-stretch justify-content-center mx-auto lg-h-100" style="max-width:1450px">
-      <header class="col-12 col-lg-3 px-0 tal-sidebar">
+    <div class="h-100 d-flex flex-column lg-overflow-hidden align-items-center">
+      <div class="lg-overflow-hidden d-flex flex-row flex-wrap flex-lg-nowrap flex-lg-grow-1 flex-shrink-1 justify-content-center w-100">
         <%= render "shared/navbar" %>
-      </header>
-      <main class="col-12 col-lg-9 mx-auto mx-lg-0 px-0" style="max-width: 1200px">
         <%= render "shared/flashes" %>
         <%= yield %>
-      </main>
+      </div>
     </div>
   </body>
 </html>

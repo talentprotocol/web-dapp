@@ -2,7 +2,10 @@ class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
 
   def index
-    @users = User.where.not(id: current_user.id)
+    user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)
+    user_ids << Message.where(receiver_id: current_user.id).pluck(:sender_id)
+
+    @users = User.where(id: user_ids)
   end
 
   def show
