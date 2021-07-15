@@ -9,6 +9,11 @@
 @import 'custom/leaderboards';
 @import 'custom/table';
 
-.tal-content {
-  max-width: 1200px;
+@media (min-width: 992px) {
+  html, body {
+    height: 100%;
+  }
+  .lg-h-100 {
+    height: 100%;
+  }
 }

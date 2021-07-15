@@ -20,20 +20,20 @@ const TalNavbar = props => {
   const { talentPath, portfolioPath, messagesPath, tradePath, settingsPath, helpPath } = props
 
   return (
-    <Navbar collapseOnSelect className="flex-lg-column py-3" expand="lg">
-      <Container className="flex-lg-column align-items-lg-start">
+    <Navbar collapseOnSelect className="flex-lg-column py-3 lg-h-100 border-right border-bottom" expand="lg">
+      <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
         <Navbar.Brand href="/"><Logo /></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse className="flex-lg-column w-100" id="responsive-navbar-nav">
+        <Navbar.Collapse className="flex-lg-column w-100 lg-h-100 justify-content-lg-between" id="responsive-navbar-nav">
           <Nav className="me-auto flex-lg-column w-100">
-            <Nav.Link href={talentPath}>{icon(faUserFriends)} Talent</Nav.Link>
-            <Nav.Link href={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</Nav.Link>
-            <Nav.Link href={messagesPath}>{icon(faEnvelope)} Messages</Nav.Link>
-            <Nav.Link href={tradePath}>{icon(faStar)} Trade $TAL</Nav.Link>
+            <NavbarItem url={talentPath}>{icon(faUserFriends)} Talent</NavbarItem>
+            <NavbarItem url={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</NavbarItem>
+            <NavbarItem url={messagesPath}>{icon(faEnvelope)} Messages</NavbarItem>
+            <NavbarItem url={tradePath} exact>{icon(faStar)} Trade $TAL</NavbarItem>
           </Nav>
-          <Nav className="flex-lg-column w-100">
-            <Nav.Link href={settingsPath}>{icon(faCog)} Settings</Nav.Link>
-            <Nav.Link href={helpPath}>{icon(faQuestionCircle)} Help</Nav.Link>
+          <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
+            <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
+            <NavbarItem url={helpPath} exact>{icon(faQuestionCircle)} Help</NavbarItem>
             <TalBox price="1.58" variance="+12%"/>
           </Nav>
         </Navbar.Collapse>
