@@ -1,0 +1,10 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll px-0">
+  <main class="col-12 mx-auto mx-lg-0 px-0" style="max-width: 1200px">
+    <% if signed_in? %>
+      <%= current_user.email %>
+      <%= button_to "Sign out", sign_out_path, method: :delete %>
+    <% else %>
+      <%= link_to "Sign in", sign_in_path %>
+    <% end %>
+  </main>
+</div>

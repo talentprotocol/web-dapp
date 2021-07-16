@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     # Chat
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
+
+    resources :settings, only: [:index]
   end
 
   resources :wait_list, only: [:index, :create]
