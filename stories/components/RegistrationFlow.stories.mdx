@@ -1,0 +1,21 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import RegistrationFlow from 'src/components/registration/RegistrationFlow';
+
+<Meta title="Components/RegistrationFlow" component={RegistrationFlow} />
+
+# Registration Flow
+
+Registration Flow for Talent Protocol.
+
+## Demo
+
+export const Template = (args) => <RegistrationFlow {...args} />
+
+<Canvas isColumn>
+  <Story name="default" args={{ 
+      step: 1
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>
