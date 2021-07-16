@@ -12,12 +12,10 @@
   }
 }
 
-.tal-sidebar {
-  min-width: 45px;
-}
-
-.tal-content {
-  max-width: calc(100% - 95px) !important;
+@media (min-width: 992px) {
+  .tal-sidebar {
+    max-width: 250px;
+  }
 }
 
 .tal-nav-item-active {

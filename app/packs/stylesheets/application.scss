@@ -8,3 +8,24 @@
 @import 'custom/alerts';
 @import 'custom/leaderboards';
 @import 'custom/table';
+
+@media (min-width: 992px) {
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .lg-h-100 {
+    height: 100%;
+  }
+
+  .lg-overflow-hidden {
+    overflow: hidden;
+  }
+  .lg-overflow-scroll {
+    overflow: scroll;
+  }
+}

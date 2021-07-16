@@ -11,7 +11,6 @@ import "channels"
 
 import ReactOnRails from "react-on-rails";
 import Button from "src/components/button";
-import MessageBoard from "src/components/message_board";
 import Navbar from "src/components/navbar";
 import Alert from "src/components/alert";
 import TalentCard from "src/components/talent/TalentCard";
@@ -23,6 +22,8 @@ import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard"
 import PortfolioTable from "src/components/portfolio/PortfolioTable"
 import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview"
 import DisplayCoinVariance from "src/components/coin/DisplayCoinVariance"
+import MessageUserList from "src/components/chat/MessageUserList"
+import Chat from "src/components/chat/Chat"
 
 import "stylesheets/application.scss"
 
@@ -30,7 +31,6 @@ require.context('../images', true)
 
 ReactOnRails.register({
   Button,
-  MessageBoard,
   Navbar,
   Alert,
   TalentCard,
@@ -41,7 +41,9 @@ ReactOnRails.register({
   TalentLeaderboard,
   PortfolioTable,
   PortfolioTalOverview,
-  DisplayCoinVariance
+  DisplayCoinVariance,
+  MessageUserList,
+  Chat
 });
 
 Rails.start()

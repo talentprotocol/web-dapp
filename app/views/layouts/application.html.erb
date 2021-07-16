@@ -11,15 +11,11 @@
   </head>
 
   <body>
-    <div class="container-xl vh-100">
-      <div class="row vh-100">
-        <div class="tal-sidebar col-1 col-md-3 vh-100 border-right">
-          <%= render "shared/navbar" %>
-        </div>
-        <div class="col-11 col-md-9 vh-100 px-0 overflow-auto tal-content">
-          <%= render "shared/flashes" %>
-          <%= yield %>
-        </div>
+    <div class="h-100 d-flex flex-column lg-overflow-hidden align-items-center">
+      <div class="lg-overflow-hidden d-flex flex-row flex-wrap flex-lg-nowrap flex-lg-grow-1 flex-shrink-1 justify-content-center w-100">
+        <%= render "shared/navbar" %>
+        <%= render "shared/flashes" %>
+        <%= yield %>
       </div>
     </div>
   </body>

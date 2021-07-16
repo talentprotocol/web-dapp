@@ -1,13 +1,4 @@
-<div class="container">
-  <h1>Messages</h1>
-  <div>
-    Hello, <%= current_user.display_name %><br>
-    Who do you want to chat with?<br>
-    <% @users.each do |user| %>
-      <div>
-        <%= user.display_name %>
-        <%= link_to "Chat", message_path(user.id), class: "btn btn-primary talent-button", role: "button" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= react_component("Chat",
+  props: {
+    users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.coin&.ticker, last_message: current_user.last_message_with(user).text, last_message_date: current_user.last_message_with(user).created_at.strftime("%b %d")} },
+  }, prerender: false, html_options: { class: "col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row" }) %>

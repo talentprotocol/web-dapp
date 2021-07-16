@@ -2,7 +2,10 @@ class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
 
   def index
-    @users = User.where.not(id: current_user.id)
+    user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)
+    user_ids << Message.where(receiver_id: current_user.id).pluck(:sender_id)
+
+    @users = User.where(id: user_ids)
   end
 
   def show
@@ -13,6 +16,11 @@ class MessagesController < ApplicationController
       .or(Message.where(sender_id: @receiver.id, receiver_id: current_user.id))
 
     @chat_id = current_user.sender_chat_id(@receiver)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: {messages: @messages, chat_id: @chat_id, current_user_id: @sender.id} }
+    end
   end
 
   def create

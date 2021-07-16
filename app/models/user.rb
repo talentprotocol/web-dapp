@@ -38,6 +38,15 @@ class User < ApplicationRecord
     [id, chat_user.id].join("")
   end
 
+  def last_message_with(chat_user)
+    result = Message.where(sender_id: id, receiver_id: chat_user.id)
+      .or(Message.where(sender_id: chat_user.id, receiver_id: id)).order(id: :desc).limit(1)
+
+    if result.length > 0
+      result[0]
+    end
+  end
+
   private
 
   def role_is_valid

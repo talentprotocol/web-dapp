@@ -78,3 +78,18 @@
   background-color: #2796fe3e;
   color: $blue;
 }
+
+@media (min-width: 992px) {
+  .talent-content-body-700 {
+    max-width: 700px;
+  }
+  .talent-content-body-1200 {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 992px) {
+  .tal-content-side-500 {
+    max-width: 500px;
+  }
+}

@@ -1,65 +1,72 @@
-<div class="container mt-4">
-  <h1>Top Talents</h1>
-  <p><small>Sponsor talent and be rewarded when they succeed.</small></p>
 
-  <% if @alert.present? %>
-    <div class="d-flex w-100">
-      <%= react_component("Alert",
-        props: {
-          type: @alert.alert_type,
-          text: @alert.text,
-          href: @alert.href,
-          buttonText: @alert.button_text
-        },
-        prerender: false, 
-        html_options: { class: @alert.css_class }) %>
-    </div>
-  <% end %>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll px-0" style="max-width: 1200px">
+  <main class="w-100 mx-auto mx-lg-0 px-0">
+    <div class="d-flex flex-column align-items-center align-items-lg-stretch h-100 w-100">
+      <div class="w-100 px-3 py-3 px-sm-5 px-lg-4 py-lg-5 talent-content-body-1200">
+        <h1>Top Talents</h1>
+        <p><small>Sponsor talent and be rewarded when they succeed.</small></p>
 
-  <%= react_component("NavTabs", props:
-    {
-      tabs: [
-        { name: "All", url: talent_index_path },
-        { name: "Active", url: talent_active_path },
-        { name: "Upcoming", url: talent_upcoming_path }
-      ],
-      sortOptions: [
-        { label: "Newest", param: "newest" },
-        { label: "Market Cap", param: "market_cap" },
-        { label: "Activity", param: "activity" }
-      ]
-    }, prerender: false) %>
-
-  <div class="d-flex flex-row flex-wrap my-2 flex-grow-1">
-    <% @talents.each do |talent| %>
-      <div class="col-sm-12 col-md-6 col-lg-4 talent-card-spacing">
-        <%= react_component("TalentCard", props:
-          {
-            href: talent_path(talent),
-            talent: {
-              id: talent.id,
-              username: talent.username,
-              status: talent.status,
-              description: talent.description,
-              sponsor_count: talent.investors.count,
-              profilePictureUrl: talent.profile_picture_url,
-              coin: {
-                display_price: talent.coin.display_price,
-                display_market_cap: talent.coin.display_market_cap,
-                display_ticker: talent.coin.display_ticker
+        <% if @alert.present? %>
+          <div class="d-flex w-100">
+            <%= react_component("Alert",
+              props: {
+                type: @alert.alert_type,
+                text: @alert.text,
+                href: @alert.href,
+                buttonText: @alert.button_text
               },
-              tags: ["Space"]
-            }
-          }, prerender: false, html_options: { class: "h-100" }) %>
-      </div>
-    <% end %>
-  </div>
+              prerender: false, 
+              html_options: { class: @alert.css_class }) %>
+          </div>
+        <% end %>
 
-  <%= react_component("Pagination", props:
-    {
-      prev: @pagy.prev,
-      next: @pagy.next,
-      page: @pagy.page,
-      last: @pagy.last
-    }, prerender: false) %>
+        <%= react_component("NavTabs", props:
+          {
+            tabs: [
+              { name: "All", url: talent_index_path },
+              { name: "Active", url: talent_active_path },
+              { name: "Upcoming", url: talent_upcoming_path }
+            ],
+            sortOptions: [
+              { label: "Newest", param: "newest" },
+              { label: "Market Cap", param: "market_cap" },
+              { label: "Activity", param: "activity" }
+            ]
+          }, prerender: false) %>
+
+        <div class="d-flex flex-row flex-wrap my-2 flex-grow-1">
+          <% @talents.each do |talent| %>
+            <div class="col-sm-12 col-md-6 col-lg-4 talent-card-spacing mt-2">
+              <%= react_component("TalentCard", props:
+                {
+                  href: talent_path(talent),
+                  talent: {
+                    id: talent.id,
+                    username: talent.username,
+                    status: talent.status,
+                    description: talent.description,
+                    sponsor_count: talent.investors.count,
+                    profilePictureUrl: talent.profile_picture_url,
+                    coin: {
+                      display_price: talent.coin.display_price,
+                      display_market_cap: talent.coin.display_market_cap,
+                      display_ticker: talent.coin.display_ticker
+                    },
+                    tags: ["Space"]
+                  }
+                }, prerender: false, html_options: { class: "h-100" }) %>
+            </div>
+          <% end %>
+        </div>
+
+        <%= react_component("Pagination", props:
+          {
+            prev: @pagy.prev,
+            next: @pagy.next,
+            page: @pagy.page,
+            last: @pagy.last
+          }, prerender: false) %>
+      </div>
+    </div>
+  </main>
 </div>

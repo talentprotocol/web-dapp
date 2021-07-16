@@ -8,6 +8,7 @@ import {
   faQuestionCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Navbar, Container, Nav } from 'react-bootstrap'
 
 import NavbarItem from "./NavbarItem"
 import TalBox from "./TalBox"
@@ -15,29 +16,30 @@ import Logo from "src/components/logo"
 
 const icon = (i) => <FontAwesomeIcon icon={i} />
 
-const Navbar = props => {
+const TalNavbar = props => {
   const { talentPath, portfolioPath, messagesPath, tradePath, settingsPath, helpPath } = props
 
   return (
-    <header className="d-flex flex-column justify-content-between navbar vh-100 py-4 px-0">
-      <nav className="w-100" aria-label="Main navigation">
-        <Logo />
-        <ul className="navbar-nav mt-2 align-items-center align-items-md-start">
-          <NavbarItem icon={icon(faUserFriends)} text={"Talent"} url={talentPath}/>
-          <NavbarItem icon={icon(faHandHoldingUsd)} text={"Portfolio"} url={portfolioPath} exact/>
-          <NavbarItem icon={icon(faEnvelope)} text={"Messages"} url={messagesPath}/>
-          <NavbarItem icon={icon(faStar)} text={"Trade $TAL"} url={tradePath} exact/>
-        </ul>
-      </nav>
-      <nav aria-label="Secondary navigation" className="w-100">
-        <ul className="navbar-nav align-items-center align-items-md-start">
-          <NavbarItem icon={icon(faCog)} text={"Settings"} url={settingsPath} exact/>
-          <NavbarItem icon={icon(faQuestionCircle)} text={"Help"} url={helpPath} exact/>
-        </ul>
-        <TalBox price="1.58" variance="+12%"/>
-      </nav>
-    </header>
+    <Navbar collapseOnSelect className="flex-lg-column py-3 lg-h-100 border-right border-bottom" expand="lg">
+      <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
+        <Navbar.Brand href="/"><Logo /></Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse className="flex-lg-column w-100 lg-h-100 justify-content-lg-between" id="responsive-navbar-nav">
+          <Nav className="me-auto flex-lg-column w-100">
+            <NavbarItem url={talentPath}>{icon(faUserFriends)} Talent</NavbarItem>
+            <NavbarItem url={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</NavbarItem>
+            <NavbarItem url={messagesPath}>{icon(faEnvelope)} Messages</NavbarItem>
+            <NavbarItem url={tradePath} exact>{icon(faStar)} Trade $TAL</NavbarItem>
+          </Nav>
+          <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
+            <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
+            <NavbarItem url={helpPath} exact>{icon(faQuestionCircle)} Help</NavbarItem>
+            <TalBox price="1.58" variance="+12%"/>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   )
 }
 
-export default Navbar
+export default TalNavbar
