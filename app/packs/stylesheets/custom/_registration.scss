@@ -1,0 +1,10 @@
+@import "../bootstrap/overrides";
+
+.registration-box {
+  box-shadow: 8px 8px 0px $primary;
+  border: 1px solid $light;
+}
+
+.registration_step_subtitle {
+  color: $light-grey;
+}

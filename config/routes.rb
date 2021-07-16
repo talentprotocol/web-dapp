@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
 
-  resources :users, controller: "clearance/users", only: [:create] do
+  resources :users, only: [:create] do
     resource :password,
       controller: "clearance/passwords",
       only: [:edit, :update]
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   get "/sign_in" => "sessions#new", :as => "sign_in"
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
-  get "/sign_up" => "clearance/users#new", :as => "sign_up"
+  # get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
   # end Auth
 
@@ -51,9 +51,11 @@ Rails.application.routes.draw do
     # Chat
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
+
+    resources :settings, only: [:index]
   end
 
-  post "/wait_list", to: "pages#wait_list"
+  resources :wait_list, only: [:index, :create]
 
   root to: "pages#home", as: :root
 

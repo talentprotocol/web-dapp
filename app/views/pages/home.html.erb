@@ -1,18 +1,6 @@
-<div class="container mt-4">
-  <h1>Welcome to Talent Protocol</h1>
-  <p>We're currently only invite only.</p>
-
-  <div class="d-flex flex-row align-items-center">
-    <p class="mr-3">If you already have an account please sign in</p>
-    <%= link_to "Sign In", sign_in_path, class: "btn btn-primary talent-button" %>
-  </div>
-
-  <div class="d-flex flex-column">
-    <p>If you would like to join the wait list please leave your email in the form below</p>
-    <%= form_with url: "/wait_list" do |form| %>
-      <%= form.label :email, "Email:" %>
-      <%= form.email_field :email %>
-      <%= form.submit "Join the wait list", class: "btn btn-primary talent-button" %>
-    <% end %>
-  </div>
-</div>
+<%= react_component("RegistrationFlow",
+  props: {
+    step: 1
+  },
+  prerender: false, html_options: { class: "px-3 pb-3 w-100 h-100"})
+%>

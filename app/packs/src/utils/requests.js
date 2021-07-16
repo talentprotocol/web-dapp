@@ -1,26 +1,44 @@
-const getAuthToken = () => document.querySelector('meta[name="csrf-token"]').content
+const getAuthToken = () => document.querySelector('meta[name="csrf-token"]')?.content
 
-const post = (url, content) =>
-  fetch(url, {
+const post = (url, content) => {
+  const headers = { "Content-Type": "application/json" }
+
+  if(getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken()
+  }
+
+  return fetch(url, {
     credentials: "include",
     method: "POST",
-    headers: {
-      "X-CSRF-Token": getAuthToken(),
-      "Content-Type": "application/json"
-    },
+    headers,
     body: JSON.stringify(content)
-  }).then((response) => response.json())
+  }).then((response) => {
+    if (response.status == 200 || response.status == 201) {
+      return response.json()
+    } else {
+      return Promise.resolve({ error: { status: response.status, value: response.error }})
+    }
+  })
+}
 
-const get = (url) =>
-  fetch(url, {
+const get = (url) =>{
+  const headers = { "Content-Type": "application/json" }
+
+  if(getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken()
+  }
+
+  return fetch(url, {
     credentials: "include",
     method: "GET",
-    headers: {
-      "X-CSRF-Token": getAuthToken(),
-      "Content-Type": "application/json"
-    }
+    headers,
   }).then((response) => {
-    return response.json()
+    if (response.status == 200 || response.status == 201) {
+      return response.json()
+    } else {
+      return Promise.resolve({ error: { status: response.status, value: response.error }})
+    }
   })
+}
 
 export { post, get }
