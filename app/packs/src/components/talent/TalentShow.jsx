@@ -2,6 +2,7 @@ import React from "react"
 import TalentProfilePicture from './TalentProfilePicture'
 import TalentTags from "./TalentTags"
 import LinkedInIcon from "images/linkedin.png"
+import ReactPlayer from "react-player/youtube"
 
 const CareerGoals = ({ careerGoals }) => {
   return (
@@ -28,11 +29,14 @@ const Rewards = ({ rewards }) => {
   )
 }
 
-const AboutMe = ({ description }) => {
+const AboutMe = ({ description, youtubeUrl }) => {
   return (
     <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline mb-3">ABOUT ME</h6>
       <p className="mt-3 mb-0" >{description}</p>
+      {youtubeUrl && <div className="talent-profile-video-player mt-3 mx-auto">
+        <ReactPlayer url={youtubeUrl} light width={"100%"} height={"100%"}/>
+      </div>}
     </div>
   )
 }
@@ -60,7 +64,7 @@ const TalentShow = ({ talent, careerGoals, rewards}) => {
         tags={talent.tags}
         linkedinUrl={talent.linkedinUrl}
         />
-      <AboutMe description={talent.description}/>
+      <AboutMe description={talent.description} youtubeUrl={talent.youtubeUrl}/>
       <CareerGoals careerGoals={careerGoals} />
       <Rewards rewards={rewards}/>
     </div>

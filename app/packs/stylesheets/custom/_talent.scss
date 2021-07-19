@@ -86,10 +86,22 @@
   .talent-content-body-1200 {
     max-width: 1200px;
   }
-}
-
-@media (min-width: 992px) {
   .tal-content-side-500 {
     max-width: 500px;
+  }
+}
+
+.talent-profile-video-player {
+  width: 250px;
+  height: 140px;
+
+  @media (min-width: 576px) {
+    width: 350px;
+    height: 200px;
+  }
+
+  @media (min-width: 768px) {
+    height: 340px;
+    width: 600px;
   }
 }
