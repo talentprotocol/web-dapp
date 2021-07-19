@@ -59,7 +59,8 @@ if Rails.env.development?
         description: "I want to take mankind to Pluto!",
         ito_date: Time.current - 1.week,
         activity_count: 2,
-        linkedin_url: "https://www.linkedin.com/"
+        linkedin_url: "https://www.linkedin.com/",
+        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI"
       )
 
       puts "Setting up Coins.."
