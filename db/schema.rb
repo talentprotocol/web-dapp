@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_141349) do
+ActiveRecord::Schema.define(version: 2021_07_20_145908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,41 @@ ActiveRecord::Schema.define(version: 2021_07_19_141349) do
     t.index ["ticker"], name: "index_coins_on_ticker"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "feed_posts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "feed_id"
+    t.bigint "post_id"
+    t.index ["feed_id"], name: "index_feed_posts_on_feed_id"
+    t.index ["post_id"], name: "index_feed_posts_on_post_id"
+  end
+
+  create_table "feeds", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "follower_id"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+    t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
   create_table "investors", force: :cascade do |t|
     t.string "username", null: false
     t.string "wallet_id", null: false
@@ -60,6 +95,15 @@ ActiveRecord::Schema.define(version: 2021_07_19_141349) do
     t.index ["username"], name: "index_investors_on_username", unique: true
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "sender_id"
     t.integer "receiver_id"
@@ -68,6 +112,14 @@ ActiveRecord::Schema.define(version: 2021_07_19_141349) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -141,6 +193,16 @@ ActiveRecord::Schema.define(version: 2021_07_19_141349) do
 
   add_foreign_key "career_goals", "talent"
   add_foreign_key "coins", "talent"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "feed_posts", "feeds"
+  add_foreign_key "feed_posts", "posts"
+  add_foreign_key "feeds", "users"
+  add_foreign_key "follows", "users"
+  add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
+  add_foreign_key "posts", "users"
   add_foreign_key "rewards", "talent"
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "investors"
