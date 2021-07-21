@@ -1,0 +1,20 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import PostInput from 'src/components/feed/PostInput';
+
+<Meta title="Components/PostInput" component={PostInput} />
+
+# Post
+
+Custom style for a post input on the feed.
+
+## Examples
+
+export const Template = (args) => <PostInput {...args} />
+
+<Canvas isColumn>
+  <Story name="default" args={{
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>
