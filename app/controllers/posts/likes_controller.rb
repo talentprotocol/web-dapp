@@ -3,8 +3,9 @@ class Posts::LikesController < ApplicationController
 
   def index
     @likes_count = Like.where(post: @post).select("0").count
+    @i_liked = Like.where(post: @post, user: current_user).exists?
 
-    render json: {likes: @likes_count}, status: :ok
+    render json: {likes: @likes_count, i_liked: @i_liked}, status: :ok
   end
 
   def create
