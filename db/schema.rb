@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145908) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "feed_id"
     t.bigint "post_id"
+    t.index ["feed_id", "post_id"], name: "index_feed_posts_on_feed_id_and_post_id", unique: true
     t.index ["feed_id"], name: "index_feed_posts_on_feed_id"
     t.index ["post_id"], name: "index_feed_posts_on_post_id"
   end
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145908) do
     t.bigint "user_id"
     t.bigint "follower_id"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
+    t.index ["user_id", "follower_id"], name: "index_follows_on_user_id_and_follower_id", unique: true
     t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
@@ -101,6 +103,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145908) do
     t.bigint "user_id"
     t.bigint "post_id"
     t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 

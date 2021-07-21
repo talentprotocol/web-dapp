@@ -6,6 +6,7 @@ class CreateUser
     ActiveRecord::Base.transaction do
       user = create_user(email, username, metamask_id)
       create_investor(user, username, metamask_id)
+      create_feed(user)
 
       user
     end
@@ -29,5 +30,9 @@ class CreateUser
     investor.wallet_id = user.external_id
     investor.save!
     investor
+  end
+
+  def create_feed(user)
+    Feed.create(user: user)
   end
 end

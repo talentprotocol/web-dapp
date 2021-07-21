@@ -53,6 +53,14 @@ Rails.application.routes.draw do
     mount ActionCable.server => "/cable"
 
     resources :settings, only: [:index]
+
+    # Feeds
+    resource :feed, only: [:show]
+    resources :follows, only: [:index, :create, :destroy]
+    resources :posts, only: [:show, :create, :destroy] do
+      resources :comments, only: [:show, :create, :destroy], module: "posts"
+      resources :likes, only: [:index, :create, :destroy], module: "posts"
+    end
   end
 
   resources :wait_list, only: [:index, :create]
