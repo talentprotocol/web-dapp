@@ -16,7 +16,9 @@ class User < ApplicationRecord
   # Feed
   has_one :feed
   has_many :follows
-  has_many :followers, through: :follows
+  has_many :followers, through: :follows # only use to load users, never to count
+  has_many :following, foreign_key: :follower_id, class_name: "Follow"
+  has_many :comments
 
   VALID_ROLES = ["admin"].freeze
 

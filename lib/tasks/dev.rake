@@ -124,8 +124,17 @@ if Rails.env.development?
       )
 
       puts "Setting up Feeds.."
+      Feed.create(user: admin)
+      Feed.create(user: investor)
 
-      
+      Follow.create(user: admin, follower: investor)
+
+      post = Post.create(user: admin, text: Faker::Lorem.paragraph)
+      investor.feed.posts << post
+      admin.feed.posts << post
+
+      Comment.create(user: investor, post: post, text: Faker::Marketing.buzzwords)
+      Like.create(user: investor, post: post)
     end
   end
 end
