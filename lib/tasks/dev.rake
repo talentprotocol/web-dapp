@@ -122,6 +122,10 @@ if Rails.env.development?
         description: "You get a copy of my book on launch",
         talent: marx
       )
+
+      puts "Setting up Feeds.."
+
+      
     end
   end
 end
