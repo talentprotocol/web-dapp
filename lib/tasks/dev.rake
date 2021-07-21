@@ -21,7 +21,14 @@ if Rails.env.development?
 
       investor = User.create!(
         username: "Investor",
-        external_id: "123"
+        external_id: "123",
+        email: nil
+      )
+
+      talent = User.create!(
+        username: "talent",
+        external_id: "1234444",
+        email: nil
       )
 
       puts "Setting up Investors.."
@@ -60,7 +67,8 @@ if Rails.env.development?
         ito_date: Time.current - 1.week,
         activity_count: 2,
         linkedin_url: "https://www.linkedin.com/",
-        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI"
+        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI",
+        user: talent
       )
 
       puts "Setting up Coins.."
@@ -126,10 +134,13 @@ if Rails.env.development?
       puts "Setting up Feeds.."
       Feed.create(user: admin)
       Feed.create(user: investor)
+      Feed.create(user: talent)
 
-      Follow.create(user: admin, follower: investor)
+      Follow.create(user: talent, follower: admin)
+      Follow.create(user: talent, follower: investor)
 
-      post = Post.create(user: admin, text: Faker::Lorem.paragraph)
+      post = Post.create(user: talent, text: Faker::Lorem.paragraph)
+      talent.feed.posts << post
       investor.feed.posts << post
       admin.feed.posts << post
 

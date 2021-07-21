@@ -22,6 +22,16 @@ class User < ApplicationRecord
 
   VALID_ROLES = ["admin"].freeze
 
+  # [CLEARANCE] override email writing to allow nil but not two emails ""
+  def self.normalize_email(email)
+    if email.nil?
+      email
+    else
+      email.to_s.downcase.gsub(/\s+/, "")
+    end
+  end
+  # [CLEARANCE] end
+
   def admin?
     role == "admin"
   end

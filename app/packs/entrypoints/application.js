@@ -25,6 +25,7 @@ import DisplayCoinVariance from "src/components/coin/DisplayCoinVariance"
 import MessageUserList from "src/components/chat/MessageUserList"
 import Chat from "src/components/chat/Chat"
 import RegistrationFlow from "src/components/registration/RegistrationFlow"
+import Feed from "src/components/feed/Feed"
 
 import "stylesheets/application.scss"
 
@@ -45,7 +46,8 @@ ReactOnRails.register({
   DisplayCoinVariance,
   MessageUserList,
   Chat,
-  RegistrationFlow
+  RegistrationFlow,
+  Feed
 });
 
 Rails.start()

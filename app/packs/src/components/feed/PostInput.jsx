@@ -22,7 +22,7 @@ const PostInput = ({ profilePictureUrl }) => {
   }
 
   return (
-    <form action={`/posts`} method="post" onSubmit={onSubmit} className="d-flex flex-row p-2 w-100">
+    <form action={`/posts`} method="post" onSubmit={onSubmit} className="d-flex flex-row py-2 w-100">
       <TalentProfilePicture src={profilePictureUrl} height={40}/>
       <textarea id="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Start a post.." className="mx-3 form-control"/>
       <button type="submit" className="btn btn-primary btn-small">

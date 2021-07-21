@@ -1,5 +1,5 @@
 class FeedsController < ApplicationController
   def show
-    @feed = current_user.feed
+    @pagy, @posts = pagy(current_user.feed.posts.order(id: :desc))
   end
 end
