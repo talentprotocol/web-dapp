@@ -1,5 +1,5 @@
 class Posts::LikesController < ApplicationController
-  before_action :set_post, only: [:index, :create, :destroy]
+  before_action :set_post, only: [:index, :create]
 
   def index
     @likes_count = Like.where(post: @post).select("0").count
@@ -19,7 +19,7 @@ class Posts::LikesController < ApplicationController
   end
 
   def destroy
-    @like = Like.find_by(post: @post, user: current_user)
+    @like = Like.find_by(post_id: like_params[:id], user: current_user)
 
     if @like.present? && @like.destroy
       render json: {success: "Like successfully removed."}, status: :ok
@@ -35,6 +35,6 @@ class Posts::LikesController < ApplicationController
   end
 
   def like_params
-    params.permit(:post_id)
+    params.permit(:id, :post_id)
   end
 end

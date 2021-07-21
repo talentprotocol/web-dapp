@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { post, get } from "src/utils/requests"
+import { post as postRequest, get, destroy } from "src/utils/requests"
 
 import TalentProfilePicture from '../talent/TalentProfilePicture'
 import Button from '../button'
@@ -32,7 +32,7 @@ const Comment = ({ text, username, ticker, profilePictureUrl, created_at}) => {
   )
 }
 
-const CommentSection = ({ post_id, profilePictureUrl }) => {
+const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   const [text, setText] = useState("")
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
@@ -40,7 +40,7 @@ const CommentSection = ({ post_id, profilePictureUrl }) => {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    post(
+    postRequest(
       `/posts/${post_id}/comments`,
       { text }
     ).then((response) => {
@@ -48,20 +48,21 @@ const CommentSection = ({ post_id, profilePictureUrl }) => {
         console.log(response.error)
       } else {
         // response should be something like: {id: 3, username: "Elon Musk", ticker: "$ELON", text, created_at: new Date()}
-        setComments([...comments, response])
+        setComments([response, ...comments])
+        incrementComments()
         setText("")
       }
     })
   }
 
   useEffect(() => {
-    get(`posts/${post_id}/comments.json`)
+    get(`posts/${post_id}/comments`)
       .then((response) => {
         if(response.error) {
           setLoading(false)
         } else {
           // response should be something like: [{ id: 1, text: "Well done mate!", username: "Jane Doe", ticker: "$JANE", created_at: "2021-07-21 10:25:15 UTC" }]
-          setComments(response.comments)
+          setComments(response)
           setLoading(false)
         }
       })
@@ -86,6 +87,8 @@ const CommentSection = ({ post_id, profilePictureUrl }) => {
 
 const Post = ({ post, user }) => {
   const [like, setLike] = useState(post.i_liked)
+  const [likeCount, setLikeCount] = useState(post.likes)
+  const [commentCount, setCommentCount] = useState(post.comments)
   const [commentSectionActive, setCommentSectionActive] = useState(false)
 
   const date = parseJSON(post.created_at)
@@ -96,12 +99,32 @@ const Post = ({ post, user }) => {
   }
 
   const onLikeClick = () => {
-    setLike(true)
+    postRequest(
+      `/posts/${post.id}/likes`
+    ).then((response) => {
+      if(response.error) {
+        console.log(response.error)
+      } else {
+        setLike(true)
+        setLikeCount(likeCount + 1)
+      }
+    })
   }
 
   const onUnlikeClick = () => {
-    setLike(false)
+    destroy(
+      `/posts/${post.id}/likes`
+    ).then((response) => {
+      if(response.error) {
+        console.log(response.error)
+      } else {
+        setLike(false)
+        setLikeCount(likeCount - 1)
+      }
+    })
   }
+
+  const incrementComments = () => setCommentCount(commentCount + 1)
 
   return (
     <div className="d-flex flex-column">
@@ -116,16 +139,16 @@ const Post = ({ post, user }) => {
           <div className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row">
               {like &&
-                <button onClick={() => onLikeClick()} className="border-0 bg-transparent">
-                  <FontAwesomeIcon icon={faHeart} className="text-danger"/> {post.likes}
+                <button onClick={() => onUnlikeClick()} className="border-0 bg-transparent">
+                  <FontAwesomeIcon icon={faHeart} className="text-danger"/> {likeCount}
                 </button>}
               {!like &&
-                <button onClick={() => onUnlikeClick()} className="border-0 bg-transparent">
-                  <FontAwesomeIcon icon={faHeartBorder}/> {post.likes}
+                <button onClick={() => onLikeClick()} className="border-0 bg-transparent">
+                  <FontAwesomeIcon icon={faHeartBorder}/> {likeCount}
                 </button>
               }
               <button onClick={() => toggleCommentSection()} className="ml-2 border-0 bg-transparent">
-                <FontAwesomeIcon icon={faComment} flip="horizontal"/> {post.comments}
+                <FontAwesomeIcon icon={faComment} flip="horizontal"/> {commentCount}
               </button>
             </div>
             <div className="d-flex flex-row">
@@ -135,7 +158,7 @@ const Post = ({ post, user }) => {
           </div>
         </div>
       </div>
-      {commentSectionActive && <CommentSection post_id={post.id}/>}
+      {commentSectionActive && <CommentSection incrementComments={() => incrementComments()} post_id={post.id}/>}
     </div>
   )
 }

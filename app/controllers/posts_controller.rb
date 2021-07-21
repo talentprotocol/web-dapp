@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: post_params[:id])
 
     if @post.present?
-      render json: @post, status: :ok
+      render json: @post.to_json_for(current_user), status: :ok
     else
       render json: {error: "Post not found."}, status: :not_found
     end
@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     @post = service.call(text: post_params[:text], writer: current_user)
 
     if @post.save
-      render json: @post, status: :created
+      render json: @post.to_json_for(current_user), status: :created
     else
       render json: {error: "Unable to create post."}, status: :bad_request
     end

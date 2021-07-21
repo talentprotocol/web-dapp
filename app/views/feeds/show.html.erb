@@ -6,6 +6,9 @@
       page: @pagy.page,
       last: @pagy.last
     },
-    user: current_user.to_json,
+    user: {
+      profilePictureUrl: current_user.talent&.profile_picture_url,
+      isTalent: current_user.talent.present?
+    },
     posts: @posts.map { |post| post.to_json_for(current_user) },
   }, prerender: false, html_options: { class: "col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row" }) %>

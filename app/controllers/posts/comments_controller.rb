@@ -2,16 +2,16 @@ class Posts::CommentsController < ApplicationController
   before_action :set_post, only: [:index, :create]
 
   def index
-    @comments = Comment.where(post: @post)
+    @comments = Comment.where(post: @post).order(id: :desc)
 
-    render json: @comments, status: :ok
+    render json: @comments.map { |comment| comment.to_json }, status: :ok
   end
 
   def create
     @comment = Comment.new(post: @post, user: current_user, text: comment_params[:text])
 
     if @comment.save
-      render json: {success: "Comment successfully created."}, status: :created
+      render json: @comment.to_json, status: :created
     else
       render json: {error: "Unable to comment."}, status: :bad_request
     end
