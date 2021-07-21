@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import Pagination from "../pagination"
 import Post from './Post'
 import PostInput from './PostInput'
+import TalentLeaderboard from '../leaderboards/TalentLeaderboard'
+import Alert from "../alert"
+import Button from "../button"
 
-const Feed = ({ posts, user, pagy }) => {
+const Feed = ({ posts, user, pagy, topTalents, alert }) => {
   const [currentPosts, setCurrentPosts] = useState(posts)
 
   const addPost = (post) => {
@@ -26,8 +29,13 @@ const Feed = ({ posts, user, pagy }) => {
           </div>))}
         <Pagination prev={pagy.prev} next={pagy.next} page={pagy.page} last={pagy.last} />
       </section>
-      <section className="col-12 col-lg-5 px-0 border-right talent-content-body-500 lg-overflow-hidden">
-        <div>The other section</div>
+      <section className="col-12 col-lg-5 p-4 border-right talent-content-body-500 lg-overflow-hidden">
+        <TalentLeaderboard topTalents={topTalents} className="mb-4"/>
+        {alert.type &&
+          <Alert direction="column" centerText={true} {...alert} >
+            <p className={`px-5 pt-4 mr-md-3 text-center`}>{alert.text}</p> {alert.href && <Button type={alert.type} text={alert.buttonText} href={alert.href} className="talent-button w-100 mx-5 mb-4"/>}
+          </Alert>
+        }
       </section>
     </>
   )

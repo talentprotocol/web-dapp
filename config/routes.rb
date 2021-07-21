@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
-    root to: "talent#index", as: :user_root
+    root to: "feeds#show", as: :user_root
 
     # Show investor list (remove?)
     resources :investors, only: [:index, :show]

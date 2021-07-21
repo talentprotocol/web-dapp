@@ -1,6 +1,6 @@
 class PortfolioController < ApplicationController
   def index
-    @pagy, @transactions = pagy(current_user.investor&.transactions&.order(id: :desc))
+    @pagy, @transactions = pagy(current_user.investor&.transactions&.order(id: :desc) || Transaction.none)
 
     respond_to do |format|
       format.html # index.html.erb

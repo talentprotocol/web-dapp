@@ -70,11 +70,11 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
 
   return (
     <div className="d-flex flex-column align-items-center border-top mb-3">
-      <form action={`/posts/${post_id}/comments`} method="post" onSubmit={onSubmit} className="w-100 py-3 pl-3">
-        <div className="d-flex flex-row px-2">
-          <TalentProfilePicture src={profilePictureUrl} height={40}/>
-          <textarea id="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Write a new comment.." className="mx-3 form-control"/>
-          <button type="submit" className="btn btn-primary btn-small">
+      <form action={`/posts/${post_id}/comments`} method="post" onSubmit={onSubmit} className="w-100 py-3 pl-4 d-flex flex-row">
+        <TalentProfilePicture src={profilePictureUrl} height={40}/>
+        <div className="d-flex flex-column flex-md-row w-100 px-2">
+          <textarea id="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Write a new comment.." className="form-control"/>
+          <button type="submit" className="btn btn-primary btn-small ml-0 ml-md-2 mt-2 mt-md-0 md-w-100">
             Reply
           </button>
         </div>
@@ -131,13 +131,13 @@ const Post = ({ post, user }) => {
       <div className="d-flex flex-row w-100 py-3 px-2">
         <TalentProfilePicture src={user.profilePictureUrl} height={40}/>
         <div className="d-flex flex-column pl-3 w-100">
-          <div className="d-flex flex-row justify-content-between">
-            <p><strong>{user.username}</strong> <small className="text-muted">{'\u25CF'} {timeSinceCreation}</small></p>
+          <div className="d-flex flex-column flex-md-row justify-content-between">
+            <p className="mb-0 mb-md-2"><strong>{user.username}</strong> <small className="text-muted">{'\u25CF'} {timeSinceCreation}</small></p>
             <p><small><span className="text-primary">{user.ticker}</span> <span className="text-muted">{'->'} {user.price}</span></small></p>
           </div>
           <p>{post.text}</p>
-          <div className="d-flex flex-row justify-content-between">
-            <div className="d-flex flex-row">
+          <div className="d-flex flex-column-reverse flex-md-row justify-content-between">
+            <div className="d-flex flex-row mt-2 mt-md-0">
               {like &&
                 <button onClick={() => onUnlikeClick()} className="border-0 bg-transparent">
                   <FontAwesomeIcon icon={faHeart} className="text-danger"/> {likeCount}

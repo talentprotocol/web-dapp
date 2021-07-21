@@ -3,12 +3,13 @@
     <%=
       react_component("Navbar",
       props: {
+        feedPath: root_path,
         talentPath: talent_index_path,
         portfolioPath: portfolio_index_path,
         messagesPath: messages_path,
-        tradePath: "talentprotocol.com",
+        tradePath: "https://talentprotocol.com",
         settingsPath: settings_path,
-        helpPath: "talentprotocol.com"
+        helpPath: "https://talentprotocol.com"
       },
       prerender: false, html_options: { class: "d-flex flex-column flex-lg-fill align-self-lg-stretch lg-h-100" }) %>
   </header>

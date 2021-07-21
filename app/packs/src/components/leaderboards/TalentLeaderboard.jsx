@@ -1,10 +1,10 @@
 import React from 'react'
 import TalentProfilePicture from '../talent/TalentProfilePicture'
 
-const TalentLeaderboard = ({ topTalents }) => {
+const TalentLeaderboard = ({ topTalents, className }) => {
   
   return (
-    <div className="d-flex flex-row flex-wrap border p-3">
+    <div className={`d-flex flex-row flex-wrap border p-3 ${className}`}>
       <p className="mb-0 col-9"><small><strong>Top Talent</strong></small></p>
       <p className="mb-0 col-3 text-right text-muted"><small>VALUE</small></p>
       {topTalents.map((topTalent) => (

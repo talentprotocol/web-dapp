@@ -11,6 +11,14 @@ if Rails.env.development?
         css_class: "w-100"
       )
 
+      AlertConfiguration.create!(
+        page: "/feed",
+        alert_type: "primary",
+        text: "Apply to launch your Career Coin on Talent Protocol",
+        href: "https://www.talentprotocol.com/invite",
+        button_text: "Reserve $TICKER"
+      )
+
       puts "Setting up Users.."
       admin = User.create!(
         username: "Admin",
