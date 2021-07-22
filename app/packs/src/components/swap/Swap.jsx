@@ -134,7 +134,7 @@ const Swap = ({ coins, coin, tal }) => {
   }
 
   return (
-    <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-scroll border-right pt-3">
+    <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-scroll border-right pt-3 h-100">
       <form onSubmit={onSubmit} className="d-flex flex-column border p-3 mx-auto" style={{maxWidth: 400}}>
         <div className="d-flex flex-column flex-md-row justify-content-between border p-3">
           <CoinSelection selectedCoin={inputCoin} coins={[tal, ...coins]} setCoin={onInputCoinSet} uniqueId="input-swap"/>
