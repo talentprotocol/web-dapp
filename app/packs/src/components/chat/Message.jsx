@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const Message = props => {
-  const { message, mine } = props;
+  const { message, mine, profilePictureUrl } = props;
   const messageStyle = mine ? "chat-my-message" : "chat-their-message"
   const dateStyle = mine ? "align-self-end" : "align-self-start"
 
@@ -12,7 +12,7 @@ const Message = props => {
 
   return (
     <div className="d-flex flex-row">
-      {!mine && <TalentProfilePicture src={message.profilePictureUrl} height={40} className="mt-auto mb-4"/>}
+      {!mine && <TalentProfilePicture src={profilePictureUrl} height={40} className="mt-auto mb-4"/>}
       <div className="d-flex flex-column w-100">
         <p key={`message_text_${message.id}`} className={`chat-message text-break mt-2 p-3 ${messageStyle}${!mine ? ' ml-2' : ''}`}>
           {message.text}

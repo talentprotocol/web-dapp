@@ -26,6 +26,7 @@ const MessageExchange = (props) => {
             key={`message_${message.id}`}
             message={message}
             mine={message.sender_id === props.userId}
+            profilePictureUrl={props.profilePictureUrl}
           />)
         }
       </div>
