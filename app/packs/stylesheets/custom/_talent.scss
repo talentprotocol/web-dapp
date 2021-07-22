@@ -47,7 +47,7 @@
     padding-left: 0px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 991px) {
     padding-right: 12px;
     padding-left: 0px;
     &:nth-child(2n) {
