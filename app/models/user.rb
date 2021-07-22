@@ -7,12 +7,30 @@ class User < ApplicationRecord
   has_one :talent
   has_one :investor
 
+  # Chat
   has_many :messagee, foreign_key: :receiver_id, class_name: "Message"
   has_many :senders, through: :messagee
   has_many :messaged, foreign_key: :sender_id, class_name: "Message"
   has_many :receivers, through: :messaged
 
+  # Feed
+  has_one :feed
+  has_many :follows
+  has_many :followers, through: :follows # only use to load users, never to count
+  has_many :following, foreign_key: :follower_id, class_name: "Follow"
+  has_many :comments
+
   VALID_ROLES = ["admin"].freeze
+
+  # [CLEARANCE] override email writing to allow nil but not two emails ""
+  def self.normalize_email(email)
+    if email.nil?
+      email
+    else
+      email.to_s.downcase.gsub(/\s+/, "")
+    end
+  end
+  # [CLEARANCE] end
 
   def admin?
     role == "admin"

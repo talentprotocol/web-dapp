@@ -38,6 +38,18 @@ const WarningButton = props => (
   </BootstrapButton>
 )
 
+const LightButton = props => (
+  <BootstrapButton variant="light" className="talent-button" {...props}>
+    {props.icon}{props.text}
+  </BootstrapButton>
+)
+
+const OutlineSecondaryButton = props => (
+  <BootstrapButton variant="outline-secondary" className="talent-button" {...props}>
+    {props.icon}{props.text}
+  </BootstrapButton>
+)
+
 const Button = props => {
   if (props.type == "primary") {
     return <PrimaryButton {...props} />
@@ -51,6 +63,10 @@ const Button = props => {
     return <WarningButton {...props} />
   } else if (props.type == "danger") {
     return <DangerButton {...props} />
+  } else if (props.type == "light") {
+    return <LightButton {...props} />
+  } else if (props.type == "outline-secondary") {
+    return <OutlineSecondaryButton {...props} />
   } else {
     return (<BootstrapButton {...props}>{props.text}</BootstrapButton>)
   }

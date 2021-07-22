@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
-    root to: "talent#index", as: :user_root
+    root to: "feeds#show", as: :user_root
 
     # Show investor list (remove?)
     resources :investors, only: [:index, :show]
@@ -53,6 +53,15 @@ Rails.application.routes.draw do
     mount ActionCable.server => "/cable"
 
     resources :settings, only: [:index]
+
+    # Feeds
+    resource :feed, only: [:show]
+    resources :follows, only: [:index, :create, :destroy]
+    resources :posts, only: [:show, :create, :destroy] do
+      resources :comments, only: [:index, :create, :destroy], module: "posts"
+      resources :likes, only: [:index, :create], module: "posts"
+      delete "likes", on: :member, to: "posts/likes#destroy"
+    end
   end
 
   resources :wait_list, only: [:index, :create]

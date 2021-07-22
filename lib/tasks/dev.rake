@@ -11,6 +11,14 @@ if Rails.env.development?
         css_class: "w-100"
       )
 
+      AlertConfiguration.create!(
+        page: "/feed",
+        alert_type: "primary",
+        text: "Apply to launch your Career Coin on Talent Protocol",
+        href: "https://www.talentprotocol.com/invite",
+        button_text: "Reserve $TICKER"
+      )
+
       puts "Setting up Users.."
       admin = User.create!(
         username: "Admin",
@@ -21,7 +29,14 @@ if Rails.env.development?
 
       investor = User.create!(
         username: "Investor",
-        external_id: "123"
+        external_id: "123",
+        email: nil
+      )
+
+      talent = User.create!(
+        username: "talent",
+        external_id: "1234444",
+        email: nil
       )
 
       puts "Setting up Investors.."
@@ -60,7 +75,8 @@ if Rails.env.development?
         ito_date: Time.current - 1.week,
         activity_count: 2,
         linkedin_url: "https://www.linkedin.com/",
-        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI"
+        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI",
+        user: talent
       )
 
       puts "Setting up Coins.."
@@ -122,6 +138,22 @@ if Rails.env.development?
         description: "You get a copy of my book on launch",
         talent: marx
       )
+
+      puts "Setting up Feeds.."
+      Feed.create(user: admin)
+      Feed.create(user: investor)
+      Feed.create(user: talent)
+
+      Follow.create(user: talent, follower: admin)
+      Follow.create(user: talent, follower: investor)
+
+      post = Post.create(user: talent, text: Faker::Lorem.paragraph)
+      talent.feed.posts << post
+      investor.feed.posts << post
+      admin.feed.posts << post
+
+      Comment.create(user: investor, post: post, text: Faker::Marketing.buzzwords)
+      Like.create(user: investor, post: post)
     end
   end
 end
