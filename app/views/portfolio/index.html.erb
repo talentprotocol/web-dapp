@@ -9,7 +9,7 @@
             <%= react_component("DisplayCoinVariance", props: { variance: "30.02", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
           </div>
             
-          <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL" }, prerender: false )%>
+          <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL", href: "https://app.uniswap.org/#/swap"}, prerender: false )%>
         </div>
 
         <%= react_component("PortfolioTalOverview",

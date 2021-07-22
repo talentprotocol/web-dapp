@@ -104,4 +104,19 @@
     height: 340px;
     width: 600px;
   }
+
+  @media (min-width: 992px) {
+    height: 220px;
+    width: 400px;
+  }
+
+  @media (min-width: 1200px) {
+    height: 280px;
+    width: 500px;
+  }
+
+  @media (min-width: 1500px) {
+    height: 340px;
+    width: 600px;
+  }
 }

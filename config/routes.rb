@@ -62,6 +62,10 @@ Rails.application.routes.draw do
       resources :likes, only: [:index, :create], module: "posts"
       delete "likes", on: :member, to: "posts/likes#destroy"
     end
+
+    # Swap
+    resource :swap, only: [:show]
+    resources :transactions, only: [:create]
   end
 
   resources :wait_list, only: [:index, :create]

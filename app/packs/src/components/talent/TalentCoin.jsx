@@ -3,6 +3,7 @@ import Button from '../button'
 import DisplayCoinVariance from '../coin/DisplayCoinVariance'
 
 const TalentCoin = ({
+  ticker,
   price,
   marketCap,
   sponsors,
@@ -49,7 +50,7 @@ const TalentCoin = ({
         </div>
       </div>
       <div className="col-12 mt-2 px-1">
-        <Button type="primary" text="Buy / Sell" className="talent-button w-100"/>
+        <Button href={`/swap?ticker=${ticker}`} type="primary" text="Buy / Sell" className="talent-button w-100"/>
       </div>
     </div>
   )

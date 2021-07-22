@@ -31,7 +31,7 @@ const TalNavbar = props => {
             <NavbarItem url={talentPath}>{icon(faUserFriends)} Talent</NavbarItem>
             <NavbarItem url={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</NavbarItem>
             <NavbarItem url={messagesPath}>{icon(faEnvelope)} Messages</NavbarItem>
-            <NavbarItem url={tradePath} exact>{icon(faStar)} Trade $TAL</NavbarItem>
+            <NavbarItem url={tradePath}>{icon(faStar)} Trade $TAL</NavbarItem>
           </Nav>
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
             <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
