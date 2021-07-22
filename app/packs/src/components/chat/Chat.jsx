@@ -37,7 +37,7 @@ const Chat = ({ users }) => {
   }, [activeUserId]);
 
   useEffect(() => {
-    if(chat_id != "") {
+    if(chatId != "") {
       setActiveChannel(setupChannel(chatId, getNewMessage))
     }
 
