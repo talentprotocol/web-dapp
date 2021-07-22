@@ -153,7 +153,7 @@ const Post = ({ post, user }) => {
             </div>
             <div className="d-flex flex-row">
               <Button type="outline-secondary" text="Message"/>
-              <Button type="primary" text={`Buy ${user.ticker}`} className="talent-button ml-2"/>
+              <Button type="primary" href={`/swap?ticker=${user.ticker}`} text={`Buy ${user.ticker}`} className="talent-button ml-2"/>
             </div>
           </div>
         </div>
