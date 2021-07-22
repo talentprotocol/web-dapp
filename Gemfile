@@ -26,6 +26,7 @@ gem "bcrypt"
 
 # File Attachment toolkit
 gem "shrine", "~> 3.0"
+gem "aws-sdk-s3"
 
 gem "bootsnap", ">= 1.4.4", require: false
 
