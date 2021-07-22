@@ -33,7 +33,7 @@
     <div class="mt-lg-5 mt-3 mb-2">
       <%= react_component("TalentLeaderboard", props:
         {
-          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.coin.display_ticker, price: tal.coin.display_price } }
+          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.coin.display_ticker, price: tal.coin.display_price, profilePictureUrl: tal.profile_picture_url } }
         }, prerender: false)
       %>
     </div>
