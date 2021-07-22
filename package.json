@@ -20,6 +20,7 @@
     "date-fns": "^2.22.1",
     "mini-css-extract-plugin": "^1.6.0",
     "postcss": "^8.2.15",
+    "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.0.2",
     "postcss-loader": "5.3.0",
     "prop-types": "^15.7.2",
