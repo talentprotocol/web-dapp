@@ -1,5 +1,5 @@
 namespace :staging do
-  task prime: ["db:setup", "db:seed"] do
+  task prime: ["db:seed"] do
     puts "Setting up Alert configurations.."
 
     AlertConfiguration.create!(
