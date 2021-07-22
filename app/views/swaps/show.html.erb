@@ -1,0 +1,10 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 mx-auto my-auto px-0" style="max-width: 1200px">
+    <%= react_component("Swap",
+      props: {
+        tal: { ticker: "$TAL", balance: Random.new.rand(50.0..200.0).round(2) },
+        coins: @coins.map { |coin| { coinId: coin.id, ticker: coin.display_ticker, balance: 0.0, exchangeRate: Random.new.rand(5.0..19.0).round(2) } },
+        coin: { coinId: @coin&.id, ticker: @coin&.display_ticker, balance: 0.0, exchangeRate: Random.new.rand(5.0..19.0).round(2) }
+      }, prerender: false) %>
+  </main>
+</div>

@@ -26,6 +26,7 @@ import MessageUserList from "src/components/chat/MessageUserList"
 import Chat from "src/components/chat/Chat"
 import RegistrationFlow from "src/components/registration/RegistrationFlow"
 import Feed from "src/components/feed/Feed"
+import Swap from "src/components/swap/Swap"
 
 import "stylesheets/application.scss"
 
@@ -47,7 +48,8 @@ ReactOnRails.register({
   MessageUserList,
   Chat,
   RegistrationFlow,
-  Feed
+  Feed,
+  Swap
 });
 
 Rails.start()
