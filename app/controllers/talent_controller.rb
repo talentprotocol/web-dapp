@@ -2,7 +2,7 @@ class TalentController < ApplicationController
   before_action :set_alert, only: :index
 
   def index
-    @pagy, @talents = pagy(talent_sort(Talent.all))
+    @pagy, @talents = pagy(talent_sort(Talent.all), items: 6)
 
     respond_to do |format|
       format.html # index.html.erb

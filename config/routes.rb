@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   # Admin area
   constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    root to: "admin/dashboards#show", as: :admin_root
+    root to: "feeds#show", as: :admin_root
+
+    get "/dashboard", to: "admin/dashboards#show"
 
     namespace :admin do
       resources :dashboards, only: [:show]
