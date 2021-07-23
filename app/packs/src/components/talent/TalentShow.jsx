@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
+import ReactPlayer from "react-player/youtube"
+
+import { post, destroy } from "src/utils/requests"
+import LinkedInIcon from "images/linkedin.png"
+
+import Button from '../button'
 import TalentProfilePicture from './TalentProfilePicture'
 import TalentTags from "./TalentTags"
-import LinkedInIcon from "images/linkedin.png"
-import ReactPlayer from "react-player/youtube"
 
 const CareerGoals = ({ careerGoals }) => {
   return (
@@ -41,7 +45,34 @@ const AboutMe = ({ description, youtubeUrl }) => {
   )
 }
 
-const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }) => {
+const TalentDetail = ({ userId, profilePictureUrl, username, ticker, tags, linkedinUrl, isFollowing }) => {
+  const [following, setFollowing] = useState(isFollowing)
+
+  const toggleFollow = () => {
+    if(following) {
+      destroy(
+        `/follows?user_id=${userId}`
+      ).then((response) => {
+        if(response.error) {
+          console.log(response.error)
+        } else {
+          setFollowing(false)
+        }
+      })
+    } else {
+      post(
+        "/follows",
+        { user_id: userId}
+      ).then((response) => {
+        if(response.error) {
+          console.log(response.error)
+        } else {
+          setFollowing(true)
+        }
+      })
+    }
+  }
+
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
       <TalentProfilePicture src={profilePictureUrl} height={96}/>
@@ -49,12 +80,15 @@ const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }
         <h1 className="h2"><small>{username} <span className="text-muted">({ticker})</span></small></h1>
         <TalentTags tags={tags}/>
       </div>
-      <a className="mr-auto ml-2 mr-md-0 ml-md-auto mt-2 mt-md-0" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
+      <div className="ml-md-auto d-flex flex-row-reverse flex-md-column justify-content-between align-items-end mt-2 mt-md-0">
+        <Button className="talent-button ml-2 ml-md-0" type="primary" onClick={toggleFollow} text={following ? "Unfollow" : "Follow"}/>
+        <a className="mt-0 mt-md-2" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
+      </div>
     </div>
   )
 }
 
-const TalentShow = ({ talent, careerGoals, rewards}) => {
+const TalentShow = ({ talent, careerGoals, rewards, isFollowing }) => {
   return (
     <div className="d-flex flex-column">
       <TalentDetail
@@ -63,6 +97,8 @@ const TalentShow = ({ talent, careerGoals, rewards}) => {
         ticker={talent.ticker}
         tags={talent.tags}
         linkedinUrl={talent.linkedinUrl}
+        userId={talent.userId}
+        isFollowing={isFollowing}
         />
       <AboutMe description={talent.description} youtubeUrl={talent.youtubeUrl}/>
       <CareerGoals careerGoals={careerGoals} />

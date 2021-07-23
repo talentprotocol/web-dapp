@@ -5,7 +5,7 @@ class FollowsController < ApplicationController
   end
 
   def create
-    @follow = Follow.new(user: follow_params[:user_id], follower: current_user)
+    @follow = Follow.new(user_id: follow_params[:user_id], follower: current_user)
 
     if @follow.save
       render json: {success: "Follow successfully created."}, status: :created

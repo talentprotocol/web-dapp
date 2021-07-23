@@ -41,7 +41,7 @@ const get = (url) =>{
   })
 }
 
-const destroy = (url, content) =>{
+const destroy = (url) =>{
   const headers = { "Content-Type": "application/json" }
 
   if(getAuthToken) {
@@ -51,8 +51,7 @@ const destroy = (url, content) =>{
   return fetch(url, {
     credentials: "include",
     method: "DELETE",
-    headers,
-    body: JSON.stringify(content)
+    headers
   }).then((response) => {
     if (response.status == 200 || response.status == 201) {
       return response.json()

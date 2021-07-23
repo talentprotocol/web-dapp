@@ -20,6 +20,8 @@ class TalentController < ApplicationController
 
     @talent_leaderboard = Talent.order(id: :desc).limit(10)
 
+    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @talent }
