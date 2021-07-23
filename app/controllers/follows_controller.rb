@@ -5,9 +5,10 @@ class FollowsController < ApplicationController
   end
 
   def create
-    @follow = Follow.new(user_id: follow_params[:user_id], follower: current_user)
+    service = CreateFollow.new
+    success = service.call(user_id: follow_params[:user_id], follower_id: current_user.id)
 
-    if @follow.save
+    if success
       render json: {success: "Follow successfully created."}, status: :created
     else
       render json: {error: "Unable to follow."}, status: :bad_request
@@ -15,9 +16,10 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    @follow = Follow.find_by(user: follow_params[:user_id], follower: current_user)
+    service = DeleteFollow.new
+    success = service.call(user_id: follow_params[:user_id], follower_id: current_user.id)
 
-    if @follow.present? && @follow.destroy
+    if success
       render json: {success: "Follow successfully removed."}, status: :ok
     else
       render json: {error: "Follow does not exist."}, status: :not_found
