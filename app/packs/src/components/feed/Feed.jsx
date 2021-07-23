@@ -23,11 +23,12 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
             <PostInput profilePictureUrl={user.profilePictureUrl} addPost={(post) => addPost(post)}/>
           </div>
         }
+        {currentPosts.length == 0 && <p className="mx-auto">Start following or investing in talent for us to construct your feed.</p>}
         {currentPosts.map((post) => (
           <div key={`post-${post.id}`} className="bg-white border-bottom">
             <Post post={post} user={post.user}/>
           </div>))}
-        <Pagination prev={pagy.prev} next={pagy.next} page={pagy.page} last={pagy.last} />
+         {currentPosts.length > 0 && <Pagination prev={pagy.prev} next={pagy.next} page={pagy.page} last={pagy.last} />}
       </section>
       <section className="col-12 col-lg-5 p-4 border-right talent-content-body-500 lg-overflow-hidden">
         <TalentLeaderboard topTalents={topTalents} className="mb-4"/>
