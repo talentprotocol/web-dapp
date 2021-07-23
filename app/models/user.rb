@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :followers, through: :follows # only use to load users, never to count
   has_many :following, foreign_key: :follower_id, class_name: "Follow"
   has_many :comments
+  has_many :posts
 
   VALID_ROLES = ["admin"].freeze
 

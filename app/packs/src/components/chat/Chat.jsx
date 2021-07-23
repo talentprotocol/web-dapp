@@ -15,6 +15,7 @@ const Chat = ({ users }) => {
   const [userId, setUserId] = useState(0)
   const [lastMessageId, setLastMessageId] = useState(0)
   const [chatId, setChatId] = useState("")
+  const [messengerProfilePicture, setMessengerProfilePicture] = useState()
   const { height, width } = useWindowDimensionsHook();
 
   useEffect(() => {
@@ -31,11 +32,14 @@ const Chat = ({ users }) => {
         setLastMessageId(response.messages[response.messages.length - 1].id)
         setUserId(response.current_user_id)
         setChatId(response.chat_id)
+        setMessengerProfilePicture(response.profilePictureUrl)
       })
   }, [activeUserId]);
 
   useEffect(() => {
-    setActiveChannel(setupChannel(chatId, getNewMessage))
+    if(chatId != "") {
+      setActiveChannel(setupChannel(chatId, getNewMessage))
+    }
 
     return () => {
       if (activeChannel) {
@@ -97,7 +101,16 @@ const Chat = ({ users }) => {
       }
       {(width > 992 || activeUserId > 0) &&
         <section className="col-12 col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-hidden">
-          <MessageExchange smallScreen={width <= 992} clearActiveUserId={() => clearActiveUser()} value={message} onChange={setMessage} onSubmit={sendNewMessage} messages={messages} userId={userId}/>
+          <MessageExchange
+            smallScreen={width <= 992}
+            clearActiveUserId={() => clearActiveUser()}
+            value={message}
+            onChange={setMessage}
+            onSubmit={sendNewMessage}
+            messages={messages}
+            userId={userId}
+            profilePictureUrl={messengerProfilePicture}
+            />
         </section>
       }
     </>

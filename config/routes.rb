@@ -58,7 +58,9 @@ Rails.application.routes.draw do
 
     # Feeds
     resource :feed, only: [:show]
-    resources :follows, only: [:index, :create, :destroy]
+    resources :follows, only: [:index, :create]
+    delete "follows", to: "follows#destroy"
+
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
       resources :likes, only: [:index, :create], module: "posts"

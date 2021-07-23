@@ -28,7 +28,7 @@ const Welcome = ({ changeStep, changeEmail, email }) => {
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
       <h6 className="registration_step_subtitle">Step 1 of 4</h6>
       <h1>Welcome!</h1>
-      <p>We're currently in close beta. Enter your email to validate you have access to the platform or request access.</p>
+      <p>We're currently in secret alpha. Enter your email to validate you have access to the platform or request access.</p>
       <p><small>If you already have an account <a href="/sign_in">sign in</a>.</small></p>
       <form onSubmit={submitWelcomeForm} className="d-flex flex-column">
         <div className="form-group">

@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: {messages: @messages, chat_id: @chat_id, current_user_id: @sender.id} }
+      format.json { render json: {messages: @messages, chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url} }
     end
   end
 

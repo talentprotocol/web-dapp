@@ -8,7 +8,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       <p className="mb-0 col-9"><small><strong>Top Talent</strong></small></p>
       <p className="mb-0 col-3 text-right text-muted"><small>VALUE</small></p>
       {topTalents.map((topTalent) => (
-        <div className="mt-2 col-12 d-flex flex-row p-0 align-items-center" key={`talent-leaderboard-tal-${topTalent.id}`}>
+        <a href={`/talent/${topTalent.id}`} className="mt-2 col-12 d-flex flex-row p-0 align-items-center text-reset" key={`talent-leaderboard-tal-${topTalent.id}`}>
           <div className="col-9 d-flex flex-row align-items-center">
             <TalentProfilePicture src={topTalent.profilePictureUrl} height={28}/>
             <div className="d-flex flex-column ml-3">
@@ -17,7 +17,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
             </div>
           </div>
           <p className="mb-0 col-3 text-right text-muted leaderboard-info"><small>{topTalent.price}</small></p>
-        </div>
+        </a>
       ))}
     </div>
   )

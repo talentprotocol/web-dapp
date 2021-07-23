@@ -26,13 +26,14 @@ const MessageExchange = (props) => {
             key={`message_${message.id}`}
             message={message}
             mine={message.sender_id === props.userId}
+            profilePictureUrl={props.profilePictureUrl}
           />)
         }
       </div>
       <form action="/messages" method="post" onSubmit={props.onSubmit} className="input-message-height">
         <div className="position-relative chat-send-area">
-          <input type="text" name="message" id="message" value={props.value} onChange={(e) => props.onChange(e.target.value)} placeholder="Start a new message" className="form-control chat-input-area"/>
-          <button type="submit" className="position-absolute btn btn-primary btn-small chat-send">
+          <input type="text" disabled={props.messages.length == 0 && props.userId == 0} name="message" id="message" value={props.value} onChange={(e) => props.onChange(e.target.value)} placeholder="Start a new message" className="form-control chat-input-area"/>
+          <button type="submit" disabled={props.messages.length == 0 && props.userId == 0} className="position-absolute btn btn-primary btn-small chat-send">
             Send
           </button>
         </div>

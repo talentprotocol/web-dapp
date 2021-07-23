@@ -52,10 +52,11 @@ const EmailValidation = ({ changeStep, email }) => {
       if(response.error) {
         setStatus("error") // REPLACE WITH "error" before commiting!
       } else {
+        console.log(response)
         if(response.approved) {
-          setStatus("unapproved")
-        } else {
           setStatus("approved")
+        } else {
+          setStatus("unapproved")
         }
       }
     })
