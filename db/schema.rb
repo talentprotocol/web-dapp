@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_145908) do
+ActiveRecord::Schema.define(version: 2021_07_26_095540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,15 @@ ActiveRecord::Schema.define(version: 2021_07_20_145908) do
     t.index ["talent_id"], name: "index_rewards_on_talent_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "description"
+    t.boolean "primary"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_tags_on_talent_id"
+  end
+
   create_table "talent", force: :cascade do |t|
     t.string "username", null: false
     t.string "wallet_id", null: false
@@ -207,6 +216,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145908) do
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "rewards", "talent"
+  add_foreign_key "tags", "talent"
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "investors"
 end

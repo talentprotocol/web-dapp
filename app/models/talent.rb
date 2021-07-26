@@ -9,6 +9,9 @@ class Talent < ApplicationRecord
   has_one :career_goal
   has_many :rewards
 
+  has_many :tags
+  has_one :primary_tag, -> { where(primary: true) }, class_name: "Tag"
+
   scope :active, -> { where("ito_date <= ?", Time.current) }
   scope :upcoming, -> { where("ito_date > ?", Time.current) }
 
