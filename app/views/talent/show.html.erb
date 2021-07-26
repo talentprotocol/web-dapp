@@ -7,7 +7,7 @@
           username: @talent.username,
           description: @talent.description,
           ticker: @talent.coin.display_ticker,
-          tags: @talent.tags,
+          tags: @talent.tags.map(&:description),
           linkedinUrl: @talent.linkedin_url,
           profilePictureUrl: @talent.profile_picture_url,
           youtubeUrl: @talent.youtube_url

@@ -52,7 +52,7 @@
                       display_market_cap: talent.coin.display_market_cap,
                       display_ticker: talent.coin.display_ticker
                     },
-                    tags: [talent.primary_tag]
+                    tags: [talent.primary_tag&.description]
                   }
                 }, prerender: false, html_options: { class: "h-100" }) %>
             </div>
