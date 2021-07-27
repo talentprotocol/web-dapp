@@ -1,5 +1,8 @@
 class CreateUser
+  attr_reader :result
+
   def initialize
+    @result = {}
   end
 
   def call(email:, username:, metamask_id:)
@@ -8,7 +11,22 @@ class CreateUser
       create_investor(user, username, metamask_id)
       create_feed(user)
 
-      user
+      @result[:user] = user
+      @result[:success] = true
+      @result
+    rescue ActiveRecord::RecordNotUnique => error
+      @result[:success] = false
+      if error.message.includes?("username")
+        @result[:field] = "username"
+        @result[:error] = "Username is already taken."
+      elsif error.message.includes?("email")
+        @result[:field] = "email"
+        @result[:error] = "Email is already taken."
+      elsif error.message.includes?("wallet_id")
+        @result[:field] = "wallet_id"
+        @result[:error] = "We already have that wallet in the system."
+      end
+      @result
     end
   end
 
