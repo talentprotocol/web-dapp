@@ -9,8 +9,10 @@ const TalentCoin = ({
   sponsors,
   circulatingSupply,
   priceVariance7d,
-  priceVariance30d
+  priceVariance30d,
+  active
 }) => {
+  const buttonText = active ? "Buy / Sell" : "Coming soon"
   return (
     <div className="d-flex flex-row flex-wrap border p-2 p-md-4 bg-white">
       <div className="col-6 mt-2 px-1">
@@ -50,7 +52,7 @@ const TalentCoin = ({
         </div>
       </div>
       <div className="col-12 mt-2 px-1">
-        <Button href={`/swap?ticker=${ticker}`} type="primary" text="Buy / Sell" className="talent-button w-100"/>
+        <Button href={`/swap?ticker=${ticker}`} disabled={!active} type="primary" text={buttonText} className="talent-button w-100"/>
       </div>
     </div>
   )
