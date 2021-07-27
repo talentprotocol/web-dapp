@@ -18,7 +18,7 @@ class CreateUser
     user = User.new
     user.email = email
     user.username = username
-    user.external_id = metamask_id
+    user.wallet_id = metamask_id
     user.save!
     user
   end
@@ -27,7 +27,6 @@ class CreateUser
     investor = Investor.new
     investor.user = user
     investor.username = user.username
-    investor.wallet_id = user.external_id
     investor.save!
     investor
   end

@@ -8,8 +8,10 @@ class UpdateUserMetadataGuard < Clearance::SignInGuard
   end
 
   def update_metadata
-    current_user.sign_in_count += 1
-    current_user.last_sign_in_at = Time.current
-    current_user.save
+    if current_user.present?
+      current_user.sign_in_count += 1
+      current_user.last_sign_in_at = Time.current
+      current_user.save
+    end
   end
 end

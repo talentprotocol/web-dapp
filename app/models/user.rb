@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include Clearance::User
 
   validate :role_is_valid, if: -> { role.present? }
-  validate :external_id_or_email_and_password
+  validate :wallet_id_or_email_and_password
 
   has_one :talent
   has_one :investor
@@ -82,8 +82,8 @@ class User < ApplicationRecord
     true
   end
 
-  def external_id_or_email_and_password
-    unless external_id.present? || (email.present? && encrypted_password.present?)
+  def wallet_id_or_email_and_password
+    unless wallet_id.present? || (email.present? && encrypted_password.present?)
       errors.add(:base, "The user doesn't respect the required login requirements")
     end
   end

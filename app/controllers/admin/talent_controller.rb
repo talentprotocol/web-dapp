@@ -64,7 +64,6 @@ class Admin::TalentController < ApplicationController
   def talent_params
     params.require(:talent).permit(
       :username,
-      :wallet_id,
       :public_key,
       :description,
       :profile_picture,

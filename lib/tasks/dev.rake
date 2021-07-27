@@ -29,40 +29,36 @@ if Rails.env.development?
 
       investor = User.create!(
         username: "Investor",
-        external_id: "123",
+        wallet_id: "0x123",
         email: nil
       )
 
       talent = User.create!(
         username: "talent",
-        external_id: "1234444",
+        wallet_id: "0x1234444",
         email: nil
       )
 
       puts "Setting up Investors.."
       admin_investor = Investor.create!(
         username: "Admin Investor",
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I own this",
         user: admin
       )
 
       john_doe = Investor.create!(
         username: "John Doe",
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I'm so wealthy...",
         user: investor
       )
       Investor.create!(
         username: "James Marco",
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I'm ready to help those that didn't have the correct opportunities"
       )
 
       puts "Setting up Talents.."
       marx = Talent.create!(
         username: "Karl Marx",
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I want to revolutionize the socioeconomic system.",
         ito_date: Time.current + 1.week,
         activity_count: 2,
@@ -70,7 +66,6 @@ if Rails.env.development?
       )
       elon = Talent.create!(
         username: "Elon NotMusk",
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: "I want to take mankind to Pluto!",
         ito_date: Time.current - 1.week,
         activity_count: 2,

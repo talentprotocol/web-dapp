@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_26_095540) do
+ActiveRecord::Schema.define(version: 2021_07_27_094928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_095540) do
 
   create_table "investors", force: :cascade do |t|
     t.string "username", null: false
-    t.string "wallet_id", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
@@ -145,7 +144,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_095540) do
 
   create_table "talent", force: :cascade do |t|
     t.string "username", null: false
-    t.string "wallet_id", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
@@ -185,13 +183,13 @@ ActiveRecord::Schema.define(version: 2021_07_26_095540) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "confirmation_token", limit: 128
-    t.string "external_id"
     t.integer "sign_in_count", default: 0
     t.datetime "last_sign_in_at"
+    t.string "wallet_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["external_id"], name: "index_users_on_external_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
   end
 
   create_table "wait_list", force: :cascade do |t|

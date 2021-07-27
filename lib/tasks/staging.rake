@@ -22,17 +22,16 @@ namespace :staging do
       user = User.create!(
         username: admin[:name].capitalize,
         email: "#{admin[:name]}@talentprotocol.com",
+        wallet_id: "0x#{SecureRandom.hex(32)}",
         password: SecureRandom.base64(12),
         role: "admin"
       )
       user.create_investor!(
         username: admin[:name].capitalize,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: admin[:description]
       )
       talent = user.create_talent!(
         username: admin[:name].capitalize,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: admin[:description],
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
@@ -51,11 +50,10 @@ namespace :staging do
     6.times.each do |i|
       user = User.create!(
         username: Faker::Name.name,
-        external_id: "talent-#{i}"
+        wallet_id: "0x#{SecureRandom.hex(32)}"
       )
       talent = user.create_talent!(
         username: user.username,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
