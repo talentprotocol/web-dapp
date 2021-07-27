@@ -18,7 +18,8 @@ class Post < ApplicationRecord
         username: user.username,
         ticker: user.talent.coin.display_ticker,
         price: user.talent.coin.display_price,
-        profilePictureUrl: user.talent.profile_picture_url
+        profilePictureUrl: user.talent.profile_picture_url,
+        active: user.talent.active?
       }
     }
   end
