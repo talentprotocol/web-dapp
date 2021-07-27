@@ -66,7 +66,6 @@ const Swap = ({ coins, coin, tal }) => {
         if(response.error) {
           console.log(response.error)
         } else {
-          console.log(response)
           setInputAmount("")
           setOutputAmount("")
         }
@@ -79,7 +78,6 @@ const Swap = ({ coins, coin, tal }) => {
         if(response.error) {
           console.log(response.error)
         } else {
-          console.log(response)
           setInputAmount("")
           setOutputAmount("")
         }
@@ -92,7 +90,6 @@ const Swap = ({ coins, coin, tal }) => {
         if(response.error) {
           console.log(response.error)
         } else {
-          console.log(response)
           setInputAmount("")
           setOutputAmount("")
         }
@@ -105,7 +102,6 @@ const Swap = ({ coins, coin, tal }) => {
         if(response.error) {
           console.log(response.error)
         } else {
-          console.log(response)
           setInputAmount("")
           setOutputAmount("")
         }
@@ -135,12 +131,13 @@ const Swap = ({ coins, coin, tal }) => {
 
   return (
     <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-scroll border-right pt-3 h-100">
-      <form onSubmit={onSubmit} className="d-flex flex-column border p-3 mx-auto" style={{maxWidth: 400}}>
-        <div className="d-flex flex-column flex-md-row justify-content-between border p-3">
+      <form onSubmit={onSubmit} className="d-flex flex-column border rounded-sm p-4 mx-auto registration-box" style={{maxWidth: 500}}>
+        <h5 className="text-center">Talent DEX</h5>
+        <div className="d-flex flex-column justify-content-between align-items-center border rounded-sm px-3 py-2">
           <CoinSelection selectedCoin={inputCoin} coins={[tal, ...coins]} setCoin={onInputCoinSet} uniqueId="input-swap"/>
-          <div className="d-flex flex-column align-items-end">
+          <div className="d-flex flex-column align-items-end form-group mb-0">
             <input
-              className="text-right ml-2"
+              className="text-right form-control ml-2 mt-2 bt-md-0"
               inputMode="decimal"
               type="text"
               placeholder="0.0"
@@ -160,11 +157,11 @@ const Swap = ({ coins, coin, tal }) => {
             <small className="text-muted">Balance {inputCoin.balance || 0.0}</small>
           </div>
         </div>
-        <div className="d-flex flex-column flex-md-row justify-content-between mt-2 border p-3">
+        <div className="d-flex flex-column justify-content-between align-items-center mt-2 border rounded-sm px-3 py-2">
           <CoinSelection selectedCoin={outputCoin} coins={[tal, ...coins]} setCoin={onOutputCoinSet} uniqueId="output-swap"/>
-          <div className="d-flex flex-column align-items-end">
+          <div className="d-flex flex-column align-items-end form-group mb-0">
             <input
-              className="text-right ml-2"
+              className="text-right form-control ml-md-2 mt-2 bt-md-0"
               inputMode="decimal"
               type="text"
               placeholder="0.0"
@@ -184,7 +181,7 @@ const Swap = ({ coins, coin, tal }) => {
             <small className="text-muted">Balance {outputCoin.balance}</small>
           </div>
         </div>
-        <button type="submit" disabled={buttonDisabled()} className="btn btn-primary talent-button mt-2">Trade</button>
+        <button type="submit" disabled={buttonDisabled()} className="btn btn-primary talent-button mt-3">Trade</button>
       </form>
     </section>
   )
