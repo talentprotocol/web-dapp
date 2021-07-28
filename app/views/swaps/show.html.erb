@@ -4,7 +4,7 @@
       props: {
         tal: { ticker: "$TAL", balance: 100 },
         coins: @coins.map { |coin| { coinId: coin.id, ticker: coin.display_ticker, balance: 0.0, exchangeRate: (158.0 / coin.price).round(2) } },
-        coin: { coinId: @coin&.id, ticker: @coin&.display_ticker, balance: 0.0, exchangeRate: @coin.present? ? (158.0 / coin.price).round(2) : 1 }
+        coin: { coinId: @coin&.id, ticker: @coin&.display_ticker, balance: 0.0, exchangeRate: @coin.present? ? (158.0 / @coin.price).round(2) : 1 }
       }, prerender: false, html_options: { class: "h-100" }) %>
   </main>
 </div>
