@@ -38,7 +38,7 @@ class Talent < ApplicationRecord
   private
 
   def public_key_is_valid
-    if Integer(public_key).is_a? Integer
+    if public_key.present? && Integer(public_key).is_a?(Integer)
       errors.add(:base, "The public key can't be a number")
     end
   rescue ArgumentError
