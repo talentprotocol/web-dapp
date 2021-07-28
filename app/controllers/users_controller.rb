@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       metamask_id: user_params[:metamaskId]
     )
 
-    if result[:success]
+    if @result[:success]
       render json: @user, status: :created
     else
       render json: @result, status: :conflict

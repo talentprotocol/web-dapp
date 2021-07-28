@@ -1,8 +1,8 @@
-<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll px-0">
-  <main class="col-12 mx-auto mx-lg-0 px-0" style="max-width: 1200px">
-    <% if signed_in? %>
-      <%= current_user.email %>
-      <%= button_to "Sign out", sign_out_path, method: :delete %>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 mx-2 px-0 d-flex flex-column justify-content-center" style="max-width: 1200px">
+    <% if current_user.admin? %>
+      You are logged in as: <%= current_user.email %>
+      <%= button_to "Sign out", sign_out_path, method: :delete, class: "btn btn-primary talent-button" %>
     <% else %>
       <%= link_to "Sign in", sign_in_path %>
     <% end %>

@@ -10,6 +10,9 @@ namespace :staging do
       button_text: "Reserve $TICKER"
     )
 
+    available_tags_main = ["EdTech", "eCommerce", "Mobility", "Space", "Healthcare", "Entertainment", "Logistics"]
+    available_tags_secondary = ["Entrepreneur", "NGO", "Founder", "Under 30"]
+
     puts "Setting up Users.."
     admins = [
       {name: "andreas", ticker: "AVIL", description: "Developed the World Record Game “Kill The Duck”. Serial tech entrepreneur with +30M software users worldwide. Founder of SHARKCODERS, the 1st network of tech schools in Portugal, teaching coding skills, creating games, apps, robotics for Kids & Teens.", linkedin: "andreasvilela"},
@@ -37,6 +40,9 @@ namespace :staging do
         activity_count: 0,
         linkedin_url: "https://www.linkedin.com/in/#{admin[:linkedin]}/"
       )
+      Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
+      Tag.create(talent: talent, description: available_tags_secondary.sample)
+
       talent.profile_picture = URI.parse(Faker::Avatar.image).open
       talent.save!
       user.talent.create_coin!(
@@ -61,6 +67,9 @@ namespace :staging do
       )
       talent.profile_picture = URI.parse(Faker::Avatar.image).open
       talent.save!
+
+      Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
+      Tag.create(talent: talent, description: available_tags_secondary.sample)
 
       user.talent.create_coin!(
         ticker: Faker::Name.initials(number: 4),
