@@ -129,6 +129,11 @@ const Swap = ({ coins, coin, tal }) => {
     setInputAmount("")
   }
 
+  console.log(inputCoin)
+  console.log(outputCoin)
+  console.log(inputAmount)
+  console.log(outputAmount)
+
   return (
     <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-scroll border-right pt-3 h-100">
       <form onSubmit={onSubmit} className="d-flex flex-column border rounded-sm p-4 mx-auto registration-box" style={{maxWidth: 500}}>

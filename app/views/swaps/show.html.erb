@@ -2,9 +2,9 @@
   <main class="col-12 mx-auto px-0" style="max-width: 1200px">
     <%= react_component("Swap",
       props: {
-        tal: { ticker: "$TAL", balance: Random.new.rand(50.0..200.0).round(2) },
-        coins: @coins.map { |coin| { coinId: coin.id, ticker: coin.display_ticker, balance: 0.0, exchangeRate: Random.new.rand(5.0..19.0).round(2) } },
-        coin: { coinId: @coin&.id, ticker: @coin&.display_ticker, balance: 0.0, exchangeRate: Random.new.rand(5.0..19.0).round(2) }
+        tal: { ticker: "$TAL", balance: 100 },
+        coins: @coins.map { |coin| { coinId: coin.id, ticker: coin.display_ticker, balance: 0.0, exchangeRate: (158.0 / coin.price).round(2) } },
+        coin: { coinId: @coin&.id, ticker: @coin&.display_ticker, balance: 0.0, exchangeRate: @coin.present? ? (158.0 / coin.price).round(2) : 1 }
       }, prerender: false, html_options: { class: "h-100" }) %>
   </main>
 </div>

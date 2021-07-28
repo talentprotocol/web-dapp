@@ -15,10 +15,10 @@ namespace :staging do
 
     puts "Setting up Users.."
     admins = [
-      {name: "andreas", ticker: "AVIL", description: "Developed the World Record Game “Kill The Duck”. Serial tech entrepreneur with +30M software users worldwide. Founder of SHARKCODERS, the 1st network of tech schools in Portugal, teaching coding skills, creating games, apps, robotics for Kids & Teens.", linkedin: "andreasvilela"},
-      {name: "filipe", ticker: "FILM", description: "A computer engineer by training and a creative strategist by nature. 10+ years of marketing experience building progressive brands and engaging communities for Nike, Nestlé, L’Oréal and ActivoBank - Europe's Best Bank in Social Media in 2012.", linkedin: "filipermacedo"},
-      {name: "pedro", ticker: "PCBO", description: "HR Tech innovator whose career mission is to build products that allow individuals to fully own their careers. Founder at Landing.Jobs - the biggest tech recruitment marketplace in Portugal. Selected by HR Weekly as a top 100 HR Tech expert.", linkedin: "pcboliveira"},
-      {name: "francisco", ticker: "LEAL", description: "Full-stack developer with 4+ years of experience and a background on electrical and computer engineering that specialises in modern javascript and ruby. From solo developer to core member of a 65+ development team with a special interested in sharing knowledge and help people reach their potential.", linkedin: "lealfrancisco"}
+      {name: "andreas", ticker: "AVIL", description: "Developed the World Record Game “Kill The Duck”. Serial tech entrepreneur with +30M software users worldwide. Founder of SHARKCODERS, the 1st network of tech schools in Portugal, teaching coding skills, creating games, apps, robotics for Kids & Teens.", linkedin: "andreasvilela", role: "admin"},
+      {name: "filipe", ticker: "FILM", description: "A computer engineer by training and a creative strategist by nature. 10+ years of marketing experience building progressive brands and engaging communities for Nike, Nestlé, L’Oréal and ActivoBank - Europe's Best Bank in Social Media in 2012.", linkedin: "filipermacedo", role: "admin"},
+      {name: "pedro", ticker: "PCBO", description: "HR Tech innovator whose career mission is to build products that allow individuals to fully own their careers. Founder at Landing.Jobs - the biggest tech recruitment marketplace in Portugal. Selected by HR Weekly as a top 100 HR Tech expert.", linkedin: "pcboliveira", role: "admin"},
+      {name: "francisco", ticker: "LEAL", description: "Full-stack developer with 4+ years of experience and a background on electrical and computer engineering that specialises in modern javascript and ruby. From solo developer to core member of a 65+ development team with a special interested in sharing knowledge and help people reach their potential.", linkedin: "lealfrancisco", role: "admin"},
     ]
 
     admins.each do |admin|
@@ -27,15 +27,15 @@ namespace :staging do
         email: "#{admin[:name]}@talentprotocol.com",
         wallet_id: "0x#{SecureRandom.hex(32)}",
         password: SecureRandom.base64(12),
-        role: "admin"
+        role: admin[:role]
       )
       user.create_investor!(
         username: admin[:name].capitalize,
-        description: admin[:description]
+        description: admin[:description] || Faker::Lorem.paragraph
       )
       talent = user.create_talent!(
         username: admin[:name].capitalize,
-        description: admin[:description],
+        description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
         linkedin_url: "https://www.linkedin.com/in/#{admin[:linkedin]}/"
@@ -43,7 +43,7 @@ namespace :staging do
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
 
-      talent.profile_picture = URI.parse(Faker::Avatar.image).open
+      talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
       user.talent.create_coin!(
         ticker: admin[:ticker],
@@ -65,7 +65,7 @@ namespace :staging do
         activity_count: 0,
         linkedin_url: "https://www.linkedin.com/"
       )
-      talent.profile_picture = URI.parse(Faker::Avatar.image).open
+      talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
 
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
@@ -77,6 +77,8 @@ namespace :staging do
         market_cap: Random.new.rand(250_000..750_000)
       )
       user.create_feed!
+
+      Transaction.create(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
 
       CareerGoal.create!(
         target_date: Date.today + Random.new.rand(6..24).month,

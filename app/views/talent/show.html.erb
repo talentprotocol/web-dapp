@@ -26,7 +26,7 @@
           price: @talent.coin.display_price,
           marketCap: @talent.coin.display_market_cap,
           sponsors: @talent.investors.count,
-          circulatingSupply: "5837",
+          circulatingSupply: @talent.coin.transactions.sum(:amount),
           priceVariance7d: "-2.14",
           priceVariance30d: "29.39",
           active: @talent.active?

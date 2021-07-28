@@ -13,7 +13,11 @@ class Coin < ApplicationRecord
   end
 
   def display_market_cap
-    "$#{(market_cap.to_f / 100).to_s(:delimited)}"
+    "$#{calculate_market_cap.truncate(3).to_s(:delimited)}"
+  end
+
+  def calculate_market_cap
+    (price.to_f / 100) * transactions.sum(:amount)
   end
 
   def price_in_tal
@@ -40,6 +44,6 @@ class Coin < ApplicationRecord
   end
 
   def display_price_in_tal
-    "#{(price_in_tal).to_s(:delimited)} ✦"
+    "#{(price_in_tal.round(2)).to_s(:delimited)} ✦"
   end
 end
