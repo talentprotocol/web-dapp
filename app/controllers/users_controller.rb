@@ -1,16 +1,16 @@
 class UsersController < ApplicationController
   def create
     service = CreateUser.new
-    @user = service.call(
+    @result = service.call(
       email: user_params[:email],
       username: user_params[:username],
       metamask_id: user_params[:metamaskId]
     )
 
-    if @user.present?
+    if @result[:success]
       render json: @user, status: :created
     else
-      render json: {error: "Unable to create user"}, status: :conflict
+      render json: @result, status: :conflict
     end
   end
 

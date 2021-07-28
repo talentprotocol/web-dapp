@@ -26,10 +26,11 @@ const UserCreated = () => (
   </>
 )
 
-const UserFailed = () => (
+const UserFailed = ({ error }) => (
   <div className="d-flex flex-row text-danger align-items-center">
     <FontAwesomeIcon icon={faTimes}/>
-    <p className="ml-2 mb-0">We had an issue creating your user.</p>
+    <p className="ml-2">We had an issue creating your user.</p>
+    <p className="ml-2 mb-0">{error}</p>
   </div>
 )
 
@@ -46,7 +47,7 @@ const ProcessFlow = ({ email, username, metamaskId }) => {
       { email, username, metamaskId }
     ).then((response) => {
       if(response.error) {
-        setError("error")
+        setError(response.error)
         setRequesting(false)
       } else {
         setUserCreated(true)
@@ -58,7 +59,7 @@ const ProcessFlow = ({ email, username, metamaskId }) => {
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
       <h1>Setting up your account</h1>
-      { error != "" && <UserFailed />}
+      { error != "" && <UserFailed error={error} />}
       {!userCreated && requesting && <ProcessingUser />}
       {userCreated && <UserCreated />}
     </div>

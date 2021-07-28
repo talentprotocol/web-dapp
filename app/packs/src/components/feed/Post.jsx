@@ -93,6 +93,7 @@ const Post = ({ post, user }) => {
 
   const date = parseJSON(post.created_at)
   const timeSinceCreation = formatDistanceToNow(date)
+  const buyButtonText = user.active ? `Buy ${user.ticker}` : `${user.ticker} coming soon.`
 
   const toggleCommentSection = () => {
     setCommentSectionActive(!commentSectionActive)
@@ -153,7 +154,7 @@ const Post = ({ post, user }) => {
             </div>
             <div className="d-flex flex-row">
               <Button type="outline-secondary" text="Message"/>
-              <Button type="primary" href={`/swap?ticker=${user.ticker.substring(1)}`} text={`Buy ${user.ticker}`} className="talent-button ml-2"/>
+              <Button type="primary" href={`/swap?ticker=${user.ticker.substring(1)}`} text={buyButtonText} disabled={!user.active} className="talent-button ml-2"/>
             </div>
           </div>
         </div>

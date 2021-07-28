@@ -12,7 +12,7 @@ FactoryBot.define do
     password { "password" }
 
     trait :external_log_in do
-      external_id { "123" }
+      wallet_id { "123" }
       password { nil }
       email { nil }
     end

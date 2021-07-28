@@ -10,6 +10,9 @@ namespace :staging do
       button_text: "Reserve $TICKER"
     )
 
+    available_tags_main = ["EdTech", "eCommerce", "Mobility", "Space", "Healthcare", "Entertainment", "Logistics"]
+    available_tags_secondary = ["Entrepreneur", "NGO", "Founder", "Under 30"]
+
     puts "Setting up Users.."
     admins = [
       {name: "andreas", ticker: "AVIL", description: "Developed the World Record Game “Kill The Duck”. Serial tech entrepreneur with +30M software users worldwide. Founder of SHARKCODERS, the 1st network of tech schools in Portugal, teaching coding skills, creating games, apps, robotics for Kids & Teens.", linkedin: "andreasvilela"},
@@ -22,22 +25,24 @@ namespace :staging do
       user = User.create!(
         username: admin[:name].capitalize,
         email: "#{admin[:name]}@talentprotocol.com",
+        wallet_id: "0x#{SecureRandom.hex(32)}",
         password: SecureRandom.base64(12),
         role: "admin"
       )
       user.create_investor!(
         username: admin[:name].capitalize,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: admin[:description]
       )
       talent = user.create_talent!(
         username: admin[:name].capitalize,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: admin[:description],
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
         linkedin_url: "https://www.linkedin.com/in/#{admin[:linkedin]}/"
       )
+      Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
+      Tag.create(talent: talent, description: available_tags_secondary.sample)
+
       talent.profile_picture = URI.parse(Faker::Avatar.image).open
       talent.save!
       user.talent.create_coin!(
@@ -51,11 +56,10 @@ namespace :staging do
     6.times.each do |i|
       user = User.create!(
         username: Faker::Name.name,
-        external_id: "talent-#{i}"
+        wallet_id: "0x#{SecureRandom.hex(32)}"
       )
       talent = user.create_talent!(
         username: user.username,
-        wallet_id: "0x#{SecureRandom.hex(32)}",
         description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
@@ -63,6 +67,9 @@ namespace :staging do
       )
       talent.profile_picture = URI.parse(Faker::Avatar.image).open
       talent.save!
+
+      Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
+      Tag.create(talent: talent, description: available_tags_secondary.sample)
 
       user.talent.create_coin!(
         ticker: Faker::Name.initials(number: 4),

@@ -31,7 +31,7 @@ RSpec.describe User, type: :model do
     end
 
     it "validates the absence of email, password or external id" do
-      user = build(:user, email: nil, password: nil, external_id: nil)
+      user = build(:user, email: nil, password: nil, wallet_id: nil)
 
       expect(user).not_to be_valid
     end

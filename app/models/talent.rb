@@ -1,6 +1,8 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
 
+  validate :public_key_is_valid
+
   belongs_to :user, optional: true
 
   has_one :coin
@@ -14,6 +16,8 @@ class Talent < ApplicationRecord
 
   scope :active, -> { where("ito_date <= ?", Time.current) }
   scope :upcoming, -> { where("ito_date > ?", Time.current) }
+
+  delegate :wallet_id, to: :user
 
   def display_wallet_id
     "#{wallet_id[0..10]}..."
@@ -29,5 +33,14 @@ class Talent < ApplicationRecord
 
   def active?
     status == "Active"
+  end
+
+  private
+
+  def public_key_is_valid
+    if Integer(public_key).is_a? Integer
+      errors.add(:base, "The public key can't be a number")
+    end
+  rescue ArgumentError
   end
 end

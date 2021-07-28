@@ -1,5 +1,5 @@
-<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row">
-  <section class="col-12 col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-scroll bg-white border-right pt-3 px-3">
+<div class="col-12 col-lg-9 lg-overflow-scroll px-0 d-flex flex-column flex-lg-row">
+  <section class="col-12 col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column">
     <%= react_component("TalentShow", props:
       {
         talent: {
@@ -15,10 +15,10 @@
         careerGoals: [{ description: @talent.career_goal&.description }],
         rewards: @talent.rewards.map { |reward| { required_amount: reward.required_amount.to_s(:delimited), description: reward.description } },
         isFollowing: @is_following
-      }, prerender: false, html_options: { class: "py-3"})
+      }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
     %>
   </section>
-  <section class="col-12 col-lg-5 p-4 border-right lg-overflow-hidden">
+  <section class="col-12 col-lg-5 p-4">
     <div>
       <%= react_component("TalentCoin", props:
         {
@@ -28,7 +28,8 @@
           sponsors: @talent.investors.count,
           circulatingSupply: "5837",
           priceVariance7d: "-2.14",
-          priceVariance30d: "29.39"
+          priceVariance30d: "29.39",
+          active: @talent.active?
         }, prerender: false)
       %>
     </div>

@@ -1,7 +1,7 @@
 class SessionsController < Clearance::SessionsController
   def create
     if metamask_id.present?
-      @user = User.find_by(external_id: metamask_id.downcase)
+      @user = User.find_by(wallet_id: metamask_id.downcase)
 
       if valid_metamask? && sign_in(@user)
         redirect_back_or url_after_create
