@@ -46,6 +46,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def talent_filter(talents)
+    if filter_params[:filter].present?
+      talents.joins(:tags)
+        .where(tags: {primary: true})
+        .where("username ilike ? OR tags.description ilike ?", "%#{filter_params[:filter]}%", "%#{filter_params[:filter]}%")
+    else
+      talents
+    end
+  end
+
+  def filter_params
+    params.permit(:filter)
+  end
+
   def sort_params
     params.permit(:sort)
   end

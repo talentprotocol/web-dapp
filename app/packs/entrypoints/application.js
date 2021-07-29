@@ -27,6 +27,7 @@ import Chat from "src/components/chat/Chat"
 import RegistrationFlow from "src/components/registration/RegistrationFlow"
 import Feed from "src/components/feed/Feed"
 import Swap from "src/components/swap/Swap"
+import TalentNameSearch from "src/components/talent/TalentNameSearch"
 
 import "stylesheets/application.scss"
 
@@ -49,7 +50,8 @@ ReactOnRails.register({
   Chat,
   RegistrationFlow,
   Feed,
-  Swap
+  Swap,
+  TalentNameSearch
 });
 
 Rails.start()

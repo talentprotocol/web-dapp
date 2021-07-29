@@ -78,7 +78,8 @@ namespace :staging do
       )
       user.create_feed!
 
-      Transaction.create(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+      service = CreateTransaction.new
+      service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
 
       CareerGoal.create!(
         target_date: Date.today + Random.new.rand(6..24).month,

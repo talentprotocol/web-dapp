@@ -89,21 +89,10 @@ if Rails.env.development?
       )
 
       puts "Setting up Transactions.."
-      Transaction.create(
-        coin: elon_coin,
-        investor: john_doe,
-        amount: 1000
-      )
-      Transaction.create(
-        coin: elon_coin,
-        investor: admin_investor,
-        amount: 500
-      )
-      Transaction.create(
-        coin: marx_coin,
-        investor: admin_investor,
-        amount: 350
-      )
+      service = CreateTransaction.new
+      service.call(coin: elon_coin, amount: 1000, investor: john_doe)
+      service.call(coin: elon_coin, amount: 500, investor: admin_investor)
+      service.call(coin: marx_coin, amount: 350, investor: admin_investor)
 
       puts "Setting up Career Goals.."
       CareerGoal.create(
