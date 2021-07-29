@@ -2,7 +2,7 @@ class TalentController < ApplicationController
   before_action :set_alert, only: :index
 
   def index
-    @pagy, @talents = pagy(talent_sort(Talent.all), items: 6)
+    @pagy, @talents = pagy(apply_filters(Talent.all), items: 6)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,6 +29,11 @@ class TalentController < ApplicationController
   end
 
   private
+
+  def apply_filters(talent)
+    filtered_talent = talent_filter(talent)
+    talent_sort(filtered_talent)
+  end
 
   def set_alert
     # at some point we can extract this to application controller and search

@@ -25,6 +25,10 @@ const DropdownOptions = ({ sortOptions, activeLabel }) => {
   return sortOptions.map((option) => {
     const url = new URL(document.location)
 
+    if(url.searchParams.has("page")) {
+      url.searchParams.delete("page")
+    }
+
     if (url.searchParams.toString().includes(option.param) || activeLabel == option.label) {
       url.searchParams.set("sort", option.param)
 

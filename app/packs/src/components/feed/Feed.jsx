@@ -26,7 +26,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
         {currentPosts.length == 0 && <p className="mx-2">Start following or investing in talent for us to construct your feed.</p>}
         {currentPosts.map((post) => (
           <div key={`post-${post.id}`} className="bg-white border-bottom border-right">
-            <Post post={post} user={post.user}/>
+            <Post post={post} user={post.user} currentUser={user}/>
           </div>))}
          {currentPosts.length > 0 && <Pagination prev={pagy.prev} next={pagy.next} page={pagy.page} last={pagy.last} />}
       </section>

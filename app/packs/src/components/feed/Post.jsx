@@ -85,7 +85,7 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   )
 }
 
-const Post = ({ post, user }) => {
+const Post = ({ post, user, currentUser }) => {
   const [like, setLike] = useState(post.i_liked)
   const [likeCount, setLikeCount] = useState(post.likes)
   const [commentCount, setCommentCount] = useState(post.comments)
@@ -159,7 +159,7 @@ const Post = ({ post, user }) => {
           </div>
         </div>
       </div>
-      {commentSectionActive && <CommentSection incrementComments={() => incrementComments()} post_id={post.id}/>}
+      {commentSectionActive && <CommentSection incrementComments={() => incrementComments()} profilePictureUrl={currentUser.profilePictureUrl} post_id={post.id}/>}
     </div>
   )
 }

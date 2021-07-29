@@ -2,13 +2,10 @@ class TransactionsController < ApplicationController
   before_action :set_coin, only: [:create]
 
   def create
-    @transaction = Transaction.new(
-      investor: current_user.investor,
-      coin: @coin,
-      amount: transaction_params[:amount]
-    )
+    service = CreateTransaction.new
+    @transaction = service.call(coin: @coin, amount: transaction_params[:amount], investor: current_user.investor)
 
-    if @transaction.save
+    if @transaction
       render json: {success: "Transaction successfully created."}, status: :created
     else
       render json: {error: "Unable to process transaction."}, status: :bad_request
