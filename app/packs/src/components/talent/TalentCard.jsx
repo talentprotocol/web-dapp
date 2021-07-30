@@ -18,6 +18,14 @@ const TalentBadge = ({ status }) => {
   }
 }
 
+const textDescription = (text) => {
+  if (text.length > 275) {
+    return `${text.substring(0, 273)}..`
+  } else {
+    return text
+  }
+}
+
 const TalentCard = ({ talent, href }) => {
   return (
     <a href={href} className="card talent-link border py-3 h-100">
@@ -26,7 +34,7 @@ const TalentCard = ({ talent, href }) => {
         <h4 className="card-title mt-2"><strong>{talent.username}</strong></h4>
         <h6 className="card-subtitle mb-2 text-primary"><strong>{talent.coin.display_ticker}</strong></h6>
         <TalentBadge status={talent.status} />
-        <p className="card-text"><small>{talent.description}</small></p>
+        <p className="card-text"><small>{textDescription(talent.description)}</small></p>
         <TalentTags tags={talent.tags} talent_id={talent.id} />
       </div>
       <div className="d-flex flex-row justify-content-around px-3 border-light talent-border-separator-dashed">
