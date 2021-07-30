@@ -10,6 +10,9 @@ class CreateTransaction
 
       coin.talent.update!(activity_count: coin.transactions.count)
 
+      service = CreateFollow.new
+      service.call(user_id: coin.talent.user_id, follower_id: investor.user_id)
+
       transaction
     rescue
       false

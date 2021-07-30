@@ -45,33 +45,7 @@ const AboutMe = ({ description, youtubeUrl }) => {
   )
 }
 
-const TalentDetail = ({ userId, profilePictureUrl, username, ticker, tags, linkedinUrl, isFollowing }) => {
-  const [following, setFollowing] = useState(isFollowing)
-
-  const toggleFollow = () => {
-    if(following) {
-      destroy(
-        `/follows?user_id=${userId}`
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setFollowing(false)
-        }
-      })
-    } else {
-      post(
-        "/follows",
-        { user_id: userId}
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setFollowing(true)
-        }
-      })
-    }
-  }
+const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }) => {
 
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
@@ -81,14 +55,13 @@ const TalentDetail = ({ userId, profilePictureUrl, username, ticker, tags, linke
         <TalentTags tags={tags}/>
       </div>
       <div className="ml-md-auto d-flex flex-row-reverse flex-md-column justify-content-between align-items-end mt-2 mt-md-0">
-        <Button className="talent-button ml-2 ml-md-0" type="primary" onClick={toggleFollow} text={following ? "Unfollow" : "Follow"}/>
         <a className="mt-0 mt-md-2" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
       </div>
     </div>
   )
 }
 
-const TalentShow = ({ talent, careerGoals, rewards, isFollowing }) => {
+const TalentShow = ({ talent, careerGoals, rewards }) => {
   return (
     <div className="d-flex flex-column">
       <TalentDetail
@@ -97,8 +70,6 @@ const TalentShow = ({ talent, careerGoals, rewards, isFollowing }) => {
         ticker={talent.ticker}
         tags={talent.tags}
         linkedinUrl={talent.linkedinUrl}
-        userId={talent.userId}
-        isFollowing={isFollowing}
         />
       <AboutMe description={talent.description} youtubeUrl={talent.youtubeUrl}/>
       <CareerGoals careerGoals={careerGoals} />
