@@ -30,7 +30,7 @@ class Transaction < ApplicationRecord
       priceInTal: coin.display_price_in_tal,
       value: display_value,
       valueInTal: display_value_in_tal,
-      priceVariance7d: prng.rand(-3.5...3.5).truncate(2).to_s,
+      priceVariance7d: prng.rand(1...13.5).truncate(2).to_s,
       profilePictureUrl: coin.talent.profile_picture_url
     }
   end
