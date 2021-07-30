@@ -1,6 +1,10 @@
-<%= react_component("RegistrationFlow",
-  props: {
-    step: 1
-  },
-  prerender: false, html_options: { class: "px-3 pb-3 w-100 h-100"})
-%>
+<div class="col-12 col-lg-9 lg-overflow-scroll px-0 d-flex flex-column flex-lg-row">
+  <main class="col-12 mx-auto mx-lg-0 px-0 d-flex flex-column">
+    <%= react_component("RegistrationFlow",
+      props: {
+        step: 1
+      },
+      prerender: false, html_options: { class: "px-3 pb-3 h-100"})
+    %>
+  </main>
+</div>
