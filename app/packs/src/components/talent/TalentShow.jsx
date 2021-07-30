@@ -20,7 +20,7 @@ const CareerGoals = ({ careerGoals }) => {
 const Rewards = ({ rewards }) => {
   return (
     <div className="mb-3 mb-md-5">
-      <h6 className="talent-show-h6 p-2 d-inline mb-2">REWARDS</h6>
+      <h6 className="talent-show-h6 p-2 d-inline mb-2">BENEFITS</h6>
       {rewards.map((reward, index) => (
         <div className={`${index > 0 ? 'mt-3' : 'mt-4'}`} key={`reward-description-${index}`}>
           <p className="mb-0 py-1 px-2 tal-reward-amount d-inline">

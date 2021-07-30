@@ -139,15 +139,6 @@ const Post = ({ post, user, currentUser }) => {
           <p>{post.text}</p>
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between">
             <div className="d-flex flex-row mt-2 mt-md-0">
-              {like &&
-                <button onClick={() => onUnlikeClick()} className="border-0 bg-transparent">
-                  <FontAwesomeIcon icon={faHeart} className="text-danger"/> {likeCount}
-                </button>}
-              {!like &&
-                <button onClick={() => onLikeClick()} className="border-0 bg-transparent">
-                  <FontAwesomeIcon icon={faHeartBorder}/> {likeCount}
-                </button>
-              }
               <button onClick={() => toggleCommentSection()} className="ml-2 border-0 bg-transparent">
                 <FontAwesomeIcon icon={faComment} flip="horizontal"/> {commentCount}
               </button>
