@@ -7,10 +7,12 @@ class CreateFollow
       user = User.find_by!(id: user_id)
       follower = User.find_by!(id: follower_id)
 
-      follow = Follow.new(user: user, follower: follower)
+      follow = Follow.find_or_initialize_by(user: user, follower: follower)
 
-      user.posts.each do |post|
-        follower.feed.posts << post
+      unless follow.persisted?
+        user.posts.each do |post|
+          follower.feed.posts << post
+        end
       end
 
       follow.save!
