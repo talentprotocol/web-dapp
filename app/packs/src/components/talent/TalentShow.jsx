@@ -55,7 +55,7 @@ const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }
         <TalentTags tags={tags}/>
       </div>
       <div className="ml-md-auto d-flex flex-row-reverse flex-md-column justify-content-between align-items-end mt-2 mt-md-0">
-        <a className="mt-0 mt-md-2" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" /></a>
+        <a className="mt-0 mt-md-2" href={linkedinUrl}><img src={LinkedInIcon} height={24} alt="LinkedIn Icon" className="greyscale-img"/></a>
       </div>
     </div>
   )
