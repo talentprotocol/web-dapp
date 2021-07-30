@@ -13,7 +13,7 @@
           youtubeUrl: @talent.youtube_url
         },
         careerGoals: [{ description: @talent.career_goal&.description }],
-        rewards: @talent.rewards.map { |reward| { required_amount: reward.required_amount.to_s(:delimited), description: reward.description } },
+        rewards: @talent.rewards.map { |reward| { required_amount: reward.required_amount.to_s(:delimited), description: reward.description, required_text: reward.required_text } },
         isFollowing: @is_following
       }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
     %>

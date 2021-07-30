@@ -17,14 +17,15 @@ const CareerGoals = ({ careerGoals }) => {
   )
 }
 
-const Rewards = ({ rewards }) => {
+const Rewards = ({ rewards, ticker }) => {
   return (
     <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline mb-2">BENEFITS</h6>
       {rewards.map((reward, index) => (
         <div className={`${index > 0 ? 'mt-3' : 'mt-4'}`} key={`reward-description-${index}`}>
           <p className="mb-0 py-1 px-2 tal-reward-amount d-inline">
-            <small><strong>✦ {reward.required_amount} career coins</strong></small>
+            {reward.required_amount != "0" && <small><strong>✦ {reward.required_amount} {ticker}</strong></small>}
+            {reward.required_amount == "0" && <small><strong>✦ {reward.required_text}</strong></small>}
           </p>
           <p className="mt-2 mb-0">{reward.description}</p>
         </div>
@@ -72,7 +73,7 @@ const TalentShow = ({ talent, careerGoals, rewards }) => {
         />
       <AboutMe description={talent.description} youtubeUrl={talent.youtubeUrl}/>
       <CareerGoals careerGoals={careerGoals} />
-      <Rewards rewards={rewards}/>
+      <Rewards rewards={rewards} ticker={talent.ticker}/>
     </div>
   )
 }

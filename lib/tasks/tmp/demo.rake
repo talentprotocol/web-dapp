@@ -27,7 +27,7 @@ namespace :demo do
 
     user.talent.create_coin!(
       ticker: "VITA",
-      price: 89,
+      price: 107,
       market_cap: 0
     )
     user.create_feed!
@@ -84,6 +84,8 @@ namespace :demo do
 
     service = CreateTransaction.new
     service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
 
     CareerGoal.create!(
       target_date: Date.today + Random.new.rand(6..24).month,
@@ -93,22 +95,24 @@ namespace :demo do
 
     Reward.create!(
       required_amount: 0,
-      description: "The first 10 sponsors will receive an airdrop of 1,000 $SPACE",
+      required_text: "First 10 sponsors",
+      description: "The first 10 sponsors will receive an airdrop of 1,000 $SPACE.",
       talent: user.talent
     )
     Reward.create!(
       required_amount: 0,
-      description: "All sponsors will have access to a private newsletter",
+      required_text: "All sponsors",
+      description: "All sponsors will have access to a private newsletter.",
       talent: user.talent
     )
     Reward.create!(
       required_amount: 2000,
-      description: "Shoutout in the newsletter",
+      description: "Shoutout in the newsletter.",
       talent: user.talent
     )
     Reward.create!(
       required_amount: 50000,
-      description: "A postcard from space",
+      description: "A postcard from space.",
       talent: user.talent
     )
   end
