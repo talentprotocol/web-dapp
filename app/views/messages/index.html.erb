@@ -1,4 +1,4 @@
 <%= react_component("Chat",
   props: {
-    users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.coin&.ticker, last_message: current_user.last_message_with(user).text, last_message_date: current_user.last_message_with(user).created_at.strftime("%b %d"), profilePictureUrl: user.talent&.profile_picture_url } },
+    users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.coin&.display_ticker, last_message: current_user.last_message_with(user).text, last_message_date: current_user.last_message_with(user).created_at.strftime("%b %d"), profilePictureUrl: user.talent&.profile_picture_url } },
   }, prerender: false, html_options: { class: "col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-hidden px-0 d-flex flex-column flex-lg-row" }) %>
