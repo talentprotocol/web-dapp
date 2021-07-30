@@ -12,7 +12,7 @@ const CareerGoals = ({ careerGoals }) => {
   return (
     <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline">CAREER GOALS</h6>
-      {careerGoals.map((careerGoal, index) => (<p className="mt-3 mb-0" key={`career-goal-${index}`}>{careerGoal.description}</p>))}
+      {careerGoals.map((careerGoal, index) => (<p className="mt-3 mb-0 talent-long-description" key={`career-goal-${index}`}>{careerGoal.description}</p>))}
     </div>
   )
 }
@@ -37,7 +37,7 @@ const AboutMe = ({ description, youtubeUrl }) => {
   return (
     <div className="mb-3 mb-md-5">
       <h6 className="talent-show-h6 p-2 d-inline mb-3">ABOUT ME</h6>
-      <p className="mt-3 mb-0" >{description}</p>
+      <p className="mt-3 mb-0 talent-long-description" >{description}</p>
       {youtubeUrl && <div className="talent-profile-video-player mt-3 mx-auto">
         <ReactPlayer url={youtubeUrl} light width={"100%"} height={"100%"}/>
       </div>}
@@ -46,7 +46,6 @@ const AboutMe = ({ description, youtubeUrl }) => {
 }
 
 const TalentDetail = ({ profilePictureUrl, username, ticker, tags, linkedinUrl }) => {
-
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
       <TalentProfilePicture src={profilePictureUrl} height={96}/>
