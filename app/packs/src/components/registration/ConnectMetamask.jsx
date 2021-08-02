@@ -25,7 +25,6 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
     detectEthereumProvider({ mustBeMetaMask: true })
       .then((metamaskProvider) =>{
         if (metamaskProvider) {
-          console.log("all good w/metamask")
           setProvider(metamaskProvider)
         } else {
           setShowErrorMessage(true)
@@ -40,7 +39,6 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
     if(provider) {
       provider.request({ method: 'eth_requestAccounts' })
         .then((accounts) => {
-          console.log(accounts)
           if (accounts.length > 0){
             metamaskSubmit(accounts[0])
             setRequestingMetamask("false")

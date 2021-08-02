@@ -28,6 +28,7 @@ import RegistrationFlow from "src/components/registration/RegistrationFlow"
 import Feed from "src/components/feed/Feed"
 import Swap from "src/components/swap/Swap"
 import TalentNameSearch from "src/components/talent/TalentNameSearch"
+import MetamaskLogin from "src/components/login/MetamaskLogin"
 
 import "stylesheets/application.scss"
 
@@ -51,7 +52,8 @@ ReactOnRails.register({
   RegistrationFlow,
   Feed,
   Swap,
-  TalentNameSearch
+  TalentNameSearch,
+  MetamaskLogin
 });
 
 Rails.start()

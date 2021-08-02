@@ -16,6 +16,7 @@ gem 'mini_racer', platforms: :ruby
 
 # Auth
 gem "clearance"
+gem 'schmooze'
 
 # Pagination
 gem "pagy", "~> 4.8"

@@ -13,11 +13,7 @@ const post = (url, content) => {
     headers,
     body: JSON.stringify(content)
   }).then((response) => {
-    if (response.status == 200 || response.status == 201) {
-      return response.json()
-    } else {
-      return Promise.resolve({ error: { status: response.status, value: response.error }})
-    }
+    return response.json()
   })
 }
 
@@ -33,11 +29,7 @@ const get = (url) =>{
     method: "GET",
     headers,
   }).then((response) => {
-    if (response.status == 200 || response.status == 201) {
-      return response.json()
-    } else {
-      return Promise.resolve({ error: { status: response.status, value: response.error }})
-    }
+    return response.json()
   })
 }
 
@@ -53,11 +45,7 @@ const destroy = (url) =>{
     method: "DELETE",
     headers
   }).then((response) => {
-    if (response.status == 200 || response.status == 201) {
-      return response.json()
-    } else {
-      return Promise.resolve({ error: { status: response.status, value: response.error }})
-    }
+    return response.json()
   })
 }
 

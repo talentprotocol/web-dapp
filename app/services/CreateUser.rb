@@ -16,13 +16,13 @@ class CreateUser
       @result
     rescue ActiveRecord::RecordNotUnique => error
       @result[:success] = false
-      if error.message.includes?("username")
+      if error.message.include?("username")
         @result[:field] = "username"
         @result[:error] = "Username is already taken."
-      elsif error.message.includes?("email")
+      elsif error.message.include?("email")
         @result[:field] = "email"
         @result[:error] = "Email is already taken."
-      elsif error.message.includes?("wallet_id")
+      elsif error.message.include?("wallet_id")
         @result[:field] = "wallet_id"
         @result[:error] = "We already have that wallet in the system."
       end
