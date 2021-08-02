@@ -126,7 +126,6 @@ GEM
     content_disposition (1.0.0)
     crass (1.0.6)
     diff-lcs (1.4.4)
-    digest-sha3-patched (1.1.1)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -136,12 +135,6 @@ GEM
     email_validator (2.2.3)
       activemodel
     erubi (1.10.0)
-    eth (0.4.12)
-      digest-sha3-patched (~> 1.1)
-      ffi (~> 1.0)
-      money-tree (~> 0.10.0)
-      rlp (~> 0.7.3)
-      scrypt (~> 3.0.6)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -178,8 +171,6 @@ GEM
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
-    money-tree (0.10.0)
-      ffi
     msgpack (1.4.2)
     nio4r (2.5.7)
     nokogiri (1.11.5)
@@ -250,7 +241,6 @@ GEM
     redis (4.3.1)
     regexp_parser (2.1.1)
     rexml (3.2.5)
-    rlp (0.7.3)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -295,8 +285,6 @@ GEM
       sprockets-rails
       tilt
     schmooze (0.2.0)
-    scrypt (3.0.7)
-      ffi-compiler (>= 1.0, < 2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -351,7 +339,6 @@ DEPENDENCIES
   capybara (>= 3.26)
   clearance
   dotenv-rails
-  eth
   factory_bot_rails (~> 6.2.0)
   faker
   foreman
