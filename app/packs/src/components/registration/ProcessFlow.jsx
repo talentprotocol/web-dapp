@@ -27,9 +27,11 @@ const UserCreated = () => (
 )
 
 const UserFailed = ({ error }) => (
-  <div className="d-flex flex-row text-danger align-items-center">
-    <FontAwesomeIcon icon={faTimes}/>
-    <p className="ml-2">We had an issue creating your user.</p>
+  <div className="d-flex flex-column text-danger align-items-center">
+    <div className="d-flex flex-row align-items-center">
+      <FontAwesomeIcon icon={faTimes}/>
+      <p className="ml-2 mb-0">We had an issue creating your user.</p>
+    </div>
     <p className="ml-2 mb-0">{error}</p>
   </div>
 )

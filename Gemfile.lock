@@ -284,6 +284,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    schmooze (0.2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -355,6 +356,7 @@ DEPENDENCIES
   redis (~> 4.3)
   rspec-rails (~> 5.0.1)
   sass-rails (>= 6)
+  schmooze
   selenium-webdriver
   shoulda-matchers (~> 4.5.1)
   shrine (~> 3.0)

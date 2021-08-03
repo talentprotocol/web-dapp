@@ -1,12 +1,14 @@
 class SessionsController < Clearance::SessionsController
   def create
-    if metamask_id.present?
-      @user = User.find_by(wallet_id: metamask_id.downcase)
+    if metamask_login?
+      @user = User.find_by(wallet_id: metamask_params[:wallet_id])
 
-      if valid_metamask? && sign_in(@user)
-        redirect_back_or url_after_create
+      web3_auth = Web3::Auth.new
+
+      if web3_auth.verify_wallet(user: @user, signature: metamask_params[:signed_message]) && sign_in(@user)
+        render json: {success: user_root_path}
       else
-        flash.now.alert = "Unable to sign in using metamask"
+        flash.now.alert = "Unable to verify you have ownership over the address."
         render template: "sessions/new", status: :unauthorized
       end
     else
@@ -16,15 +18,11 @@ class SessionsController < Clearance::SessionsController
 
   private
 
-  def valid_metamask?
-    true # implement later
+  def metamask_login?
+    metamask_params[:signed_message].present? && metamask_params[:wallet_id].present?
   end
 
   def metamask_params
-    params.permit(session: :metamask_id)
-  end
-
-  def metamask_id
-    metamask_params[:session][:metamask_id]
+    params.permit(:signed_message, :wallet_id)
   end
 end

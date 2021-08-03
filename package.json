@@ -18,6 +18,8 @@
     "core-js": "^3.13.0",
     "css-loader": "^5.2.6",
     "date-fns": "^2.22.1",
+    "eth-sig-util": "^3.0.1",
+    "ethereumjs-util": "^7.1.0",
     "mini-css-extract-plugin": "^1.6.0",
     "postcss": "^8.2.15",
     "postcss-flexbugs-fixes": "^5.0.2",

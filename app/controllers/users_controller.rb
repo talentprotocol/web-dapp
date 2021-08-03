@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     )
 
     if @result[:success]
-      render json: @user, status: :created
+      render json: @result[:user], status: :created
     else
       render json: @result, status: :conflict
     end
