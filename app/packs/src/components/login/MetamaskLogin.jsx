@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 import MetamaskFox from "images/metamask-fox.svg"
-import { post } from "../../utils/requests"
+import { post, get } from "../../utils/requests"
 
 const MetamaskLogin = ({ }) => {
   const [provider, setProvider] = useState(null)
@@ -23,23 +23,34 @@ const MetamaskLogin = ({ }) => {
     if(provider) {
       provider.request({ method: 'eth_requestAccounts' })
         .then((accounts) => {
-          if (accounts.length > 0){            
-            return provider
-              .request({
-                method: 'personal_sign',
-                params: [accounts[0], "We use signatures to authenticate you. Sign this to give us proof that you have access to the address you want to use."]
-              })
-              .then((result) => {
-                return post(
-                  "/session",
-                  { signed_message: result, wallet_id: accounts[0] }
-                ).then((response) => {
-                  if (response.success) {
-                    window.location.href = response.success
-                  }
-                  setRequestingMetamask("false")
-                })
-              })
+          if (accounts.length > 0){
+            return get(
+              `/users?wallet_id=${accounts[0]}`
+            ).then((result) => {
+              if (result.error) {
+                setRequestingMetamask("false")
+              } else {
+                return provider
+                  .request({
+                    method: 'personal_sign',
+                    params: [
+                      accounts[0],
+                      `We use signatures to authenticate you. Sign this to give us proof that you have access to the address you want to use: ${result.nounce}`
+                    ]
+                  })
+                  .then((result) => {
+                    return post(
+                      "/session",
+                      { signed_message: result, wallet_id: accounts[0] }
+                    ).then((response) => {
+                      if (response.success) {
+                        window.location.href = response.success
+                      }
+                      setRequestingMetamask("false")
+                    })
+                  })
+              }
+            })
           }
         })
     }

@@ -1,4 +1,16 @@
 class UsersController < ApplicationController
+  def index
+    @user = User.find_by(wallet_id: user_params[:wallet_id])
+
+    if @user.present?
+      @user.update!(nounce: SecureRandom.uuid) if @user.nounce.nil?
+
+      render json: {id: @user.id, nounce: @user.nounce}, status: :ok
+    else
+      render json: {error: "Couldn't find the user for the wallet address provided"}, status: :not_found
+    end
+  end
+
   def create
     service = CreateUser.new
     @result = service.call(
@@ -17,6 +29,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :username, :metamaskId)
+    params.permit(:email, :username, :metamaskId, :wallet_id)
   end
 end
