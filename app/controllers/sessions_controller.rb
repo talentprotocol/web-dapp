@@ -6,6 +6,8 @@ class SessionsController < Clearance::SessionsController
       web3_auth = Web3::Auth.new
 
       if web3_auth.verify_wallet(user: @user, signature: metamask_params[:signed_message]) && sign_in(@user)
+        @user.update!(nounce: SecureRandom.uuid)
+
         render json: {success: user_root_path}
       else
         flash.now.alert = "Unable to verify you have ownership over the address."
