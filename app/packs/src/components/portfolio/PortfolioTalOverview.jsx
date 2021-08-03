@@ -1,11 +1,21 @@
 import React from 'react'
 
+import { loadWeb3 } from 'src/taljs'
+
 const PortfolioTalOverview = ({
   talAvailable,
   talCommited,
   talentCount,
   talTotalInUSD
 }) => {
+  loadWeb3().then((result) => {
+    if(result) {
+      console.log("sucess")
+    } else {
+      console.log("faillll")
+    }
+  })
+
   return (
     <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-center">
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
