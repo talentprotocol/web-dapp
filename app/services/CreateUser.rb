@@ -36,7 +36,7 @@ class CreateUser
     user = User.new
     user.email = email
     user.username = username
-    user.wallet_id = metamask_id
+    user.wallet_id = metamask_id&.downcase
     user.save!
     user
   end
