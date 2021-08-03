@@ -3,6 +3,12 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import TalentProtocol from '../abis/TalentProtocol.json'
 import Tal from './Tal'
 
+const TAL_ADDRESSES = {
+  3: "0x48f6d99fac2af7ad7b580b6cb6edbe0373dd51f5", // ropsten
+}
+
+const LOCAL_TAL_ADDRESS = "0x96465668B947CC7c0FD39A3ad35320316B6CadF9" // local fallback from ABIs
+
 class TalWeb3 {
   constructor() {
     this.web3 = null
@@ -28,9 +34,22 @@ class TalWeb3 {
   }
 
   async loadTal() {
-    const talentProtocolTokenData = TalentProtocol.networks[this.networkId]
-    if (talentProtocolTokenData) {
-      const contract = new this.web3.eth.Contract(TalentProtocol.abi, talentProtocolTokenData.address)
+    let address
+    if(TalentProtocol.networks) {
+      const talentProtocolTokenData = TalentProtocol.networks[this.networkId]
+      if (talentProtocolTokenData) {
+        address = talentProtocolTokenData.address
+      }
+    } else {
+      if (TAL_ADDRESSES[this.networkId]){
+        address = TAL_ADDRESSES[this.networkId]
+      } else {
+        address = LOCAL_TAL_ADDRESS
+      }
+    }
+
+    if (address) {
+      const contract = new this.web3.eth.Contract(TalentProtocol.abi, address)
       this.tal = new Tal(contract, this.account, this.networkId)
     } else {
       this.tal = new Tal(null, null, null)
