@@ -6,7 +6,9 @@ import {
   faStar,
   faCog,
   faQuestionCircle,
-  faHome
+  faHome,
+  faLock,
+  faIdCard
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Navbar, Container, Nav } from 'react-bootstrap'
@@ -18,7 +20,19 @@ import Logo from "src/components/logo"
 const icon = (i) => <FontAwesomeIcon icon={i} />
 
 const TalNavbar = props => {
-  const { feedPath, talentPath, portfolioPath, messagesPath, tradePath, settingsPath, helpPath } = props
+  const {
+    feedPath,
+    talentPath,
+    portfolioPath,
+    messagesPath,
+    tradePath,
+    settingsPath,
+    helpPath,
+    admin,
+    adminPath,
+    talent,
+    editTalentPath
+  } = props
 
   return (
     <Navbar collapseOnSelect className="flex-lg-column py-3 lg-h-100 border-right border-bottom" expand="lg">
@@ -32,8 +46,10 @@ const TalNavbar = props => {
             <NavbarItem url={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</NavbarItem>
             <NavbarItem url={messagesPath}>{icon(faEnvelope)} Messages</NavbarItem>
             <NavbarItem url={tradePath}>{icon(faStar)} Trade $TAL</NavbarItem>
+            {admin && <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>}
           </Nav>
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
+            {talent && <NavbarItem url={editTalentPath}>{icon(faIdCard)} Talent Profile</NavbarItem>}
             <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
             <NavbarItem url={helpPath} exact>{icon(faQuestionCircle)} Help</NavbarItem>
             <TalBox price="1.58" variance="+12%"/>

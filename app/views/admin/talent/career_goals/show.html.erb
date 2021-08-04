@@ -1,26 +1,28 @@
-<div class="container">
-  <h1>Career Goal - from <%= @talent.username %></h1>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 mx-2 px-2 d-flex flex-column justify-content-start">
+    <h1>Career Goal - from <%= @talent.username %></h1>
 
-  <dl class="row">
-    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
-    <dd class="col-md-9"><%= @career_goal.id %></dd>
+    <dl class="row">
+      <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
+      <dd class="col-md-9"><%= @career_goal.id %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Target Date</dt>
-    <dd class="col-md-9"><%= @career_goal.target_date %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Target Date</dt>
+      <dd class="col-md-9"><%= @career_goal.target_date %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
-    <dd class="col-md-9"><%= @career_goal.description %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
+      <dd class="col-md-9"><%= @career_goal.description %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
-    <dd class="col-md-9"><%= l(@career_goal.created_at, format: :long) %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
+      <dd class="col-md-9"><%= l(@career_goal.created_at, format: :long) %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
-    <dd class="col-md-9"><%= l(@career_goal.updated_at, format: :long) %></dd>
-  </dl>
+      <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
+      <dd class="col-md-9"><%= l(@career_goal.updated_at, format: :long) %></dd>
+    </dl>
 
-  <div class="row">
-    <div class="col-md-9 offset-md-3">
-      <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent), class: "btn btn-primary talent-button" %>
+    <div class="row">
+      <div class="col-md-9 offset-md-3">
+        <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent), class: "btn btn-primary talent-button" %>
+      </div>
     </div>
-  </div>
+  </main>
 </div>

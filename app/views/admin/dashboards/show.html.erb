@@ -1,30 +1,39 @@
-<div class="container">
-  <h1>Admin Area</h1>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 mx-2 px-2 d-flex flex-column justify-content-start">
+    <h1>Admin Area</h1>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Count</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Investors</th>
-        <th scope="row"><%= @investor_count %></th>
-        <td><%= react_component("Button", props: { type: "primary", href: admin_investors_path, text: "Manage"}, prerender: false) %></td>
-      </tr>
-      <tr>
-        <th scope="row">Talent</th>
-        <th scope="row"><%= @talent_count %></th>
-        <td><%= react_component("Button", props: { type: "primary", href: admin_talent_index_path, text: "Manage"}, prerender: false) %></td>
-      </tr>
-      <tr>
-        <th scope="row">wait_list</th>
-        <th scope="row"><%= @wait_list_count %></th>
-        <td><%= react_component("Button", props: { type: "primary", href: admin_wait_list_index_path, text: "Manage"}, prerender: false) %></td>
-      </tr>
-    </tbody>
-  </table>
+    <%= render "shared/flashes" %>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Count</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Users</th>
+          <th scope="row"><%= @user_count %></th>
+          <td><%= react_component("Button", props: { type: "primary", href: admin_users_path, text: "Manage"}, prerender: false) %></td>
+        </tr>
+        <tr>
+          <th scope="row">Investors</th>
+          <th scope="row"><%= @investor_count %></th>
+          <td><%= react_component("Button", props: { type: "primary", href: admin_investors_path, text: "Manage"}, prerender: false) %></td>
+        </tr>
+        <tr>
+          <th scope="row">Talent</th>
+          <th scope="row"><%= @talent_count %></th>
+          <td><%= react_component("Button", props: { type: "primary", href: admin_talent_index_path, text: "Manage"}, prerender: false) %></td>
+        </tr>
+        <tr>
+          <th scope="row">wait_list</th>
+          <th scope="row"><%= @wait_list_count %></th>
+          <td><%= react_component("Button", props: { type: "primary", href: admin_wait_list_index_path, text: "Manage"}, prerender: false) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
 </div>

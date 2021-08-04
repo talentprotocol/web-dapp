@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         resources :rewards, module: "talent"
       end
       resources :wait_list
+      resources :users
     end
   end
 
