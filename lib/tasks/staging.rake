@@ -46,7 +46,7 @@ namespace :staging do
       user.talent.create_coin!(
         ticker: admin[:ticker],
         price: Random.new.rand(1..500),
-        market_cap: Random.new.rand(250_000..750_000)
+        market_cap: 0
       )
       user.create_feed!
     end
@@ -71,7 +71,7 @@ namespace :staging do
       user.talent.create_coin!(
         ticker: Faker::Name.initials(number: 4),
         price: Random.new.rand(1..500),
-        market_cap: Random.new.rand(250_000..750_000)
+        market_cap: 0
       )
       user.create_feed!
 

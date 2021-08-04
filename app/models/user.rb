@@ -49,6 +49,10 @@ class User < ApplicationRecord
     username || email
   end
 
+  def display_wallet_id
+    "#{wallet_id[0..10]}..."
+  end
+
   def sender_chat_id(chat_user)
     [id, chat_user.id].join("")
   end

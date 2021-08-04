@@ -80,13 +80,13 @@ if Rails.env.development?
       marx_coin = Coin.create!(
         ticker: "MARX",
         price: 2,
-        market_cap: 3_000_000_00,
+        market_cap: 0,
         talent: marx
       )
       elon_coin = Coin.create!(
         ticker: "ELON",
         price: 1,
-        market_cap: 1_000_000_00,
+        market_cap: 0,
         talent: elon
       )
 

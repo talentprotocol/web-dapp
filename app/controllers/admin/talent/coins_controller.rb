@@ -1,6 +1,4 @@
 class Admin::Talent::CoinsController < ApplicationController
-  before_action :validate_access
-
   def show
     talent
     coin
@@ -37,16 +35,9 @@ class Admin::Talent::CoinsController < ApplicationController
     @coin ||= Coin.find(params[:id])
   end
 
-  def validate_access
-    if talent.coin != coin
-      redirect_to root_path, alert: "This isn't the coin you're looking for."
-    end
-  end
-
   def coin_params
     params.require(:coin).permit(
       :price,
-      :market_cap,
       :ticker
     )
   end

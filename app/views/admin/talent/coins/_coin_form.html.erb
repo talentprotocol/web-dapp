@@ -11,13 +11,8 @@
     <%= form.text_field :ticker, required: true, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label "Market Cap in cents" %>
-    <%= form.text_field :market_cap, required: true, class: "form-control" %>
-  </div>
-
   <div class="form-actions">
-    <%= link_to "Cancel", coin.persisted? && admin_talent_path(coin.talent) || admin_talent_index_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= link_to "Cancel", coin.persisted? && admin_use_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
     <%= form.submit "Save Coin", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

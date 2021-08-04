@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_133908) do
+ActiveRecord::Schema.define(version: 2021_08_04_142345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,13 +148,11 @@ ActiveRecord::Schema.define(version: 2021_08_04_133908) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.datetime "ito_date"
-    t.string "category"
     t.integer "activity_count", default: 0
     t.string "linkedin_url"
     t.text "profile_picture_data"
     t.string "youtube_url"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
-    t.index ["category"], name: "index_talent_on_category"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"

@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
-  <main class="col-12 mx-2 px-2 d-flex flex-column justify-content-start">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
     <h1>Talent</h1>
 
-    <dl class="row">
+    <dl class="d-flex flex-row flex-wrap">
       <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
       <dd class="col-md-9"><%= @talent.id %></dd>
 
@@ -45,40 +45,45 @@
         <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger talent-button", method: :delete %>
       </div>
 
-      <hr class="col-md-12">
+      <% if @talent.coin.present? %>
+        <hr class="col-md-12">
 
-      <dt class="col-md-3 sm-text-left md-text-right">Ticker</dt>
-      <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
+        <dt class="col-md-3 sm-text-left md-text-right">Ticker</dt>
+        <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
 
-      <dt class="col-md-3 sm-text-left md-text-right">Coin Price</dt>
-      <dd class="col-md-9"><%= @talent.coin.display_price %></dd>
+        <dt class="col-md-3 sm-text-left md-text-right">Coin Price</dt>
+        <dd class="col-md-9"><%= @talent.coin.display_price %></dd>
 
-      <dt class="col-md-3 sm-text-left md-text-right">Coin Market Cap</dt>
-      <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
+        <dt class="col-md-3 sm-text-left md-text-right">Coin Market Cap</dt>
+        <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
 
-      <div class="offset-md-3 col-md-9">
-        <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent, @talent.coin), class: "btn btn-primary talent-button" %>
-      </div>
+        <div class="offset-md-3 col-md-9">
+          <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent, @talent.coin), class: "btn btn-primary talent-button" %>
+        </div>
+      <% end %>
 
-      <hr class="col-md-12">
+      <% if @talent.career_goal.present? %>
+        <hr class="col-md-12">
+        <dt class="col-md-3 sm-text-left md-text-right">Career Goal</dt>
+        <dd class="col-md-9"><%= @talent.career_goal %></dd>
 
-      <dt class="col-md-3 sm-text-left md-text-right">Career Goal</dt>
-      <dd class="col-md-9"><%= @talent.career_goal %></dd>
+        <div class="offset-md-3 col-md-9">
+          <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent, @talent.career_goal), class: "btn btn-primary talent-button" %>
+        </div>
+      <% end %>
 
-      <div class="offset-md-3 col-md-9">
-        <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@talent, @talent.career_goal), class: "btn btn-primary talent-button" %>
-      </div>
+      <% if @talent.rewards.count > 0%>
+        <hr class="col-md-12">
 
-      <hr class="col-md-12">
+        <dt class="col-md-3 sm-text-left md-text-right">Rewards</dt>
+        <dd class="col-md-9">
+          <%= @talent.rewards.map(&:to_s).join(" | ") %>
+        </dd>
 
-      <dt class="col-md-3 sm-text-left md-text-right">Rewards</dt>
-      <dd class="col-md-9">
-        <%= @talent.rewards.map(&:to_s).join(" | ") %>
-      </dd>
-
-      <div class="offset-md-3 col-md-9">
-        <%= link_to "Edit Rewards", admin_talent_rewards_path(@talent), class: "btn btn-primary talent-button" %>
-      </div>
+        <div class="offset-md-3 col-md-9">
+          <%= link_to "Edit Rewards", admin_talent_rewards_path(@talent), class: "btn btn-primary talent-button" %>
+        </div>
+      <% end %>
     </dl>
   </div>
 </div>

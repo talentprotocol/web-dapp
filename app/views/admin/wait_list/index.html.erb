@@ -1,8 +1,10 @@
 <div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
-  <main class="col-12 mx-2 px-2 d-flex flex-column justify-content-start">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
     <h1>Manage Waitlist</h1>
 
     <%= link_to "Add to the waitlist", new_admin_wait_list_path, class: "btn btn-primary talent-button mt-4" %>
+
+    <%= render "shared/flashes" %>
 
     <table class="table table-hover mt-4">
       <thead class="table-primary">
