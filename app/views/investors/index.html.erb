@@ -5,7 +5,6 @@
     <thead class="table-primary">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Username</th>
         <th scope="col">Wallet ID</th>
         <th scope="col"></th>
       </tr>
@@ -14,7 +13,6 @@
       <% @investors.each do |investor|%>
         <tr>
           <th scope="row"><%= investor.id %></th>
-          <td><%= investor.username %></td>
           <td><%= investor.wallet_id %></td>
           <td><%= link_to "Details", investor_path(investor.id), class: "btn btn-primary talent-button", role: "button" %></td>
         </tr>

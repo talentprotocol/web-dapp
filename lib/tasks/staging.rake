@@ -30,11 +30,9 @@ namespace :staging do
         role: admin[:role]
       )
       user.create_investor!(
-        username: admin[:name].capitalize,
         description: admin[:description] || Faker::Lorem.paragraph
       )
       talent = user.create_talent!(
-        username: admin[:name].capitalize,
         description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
@@ -59,7 +57,6 @@ namespace :staging do
         wallet_id: "0x#{SecureRandom.hex(32)}"
       )
       talent = user.create_talent!(
-        username: user.username,
         description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,

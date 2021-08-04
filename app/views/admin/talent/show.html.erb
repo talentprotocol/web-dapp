@@ -6,9 +6,6 @@
       <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
       <dd class="col-md-9"><%= @talent.id %></dd>
 
-      <dt class="col-md-3 sm-text-left md-text-right">Username</dt>
-      <dd class="col-md-9"><%= @talent.username %></dd>
-
       <% if @talent.profile_picture.present? %>
         <dt class="col-md-3 sm-text-left md-text-right">Profile picture</dt>
         <dd class="col-md-9"><%= image_tag @talent.profile_picture_url %></dd>

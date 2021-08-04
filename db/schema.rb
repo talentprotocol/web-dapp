@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_091252) do
+ActiveRecord::Schema.define(version: 2021_08_04_133908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
   end
 
   create_table "investors", force: :cascade do |t|
-    t.string "username", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
@@ -93,7 +92,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
     t.bigint "user_id"
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
-    t.index ["username"], name: "index_investors_on_username", unique: true
   end
 
   create_table "likes", force: :cascade do |t|
@@ -144,7 +142,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
   end
 
   create_table "talent", force: :cascade do |t|
-    t.string "username", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
@@ -161,7 +158,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"
-    t.index ["username"], name: "index_talent_on_username", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

@@ -8,7 +8,6 @@
       <thead class="table-primary">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Username</th>
           <th scope="col">Wallet ID</th>
           <th scope="col"></th>
           <th scope="col"></th>
@@ -19,7 +18,6 @@
         <% @talents.each do |talent|%>
           <tr>
             <th scope="row"><%= talent.id%></th>
-            <td><%= talent.username %></td>
             <td><%= talent.display_wallet_id %></td>
             <td><%= link_to "Edit", edit_admin_talent_path(talent), class: "btn btn-primary talent-button", role: "button" %></td>
             <td><%= link_to "Details", admin_talent_path(talent), class: "btn btn-info talent-button", role: "button" %></td>

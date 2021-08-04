@@ -6,12 +6,10 @@ namespace :demo do
     )
 
     user.create_investor!(
-      username: user.username,
       description: Faker::Lorem.paragraph
     )
 
     talent = user.create_talent!(
-      username: user.username,
       description: "Vitalik Buterin is a Russian-Canadian programmer and writer who is best known as one of the co-founders of Ethereum. Buterin became involved with cryptocurrency early in its inception, co-founding Bitcoin Magazine in 2011. In 2014, Buterin launched Ethereum with Gavin Wood.",
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
@@ -55,12 +53,10 @@ namespace :demo do
     )
 
     user.create_investor!(
-      username: user.username,
       description: "João Montenegro is a Designer, Technologist, and Manager with ten years of experience in helping organizations through human-centered design.\nHis startup ecosystem journey has moved him through company builders and VCs, building his product design studio, mentoring and teaching at university, and eventually co-founding various businesses.\nJoão is an innate collaborator with a drive to continuously inspire others.\nWhen he is not designing 3d printers, vehicles, and digital products & services, João spends his time doing amateur astronomy in inhospitable places, talking about the future with friends, and reading Nat Geo magazine."
     )
 
     talent = user.create_talent!(
-      username: user.username,
       description: user.investor.description,
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
