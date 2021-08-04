@@ -40,9 +40,6 @@ Rails.application.routes.draw do
   constraints Clearance::Constraints::SignedIn.new do
     root to: "feeds#show", as: :user_root
 
-    # Show investor list (remove?)
-    resources :investors, only: [:index, :show]
-
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
@@ -73,7 +70,7 @@ Rails.application.routes.draw do
     resources :transactions, only: [:create]
   end
 
-  resources :wait_list, only: [:index, :create]
+  resources :wait_list, only: [:create]
 
   root to: "pages#home", as: :root
 
