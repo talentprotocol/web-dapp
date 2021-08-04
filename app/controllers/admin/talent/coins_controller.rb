@@ -12,8 +12,8 @@ class Admin::Talent::CoinsController < ApplicationController
   def update
     if @coin.update(coin_params)
       redirect_to(
-        admin_talent_path(@talent),
-        notice: "Talent's coin successfully updated."
+        admin_user_path(@user),
+        flash: {success: "Talent's coin successfully updated."}
       )
     else
       render :edit

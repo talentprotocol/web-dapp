@@ -2,6 +2,8 @@
   <main class="col-12 px-2 d-flex flex-column justify-content-start">
     <h1>Reward - For <%= @talent.username %></h1>
 
+    <%= render "shared/flashes" %>
+
     <dl class="d-flex flex-row flex-wrap">
       <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
       <dd class="col-md-9"><%= @reward.id %></dd>

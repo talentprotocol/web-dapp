@@ -19,7 +19,7 @@ class Admin::Talent::RewardsController < ApplicationController
     if @reward.save
       redirect_to(
         admin_talent_rewards_path(@talent),
-        notice: "Reward successfully created."
+        flash: {success: "Reward successfully created"}
       )
     else
       render :new
@@ -33,7 +33,7 @@ class Admin::Talent::RewardsController < ApplicationController
     if @reward.update(reward_params)
       redirect_to(
         admin_talent_rewards_path(@talent),
-        notice: "Reward successfully updated."
+        flash: {success: "Reward successfully updated"}
       )
     else
       render :edit
@@ -44,7 +44,7 @@ class Admin::Talent::RewardsController < ApplicationController
     if @reward.destroy
       redirect_to(
         admin_talent_rewards_path(@talent),
-        notice: "Reward successfully destroyed."
+        flash: {success: "Reward successfully destroyed"}
       )
     else
       render :show

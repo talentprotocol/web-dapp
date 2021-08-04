@@ -88,6 +88,22 @@
         </div>
       </div>
 
+      <% if @user.talent.tags.count > 0 %>
+        <h3 class="border-top mt-2">Tags</h3>
+        <dl class="d-flex flex-row flex-wrap">
+          <dt class="col-md-3 sm-text-left md-text-right">Tags</dt>
+          <dd class="col-md-9">
+            <%= @user.talent.tags.map(&:to_s).join(" | ") %>
+          </dd>
+        </dl>
+
+        <div class="d-flex flex-row">
+          <div class="offset-md-3 col-md-9 pb-2">
+            <%= link_to "Edit Tags", admin_talent_tags_path(@user.talent), class: "btn btn-primary talent-button" %>
+          </div>
+        </div>
+      <% end %>
+
       <% if @user.talent.coin.present? %>
         <h3 class="border-top mt-2">Coin</h3>
         <dl class="d-flex flex-row flex-wrap">

@@ -14,8 +14,8 @@ class Admin::Talent::CareerGoalsController < ApplicationController
   def update
     if @career_goal.update(career_goal_params)
       redirect_to(
-        admin_talent_path(@talent),
-        notice: "Talent's career goal successfully updated."
+        admin_user_path(@talent.user),
+        flash: {success: "Talent's career goal successfully updated."}
       )
     else
       render :edit
@@ -39,7 +39,7 @@ class Admin::Talent::CareerGoalsController < ApplicationController
 
   def validate_access
     if talent.career_goal != career_goal
-      redirect_to root_path, alert: "This isn't the career goal you're looking for."
+      redirect_to root_path, flash: {error: "This isn't the career goal you're looking for."}
     end
   end
 
