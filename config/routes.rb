@@ -43,7 +43,10 @@ Rails.application.routes.draw do
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
-    resources :talent, only: [:index, :show]
+    resources :talent, only: [:index, :show, :update] do
+      resources :career_goals, only: [:create, :update], module: "talent"
+      resources :rewards, only: [:create, :update], module: "talent"
+    end
 
     # Portfolio
     resources :portfolio, only: [:index]

@@ -9,7 +9,7 @@ class Admin::TalentController < ApplicationController
   end
 
   def new
-    @talent = Talent.new
+    @talent = Talent.new(talent_params)
   end
 
   def create
@@ -17,7 +17,7 @@ class Admin::TalentController < ApplicationController
 
     if @talent.save
       redirect_to(
-        admin_talent_index_path(@talent),
+        admin_talent_path(@talent),
         notice: "Talent successfully created."
       )
     else
@@ -31,7 +31,7 @@ class Admin::TalentController < ApplicationController
   def update
     if @talent.update(talent_params)
       redirect_to(
-        admin_talent_index_path(@talent),
+        admin_talent_path(@talent),
         notice: "Talent successfully updated."
       )
     else
@@ -63,6 +63,7 @@ class Admin::TalentController < ApplicationController
 
   def talent_params
     params.require(:talent).permit(
+      :user_id,
       :public_key,
       :description,
       :profile_picture,

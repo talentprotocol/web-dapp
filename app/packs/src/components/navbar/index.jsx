@@ -49,7 +49,7 @@ const TalNavbar = props => {
             {admin && <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>}
           </Nav>
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
-            {talent && <NavbarItem url={editTalentPath}>{icon(faIdCard)} Talent Profile</NavbarItem>}
+            {talent && <NavbarItem url={editTalentPath} exact>{icon(faIdCard)} Talent Profile</NavbarItem>}
             <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
             <NavbarItem url={helpPath} exact>{icon(faQuestionCircle)} Help</NavbarItem>
             <TalBox price="1.58" variance="+12%"/>

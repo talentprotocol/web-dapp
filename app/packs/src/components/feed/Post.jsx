@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { parseJSON, formatDistanceToNow } from 'date-fns'
 import {
-  faHeart
-} from '@fortawesome/free-solid-svg-icons'
-import {
-  faHeart as faHeartBorder,
   faComment
 } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

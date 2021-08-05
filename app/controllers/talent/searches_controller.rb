@@ -1,6 +1,6 @@
 class Talent::SearchesController < ApplicationController
   def active
-    @pagy, @talents = pagy(apply_filters(Talent.active), items: 6)
+    @pagy, @talents = pagy(apply_filters(Talent.where.not(ito_date: nil).active), items: 6)
 
     respond_to do |format|
       format.html { render "talent/index" }
@@ -9,7 +9,7 @@ class Talent::SearchesController < ApplicationController
   end
 
   def upcoming
-    @pagy, @talents = pagy(apply_filters(Talent.upcoming), items: 6)
+    @pagy, @talents = pagy(apply_filters(Talent.where.not(ito_date: nil).upcoming), items: 6)
 
     respond_to do |format|
       format.html { render "talent/index" }

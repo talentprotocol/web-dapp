@@ -24,7 +24,9 @@ class Talent < ApplicationRecord
   end
 
   def status
-    if ito_date > Time.current
+    if ito_date.nil?
+      "Inactive"
+    elsif ito_date > Time.current
       "Upcoming"
     else
       "Active"

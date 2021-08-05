@@ -4,7 +4,7 @@ class FeedsController < ApplicationController
   def show
     @pagy, @posts = pagy(current_user.feed.posts.order(id: :desc))
 
-    @talent_leaderboard = Talent.order(id: :desc).limit(10)
+    @talent_leaderboard = Talent.where.not(ito_date: nil).order(id: :desc).limit(10)
   end
 
   private

@@ -46,6 +46,16 @@
       </div>
     </div>
 
+    <% unless @user.talent.present? %>
+      <h3 class="border-top mt-2">Talent</h3>
+      <div class="d-flex flex-row pb-2">
+        <div class="col-md-3">Setup Talent</div>
+        <div class="col-md-9">
+          <%= link_to "Create Talent", new_admin_talent_path(talent: { user_id: @user.id}), class: "btn btn-primary talent-button" %>
+        </div>
+      </div>
+    <% end %>
+
     <% if @user.talent.present? %>
       <h2 class="border-top mt-2">Talent</h2>
       <dl class="d-flex flex-row flex-wrap">
