@@ -38,7 +38,9 @@ class Admin::Talent::CoinsController < ApplicationController
   def coin_params
     params.require(:coin).permit(
       :price,
-      :ticker
+      :ticker,
+      :reserve_ratio,
+      :talent_fee
     )
   end
 end

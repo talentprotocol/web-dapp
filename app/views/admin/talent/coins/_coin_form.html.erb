@@ -11,6 +11,16 @@
     <%= form.text_field :ticker, required: true, class: "form-control" %>
   </div>
 
+  <div class="form-group is-required">
+    <%= form.label :reserve_ration %>
+    <%= form.text_field :reserve_ratio, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group is-required">
+    <%= form.label :talent_fee %>
+    <%= form.text_field :talent_fee, required: true, class: "form-control" %>
+  </div>
+
   <div class="form-actions">
     <%= link_to "Cancel", coin.persisted? && admin_use_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
     <%= form.submit "Save Coin", class: "btn btn-primary talent-button" %>
