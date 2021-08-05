@@ -10,11 +10,16 @@ class Admin::Talent::CoinsController < ApplicationController
   end
 
   def update
-    if @coin.update(coin_params)
-      redirect_to(
-        admin_user_path(@user),
-        flash: {success: "Talent's coin successfully updated."}
-      )
+    if coin.update(coin_params)
+      respond_to do |format|
+        format.html do
+          redirect_to(
+            admin_user_path(coin.talent.user),
+            flash: {success: "Talent's coin successfully updated."}
+          )
+        end
+        format.json { render json: {success: "Talent's coin successfully updated."}, status: :ok }
+      end
     else
       render :edit
     end
@@ -40,7 +45,9 @@ class Admin::Talent::CoinsController < ApplicationController
       :price,
       :ticker,
       :reserve_ratio,
-      :talent_fee
+      :talent_fee,
+      :contract_id,
+      :deployed
     )
   end
 end

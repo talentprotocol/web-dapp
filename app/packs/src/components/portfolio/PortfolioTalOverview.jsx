@@ -16,13 +16,6 @@ const PortfolioTalOverview = ({
 
     const balance = await talweb3.tal.balance()
     setTal(balance/100.0)
-
-    // const newTalent = await talweb3.careerCoins.createNewCoin('FLEAL', 'Francisco Leal', 1, '0xD99350Cf7f102410A4849666CF130cFADD1113E3', 5)
-    // console.log(newTalent)
-    // ^^^reserved for owner account
-
-    // const careerCoins = await talweb3.careerCoins.getAllCareerCoins()
-    // console.log(careerCoins)
   }, [])
 
   useEffect(() => {

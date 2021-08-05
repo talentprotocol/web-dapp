@@ -10,7 +10,7 @@
         tradePath: swap_path,
         settingsPath: settings_path,
         talent: current_user&.talent.present?,
-        editTalentPath: "https://talentprotocol.com",
+        editTalentPath: talent_path(current_user&.talent),
         admin: current_user&.admin?,
         adminPath: admin_path,
         helpPath: "https://talentprotocol.com"

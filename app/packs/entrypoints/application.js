@@ -29,6 +29,7 @@ import Feed from "src/components/feed/Feed"
 import Swap from "src/components/swap/Swap"
 import TalentNameSearch from "src/components/talent/TalentNameSearch"
 import MetamaskLogin from "src/components/login/MetamaskLogin"
+import DeployCoinButton from "src/components/coin/DeployCoinButton"
 
 import "stylesheets/application.scss"
 
@@ -53,7 +54,8 @@ ReactOnRails.register({
   Feed,
   Swap,
   TalentNameSearch,
-  MetamaskLogin
+  MetamaskLogin,
+  DeployCoinButton
 });
 
 Rails.start()

@@ -17,6 +17,23 @@ const post = (url, content) => {
   })
 }
 
+const patch = (url, content) => {
+  const headers = { "Content-Type": "application/json" }
+
+  if(getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken()
+  }
+
+  return fetch(url, {
+    credentials: "include",
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(content)
+  }).then((response) => {
+    return response.json()
+  })
+}
+
 const get = (url) =>{
   const headers = { "Content-Type": "application/json" }
 
@@ -49,4 +66,4 @@ const destroy = (url) =>{
   })
 }
 
-export { post, get, destroy }
+export { post, get, destroy, patch }

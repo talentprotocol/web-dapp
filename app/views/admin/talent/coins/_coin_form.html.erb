@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-group is-required">
-    <%= form.label :reserve_ration %>
+    <%= form.label :reserve_ratio %>
     <%= form.text_field :reserve_ratio, required: true, class: "form-control" %>
   </div>
 
@@ -21,8 +21,13 @@
     <%= form.text_field :talent_fee, required: true, class: "form-control" %>
   </div>
 
+  <div class="form-group is-required">
+    <%= form.label :contract_id %>
+    <%= form.text_field :contract_id, required: true, class: "form-control" %>
+  </div>
+
   <div class="form-actions">
-    <%= link_to "Cancel", coin.persisted? && admin_use_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= link_to "Cancel", coin.persisted? && admin_user_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
     <%= form.submit "Save Coin", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>
