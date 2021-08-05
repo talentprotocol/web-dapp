@@ -1,30 +1,30 @@
-<div class="container mt-4">
-  <h1>Manage Investors</h1>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Manage Investors</h1>
 
-  <%= link_to "New Investor", new_admin_investor_path, class: "btn btn-primary talent-button mt-4" %>
+    <%= link_to "New Investor", new_admin_investor_path, class: "btn btn-primary talent-button mt-4" %>
 
-  <table class="table table-hover mt-4">
-    <thead class="table-primary">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Username</th>
-        <th scope="col">Wallet ID</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @investors.each do |investor|%>
+    <table class="table table-hover mt-4">
+      <thead class="table-primary">
         <tr>
-          <th scope="row"><%= investor.id%></th>
-          <td><%= investor.username %></td>
-          <td><%= investor.display_wallet_id %></td>
-          <td><%= link_to "Edit", edit_admin_investor_path(investor), class: "btn btn-primary talent-button", role: "button" %></td>
-          <td><%= button_to "Delete", admin_investor_path(investor), class: "btn btn-danger talent-button", method: :delete %></td>
+          <th scope="col">#</th>
+          <th scope="col">Wallet ID</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @investors.each do |investor|%>
+          <tr>
+            <th scope="row"><%= investor.id%></th>
+            <td><%= investor.display_wallet_id %></td>
+            <td><%= link_to "Edit", edit_admin_investor_path(investor), class: "btn btn-primary talent-button", role: "button" %></td>
+            <td><%= button_to "Delete", admin_investor_path(investor), class: "btn btn-danger talent-button", method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  <%== pagy_bootstrap_nav(@pagy) %>
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </main>
 </div>

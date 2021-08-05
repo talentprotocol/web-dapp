@@ -17,14 +17,16 @@ class Talent < ApplicationRecord
   scope :active, -> { where("ito_date <= ?", Time.current) }
   scope :upcoming, -> { where("ito_date > ?", Time.current) }
 
-  delegate :wallet_id, to: :user
+  delegate :wallet_id, :username, to: :user
 
   def display_wallet_id
     "#{wallet_id[0..10]}..."
   end
 
   def status
-    if ito_date > Time.current
+    if ito_date.nil?
+      "Inactive"
+    elsif ito_date > Time.current
       "Upcoming"
     else
       "Active"

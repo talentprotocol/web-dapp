@@ -54,9 +54,9 @@
                     sponsor_count: talent.investors.count,
                     profilePictureUrl: talent.profile_picture_url,
                     coin: {
-                      display_price: talent.coin.display_price,
-                      display_market_cap: talent.coin.display_market_cap,
-                      display_ticker: talent.coin.display_ticker
+                      display_price: talent.coin&.display_price,
+                      display_market_cap: talent.coin&.display_market_cap,
+                      display_ticker: talent.coin&.display_ticker
                     },
                     tags: [talent.primary_tag&.description]
                   }

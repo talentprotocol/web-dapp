@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
     root to: "feeds#show", as: :admin_root
 
-    get "/dashboard", to: "admin/dashboards#show"
+    get "/admin", to: "admin/dashboards#show"
 
     namespace :admin do
       resources :dashboards, only: [:show]
@@ -12,8 +12,10 @@ Rails.application.routes.draw do
         resources :coins, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
         resources :rewards, module: "talent"
+        resources :tags, module: "talent"
       end
       resources :wait_list
+      resources :users
     end
   end
 
@@ -31,7 +33,6 @@ Rails.application.routes.draw do
 
   get "/sign_in" => "sessions#new", :as => "sign_in"
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
-  # get "/sign_up" => "clearance/users#new", :as => "sign_up"
 
   # end Auth
 
@@ -39,13 +40,13 @@ Rails.application.routes.draw do
   constraints Clearance::Constraints::SignedIn.new do
     root to: "feeds#show", as: :user_root
 
-    # Show investor list (remove?)
-    resources :investors, only: [:index, :show]
-
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
-    resources :talent, only: [:index, :show]
+    resources :talent, only: [:index, :show, :update] do
+      resources :career_goals, only: [:create, :update], module: "talent"
+      resources :rewards, only: [:create, :update], module: "talent"
+    end
 
     # Portfolio
     resources :portfolio, only: [:index]
@@ -72,7 +73,7 @@ Rails.application.routes.draw do
     resources :transactions, only: [:create]
   end
 
-  resources :wait_list, only: [:index, :create]
+  resources :wait_list, only: [:create]
 
   root to: "pages#home", as: :root
 

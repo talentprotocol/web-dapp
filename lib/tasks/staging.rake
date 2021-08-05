@@ -30,11 +30,9 @@ namespace :staging do
         role: admin[:role]
       )
       user.create_investor!(
-        username: admin[:name].capitalize,
         description: admin[:description] || Faker::Lorem.paragraph
       )
       talent = user.create_talent!(
-        username: admin[:name].capitalize,
         description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
@@ -48,7 +46,7 @@ namespace :staging do
       user.talent.create_coin!(
         ticker: admin[:ticker],
         price: Random.new.rand(1..500),
-        market_cap: Random.new.rand(250_000..750_000)
+        market_cap: 0
       )
       user.create_feed!
     end
@@ -59,7 +57,6 @@ namespace :staging do
         wallet_id: "0x#{SecureRandom.hex(32)}"
       )
       talent = user.create_talent!(
-        username: user.username,
         description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
@@ -74,7 +71,7 @@ namespace :staging do
       user.talent.create_coin!(
         ticker: Faker::Name.initials(number: 4),
         price: Random.new.rand(1..500),
-        market_cap: Random.new.rand(250_000..750_000)
+        market_cap: 0
       )
       user.create_feed!
 

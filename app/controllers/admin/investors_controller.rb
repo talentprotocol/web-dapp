@@ -63,7 +63,6 @@ class Admin::InvestorsController < ApplicationController
 
   def investor_params
     params.require(:investor).permit(
-      :username,
       :public_key,
       :description
     )

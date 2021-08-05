@@ -1,6 +1,4 @@
 class Admin::Talent::CoinsController < ApplicationController
-  before_action :validate_access
-
   def show
     talent
     coin
@@ -12,11 +10,16 @@ class Admin::Talent::CoinsController < ApplicationController
   end
 
   def update
-    if @coin.update(coin_params)
-      redirect_to(
-        admin_talent_path(@talent),
-        notice: "Talent's coin successfully updated."
-      )
+    if coin.update(coin_params)
+      respond_to do |format|
+        format.html do
+          redirect_to(
+            admin_user_path(coin.talent.user),
+            flash: {success: "Talent's coin successfully updated."}
+          )
+        end
+        format.json { render json: {success: "Talent's coin successfully updated."}, status: :ok }
+      end
     else
       render :edit
     end
@@ -37,17 +40,14 @@ class Admin::Talent::CoinsController < ApplicationController
     @coin ||= Coin.find(params[:id])
   end
 
-  def validate_access
-    if talent.coin != coin
-      redirect_to root_path, alert: "This isn't the coin you're looking for."
-    end
-  end
-
   def coin_params
     params.require(:coin).permit(
       :price,
-      :market_cap,
-      :ticker
+      :ticker,
+      :reserve_ratio,
+      :talent_fee,
+      :contract_id,
+      :deployed
     )
   end
 end

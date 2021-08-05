@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_091252) do
+ActiveRecord::Schema.define(version: 2021_08_05_044433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "talent_id"
+    t.integer "reserve_ratio"
+    t.bigint "talent_fee"
+    t.boolean "deployed", default: false
+    t.string "contract_id"
     t.index ["talent_id"], name: "index_coins_on_talent_id"
     t.index ["ticker"], name: "index_coins_on_ticker"
   end
@@ -85,7 +89,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
   end
 
   create_table "investors", force: :cascade do |t|
-    t.string "username", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
@@ -93,7 +96,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
     t.bigint "user_id"
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
-    t.index ["username"], name: "index_investors_on_username", unique: true
   end
 
   create_table "likes", force: :cascade do |t|
@@ -144,24 +146,20 @@ ActiveRecord::Schema.define(version: 2021_08_03_091252) do
   end
 
   create_table "talent", force: :cascade do |t|
-    t.string "username", null: false
     t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.datetime "ito_date"
-    t.string "category"
     t.integer "activity_count", default: 0
     t.string "linkedin_url"
     t.text "profile_picture_data"
     t.string "youtube_url"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
-    t.index ["category"], name: "index_talent_on_category"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"
-    t.index ["username"], name: "index_talent_on_username", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

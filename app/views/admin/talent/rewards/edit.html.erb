@@ -1,7 +1,9 @@
-<div class="container">
-  <h1>Edit Reward - for <%= @talent.username %></h1>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Edit Reward - for <%= @talent.username %></h1>
 
-  <div class="row">
-    <%= render "admin/talent/rewards/reward_form", talent: @talent, reward: @reward %>
-  </div>
+    <div class="d-flex flex-row">
+      <%= render "admin/talent/rewards/reward_form", talent: @talent, reward: @reward %>
+    </div>
+  </main>
 </div>

@@ -9,6 +9,10 @@
         messagesPath: messages_path,
         tradePath: swap_path,
         settingsPath: settings_path,
+        talent: current_user&.talent.present?,
+        editTalentPath: current_user.present? && talent_path(current_user&.talent),
+        admin: current_user&.admin?,
+        adminPath: current_user.present? && admin_path,
         helpPath: "https://talentprotocol.com"
       },
       prerender: false, html_options: { class: "d-flex flex-column flex-lg-fill align-self-lg-stretch lg-h-100" }) %>

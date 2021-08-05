@@ -11,13 +11,23 @@
     <%= form.text_field :ticker, required: true, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label "Market Cap in cents" %>
-    <%= form.text_field :market_cap, required: true, class: "form-control" %>
+  <div class="form-group is-required">
+    <%= form.label :reserve_ratio %>
+    <%= form.text_field :reserve_ratio, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group is-required">
+    <%= form.label :talent_fee %>
+    <%= form.text_field :talent_fee, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group is-required">
+    <%= form.label :contract_id %>
+    <%= form.text_field :contract_id, required: true, class: "form-control" %>
   </div>
 
   <div class="form-actions">
-    <%= link_to "Cancel", coin.persisted? && admin_talent_path(coin.talent) || admin_talent_index_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= link_to "Cancel", coin.persisted? && admin_user_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
     <%= form.submit "Save Coin", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

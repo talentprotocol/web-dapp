@@ -1,33 +1,32 @@
-<div class="container">
-  <h1>Investor</h1>
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Investor</h1>
 
-  <dl class="row">
-    <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
-    <dd class="col-md-9"><%= @investor.id %></dd>
+    <dl class="d-flex flex-row flex-wrap">
+      <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
+      <dd class="col-md-9"><%= @investor.id %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Username</dt>
-    <dd class="col-md-9"><%= @investor.username %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Wallet ID</dt>
+      <dd class="col-md-9"><%= @investor.wallet_id %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Wallet ID</dt>
-    <dd class="col-md-9"><%= @investor.wallet_id %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
+      <dd class="col-md-9"><%= @investor.description %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
-    <dd class="col-md-9"><%= @investor.description %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Public Key</dt>
+      <dd class="col-md-9"><%= @investor.public_key || "-" %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Public Key</dt>
-    <dd class="col-md-9"><%= @investor.public_key || "-" %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
+      <dd class="col-md-9"><%= l(@investor.created_at, format: :long) %></dd>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
-    <dd class="col-md-9"><%= l(@investor.created_at, format: :long) %></dd>
+      <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
+      <dd class="col-md-9"><%= l(@investor.updated_at, format: :long) %></dd>
+    </dl>
 
-    <dt class="col-md-3 sm-text-left md-text-right">Updated at</dt>
-    <dd class="col-md-9"><%= l(@investor.updated_at, format: :long) %></dd>
-  </dl>
-
-  <div class="row">
-    <div class="col-md-9 offset-md-3">
-      <%= link_to "Edit Investor", edit_admin_investor_path(@investor), class: "btn btn-primary talent-button" %>
-      <%= link_to "Destroy Investor", admin_investor_path(@investor), class: "btn btn-danger talent-button", method: :delete %>
+    <div class="d-flex flex-row">
+      <div class="col-md-9 offset-md-3">
+        <%= link_to "Edit Investor", edit_admin_investor_path(@investor), class: "btn btn-primary talent-button" %>
+        <%= link_to "Destroy Investor", admin_investor_path(@investor), class: "btn btn-danger talent-button", method: :delete %>
+      </div>
     </div>
-  </div>
+  </main>
 </div>

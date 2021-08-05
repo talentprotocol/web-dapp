@@ -50,9 +50,8 @@ const EmailValidation = ({ changeStep, email }) => {
       `/wait_list?email=${email}`
     ).then((response) => {
       if(response.error) {
-        setStatus("error") // REPLACE WITH "error" before commiting!
+        setStatus("error")
       } else {
-        console.log(response)
         if(response.approved) {
           setStatus("approved")
         } else {
