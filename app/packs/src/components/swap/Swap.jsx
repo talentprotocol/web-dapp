@@ -130,7 +130,7 @@ const Swap = ({ coins, coin, tal }) => {
   }
 
   return (
-    <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-scroll pt-3 h-100">
+    <section className="col-12 mx-auto d-flex flex-column justify-content-center lg-overflow-y-scroll pt-3 h-100">
       <form onSubmit={onSubmit} className="d-flex flex-column border rounded-sm p-4 mx-auto registration-box" style={{maxWidth: 500}}>
         <h5 className="text-center">Talent DEX</h5>
         <div className="d-flex flex-column justify-content-between align-items-center border rounded-sm px-3 py-2">

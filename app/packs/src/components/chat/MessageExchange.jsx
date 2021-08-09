@@ -18,7 +18,7 @@ const MessageExchange = (props) => {
   return (
     <div className="messages-background lg-h-100 d-flex flex-column">
       {props.smallScreen && <Button type="primary" text="<- Go back" className="talent-button w-100 text-left" onClick={() => props.clearActiveUserId()}/>}
-      <div id="messages" className="px-3 lg-overflow-scroll display-messages d-flex flex-column pb-3">
+      <div id="messages" className="px-3 lg-overflow-y-scroll display-messages d-flex flex-column pb-3">
         {props.messages.length == 0 && props.userId == 0 && <CommunicateFirst />}
         {props.messages.length == 0 && props.userId != 0 && <EmptyMessages />}
         {props.messages.map((message) =>
