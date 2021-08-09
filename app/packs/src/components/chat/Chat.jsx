@@ -8,7 +8,8 @@ import MessageExchange from './MessageExchange'
 import { useWindowDimensionsHook } from '../../utils/window'
 
 const Chat = ({ users }) => {
-  const [activeUserId, setActiveUserId] = useState(0)
+  const url = new URL(document.location)
+  const [activeUserId, setActiveUserId] = useState(url.searchParams.get("user") || 0)
   const [activeChannel, setActiveChannel] = useState(null) // @TODO: Refactor chat
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
@@ -17,6 +18,11 @@ const Chat = ({ users }) => {
   const [chatId, setChatId] = useState("")
   const [messengerProfilePicture, setMessengerProfilePicture] = useState()
   const { height, width } = useWindowDimensionsHook();
+
+  // Get user from URL
+  useEffect(() => {
+
+  },[])
 
   useEffect(() => {
     if (activeUserId == 0){
@@ -29,7 +35,7 @@ const Chat = ({ users }) => {
     get(`messages/${activeUserId}.json`)
       .then((response) => {
         setMessages(response.messages)
-        setLastMessageId(response.messages[response.messages.length - 1].id)
+        setLastMessageId(response.messages[response.messages.length - 1]?.id)
         setUserId(response.current_user_id)
         setChatId(response.chat_id)
         setMessengerProfilePicture(response.profilePictureUrl)

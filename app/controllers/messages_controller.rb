@@ -1,10 +1,14 @@
 class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
+  before_action :set_user, only: [:index]
 
   def index
     user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)
     user_ids << Message.where(receiver_id: current_user.id).pluck(:sender_id)
 
+    if @user
+      user_ids << @user.id
+    end
     @users = User.where(id: user_ids)
   end
 
@@ -40,5 +44,11 @@ class MessagesController < ApplicationController
 
   def message_params
     params.permit(:message)
+  end
+
+  def set_user
+    if params[:user]
+      @user = User.find_by(id: params[:user])
+    end
   end
 end
