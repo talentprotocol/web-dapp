@@ -140,7 +140,7 @@ const Post = ({ post, user, currentUser }) => {
               </button>
             </div>
             <div className="d-flex flex-row">
-              <Button type="outline-secondary" text="Message"/>
+              <Button type="outline-secondary" text="Message" href={`/messages?user=${user.id}`}/>
               <Button type="primary" href={`/swap?ticker=${user.ticker.substring(1)}`} text={buyButtonText} disabled={!user.active} className="talent-button ml-2"/>
             </div>
           </div>

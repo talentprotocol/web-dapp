@@ -12,6 +12,16 @@
 @import 'custom/swap';
 @import 'custom/shared';
 
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
 @media (min-width: 992px) {
   html, body {
     height: 100%;
@@ -29,11 +39,11 @@
     width: 100%;
   }
 
-  .lg-overflow-hidden {
-    overflow: hidden;
+  .lg-overflow-y-hidden {
+    overflow-y: hidden;
   }
-  .lg-overflow-scroll {
-    overflow: scroll;
+  .lg-overflow-y-scroll {
+    overflow-y: scroll;
   }
 }
 

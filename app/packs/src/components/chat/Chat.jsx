@@ -8,7 +8,8 @@ import MessageExchange from './MessageExchange'
 import { useWindowDimensionsHook } from '../../utils/window'
 
 const Chat = ({ users }) => {
-  const [activeUserId, setActiveUserId] = useState(0)
+  const url = new URL(document.location)
+  const [activeUserId, setActiveUserId] = useState(url.searchParams.get("user") || 0)
   const [activeChannel, setActiveChannel] = useState(null) // @TODO: Refactor chat
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
@@ -17,6 +18,11 @@ const Chat = ({ users }) => {
   const [chatId, setChatId] = useState("")
   const [messengerProfilePicture, setMessengerProfilePicture] = useState()
   const { height, width } = useWindowDimensionsHook();
+
+  // Get user from URL
+  useEffect(() => {
+
+  },[])
 
   useEffect(() => {
     if (activeUserId == 0){
@@ -29,7 +35,7 @@ const Chat = ({ users }) => {
     get(`messages/${activeUserId}.json`)
       .then((response) => {
         setMessages(response.messages)
-        setLastMessageId(response.messages[response.messages.length - 1].id)
+        setLastMessageId(response.messages[response.messages.length - 1]?.id)
         setUserId(response.current_user_id)
         setChatId(response.chat_id)
         setMessengerProfilePicture(response.profilePictureUrl)
@@ -91,7 +97,7 @@ const Chat = ({ users }) => {
   return (
     <>
       {(width > 992 || activeUserId == 0) &&
-        <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-scroll border-right pt-3">
+        <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-y-scroll border-right pt-3">
           <MessageUserList
             onClick={(user_id) => setActiveUserId(user_id)}
             activeUserId={activeUserId}
@@ -100,7 +106,7 @@ const Chat = ({ users }) => {
         </section>
       }
       {(width > 992 || activeUserId > 0) &&
-        <section className="col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-hidden">
+        <section className="col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-y-hidden">
           <MessageExchange
             smallScreen={width <= 992}
             clearActiveUserId={() => clearActiveUser()}

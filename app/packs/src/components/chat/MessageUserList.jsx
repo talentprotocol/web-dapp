@@ -7,8 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import TalentProfilePicture from '../talent/TalentProfilePicture'
 import Button from '../button'
 
+const lastMessageText = (lastMessage) => {
+  if(lastMessage) {
+    return lastMessage.length > 30 ? `${lastMessage.substring(0,28)}...` : lastMessage
+  } else {
+    return "Send your first message!"
+  }
+}
+
 const UserMessage = ({ user, activeUserId, onClick }) => {
-  const message = user.last_message.length > 30 ? `${user.last_message.substring(0,28)}...` : user.last_message
+  const message = lastMessageText(user.last_message)
   const active = user.id == activeUserId ? " active" : ""
 
   return (
