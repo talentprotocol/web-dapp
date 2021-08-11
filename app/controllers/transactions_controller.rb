@@ -1,9 +1,15 @@
 class TransactionsController < ApplicationController
-  before_action :set_coin, only: [:create]
-
   def create
     service = CreateTransaction.new
-    @transaction = service.call(coin: @coin, amount: transaction_params[:amount], investor: current_user.investor)
+
+    @transaction = service.call(
+      amount: transaction_params[:amount],
+      block_id: transaction_params[:block_id],
+      token_address: transaction_params[:token_address],
+      transaction_id: transaction_params[:transaction_id],
+      inbound: transaction_params[:inbound],
+      user_id: current_user.id
+    )
 
     if @transaction
       render json: {success: "Transaction successfully created."}, status: :created
@@ -14,11 +20,7 @@ class TransactionsController < ApplicationController
 
   private
 
-  def set_coin
-    @coin ||= Coin.find_by!(id: params[:coin_id])
-  end
-
   def transaction_params
-    params.permit(:coin_id, :amount)
+    params.permit(:token_address, :amount, :transaction_id, :block_id, :inbound)
   end
 end

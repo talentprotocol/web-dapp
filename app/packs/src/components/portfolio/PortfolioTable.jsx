@@ -12,14 +12,14 @@ const EmptyInvestments = () => (
 
 const PortfolioTable = ({ transactions }) => {
   return (
-    <div className="table-responsive border-bottom border-left border-right">
-      <table className="table table-hover mb-0">
+    <div className="table-responsive">
+      <h3>Transactions</h3>
+      <table className="table table-hover mb-0 border-bottom border-left border-right">
         <thead>
           <tr>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col"><small>Talent</small></th>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col"></th>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col"><small>Name</small></th>
-            <th className="tal-th py-1 text-muted border-bottom-0 text-right" scope="col"><small>Amount Held</small></th>
+            <th className="tal-th py-1 text-muted border-bottom-0" scope="col"><small>Transaction ID</small></th>
+            <th className="tal-th py-1 text-muted border-bottom-0" scope="col"><small>Description</small></th>
+            <th className="tal-th py-1 text-muted border-bottom-0 text-right" scope="col"><small>Amount</small></th>
             <th className="tal-th py-1 text-muted border-bottom-0 text-right" scope="col"><small>Coin Value</small></th>
             <th className="tal-th py-1 text-muted border-bottom-0 text-right" scope="col"><small>Total</small></th>
             <th className="tal-th py-1 text-muted border-bottom-0 text-right" scope="col"><small>7d %</small></th>
@@ -30,12 +30,12 @@ const PortfolioTable = ({ transactions }) => {
           {transactions.length == 0 && <EmptyInvestments />}
           {transactions.map((transaction) => (
             <tr key={`transaction-${transaction.id}`}className="tal-tr-item">
-              <th className="align-middle pr-0" scope="row">
-                <TalentProfilePicture src={transaction.profilePictureUrl} height={40}/>
+              <th className="text-muted align-middle"><small>{transaction.transactionId.substring(0,10)}..</small></th>
+              <th className="align-middle pr-0 text-primary" scope="row">
+                {transaction.inbound && <small>$TAL {"->"} {transaction.coinTicker}</small>}
+                {!transaction.inbound && <small>{transaction.coinTicker} {"->"} $TAL</small>}
               </th>
-              <th className="text-primary align-middle pl-0" scope="row">{transaction.coinTicker}</th>
-              <td className="align-middle">{transaction.talentName}</td>
-              <td className="align-middle text-right">{transaction.amount}</td>
+              <td className="align-middle text-right"><small>{transaction.amount + " -> " + transaction.amount}</small></td>
               <td className="align-middle tal-table-price text-right">
                 {transaction.price}
                 <br/>

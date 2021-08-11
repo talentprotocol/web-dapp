@@ -81,35 +81,57 @@ const Swap = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log("Trading..")
 
     if (mode == "buy") {
-      web3.approve(selectedToken, inputAmount).then((approved) => {
+      const amount = parseFloat(outputAmount) * 100.0
+      web3.approve(selectedToken, amount).then((approved) => {
         if (approved) {
-          web3.buy(selectedToken, inputAmount).then((result) => {
+          web3.buy(selectedToken, amount).then((result) => {
             setInputAmount("")
             setOutputAmount("")
+
+            post(
+              `/transactions`,
+              {
+                token_address: selectedToken,
+                amount: parseFloat(outputAmount),
+                block_id: result.blockHash,
+                transaction_id: result.transactionHash,
+                inbound: true
+              }
+            ).then((response) => {
+              if(response.error) {
+                console.log(response.error)
+              } else {
+                setInputAmount("")
+                setOutputAmount("")
+              }
+            })
           })
         }
       })
     } else {
-      web3.sell(selectedToken, outputAmount).then((result) => {
-        setInputAmount("")
-        setOutputAmount("")
+      const amount = parseFloat(inputAmount) * 100.0
+      web3.sell(selectedToken, amount).then((result) => {
+        post(
+          `/transactions`,
+          {
+            token_address: selectedToken,
+            amount: parseFloat(amount),
+            block_id: result.blockHash,
+            transaction_id: result.transactionHash,
+            inbound: false
+          }
+        ).then((response) => {
+          if(response.error) {
+            console.log(response.error)
+          } else {
+            setInputAmount("")
+            setOutputAmount("")
+          }
+        })
       })
     }
-
-    // post(
-    //   `/transactions`,
-    //   { coin_id: outputCoin.coinId, amount: parseFloat(outputAmount) }
-    // ).then((response) => {
-    //   if(response.error) {
-    //     console.log(response.error)
-    //   } else {
-    //     setInputAmount("")
-    //     setOutputAmount("")
-    //   }
-    // })
   }
 
   const onInputTokenSet = (selectedToken) => {

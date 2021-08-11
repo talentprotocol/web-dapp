@@ -46,23 +46,23 @@ const Web3Container = (props) => {
 
   const buy = async (address, amount) => {
     const desiredToken = await talweb3.careerCoins.getCareerCoin(address, false)
-    const mintedAmount = await desiredToken.buy(talweb3.tal.contract._address, amount)
+    const transaction = await desiredToken.buy(talweb3.tal.contract._address, amount)
 
     await updateTalToken()
     await updateTokens()
 
-    return mintedAmount
+    return transaction
   }
 
   const sell = async (address, amount) => {
     const desiredToken = await talweb3.careerCoins.getCareerCoin(address, false)
 
-    const burnedAmount = await desiredToken.sell(talweb3.tal.contract._address, amount)
+    const transaction = await desiredToken.sell(talweb3.tal.contract._address, amount)
 
     await updateTalToken()
     await updateTokens()
 
-    return burnedAmount
+    return transaction
   }
 
   const approve = async (address, amount) => {

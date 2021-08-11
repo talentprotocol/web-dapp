@@ -84,7 +84,6 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
   }
   const handleEditShow = (reward) => {
     setMode("Edit")
-    console.log(reward)
     setEditingReward(reward)
     setShow(true)
   }

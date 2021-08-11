@@ -62,7 +62,7 @@ class CareerCoin {
 
   async getBalance() {
     if (this.contract && this.account) {
-      this.balance = await this.contract.methods.balanceOf(this.account).call()
+      this.balance = await this.contract.methods.balanceOf(this.account).call() / 100.0
       return this.balance
     }
     return 0;

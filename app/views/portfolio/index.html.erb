@@ -14,10 +14,9 @@
 
         <%= react_component("PortfolioTalOverview",
           props: {
-            talAvailable: "150",
-            talCommited: "75",
-            talTotalInUSD: "$355.50",
-            talentCount: "1",
+            talCommited: current_user.investor.total_invested,
+            talValue: Coin::TAL_VALUE / 100.0,
+            talentCount: current_user.investor.coins_held.count,
           },
           prerender: false)
         %>
