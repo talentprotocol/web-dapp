@@ -1,52 +1,77 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
+import {
+  faExchangeAlt
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import Web3Container, { Web3Context } from 'src/contexts/web3Context'
 import { post } from "src/utils/requests"
 
-const CoinSelection = ({ uniqueId, selectedCoin, coins, setCoin }) => {
+const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
+  const tokenArray = Object.keys(tokens).map((address) => tokens[address])
   return (
     <Dropdown>
       <Dropdown.Toggle className="tal-nav-dropdown-btn" variant="primary" id="dropdown-basic">
-        {selectedCoin.ticker || "Select"}
+        {selectedToken.symbol ? `$${selectedToken.symbol}` : "Select"}
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {coins.map((otherCoin) =>
-          <Dropdown.Item key={`${uniqueId}-${otherCoin.ticker}`} onClick={() => setCoin(otherCoin)}>{otherCoin.ticker}</Dropdown.Item>)}
+        {tokenArray.map((otherToken) =>
+          <Dropdown.Item key={`${uniqueId}-${otherToken.symbol}`} onClick={() => setToken(otherToken)}>${otherToken.symbol}</Dropdown.Item>)}
       </Dropdown.Menu>
     </Dropdown>
   )
 }
 
-// given coinA amount, how much coinB do you get
-const calculateComplementValue = (amount, coinA, coinB) => {
-  if(coinA.ticker == "$TAL") {
-    return amount * coinB.exchangeRate
-  } else if(coinB.ticker == "$TAL") {
-    return amount / coinA.exchangeRate
+// given coinA amount, how much coinB do you get -- replace with calculating value from web3 with a debounce
+const calculateComplementValue = (amount, coinA, coinB, mode) => {
+  if(mode == "buy") {
+    return amount * (coinB?.exchangeRate || 1)
   } else {
-    // convert to tal then to other coin
-    return (amount / coinA.exchangeRate) * coinB.exchangeRate
+    return amount / (coinA?.exchangeRate || 1)
   }
 }
 
-const Swap = ({ coins, coin, tal }) => {
+const Swap = () => {
+  const web3 = useContext(Web3Context)
+  const [mode, setMode] = useState("buy")
+  const [selectedToken, setSelectedToken] = useState("")
   const [inputAmount, setInputAmount] = useState("")
   const [outputAmount, setOutputAmount] = useState("")
-  const [inputCoin, setInputCoin] = useState(tal)
-  const [outputCoin, setOutputCoin] = useState(coin.ticker ? coin : { balance: 0.0 })
 
-  const onTextChange = ({value, coin, coinChange, max, otherCoin, otherCoinChange}) => {
+  const inputToken = () => mode == "buy" ? web3.talToken : web3.tokens[selectedToken] || { balance: 0.0 }
+  const outputToken = () => mode == "buy" ? web3.tokens[selectedToken] || { balance: 0.0 } : web3.talToken
+
+  useEffect(() => {
+    if(selectedToken == "") {
+      // get token from URL, tokens are available
+      const url = new URL(document.location)
+      const ticker = url.searchParams.get("ticker")
+
+      const tokenIndex = Object.keys(web3.tokens).findIndex((address) => web3.tokens[address].symbol == ticker)
+      if (tokenIndex >= 0) {
+        setSelectedToken(Object.keys(web3.tokens)[tokenIndex])
+      }
+    } else {
+      // sync URL with selected token
+      const url = new URL(window.location);
+      url.searchParams.set('ticker', web3.tokens[selectedToken].symbol);
+      window.history.pushState({}, '', url);
+    }
+  }, [selectedToken, web3.tokens])
+
+  const onTextChange = ({value, token, tokenChange, max, otherToken, otherTokenChange}) => {
     if(/^[0-9]*[.,]?[0-9]*$/.test(value)) {
       if(parseFloat(value) > max) {
-        coinChange(max)
-        if(otherCoin.ticker) {
-          otherCoinChange(calculateComplementValue(max, coin, otherCoin))
+        tokenChange(max)
+        if(otherToken.symbol) {
+          otherTokenChange(calculateComplementValue(max, token, otherToken, mode))
         }
       } else {
-        coinChange(value)
-        if(otherCoin.ticker) {
-          otherCoinChange(calculateComplementValue(value, coin, otherCoin))
+        tokenChange(value)
+        if(otherToken.symbol) {
+          otherTokenChange(calculateComplementValue(value, token, otherToken, mode))
         }
       }
     }
@@ -58,75 +83,59 @@ const Swap = ({ coins, coin, tal }) => {
     e.preventDefault()
     console.log("Trading..")
 
-    if(inputCoin.ticker == "$TAL") {
-      post(
-        `/transactions`,
-        { coin_id: outputCoin.coinId, amount: parseFloat(outputAmount) }
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setInputAmount("")
-          setOutputAmount("")
-        }
-      })
-    } else if(outputCoin.ticker == "$TAL") {
-      post(
-        `/transactions`,
-        { coin_id: inputCoin.coinId, amount: -parseFloat(inputAmount) }
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setInputAmount("")
-          setOutputAmount("")
+    if (mode == "buy") {
+      web3.approve(selectedToken, inputAmount).then((approved) => {
+        if (approved) {
+          web3.buy(selectedToken, inputAmount).then((result) => {
+            setInputAmount("")
+            setOutputAmount("")
+          })
         }
       })
     } else {
-      post(
-        `/transactions`,
-        { coin_id: inputCoin.coinId, amount: -parseFloat(inputAmount) }
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setInputAmount("")
-          setOutputAmount("")
-        }
-      })
-
-      post(
-        `/transactions`,
-        { coin_id: outputCoin.coinId, amount: parseFloat(outputAmount) }
-      ).then((response) => {
-        if(response.error) {
-          console.log(response.error)
-        } else {
-          setInputAmount("")
-          setOutputAmount("")
-        }
+      web3.sell(selectedToken, outputAmount).then((result) => {
+        setInputAmount("")
+        setOutputAmount("")
       })
     }
+
+    // post(
+    //   `/transactions`,
+    //   { coin_id: outputCoin.coinId, amount: parseFloat(outputAmount) }
+    // ).then((response) => {
+    //   if(response.error) {
+    //     console.log(response.error)
+    //   } else {
+    //     setInputAmount("")
+    //     setOutputAmount("")
+    //   }
+    // })
   }
 
-  const onInputCoinSet = (selectedCoin) => {
+  const onInputTokenSet = (selectedToken) => {
     // switch coins
-    if(selectedCoin.ticker == outputCoin.ticker) {
-      setOutputCoin(inputCoin)
+    if(selectedToken.symbol == outputToken().symbol) {
+      mode == "buy" ? setMode("sell") : setMode("buy")
+    } else {
+      setSelectedToken(selectedToken.address)
     }
-    setInputCoin(selectedCoin)
     setInputAmount("")
     setOutputAmount("")
   }
 
-  const onOutputCoinSet = (selectedCoin) => {
+  const onOutputTokenSet = (selectedToken) => {
     // switch coins
-    if(selectedCoin.ticker == inputCoin.ticker) {
-      setInputCoin(outputCoin)
+    if(selectedToken.symbol == inputToken().symbol) {
+      mode == "buy" ? setMode("sell") : setMode("buy")
+    } else {
+      setSelectedToken(selectedToken.address)
     }
-    setOutputCoin(selectedCoin)
     setOutputAmount("")
     setInputAmount("")
+  }
+
+  const changeMode = () => {
+    setMode(mode == "buy" ? "sell" : "buy")
   }
 
   return (
@@ -134,7 +143,8 @@ const Swap = ({ coins, coin, tal }) => {
       <form onSubmit={onSubmit} className="d-flex flex-column border rounded-sm p-4 mx-auto registration-box" style={{maxWidth: 500}}>
         <h5 className="text-center">Talent DEX</h5>
         <div className="d-flex flex-column justify-content-between align-items-center border rounded-sm px-3 py-2">
-          <CoinSelection selectedCoin={inputCoin} coins={[tal, ...coins]} setCoin={onInputCoinSet} uniqueId="input-swap"/>
+          {mode != "buy" && <TokenSelection selectedToken={inputToken()} tokens={web3.tokens} setToken={onInputTokenSet} uniqueId="input-swap"/>}
+          {mode == "buy" && "$TAL"}
           <div className="d-flex flex-column align-items-end form-group mb-0">
             <input
               className="text-right form-control ml-2 mt-2 bt-md-0"
@@ -146,19 +156,23 @@ const Swap = ({ coins, coin, tal }) => {
               onChange={(e) =>
                 onTextChange({
                   value: e.target.value,
-                  coin: inputCoin,
-                  coinChange: setInputAmount,
-                  max: inputCoin.balance,
-                  otherCoin: outputCoin,
-                  otherCoinChange: setOutputAmount
+                  token: inputToken(),
+                  tokenChange: setInputAmount,
+                  max: inputToken().balance,
+                  otherToken: outputToken(),
+                  otherTokenChange: setOutputAmount
                 })
               }
               value={inputAmount}/>
-            <small className="text-muted">Balance {inputCoin.balance || 0.0}</small>
+            <small className="text-muted">Balance {inputToken().balance || 0.0}</small>
           </div>
         </div>
+        <button type="button" onClick={changeMode} className="mt-2 border-0 bg-transparent">
+          <FontAwesomeIcon icon={faExchangeAlt} transform={{ rotate: 90 }}/>
+        </button>
         <div className="d-flex flex-column justify-content-between align-items-center mt-2 border rounded-sm px-3 py-2">
-          <CoinSelection selectedCoin={outputCoin} coins={[tal, ...coins]} setCoin={onOutputCoinSet} uniqueId="output-swap"/>
+          {mode == "buy" && <TokenSelection selectedToken={outputToken()} tokens={web3.tokens} setToken={onOutputTokenSet} uniqueId="output-swap"/>}
+          {mode != "buy" && "$TAL"}
           <div className="d-flex flex-column align-items-end form-group mb-0">
             <input
               className="text-right form-control ml-md-2 mt-2 bt-md-0"
@@ -170,15 +184,15 @@ const Swap = ({ coins, coin, tal }) => {
               onChange={(e) =>
                 onTextChange({
                   value: e.target.value,
-                  coin: outputCoin,
-                  coinChange: setOutputAmount,
-                  max: outputCoin.balance,
-                  otherCoin: inputCoin,
-                  otherCoinChange: setInputAmount
+                  token: outputToken(),
+                  tokenChange: setOutputAmount,
+                  max: outputToken.balance,
+                  otherToken: inputToken(),
+                  otherTokenChange: setInputAmount
                 })
               }
               value={outputAmount}/>
-            <small className="text-muted">Balance {outputCoin.balance}</small>
+            <small className="text-muted">Balance {outputToken().balance}</small>
           </div>
         </div>
         <button type="submit" disabled={buttonDisabled()} className="btn btn-primary talent-button mt-3">Trade</button>
@@ -187,4 +201,10 @@ const Swap = ({ coins, coin, tal }) => {
   )
 }
 
-export default Swap
+const ConnectedSwap = (props) => (
+  <Web3Container>
+    <Swap {...props} />
+  </Web3Container>
+)
+
+export default ConnectedSwap

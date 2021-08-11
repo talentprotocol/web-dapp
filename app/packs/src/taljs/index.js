@@ -63,6 +63,7 @@ class TalWeb3 {
     if (address) {
       const contract = new this.web3.eth.Contract(TalentProtocol.abi, address)
       this.tal = new Tal(contract, this.account, this.networkId)
+      await this.tal.getBalance()
     } else {
       this.tal = new Tal(null, null, null)
       window.alert('Talent Protocol contract not deployed to detected network.')
@@ -88,9 +89,9 @@ class TalWeb3 {
 
     if (address) {
       const contract = new this.web3.eth.Contract(TalentProtocolFactory.abi, address)
-      this.careerCoins = new CareerCoins(contract, this.networkId, this.web3)
+      this.careerCoins = new CareerCoins(contract, this.networkId, this.web3, this.account)
     } else {
-      this.careerCoins = new CareerCoins(null, null, this.web3)
+      this.careerCoins = new CareerCoins(null, null, this.web3, this.account)
       window.alert('Talent Protocol Factory contract not deployed to detected network.')
     }
 

@@ -5,13 +5,16 @@ import { patch } from 'src/utils/requests'
 
 import Button from "../button"
 
-const DeployCoinButton = ({ ticker, username, address, reserveRatio, talentFee, updateCoinUrl}) => {
+const DeployCoinButton = ({ ticker, username, address, reserveRatio, talentFee, updateCoinUrl, contract_id}) => {
   const [buttonText, setButtonText] = useState("Deploy Coin")
-  let talweb3
+  const [mintText, setMintText] = useState("Initial Mint")
+  const [tokenAddress, setTokenAddress] = useState(contract_id)
+  const [talweb3, setTalweb3] = useState()
 
   const setupTal = useCallback(async () => {
-    talweb3 = new TalWeb3()
-    await talweb3.initialize()
+    const web3 = new TalWeb3()
+    await web3.initialize()
+    setTalweb3(web3)
   }, [])
 
   useEffect(() => {
@@ -26,6 +29,7 @@ const DeployCoinButton = ({ ticker, username, address, reserveRatio, talentFee, 
     const result = await talweb3.careerCoins.createNewCoin(ticker, username, reserveRatio, address, talentFee)
     if (result) {
       const contractAddress = result.events.TalentAdded.returnValues.contractAddress
+      setTokenAddress(contractAddress)
 
       const response = await patch(`${updateCoinUrl}.json`,
         { coin: { contract_id: contractAddress, deployed: true }
@@ -40,8 +44,28 @@ const DeployCoinButton = ({ ticker, username, address, reserveRatio, talentFee, 
     }
   }
 
+  const performInitialMint = async (e) => {
+    e.preventDefault()
+
+    const token = await talweb3.careerCoins.getCareerCoin(tokenAddress, false)
+    if (token) {
+      const result = await token.initialMint()
+
+      if (result) {
+        setMintText("Minted token")
+      } else {
+        setMintText("Unabled to mint")
+      }
+    } else {
+      setMintText("Token doesn't exist")
+    }
+  }
+
   return (
-    <Button disabled={buttonText != "Deploy Coin"} type="warning" text={buttonText} onClick={onClick}/>
+    <>
+      <Button disabled={buttonText != "Deploy Coin"} type="warning" text={buttonText} onClick={onClick}/>
+      <Button disabled={tokenAddress != "" && mintText != "Initial Mint"} type="danger" text={mintText} onClick={performInitialMint}/>
+    </>
   )
 }
 
