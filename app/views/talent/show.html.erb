@@ -14,6 +14,7 @@
           youtubeUrl: @talent.youtube_url
         },
         currentUserId: current_user.id,
+        tokenDeployed: @talent.coin&.deployed? || false,
         careerGoal: { id: @talent.career_goal&.id, description: @talent.career_goal&.description },
         rewards: @talent.rewards.map { |reward| { id: reward.id, required_amount: reward.required_amount, display_required_amount: reward.required_amount&.to_s(:delimited), description: reward.description, required_text: reward.required_text } }
       }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})

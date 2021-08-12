@@ -23,6 +23,12 @@ class TalentController < ApplicationController
   end
 
   def update
+    if current_user.id != @talent.user_id
+      return render json: {error: "You can't edit that profile."}, status: :unauthorized
+    end
+
+    binding.pry
+
     if @talent.update(talent_params)
       render json: {success: "Talent successfully updated."}, status: :ok
     else
@@ -54,7 +60,11 @@ class TalentController < ApplicationController
 
   def talent_params
     params.require(:talent).permit(
-      :description
+      :description,
+      :youtube_url,
+      :linkedin_url,
+      :ticker,
+      profile_picture: {}
     )
   end
 end

@@ -37,7 +37,7 @@
   </div>
 
   <div class="form-actions">
-    <%= link_to "Cancel", talent.persisted? && admin_talent_path(talent) || admin_talent_index_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= link_to "Cancel", talent.persisted? && admin_users_path(talent.user_id) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
     <%= form.submit "Save Talent", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

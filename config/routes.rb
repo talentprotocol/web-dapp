@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     root to: "feeds#show", as: :user_root
 
     # Talent pages & search
+    post "/profile_picture/upload", to: "profile_picture_uploader#image"
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show, :update] do

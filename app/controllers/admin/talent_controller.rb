@@ -31,7 +31,7 @@ class Admin::TalentController < ApplicationController
   def update
     if @talent.update(talent_params)
       redirect_to(
-        admin_talent_path(@talent),
+        admin_users_path(@talent.user_id),
         notice: "Talent successfully updated."
       )
     else
