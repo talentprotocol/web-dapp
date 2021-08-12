@@ -71,4 +71,4 @@ const destroy = (url) => {
   });
 };
 
-export { post, get, destroy, patch };
+export { post, get, destroy, patch, getAuthToken };

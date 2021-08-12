@@ -1,15 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactPlayer from "react-player/youtube";
-import { faEdit, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import React, { useState, useEffect } from "react";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-bootstrap/Modal";
+import Uppy from "@uppy/core";
+import { DragDrop } from "@uppy/react";
+import AwsS3Multipart from "@uppy/aws-s3-multipart";
 
-import { patch, post } from "src/utils/requests";
+import { patch, post, getAuthToken } from "src/utils/requests";
 import LinkedInIcon from "images/linkedin.png";
 
 import Button from "../../button";
 import TalentProfilePicture from "../TalentProfilePicture";
 import TalentTags from "../TalentTags";
+
+import "@uppy/core/dist/style.css";
+import "@uppy/drag-drop/dist/style.css";
+
+const uppy = new Uppy({
+  meta: { type: "avatar" },
+  restrictions: { maxNumberOfFiles: 1 },
+  autoProceed: true,
+});
+
+uppy.use(AwsS3Multipart, {
+  limit: 4,
+  companionUrl: "/",
+  companionHeaders: {
+    "X-CSRF-Token": getAuthToken(),
+  },
+});
 
 const TalentDetail = ({
   talentId,
@@ -25,23 +44,36 @@ const TalentDetail = ({
   const [error, setError] = useState(false);
   const [editLinkedinUrl, setEditLinkedinUrl] = useState(linkedinUrl);
   const [editTicker, setEditTicker] = useState(ticker);
+  const [editUsername, setEditUsername] = useState(username);
   const [editTagsText, setEditTagsText] = useState(tags.join(", "));
-  const profilePictureInputRef = useRef(null);
+  const [uploadedFileData, setUploadedFileData] = useState(null);
+
+  useEffect(() => {
+    uppy.on("upload-success", (file, response) => {
+      setUploadedFileData({
+        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
+        storage: "cache",
+        metadata: {
+          size: file.size,
+          filename: file.name,
+          mime_type: file.type,
+        },
+      });
+    });
+  }, []);
 
   const handleShow = () => setShow(true);
   const handleDismiss = () => setShow(false);
   const handleSave = async () => {
-    console.log(profilePictureInputRef.current.files[0]);
-
-    const formData = new FormData();
-    formData.append("talent[linkedin_url]", editLinkedinUrl);
-    formData.append("talent[ticker]", editTicker);
-    formData.append(
-      "talent[profile_picture]",
-      profilePictureInputRef.current.files[0]
-    );
-
-    const response = await patch(`/talent/${talentId}`, formData);
+    const response = await patch(`/talent/${talentId}`, {
+      talent: {
+        tags: editTagsText,
+        linkedin_url: editLinkedinUrl,
+        profile_picture: uploadedFileData,
+      },
+      user: { username: editUsername },
+      coin: { ticker: editTicker },
+    });
     if (response.error) {
       setError(true);
     } else {
@@ -95,6 +127,18 @@ const TalentDetail = ({
               </div>
             )}
             <div className="form-group">
+              <label forhtml="detail-username">Username</label>
+              <input
+                type="text"
+                name="username"
+                id="detail-username"
+                value={editUsername}
+                onChange={(e) => setEditUsername(e.target.value)}
+                placeholder="Change your usename"
+                className="form-control mb-2 rounded-sm"
+              />
+            </div>
+            <div className="form-group">
               <label forhtml="detail-linkedin">Linkedin</label>
               <input
                 type="text"
@@ -107,14 +151,19 @@ const TalentDetail = ({
               />
             </div>
             <div className="form-group">
-              <label forhtml="detail-profile-picture">Profile picture</label>
-              <input
-                ref={profilePictureInputRef}
-                type="file"
-                name="profile-picture"
-                id="detail-profile-picture"
-                className="form-control-file"
-              />
+              <label className="mr-1">Profile picture</label>
+              {uploadedFileData !== null && <p>Uploaded file.</p>}
+              {uploadedFileData === null && (
+                <DragDrop
+                  uppy={uppy}
+                  locale={{
+                    strings: {
+                      dropHereOr: "Drop here or %{browse}",
+                      browse: "browse",
+                    },
+                  }}
+                />
+              )}
             </div>
 
             <div className="form-group">
