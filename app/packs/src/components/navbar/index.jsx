@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   faUserFriends,
   faHandHoldingUsd,
@@ -8,18 +8,18 @@ import {
   faQuestionCircle,
   faHome,
   faLock,
-  faIdCard
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Navbar, Container, Nav } from 'react-bootstrap'
+  faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, Container, Nav } from "react-bootstrap";
 
-import NavbarItem from "./NavbarItem"
-import TalBox from "./TalBox"
-import Logo from "src/components/logo"
+import NavbarItem from "./NavbarItem";
+import TalBox from "./TalBox";
+import Logo from "src/components/logo";
 
-const icon = (i) => <FontAwesomeIcon icon={i} />
+const icon = (i) => <FontAwesomeIcon icon={i} />;
 
-const TalNavbar = props => {
+const TalNavbar = (props) => {
   const {
     feedPath,
     talentPath,
@@ -31,33 +31,60 @@ const TalNavbar = props => {
     admin,
     adminPath,
     talent,
-    editTalentPath
-  } = props
+    editTalentPath,
+  } = props;
 
   return (
-    <Navbar collapseOnSelect className="flex-lg-column py-3 lg-h-100 border-right border-bottom" expand="lg">
+    <Navbar
+      collapseOnSelect
+      className="flex-lg-column py-3 lg-h-100 border-right border-bottom"
+      expand="lg"
+    >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
-        <Navbar.Brand href="/"><Logo /></Navbar.Brand>
+        <Navbar.Brand href="/">
+          <Logo />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse className="flex-lg-column w-100 lg-h-100 justify-content-lg-between" id="responsive-navbar-nav">
+        <Navbar.Collapse
+          className="flex-lg-column w-100 lg-h-100 justify-content-lg-between"
+          id="responsive-navbar-nav"
+        >
           <Nav className="me-auto flex-lg-column w-100">
-            <NavbarItem url={feedPath} exact>{icon(faHome)} Home</NavbarItem>
-            <NavbarItem url={talentPath}>{icon(faUserFriends)} Talent</NavbarItem>
-            <NavbarItem url={portfolioPath}>{icon(faHandHoldingUsd)} Portfolio</NavbarItem>
-            <NavbarItem url={messagesPath}>{icon(faEnvelope)} Messages</NavbarItem>
+            <NavbarItem url={feedPath} exact>
+              {icon(faHome)} Home
+            </NavbarItem>
+            <NavbarItem url={talentPath}>
+              {icon(faUserFriends)} Talent
+            </NavbarItem>
+            <NavbarItem url={portfolioPath}>
+              {icon(faHandHoldingUsd)} Portfolio
+            </NavbarItem>
+            <NavbarItem url={messagesPath}>
+              {icon(faEnvelope)} Messages
+            </NavbarItem>
             <NavbarItem url={tradePath}>{icon(faStar)} Trade $TAL</NavbarItem>
-            {admin && <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>}
+            {admin && (
+              <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
+            )}
           </Nav>
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
-            {talent && <NavbarItem url={editTalentPath} exact>{icon(faIdCard)} Talent Profile</NavbarItem>}
-            <NavbarItem url={settingsPath} exact>{icon(faCog)} Settings</NavbarItem>
-            <NavbarItem url={helpPath} exact>{icon(faQuestionCircle)} Help</NavbarItem>
-            <TalBox price="1.58" variance="+12%"/>
+            {talent && (
+              <NavbarItem url={editTalentPath} exact>
+                {icon(faIdCard)} Talent Profile
+              </NavbarItem>
+            )}
+            <NavbarItem url={settingsPath} exact>
+              {icon(faCog)} Settings
+            </NavbarItem>
+            <NavbarItem url={helpPath} exact>
+              {icon(faQuestionCircle)} Help
+            </NavbarItem>
+            <TalBox price="1.58" variance="+12%" />
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
-}
+  );
+};
 
-export default TalNavbar
+export default TalNavbar;
