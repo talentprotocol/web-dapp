@@ -8,11 +8,13 @@ const post = (url, content) => {
     headers["X-CSRF-Token"] = getAuthToken();
   }
 
+  const body = content instanceof FormData ? content : JSON.stringify(content);
+
   return fetch(url, {
     credentials: "include",
     method: "POST",
     headers,
-    body: JSON.stringify(content),
+    body,
   }).then((response) => {
     return response.json();
   });
@@ -25,11 +27,13 @@ const patch = (url, content) => {
     headers["X-CSRF-Token"] = getAuthToken();
   }
 
+  const body = content instanceof FormData ? content : JSON.stringify(content);
+
   return fetch(url, {
     credentials: "include",
     method: "PATCH",
     headers,
-    body: JSON.stringify(content),
+    body,
   }).then((response) => {
     return response.json();
   });
@@ -67,4 +71,4 @@ const destroy = (url) => {
   });
 };
 
-export { post, get, destroy, patch };
+export { post, get, destroy, patch, getAuthToken };

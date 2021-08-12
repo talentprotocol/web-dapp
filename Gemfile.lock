@@ -241,6 +241,8 @@ GEM
     redis (4.3.1)
     regexp_parser (2.1.1)
     rexml (3.2.5)
+    roda (3.46.0)
+      rack
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -310,6 +312,10 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
+    uppy-s3_multipart (1.0.0)
+      aws-sdk-s3 (~> 1.0)
+      content_disposition (~> 1.0)
+      roda (>= 2.27, < 4)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -363,6 +369,7 @@ DEPENDENCIES
   spring
   standard
   tzinfo-data
+  uppy-s3_multipart (~> 1.0)
   web-console (>= 4.1.0)
   webdrivers
   webpacker!

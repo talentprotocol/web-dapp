@@ -23,7 +23,20 @@ class TalentController < ApplicationController
   end
 
   def update
-    if @talent.update(talent_params)
+    if current_user.id != @talent.user_id
+      return render json: {error: "You can't edit that profile."}, status: :unauthorized
+    end
+
+    result = @talent.update(talent_params)
+
+    if result
+      service = UpdateTalent.new(@talent)
+      service.call(
+        talent: params[:talent][:tags].present? && tag_params,
+        user: params[:user].present? && user_params,
+        coin: params[:coin].present? && coin_params
+      )
+
       render json: {success: "Talent successfully updated."}, status: :ok
     else
       render json: {error: "Unable to update talent."}, status: :unprocessable_entity
@@ -54,7 +67,22 @@ class TalentController < ApplicationController
 
   def talent_params
     params.require(:talent).permit(
-      :description
+      :linkedin_url,
+      :youtube_url,
+      :description,
+      profile_picture: {}
     )
+  end
+
+  def user_params
+    params.require(:user).permit(:username)
+  end
+
+  def coin_params
+    params.require(:coin).permit(:ticker)
+  end
+
+  def tag_params
+    params.require(:talent).permit(:tags)
   end
 end
