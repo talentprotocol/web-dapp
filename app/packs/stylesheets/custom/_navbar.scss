@@ -3,7 +3,7 @@
 
 .tal-variance-box {
   border-radius: 25px;
-  background-color:#e7f8f2;
+  background-color: #e7f8f2;
 }
 
 @media (min-width: 768px) {
@@ -69,7 +69,10 @@
 }
 
 .dropdown-toggle {
-  &:hover, &:focus, &:disabled, &:active {
+  &:hover,
+  &:focus,
+  &:disabled,
+  &:active {
     background-color: transparent !important;
     color: $primary !important;
     border-bottom: 2px solid $primary !important;

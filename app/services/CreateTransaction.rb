@@ -24,8 +24,8 @@ class CreateTransaction
       service.call(user_id: coin.talent.user_id, follower_id: user.id)
 
       transaction
-    rescue
-      false
+    rescue => e
+      raise ActiveRecord::Rollback.new(e)
     end
   end
 end

@@ -1,44 +1,45 @@
-const getAuthToken = () => document.querySelector('meta[name="csrf-token"]')?.content
+const getAuthToken = () =>
+  document.querySelector('meta[name="csrf-token"]')?.content;
 
 const post = (url, content) => {
-  const headers = { "Content-Type": "application/json" }
+  const headers = { "Content-Type": "application/json" };
 
-  if(getAuthToken) {
-    headers["X-CSRF-Token"] = getAuthToken()
+  if (getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken();
   }
 
   return fetch(url, {
     credentials: "include",
     method: "POST",
     headers,
-    body: JSON.stringify(content)
+    body: JSON.stringify(content),
   }).then((response) => {
-    return response.json()
-  })
-}
+    return response.json();
+  });
+};
 
 const patch = (url, content) => {
-  const headers = { "Content-Type": "application/json" }
+  const headers = { "Content-Type": "application/json" };
 
-  if(getAuthToken) {
-    headers["X-CSRF-Token"] = getAuthToken()
+  if (getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken();
   }
 
   return fetch(url, {
     credentials: "include",
     method: "PATCH",
     headers,
-    body: JSON.stringify(content)
+    body: JSON.stringify(content),
   }).then((response) => {
-    return response.json()
-  })
-}
+    return response.json();
+  });
+};
 
-const get = (url) =>{
-  const headers = { "Content-Type": "application/json" }
+const get = (url) => {
+  const headers = { "Content-Type": "application/json" };
 
-  if(getAuthToken) {
-    headers["X-CSRF-Token"] = getAuthToken()
+  if (getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken();
   }
 
   return fetch(url, {
@@ -46,24 +47,24 @@ const get = (url) =>{
     method: "GET",
     headers,
   }).then((response) => {
-    return response.json()
-  })
-}
+    return response.json();
+  });
+};
 
-const destroy = (url) =>{
-  const headers = { "Content-Type": "application/json" }
+const destroy = (url) => {
+  const headers = { "Content-Type": "application/json" };
 
-  if(getAuthToken) {
-    headers["X-CSRF-Token"] = getAuthToken()
+  if (getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken();
   }
 
   return fetch(url, {
     credentials: "include",
     method: "DELETE",
-    headers
+    headers,
   }).then((response) => {
-    return response.json()
-  })
-}
+    return response.json();
+  });
+};
 
-export { post, get, destroy, patch }
+export { post, get, destroy, patch };

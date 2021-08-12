@@ -126,20 +126,14 @@
   "ast": {
     "absolutePath": "project:/src/contracts/TalentProtocolFactory.sol",
     "exportedSymbols": {
-      "TalentProtocolFactory": [
-        545
-      ]
+      "TalentProtocolFactory": [545]
     },
     "id": 546,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 402,
-        "literals": [
-          "solidity",
-          "0.4",
-          ".25"
-        ],
+        "literals": ["solidity", "0.4", ".25"],
         "nodeType": "PragmaDirective",
         "src": "0:23:2"
       },
@@ -197,18 +191,12 @@
             "src": "179:7:2"
           }
         ],
-        "contractDependencies": [
-          368,
-          3188
-        ],
+        "contractDependencies": [368, 3188],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 545,
-        "linearizedBaseContracts": [
-          545,
-          3188
-        ],
+        "linearizedBaseContracts": [545, 3188],
         "name": "TalentProtocolFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -763,10 +751,7 @@
                       "id": 441,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        3777,
-                        3778
-                      ],
+                      "overloadedDeclarations": [3777, 3778],
                       "referencedDeclaration": 3778,
                       "src": "611:7:2",
                       "typeDescriptions": {
@@ -933,10 +918,7 @@
                       "id": 458,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        3777,
-                        3778
-                      ],
+                      "overloadedDeclarations": [3777, 3778],
                       "referencedDeclaration": 3778,
                       "src": "726:7:2",
                       "typeDescriptions": {
@@ -1049,10 +1031,7 @@
                       "id": 468,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        3777,
-                        3778
-                      ],
+                      "overloadedDeclarations": [3777, 3778],
                       "referencedDeclaration": 3778,
                       "src": "801:7:2",
                       "typeDescriptions": {
@@ -1165,10 +1144,7 @@
                       "id": 475,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        3777,
-                        3778
-                      ],
+                      "overloadedDeclarations": [3777, 3778],
                       "referencedDeclaration": 3778,
                       "src": "876:7:2",
                       "typeDescriptions": {
@@ -1326,9 +1302,7 @@
               "src": "1219:297:2",
               "statements": [
                 {
-                  "assignments": [
-                    508
-                  ],
+                  "assignments": [508],
                   "declarations": [
                     {
                       "constant": false,
@@ -2096,19 +2070,13 @@
     "attributes": {
       "absolutePath": "project:/src/contracts/TalentProtocolFactory.sol",
       "exportedSymbols": {
-        "TalentProtocolFactory": [
-          545
-        ]
+        "TalentProtocolFactory": [545]
       }
     },
     "children": [
       {
         "attributes": {
-          "literals": [
-            "solidity",
-            "0.4",
-            ".25"
-          ]
+          "literals": ["solidity", "0.4", ".25"]
         },
         "id": 402,
         "name": "PragmaDirective",
@@ -2120,9 +2088,7 @@
           "absolutePath": "project:/src/contracts/ownership/Ownable.sol",
           "file": "./ownership/Ownable.sol",
           "scope": 546,
-          "symbolAliases": [
-            null
-          ],
+          "symbolAliases": [null],
           "unitAlias": ""
         },
         "id": 403,
@@ -2135,9 +2101,7 @@
           "absolutePath": "project:/src/contracts/TalentProtocol.sol",
           "file": "./TalentProtocol.sol",
           "scope": 546,
-          "symbolAliases": [
-            null
-          ],
+          "symbolAliases": [null],
           "unitAlias": ""
         },
         "id": 404,
@@ -2150,9 +2114,7 @@
           "absolutePath": "project:/src/contracts/CareerCoin.sol",
           "file": "./CareerCoin.sol",
           "scope": 546,
-          "symbolAliases": [
-            null
-          ],
+          "symbolAliases": [null],
           "unitAlias": ""
         },
         "id": 405,
@@ -2161,17 +2123,11 @@
       },
       {
         "attributes": {
-          "contractDependencies": [
-            368,
-            3188
-          ],
+          "contractDependencies": [368, 3188],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            545,
-            3188
-          ],
+          "linearizedBaseContracts": [545, 3188],
           "name": "TalentProtocolFactory",
           "scope": 546
         },
@@ -2403,9 +2359,7 @@
               },
               {
                 "attributes": {
-                  "parameters": [
-                    null
-                  ]
+                  "parameters": [null]
                 },
                 "children": [],
                 "id": 425,
@@ -2414,17 +2368,13 @@
               },
               {
                 "attributes": {
-                  "arguments": [
-                    null
-                  ]
+                  "arguments": [null]
                 },
                 "children": [
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 3188,
                       "type": "type(contract Ownable)",
                       "value": "Ownable"
@@ -2456,9 +2406,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 412,
                               "type": "contract TalentProtocol",
                               "value": "talentProtocol"
@@ -2470,9 +2418,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 421,
                               "type": "contract TalentProtocol",
                               "value": "_talentProtocol"
@@ -2631,9 +2577,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -2650,10 +2594,7 @@
                                   "typeString": "literal_string \"Symbol must be between 3 and 8 chars\""
                                 }
                               ],
-                              "overloadedDeclarations": [
-                                3777,
-                                3778
-                              ],
+                              "overloadedDeclarations": [3777, 3778],
                               "referencedDeclaration": 3778,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
@@ -2712,9 +2653,7 @@
                                           "isPure": false,
                                           "isStructConstructorCall": false,
                                           "lValueRequested": false,
-                                          "names": [
-                                            null
-                                          ],
+                                          "names": [null],
                                           "type": "bytes memory",
                                           "type_conversion": true
                                         },
@@ -2741,9 +2680,7 @@
                                           {
                                             "attributes": {
                                               "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
+                                              "overloadedDeclarations": [null],
                                               "referencedDeclaration": 433,
                                               "type": "string memory",
                                               "value": "_symbol"
@@ -2819,9 +2756,7 @@
                                           "isPure": false,
                                           "isStructConstructorCall": false,
                                           "lValueRequested": false,
-                                          "names": [
-                                            null
-                                          ],
+                                          "names": [null],
                                           "type": "bytes memory",
                                           "type_conversion": true
                                         },
@@ -2848,9 +2783,7 @@
                                           {
                                             "attributes": {
                                               "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
+                                              "overloadedDeclarations": [null],
                                               "referencedDeclaration": 433,
                                               "type": "string memory",
                                               "value": "_symbol"
@@ -2933,9 +2866,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -2952,10 +2883,7 @@
                                   "typeString": "literal_string \"Name must be at least 1 char\""
                                 }
                               ],
-                              "overloadedDeclarations": [
-                                3777,
-                                3778
-                              ],
+                              "overloadedDeclarations": [3777, 3778],
                               "referencedDeclaration": 3778,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
@@ -2999,9 +2927,7 @@
                                       "isPure": false,
                                       "isStructConstructorCall": false,
                                       "lValueRequested": false,
-                                      "names": [
-                                        null
-                                      ],
+                                      "names": [null],
                                       "type": "bytes memory",
                                       "type_conversion": true
                                     },
@@ -3028,9 +2954,7 @@
                                       {
                                         "attributes": {
                                           "argumentTypes": null,
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
+                                          "overloadedDeclarations": [null],
                                           "referencedDeclaration": 435,
                                           "type": "string memory",
                                           "value": "_name"
@@ -3108,9 +3032,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -3127,10 +3049,7 @@
                                   "typeString": "literal_string \"Talent wallet address must be set\""
                                 }
                               ],
-                              "overloadedDeclarations": [
-                                3777,
-                                3778
-                              ],
+                              "overloadedDeclarations": [3777, 3778],
                               "referencedDeclaration": 3778,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
@@ -3157,9 +3076,7 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 437,
                                   "type": "address",
                                   "value": "_talentAddress"
@@ -3227,9 +3144,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -3246,10 +3161,7 @@
                                   "typeString": "literal_string \"Talent fee must be more than zero\""
                                 }
                               ],
-                              "overloadedDeclarations": [
-                                3777,
-                                3778
-                              ],
+                              "overloadedDeclarations": [3777, 3778],
                               "referencedDeclaration": 3778,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
@@ -3276,9 +3188,7 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 439,
                                   "type": "uint256",
                                   "value": "_talentFee"
@@ -3543,9 +3453,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 3176,
                       "type": "modifier ()",
                       "value": "onlyOwner"
@@ -3564,9 +3472,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 484,
                       "type": "modifier (string memory,string memory,address,uint256)",
                       "value": "onlyValidInputData"
@@ -3578,9 +3484,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 486,
                       "type": "string memory",
                       "value": "_symbol"
@@ -3592,9 +3496,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 488,
                       "type": "string memory",
                       "value": "_name"
@@ -3606,9 +3508,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 492,
                       "type": "address",
                       "value": "_talentAddress"
@@ -3620,9 +3520,7 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
+                      "overloadedDeclarations": [null],
                       "referencedDeclaration": 494,
                       "type": "uint256",
                       "value": "_talentFee"
@@ -3640,9 +3538,7 @@
                 "children": [
                   {
                     "attributes": {
-                      "assignments": [
-                        508
-                      ]
+                      "assignments": [508]
                     },
                     "children": [
                       {
@@ -3681,9 +3577,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "contract CareerCoin",
                           "type_conversion": false
                         },
@@ -3742,9 +3636,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 486,
                               "type": "string memory",
                               "value": "_symbol"
@@ -3756,9 +3648,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 488,
                               "type": "string memory",
                               "value": "_name"
@@ -3770,9 +3660,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 490,
                               "type": "uint32",
                               "value": "_reserveRatio"
@@ -3784,9 +3672,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 492,
                               "type": "address",
                               "value": "_talentAddress"
@@ -3798,9 +3684,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 494,
                               "type": "uint256",
                               "value": "_talentFee"
@@ -3812,29 +3696,21 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "arguments": [
-                                null
-                              ],
+                              "arguments": [null],
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
                               "isStructConstructorCall": false,
                               "lValueRequested": false,
-                              "names": [
-                                null
-                              ],
+                              "names": [null],
                               "type": "address",
                               "type_conversion": false
                             },
                             "children": [
                               {
                                 "attributes": {
-                                  "argumentTypes": [
-                                    null
-                                  ],
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "argumentTypes": [null],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 3166,
                                   "type": "function () view returns (address)",
                                   "value": "owner"
@@ -3868,9 +3744,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "uint256",
                           "type_conversion": false
                         },
@@ -3895,9 +3769,7 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 415,
                                   "type": "contract CareerCoin[] storage ref",
                                   "value": "talentList"
@@ -3914,9 +3786,7 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 508,
                               "type": "contract CareerCoin",
                               "value": "tCareerCoin"
@@ -3945,9 +3815,7 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
+                          "names": [null],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -3960,9 +3828,7 @@
                                   "typeString": "address"
                                 }
                               ],
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 419,
                               "type": "function (address)",
                               "value": "TalentAdded"
@@ -3979,9 +3845,7 @@
                               "isPure": false,
                               "isStructConstructorCall": false,
                               "lValueRequested": false,
-                              "names": [
-                                null
-                              ],
+                              "names": [null],
                               "type": "address",
                               "type_conversion": true
                             },
@@ -4008,9 +3872,7 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 508,
                                   "type": "contract CareerCoin",
                                   "value": "tCareerCoin"
@@ -4077,9 +3939,7 @@
               "documentation": null,
               "implemented": true,
               "isConstructor": false,
-              "modifiers": [
-                null
-              ],
+              "modifiers": [null],
               "name": "getTalentList",
               "payable": false,
               "scope": 545,
@@ -4090,9 +3950,7 @@
             "children": [
               {
                 "attributes": {
-                  "parameters": [
-                    null
-                  ]
+                  "parameters": [null]
                 },
                 "children": [],
                 "id": 536,
@@ -4155,9 +4013,7 @@
                       {
                         "attributes": {
                           "argumentTypes": null,
-                          "overloadedDeclarations": [
-                            null
-                          ],
+                          "overloadedDeclarations": [null],
                           "referencedDeclaration": 415,
                           "type": "contract CareerCoin[] storage ref",
                           "value": "talentList"

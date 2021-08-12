@@ -1,21 +1,30 @@
-import React from 'react'
+import React from "react";
 
-import {
-  faAngleUp,
-  faAngleDown
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleUp, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const icon = (i) => <FontAwesomeIcon icon={i} />
+const icon = (i) => <FontAwesomeIcon icon={i} />;
 
 const DisplayCoinVariance = ({ variance, withoutArrow }) => {
-  const dVariance = variance.replace("-", "")
+  const dVariance = variance.replace("-", "");
 
   if (variance[0] == "-") {
-    return (<div className="text-danger"><strong>{withoutArrow ? '' : icon(faAngleDown)} {dVariance}%</strong></div>)
+    return (
+      <div className="text-danger">
+        <strong>
+          {withoutArrow ? "" : icon(faAngleDown)} {dVariance}%
+        </strong>
+      </div>
+    );
   } else {
-    return (<div className="text-success"><strong>{withoutArrow ? '' : icon(faAngleUp)} {dVariance}%</strong></div>)
+    return (
+      <div className="text-success">
+        <strong>
+          {withoutArrow ? "" : icon(faAngleUp)} {dVariance}%
+        </strong>
+      </div>
+    );
   }
-}
+};
 
-export default DisplayCoinVariance
+export default DisplayCoinVariance;

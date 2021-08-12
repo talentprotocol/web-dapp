@@ -1,16 +1,16 @@
-@import 'fonts';
-@import 'bootstrap/overrides';
-@import 'libs';
-@import 'custom/button';
-@import 'custom/chat';
-@import 'custom/navbar';
-@import 'custom/talent';
-@import 'custom/alerts';
-@import 'custom/leaderboards';
-@import 'custom/table';
-@import 'custom/registration';
-@import 'custom/swap';
-@import 'custom/shared';
+@import "fonts";
+@import "bootstrap/overrides";
+@import "libs";
+@import "custom/button";
+@import "custom/chat";
+@import "custom/navbar";
+@import "custom/talent";
+@import "custom/alerts";
+@import "custom/leaderboards";
+@import "custom/table";
+@import "custom/registration";
+@import "custom/swap";
+@import "custom/shared";
 
 ::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -18,12 +18,13 @@
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background-color: rgba(0,0,0,.5);
-  box-shadow: 0 0 1px rgba(255,255,255,.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 @media (min-width: 992px) {
-  html, body {
+  html,
+  body {
     height: 100%;
   }
 
