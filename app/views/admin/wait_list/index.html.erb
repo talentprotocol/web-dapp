@@ -12,6 +12,7 @@
           <th scope="col">#</th>
           <th scope="col">Email</th>
           <th scope="col">Approved</th>
+          <th scope="col">Talent</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
             <th scope="row"><%= wait_list_item.id%></th>
             <td><%= wait_list_item.email %></td>
             <td><%= wait_list_item.approved %></td>
+            <td><%= wait_list_item.talent %></td>
             <td><%= link_to "Details", admin_wait_list_path(wait_list_item), class: "btn btn-primary talent-button", role: "button" %></td>
           </tr>
         <% end %>

@@ -38,7 +38,7 @@ class UpdateTalent
 
     @talent.tags.where.not(description: all_tags).delete_all
 
-    all_tags.each do |description, index|
+    all_tags.each_with_index do |description, index|
       tag = Tag.find_or_initialize_by(talent_id: @talent.id, description: description)
 
       tag.primary = index == 0

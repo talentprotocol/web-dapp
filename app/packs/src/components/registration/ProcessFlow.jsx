@@ -46,15 +46,21 @@ const ProcessFlow = ({ email, username, metamaskId }) => {
   useEffect(() => {
     setRequesting(true);
 
-    post("/users.json", { email, username, metamaskId }).then((response) => {
-      if (response.error) {
-        setError(response.error);
+    post("/users.json", { email, username, metamaskId })
+      .then((response) => {
+        console.log(response);
+        if (response.error) {
+          setError(response.error);
+          setRequesting(false);
+        } else {
+          setUserCreated(true);
+          setRequesting(false);
+        }
+      })
+      .catch(() => {
+        setError("Please reach out to us if this persists.");
         setRequesting(false);
-      } else {
-        setUserCreated(true);
-        setRequesting(false);
-      }
-    });
+      });
   }, [email]);
 
   return (

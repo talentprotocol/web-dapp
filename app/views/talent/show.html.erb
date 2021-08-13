@@ -29,8 +29,8 @@
           marketCap: @talent.coin&.display_market_cap,
           sponsors: @talent.investors.count,
           circulatingSupply: @talent.coin&.transactions&.sum(:amount),
-          priceVariance7d: "2.14",
-          priceVariance30d: "29.39",
+          priceVariance7d: @talent.coin.deployed? ? "2.14" : "0",
+          priceVariance30d: @talent.coin.deployed? ? "29.39" : "0",
           active: @talent.active?
         }, prerender: false)
       %>
