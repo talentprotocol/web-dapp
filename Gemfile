@@ -12,7 +12,7 @@ gem "sass-rails", ">= 6"
 gem "webpacker", github: "rails/webpacker", branch: "master"
 gem "jbuilder", "~> 2.7"
 gem "react_on_rails", "= 12.2.0"
-gem 'mini_racer', platforms: :ruby
+gem "mini_racer", platforms: :ruby
 
 # Auth
 gem "clearance"
@@ -22,7 +22,7 @@ gem "schmooze" # Not for auth but currently only used during the auth flow
 gem "pagy", "~> 4.8"
 
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.3'
+gem "redis", "~> 4.3"
 gem "bcrypt"
 
 # File Attachment toolkit
@@ -37,6 +37,9 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # For data generation
 gem "faker"
+
+# Error tracking
+gem "rollbar"
 
 group :development, :test do
   gem "awesome_print"
@@ -59,8 +62,8 @@ end
 
 group :test do
   gem "capybara", ">= 3.26"
-  gem "rspec-rails", '~> 5.0.1'
+  gem "rspec-rails", "~> 5.0.1"
   gem "selenium-webdriver"
-  gem 'shoulda-matchers', '~> 4.5.1'
+  gem "shoulda-matchers", "~> 4.5.1"
   gem "webdrivers"
 end
