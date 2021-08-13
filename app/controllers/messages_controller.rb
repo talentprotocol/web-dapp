@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
     if @user
       user_ids << @user.id
     end
-    @users = User.where(id: user_ids)
+    @users = User.where(id: user_ids).includes([talent: :coin])
   end
 
   def show
