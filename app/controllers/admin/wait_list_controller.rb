@@ -59,6 +59,7 @@ class Admin::WaitListController < ApplicationController
   def wait_list_params
     params.require(:wait_list).permit(
       :approved,
+      :talent,
       :email
     )
   end

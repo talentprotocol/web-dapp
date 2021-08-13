@@ -11,7 +11,7 @@ import Button from "../../button";
 const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
-  const [aboutMeText, setAboutMeText] = useState(description);
+  const [aboutMeText, setAboutMeText] = useState(description || "");
   const [editYoutubeUrl, setEditYoutubeUrl] = useState(youtubeUrl || "");
   const textInputRef = useRef(null);
 

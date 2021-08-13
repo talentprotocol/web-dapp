@@ -10,6 +10,12 @@ class CreateUser
       user = create_user(email, username, metamask_id)
       create_investor(user, username, metamask_id)
       create_feed(user)
+      wait_list = WaitList.find_by(email: email)
+
+      if wait_list.talent?
+        create_talent(user)
+        create_coin(user)
+      end
 
       @result[:user] = user
       @result[:success] = true
@@ -41,10 +47,17 @@ class CreateUser
     user
   end
 
+  def create_talent(user)
+    user.create_talent!
+  end
+
+  def create_coin(user)
+    user.talent.create_coin!
+  end
+
   def create_investor(user, username, metamask_id)
     investor = Investor.new
     investor.user = user
-    investor.username = user.username
     investor.save!
     investor
   end

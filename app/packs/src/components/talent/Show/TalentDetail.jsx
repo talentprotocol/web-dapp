@@ -42,9 +42,9 @@ const TalentDetail = ({
 }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
-  const [editLinkedinUrl, setEditLinkedinUrl] = useState(linkedinUrl);
-  const [editTicker, setEditTicker] = useState(ticker);
-  const [editUsername, setEditUsername] = useState(username);
+  const [editLinkedinUrl, setEditLinkedinUrl] = useState(linkedinUrl || "");
+  const [editTicker, setEditTicker] = useState(ticker || "");
+  const [editUsername, setEditUsername] = useState(username || "");
   const [editTagsText, setEditTagsText] = useState(tags.join(", "));
   const [uploadedFileData, setUploadedFileData] = useState(null);
 
