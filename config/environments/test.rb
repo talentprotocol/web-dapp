@@ -1,6 +1,12 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.raise = false # raise an error if n+1 query occurs
+  end
+
   config.cache_classes = false
   config.action_view.cache_template_loading = true
 

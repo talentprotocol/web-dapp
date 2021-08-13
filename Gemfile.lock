@@ -99,6 +99,9 @@ GEM
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     builder (3.2.4)
+    bullet (6.1.4)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     bundler-audit (0.8.0)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
@@ -323,6 +326,7 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
+    uniform_notifier (1.14.2)
     uppy-s3_multipart (1.0.0)
       aws-sdk-s3 (~> 1.0)
       content_disposition (~> 1.0)
@@ -351,6 +355,7 @@ DEPENDENCIES
   aws-sdk-s3
   bcrypt
   bootsnap (>= 1.4.4)
+  bullet
   bundler-audit
   byebug
   capybara (>= 3.26)

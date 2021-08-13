@@ -3,7 +3,7 @@ class TalentController < ApplicationController
   before_action :set_talent, only: [:show, :update]
 
   def index
-    @pagy, @talents = pagy(apply_filters(Talent.where.not(ito_date: nil)), items: 6)
+    @pagy, @talents = pagy(apply_filters(base_talent.includes(:primary_tag)), items: 6)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,7 +12,7 @@ class TalentController < ApplicationController
   end
 
   def show
-    @talent_leaderboard = Talent.where.not(ito_date: nil).order(id: :desc).limit(10)
+    @talent_leaderboard = base_talent.order(id: :desc).limit(10)
 
     @is_following = current_user.following.where(user_id: @talent.user.id).exists?
 
@@ -44,6 +44,10 @@ class TalentController < ApplicationController
   end
 
   private
+
+  def base_talent
+    Talent.where.not(ito_date: nil).includes([:user, :coin])
+  end
 
   def apply_filters(talent)
     filtered_talent = talent_filter(talent)

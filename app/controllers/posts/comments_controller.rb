@@ -2,7 +2,7 @@ class Posts::CommentsController < ApplicationController
   before_action :set_post, only: [:index, :create]
 
   def index
-    @comments = Comment.where(post: @post).order(id: :desc)
+    @comments = Comment.where(post: @post).includes([user: [talent: :coin]]).order(id: :desc)
 
     render json: @comments.map { |comment| comment.to_json }, status: :ok
   end
