@@ -150,6 +150,12 @@ GEM
     foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    google-protobuf (3.17.3)
+    googleapis-common-protos-types (1.1.0)
+      google-protobuf (~> 3.14)
+    grpc (1.38.0)
+      google-protobuf (~> 3.15)
+      googleapis-common-protos-types (~> 1.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -172,6 +178,10 @@ GEM
       libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
     msgpack (1.4.2)
+    newrelic-infinite_tracing (7.2.0)
+      grpc (~> 1.34)
+      newrelic_rpm (= 7.2.0)
+    newrelic_rpm (7.2.0)
     nio4r (2.5.7)
     nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
@@ -352,6 +362,8 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mini_racer
+  newrelic-infinite_tracing
+  newrelic_rpm
   pagy (~> 4.8)
   pg (~> 1.1)
   pry-byebug
