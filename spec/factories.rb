@@ -29,4 +29,8 @@ FactoryBot.define do
 
   factory :message do
   end
+
+  factory :wait_list do
+    email { Faker::Internet.email }
+  end
 end
