@@ -21,6 +21,11 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+JS_DRIVER = :selenium_chrome_headless
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = JS_DRIVER
+Capybara.default_max_wait_time = 2
+
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
@@ -30,12 +35,18 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
-  if Bullet.enable?
-    config.before(:each) do
+  config.before(:each) do |example|
+    Capybara.current_driver = JS_DRIVER if example.metadata[:js]
+    Capybara.current_driver = :selenium if example.metadata[:selenium]
+    Capybara.current_driver = :selenium_chrome if example.metadata[:selenium_chrome]
+    if Bullet.enable?
       Bullet.start_request
     end
+  end
 
-    config.after(:each) do
+  config.after(:each) do
+    Capybara.use_default_driver
+    if Bullet.enable?
       Bullet.perform_out_of_channel_notifications if Bullet.notification?
       Bullet.end_request
     end

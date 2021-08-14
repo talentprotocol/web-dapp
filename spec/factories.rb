@@ -33,4 +33,10 @@ FactoryBot.define do
   factory :wait_list do
     email { Faker::Internet.email }
   end
+
+  factory :transaction do
+  end
+
+  factory :feed do
+  end
 end
