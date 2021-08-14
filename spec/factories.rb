@@ -11,8 +11,8 @@ FactoryBot.define do
     email { "user@talentprotocol.com" }
     password { "password" }
 
-    trait :external_log_in do
-      wallet_id { "123" }
+    trait :metamask_login do
+      wallet_id { "0x123" }
       password { nil }
       email { nil }
     end
@@ -25,5 +25,8 @@ FactoryBot.define do
     href { "https://metamask.io/" }
     button_text { "MetaMask" }
     css_class { "w-100" }
+  end
+
+  factory :message do
   end
 end

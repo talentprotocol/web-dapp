@@ -41,7 +41,9 @@ Rails.application.routes.draw do
     root to: "feeds#show", as: :user_root
 
     # file uploads
-    mount Shrine.uppy_s3_multipart(:cache) => "/s3/multipart"
+    unless Rails.env.test?
+      mount Shrine.uppy_s3_multipart(:cache) => "/s3/multipart"
+    end
 
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"

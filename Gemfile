@@ -52,6 +52,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
   gem "standard"
+  gem "bullet"
 end
 
 group :development do
@@ -60,7 +61,6 @@ group :development do
   gem "listen", "~> 3.3"
   gem "spring"
   gem "foreman"
-  gem "bullet"
 end
 
 group :test do
