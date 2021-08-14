@@ -113,19 +113,11 @@ namespace :staging do
       end
     end
 
-    puts "Setting up some comments & likes.."
+    puts "Setting up some comments"
     Post.all.find_each do |post|
       Random.new.rand(1..3).times.each do |_i|
         user = User.find(Random.new.rand(1..User.last.id))
         Comment.create!(user: user, post: post, text: Faker::Marketing.buzzwords)
-      end
-
-      Random.new.rand(1..6).times.each do |_i|
-        user = User.find(Random.new.rand(1..User.last.id))
-
-        unless Like.where(user: user, post: post).exists?
-          Like.create!(user: user, post: post)
-        end
       end
     end
   end

@@ -69,8 +69,6 @@ Rails.application.routes.draw do
 
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
-      resources :likes, only: [:index, :create], module: "posts"
-      delete "likes", on: :member, to: "posts/likes#destroy"
     end
 
     # Swap

@@ -3,7 +3,7 @@ import { parseJSON, formatDistanceToNow } from "date-fns";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { post as postRequest, get, destroy } from "src/utils/requests";
+import { post as postRequest, get } from "src/utils/requests";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
@@ -105,8 +105,6 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
 };
 
 const Post = ({ post, user, currentUser }) => {
-  const [like, setLike] = useState(post.i_liked);
-  const [likeCount, setLikeCount] = useState(post.likes);
   const [commentCount, setCommentCount] = useState(post.comments);
   const [commentSectionActive, setCommentSectionActive] = useState(false);
 
@@ -118,28 +116,6 @@ const Post = ({ post, user, currentUser }) => {
 
   const toggleCommentSection = () => {
     setCommentSectionActive(!commentSectionActive);
-  };
-
-  const onLikeClick = () => {
-    postRequest(`/posts/${post.id}/likes`).then((response) => {
-      if (response.error) {
-        console.log(response.error);
-      } else {
-        setLike(true);
-        setLikeCount(likeCount + 1);
-      }
-    });
-  };
-
-  const onUnlikeClick = () => {
-    destroy(`/posts/${post.id}/likes`).then((response) => {
-      if (response.error) {
-        console.log(response.error);
-      } else {
-        setLike(false);
-        setLikeCount(likeCount - 1);
-      }
-    });
   };
 
   const incrementComments = () => setCommentCount(commentCount + 1);
