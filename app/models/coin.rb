@@ -2,7 +2,7 @@ class Coin < ApplicationRecord
   belongs_to :talent
   has_many :transactions
 
-  TAL_VALUE = 158
+  TAL_VALUE = 2
 
   def display_ticker
     "$#{ticker}"

@@ -79,7 +79,7 @@ const TalNavbar = (props) => {
             <NavbarItem url={helpPath} exact>
               {icon(faQuestionCircle)} Help
             </NavbarItem>
-            <TalBox price="1.58" variance="+12%" />
+            <TalBox price="0.02" variance="+12%" />
           </Nav>
         </Navbar.Collapse>
       </Container>
