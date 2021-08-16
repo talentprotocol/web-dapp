@@ -1,6 +1,24 @@
 import React, { useContext } from "react";
+import { useSpring, animated, config } from "@react-spring/web";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
+
+const AnimatedNumber = ({ value, withoutDecimal }) => {
+  const { number } = useSpring({
+    reset: true,
+    reverse: false,
+    from: { number: 0 },
+    number: value,
+    delay: 10,
+    config: config.default,
+  });
+
+  return (
+    <animated.h4>
+      {number.to((n) => (withoutDecimal ? n.toFixed(0) : n.toFixed(2)))}
+    </animated.h4>
+  );
+};
 
 const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
   const web3 = useContext(Web3Context);
@@ -12,7 +30,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL</small>
           </div>
-          <h4>{web3.talToken.balance || 0.0}</h4>
+          <AnimatedNumber value={web3.talToken.balance} />
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
@@ -20,7 +38,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL invested</small>
           </div>
-          <h4>{talCommited}</h4>
+          <AnimatedNumber value={talCommited} />
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
@@ -28,7 +46,9 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL Total (USD)</small>
           </div>
-          <h4>{((web3.talToken.balance || 0.0) + talCommited) * talValue}</h4>
+          <AnimatedNumber
+            value={((web3.talToken.balance || 0.0) + talCommited) * talValue}
+          />
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 pl-1 pr-0">
@@ -36,7 +56,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>Talent supported</small>
           </div>
-          <h4>{talentCount}</h4>
+          <AnimatedNumber value={talentCount} withoutDecimal={true} />
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ Web3Context.displayName = "Web3Context";
 const Web3Container = (props) => {
   const [talweb3, setTalweb3] = useState(null);
   const [tokens, setTokens] = useState({});
-  const [talToken, setTalToken] = useState({});
+  const [talToken, setTalToken] = useState({ balance: 0.0 });
 
   const setupTal = useCallback(async () => {
     let web3;
