@@ -19,8 +19,6 @@ class Transaction < ApplicationRecord
   end
 
   def to_json_view
-    prng = Random.new
-
     {
       id: id,
       coinTicker: coin.display_ticker,

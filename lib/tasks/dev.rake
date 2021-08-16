@@ -139,7 +139,6 @@ if Rails.env.development?
       admin.feed.posts << post
 
       Comment.create(user: investor, post: post, text: Faker::Marketing.buzzwords)
-      Like.create(user: investor, post: post)
     end
   end
 end

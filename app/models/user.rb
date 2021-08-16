@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def display_wallet_id
-    "#{wallet_id[0..10]}..."
+    "#{wallet_id[0..10]}.."
   end
 
   def sender_chat_id(chat_user)

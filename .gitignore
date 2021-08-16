@@ -39,4 +39,5 @@ yarn-debug.log*
 /spec/examples.txt
 /public/uploads/
 .env.development
+.env.test
 .vscode/

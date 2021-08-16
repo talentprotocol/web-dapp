@@ -10,21 +10,27 @@ const renderStatus = (status, errorDetails) => {
     return (
       <div className="d-flex flex-row text-muted align-items-center">
         <FontAwesomeIcon icon={faSpinner} spin />
-        <p className="ml-2 mb-0">Adding you to the wait list..</p>
+        <p id="wait-list-loading" className="ml-2 mb-0">
+          Adding you to the wait list..
+        </p>
       </div>
     );
   } else if (status == "error") {
     return (
       <div className="d-flex flex-row text-danger align-items-center">
         <FontAwesomeIcon icon={faTimes} />
-        <p className="ml-2 mb-0">{errorDetails}</p>
+        <p id="wait-list-error" className="ml-2 mb-0">
+          {errorDetails}
+        </p>
       </div>
     );
   } else if (status == "success") {
     return (
       <div className="d-flex flex-row text-success align-items-center">
         <FontAwesomeIcon icon={faCheck} />
-        <p className="ml-2 mb-0">You're on the wait list!</p>
+        <p id="wait-list-success" className="ml-2 mb-0">
+          You're on the wait list!
+        </p>
       </div>
     );
   }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_13_084210) do
+ActiveRecord::Schema.define(version: 2021_08_14_102808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,16 +96,6 @@ ActiveRecord::Schema.define(version: 2021_08_13_084210) do
     t.bigint "user_id"
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
-  end
-
-  create_table "likes", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.bigint "post_id"
-    t.index ["post_id"], name: "index_likes_on_post_id"
-    t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
-    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -216,8 +206,6 @@ ActiveRecord::Schema.define(version: 2021_08_13_084210) do
   add_foreign_key "feeds", "users"
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
-  add_foreign_key "likes", "posts"
-  add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "rewards", "talent"
   add_foreign_key "tags", "talent"
