@@ -153,7 +153,8 @@
                 reserveRatio: @user.talent.coin.reserve_ratio,
                 talentFee: @user.talent.coin.talent_fee,
                 updateCoinUrl: admin_talent_coin_path(@user.talent, @user.talent.coin),
-                contract_id: @user.talent.coin.contract_id
+                contract_id: @user.talent.coin.contract_id,
+                wallet_id: @user.wallet_id,
               },
               prerender: false) %>
           </div>
