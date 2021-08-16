@@ -89,6 +89,12 @@ const Web3Container = (props) => {
     return approved;
   };
 
+  const transfer = async (address, amount) => {
+    const result = await talweb3.tal.transfer(address, amount);
+
+    return result;
+  };
+
   const value = {
     ...defaultValue,
     talToken,
@@ -96,6 +102,7 @@ const Web3Container = (props) => {
     buy,
     sell,
     approve,
+    transfer,
   };
 
   return (

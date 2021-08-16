@@ -296,14 +296,20 @@
   "ast": {
     "absolutePath": "project:/src/contracts/TalentProtocol.sol",
     "exportedSymbols": {
-      "TalentProtocol": [317]
+      "TalentProtocol": [
+        317
+      ]
     },
     "id": 318,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 287,
-        "literals": ["solidity", "0.4", ".25"],
+        "literals": [
+          "solidity",
+          "0.4",
+          ".25"
+        ],
         "nodeType": "PragmaDirective",
         "src": "0:23:2"
       },
@@ -368,12 +374,21 @@
             "src": "182:5:2"
           }
         ],
-        "contractDependencies": [3718, 3885, 4057],
+        "contractDependencies": [
+          3718,
+          3885,
+          4057
+        ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 317,
-        "linearizedBaseContracts": [317, 3718, 3885, 4057],
+        "linearizedBaseContracts": [
+          317,
+          3718,
+          3885,
+          4057
+        ],
         "name": "TalentProtocol",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -675,13 +690,19 @@
     "attributes": {
       "absolutePath": "project:/src/contracts/TalentProtocol.sol",
       "exportedSymbols": {
-        "TalentProtocol": [317]
+        "TalentProtocol": [
+          317
+        ]
       }
     },
     "children": [
       {
         "attributes": {
-          "literals": ["solidity", "0.4", ".25"]
+          "literals": [
+            "solidity",
+            "0.4",
+            ".25"
+          ]
         },
         "id": 287,
         "name": "PragmaDirective",
@@ -693,7 +714,9 @@
           "absolutePath": "project:/src/contracts/token/ERC20Detailed.sol",
           "file": "./token/ERC20Detailed.sol",
           "scope": 318,
-          "symbolAliases": [null],
+          "symbolAliases": [
+            null
+          ],
           "unitAlias": ""
         },
         "id": 288,
@@ -706,7 +729,9 @@
           "absolutePath": "project:/src/contracts/token/ERC20.sol",
           "file": "./token/ERC20.sol",
           "scope": 318,
-          "symbolAliases": [null],
+          "symbolAliases": [
+            null
+          ],
           "unitAlias": ""
         },
         "id": 289,
@@ -715,11 +740,20 @@
       },
       {
         "attributes": {
-          "contractDependencies": [3718, 3885, 4057],
+          "contractDependencies": [
+            3718,
+            3885,
+            4057
+          ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
-          "linearizedBaseContracts": [317, 3718, 3885, 4057],
+          "linearizedBaseContracts": [
+            317,
+            3718,
+            3885,
+            4057
+          ],
           "name": "TalentProtocol",
           "scope": 318
         },
@@ -893,7 +927,9 @@
               },
               {
                 "attributes": {
-                  "parameters": [null]
+                  "parameters": [
+                    null
+                  ]
                 },
                 "children": [],
                 "id": 308,
@@ -905,7 +941,9 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [null],
+                      "overloadedDeclarations": [
+                        null
+                      ],
                       "referencedDeclaration": 3885,
                       "type": "type(contract ERC20Detailed)",
                       "value": "ERC20Detailed"
@@ -917,7 +955,9 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [null],
+                      "overloadedDeclarations": [
+                        null
+                      ],
                       "referencedDeclaration": 295,
                       "type": "string memory",
                       "value": "_name"
@@ -929,7 +969,9 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [null],
+                      "overloadedDeclarations": [
+                        null
+                      ],
                       "referencedDeclaration": 297,
                       "type": "string memory",
                       "value": "_symbol"
@@ -941,7 +983,9 @@
                   {
                     "attributes": {
                       "argumentTypes": null,
-                      "overloadedDeclarations": [null],
+                      "overloadedDeclarations": [
+                        null
+                      ],
                       "referencedDeclaration": 299,
                       "type": "uint8",
                       "value": "_decimals"
@@ -967,7 +1011,9 @@
                           "isPure": false,
                           "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [null],
+                          "names": [
+                            null
+                          ],
                           "type": "tuple()",
                           "type_conversion": false
                         },
@@ -984,7 +1030,9 @@
                                   "typeString": "uint256"
                                 }
                               ],
-                              "overloadedDeclarations": [null],
+                              "overloadedDeclarations": [
+                                null
+                              ],
                               "referencedDeclaration": 3628,
                               "type": "function (address,uint256)",
                               "value": "_mint"
@@ -1008,7 +1056,9 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [null],
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
                                   "referencedDeclaration": 4104,
                                   "type": "msg",
                                   "value": "msg"
@@ -1025,7 +1075,9 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [null],
+                              "overloadedDeclarations": [
+                                null
+                              ],
                               "referencedDeclaration": 301,
                               "type": "uint256",
                               "value": "_supply"
@@ -1525,12 +1577,12 @@
         }
       },
       "links": {},
-      "address": "0x96465668B947CC7c0FD39A3ad35320316B6CadF9",
-      "transactionHash": "0x31d6a58b4967714d7fc692aa0027ca16f323cf7842c6bdca85abefa712a6f7ba"
+      "address": "0x49Ed331922983066E607e343bdA5436b51792400",
+      "transactionHash": "0x18ac91ae5d366c90150257121978add993bba7ab3fdb68f22454cf48c16f3171"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-08-11T09:44:32.157Z",
+  "updatedAt": "2021-08-16T22:03:55.570Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

@@ -35,6 +35,16 @@ class Tal {
 
     return 0;
   }
+
+  async transfer(address, amount) {
+    if (this.contract && this.account) {
+      return await this.contract.methods
+        .transfer(address, amount)
+        .send({ from: this.account });
+    }
+
+    return false;
+  }
 }
 
 export default Tal;

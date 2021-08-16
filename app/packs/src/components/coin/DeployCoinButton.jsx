@@ -13,9 +13,11 @@ const DeployCoinButton = ({
   talentFee,
   updateCoinUrl,
   contract_id,
+  wallet_id,
 }) => {
   const [buttonText, setButtonText] = useState("Deploy Coin");
   const [mintText, setMintText] = useState("Initial Mint");
+  const [transferText, setTransferText] = useState("Transfer $TAL");
   const [tokenAddress, setTokenAddress] = useState(contract_id);
   const [talweb3, setTalweb3] = useState();
 
@@ -76,21 +78,42 @@ const DeployCoinButton = ({
     }
   };
 
+  const transfer = async (e) => {
+    e.preventDefault();
+
+    const result = await talweb3.tal.transfer(wallet_id, 150000);
+
+    if (result) {
+      setTransferText("Transfered Funds");
+    } else {
+      setTransferText("Unabled to transfer funds");
+    }
+  };
+
   return (
-    <>
+    <div className="d-flex flex-row justify-content-between">
       <Button
         disabled={buttonText != "Deploy Coin"}
         type="warning"
         text={buttonText}
         onClick={onClick}
+        className="btn btn-warning talent-button mr-2"
       />
       <Button
         disabled={tokenAddress != "" && mintText != "Initial Mint"}
         type="danger"
         text={mintText}
         onClick={performInitialMint}
+        className="btn btn-danger talent-button mr-2"
       />
-    </>
+      <Button
+        disabled={tokenAddress != "" && transferText != "Transfer $TAL"}
+        type="primary"
+        text={transferText}
+        onClick={transfer}
+        className="btn btn-primary talent-button mr-2"
+      />
+    </div>
   );
 };
 
