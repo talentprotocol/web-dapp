@@ -43,6 +43,9 @@ gem "rollbar"
 gem "newrelic_rpm"
 gem "newrelic-infinite_tracing"
 
+# Async jobs
+gem "sidekiq"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"

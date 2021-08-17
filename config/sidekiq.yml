@@ -1,0 +1,7 @@
+:logfile: log/sidekiq.log
+:queues:
+  - critical
+  - high
+  - default
+  - mailers
+  - low

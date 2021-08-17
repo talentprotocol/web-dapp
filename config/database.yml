@@ -18,4 +18,5 @@ production:
   <<: *default
   database: mvp_production
   username: mvp
+  url: <%= ENV['DATABASE_URL'] %>
   password: <%= ENV['MVP_DATABASE_PASSWORD'] %>
