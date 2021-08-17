@@ -30,6 +30,7 @@ import Swap from "src/components/swap/Swap";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskLogin from "src/components/login/MetamaskLogin";
 import DeployCoinButton from "src/components/coin/DeployCoinButton";
+import Logo from "src/components/logo";
 
 import "stylesheets/application.scss";
 
@@ -56,6 +57,7 @@ ReactOnRails.register({
   TalentNameSearch,
   MetamaskLogin,
   DeployCoinButton,
+  Logo,
 });
 
 Rails.start();
