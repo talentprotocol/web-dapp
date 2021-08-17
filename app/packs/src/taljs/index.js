@@ -18,6 +18,7 @@ const LOCAL_CAREER_COINS_ADDRESS = "0xF5746B6243349FBE31fdF64474E36C0dF62790E9";
 class TalWeb3 {
   constructor() {
     this.web3 = null;
+    this.provider = null;
     this.account = null;
     this.networkId = null;
     this.tal = null;
@@ -45,7 +46,7 @@ class TalWeb3 {
     return this.networkId;
   }
 
-  async loadTal() {
+  talAddress() {
     let address;
     if (TalentProtocol.networks) {
       const talentProtocolTokenData = TalentProtocol.networks[this.networkId];
@@ -59,6 +60,11 @@ class TalWeb3 {
         address = LOCAL_TAL_ADDRESS;
       }
     }
+    return address;
+  }
+
+  async loadTal() {
+    const address = this.talAddress();
 
     if (address) {
       const contract = new this.web3.eth.Contract(TalentProtocol.abi, address);
@@ -115,6 +121,7 @@ class TalWeb3 {
     const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
     if (provider) {
+      this.provider = provider;
       this.web3 = new Web3(provider);
     } else if (window.ethereum) {
       this.web3 = new Web3(window.ethereum);

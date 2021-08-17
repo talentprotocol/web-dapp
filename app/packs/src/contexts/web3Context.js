@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 
 import { TalWeb3 } from "src/taljs";
 
@@ -19,6 +13,7 @@ Web3Context.displayName = "Web3Context";
 
 const Web3Container = (props) => {
   const [talweb3, setTalweb3] = useState(null);
+  const [provider, setProvider] = useState(null);
   const [tokens, setTokens] = useState({});
   const [talToken, setTalToken] = useState({ balance: 0.0 });
 
@@ -31,6 +26,7 @@ const Web3Container = (props) => {
 
     const allTalentTokens = await web3.careerCoins.getAllCareerCoins();
     setTalweb3(web3);
+    setProvider(web3.provider);
     setTokens(allTalentTokens);
     setTalToken(web3.tal);
   }, []);
@@ -99,6 +95,7 @@ const Web3Container = (props) => {
     ...defaultValue,
     talToken,
     tokens,
+    provider,
     buy,
     sell,
     approve,
