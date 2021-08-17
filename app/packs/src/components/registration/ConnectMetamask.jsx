@@ -33,10 +33,10 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
                 params: {
                   type: "ERC20",
                   options: {
-                    address: web3.talToken.contract._address, // The address that the token is at.
-                    symbol: "TAL", // A ticker symbol or shorthand, up to 5 chars.
-                    decimals: 18, // The number of decimals in the token
-                    image: document.location.origin + "/tal.png", // A string url of the token logo
+                    address: web3.talToken.contract._address,
+                    symbol: "TAL",
+                    decimals: 18,
+                    image: document.location.origin + "/tal.png",
                   },
                 },
               })
