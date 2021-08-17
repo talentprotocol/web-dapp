@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { parseJSON, formatDistanceToNow } from "date-fns";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTransition, animated, config } from "@react-spring/web";
 
 import { post as postRequest, get } from "src/utils/requests";
 
@@ -67,6 +68,12 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
     });
   }, [post_id]);
 
+  const transitions = useTransition(comments, {
+    from: { translateX: -10000 },
+    enter: { translateX: 0 },
+    leave: { translateX: 10000 },
+  });
+
   return (
     <div className="d-flex flex-column align-items-center border-top mb-3">
       <form
@@ -99,7 +106,11 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
       )}
       {!loading &&
         comments.length > 0 &&
-        comments.map((comment) => <Comment key={comment.id} {...comment} />)}
+        transitions((style, item) => (
+          <animated.div style={style} className="d-flex flex-row w-100">
+            <Comment key={item.id} {...item} />
+          </animated.div>
+        ))}
     </div>
   );
 };

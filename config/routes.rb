@@ -1,9 +1,13 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   # Admin area
   constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
     root to: "feeds#show", as: :admin_root
 
     get "/admin", to: "admin/dashboards#show"
+
+    mount Sidekiq::Web => "/sidekiq"
 
     namespace :admin do
       resources :dashboards, only: [:show]

@@ -1,10 +1,12 @@
-<div class="col-12 col-lg-9 lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row">
-  <main class="col-12 mx-auto mx-lg-0 px-0 d-flex flex-column">
-    <%= react_component("RegistrationFlow",
-      props: {
-        step: 1
-      },
-      prerender: false, html_options: { class: "px-3 pb-3 h-100"})
-    %>
-  </main>
-</div>
+<main class="d-flex flex-column mx-auto h-100 justify-content-center">
+  <%= react_component("Logo",
+    props: { width: "100%", height: 50},
+    prerender: false, html_options: { class: "my-3" })
+  %>
+  <%= react_component("RegistrationFlow",
+    props: {
+      step: 1
+    },
+    prerender: false, html_options: { class: "px-3 pb-3"})
+  %>
+</main>

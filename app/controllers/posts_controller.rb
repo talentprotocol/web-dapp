@@ -10,8 +10,9 @@ class PostsController < ApplicationController
   end
 
   def create
-    service = CreatePost.new
-    @post = service.call(text: post_params[:text], writer: current_user)
+    @post = Post.create(text: post_params[:text], user: current_user)
+
+    PublishPostJob.perform_later(post_id: post.id)
 
     if @post.save
       render json: @post.to_json, status: :created
@@ -24,9 +25,9 @@ class PostsController < ApplicationController
     @post = Post.find_by(user: post_params[:user_id], follower: current_user)
 
     if @post.present? && @post.destroy
-      render json: {success: "Follow successfully removed."}, status: :ok
+      render json: {success: "Post successfully destroyed."}, status: :ok
     else
-      render json: {error: "Follow does not exist"}, status: :not_found
+      render json: {error: "Post does not exist"}, status: :not_found
     end
   end
 

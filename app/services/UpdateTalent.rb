@@ -13,6 +13,8 @@ class UpdateTalent
 
       @talent
     rescue => e
+      Rollbar.error(e, "Unable to process updating the talent, affecting talent ##{@talent.id}")
+
       raise ActiveRecord::Rollback.new(e)
     end
   end
