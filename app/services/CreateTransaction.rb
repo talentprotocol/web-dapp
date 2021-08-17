@@ -25,6 +25,8 @@ class CreateTransaction
 
       transaction
     rescue => e
+      Rollbar.error(e, "Unable to create transaction, affecting user ##{user_id}")
+
       raise ActiveRecord::Rollback.new(e)
     end
   end

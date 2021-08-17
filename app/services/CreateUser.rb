@@ -33,6 +33,16 @@ class CreateUser
         @result[:error] = "We already have that wallet in the system."
       end
       @result
+    rescue => e
+      Rollbar.error(
+        e,
+        "Unable to create user with unexpected error.",
+        email: email,
+        username: username,
+        metamask_id: metamask_id
+      )
+
+      raise ActiveRecord::Rollback.new(e)
     end
   end
 
