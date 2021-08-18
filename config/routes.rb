@@ -64,7 +64,9 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
 
-    resources :settings, only: [:index]
+    # Profile
+    resources :settings, only: [:index, :update]
+    resources :investors, only: [:update]
 
     # Feeds
     resource :feed, only: [:show]

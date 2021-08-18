@@ -2,9 +2,21 @@
   <main class="col-12 px-2 d-flex flex-column justify-content-between">
     <% if current_user.present? %>
       <div class="d-flex flex-column mt-3">
+        <%= render "shared/flashes" %>
         <p>You are logged in as: <%= current_user.email %></p>
         <%= button_to "Sign out", sign_out_path, method: :delete, class: "btn btn-primary talent-button" %>
+
+        <% if current_user.investor.present? && current_user.talent.nil? %>
+          <p class="mt-4 mb-2">Change your profile picture: </p>
+
+          <% if current_user.investor.profile_picture.present? %>
+            <%= image_tag current_user.investor.profile_picture_url, width: 128, height: 128 %>
+          <% end %>
+
+          <%= render "investors/investor_form", investor: current_user.investor %>
+        <% end %>
       </div>
+
       <p>Wallet ID: <%= current_user.wallet_id %></p>
     <% else %>
       <%= link_to "Sign in", sign_in_path %>

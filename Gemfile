@@ -18,6 +18,9 @@ gem "mini_racer", platforms: :ruby
 gem "clearance"
 gem "schmooze" # Not for auth but currently only used during the auth flow
 
+# Crypto
+gem "lockbox" # for application level encryption
+
 # Pagination
 gem "pagy", "~> 4.8"
 

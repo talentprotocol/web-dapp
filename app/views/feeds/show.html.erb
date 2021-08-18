@@ -7,7 +7,7 @@
       last: @pagy.last
     },
     user: {
-      profilePictureUrl: current_user.talent&.profile_picture_url,
+      profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
       isTalent: current_user.talent.present?
     },
     posts: @posts.map { |post| post.to_json },
