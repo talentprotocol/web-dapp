@@ -51,10 +51,8 @@ const Web3Container = (props) => {
       address,
       false
     );
-    const transaction = await desiredToken.buy(
-      talweb3.tal.contract._address,
-      amount
-    );
+
+    const transaction = await desiredToken.buy(amount);
 
     await updateTalToken();
     await updateTokens();
@@ -68,10 +66,7 @@ const Web3Container = (props) => {
       false
     );
 
-    const transaction = await desiredToken.sell(
-      talweb3.tal.contract._address,
-      amount
-    );
+    const transaction = await desiredToken.sell(amount);
 
     await updateTalToken();
     await updateTokens();

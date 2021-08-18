@@ -34,18 +34,18 @@ class TalentToken {
     return setup;
   }
 
-  async buy(token, amount) {
+  async buy(amount) {
     const mintedAmount = await this.contract.methods
-      .tMint(token)
-      .send({ from: this.account, value: amount });
+      .mintFromTal(amount)
+      .send({ from: this.account });
 
     return mintedAmount;
   }
 
-  async sell(token, amount) {
+  async sell(amount) {
     return await this.contract.methods
-      .tBurn(token)
-      .send({ from: this.account, value: amount });
+      .burnToTal(amount)
+      .send({ from: this.account });
   }
 
   async getSymbol() {
