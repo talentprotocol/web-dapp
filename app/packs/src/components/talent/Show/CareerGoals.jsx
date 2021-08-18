@@ -10,6 +10,7 @@ import Button from "../../button";
 const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
+  const [careerGoalId, setCareerGoalId] = useState(careerGoal.id);
   const [careerGoalText, setCareerGoalText] = useState(
     careerGoal.description || ""
   );
@@ -21,11 +22,11 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
     setShow(false);
   };
   const handleSave = async () => {
-    const method = careerGoal.id ? patch : post;
+    const method = careerGoalId ? patch : post;
 
     const response = await method(
       `/talent/${talentId}/career_goals${
-        careerGoal.id ? "/" + careerGoal.id : ""
+        careerGoalId ? "/" + careerGoalId : ""
       }`,
       { career_goal: { description: careerGoalText } }
     );
@@ -33,6 +34,7 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
       setError(true);
     } else {
       setShow(false);
+      setCareerGoalId(response.career_goal.id);
     }
   };
 
