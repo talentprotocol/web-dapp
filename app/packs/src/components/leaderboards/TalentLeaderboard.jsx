@@ -12,6 +12,11 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       <p className="mb-0 col-3 text-right text-muted">
         <small>VALUE</small>
       </p>
+      {topTalents.length == 0 && (
+        <p className="mx-auto">
+          <small>Coming soon..</small>
+        </p>
+      )}
       {topTalents.map((topTalent) => (
         <a
           href={`/talent/${topTalent.id}`}

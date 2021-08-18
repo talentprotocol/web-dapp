@@ -9,7 +9,9 @@ class UpdateTalent
 
       update_user(params[:user])
 
-      update_tags(params[:talent][:tags])
+      if params[:talent]
+        update_tags(params[:talent][:tags])
+      end
 
       @talent
     rescue => e
@@ -30,7 +32,7 @@ class UpdateTalent
   def update_token(token)
     return unless token
 
-    if token[0] == "$"
+    if token[:ticker][0] == "$"
       @talent.token.update!(ticker: token[:ticker].slice(1..))
     else
       @talent.token.update!(ticker: token[:ticker])
