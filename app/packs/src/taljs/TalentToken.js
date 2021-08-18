@@ -1,4 +1,4 @@
-class CareerCoin {
+class TalentToken {
   constructor(contract, networkId, master_account, account) {
     this.contract = contract;
     this.networkId = networkId;
@@ -6,14 +6,14 @@ class CareerCoin {
     this.master_account = master_account;
     this.name = null;
     this.symbol = null;
-    this.mintedCoins = null;
+    this.mintedTokens = null;
     this.balance = null;
   }
 
   async load() {
     await this.getName();
     await this.getSymbol();
-    await this.getMintedCoins();
+    await this.getMintedTokens();
     await this.getBalance();
   }
 
@@ -57,10 +57,10 @@ class CareerCoin {
     }
   }
 
-  async getMintedCoins() {
-    this.mintedCoins = await this.contract.methods.continuousSupply().call();
+  async getMintedTokens() {
+    this.mintedTokens = await this.contract.methods.continuousSupply().call();
 
-    return this.mintedCoins;
+    return this.mintedTokens;
   }
 
   async getBalance() {
@@ -73,4 +73,4 @@ class CareerCoin {
   }
 }
 
-export default CareerCoin;
+export default TalentToken;

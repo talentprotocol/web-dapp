@@ -5,6 +5,7 @@ class PublishPost
   def call(post_id:)
     ActiveRecord::Base.transaction do
       post = Post.find(post_id)
+      writer = post.user
 
       writer.followers.find_each do |follower|
         follower.feed.posts << post

@@ -12,9 +12,9 @@ class Investor < ApplicationRecord
     transactions.sum(:amount)
   end
 
-  def coins_held
-    coin_ids = transactions.pluck(:coin_id)
+  def tokens_held
+    token_ids = transactions.pluck(:token_id)
 
-    Coin.where(id: coin_ids)
+    Token.where(id: token_ids)
   end
 end

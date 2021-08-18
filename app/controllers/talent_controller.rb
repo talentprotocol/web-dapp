@@ -34,7 +34,7 @@ class TalentController < ApplicationController
       service.call(
         talent: params[:talent][:tags].present? && tag_params,
         user: params[:user].present? && user_params,
-        coin: params[:coin].present? && coin_params
+        token: params[:token].present? && token_params
       )
 
       render json: {success: "Talent successfully updated."}, status: :ok
@@ -46,7 +46,7 @@ class TalentController < ApplicationController
   private
 
   def base_talent
-    Talent.where.not(ito_date: nil).includes([:user, :coin])
+    Talent.where.not(ito_date: nil).includes([:user, :token])
   end
 
   def apply_filters(talent)
@@ -82,8 +82,8 @@ class TalentController < ApplicationController
     params.require(:user).permit(:username)
   end
 
-  def coin_params
-    params.require(:coin).permit(:ticker)
+  def token_params
+    params.require(:token).permit(:ticker)
   end
 
   def tag_params

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 
 import { TalWeb3 } from "src/taljs";
 
@@ -19,6 +13,7 @@ Web3Context.displayName = "Web3Context";
 
 const Web3Container = (props) => {
   const [talweb3, setTalweb3] = useState(null);
+  const [provider, setProvider] = useState(null);
   const [tokens, setTokens] = useState({});
   const [talToken, setTalToken] = useState({ balance: 0.0 });
 
@@ -29,8 +24,9 @@ const Web3Container = (props) => {
       await web3.initialize();
     }
 
-    const allTalentTokens = await web3.careerCoins.getAllCareerCoins();
+    const allTalentTokens = await web3.talentTokens.getAllTalentTokens();
     setTalweb3(web3);
+    setProvider(web3.provider);
     setTokens(allTalentTokens);
     setTalToken(web3.tal);
   }, []);
@@ -45,13 +41,13 @@ const Web3Container = (props) => {
   };
 
   const updateTokens = async () => {
-    await talweb3.loadCareerCoins();
-    const allTokens = await talweb3.careerCoins.getAllCareerCoins(false);
+    await talweb3.loadTalentTokens();
+    const allTokens = await talweb3.talentTokens.getAllTalentTokens(false);
     setTokens(allTokens);
   };
 
   const buy = async (address, amount) => {
-    const desiredToken = await talweb3.careerCoins.getCareerCoin(
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
     );
@@ -67,7 +63,7 @@ const Web3Container = (props) => {
   };
 
   const sell = async (address, amount) => {
-    const desiredToken = await talweb3.careerCoins.getCareerCoin(
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
     );
@@ -99,6 +95,7 @@ const Web3Container = (props) => {
     ...defaultValue,
     talToken,
     tokens,
+    provider,
     buy,
     sell,
     approve,

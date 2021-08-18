@@ -32,12 +32,12 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
   );
 };
 
-// given coinA amount, how much coinB do you get -- replace with calculating value from web3 with a debounce
-const calculateComplementValue = (amount, coinA, coinB, mode) => {
+// given tokenA amount, how much tokenB do you get -- replace with calculating value from web3 with a debounce
+const calculateComplementValue = (amount, tokenA, tokenB, mode) => {
   if (mode == "buy") {
-    return amount * (coinB?.exchangeRate || 1);
+    return amount * (tokenB?.exchangeRate || 1);
   } else {
-    return amount / (coinA?.exchangeRate || 1);
+    return amount / (tokenA?.exchangeRate || 1);
   }
 };
 
@@ -112,11 +112,28 @@ const Swap = () => {
 
     if (mode == "buy") {
       const amount = parseFloat(outputAmount) * 100.0;
+      const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
+
       web3.approve(selectedToken, amount).then((approved) => {
         if (approved) {
           web3.buy(selectedToken, amount).then((result) => {
             setInputAmount("");
             setOutputAmount("");
+
+            if (!assumeAlreadyTracking) {
+              web3.provider.request({
+                method: "wallet_watchAsset",
+                params: {
+                  type: "ERC20",
+                  options: {
+                    address: web3.tokens[selectedToken].address, // The address that the token is at.
+                    symbol: web3.tokens[selectedToken].symbol, // A ticker symbol or shorthand, up to 5 chars.
+                    decimals: 2, // The number of decimals in the token
+                    image: document.location.origin + "/tal.png", // A string url of the token logo
+                  },
+                },
+              });
+            }
 
             post(`/transactions`, {
               token_address: selectedToken,
@@ -157,7 +174,7 @@ const Swap = () => {
   };
 
   const onInputTokenSet = (selectedToken) => {
-    // switch coins
+    // switch tokens
     if (selectedToken.symbol == outputToken().symbol) {
       mode == "buy" ? setMode("sell") : setMode("buy");
     } else {
@@ -168,7 +185,7 @@ const Swap = () => {
   };
 
   const onOutputTokenSet = (selectedToken) => {
-    // switch coins
+    // switch tokens
     if (selectedToken.symbol == inputToken().symbol) {
       mode == "buy" ? setMode("sell") : setMode("buy");
     } else {

@@ -41,6 +41,10 @@
           }, prerender: false) %>
 
         <div class="d-flex flex-row flex-wrap my-2 flex-grow-1">
+          <% if @talents.length == 0 %>
+            <p>It looks like we've ran out of Talents to show you!</p>
+            <p>Try to tweak your search or make sure to follow our social media to know when new talent joins.</p>
+          <% end %>
           <% @talents.each do |talent| %>
             <div class="col-sm-12 col-md-6 col-lg-4 talent-card-spacing mt-2">
               <%= react_component("TalentCard", props:
@@ -53,10 +57,10 @@
                     description: talent.description,
                     sponsor_count: talent.investors.count,
                     profilePictureUrl: talent.profile_picture_url,
-                    coin: {
-                      display_price: talent.coin&.display_price,
-                      display_market_cap: talent.coin&.display_market_cap,
-                      display_ticker: talent.coin&.display_ticker
+                    token: {
+                      display_price: talent.token&.display_price,
+                      display_market_cap: talent.token&.display_market_cap,
+                      display_ticker: talent.token&.display_ticker
                     },
                     tags: [talent.primary_tag&.description]
                   }

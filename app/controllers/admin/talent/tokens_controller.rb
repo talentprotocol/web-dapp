@@ -1,24 +1,24 @@
-class Admin::Talent::CoinsController < ApplicationController
+class Admin::Talent::TokensController < ApplicationController
   def show
     talent
-    coin
+    token
   end
 
   def edit
     talent
-    coin
+    token
   end
 
   def update
-    if coin.update(coin_params)
+    if token.update(token_params)
       respond_to do |format|
         format.html do
           redirect_to(
-            admin_user_path(coin.talent.user),
-            flash: {success: "Talent's coin successfully updated."}
+            admin_user_path(token.talent.user),
+            flash: {success: "Talent's token successfully updated."}
           )
         end
-        format.json { render json: {success: "Talent's coin successfully updated."}, status: :ok }
+        format.json { render json: {success: "Talent's token successfully updated."}, status: :ok }
       end
     else
       render :edit
@@ -36,12 +36,12 @@ class Admin::Talent::CoinsController < ApplicationController
       end
   end
 
-  def coin
-    @coin ||= Coin.find(params[:id])
+  def token
+    @token ||= Token.find(params[:id])
   end
 
-  def coin_params
-    params.require(:coin).permit(
+  def token_params
+    params.require(:token).permit(
       :price,
       :ticker,
       :reserve_ratio,

@@ -95,7 +95,7 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
           </Modal.Footer>
         </Modal>
       </div>
-      <p className="mt-3 mb-0 talent-long-description">{aboutMeText}</p>
+      <p className="mt-3 mb-0 text-white-space-wrap">{aboutMeText}</p>
       {youtubeUrl && (
         <div className="talent-profile-video-player mt-3 mx-auto">
           <ReactPlayer url={youtubeUrl} light width={"100%"} height={"100%"} />

@@ -12,7 +12,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.create(text: post_params[:text], user: current_user)
 
-    PublishPostJob.perform_later(post_id: post.id)
+    PublishPostJob.perform_later(post_id: @post.id, created_at: @post.created_at.to_s)
 
     if @post.save
       render json: @post.to_json, status: :created

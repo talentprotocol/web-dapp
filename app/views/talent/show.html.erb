@@ -7,14 +7,14 @@
           userId: @talent.user.id,
           username: @talent.username,
           description: @talent.description,
-          ticker: @talent.coin&.display_ticker,
+          ticker: @talent.token&.display_ticker,
           tags: @talent.tags.map(&:description),
           linkedinUrl: @talent.linkedin_url,
           profilePictureUrl: @talent.profile_picture_url,
           youtubeUrl: @talent.youtube_url
         },
         currentUserId: current_user.id,
-        tokenDeployed: @talent.coin&.deployed? || false,
+        tokenDeployed: @talent.token&.deployed? || false,
         careerGoal: { id: @talent.career_goal&.id, description: @talent.career_goal&.description },
         rewards: @talent.rewards.map { |reward| { id: reward.id, required_amount: reward.required_amount, display_required_amount: reward.required_amount&.to_s(:delimited), description: reward.description, required_text: reward.required_text } }
       }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
@@ -22,15 +22,15 @@
   </section>
   <section class="col-lg-5 p-4">
     <div>
-      <%= react_component("TalentCoin", props:
+      <%= react_component("TalentToken", props:
         {
-          ticker: @talent.coin&.ticker,
-          price: @talent.coin&.display_price,
-          marketCap: @talent.coin&.display_market_cap,
+          ticker: @talent.token&.ticker,
+          price: @talent.token&.display_price,
+          marketCap: @talent.token&.display_market_cap,
           sponsors: @talent.investors.count,
-          circulatingSupply: @talent.coin&.transactions&.sum(:amount),
-          priceVariance7d: @talent.coin.deployed? ? "2.14" : "0",
-          priceVariance30d: @talent.coin.deployed? ? "29.39" : "0",
+          circulatingSupply: @talent.token&.transactions&.sum(:amount),
+          priceVariance7d: @talent.token.deployed? ? "2.14" : "0",
+          priceVariance30d: @talent.token.deployed? ? "29.39" : "0",
           active: @talent.active?
         }, prerender: false)
       %>
@@ -38,7 +38,7 @@
     <div class="mt-lg-5 mt-3 mb-2">
       <%= react_component("TalentLeaderboard", props:
         {
-          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.coin.display_ticker, price: tal.coin.display_price, profilePictureUrl: tal.profile_picture_url } }
+          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, price: tal.token.display_price, profilePictureUrl: tal.profile_picture_url } }
         }, prerender: false)
       %>
     </div>

@@ -14,8 +14,8 @@ class Post < ApplicationRecord
       user: {
         id: user.id,
         username: user.username,
-        ticker: user.talent&.coin&.display_ticker,
-        price: user.talent&.coin&.display_price,
+        ticker: user.talent&.token&.display_ticker,
+        price: user.talent&.token&.display_price,
         profilePictureUrl: user.talent.profile_picture_url,
         active: user.talent.active?
       }

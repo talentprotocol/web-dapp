@@ -11,7 +11,7 @@ class Talent::CareerGoalsController < ApplicationController
       @career_goal.talent = talent
 
       if @career_goal.save
-        render json: {success: "Career goal created"}, status: :created
+        render json: {success: "Career goal created", career_goal: @career_goal}, status: :created
       else
         render json: {error: "Unable to create career goal"}, status: :unprocessable_entity
       end
@@ -24,7 +24,7 @@ class Talent::CareerGoalsController < ApplicationController
     end
 
     if career_goal.update(career_goal_params)
-      render json: {success: "Career goal successfully updated"}, status: :ok
+      render json: {success: "Career goal successfully updated", career_goal: @career_goal}, status: :ok
     else
       render json: {error: "Unable to update career goal"}, status: :unprocessable_entity
     end

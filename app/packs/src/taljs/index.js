@@ -5,23 +5,25 @@ import TalentProtocol from "../abis/TalentProtocol.json";
 import TalentProtocolFactory from "../abis/TalentProtocolFactory.json";
 
 import Tal from "./Tal";
-import CareerCoins from "./CareerCoins";
+import TalentTokens from "./TalentTokens";
 
 const TAL_ADDRESSES = {
   3: "0x48f6d99fac2af7ad7b580b6cb6edbe0373dd51f5", // ropsten
 };
 const LOCAL_TAL_ADDRESS = "0x96465668B947CC7c0FD39A3ad35320316B6CadF9"; // local fallback from ABIs
 
-const CAREER_COINS_ADDRESSES = {};
-const LOCAL_CAREER_COINS_ADDRESS = "0xF5746B6243349FBE31fdF64474E36C0dF62790E9"; // local fallback from ABIs
+const TALENT_TOKENS_ADDRESSES = {};
+const LOCAL_TALENT_TOKENS_ADDRESS =
+  "0xF5746B6243349FBE31fdF64474E36C0dF62790E9"; // local fallback from ABIs
 
 class TalWeb3 {
   constructor() {
     this.web3 = null;
+    this.provider = null;
     this.account = null;
     this.networkId = null;
     this.tal = null;
-    this.careerCoins = null;
+    this.talentTokens = null;
   }
 
   async initialize() {
@@ -29,7 +31,7 @@ class TalWeb3 {
     await this.loadAccount();
     await this.loadNetworkId();
     await this.loadTal();
-    await this.loadCareerCoins();
+    await this.loadTalentTokens();
   }
 
   async loadAccount() {
@@ -45,7 +47,7 @@ class TalWeb3 {
     return this.networkId;
   }
 
-  async loadTal() {
+  talAddress() {
     let address;
     if (TalentProtocol.networks) {
       const talentProtocolTokenData = TalentProtocol.networks[this.networkId];
@@ -59,6 +61,11 @@ class TalWeb3 {
         address = LOCAL_TAL_ADDRESS;
       }
     }
+    return address;
+  }
+
+  async loadTal() {
+    const address = this.talAddress();
 
     if (address) {
       const contract = new this.web3.eth.Contract(TalentProtocol.abi, address);
@@ -74,7 +81,7 @@ class TalWeb3 {
     return this.tal;
   }
 
-  async loadCareerCoins() {
+  async loadTalentTokens() {
     let address;
     if (TalentProtocolFactory.networks) {
       const talentProtocolFactoryData =
@@ -83,10 +90,10 @@ class TalWeb3 {
         address = talentProtocolFactoryData.address;
       }
     } else {
-      if (CAREER_COINS_ADDRESSES[this.networkId]) {
-        address = CAREER_COINS_ADDRESSES[this.networkId];
+      if (TALENT_TOKENS_ADDRESSES[this.networkId]) {
+        address = TALENT_TOKENS_ADDRESSES[this.networkId];
       } else {
-        address = LOCAL_CAREER_COINS_ADDRESS;
+        address = LOCAL_TALENT_TOKENS_ADDRESS;
       }
     }
 
@@ -95,26 +102,27 @@ class TalWeb3 {
         TalentProtocolFactory.abi,
         address
       );
-      this.careerCoins = new CareerCoins(
+      this.talentTokens = new TalentTokens(
         contract,
         this.networkId,
         this.web3,
         this.account
       );
     } else {
-      this.careerCoins = new CareerCoins(null, null, this.web3, this.account);
+      this.talentTokens = new TalentTokens(null, null, this.web3, this.account);
       window.alert(
         "Talent Protocol Factory contract not deployed to detected network."
       );
     }
 
-    return this.careerCoins;
+    return this.talentTokens;
   }
 
   async loadWeb3() {
     const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
     if (provider) {
+      this.provider = provider;
       this.web3 = new Web3(provider);
     } else if (window.ethereum) {
       this.web3 = new Web3(window.ethereum);

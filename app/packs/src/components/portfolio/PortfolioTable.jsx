@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../button";
-import DisplayCoinVariance from "../coin/DisplayCoinVariance";
-import TalentProfilePicture from "../talent/TalentProfilePicture";
+import DisplayTokenVariance from "../token/DisplayTokenVariance";
 
 const EmptyInvestments = () => (
   <tr>
@@ -37,7 +36,7 @@ const PortfolioTable = ({ transactions }) => {
               className="tal-th py-1 text-muted border-bottom-0 text-right"
               scope="col"
             >
-              <small>Coin Value</small>
+              <small>Token Value</small>
             </th>
             <th
               className="tal-th py-1 text-muted border-bottom-0 text-right"
@@ -66,12 +65,12 @@ const PortfolioTable = ({ transactions }) => {
               <th className="align-middle pr-0 text-primary" scope="row">
                 {transaction.inbound && (
                   <small>
-                    $TAL {"->"} {transaction.coinTicker}
+                    $TAL {"->"} {transaction.tokenTicker}
                   </small>
                 )}
                 {!transaction.inbound && (
                   <small>
-                    {transaction.coinTicker} {"->"} $TAL
+                    {transaction.tokenTicker} {"->"} $TAL
                   </small>
                 )}
               </th>
@@ -95,7 +94,7 @@ const PortfolioTable = ({ transactions }) => {
                 </span>
               </td>
               <td className="align-middle text-right">
-                <DisplayCoinVariance variance={transaction.priceVariance7d} />
+                <DisplayTokenVariance variance={transaction.priceVariance7d} />
               </td>
               <td className="align-middle">
                 <Button

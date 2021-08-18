@@ -48,7 +48,6 @@ const ProcessFlow = ({ email, username, metamaskId }) => {
 
     post("/users.json", { email, username, metamaskId })
       .then((response) => {
-        console.log(response);
         if (response.error) {
           setError(response.error);
           setRequesting(false);
