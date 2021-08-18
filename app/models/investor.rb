@@ -1,4 +1,6 @@
 class Investor < ApplicationRecord
+  include ::ProfilePictureUploader::Attachment(:profile_picture)
+
   belongs_to :user, optional: true
   has_many :transactions
 
