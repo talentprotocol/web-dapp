@@ -87,7 +87,7 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
           </Modal.Footer>
         </Modal>
       </div>
-      <p className="mt-3 mb-0 talent-long-description">{careerGoalText}</p>
+      <p className="mt-3 mb-0 text-white-space-wrap">{careerGoalText}</p>
     </div>
   );
 };

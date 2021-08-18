@@ -30,7 +30,11 @@ class UpdateTalent
   def update_token(token)
     return unless token
 
-    @talent.token.update!(ticker: token[:ticker].slice(1..))
+    if token[0] == "$"
+      @talent.token.update!(ticker: token[:ticker].slice(1..))
+    else
+      @talent.token.update!(ticker: token[:ticker])
+    end
   end
 
   def update_tags(tags)

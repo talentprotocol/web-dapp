@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { parseJSON, formatDistanceToNow } from "date-fns";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTransition, animated, config } from "@react-spring/web";
+import { useTransition, animated } from "@react-spring/web";
 
 import { post as postRequest, get } from "src/utils/requests";
 
@@ -14,7 +14,7 @@ const Comment = ({ text, username, ticker, profilePictureUrl, created_at }) => {
   const timeSinceCreation = formatDistanceToNow(date);
 
   return (
-    <div className="d-flex flex-row w-100 pt-3 pl-4 pr-2 border-top">
+    <div className="d-flex flex-row w-100 pt-3 pl-4 pr-2 border-top bg-white">
       <TalentProfilePicture src={profilePictureUrl} height={40} />
       <div className="d-flex flex-column pl-3 w-100">
         <div className="d-flex flex-row justify-content-between">
@@ -30,7 +30,7 @@ const Comment = ({ text, username, ticker, profilePictureUrl, created_at }) => {
             </small>
           </p>
         </div>
-        <p className="w-100">{text}</p>
+        <p className="w-100 text-white-space-wrap">{text}</p>
       </div>
     </div>
   );
@@ -69,9 +69,9 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   }, [post_id]);
 
   const transitions = useTransition(comments, {
-    from: { translateX: -10000 },
-    enter: { translateX: 0 },
-    leave: { translateX: 10000 },
+    from: { translateY: -100, opacity: 0 },
+    enter: { translateY: 0, opacity: 1 },
+    leave: { translateY: 100, opacity: 0 },
   });
 
   return (
@@ -80,7 +80,8 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
         action={`/posts/${post_id}/comments`}
         method="post"
         onSubmit={onSubmit}
-        className="w-100 py-3 pl-4 d-flex flex-row"
+        style={{ zIndex: 1 }}
+        className="w-100 py-3 pl-4 d-flex flex-row bg-white"
       >
         <TalentProfilePicture src={profilePictureUrl} height={40} />
         <div className="d-flex flex-column flex-md-row w-100 px-2">
@@ -152,7 +153,7 @@ const Post = ({ post, user, currentUser }) => {
               </small>
             </p>
           </div>
-          <p>{post.text}</p>
+          <p className="text-white-space-wrap">{post.text}</p>
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between">
             <div className="d-flex flex-row mt-2 mt-md-0">
               <button
