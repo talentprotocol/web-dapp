@@ -93,24 +93,30 @@ const DeployTokenButton = ({
     }
   };
 
+  const invalidContract = () => tokenAddress === null || tokenAddress == "";
+
   return (
     <div className="d-flex flex-row justify-content-between">
       <Button
-        disabled={buttonText != "Deploy Token"}
+        disabled={
+          reserveRatio === null ||
+          talentFee === null ||
+          buttonText != "Deploy Token"
+        }
         type="warning"
         text={buttonText}
         onClick={onClick}
         className="btn btn-warning talent-button mr-2"
       />
       <Button
-        disabled={tokenAddress != "" && mintText != "Initial Mint"}
+        disabled={invalidContract() || mintText != "Initial Mint"}
         type="danger"
         text={mintText}
         onClick={performInitialMint}
         className="btn btn-danger talent-button mr-2"
       />
       <Button
-        disabled={tokenAddress != "" && transferText != "Transfer $TAL"}
+        disabled={invalidContract() || transferText != "Transfer $TAL"}
         type="primary"
         text={transferText}
         onClick={transfer}
