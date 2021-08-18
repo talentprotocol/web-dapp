@@ -46,10 +46,20 @@ const TalentDetail = ({
   const [editTicker, setEditTicker] = useState(ticker || "");
   const [editUsername, setEditUsername] = useState(username || "");
   const [editTagsText, setEditTagsText] = useState(tags.join(", "));
+  const [editProfilePictureUrl, setEditProfilePictureUrl] = useState(null);
   const [uploadedFileData, setUploadedFileData] = useState(null);
+  const [uploadingFileS3, setUploadingFileS3] = useState(false);
+
+  const [showLinkedinUrl, setShowLinkedinUrl] = useState(linkedinUrl || "");
+  const [showTicker, setShowTicker] = useState(ticker || "");
+  const [showUsername, setShowUsername] = useState(username || "");
+  const [showTags, setShowTags] = useState(tags);
+  const [showProfilePictureUrl, setShowProfilePictureUrl] =
+    useState(profilePictureUrl);
 
   useEffect(() => {
     uppy.on("upload-success", (file, response) => {
+      setEditProfilePictureUrl(response.uploadURL);
       setUploadedFileData({
         id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
         storage: "cache",
@@ -59,6 +69,10 @@ const TalentDetail = ({
           mime_type: file.type,
         },
       });
+      setUploadingFileS3(false);
+    });
+    uppy.on("upload", () => {
+      setUploadingFileS3(true);
     });
   }, []);
 
@@ -77,20 +91,27 @@ const TalentDetail = ({
     if (response.error) {
       setError(true);
     } else {
+      setShowLinkedinUrl(editLinkedinUrl);
+      setShowTicker(editTicker);
+      setShowUsername(editUsername);
+      setShowTags(editTagsText.split(",").map((t) => t.trim()));
+      if (editProfilePictureUrl != null) {
+        setShowProfilePictureUrl(editProfilePictureUrl);
+      }
       setShow(false);
     }
   };
 
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
-      <TalentProfilePicture src={profilePictureUrl} height={96} />
+      <TalentProfilePicture src={showProfilePictureUrl} height={96} />
       <div className="d-flex flex-column ml-2">
         <h1 className="h2">
           <small>
-            {username} <span className="text-muted">({ticker})</span>
+            {showUsername} <span className="text-muted">({showTicker})</span>
           </small>
         </h1>
-        <TalentTags tags={tags} />
+        <TalentTags tags={showTags} />
       </div>
       <div className="ml-md-auto d-flex flex-row-reverse flex-md-column justify-content-between align-items-end mt-2 mt-md-0">
         {allowEdit && (
@@ -152,8 +173,11 @@ const TalentDetail = ({
             </div>
             <div className="form-group">
               <label className="mr-1">Profile picture</label>
-              {uploadedFileData !== null && <p>Uploaded file.</p>}
-              {uploadedFileData === null && (
+              {uploadingFileS3 && <p>Uploading...</p>}
+              {!uploadingFileS3 && uploadedFileData !== null && (
+                <p>Uploaded file.</p>
+              )}
+              {!uploadingFileS3 && uploadedFileData === null && (
                 <DragDrop
                   uppy={uppy}
                   locale={{
@@ -192,7 +216,7 @@ const TalentDetail = ({
             <Button type="primary" text="Save Changes" onClick={handleSave} />
           </Modal.Footer>
         </Modal>
-        <a className="mt-0 mt-md-2 mx-auto" href={linkedinUrl}>
+        <a className="mt-0 mt-md-2 mx-auto" href={showLinkedinUrl}>
           <img
             src={LinkedInIcon}
             height={24}
