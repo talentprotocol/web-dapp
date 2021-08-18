@@ -1,4 +1,4 @@
-class Coin < ApplicationRecord
+class Token < ApplicationRecord
   belongs_to :talent
   has_many :transactions
 

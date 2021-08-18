@@ -14,7 +14,7 @@ class CreateUser
 
       if wait_list.talent?
         create_talent(user)
-        create_coin(user)
+        create_token(user)
       end
 
       @result[:user] = user
@@ -61,8 +61,8 @@ class CreateUser
     user.create_talent!
   end
 
-  def create_coin(user)
-    user.talent.create_coin!
+  def create_token(user)
+    user.talent.create_token!
   end
 
   def create_investor(user, username, metamask_id)

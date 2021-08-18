@@ -1,11 +1,11 @@
 import { differenceInMinutes } from "date-fns";
 
-import CareerCoinAbi from "../abis/CareerCoin.json";
-import CareerCoin from "./CareerCoin";
+import TalentTokenAbi from "../abis/CareerCoin.json";
+import TalentToken from "./TalentToken";
 
 const MASTER_ACCOUNT = "0xf6F2dF72F234e67c468B8aE5bCD983D984de9C55";
 
-class CareerCoins {
+class TalentTokens {
   constructor(
     contract,
     networkId,
@@ -52,25 +52,25 @@ class CareerCoins {
     return Object.keys(addresses);
   }
 
-  async getAllCareerCoins(useCache = true) {
+  async getAllTalentTokens(useCache = true) {
     const allAddresses = await this.getAllAddresses();
 
     for await (let address of allAddresses) {
-      await this.getCareerCoin(address, useCache);
+      await this.getTalentToken(address, useCache);
     }
 
     return await this.getAll();
   }
 
-  async getCareerCoin(address, useCache = true) {
+  async getTalentToken(address, useCache = true) {
     const talents = await this.getAll();
 
     if (talents[address]) {
-      if (talents[address].careerCoin && useCache) {
-        return talents[address].careerCoin;
+      if (talents[address].talentToken && useCache) {
+        return talents[address].talentToken;
       } else {
-        const token = new CareerCoin(
-          new this.web3.eth.Contract(CareerCoinAbi.abi, address),
+        const token = new TalentToken(
+          new this.web3.eth.Contract(TalentTokenAbi.abi, address),
           this.networkId,
           this.master_account,
           this.account
@@ -86,15 +86,15 @@ class CareerCoins {
     }
   }
 
-  async createNewCoin(ticker, name, reserveRatio, talentAddress, talentFee) {
+  async createNewToken(ticker, name, reserveRatio, talentAddress, talentFee) {
     const result = await this.contract.methods
       .instanceNewTalent(ticker, name, reserveRatio, talentAddress, talentFee)
       .send({ from: MASTER_ACCOUNT });
     if (result === true) {
-      await this.getCareerCoin(talentAddress);
+      await this.getTalentToken(talentAddress);
     }
     return result;
   }
 }
 
-export default CareerCoins;
+export default TalentTokens;

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const icon = (i) => <FontAwesomeIcon icon={i} />;
 
-const DisplayCoinVariance = ({ variance, withoutArrow }) => {
+const DisplayTokenVariance = ({ variance, withoutArrow }) => {
   const dVariance = variance.replace("-", "");
 
   if (variance[0] == "-") {
@@ -27,4 +27,4 @@ const DisplayCoinVariance = ({ variance, withoutArrow }) => {
   }
 };
 
-export default DisplayCoinVariance;
+export default DisplayTokenVariance;

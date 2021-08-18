@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :dashboards, only: [:show]
       resources :investors
       resources :talent do
-        resources :coins, only: [:show, :edit, :update], module: "talent"
+        resources :tokens, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
         resources :rewards, module: "talent"
         resources :tags, module: "talent"

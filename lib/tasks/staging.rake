@@ -5,7 +5,7 @@ namespace :staging do
     AlertConfiguration.create!(
       page: "/feed",
       alert_type: "primary",
-      text: "Apply to launch your Career Coin on Talent Protocol",
+      text: "Apply to launch your Career Token on Talent Protocol",
       href: "https://www.talentprotocol.com/invite",
       button_text: "Reserve $TICKER"
     )
@@ -43,7 +43,7 @@ namespace :staging do
 
       talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
-      user.talent.create_coin!(
+      user.talent.create_token!(
         ticker: admin[:ticker],
         price: Random.new.rand(1..500),
         market_cap: 0
@@ -68,7 +68,7 @@ namespace :staging do
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
 
-      user.talent.create_coin!(
+      user.talent.create_token!(
         ticker: Faker::Name.initials(number: 4),
         price: Random.new.rand(1..500),
         market_cap: 0
@@ -76,7 +76,7 @@ namespace :staging do
       user.create_feed!
 
       service = CreateTransaction.new
-      service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+      service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
 
       CareerGoal.create!(
         target_date: Date.today + Random.new.rand(6..24).month,

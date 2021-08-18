@@ -1,5 +1,5 @@
-<%= form_with model: [:admin, talent, coin], local: true do |form |%>
-  <%= render "shared/form_errors", resource: coin%>
+<%= form_with model: [:admin, talent, token], local: true do |form |%>
+  <%= render "shared/form_errors", resource: token%>
 
   <div class="form-group is-required">
     <%= form.label "Price in cents" %>
@@ -27,7 +27,7 @@
   </div>
 
   <div class="form-actions">
-    <%= link_to "Cancel", coin.persisted? && admin_user_path(coin.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
-    <%= form.submit "Save Coin", class: "btn btn-primary talent-button" %>
+    <%= link_to "Cancel", token.persisted? && admin_user_path(token.talent.user) || admin_users_path, class: "btn btn-secondary talent-button", role: "button"%>
+    <%= form.submit "Save Token", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

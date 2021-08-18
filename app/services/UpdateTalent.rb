@@ -5,7 +5,7 @@ class UpdateTalent
 
   def call(params = {})
     ActiveRecord::Base.transaction do
-      update_coin(params[:coin])
+      update_token(params[:token])
 
       update_user(params[:user])
 
@@ -27,10 +27,10 @@ class UpdateTalent
     @talent.user.update!(username: user[:username])
   end
 
-  def update_coin(coin)
-    return unless coin
+  def update_token(token)
+    return unless token
 
-    @talent.coin.update!(ticker: coin[:ticker].slice(1..))
+    @talent.token.update!(ticker: token[:ticker].slice(1..))
   end
 
   def update_tags(tags)

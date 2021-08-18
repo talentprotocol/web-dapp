@@ -1,9 +1,9 @@
 class Transaction < ApplicationRecord
   belongs_to :investor
-  belongs_to :coin
+  belongs_to :token
 
   def value
-    amount * coin.price
+    amount * token.price
   end
 
   def display_value
@@ -11,7 +11,7 @@ class Transaction < ApplicationRecord
   end
 
   def value_in_tal
-    amount * coin.price_in_tal
+    amount * token.price_in_tal
   end
 
   def display_value_in_tal
@@ -21,16 +21,16 @@ class Transaction < ApplicationRecord
   def to_json_view
     {
       id: id,
-      coinTicker: coin.display_ticker,
-      talentName: coin.talent.username,
+      tokenTicker: token.display_ticker,
+      talentName: token.talent.username,
       amount: amount,
       transactionId: transaction_hash,
-      price: coin.display_price,
-      priceInTal: coin.display_price_in_tal,
+      price: token.display_price,
+      priceInTal: token.display_price_in_tal,
       value: display_value,
       valueInTal: display_value_in_tal,
       priceVariance7d: "0",
-      profilePictureUrl: coin.talent.profile_picture_url,
+      profilePictureUrl: token.talent.profile_picture_url,
       inbound: inbound
     }
   end

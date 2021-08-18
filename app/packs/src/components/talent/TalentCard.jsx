@@ -35,7 +35,7 @@ const TalentCard = ({ talent, href }) => {
           <strong>{talent.username}</strong>
         </h4>
         <h6 className="card-subtitle mb-2 text-primary">
-          <strong>{talent.coin.display_ticker}</strong>
+          <strong>{talent.token.display_ticker}</strong>
         </h6>
         <TalentBadge status={talent.status} />
         <p className="card-text">
@@ -49,7 +49,7 @@ const TalentCard = ({ talent, href }) => {
             <small>Price</small>
           </div>
           <div>
-            <strong>{talent.coin.display_price}</strong>
+            <strong>{talent.token.display_price}</strong>
           </div>
         </div>
         <div className="d-flex flex-column align-items-center">
@@ -57,7 +57,7 @@ const TalentCard = ({ talent, href }) => {
             <small>Market cap</small>
           </div>
           <div>
-            <strong>{talent.coin.display_market_cap}</strong>
+            <strong>{talent.token.display_market_cap}</strong>
           </div>
         </div>
         <div className="d-flex flex-column align-items-center">

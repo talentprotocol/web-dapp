@@ -17,11 +17,11 @@ import TalentCard from "src/components/talent/TalentCard";
 import Pagination from "src/components/pagination";
 import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
-import TalentCoin from "src/components/talent/TalentCoin";
+import TalentToken from "src/components/talent/TalentToken";
 import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard";
 import PortfolioTable from "src/components/portfolio/PortfolioTable";
 import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview";
-import DisplayCoinVariance from "src/components/coin/DisplayCoinVariance";
+import DisplayTokenVariance from "src/components/token/DisplayTokenVariance";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import RegistrationFlow from "src/components/registration/RegistrationFlow";
@@ -29,7 +29,7 @@ import Feed from "src/components/feed/Feed";
 import Swap from "src/components/swap/Swap";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskLogin from "src/components/login/MetamaskLogin";
-import DeployCoinButton from "src/components/coin/DeployCoinButton";
+import DeployTokenButton from "src/components/token/DeployTokenButton";
 import Logo from "src/components/logo";
 
 import "stylesheets/application.scss";
@@ -44,11 +44,11 @@ ReactOnRails.register({
   Pagination,
   NavTabs,
   TalentShow,
-  TalentCoin,
+  TalentToken,
   TalentLeaderboard,
   PortfolioTable,
   PortfolioTalOverview,
-  DisplayCoinVariance,
+  DisplayTokenVariance,
   MessageUserList,
   Chat,
   RegistrationFlow,
@@ -56,7 +56,7 @@ ReactOnRails.register({
   Swap,
   TalentNameSearch,
   MetamaskLogin,
-  DeployCoinButton,
+  DeployTokenButton,
   Logo,
 });
 

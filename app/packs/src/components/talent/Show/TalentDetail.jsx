@@ -72,7 +72,7 @@ const TalentDetail = ({
         profile_picture: uploadedFileData,
       },
       user: { username: editUsername },
-      coin: { ticker: editTicker },
+      token: { ticker: editTicker },
     });
     if (response.error) {
       setError(true);

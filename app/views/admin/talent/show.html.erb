@@ -45,20 +45,20 @@
         <%= link_to "Destroy Talent", admin_talent_path(@talent), class: "btn btn-danger talent-button", method: :delete %>
       </div>
 
-      <% if @talent.coin.present? %>
+      <% if @talent.token.present? %>
         <hr class="col-md-12">
 
         <dt class="col-md-3 sm-text-left md-text-right">Ticker</dt>
-        <dd class="col-md-9"><%= @talent.coin.display_ticker %></dd>
+        <dd class="col-md-9"><%= @talent.token.display_ticker %></dd>
 
-        <dt class="col-md-3 sm-text-left md-text-right">Coin Price</dt>
-        <dd class="col-md-9"><%= @talent.coin.display_price %></dd>
+        <dt class="col-md-3 sm-text-left md-text-right">Token Price</dt>
+        <dd class="col-md-9"><%= @talent.token.display_price %></dd>
 
-        <dt class="col-md-3 sm-text-left md-text-right">Coin Market Cap</dt>
-        <dd class="col-md-9"><%= @talent.coin.display_market_cap %></dd>
+        <dt class="col-md-3 sm-text-left md-text-right">Token Market Cap</dt>
+        <dd class="col-md-9"><%= @talent.token.display_market_cap %></dd>
 
         <div class="offset-md-3 col-md-9">
-          <%= link_to "Edit Coin", edit_admin_talent_coin_path(@talent, @talent.coin), class: "btn btn-primary talent-button" %>
+          <%= link_to "Edit Token", edit_admin_talent_token_path(@talent, @talent.token), class: "btn btn-primary talent-button" %>
         </div>
       <% end %>
 

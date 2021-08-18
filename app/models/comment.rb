@@ -6,7 +6,7 @@ class Comment < ApplicationRecord
     {
       id: id,
       username: user.username,
-      ticker: user.talent&.coin&.display_ticker,
+      ticker: user.talent&.token&.display_ticker,
       profilePictureUrl: user.talent&.profile_picture_url,
       text: text,
       created_at: created_at.to_s

@@ -36,21 +36,6 @@ ActiveRecord::Schema.define(version: 2021_08_14_102808) do
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
   end
 
-  create_table "coins", force: :cascade do |t|
-    t.integer "price"
-    t.integer "market_cap"
-    t.string "ticker"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "talent_id"
-    t.integer "reserve_ratio"
-    t.bigint "talent_fee"
-    t.boolean "deployed", default: false
-    t.string "contract_id"
-    t.index ["talent_id"], name: "index_coins_on_talent_id"
-    t.index ["ticker"], name: "index_coins_on_ticker"
-  end
-
   create_table "comments", force: :cascade do |t|
     t.text "text"
     t.datetime "created_at", precision: 6, null: false
@@ -152,19 +137,34 @@ ActiveRecord::Schema.define(version: 2021_08_14_102808) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.integer "price"
+    t.integer "market_cap"
+    t.string "ticker"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.integer "reserve_ratio"
+    t.bigint "talent_fee"
+    t.boolean "deployed", default: false
+    t.string "contract_id"
+    t.index ["talent_id"], name: "index_tokens_on_talent_id"
+    t.index ["ticker"], name: "index_tokens_on_ticker"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.integer "amount"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "coin_id"
+    t.bigint "token_id"
     t.bigint "investor_id"
     t.string "transaction_hash"
     t.string "block_hash"
     t.boolean "inbound"
     t.index ["block_hash"], name: "index_transactions_on_block_hash"
-    t.index ["coin_id"], name: "index_transactions_on_coin_id"
     t.index ["investor_id"], name: "index_transactions_on_investor_id"
+    t.index ["token_id"], name: "index_transactions_on_token_id"
     t.index ["transaction_hash"], name: "index_transactions_on_transaction_hash"
   end
 
@@ -198,7 +198,6 @@ ActiveRecord::Schema.define(version: 2021_08_14_102808) do
   end
 
   add_foreign_key "career_goals", "talent"
-  add_foreign_key "coins", "talent"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "feed_posts", "feeds"
@@ -209,6 +208,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_102808) do
   add_foreign_key "posts", "users"
   add_foreign_key "rewards", "talent"
   add_foreign_key "tags", "talent"
-  add_foreign_key "transactions", "coins"
+  add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"
+  add_foreign_key "transactions", "tokens"
 end

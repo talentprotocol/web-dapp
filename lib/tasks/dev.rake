@@ -5,7 +5,7 @@ if Rails.env.development?
       AlertConfiguration.create!(
         page: "/talent",
         alert_type: "primary",
-        text: "Connect your wallet to buy Carrer Coins",
+        text: "Connect your wallet to buy Carrer Tokens",
         href: "https://metamask.io/",
         button_text: "Connect MetaMask",
         css_class: "w-100"
@@ -14,7 +14,7 @@ if Rails.env.development?
       AlertConfiguration.create!(
         page: "/feed",
         alert_type: "primary",
-        text: "Apply to launch your Career Coin on Talent Protocol",
+        text: "Apply to launch your Career Token on Talent Protocol",
         href: "https://www.talentprotocol.com/invite",
         button_text: "Reserve $TICKER"
       )
@@ -76,14 +76,14 @@ if Rails.env.development?
         user: talent
       )
 
-      puts "Setting up Coins.."
-      marx_coin = Coin.create!(
+      puts "Setting up Tokens.."
+      marx_token = Token.create!(
         ticker: "MARX",
         price: 2,
         market_cap: 0,
         talent: marx
       )
-      elon_coin = Coin.create!(
+      elon_token = Token.create!(
         ticker: "ELON",
         price: 1,
         market_cap: 0,
@@ -92,9 +92,9 @@ if Rails.env.development?
 
       puts "Setting up Transactions.."
       service = CreateTransaction.new
-      service.call(coin: elon_coin, amount: 1000, investor: john_doe)
-      service.call(coin: elon_coin, amount: 500, investor: admin_investor)
-      service.call(coin: marx_coin, amount: 350, investor: admin_investor)
+      service.call(token: elon_token, amount: 1000, investor: john_doe)
+      service.call(token: elon_token, amount: 500, investor: admin_investor)
+      service.call(token: marx_token, amount: 350, investor: admin_investor)
 
       puts "Setting up Career Goals.."
       CareerGoal.create(

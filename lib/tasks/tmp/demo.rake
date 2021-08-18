@@ -10,7 +10,7 @@ namespace :demo do
     )
 
     talent = user.create_talent!(
-      description: "Vitalik Buterin is a Russian-Canadian programmer and writer who is best known as one of the co-founders of Ethereum. Buterin became involved with cryptocurrency early in its inception, co-founding Bitcoin Magazine in 2011. In 2014, Buterin launched Ethereum with Gavin Wood.",
+      description: "Vitalik Buterin is a Russian-Canadian programmer and writer who is best known as one of the co-founders of Ethereum. Buterin became involved with cryptocurrency early in its inception, co-founding Bittoken Magazine in 2011. In 2014, Buterin launched Ethereum with Gavin Wood.",
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
       linkedin_url: "https://www.linkedin.com/"
@@ -23,7 +23,7 @@ namespace :demo do
     talent.profile_picture = URI.parse("https://qph.fs.quoracdn.net/main-thumb-1465906843-200-hdbguqpsiilgttcxuctvrbalxqbwtfbc.jpeg").open
     talent.save!
 
-    user.talent.create_coin!(
+    user.talent.create_token!(
       ticker: "VITA",
       price: 107,
       market_cap: 0
@@ -31,7 +31,7 @@ namespace :demo do
     user.create_feed!
 
     service = CreateTransaction.new
-    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
 
     CareerGoal.create!(
       target_date: Date.today + Random.new.rand(6..24).month,
@@ -71,7 +71,7 @@ namespace :demo do
     Tag.create(talent: talent, description: "Entrepreneur")
     Tag.create(talent: talent, description: "Founder")
 
-    user.talent.create_coin!(
+    user.talent.create_token!(
       ticker: "SPACE",
       price: 89,
       market_cap: 0
@@ -79,9 +79,9 @@ namespace :demo do
     user.create_feed!
 
     service = CreateTransaction.new
-    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
-    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
-    service.call(coin: user.talent.coin, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
+    service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
 
     CareerGoal.create!(
       target_date: Date.today + Random.new.rand(6..24).month,

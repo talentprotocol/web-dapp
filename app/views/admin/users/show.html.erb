@@ -118,42 +118,42 @@
         </div>
       <% end %>
 
-      <% if @user.talent.coin.present? %>
-        <h3 class="border-top mt-2">Coin</h3>
+      <% if @user.talent.token.present? %>
+        <h3 class="border-top mt-2">Token</h3>
         <dl class="d-flex flex-row flex-wrap">
           <dt class="col-md-3 sm-text-left md-text-right">Ticker</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.display_ticker %></dd>
+          <dd class="col-md-9"><%= @user.talent.token.display_ticker %></dd>
 
-          <dt class="col-md-3 sm-text-left md-text-right">Coin Price</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.display_price %></dd>
+          <dt class="col-md-3 sm-text-left md-text-right">Token Price</dt>
+          <dd class="col-md-9"><%= @user.talent.token.display_price %></dd>
 
-          <dt class="col-md-3 sm-text-left md-text-right">Coin Market Cap</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.display_market_cap %></dd>
+          <dt class="col-md-3 sm-text-left md-text-right">Token Market Cap</dt>
+          <dd class="col-md-9"><%= @user.talent.token.display_market_cap %></dd>
 
           <dt class="col-md-3 sm-text-left md-text-right">Reserve Ratio</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.reserve_ratio || "-" %></dd>
+          <dd class="col-md-9"><%= @user.talent.token.reserve_ratio || "-" %></dd>
 
           <dt class="col-md-3 sm-text-left md-text-right">Talent fee</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.talent_fee || "-" %></dd>
+          <dd class="col-md-9"><%= @user.talent.token.talent_fee || "-" %></dd>
 
           <dt class="col-md-3 sm-text-left md-text-right">Contract ID</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.contract_id || "-" %></dd>
+          <dd class="col-md-9"><%= @user.talent.token.contract_id || "-" %></dd>
 
           <dt class="col-md-3 sm-text-left md-text-right">Deployed</dt>
-          <dd class="col-md-9"><%= @user.talent.coin.deployed %></dd>
+          <dd class="col-md-9"><%= @user.talent.token.deployed %></dd>
         </dl>
         <div class="d-flex flex-row">
           <div class="offset-md-3 col-md-9 pb-2 d-flex flex-row">
-            <%= link_to "Edit Coin", edit_admin_talent_coin_path(@user.talent, @user.talent.coin), class: "btn btn-primary talent-button mr-2" %>
-            <%= react_component("DeployCoinButton",
+            <%= link_to "Edit Token", edit_admin_talent_token_path(@user.talent, @user.talent.token), class: "btn btn-primary talent-button mr-2" %>
+            <%= react_component("DeployTokenButton",
               props: {
-                ticker: @user.talent.coin.ticker,
+                ticker: @user.talent.token.ticker,
                 username: @user.username,
                 address: @user.wallet_id,
-                reserveRatio: @user.talent.coin.reserve_ratio,
-                talentFee: @user.talent.coin.talent_fee,
-                updateCoinUrl: admin_talent_coin_path(@user.talent, @user.talent.coin),
-                contract_id: @user.talent.coin.contract_id,
+                reserveRatio: @user.talent.token.reserve_ratio,
+                talentFee: @user.talent.token.talent_fee,
+                updateTokenUrl: admin_talent_token_path(@user.talent, @user.talent.token),
+                contract_id: @user.talent.token.contract_id,
                 wallet_id: @user.wallet_id,
               },
               prerender: false) %>

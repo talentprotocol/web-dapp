@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   def talent_sort(talents)
     if sort_params[:sort].present?
       if sort_params[:sort] == "market_cap"
-        talents.joins(:coin).order(market_cap: :desc)
+        talents.joins(:token).order(market_cap: :desc)
       elsif sort_params[:sort] == "activity"
         talents.order(activity_count: :desc)
       else

@@ -24,7 +24,7 @@ const Web3Container = (props) => {
       await web3.initialize();
     }
 
-    const allTalentTokens = await web3.careerCoins.getAllCareerCoins();
+    const allTalentTokens = await web3.talentTokens.getAllTalentTokens();
     setTalweb3(web3);
     setProvider(web3.provider);
     setTokens(allTalentTokens);
@@ -41,13 +41,13 @@ const Web3Container = (props) => {
   };
 
   const updateTokens = async () => {
-    await talweb3.loadCareerCoins();
-    const allTokens = await talweb3.careerCoins.getAllCareerCoins(false);
+    await talweb3.loadTalentTokens();
+    const allTokens = await talweb3.talentTokens.getAllTalentTokens(false);
     setTokens(allTokens);
   };
 
   const buy = async (address, amount) => {
-    const desiredToken = await talweb3.careerCoins.getCareerCoin(
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
     );
@@ -63,7 +63,7 @@ const Web3Container = (props) => {
   };
 
   const sell = async (address, amount) => {
-    const desiredToken = await talweb3.careerCoins.getCareerCoin(
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
     );

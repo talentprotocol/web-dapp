@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "../button";
-import DisplayCoinVariance from "../coin/DisplayCoinVariance";
+import DisplayTokenVariance from "../token/DisplayTokenVariance";
 
-const TalentCoin = ({
+const TalentToken = ({
   ticker,
   price,
   marketCap,
@@ -60,7 +60,7 @@ const TalentCoin = ({
           <div className="text-muted">
             <small>Price (7D)</small>
           </div>
-          <DisplayCoinVariance variance={priceVariance7d} />
+          <DisplayTokenVariance variance={priceVariance7d} />
         </div>
       </div>
       <div className="col-6 mt-2 px-1">
@@ -68,7 +68,7 @@ const TalentCoin = ({
           <div className="text-muted">
             <small>Price (30D)</small>
           </div>
-          <DisplayCoinVariance variance={priceVariance30d} />
+          <DisplayTokenVariance variance={priceVariance30d} />
         </div>
       </div>
       <div className="col-12 mt-2 px-1">
@@ -84,4 +84,4 @@ const TalentCoin = ({
   );
 };
 
-export default TalentCoin;
+export default TalentToken;

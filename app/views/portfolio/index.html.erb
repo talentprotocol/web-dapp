@@ -6,7 +6,7 @@
         <div class="d-flex flex-column flex-sm-row justify-content-between">
           <div class="d-flex flex-column flex-sm-row align-items-start align-items-lg-end">
             <h1 class="mb-0 mr-2">Portfolio</h1>
-            <%= react_component("DisplayCoinVariance", props: { variance: "30.02", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
+            <%= react_component("DisplayTokenVariance", props: { variance: "30.02", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
           </div>
             
           <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL", href: "https://app.uniswap.org/#/swap"}, prerender: false )%>
@@ -15,15 +15,15 @@
         <%= react_component("PortfolioTalOverview",
           props: {
             talCommited: current_user.investor.total_invested,
-            talValue: Coin::TAL_VALUE / 100.0,
-            talentCount: current_user.investor.coins_held.count,
+            talValue: Token::TAL_VALUE / 100.0,
+            talentCount: current_user.investor.tokens_held.count,
           },
           prerender: false)
         %>
 
         <%= react_component("PortfolioTable",
           props: {
-            transactions: @transactions.map { |transaction| transaction.to_json_view.merge(talentUrl: talent_path(transaction.coin.talent)) }
+            transactions: @transactions.map { |transaction| transaction.to_json_view.merge(talentUrl: talent_path(transaction.token.talent)) }
           },
           prerender: false, html_options: { class: "mt-4" })
         %>

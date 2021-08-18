@@ -32,12 +32,12 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
   );
 };
 
-// given coinA amount, how much coinB do you get -- replace with calculating value from web3 with a debounce
-const calculateComplementValue = (amount, coinA, coinB, mode) => {
+// given tokenA amount, how much tokenB do you get -- replace with calculating value from web3 with a debounce
+const calculateComplementValue = (amount, tokenA, tokenB, mode) => {
   if (mode == "buy") {
-    return amount * (coinB?.exchangeRate || 1);
+    return amount * (tokenB?.exchangeRate || 1);
   } else {
-    return amount / (coinA?.exchangeRate || 1);
+    return amount / (tokenA?.exchangeRate || 1);
   }
 };
 
@@ -174,7 +174,7 @@ const Swap = () => {
   };
 
   const onInputTokenSet = (selectedToken) => {
-    // switch coins
+    // switch tokens
     if (selectedToken.symbol == outputToken().symbol) {
       mode == "buy" ? setMode("sell") : setMode("buy");
     } else {
@@ -185,7 +185,7 @@ const Swap = () => {
   };
 
   const onOutputTokenSet = (selectedToken) => {
-    // switch coins
+    // switch tokens
     if (selectedToken.symbol == inputToken().symbol) {
       mode == "buy" ? setMode("sell") : setMode("buy");
     } else {

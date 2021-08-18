@@ -11,6 +11,6 @@
       isTalent: current_user.talent.present?
     },
     posts: @posts.map { |post| post.to_json },
-    topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.coin.display_ticker, price: tal.coin.display_price, profilePictureUrl: tal.profile_picture_url } },
+    topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, price: tal.token.display_price, profilePictureUrl: tal.profile_picture_url } },
     alert: { type: @alert&.alert_type, text: @alert&.text, href: @alert&.href, buttonText: @alert&.button_text }
   }, prerender: false, html_options: { class: "col-12 col-lg-9 lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row" }) %>

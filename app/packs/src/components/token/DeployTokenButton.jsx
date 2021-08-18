@@ -5,17 +5,17 @@ import { patch } from "src/utils/requests";
 
 import Button from "../button";
 
-const DeployCoinButton = ({
+const DeployTokenButton = ({
   ticker,
   username,
   address,
   reserveRatio,
   talentFee,
-  updateCoinUrl,
+  updateTokenUrl,
   contract_id,
   wallet_id,
 }) => {
-  const [buttonText, setButtonText] = useState("Deploy Coin");
+  const [buttonText, setButtonText] = useState("Deploy Token");
   const [mintText, setMintText] = useState("Initial Mint");
   const [transferText, setTransferText] = useState("Transfer $TAL");
   const [tokenAddress, setTokenAddress] = useState(contract_id);
@@ -34,9 +34,9 @@ const DeployCoinButton = ({
   const onClick = async (e) => {
     e.preventDefault();
 
-    setButtonText("Deploying Coin..");
+    setButtonText("Deploying Token..");
 
-    const result = await talweb3.careerCoins.createNewCoin(
+    const result = await talweb3.talentTokens.createNewToken(
       ticker,
       username,
       reserveRatio,
@@ -48,23 +48,26 @@ const DeployCoinButton = ({
         result.events.TalentAdded.returnValues.contractAddress;
       setTokenAddress(contractAddress);
 
-      const response = await patch(`${updateCoinUrl}.json`, {
-        coin: { contract_id: contractAddress, deployed: true },
+      const response = await patch(`${updateTokenUrl}.json`, {
+        token: { contract_id: contractAddress, deployed: true },
       });
       if (response.error) {
         setButtonText("Error updating contract ID");
       } else {
-        setButtonText("Deployed Coin");
+        setButtonText("Deployed Token");
       }
     } else {
-      setButtonText("Unable to create new talent coin");
+      setButtonText("Unable to create new talent token");
     }
   };
 
   const performInitialMint = async (e) => {
     e.preventDefault();
 
-    const token = await talweb3.careerCoins.getCareerCoin(tokenAddress, false);
+    const token = await talweb3.talentTokens.getTalentToken(
+      tokenAddress,
+      false
+    );
     if (token) {
       const result = await token.initialMint();
 
@@ -93,7 +96,7 @@ const DeployCoinButton = ({
   return (
     <div className="d-flex flex-row justify-content-between">
       <Button
-        disabled={buttonText != "Deploy Coin"}
+        disabled={buttonText != "Deploy Token"}
         type="warning"
         text={buttonText}
         onClick={onClick}
@@ -117,4 +120,4 @@ const DeployCoinButton = ({
   );
 };
 
-export default DeployCoinButton;
+export default DeployTokenButton;
