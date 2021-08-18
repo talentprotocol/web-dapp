@@ -32,6 +32,7 @@ const PostInput = ({ profilePictureUrl, addPost }) => {
         />
         <button
           type="submit"
+          disabled={text == ""}
           className="btn btn-primary btn-small ml-0 ml-md-2 mt-2 mt-md-0 md-w-100"
         >
           Create

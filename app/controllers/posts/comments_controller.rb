@@ -8,6 +8,10 @@ class Posts::CommentsController < ApplicationController
   end
 
   def create
+    if comment_params[:text] == ""
+      return render json: {error: "Empty text field."}, status: :bad_request
+    end
+
     @comment = Comment.new(post: @post, user: current_user, text: comment_params[:text])
 
     if @comment.save

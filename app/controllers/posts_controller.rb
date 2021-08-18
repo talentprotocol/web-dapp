@@ -10,6 +10,10 @@ class PostsController < ApplicationController
   end
 
   def create
+    if post_params[:text] == ""
+      return render json: {error: "Text field is empty"}, status: :bad_request
+    end
+
     @post = Post.create(text: post_params[:text], user: current_user)
 
     PublishPostJob.perform_later(post_id: @post.id, created_at: @post.created_at.to_s)
