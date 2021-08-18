@@ -3,6 +3,7 @@ import { parseJSON, formatDistanceToNow } from "date-fns";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTransition, animated } from "@react-spring/web";
+import parse from "html-react-parser";
 
 import { post as postRequest, get } from "src/utils/requests";
 
@@ -30,7 +31,7 @@ const Comment = ({ text, username, ticker, profilePictureUrl, created_at }) => {
             </small>
           </p>
         </div>
-        <p className="w-100 text-white-space-wrap">{text}</p>
+        <p className="w-100 text-white-space-wrap">{parse(text)}</p>
       </div>
     </div>
   );
@@ -154,7 +155,7 @@ const Post = ({ post, user, currentUser }) => {
               </small>
             </p>
           </div>
-          <p className="text-white-space-wrap">{post.text}</p>
+          <p className="text-white-space-wrap">{parse(post.text)}</p>
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between">
             <div className="d-flex flex-row mt-2 mt-md-0">
               <button

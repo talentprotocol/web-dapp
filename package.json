@@ -26,6 +26,7 @@
     "date-fns": "^2.22.1",
     "eth-sig-util": "^3.0.1",
     "ethereumjs-util": "^7.1.0",
+    "html-react-parser": "^1.2.8",
     "https-browserify": "^1.0.0",
     "mini-css-extract-plugin": "^1.6.0",
     "os-browserify": "^0.3.0",
@@ -78,5 +79,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "engines" : { "node": "16.4.2" }
+  "engines": {
+    "node": "16.4.2"
+  }
 }
