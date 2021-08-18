@@ -157,7 +157,7 @@ const Swap = () => {
       web3.sell(selectedToken, amount).then((result) => {
         post(`/transactions`, {
           token_address: selectedToken,
-          amount: parseFloat(amount),
+          amount: parseFloat(inputAmount),
           block_id: result.blockHash,
           transaction_id: result.transactionHash,
           inbound: false,
