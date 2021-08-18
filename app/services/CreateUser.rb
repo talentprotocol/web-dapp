@@ -75,8 +75,6 @@ class CreateUser
   def create_feed(user)
     feed = Feed.create!(user: user)
 
-    binding.pry
-
     admin = User.find_by(email: "admin@talentprotocol.com")
     if admin.present?
       admin.posts.find_each do |post|
