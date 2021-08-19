@@ -2,17 +2,7 @@ import React, { useState, useContext } from "react";
 
 import MetamaskFox from "images/metamask-fox.svg";
 
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
-
-const NoMetamask = () => (
-  <div className="d-flex flex-row text-danger align-items-center">
-    <FontAwesomeIcon icon={faTimes} />
-    <p className="ml-2 mb-0">You need metamask to be able to login.</p>
-  </div>
-);
 
 const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
   const [requestingMetamask, setRequestingMetamask] = useState("false");
@@ -59,7 +49,6 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
       <h6 className="registration_step_subtitle">Step 4 of 4</h6>
       <h1>Connect Metamask</h1>
       <p>All that's left is to connect your metamask to your account.</p>
-      {web3.provider === null && <NoMetamask />}
       <form onSubmit={connectMetamask} className="d-flex flex-column">
         <button
           disable={allowConnect()}
