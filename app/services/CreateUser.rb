@@ -8,7 +8,7 @@ class CreateUser
   def call(email:, username:, metamask_id:)
     ActiveRecord::Base.transaction do
       user = create_user(email, username, metamask_id)
-      create_investor(user, username, metamask_id)
+      create_investor(user)
       create_feed(user)
       wait_list = WaitList.find_by(email: email)
 
