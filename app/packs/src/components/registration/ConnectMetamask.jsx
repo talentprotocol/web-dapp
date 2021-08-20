@@ -49,11 +49,14 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
       <h6 className="registration_step_subtitle">Step 4 of 4</h6>
       <h1>Connect Metamask</h1>
       <p>All that's left is to connect your metamask to your account.</p>
+      <p className="text-danger">
+        We're currently operating in the <strong>Ropsten Network</strong>.
+      </p>
       <form onSubmit={connectMetamask} className="d-flex flex-column">
         <button
           disable={allowConnect()}
           type="submit"
-          className="ml-2 btn btn-primary talent-button"
+          className="btn btn-primary talent-button"
         >
           Connect <img src={MetamaskFox} height={32} alt="Metamask Fox" />
         </button>

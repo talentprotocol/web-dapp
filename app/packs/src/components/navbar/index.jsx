@@ -80,6 +80,9 @@ const TalNavbar = (props) => {
               {icon(faQuestionCircle)} Help
             </NavbarItem>
             <TalBox price="0.02" variance="+12%" />
+            <p className="text-danger">
+              Live in <strong>Ropsten Network.</strong>
+            </p>
           </Nav>
         </Navbar.Collapse>
       </Container>

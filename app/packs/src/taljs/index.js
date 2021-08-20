@@ -73,9 +73,7 @@ class TalWeb3 {
       await this.tal.getBalance();
     } else {
       this.tal = new Tal(null, null, null);
-      window.alert(
-        "Talent Protocol contract not deployed to detected network."
-      );
+      console.log("Talent Protocol contract not deployed to detected network.");
     }
 
     return this.tal;
@@ -110,7 +108,7 @@ class TalWeb3 {
       );
     } else {
       this.talentTokens = new TalentTokens(null, null, this.web3, this.account);
-      window.alert(
+      console.log(
         "Talent Protocol Factory contract not deployed to detected network."
       );
     }
@@ -130,7 +128,7 @@ class TalWeb3 {
     } else if (window.web3) {
       this.web3 = new Web3(window.web3.currentProvider);
     } else {
-      window.alert(
+      console.log(
         "Non-Ethereum browser detected. You should consider trying MetaMask!"
       );
       return false;
