@@ -116,7 +116,7 @@ const DeployTokenButton = ({
         className="btn btn-danger talent-button mr-2"
       />
       <Button
-        disabled={invalidContract() || transferText != "Transfer $TAL"}
+        disabled={wallet_id === null || transferText != "Transfer $TAL"}
         type="primary"
         text={transferText}
         onClick={transfer}

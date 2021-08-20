@@ -70,7 +70,7 @@ const TalNavbar = (props) => {
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
             {talent && (
               <NavbarItem url={editTalentPath} exact>
-                {icon(faIdCard)} Talent Profile
+                {icon(faIdCard)} My Profile
               </NavbarItem>
             )}
             <NavbarItem url={settingsPath} exact>
@@ -79,7 +79,7 @@ const TalNavbar = (props) => {
             <NavbarItem url={helpPath} exact>
               {icon(faQuestionCircle)} Help
             </NavbarItem>
-            <TalBox price="0.02" variance="+12%" />
+            <TalBox price="0.02" variance="+0%" />
             <p className="text-danger">
               Live in <strong>Ropsten Network.</strong>
             </p>

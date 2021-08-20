@@ -3,7 +3,7 @@ class Transaction < ApplicationRecord
   belongs_to :token
 
   def value
-    amount * token.price
+    amount.abs * token.price
   end
 
   def display_value
@@ -11,7 +11,7 @@ class Transaction < ApplicationRecord
   end
 
   def value_in_tal
-    amount * token.price_in_tal
+    amount.abs * token.price_in_tal
   end
 
   def display_value_in_tal
@@ -23,7 +23,7 @@ class Transaction < ApplicationRecord
       id: id,
       tokenTicker: token.display_ticker,
       talentName: token.talent.username,
-      amount: amount,
+      amount: amount.abs,
       transactionId: transaction_hash,
       price: token.display_price,
       priceInTal: token.display_price_in_tal,
