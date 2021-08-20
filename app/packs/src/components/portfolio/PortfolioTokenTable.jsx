@@ -5,7 +5,7 @@ import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const EmptyInvestments = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="6">
+    <td className="align-middle text-muted" colSpan="7">
       <small>Sponsor Talent to start building your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
