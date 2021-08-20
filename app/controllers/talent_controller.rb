@@ -46,7 +46,7 @@ class TalentController < ApplicationController
   private
 
   def base_talent
-    Talent.where.not(ito_date: nil).includes([:user, :token])
+    Talent.where(public: true).includes([:user, :token])
   end
 
   def apply_filters(talent)
@@ -74,6 +74,7 @@ class TalentController < ApplicationController
       :linkedin_url,
       :youtube_url,
       :description,
+      :public,
       profile_picture: {}
     )
   end

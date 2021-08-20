@@ -6,7 +6,7 @@ import Uppy from "@uppy/core";
 import { DragDrop } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
 
-import { patch, post, getAuthToken } from "src/utils/requests";
+import { patch, getAuthToken } from "src/utils/requests";
 import LinkedInIcon from "images/linkedin.png";
 
 import Button from "../../button";
@@ -101,8 +101,6 @@ const TalentDetail = ({
       setShow(false);
     }
   };
-
-  console.log(tokenDeployed);
 
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">

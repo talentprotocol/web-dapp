@@ -20,7 +20,7 @@ class Talent::SearchesController < ApplicationController
   private
 
   def base_talent
-    Talent.where.not(ito_date: nil).includes([:user, :token, :primary_tag])
+    Talent.where(public: true).includes([:user, :token, :primary_tag])
   end
 
   def apply_filters(talent)

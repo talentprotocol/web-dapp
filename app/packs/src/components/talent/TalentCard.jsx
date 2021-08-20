@@ -19,7 +19,7 @@ const TalentBadge = ({ status }) => {
 };
 
 const textDescription = (text) => {
-  if (text.length > 275) {
+  if (text && text.length > 275) {
     return `${text.substring(0, 273)}..`;
   } else {
     return text;
