@@ -42,7 +42,7 @@ class CreateUser
         metamask_id: metamask_id
       )
 
-      raise ActiveRecord::Rollback.new(e)
+      raise e
     end
   end
 
@@ -51,7 +51,7 @@ class CreateUser
   def create_user(email, username, metamask_id)
     user = User.new
     user.email = email
-    user.username = username
+    user.username = username.downcase.delete(" ", "")
     user.wallet_id = metamask_id&.downcase
     user.save!
     user
@@ -65,7 +65,7 @@ class CreateUser
     user.talent.create_token!
   end
 
-  def create_investor(user, username, metamask_id)
+  def create_investor(user)
     investor = Investor.new
     investor.user = user
     investor.save!

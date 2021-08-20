@@ -102,6 +102,8 @@ const TalentDetail = ({
     }
   };
 
+  console.log(tokenDeployed);
+
   return (
     <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row align-items-center">
       <TalentProfilePicture src={showProfilePictureUrl} height={96} />
