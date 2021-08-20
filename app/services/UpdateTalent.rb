@@ -17,16 +17,16 @@ class UpdateTalent
     rescue => e
       Rollbar.error(e, "Unable to process updating the talent, affecting talent ##{@talent.id}")
 
-      raise ActiveRecord::Rollback.new(e)
+      raise e
     end
   end
 
   private
 
   def update_user(user)
-    return unless user
+    return unless user && user[:username]
 
-    @talent.user.update!(username: user[:username])
+    @talent.user.update!(username: user[:username].downcase.delete(" ", ""))
   end
 
   def update_token(token)
