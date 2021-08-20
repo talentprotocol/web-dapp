@@ -53,6 +53,12 @@ class TalWeb3 {
       const talentProtocolTokenData = TalentProtocol.networks[this.networkId];
       if (talentProtocolTokenData) {
         address = talentProtocolTokenData.address;
+      } else {
+        if (TAL_ADDRESSES[this.networkId]) {
+          address = TAL_ADDRESSES[this.networkId];
+        } else {
+          address = LOCAL_TAL_ADDRESS;
+        }
       }
     } else {
       if (TAL_ADDRESSES[this.networkId]) {

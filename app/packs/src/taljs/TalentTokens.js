@@ -34,7 +34,7 @@ class TalentTokens {
   }
 
   async getAll() {
-    if (this.shouldRefreshCache()) {
+    if (this.shouldRefreshCache() && this.contract) {
       const talentList = await this.contract.methods.getTalentList().call();
 
       talentList.forEach(
