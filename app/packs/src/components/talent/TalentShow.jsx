@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { patch, getAuthToken } from "src/utils/requests";
+import { patch } from "src/utils/requests";
 
 import CareerGoals from "./Show/CareerGoals";
 import Rewards from "./Show/Rewards";
@@ -72,13 +72,15 @@ const TalentShow = ({
         allowEdit={talentIsFromCurrentUser}
         talentId={talent.id}
       />
-      <button
-        role="button"
-        onClick={togglePublic}
-        className="talent-button btn btn-warning"
-      >
-        Make {!publicProfile ? "public" : "private"}
-      </button>
+      {talentIsFromCurrentUser && (
+        <button
+          role="button"
+          onClick={togglePublic}
+          className="talent-button btn btn-warning"
+        >
+          Make {!publicProfile ? "public" : "private"}
+        </button>
+      )}
     </div>
   );
 };
