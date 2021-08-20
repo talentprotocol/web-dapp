@@ -1,0 +1,42 @@
+
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll px-0">
+  <main class="col-12 mx-auto mx-lg-0 px-0" style="max-width: 1200px">
+    <div class="d-flex flex-column align-items-center align-items-lg-stretch h-100">
+      <div class="col-12 px-3 py-3 px-sm-5 px-lg-4 py-lg-5 talent-content-body-1200">
+        <div class="d-flex flex-column flex-sm-row justify-content-between">
+          <div class="d-flex flex-column flex-sm-row align-items-start align-items-lg-end">
+            <h1 class="mb-0 mr-2">Portfolio</h1>
+            <%= react_component("DisplayTokenVariance", props: { variance: "0", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
+          </div>
+            
+          <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL", href: "https://app.uniswap.org/#/swap"}, prerender: false )%>
+        </div>
+
+        <%= react_component("PortfolioTalOverview",
+          props: {
+            talCommited: current_user.investor.total_invested,
+            talValue: Token::TAL_VALUE / 100.0,
+            talentCount: current_user.investor.tokens_held.count,
+          },
+          prerender: false)
+        %>
+
+        <%= react_component("PortfolioTokenTable",
+          props: {
+            tokens: @tokens.map { |token| token.for_user_view(current_user).merge(tokenUrl: portfolio_token_path(token)) }
+          },
+          prerender: false, html_options: { class: "mt-4" })
+        %>
+
+        <%= react_component("Pagination", props:
+          {
+            prev: @pagy.prev,
+            next: @pagy.next,
+            page: @pagy.page,
+            last: @pagy.last
+          }, prerender: false, html_options: { class: "mt-3" }) %>
+
+      </div>
+    </div>
+  </main>
+</div>

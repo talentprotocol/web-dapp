@@ -5,23 +5,14 @@
       <div class="col-12 px-3 py-3 px-sm-5 px-lg-4 py-lg-5 talent-content-body-1200">
         <div class="d-flex flex-column flex-sm-row justify-content-between">
           <div class="d-flex flex-column flex-sm-row align-items-start align-items-lg-end">
-            <h1 class="mb-0 mr-2">Portfolio</h1>
-            <%= react_component("DisplayTokenVariance", props: { variance: "30.02", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
+            <h1 class="mb-0 mr-2">Portfolio | Token: <%= @token.display_ticker %></h1>
+            <%= react_component("DisplayTokenVariance", props: { variance: "0", withoutArrow: true }, prerender: false, html_options: { class: "mr-2" }) %>
           </div>
             
           <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL", href: "https://app.uniswap.org/#/swap"}, prerender: false )%>
         </div>
 
-        <%= react_component("PortfolioTalOverview",
-          props: {
-            talCommited: current_user.investor.total_invested,
-            talValue: Token::TAL_VALUE / 100.0,
-            talentCount: current_user.investor.tokens_held.count,
-          },
-          prerender: false)
-        %>
-
-        <%= react_component("PortfolioTable",
+        <%= react_component("PortfolioTransactionTable",
           props: {
             transactions: @transactions.map { |transaction| transaction.to_json_view.merge(talentUrl: talent_path(transaction.token.talent)) }
           },

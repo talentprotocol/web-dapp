@@ -4,8 +4,8 @@ import DisplayTokenVariance from "../token/DisplayTokenVariance";
 
 const EmptyInvestments = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="7">
-      <small>Sponsor Talent to start building your portfolio.</small>
+    <td className="align-middle text-muted" colSpan="6">
+      <small>No transactions for this talent token.</small>
     </td>
     <td className="align-middle" colSpan="1">
       <Button type="primary" text="See Talents" href="/talent" size="sm" />
@@ -13,7 +13,7 @@ const EmptyInvestments = () => (
   </tr>
 );
 
-const PortfolioTable = ({ transactions }) => {
+const PortfolioTransactionTable = ({ transactions }) => {
   return (
     <div className="table-responsive">
       <h3>Transactions</h3>
@@ -112,4 +112,4 @@ const PortfolioTable = ({ transactions }) => {
   );
 };
 
-export default PortfolioTable;
+export default PortfolioTransactionTable;

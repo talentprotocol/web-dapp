@@ -46,4 +46,31 @@ class Token < ApplicationRecord
   def display_price_in_tal
     "#{(price_in_tal.round(2)).to_s(:delimited)} ✦"
   end
+
+  def value_in_tal(user)
+    transactions.where(investor: user.investor).sum(&:amount) * price_in_tal
+  end
+
+  def display_value_in_tal(user)
+    "#{value_in_tal(user).to_f.round(0).to_s(:delimited)} ✦"
+  end
+
+  def display_value(user)
+    "$#{(transactions.where(investor: user.investor).sum(&:amount).to_f / 100).to_s(:delimited)}"
+  end
+
+  def for_user_view(user)
+    {
+      id: id,
+      ticker: display_ticker,
+      talentName: talent.username,
+      profilePictureUrl: talent.profile_picture_url,
+      amount: transactions.where(investor: user.investor).sum(&:amount),
+      price: display_price,
+      priceInTal: display_price_in_tal,
+      value: display_value(user),
+      valueInTal: display_value_in_tal(user),
+      priceVariance7d: "0"
+    }
+  end
 end

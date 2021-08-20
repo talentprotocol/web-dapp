@@ -19,7 +19,8 @@ import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
 import TalentToken from "src/components/talent/TalentToken";
 import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard";
-import PortfolioTable from "src/components/portfolio/PortfolioTable";
+import PortfolioTransactionTable from "src/components/portfolio/PortfolioTransactionTable";
+import PortfolioTokenTable from "src/components/portfolio/PortfolioTokenTable";
 import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview";
 import DisplayTokenVariance from "src/components/token/DisplayTokenVariance";
 import MessageUserList from "src/components/chat/MessageUserList";
@@ -46,7 +47,7 @@ ReactOnRails.register({
   TalentShow,
   TalentToken,
   TalentLeaderboard,
-  PortfolioTable,
+  PortfolioTransactionTable,
   PortfolioTalOverview,
   DisplayTokenVariance,
   MessageUserList,
@@ -58,6 +59,7 @@ ReactOnRails.register({
   MetamaskLogin,
   DeployTokenButton,
   Logo,
+  PortfolioTokenTable,
 });
 
 Rails.start();

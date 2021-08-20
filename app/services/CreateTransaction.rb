@@ -9,7 +9,7 @@ class CreateTransaction
 
       transaction = Transaction.create(
         token_id: token.id,
-        amount: amount,
+        amount: inbound ? amount : -amount,
         investor: user.investor,
         block_hash: block_id,
         transaction_hash: transaction_id,

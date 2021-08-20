@@ -70,7 +70,7 @@ const TalNavbar = (props) => {
           <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
             {talent && (
               <NavbarItem url={editTalentPath} exact>
-                {icon(faIdCard)} Talent Profile
+                {icon(faIdCard)} My Profile
               </NavbarItem>
             )}
             <NavbarItem url={settingsPath} exact>
