@@ -11,6 +11,12 @@ const AccountCreation = ({ username, changeUsername, changeStep }) => {
     }
   };
 
+  const editUsername = (e) => {
+    if (e.target.value == "" || /^[a-z0-9]+$/.test(e.target.value)) {
+      setUsername(e.target.value);
+    }
+  };
+
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
       <h6 className="registration_step_subtitle">Step 3 of 4</h6>
@@ -29,8 +35,11 @@ const AccountCreation = ({ username, changeUsername, changeStep }) => {
             className="form-control"
             id="inputUsername"
             value={localUsername}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={editUsername}
           />
+          <small id="usernameHelp" className="form-text text-muted">
+            Only lowercased letters and numbers allowed.
+          </small>
         </div>
         <div className="align-self-end">
           <button
