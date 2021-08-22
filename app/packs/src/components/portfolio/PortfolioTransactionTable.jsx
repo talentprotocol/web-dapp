@@ -8,7 +8,7 @@ const EmptyInvestments = () => (
       <small>No transactions for this talent token.</small>
     </td>
     <td className="align-middle" colSpan="1">
-      <Button type="primary" text="See Talents" href="/talent" size="sm" />
+      <Button type="primary" text="See Talent" href="/talent" size="sm" />
     </td>
   </tr>
 );

@@ -63,7 +63,7 @@ const EmptyUsers = () => (
     <p className="text-muted mb-0">
       <small>You need to start a chat with someone!</small>
     </p>
-    <Button type="primary" text="See Talents" href="/talent" size="sm" />
+    <Button type="primary" text="See Talent" href="/talent" size="sm" />
   </div>
 );
 

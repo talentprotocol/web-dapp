@@ -31,7 +31,7 @@ namespace :alpha do
     post = Post.create!(text: "Hello world!", user: user)
     user.feed.posts << post
 
-    post = Post.create!(text: "Everyone, welcome to Talent Protocol's secret Alpha. We're excited to have you here, you can start by looking up Talents, you can already interact with the profiles from the core team.\n\nIf you have any issues, find any bugs or just have some form of feedback, please do let us know!", user: user)
+    post = Post.create!(text: "Everyone, welcome to Talent Protocol's secret Alpha. We're excited to have you here, you can start by looking up Talent, you can already interact with the profiles from the core team.\n\nIf you have any issues, find any bugs or just have some form of feedback, please do let us know!", user: user)
     user.feed.posts << post
   end
 end
