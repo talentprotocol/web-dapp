@@ -4,6 +4,7 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTransition, animated } from "@react-spring/web";
 import parse from "html-react-parser";
+import debounce from "lodash/debounce";
 
 import { post as postRequest, get } from "src/utils/requests";
 
@@ -41,9 +42,10 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [creatingComment, setCreatingComment] = useState(false);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const createComment = () => {
+    setCreatingComment(true);
 
     postRequest(`/posts/${post_id}/comments`, { text }).then((response) => {
       if (response.error) {
@@ -54,7 +56,16 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
         incrementComments();
         setText("");
       }
+
+      setCreatingComment(false);
     });
+  };
+
+  const debounceSubmit = debounce(() => createComment(), 200);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    debounceSubmit();
   };
 
   useEffect(() => {
@@ -95,7 +106,7 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
           />
           <button
             type="submit"
-            disabled={text == ""}
+            disabled={creatingComment == true || text == ""}
             className="btn btn-primary btn-small ml-0 ml-md-2 mt-2 mt-md-0 md-w-100"
           >
             Reply
