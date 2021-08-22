@@ -8,7 +8,7 @@ import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
 
-const Chat = ({ users }) => {
+const Chat = ({ users, userId }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
@@ -16,7 +16,6 @@ const Chat = ({ users }) => {
   const [activeChannel, setActiveChannel] = useState(null); // @TODO: Refactor chat
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [userId, setUserId] = useState(0);
   const [lastMessageId, setLastMessageId] = useState(0);
   const [chatId, setChatId] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
@@ -31,13 +30,16 @@ const Chat = ({ users }) => {
       return;
     }
 
+    if (activeUserId == userId) {
+      window.location.replace("/messages");
+    }
+
     setMessage("");
     setMessages([]);
 
-    get(`messages/${activeUserId}.json`).then((response) => {
+    get(`messages/${activeUserId}`).then((response) => {
       setMessages(response.messages);
       setLastMessageId(response.messages[response.messages.length - 1]?.id);
-      setUserId(response.current_user_id);
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
     });
