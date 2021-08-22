@@ -28,6 +28,10 @@ class MessagesController < ApplicationController
   end
 
   def create
+    if message_params[:message].empty?
+      return render json: {error: "Message is empty"}, status: :bad_request
+    end
+
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
 
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message)

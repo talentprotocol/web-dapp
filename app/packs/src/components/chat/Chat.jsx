@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import debounce from "lodash/debounce";
 
 import { post, get } from "src/utils/requests";
 import { setupChannel, removeChannel } from "channels/message_channel";
@@ -18,6 +19,7 @@ const Chat = ({ users }) => {
   const [userId, setUserId] = useState(0);
   const [lastMessageId, setLastMessageId] = useState(0);
   const [chatId, setChatId] = useState("");
+  const [sendingMessage, setSendingMessage] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
   const { height, width } = useWindowDimensionsHook();
 
@@ -65,12 +67,12 @@ const Chat = ({ users }) => {
     setLastMessageId(response.message.id);
   };
 
-  const sendNewMessage = (e) => {
-    e.preventDefault();
-
+  const sendNewMessage = () => {
     if (message.replace(/\s+/g, "") == "") {
       return;
     }
+
+    setSendingMessage(true);
 
     post("/messages", { id: activeUserId, message }).then((response) => {
       if (response.error) {
@@ -81,7 +83,15 @@ const Chat = ({ users }) => {
         setLastMessageId(response.id);
         setMessage("");
       }
+      setSendingMessage(false);
     });
+  };
+
+  const debouncedNewMessage = debounce(() => sendNewMessage(), 200);
+
+  const ignoreAndCallDebounce = (e) => {
+    e.preventDefault();
+    debouncedNewMessage();
   };
 
   const clearActiveUser = () => {
@@ -108,8 +118,9 @@ const Chat = ({ users }) => {
             clearActiveUserId={() => clearActiveUser()}
             value={message}
             onChange={setMessage}
-            onSubmit={sendNewMessage}
+            onSubmit={ignoreAndCallDebounce}
             messages={messages}
+            sendingMessage={sendingMessage}
             userId={userId}
             profilePictureUrl={messengerProfilePicture}
           />
