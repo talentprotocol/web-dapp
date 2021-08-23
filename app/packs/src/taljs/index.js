@@ -8,11 +8,13 @@ import Tal from "./Tal";
 import TalentTokens from "./TalentTokens";
 
 const TAL_ADDRESSES = {
-  3: "0x48f6d99fac2af7ad7b580b6cb6edbe0373dd51f5", // ropsten
+  3: "0xbc4c1d9b3904f2f592edd595b45cdde09304bcf1", // ropsten
 };
 const LOCAL_TAL_ADDRESS = "0x96465668B947CC7c0FD39A3ad35320316B6CadF9"; // local fallback from ABIs
 
-const TALENT_TOKENS_ADDRESSES = {};
+const TALENT_TOKENS_ADDRESSES = {
+  3: "0x303c6209B50c157DB5f45A0D0079FC5BdDfaeb4E",
+};
 const LOCAL_TALENT_TOKENS_ADDRESS =
   "0xF5746B6243349FBE31fdF64474E36C0dF62790E9"; // local fallback from ABIs
 
@@ -92,6 +94,12 @@ class TalWeb3 {
         TalentProtocolFactory.networks[this.networkId];
       if (talentProtocolFactoryData) {
         address = talentProtocolFactoryData.address;
+      } else {
+        if (TALENT_TOKENS_ADDRESSES[this.networkId]) {
+          address = TALENT_TOKENS_ADDRESSES[this.networkId];
+        } else {
+          address = LOCAL_TALENT_TOKENS_ADDRESS;
+        }
       }
     } else {
       if (TALENT_TOKENS_ADDRESSES[this.networkId]) {
