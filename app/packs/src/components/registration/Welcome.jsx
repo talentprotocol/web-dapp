@@ -30,8 +30,8 @@ const Welcome = ({ changeStep, changeEmail, email }) => {
       <h6 className="registration_step_subtitle">Step 1 of 4</h6>
       <h1>Welcome!</h1>
       <p>
-        We're currently in secret alpha. Enter your email to validate you have
-        access to the platform or request access.
+        We're currently in alpha. Enter your email to validate you are on the
+        allowlist or request access.
       </p>
       <p>
         <small>
