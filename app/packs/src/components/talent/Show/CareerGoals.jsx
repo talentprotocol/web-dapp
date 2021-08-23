@@ -18,7 +18,7 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
 
   const handleShow = () => setShow(true);
   const handleDismiss = () => {
-    setCareerGoalText(description);
+    setCareerGoalText(careerGoal.description || "");
     setShow(false);
   };
   const handleSave = async () => {
@@ -71,6 +71,7 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
             <textarea
               ref={textInputRef}
               id="text"
+              rows="6"
               value={careerGoalText}
               onChange={(e) => setCareerGoalText(e.target.value)}
               placeholder="Add a brief description.."
@@ -87,7 +88,9 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
           </Modal.Footer>
         </Modal>
       </div>
-      <p className="mt-3 mb-0 text-white-space-wrap">{careerGoalText}</p>
+      <p className="mt-3 mb-0 text-white-space-wrap text-break">
+        {careerGoalText}
+      </p>
     </div>
   );
 };

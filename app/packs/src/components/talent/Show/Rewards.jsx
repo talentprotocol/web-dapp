@@ -205,7 +205,7 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
               </button>
             )}
           </div>
-          <p className="mt-2 mb-0">{reward.description}</p>
+          <p className="mt-2 mb-0 text-break">{reward.description}</p>
         </div>
       ))}
     </div>
