@@ -87,7 +87,7 @@ class Token < ApplicationRecord
   end
 
   def display_value(user)
-    "$#{(transactions.where(investor: user.investor).sum(&:amount).to_f / 100).to_s(:delimited)}"
+    "$#{(transactions.where(investor: user.investor).sum(&:amount).to_f * TAL_VALUE / 100).to_s(:delimited)}"
   end
 
   def for_user_view(user)
