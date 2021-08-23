@@ -15,7 +15,7 @@ class Talent < ApplicationRecord
   has_one :primary_tag, -> { where(primary: true) }, class_name: "Tag"
 
   scope :active, -> { where("ito_date <= ?", Time.current) }
-  scope :upcoming, -> { where("ito_date > ?", Time.current) }
+  scope :upcoming, -> { where("ito_date > ? OR ito_date is NULL", Time.current) }
 
   delegate :wallet_id, :username, to: :user
 
