@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+
+import { utils as web3utils } from "web3";
+import Web3Container, { Web3Context } from "src/contexts/web3Context";
+
 import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
@@ -15,6 +19,11 @@ const EmptyInvestments = () => (
 );
 
 const PortfolioTokenTable = ({ tokens }) => {
+  const web3 = useContext(Web3Context);
+
+  const amountForToken = (token) =>
+    web3.tokens[token.contract_id]?.balance || 0.0;
+
   return (
     <div className="table-responsive">
       <h3>Talent</h3>
@@ -80,13 +89,16 @@ const PortfolioTokenTable = ({ tokens }) => {
                 <small>{token.talentName}</small>
               </td>
               <td className="align-middle text-right">
-                <small>{token.amount}</small>
+                <small>{amountForToken(token)}</small>
               </td>
               <td className="align-middle tal-table-price text-right">
-                {token.price}
+                ${((token.amount / amountForToken(token)) * 0.02).toFixed(2)}
                 <br />
                 <span className="text-muted">
-                  <small>{token.priceInTal}</small>
+                  <small>
+                    {((token.amount / amountForToken(token)) * 1.0).toFixed(2)}{" "}
+                    ✦
+                  </small>
                 </span>
               </td>
               <td className="align-middle tal-table-price text-right">
@@ -102,8 +114,8 @@ const PortfolioTokenTable = ({ tokens }) => {
               <td className="align-middle">
                 <Button
                   type="primary"
-                  text="Transactions"
-                  href={token.tokenUrl}
+                  text="See Talent"
+                  href={token.talentUrl}
                   size="sm"
                 />
               </td>
@@ -115,4 +127,10 @@ const PortfolioTokenTable = ({ tokens }) => {
   );
 };
 
-export default PortfolioTokenTable;
+const ConnectedTokenTable = (props) => (
+  <Web3Container>
+    <PortfolioTokenTable {...props} />
+  </Web3Container>
+);
+
+export default ConnectedTokenTable;
