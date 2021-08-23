@@ -10,6 +10,7 @@ const NavbarItem = (props) => {
   return (
     <Nav.Link
       href={props.url}
+      target={props.target}
       className={`${active ? "text-primary" : "text-secondary"} mt-2`}
     >
       {props.children}

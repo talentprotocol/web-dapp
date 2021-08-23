@@ -76,7 +76,7 @@ const TalNavbar = (props) => {
             <NavbarItem url={settingsPath} exact>
               {icon(faCog)} Settings
             </NavbarItem>
-            <NavbarItem url={helpPath} exact>
+            <NavbarItem url={helpPath} exact target={"self"}>
               {icon(faQuestionCircle)} Help
             </NavbarItem>
             <TalBox price="0.02" variance="+0%" />

@@ -61,6 +61,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
                 type={alert.type}
                 text={alert.buttonText}
                 href={alert.href}
+                target="self"
                 className="talent-button w-100 mx-5 mb-4"
               />
             )}
