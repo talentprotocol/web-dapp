@@ -54,7 +54,7 @@ Rails.application.routes.draw do
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show, :update] do
       resources :career_goals, only: [:create, :update], module: "talent"
-      resources :rewards, only: [:create, :update], module: "talent"
+      resources :rewards, only: [:create, :update, :destroy], module: "talent"
     end
 
     # Portfolio
