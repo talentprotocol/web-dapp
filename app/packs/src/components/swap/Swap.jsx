@@ -34,6 +34,7 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
 
 const Swap = () => {
   const web3 = useContext(Web3Context);
+  const [tradeText, setTradeText] = useState("Trade");
   const [mode, setMode] = useState("buy");
   const [selectedToken, setSelectedToken] = useState("");
   const [inputAmount, setInputAmount] = useState("");
@@ -105,7 +106,8 @@ const Swap = () => {
   };
 
   const buttonDisabled = () =>
-    !(parseFloat(inputAmount) > 0.0 && parseFloat(outputAmount) > 0.0);
+    !(parseFloat(inputAmount) > 0.0 && parseFloat(outputAmount) > 0.0) ||
+    tradeText != "Trade";
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -114,8 +116,11 @@ const Swap = () => {
       const amount = parseFloat(inputAmount) * 100.0;
       const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
 
+      setTradeText("Approval..");
+
       web3.approve(selectedToken, amount).then((approved) => {
         if (approved) {
+          setTradeText("Trading..");
           web3.buy(selectedToken, amount).then((result) => {
             setInputAmount("");
             setOutputAmount("");
@@ -148,12 +153,15 @@ const Swap = () => {
                 setInputAmount("");
                 setOutputAmount("");
               }
+              setTradeText("Trade");
             });
           });
         }
       });
     } else {
       const amount = parseFloat(inputAmount) * 100.0;
+
+      setTradeText("Trading...");
 
       web3.sell(selectedToken, amount).then((result) => {
         post(`/transactions`, {
@@ -169,6 +177,7 @@ const Swap = () => {
             setInputAmount("");
             setOutputAmount("");
           }
+          setTradeText("Trade");
         });
       });
     }
@@ -290,7 +299,7 @@ const Swap = () => {
           disabled={buttonDisabled()}
           className="btn btn-primary talent-button mt-3"
         >
-          Trade
+          {tradeText}
         </button>
       </form>
     </section>
