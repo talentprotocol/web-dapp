@@ -28,10 +28,18 @@ class TalentToken {
 
   async initialMint() {
     const setup = await this.contract.methods
-      .initialMint(100_000_000_000)
+      .initialMint(1000)
       .send({ from: this.master_account });
 
     return setup;
+  }
+
+  async simulateBuy(amount) {
+    const estimatedReward = await this.contract.methods
+      .calculateReward(amount)
+      .call();
+
+    return estimatedReward;
   }
 
   async buy(amount) {
@@ -42,10 +50,20 @@ class TalentToken {
     return mintedAmount;
   }
 
+  async simulateSell(amount) {
+    const estimatedRefund = await this.contract.methods
+      .calculateRefund(amount)
+      .call();
+
+    return estimatedRefund;
+  }
+
   async sell(amount) {
-    return await this.contract.methods
+    const burnedAmount = await this.contract.methods
       .burnToTal(amount)
       .send({ from: this.account });
+
+    return burnedAmount;
   }
 
   async getSymbol() {

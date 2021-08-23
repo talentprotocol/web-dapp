@@ -32,15 +32,6 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
   );
 };
 
-// given tokenA amount, how much tokenB do you get -- replace with calculating value from web3 with a debounce
-const calculateComplementValue = (amount, tokenA, tokenB, mode) => {
-  if (mode == "buy") {
-    return amount * (tokenB?.exchangeRate || 1);
-  } else {
-    return amount / (tokenA?.exchangeRate || 1);
-  }
-};
-
 const Swap = () => {
   const web3 = useContext(Web3Context);
   const [mode, setMode] = useState("buy");
@@ -56,6 +47,15 @@ const Swap = () => {
     mode == "buy"
       ? web3.tokens[selectedToken] || { balance: 0.0 }
       : web3.talToken;
+
+  // given tokenA amount, how much tokenB do you get -- replace with calculating value from web3 with a debounce
+  const calculateComplementValue = (amount) => {
+    if (mode == "buy") {
+      return web3.simulateBuy(selectedToken, amount * 100.0);
+    } else {
+      return web3.simulateSell(selectedToken, amount * 100.0);
+    }
+  };
 
   useEffect(() => {
     if (selectedToken == "") {
@@ -89,16 +89,16 @@ const Swap = () => {
       if (parseFloat(value) > max) {
         tokenChange(max);
         if (otherToken.symbol) {
-          otherTokenChange(
-            calculateComplementValue(max, token, otherToken, mode)
-          );
+          calculateComplementValue(max).then((result) => {
+            otherTokenChange(result / 100.0);
+          });
         }
       } else {
         tokenChange(value);
         if (otherToken.symbol) {
-          otherTokenChange(
-            calculateComplementValue(value, token, otherToken, mode)
-          );
+          calculateComplementValue(value).then((result) => {
+            otherTokenChange(result / 100.0);
+          });
         }
       }
     }
@@ -111,7 +111,7 @@ const Swap = () => {
     e.preventDefault();
 
     if (mode == "buy") {
-      const amount = parseFloat(outputAmount) * 100.0;
+      const amount = parseFloat(inputAmount) * 100.0;
       const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
 
       web3.approve(selectedToken, amount).then((approved) => {
@@ -137,7 +137,7 @@ const Swap = () => {
 
             post(`/transactions`, {
               token_address: selectedToken,
-              amount: parseFloat(outputAmount),
+              amount: parseFloat(inputAmount),
               block_id: result.blockHash,
               transaction_id: result.transactionHash,
               inbound: true,
@@ -154,6 +154,7 @@ const Swap = () => {
       });
     } else {
       const amount = parseFloat(inputAmount) * 100.0;
+
       web3.sell(selectedToken, amount).then((result) => {
         post(`/transactions`, {
           token_address: selectedToken,

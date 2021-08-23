@@ -13,11 +13,42 @@ class Token < ApplicationRecord
   end
 
   def display_market_cap
-    "$#{calculate_market_cap.truncate(3).to_s(:delimited)}"
+    "$#{current_market_cap.truncate(3).to_s(:delimited)}"
   end
 
-  def calculate_market_cap
+  def current_market_cap
     (price.to_f / 100) * transactions.sum(:amount)
+  end
+
+  def market_cap_at(date)
+    (price.to_f / 100) * transactions.where("created_at < ?", date).sum(:amount)
+  end
+
+  def variance(date)
+    if transactions.empty?
+      return 0
+    end
+
+    current = current_market_cap
+    old = market_cap_at(date)
+
+    old = 1 if old == 0
+
+    variance = current / old * 100
+
+    if current > old
+      variance
+    else
+      variance - 100
+    end
+  end
+
+  def variance7d
+    variance(Time.current - 7.days)
+  end
+
+  def variance30d
+    variance(Time.current - 30.days)
   end
 
   def price_in_tal
@@ -70,7 +101,8 @@ class Token < ApplicationRecord
       priceInTal: display_price_in_tal,
       value: display_value(user),
       valueInTal: display_value_in_tal(user),
-      priceVariance7d: "0"
+      priceVariance7d: variance7d.round(2).to_s(:delimited),
+      contract_id: talent.token.contract_id
     }
   end
 end

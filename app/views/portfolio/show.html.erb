@@ -23,7 +23,7 @@
 
         <%= react_component("PortfolioTokenTable",
           props: {
-            tokens: @tokens.map { |token| token.for_user_view(current_user).merge(tokenUrl: portfolio_token_path(token)) }
+            tokens: @tokens.map { |token| token.for_user_view(current_user).merge(talentUrl: talent_path(token.talent)) }
           },
           prerender: false, html_options: { class: "mt-4" })
         %>

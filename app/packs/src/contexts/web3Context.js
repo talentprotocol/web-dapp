@@ -60,6 +60,17 @@ const Web3Container = (props) => {
     return transaction;
   };
 
+  const simulateBuy = async (address, amount) => {
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
+      address,
+      false
+    );
+
+    const estimatedAmount = await desiredToken.simulateBuy(amount);
+
+    return estimatedAmount;
+  };
+
   const sell = async (address, amount) => {
     const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
@@ -74,6 +85,21 @@ const Web3Container = (props) => {
     return transaction;
   };
 
+  const simulateSell = async (address, amount) => {
+    if (amount == 0 || amount == 0.0) {
+      return 0;
+    }
+
+    const desiredToken = await talweb3.talentTokens.getTalentToken(
+      address,
+      false
+    );
+
+    const estimatedAmount = await desiredToken.simulateSell(amount);
+
+    return estimatedAmount;
+  };
+
   const approve = async (address, amount) => {
     const approved = await talweb3.tal.approve(address, amount);
 
@@ -86,6 +112,14 @@ const Web3Container = (props) => {
     return result;
   };
 
+  const toWei = (amount) => {
+    if (talweb3 == null) {
+      return 0;
+    } else {
+      return talweb3.toWei(amount);
+    }
+  };
+
   const value = {
     ...defaultValue,
     talToken,
@@ -95,6 +129,9 @@ const Web3Container = (props) => {
     sell,
     approve,
     transfer,
+    simulateSell,
+    simulateBuy,
+    toWei,
   };
 
   return (
