@@ -11,6 +11,7 @@ const TalentToken = ({
   priceVariance7d,
   priceVariance30d,
   active,
+  talentUserId,
 }) => {
   const buttonText = active ? "Buy / Sell" : "Coming soon";
   return (
@@ -71,7 +72,7 @@ const TalentToken = ({
           <DisplayTokenVariance variance={priceVariance30d} />
         </div>
       </div>
-      <div className="col-12 mt-2 px-1">
+      <div className="col-12 flex-wrap mt-2 px-1">
         <Button
           href={`/swap?ticker=${ticker}`}
           disabled={!active}
@@ -79,6 +80,14 @@ const TalentToken = ({
           text={buttonText}
           className="talent-button w-100"
         />
+        {talentUserId && (
+          <Button
+            type="outline-secondary"
+            text="Send a message"
+            className="talent-button w-100 mt-2"
+            href={`/messages?user=${talentUserId}`}
+          />
+        )}
       </div>
     </div>
   );
