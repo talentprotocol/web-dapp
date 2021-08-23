@@ -4,7 +4,7 @@
       {
         talent: {
           id: @talent.id,
-          public: @talent.public,
+          publicProfile: @talent.public,
           userId: @talent.user.id,
           username: @talent.username,
           description: @talent.description,
@@ -32,7 +32,8 @@
           circulatingSupply: @talent.token&.transactions&.sum(:amount),
           priceVariance7d: @talent.token.deployed? ? "2.14" : "0",
           priceVariance30d: @talent.token.deployed? ? "29.39" : "0",
-          active: @talent.active?
+          active: @talent.active?,
+          talentUserId: @talent.user.id != current_user.id && @talent.user.id,
         }, prerender: false)
       %>
     </div>

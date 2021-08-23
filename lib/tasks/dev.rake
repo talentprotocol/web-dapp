@@ -59,7 +59,7 @@ if Rails.env.development?
         description: "I'm ready to help those that didn't have the correct opportunities"
       )
 
-      puts "Setting up Talents.."
+      puts "Setting up .."
       marx = Talent.create!(
         description: "I want to revolutionize the socioeconomic system.",
         ito_date: Time.current + 1.week,

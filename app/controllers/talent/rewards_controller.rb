@@ -32,6 +32,24 @@ class Talent::RewardsController < ApplicationController
     end
   end
 
+  def destroy
+    if talent.id != current_user.talent.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
+    if reward.destroy
+      render json: {
+        id: reward.id,
+        required_amount: reward.required_amount,
+        display_required_amount: reward.required_amount&.to_s(:delimited),
+        description: reward.description,
+        required_text: reward.required_text
+      }, status: :ok
+    else
+      render json: {error: "Unable to delete requested reward."}, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def talent

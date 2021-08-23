@@ -61,7 +61,11 @@ const MessageExchange = (props) => {
           />
           <button
             type="submit"
-            disabled={props.messages.length == 0 && props.userId == 0}
+            disabled={
+              props.value == "" ||
+              props.sendingMessage == true ||
+              (props.messages.length == 0 && props.userId == 0)
+            }
             className="position-absolute btn btn-primary btn-small chat-send"
           >
             Send

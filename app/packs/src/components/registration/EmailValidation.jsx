@@ -16,7 +16,7 @@ const renderStatus = (status) => {
       <div className="d-flex flex-row text-muted align-items-center">
         <FontAwesomeIcon icon={faSpinner} spin />
         <p id="email-validation-loading" className="ml-2 mb-0">
-          We're checking the guest list..
+          We're checking the allowlist..
         </p>
       </div>
     );
@@ -25,7 +25,7 @@ const renderStatus = (status) => {
       <div className="d-flex flex-row text-danger align-items-center">
         <FontAwesomeIcon icon={faTimes} />
         <p id="email-validation-error" className="ml-2 mb-0">
-          You aren't on it yet.. please request access.
+          You are not on the allowlist yet. Please request access.
         </p>
       </div>
     );
@@ -34,8 +34,8 @@ const renderStatus = (status) => {
       <div className="d-flex flex-row text-warning align-items-center">
         <FontAwesomeIcon icon={faQuestion} />
         <p id="email-validation-unapproved" className="ml-2 mb-0">
-          You're not approved to join the platform yet.. reach out to us on why
-          you should join right now!
+          You haven't been approved yet.. reach out to us on why you should join
+          right now!
         </p>
       </div>
     );
@@ -44,7 +44,7 @@ const renderStatus = (status) => {
       <div className="d-flex flex-row text-success align-items-center">
         <FontAwesomeIcon icon={faCheck} />
         <p id="email-validation-approved" className="ml-2 mb-0">
-          You're in the guest list!
+          You're in the allowlist!
         </p>
       </div>
     );

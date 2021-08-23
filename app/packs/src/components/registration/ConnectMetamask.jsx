@@ -48,9 +48,10 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
       <h6 className="registration_step_subtitle">Step 4 of 4</h6>
       <h1>Connect Metamask</h1>
-      <p>All that's left is to connect your metamask to your account.</p>
-      <p className="text-danger">
-        We're currently operating in the <strong>Ropsten Network</strong>.
+      <p>
+        Click the Connect button below. When the MetaMask browser extension
+        opens, select the Ropsten Test Network from the dropdown button. Add
+        suggested token $TAL.
       </p>
       <form onSubmit={connectMetamask} className="d-flex flex-column">
         <button

@@ -1,14 +1,14 @@
 class WaitListController < ApplicationController
   def create
     if User.where(email: wait_list_create_params[:email]).exists?
-      render json: {error: "There exists a user with that email already."}, status: :conflict
+      render json: {error: "This email already exists in the database, you should be able to sign in with it."}, status: :conflict
     else
       wait_list = WaitList.create(wait_list_create_params)
 
       render json: wait_list, status: :ok
     end
   rescue ActiveRecord::RecordNotUnique
-    render json: {error: "You're already on it! The email already exists in the wait list."}, status: :conflict
+    render json: {error: "This email already exists in the allowlist. Click back and validate"}, status: :conflict
   end
 
   def index

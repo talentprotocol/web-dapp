@@ -21,13 +21,16 @@ class MessagesController < ApplicationController
 
     @chat_id = current_user.sender_chat_id(@receiver)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: {messages: @messages.map(&:to_json), chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url} }
-    end
+    render json: {messages: @messages.map(&:to_json), chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url}
   end
 
   def create
+    if message_params[:message].empty? || current_user.id == @receiver.id
+      return render json: {
+        error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
+      }, status: :bad_request
+    end
+
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
 
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message)

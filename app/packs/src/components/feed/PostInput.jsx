@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import debounce from "lodash/debounce";
 import { post } from "src/utils/requests";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const PostInput = ({ profilePictureUrl, addPost }) => {
   const [text, setText] = useState("");
+  const [creatingPost, setCreatingPost] = useState(false);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const createPost = () => {
+    setCreatingPost(true);
 
     post(`/posts`, { text }).then((response) => {
       if (response.error) {
@@ -16,7 +18,15 @@ const PostInput = ({ profilePictureUrl, addPost }) => {
         addPost(response);
         setText("");
       }
+      setCreatingPost(false);
     });
+  };
+
+  const debounceSubmit = debounce(() => createPost(), 200);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    debounceSubmit();
   };
 
   return (
@@ -32,7 +42,7 @@ const PostInput = ({ profilePictureUrl, addPost }) => {
         />
         <button
           type="submit"
-          disabled={text == ""}
+          disabled={creatingPost == true || text == ""}
           className="btn btn-primary btn-small ml-0 ml-md-2 mt-2 mt-md-0 md-w-100"
         >
           Create

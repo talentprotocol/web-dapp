@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import React, { useState, useEffect, useRef } from "react";
+import { faEdit, faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-bootstrap/Modal";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
 import Uppy from "@uppy/core";
 import { DragDrop } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
@@ -39,6 +41,7 @@ const TalentDetail = ({
   linkedinUrl,
   allowEdit,
   tokenDeployed,
+  publicProfile,
 }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
@@ -47,6 +50,7 @@ const TalentDetail = ({
   const [editUsername, setEditUsername] = useState(username || "");
   const [editTagsText, setEditTagsText] = useState(tags.join(", "));
   const [editProfilePictureUrl, setEditProfilePictureUrl] = useState(null);
+  const [editPublicProfile, setEditPublicProfile] = useState(publicProfile);
   const [uploadedFileData, setUploadedFileData] = useState(null);
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
 
@@ -56,6 +60,9 @@ const TalentDetail = ({
   const [showTags, setShowTags] = useState(tags);
   const [showProfilePictureUrl, setShowProfilePictureUrl] =
     useState(profilePictureUrl);
+
+  const publicIcon = useRef(null);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     uppy.on("upload-success", (file, response) => {
@@ -77,13 +84,18 @@ const TalentDetail = ({
   }, []);
 
   const handleShow = () => setShow(true);
-  const handleDismiss = () => setShow(false);
+  const handleDismiss = () => {
+    setEditPublicProfile(publicProfile);
+    setShow(false);
+  };
+
   const handleSave = async () => {
     const response = await patch(`/talent/${talentId}`, {
       talent: {
         tags: editTagsText,
         linkedin_url: editLinkedinUrl,
         profile_picture: uploadedFileData,
+        public: editPublicProfile,
       },
       user: { username: editUsername },
       token: { ticker: editTicker },
@@ -114,6 +126,28 @@ const TalentDetail = ({
         <TalentTags tags={showTags} />
       </div>
       <div className="ml-md-auto d-flex flex-row-reverse flex-md-column justify-content-between align-items-end mt-2 mt-md-0">
+        {allowEdit && (
+          <div ref={publicIcon} className="mx-auto">
+            <FontAwesomeIcon
+              icon={editPublicProfile ? faEye : faEyeSlash}
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+            />
+            <Overlay
+              target={publicIcon.current}
+              show={showTooltip}
+              placement="bottom"
+            >
+              {(props) => (
+                <Tooltip id="public-profile-tooltip" {...props}>
+                  {editPublicProfile
+                    ? "Your profile is public."
+                    : "Your profile is currently in draft and is not being listed."}
+                </Tooltip>
+              )}
+            </Overlay>
+          </div>
+        )}
         {allowEdit && (
           <button
             onClick={handleShow}
@@ -158,6 +192,18 @@ const TalentDetail = ({
                 placeholder="Change your usename"
                 className="form-control mb-2 rounded-sm"
               />
+            </div>
+            <div className="form-group">
+              <input
+                type="checkbox"
+                className="form-check-input ml-1"
+                id="public-profile"
+                checked={editPublicProfile}
+                onChange={() => setEditPublicProfile(!editPublicProfile)}
+              />
+              <label className="form-check-label ml-4" htmlFor="public-profile">
+                Public profile <small>(Only public profiles are listed)</small>
+              </label>
             </div>
             <div className="form-group">
               <label forhtml="detail-linkedin">Linkedin</label>

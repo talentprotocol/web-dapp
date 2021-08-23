@@ -17,7 +17,7 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
 
   const handleShow = () => setShow(true);
   const handleDismiss = () => {
-    setAboutMeText(description);
+    setAboutMeText(description || "");
     setShow(false);
   };
   const handleSave = async () => {
@@ -62,9 +62,10 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
               </p>
             )}
             <div className="form-group">
-              <label forhtml="text">Description</label>
+              <label forhtml="text">Bio</label>
               <textarea
                 ref={textInputRef}
+                rows="6"
                 id="text"
                 value={aboutMeText}
                 onChange={(e) => setAboutMeText(e.target.value)}
@@ -73,7 +74,7 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
               />
             </div>
             <div className="form-group">
-              <label forhtml="about-me-youtube">Youtube</label>
+              <label forhtml="about-me-youtube">Video Presentation</label>
               <input
                 type="text"
                 name="youtube"
@@ -95,7 +96,9 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
           </Modal.Footer>
         </Modal>
       </div>
-      <p className="mt-3 mb-0 text-white-space-wrap">{aboutMeText}</p>
+      <p className="mt-3 mb-0 text-white-space-wrap text-break">
+        {aboutMeText}
+      </p>
       {youtubeUrl && (
         <div className="talent-profile-video-player mt-3 mx-auto">
           <ReactPlayer url={youtubeUrl} light width={"100%"} height={"100%"} />

@@ -29,7 +29,7 @@ const renderStatus = (status, errorDetails) => {
       <div className="d-flex flex-row text-success align-items-center">
         <FontAwesomeIcon icon={faCheck} />
         <p id="wait-list-success" className="ml-2 mb-0">
-          You're on the wait list!
+          We'll be in touch!
         </p>
       </div>
     );
@@ -53,10 +53,10 @@ const AccessRequested = ({ changeStep, email }) => {
 
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
-      <h1>We'll be in touch!</h1>
+      <h1>Request Access</h1>
       <p>
         Thank you for showing interest in Talent Protocol. We're working hard to
-        make the platform available to everyone.
+        make the platform available to everyone as soon as possible.
       </p>
       {renderStatus(status, errorDetails)}
       <button

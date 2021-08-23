@@ -3,7 +3,7 @@ import { faEdit, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-bootstrap/Modal";
 
-import { patch, post } from "src/utils/requests";
+import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../button";
 
@@ -87,6 +87,28 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
     }
   };
 
+  const deleteReward = async (e) => {
+    e.preventDefault();
+
+    const response = await destroy(
+      `/talent/${talentId}/rewards/${editingReward.id}`
+    );
+    if (response.error) {
+      setError(true);
+    } else {
+      const index = allRewards.findIndex(
+        (element) => element.id == editingReward.id
+      );
+
+      if (index > -1) {
+        const newRewards = [...rewards];
+        newRewards.splice(index, 1);
+        setAllRewards(newRewards);
+      }
+      setShow(false);
+    }
+  };
+
   return (
     <div className="mb-3 mb-md-5">
       <div className="d-flex flex-row mb-3 align-items-center">
@@ -159,7 +181,16 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
               </div>
             </Modal.Body>
             <Modal.Footer>
+              {editingReward.id && (
+                <Button
+                  role="button"
+                  type="danger"
+                  text="Delete"
+                  onClick={deleteReward}
+                />
+              )}
               <Button
+                role="button"
                 type="secondary"
                 text="Dismiss changes"
                 onClick={handleDismiss}
@@ -205,7 +236,7 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
               </button>
             )}
           </div>
-          <p className="mt-2 mb-0">{reward.description}</p>
+          <p className="mt-2 mb-0 text-break">{reward.description}</p>
         </div>
       ))}
     </div>

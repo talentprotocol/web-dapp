@@ -9,7 +9,7 @@ const EmptyInvestments = () => (
       <small>Sponsor Talent to start building your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
-      <Button type="primary" text="See Talents" href="/talent" size="sm" />
+      <Button type="primary" text="See Talent" href="/talent" size="sm" />
     </td>
   </tr>
 );
@@ -17,7 +17,7 @@ const EmptyInvestments = () => (
 const PortfolioTokenTable = ({ tokens }) => {
   return (
     <div className="table-responsive">
-      <h3>Talents</h3>
+      <h3>Talent</h3>
       <table className="table table-hover mb-0 border-bottom border-left border-right">
         <thead>
           <tr>

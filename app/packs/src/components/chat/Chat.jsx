@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import debounce from "lodash/debounce";
 
 import { post, get } from "src/utils/requests";
 import { setupChannel, removeChannel } from "channels/message_channel";
@@ -7,7 +8,7 @@ import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
 
-const Chat = ({ users }) => {
+const Chat = ({ users, userId }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
@@ -15,9 +16,9 @@ const Chat = ({ users }) => {
   const [activeChannel, setActiveChannel] = useState(null); // @TODO: Refactor chat
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [userId, setUserId] = useState(0);
   const [lastMessageId, setLastMessageId] = useState(0);
   const [chatId, setChatId] = useState("");
+  const [sendingMessage, setSendingMessage] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
   const { height, width } = useWindowDimensionsHook();
 
@@ -29,13 +30,16 @@ const Chat = ({ users }) => {
       return;
     }
 
+    if (activeUserId == userId) {
+      window.location.replace("/messages");
+    }
+
     setMessage("");
     setMessages([]);
 
-    get(`messages/${activeUserId}.json`).then((response) => {
+    get(`messages/${activeUserId}`).then((response) => {
       setMessages(response.messages);
       setLastMessageId(response.messages[response.messages.length - 1]?.id);
-      setUserId(response.current_user_id);
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
     });
@@ -65,12 +69,12 @@ const Chat = ({ users }) => {
     setLastMessageId(response.message.id);
   };
 
-  const sendNewMessage = (e) => {
-    e.preventDefault();
-
+  const sendNewMessage = () => {
     if (message.replace(/\s+/g, "") == "") {
       return;
     }
+
+    setSendingMessage(true);
 
     post("/messages", { id: activeUserId, message }).then((response) => {
       if (response.error) {
@@ -81,7 +85,15 @@ const Chat = ({ users }) => {
         setLastMessageId(response.id);
         setMessage("");
       }
+      setSendingMessage(false);
     });
+  };
+
+  const debouncedNewMessage = debounce(() => sendNewMessage(), 200);
+
+  const ignoreAndCallDebounce = (e) => {
+    e.preventDefault();
+    debouncedNewMessage();
   };
 
   const clearActiveUser = () => {
@@ -108,8 +120,9 @@ const Chat = ({ users }) => {
             clearActiveUserId={() => clearActiveUser()}
             value={message}
             onChange={setMessage}
-            onSubmit={sendNewMessage}
+            onSubmit={ignoreAndCallDebounce}
             messages={messages}
+            sendingMessage={sendingMessage}
             userId={userId}
             profilePictureUrl={messengerProfilePicture}
           />
