@@ -20,8 +20,10 @@ class CreateTransaction
 
       token.talent.update!(activity_count: token.transactions.count)
 
-      service = CreateFollow.new
-      service.call(user_id: token.talent.user_id, follower_id: user.id)
+      unless token.talent.user_id != user.id
+        service = CreateFollow.new
+        service.call(user_id: token.talent.user_id, follower_id: user.id)
+      end
 
       transaction
     rescue => e

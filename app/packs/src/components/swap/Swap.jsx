@@ -35,6 +35,7 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
 const Swap = () => {
   const web3 = useContext(Web3Context);
   const [tradeText, setTradeText] = useState("Trade");
+  const [approveText, setApproveText] = useState("Approve");
   const [mode, setMode] = useState("buy");
   const [selectedToken, setSelectedToken] = useState("");
   const [inputAmount, setInputAmount] = useState("");
@@ -109,54 +110,64 @@ const Swap = () => {
     !(parseFloat(inputAmount) > 0.0 && parseFloat(outputAmount) > 0.0) ||
     tradeText != "Trade";
 
+  const approveTal = () => {
+    if (mode != "buy") {
+      setApproveText("No approve required.");
+      setTimeout(() => setApproveText("Approve"), 1000);
+    } else {
+      const amount = parseFloat(inputAmount) * 100.0;
+      web3.approve(selectedToken, amount).then((approved) => {
+        if (approved) {
+          setApproveText("Approved");
+        } else {
+          setApproveText("Not Approved");
+        }
+        setTimeout(() => setApproveText("Approve"), 1000);
+      });
+    }
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
     if (mode == "buy") {
       const amount = parseFloat(inputAmount) * 100.0;
       const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
+      setTradeText("Trading..");
+      web3.buy(selectedToken, amount).then((result) => {
+        setInputAmount("");
+        setOutputAmount("");
 
-      setTradeText("Approval..");
-
-      web3.approve(selectedToken, amount).then((approved) => {
-        if (approved) {
-          setTradeText("Trading..");
-          web3.buy(selectedToken, amount).then((result) => {
-            setInputAmount("");
-            setOutputAmount("");
-
-            if (!assumeAlreadyTracking) {
-              web3.provider.request({
-                method: "wallet_watchAsset",
-                params: {
-                  type: "ERC20",
-                  options: {
-                    address: web3.tokens[selectedToken].address, // The address that the token is at.
-                    symbol: web3.tokens[selectedToken].symbol, // A ticker symbol or shorthand, up to 5 chars.
-                    decimals: 2, // The number of decimals in the token
-                    image: document.location.origin + "/tal.png", // A string url of the token logo
-                  },
-                },
-              });
-            }
-
-            post(`/transactions`, {
-              token_address: selectedToken,
-              amount: parseFloat(inputAmount),
-              block_id: result.blockHash,
-              transaction_id: result.transactionHash,
-              inbound: true,
-            }).then((response) => {
-              if (response.error) {
-                console.log(response.error);
-              } else {
-                setInputAmount("");
-                setOutputAmount("");
-              }
-              setTradeText("Trade");
-            });
+        if (!assumeAlreadyTracking) {
+          web3.provider.request({
+            method: "wallet_watchAsset",
+            params: {
+              type: "ERC20",
+              options: {
+                address: web3.tokens[selectedToken].address, // The address that the token is at.
+                symbol: web3.tokens[selectedToken].symbol, // A ticker symbol or shorthand, up to 5 chars.
+                decimals: 2, // The number of decimals in the token
+                image: document.location.origin + "/tal.png", // A string url of the token logo
+              },
+            },
           });
         }
+
+        post(`/transactions`, {
+          token_address: selectedToken,
+          amount: parseFloat(inputAmount),
+          block_id: result.blockHash,
+          transaction_id: result.transactionHash,
+          inbound: true,
+        }).then((response) => {
+          if (response.error) {
+            console.log(response.error);
+          } else {
+            setInputAmount("");
+            setOutputAmount("");
+          }
+          setTradeText("Trade");
+        });
       });
     } else {
       const amount = parseFloat(inputAmount) * 100.0;
@@ -294,6 +305,14 @@ const Swap = () => {
             </small>
           </div>
         </div>
+        <button
+          type="button"
+          onClick={approveTal}
+          disabled={buttonDisabled()}
+          className="btn btn-primary talent-button mt-3"
+        >
+          {approveText}
+        </button>
         <button
           type="submit"
           disabled={buttonDisabled()}
