@@ -17,6 +17,7 @@ class Post < ApplicationRecord
         ticker: user.talent&.token&.display_ticker,
         price: user.talent&.token&.display_price,
         profilePictureUrl: user.talent.profile_picture_url,
+        talentUrl: user.talent && user.talent.id != 1 ? "/talent/#{user.talent&.id}" : nil,
         active: user.talent.active?
       }
     }

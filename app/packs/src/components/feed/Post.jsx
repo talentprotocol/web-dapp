@@ -152,7 +152,13 @@ const Post = ({ post, user, currentUser }) => {
         <div className="d-flex flex-column pl-3 w-100">
           <div className="d-flex flex-column flex-md-row justify-content-between">
             <p className="mb-0 mb-md-2">
-              <strong>{user.username}</strong>{" "}
+              {user.talentUrl ? (
+                <a href={user.talentUrl} className="text-reset">
+                  <strong>{user.username}</strong>
+                </a>
+              ) : (
+                <strong>{user.username}</strong>
+              )}{" "}
               <small className="text-muted">
                 {"\u25CF"} {timeSinceCreation}
               </small>
