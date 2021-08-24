@@ -55,7 +55,7 @@
                     username: talent.username,
                     status: talent.status,
                     description: talent.description,
-                    sponsor_count: talent.investors.count,
+                    sponsor_count: talent.investors.distinct(:id).count,
                     profilePictureUrl: talent.profile_picture_url,
                     token: {
                       display_price: talent.token&.display_price,

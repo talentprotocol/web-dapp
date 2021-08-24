@@ -28,7 +28,7 @@
           ticker: @talent.token&.ticker,
           price: @talent.token&.display_price,
           marketCap: @talent.token&.display_market_cap,
-          sponsors: @talent.investors.count,
+          sponsors: @talent.investors.distinct(:id).count,
           circulatingSupply: @talent.token&.transactions&.sum(:amount),
           priceVariance7d: @talent.token.variance7d.round(2).to_s(:delimited),
           priceVariance30d: @talent.token.variance30d.round(2).to_s(:delimited),
