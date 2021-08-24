@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 import Pagination from "../pagination";
 import Post from "./Post";
@@ -9,6 +10,16 @@ import Button from "../button";
 
 const Feed = ({ posts, user, pagy, topTalents, alert }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
+  const web3 = useContext(Web3Context);
+
+  const priceOfToken = (post) => {
+    if (post.user.ticker == "$TAL") {
+      return web3.talToken?.price;
+    }
+    const dollar = web3.tokens[post.user.contract_id]?.dollarPerToken || 0.0;
+
+    return (dollar * web3.talToken?.price).toFixed(2);
+  };
 
   const addPost = (post) => {
     setCurrentPosts([post, ...currentPosts]);
@@ -39,7 +50,12 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
             key={`post-${post.id}`}
             className="bg-white border-bottom border-right"
           >
-            <Post post={post} user={post.user} currentUser={user} />
+            <Post
+              post={post}
+              user={post.user}
+              currentUser={user}
+              priceOfToken={priceOfToken(post)}
+            />
           </div>
         ))}
         {currentPosts.length > 0 && (
@@ -72,4 +88,10 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
   );
 };
 
-export default Feed;
+const ConnectedFeed = (props) => (
+  <Web3Container>
+    <Feed {...props} />
+  </Web3Container>
+);
+
+export default ConnectedFeed;

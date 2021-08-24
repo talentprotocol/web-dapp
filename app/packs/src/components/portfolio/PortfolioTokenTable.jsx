@@ -23,6 +23,9 @@ const PortfolioTokenTable = ({ tokens }) => {
   const amountForToken = (token) =>
     web3.tokens[token.contract_id]?.balance || 0.0;
 
+  const priceOfToken = (token) =>
+    web3.tokens[token.contract_id]?.dollarPerToken || 0.0;
+
   return (
     <div className="table-responsive">
       <h3>Talent</h3>
@@ -91,13 +94,10 @@ const PortfolioTokenTable = ({ tokens }) => {
                 <small>{amountForToken(token)}</small>
               </td>
               <td className="align-middle tal-table-price text-right">
-                ${((token.amount / amountForToken(token)) * 0.02).toFixed(2)}
+                ${(priceOfToken(token) * web3.talToken?.price).toFixed(2)}
                 <br />
                 <span className="text-muted">
-                  <small>
-                    {((token.amount / amountForToken(token)) * 1.0).toFixed(2)}{" "}
-                    ✦
-                  </small>
+                  <small>{priceOfToken(token).toFixed(2)} ✦</small>
                 </span>
               </td>
               <td className="align-middle tal-table-price text-right">

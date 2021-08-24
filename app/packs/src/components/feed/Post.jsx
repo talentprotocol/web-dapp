@@ -129,7 +129,7 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   );
 };
 
-const Post = ({ post, user, currentUser }) => {
+const Post = ({ post, user, currentUser, priceOfToken }) => {
   const [commentCount, setCommentCount] = useState(post.comments);
   const [commentSectionActive, setCommentSectionActive] = useState(false);
 
@@ -167,7 +167,7 @@ const Post = ({ post, user, currentUser }) => {
               <small>
                 <span className="text-primary">{user.ticker}</span>{" "}
                 <span className="text-muted">
-                  {"->"} {user.price}
+                  {"->"} ${priceOfToken}
                 </span>
               </small>
             </p>

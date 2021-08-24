@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import Web3Container, { Web3Context } from "src/contexts/web3Context";
+
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const TalentLeaderboard = ({ topTalents, className }) => {
+  const web3 = useContext(Web3Context);
+
+  const priceOfToken = (talent) =>
+    web3.tokens[talent.token_contract_id]?.dollarPerToken || 0.0;
+
   return (
     <div className={`d-flex flex-row flex-wrap border p-3 ${className}`}>
       <p className="mb-0 col-9">
@@ -40,7 +48,9 @@ const TalentLeaderboard = ({ topTalents, className }) => {
             </div>
           </div>
           <p className="mb-0 col-3 text-right text-muted leaderboard-info">
-            <small>{topTalent.price}</small>
+            <small>
+              ${(priceOfToken(topTalent) * web3.talToken?.price).toFixed(2)}
+            </small>
           </p>
         </a>
       ))}
@@ -48,4 +58,10 @@ const TalentLeaderboard = ({ topTalents, className }) => {
   );
 };
 
-export default TalentLeaderboard;
+const ConnectedTalentLeaderboard = (props) => (
+  <Web3Container>
+    <TalentLeaderboard {...props} />
+  </Web3Container>
+);
+
+export default ConnectedTalentLeaderboard;

@@ -81,6 +81,7 @@ class TalentTokens {
         this.cache[address].symbol = token.symbol;
         this.cache[address].balance = token.balance;
         this.cache[address].circulatingSupply = token.mintedTokens;
+        this.cache[address].dollarPerToken = token.tokenValue;
 
         return token;
       }

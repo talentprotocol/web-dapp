@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import TalentProfilePicture from "./TalentProfilePicture";
 import TalentTags from "./TalentTags";
+
+import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 const TalentBadge = ({ status }) => {
   if (status.toLowerCase() == "active") {
@@ -27,6 +29,11 @@ const textDescription = (text) => {
 };
 
 const TalentCard = ({ talent, href }) => {
+  const web3 = useContext(Web3Context);
+
+  const priceOfToken =
+    web3.tokens[talent.token.contract_id]?.dollarPerToken || 0.0;
+
   return (
     <a href={href} className="card talent-link border py-3 h-100">
       <div className="card-body px-3 position-relative">
@@ -49,7 +56,7 @@ const TalentCard = ({ talent, href }) => {
             <small>Price</small>
           </div>
           <div>
-            <strong>{talent.token.display_price}</strong>
+            <strong>${(priceOfToken * web3.talToken?.price).toFixed(2)}</strong>
           </div>
         </div>
         <div className="d-flex flex-column align-items-center">
@@ -73,4 +80,10 @@ const TalentCard = ({ talent, href }) => {
   );
 };
 
-export default TalentCard;
+const ConnectedTalentCard = (props) => (
+  <Web3Container>
+    <TalentCard {...props} />
+  </Web3Container>
+);
+
+export default ConnectedTalentCard;

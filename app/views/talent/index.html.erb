@@ -58,6 +58,7 @@
                     sponsor_count: talent.investors.distinct(:id).count,
                     profilePictureUrl: talent.profile_picture_url,
                     token: {
+                      contract_id: talent.token&.contract_id,
                       display_price: talent.token&.display_price,
                       display_market_cap: talent.token&.display_market_cap,
                       display_ticker: talent.token&.display_ticker

@@ -15,7 +15,7 @@ const Web3Container = (props) => {
   const [talweb3, setTalweb3] = useState(null);
   const [provider, setProvider] = useState(null);
   const [tokens, setTokens] = useState({});
-  const [talToken, setTalToken] = useState({ balance: 0.0 });
+  const [talToken, setTalToken] = useState({ balance: 0.0, price: 0.02 });
 
   const setupTal = useCallback(async () => {
     let web3;
