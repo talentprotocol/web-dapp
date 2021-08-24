@@ -8,7 +8,7 @@ import { post } from "../../utils/requests";
 const ProcessingUser = () => (
   <div className="d-flex flex-row text-muted align-items-center">
     <FontAwesomeIcon icon={faSpinner} spin />
-    <p className="ml-2 mb-0">Setting up your user profile..</p>
+    <p className="ml-2 mb-0">Setting up your user profile...</p>
   </div>
 );
 

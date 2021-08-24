@@ -22,7 +22,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       </p>
       {topTalents.length == 0 && (
         <p className="mx-auto">
-          <small>Coming soon..</small>
+          <small>Coming soon...</small>
         </p>
       )}
       {topTalents.map((topTalent) => (

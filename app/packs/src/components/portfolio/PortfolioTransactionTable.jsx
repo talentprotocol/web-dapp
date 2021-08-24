@@ -60,7 +60,7 @@ const PortfolioTransactionTable = ({ transactions }) => {
           {transactions.map((transaction) => (
             <tr key={`transaction-${transaction.id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
-                <small>{transaction.transactionId.substring(0, 10)}..</small>
+                <small>{transaction.transactionId.substring(0, 10)}...</small>
               </th>
               <th className="align-middle pr-0 text-primary" scope="row">
                 {transaction.inbound && (

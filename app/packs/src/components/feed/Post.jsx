@@ -101,7 +101,7 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
             id="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Write a new comment.."
+            placeholder="Write a new comment..."
             className="form-control"
           />
           <button

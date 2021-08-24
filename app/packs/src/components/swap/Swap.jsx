@@ -133,7 +133,7 @@ const Swap = () => {
     if (mode == "buy") {
       const amount = parseFloat(inputAmount) * 100.0;
       const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
-      setTradeText("Trading..");
+      setTradeText("Trading...");
       web3.buy(selectedToken, amount).then((result) => {
         setInputAmount("");
         setOutputAmount("");

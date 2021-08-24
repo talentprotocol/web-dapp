@@ -34,7 +34,7 @@ const DeployTokenButton = ({
   const onClick = async (e) => {
     e.preventDefault();
 
-    setButtonText("Deploying Token..");
+    setButtonText("Deploying Token...");
 
     const result = await talweb3.talentTokens.createNewToken(
       ticker,

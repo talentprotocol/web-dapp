@@ -81,7 +81,7 @@ const TalNavbar = (props) => {
             </NavbarItem>
             <TalBox price="0.02" variance="+0%" />
             <p className="text-danger">
-              Live in <strong>Ropsten Network.</strong>
+              Live on <strong>Ropsten Network.</strong>
             </p>
           </Nav>
         </Navbar.Collapse>

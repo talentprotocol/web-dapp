@@ -58,7 +58,7 @@ const MetamaskLogin = ({}) => {
     requestingMetamask == "false" && provider != null;
   };
 
-  const buttonText = requestingMetamask == "false" ? "Log in" : "Logging in..";
+  const buttonText = requestingMetamask == "false" ? "Log in" : "Logging in...";
 
   return (
     <form onSubmit={loginWithMetamask} className="d-flex flex-column">
