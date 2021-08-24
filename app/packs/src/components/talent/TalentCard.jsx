@@ -34,6 +34,13 @@ const TalentCard = ({ talent, href }) => {
   const priceOfToken =
     web3.tokens[talent.token.contract_id]?.dollarPerToken || 0.0;
 
+  const marketCap = () => {
+    const reserve =
+      parseInt(web3.tokens[talent.token.contract_id]?.reserve) || 0.0;
+
+    return ((reserve * web3.talToken.price) / 100.0).toFixed(2);
+  };
+
   return (
     <a href={href} className="card talent-link border py-3 h-100">
       <div className="card-body px-3 position-relative">
@@ -64,7 +71,7 @@ const TalentCard = ({ talent, href }) => {
             <small>Market cap</small>
           </div>
           <div>
-            <strong>{talent.token.display_market_cap}</strong>
+            <strong>{marketCap()}</strong>
           </div>
         </div>
         <div className="d-flex flex-column align-items-center">

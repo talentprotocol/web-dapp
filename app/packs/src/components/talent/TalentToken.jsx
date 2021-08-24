@@ -6,7 +6,6 @@ import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 const TalentToken = ({
   ticker,
-  marketCap,
   sponsors,
   priceVariance7d,
   priceVariance30d,
@@ -26,6 +25,11 @@ const TalentToken = ({
   };
 
   const priceOfToken = web3.tokens[tokenAddress]?.dollarPerToken || 0.0;
+  const marketCap = () => {
+    const reserve = parseInt(web3.tokens[tokenAddress]?.reserve) || 0.0;
+
+    return ((reserve * web3.talToken.price) / 100.0).toFixed(2);
+  };
 
   return (
     <div className="d-flex flex-row flex-wrap border p-2 p-md-4 bg-white">
@@ -45,7 +49,7 @@ const TalentToken = ({
             <small>Market Cap</small>
           </div>
           <div>
-            <strong>{marketCap}</strong>
+            <strong>{marketCap()}</strong>
           </div>
         </div>
       </div>
