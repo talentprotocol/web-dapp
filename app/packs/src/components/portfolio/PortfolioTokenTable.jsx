@@ -133,7 +133,9 @@ const PortfolioTokenTable = ({ tokens }) => {
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      (tokenInTal(token) * amountForToken(token)).toFixed(2)
+                      `${(tokenInTal(token) * amountForToken(token)).toFixed(
+                        2
+                      )} ✦`
                     )}
                   </small>
                 </span>
