@@ -10,6 +10,7 @@ import { post as postRequest, get } from "src/utils/requests";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
+import AsyncValue from "../loader/AsyncValue";
 
 const Comment = ({ text, username, ticker, profilePictureUrl, created_at }) => {
   const date = parseJSON(created_at);
@@ -167,7 +168,7 @@ const Post = ({ post, user, currentUser, priceOfToken }) => {
               <small>
                 <span className="text-primary">{user.ticker}</span>{" "}
                 <span className="text-muted">
-                  {"->"} ${priceOfToken}
+                  {"->"} $<AsyncValue value={priceOfToken} />
                 </span>
               </small>
             </p>

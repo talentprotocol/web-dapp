@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useSpring, animated, config } from "@react-spring/web";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
+import AsyncValue from "../loader/AsyncValue";
 
 const AnimatedNumber = ({ value, withoutDecimal }) => {
   const { number } = useSpring({
@@ -30,7 +31,13 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL</small>
           </div>
-          <AnimatedNumber value={web3.talToken.balance} />
+          {web3.loading ? (
+            <h4>
+              <AsyncValue size={12} />
+            </h4>
+          ) : (
+            <AnimatedNumber value={web3.talToken.balance} />
+          )}
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
@@ -38,7 +45,13 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL invested</small>
           </div>
-          <AnimatedNumber value={talCommited} />
+          {web3.loading ? (
+            <h4>
+              <AsyncValue size={12} />
+            </h4>
+          ) : (
+            <AnimatedNumber value={talCommited} />
+          )}
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
@@ -46,9 +59,15 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>$TAL Total (USD)</small>
           </div>
-          <AnimatedNumber
-            value={((web3.talToken.balance || 0.0) + talCommited) * talValue}
-          />
+          {web3.loading ? (
+            <h4>
+              <AsyncValue size={12} />
+            </h4>
+          ) : (
+            <AnimatedNumber
+              value={((web3.talToken.balance || 0.0) + talCommited) * talValue}
+            />
+          )}
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 pl-1 pr-0">

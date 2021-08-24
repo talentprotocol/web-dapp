@@ -5,6 +5,7 @@ import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
+import AsyncValue from "../loader/AsyncValue";
 
 const EmptyInvestments = () => (
   <tr>
@@ -20,11 +21,21 @@ const EmptyInvestments = () => (
 const PortfolioTokenTable = ({ tokens }) => {
   const web3 = useContext(Web3Context);
 
-  const amountForToken = (token) =>
-    web3.tokens[token.contract_id]?.balance || 0.0;
+  const amountForToken = (token) => web3.tokens[token.contract_id]?.balance;
 
-  const priceOfToken = (token) =>
-    web3.tokens[token.contract_id]?.dollarPerToken || 0.0;
+  const priceOfToken = (token) => {
+    if (web3.tokens[token.contract_id]) {
+      return web3.tokens[token.contract_id]?.dollarPerToken.toFixed(2);
+    }
+  };
+
+  const priceOfTokenInTal = (token) => {
+    if (web3.tokens[token.contract_id]) {
+      return (
+        web3.tokens[token.contract_id]?.dollarPerToken * web3.talToken?.price
+      ).toFixed(2);
+    }
+  };
 
   return (
     <div className="table-responsive">
@@ -91,24 +102,40 @@ const PortfolioTokenTable = ({ tokens }) => {
                 <small>{token.talentName}</small>
               </td>
               <td className="align-middle text-right">
-                <small>{amountForToken(token)}</small>
+                <small>
+                  <AsyncValue value={amountForToken(token)} size={10} />
+                </small>
               </td>
               <td className="align-middle tal-table-price text-right">
-                ${(priceOfToken(token) * web3.talToken?.price).toFixed(2)}
+                {web3.loading ? <AsyncValue /> : `$${priceOfTokenInTal(token)}`}
                 <br />
                 <span className="text-muted">
-                  <small>{priceOfToken(token).toFixed(2)} ✦</small>
+                  <small>
+                    {web3.loading ? (
+                      <AsyncValue size={5} />
+                    ) : (
+                      `${priceOfToken(token)} ✦`
+                    )}
+                  </small>
                 </span>
               </td>
               <td className="align-middle tal-table-price text-right">
-                {token.value}
+                {web3.loading ? <AsyncValue size={5} /> : token.value}
                 <br />
                 <span className="text-muted">
-                  <small>{token.valueInTal}</small>
+                  <small>
+                    {web3.loading ? <AsyncValue size={5} /> : token.valueInTal}
+                  </small>
                 </span>
               </td>
               <td className="align-middle text-right">
-                <DisplayTokenVariance variance={token.priceVariance7d} />
+                {web3.loading ? (
+                  <div>
+                    <AsyncValue size={5} />
+                  </div>
+                ) : (
+                  <DisplayTokenVariance variance={token.priceVariance7d} />
+                )}
               </td>
               <td className="align-middle">
                 <Button
