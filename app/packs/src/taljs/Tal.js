@@ -5,6 +5,7 @@ class Tal {
     this.networkId = networkId;
     this.balance = null;
     this.symbol = "$TAL";
+    this.price = 0.02;
   }
 
   async getBalance() {

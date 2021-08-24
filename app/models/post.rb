@@ -15,7 +15,7 @@ class Post < ApplicationRecord
         id: user.id,
         username: user.username,
         ticker: user.talent&.token&.display_ticker,
-        price: user.talent&.token&.display_price,
+        contract_id: user.talent&.token&.contract_id,
         profilePictureUrl: user.talent.profile_picture_url,
         talentUrl: user.talent && user.talent.id != 1 ? "/talent/#{user.talent&.id}" : nil,
         active: user.talent.active?

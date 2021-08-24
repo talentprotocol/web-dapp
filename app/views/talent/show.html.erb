@@ -26,7 +26,6 @@
       <%= react_component("TalentToken", props:
         {
           ticker: @talent.token&.ticker,
-          price: @talent.token&.display_price,
           marketCap: @talent.token&.display_market_cap,
           sponsors: @talent.investors.distinct(:id).count,
           circulatingSupply: @talent.token&.transactions&.sum(:amount),
@@ -41,7 +40,7 @@
     <div class="mt-lg-5 mt-3 mb-2">
       <%= react_component("TalentLeaderboard", props:
         {
-          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, price: tal.token.display_price, profilePictureUrl: tal.profile_picture_url } }
+          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, token_contract_id: tal.token.contract_id, profilePictureUrl: tal.profile_picture_url } }
         }, prerender: false)
       %>
     </div>

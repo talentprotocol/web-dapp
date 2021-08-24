@@ -7,14 +7,32 @@ class TalentToken {
     this.name = null;
     this.symbol = null;
     this.mintedTokens = null;
+    this.reserve = null;
     this.balance = null;
+    this.tokenValue = null;
   }
 
   async load() {
     await this.getName();
     await this.getSymbol();
     await this.getMintedTokens();
+    await this.getReserve();
     await this.getBalance();
+    this.calculateTokenValue();
+  }
+
+  calculateTokenValue() {
+    this.tokenValue =
+      (1.0 * parseInt(this.reserve)) / parseInt(this.mintedTokens);
+  }
+
+  async getReserve() {
+    if (this.reserve) {
+      return this.reserve;
+    } else {
+      this.reserve = await this.contract.methods.reserveBalance().call();
+      return this.reserve;
+    }
   }
 
   async getName() {
