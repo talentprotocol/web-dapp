@@ -34,6 +34,7 @@
           priceVariance30d: @talent.token.variance30d.round(2).to_s(:delimited),
           active: @talent.active?,
           talentUserId: @talent.user.id != current_user.id && @talent.user.id,
+          tokenAddress: @talent.token&.contract_id,
         }, prerender: false)
       %>
     </div>

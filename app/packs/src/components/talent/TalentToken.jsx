@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
+
+import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 const TalentToken = ({
   ticker,
   price,
   marketCap,
   sponsors,
-  circulatingSupply,
   priceVariance7d,
   priceVariance30d,
   active,
   talentUserId,
+  tokenAddress,
 }) => {
+  const web3 = useContext(Web3Context);
   const buttonText = active ? "Buy / Sell" : "Coming soon";
+
+  const circulatingSupply = () => {
+    if (web3.tokens[tokenAddress]?.circulatingSupply) {
+      return parseInt(web3.tokens[tokenAddress]?.circulatingSupply) / 100.0;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div className="d-flex flex-row flex-wrap border p-2 p-md-4 bg-white">
       <div className="col-6 mt-2 px-1">
@@ -52,7 +64,7 @@ const TalentToken = ({
             <small>Circ. Supply</small>
           </div>
           <div>
-            <strong>{circulatingSupply}</strong>
+            <strong>{circulatingSupply()}</strong>
           </div>
         </div>
       </div>
@@ -93,4 +105,10 @@ const TalentToken = ({
   );
 };
 
-export default TalentToken;
+const ConnectedTalentToken = (props) => (
+  <Web3Container>
+    <TalentToken {...props} />
+  </Web3Container>
+);
+
+export default ConnectedTalentToken;

@@ -80,6 +80,7 @@ class TalentTokens {
         this.cache[address].name = token.name;
         this.cache[address].symbol = token.symbol;
         this.cache[address].balance = token.balance;
+        this.cache[address].circulatingSupply = token.mintedTokens;
 
         return token;
       }

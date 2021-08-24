@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
-import { utils as web3utils } from "web3";
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 import Button from "../button";
