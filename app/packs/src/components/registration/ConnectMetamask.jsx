@@ -40,9 +40,10 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
     }
   };
 
-  const allowConnect = () => {
-    requestingMetamask == "false" && web3.provider !== null;
-  };
+  const allowConnect = () =>
+    web3.loading == false &&
+    requestingMetamask == "false" &&
+    web3.provider != null;
 
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
@@ -53,13 +54,20 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
         opens, select the Ropsten Test Network from the dropdown button. Add
         suggested token $TAL.
       </p>
+      {web3.loading == false && web3.provider == null && (
+        <small className="text-warning">
+          Please make sure you have the metamask extension installed to
+          continue.
+        </small>
+      )}
       <form onSubmit={connectMetamask} className="d-flex flex-column">
         <button
-          disable={allowConnect()}
+          disabled={!allowConnect()}
           type="submit"
           className="btn btn-primary talent-button"
         >
-          Connect <img src={MetamaskFox} height={32} alt="Metamask Fox" />
+          {web3.loading ? "Loading..." : "Connect"}{" "}
+          <img src={MetamaskFox} height={32} alt="Metamask Fox" />
         </button>
       </form>
     </div>
@@ -67,7 +75,7 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
 };
 
 const ConnectedMetamask = (props) => (
-  <Web3Container>
+  <Web3Container ignoreTokens={true}>
     <ConnectMetamask {...props} />
   </Web3Container>
 );

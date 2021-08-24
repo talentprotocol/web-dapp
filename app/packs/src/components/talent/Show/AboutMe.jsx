@@ -69,7 +69,7 @@ const AboutMe = ({ description, youtubeUrl, allowEdit, talentId }) => {
                 id="text"
                 value={aboutMeText}
                 onChange={(e) => setAboutMeText(e.target.value)}
-                placeholder="Add a brief description.."
+                placeholder="Add a brief description..."
                 className="form-control"
               />
             </div>

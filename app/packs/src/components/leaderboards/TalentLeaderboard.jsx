@@ -3,12 +3,22 @@ import React, { useContext } from "react";
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
+import AsyncValue from "../loader/AsyncValue";
 
 const TalentLeaderboard = ({ topTalents, className }) => {
   const web3 = useContext(Web3Context);
 
-  const priceOfToken = (talent) =>
-    web3.tokens[talent.token_contract_id]?.dollarPerToken || 0.0;
+  const priceOfToken = (talent) => {
+    if (
+      web3.tokens[talent.token_contract_id]?.dollarPerToken &&
+      web3.talToken?.price
+    ) {
+      return (
+        web3.tokens[talent.token_contract_id]?.dollarPerToken *
+        web3.talToken?.price
+      ).toFixed(2);
+    }
+  };
 
   return (
     <div className={`d-flex flex-row flex-wrap border p-3 ${className}`}>
@@ -22,7 +32,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       </p>
       {topTalents.length == 0 && (
         <p className="mx-auto">
-          <small>Coming soon..</small>
+          <small>Coming soon...</small>
         </p>
       )}
       {topTalents.map((topTalent) => (
@@ -49,7 +59,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
           </div>
           <p className="mb-0 col-3 text-right text-muted leaderboard-info">
             <small>
-              ${(priceOfToken(topTalent) * web3.talToken?.price).toFixed(2)}
+              {web3.loading ? <AsyncValue /> : `$${priceOfToken(topTalent)}`}
             </small>
           </p>
         </a>

@@ -11,7 +11,7 @@ const renderStatus = (status, errorDetails) => {
       <div className="d-flex flex-row text-muted align-items-center">
         <FontAwesomeIcon icon={faSpinner} spin />
         <p id="wait-list-loading" className="ml-2 mb-0">
-          Adding you to the wait list..
+          Adding you to the wait list...
         </p>
       </div>
     );

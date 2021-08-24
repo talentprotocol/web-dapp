@@ -174,7 +174,7 @@ const Rewards = ({ rewards, ticker, allowEdit, talentId }) => {
                     id="reward-description"
                     value={editingReward.description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Explain the service/perk.."
+                    placeholder="Explain the service/perk..."
                     className="form-control rounded-sm"
                   />
                 </div>

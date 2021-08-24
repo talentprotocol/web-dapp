@@ -16,9 +16,11 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
     if (post.user.ticker == "$TAL") {
       return web3.talToken?.price;
     }
-    const dollar = web3.tokens[post.user.contract_id]?.dollarPerToken || 0.0;
+    if (web3.tokens[post.user.contract_id]?.dollarPerToken) {
+      const dollar = web3.tokens[post.user.contract_id]?.dollarPerToken;
 
-    return (dollar * web3.talToken?.price).toFixed(2);
+      return (dollar * web3.talToken?.price).toFixed(2);
+    }
   };
 
   const addPost = (post) => {

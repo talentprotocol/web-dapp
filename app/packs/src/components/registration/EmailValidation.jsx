@@ -16,7 +16,7 @@ const renderStatus = (status) => {
       <div className="d-flex flex-row text-muted align-items-center">
         <FontAwesomeIcon icon={faSpinner} spin />
         <p id="email-validation-loading" className="ml-2 mb-0">
-          We're checking the allowlist..
+          We're checking the allowlist...
         </p>
       </div>
     );

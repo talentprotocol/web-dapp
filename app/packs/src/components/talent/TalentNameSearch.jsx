@@ -33,7 +33,7 @@ const TalentNameSearch = () => {
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Search talent.."
+          placeholder="Search talent..."
           className="form-control bg-transparent pl-5 rounded-sm"
         />
       </div>

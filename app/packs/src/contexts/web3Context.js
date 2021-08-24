@@ -16,6 +16,7 @@ const Web3Container = (props) => {
   const [provider, setProvider] = useState(null);
   const [tokens, setTokens] = useState({});
   const [talToken, setTalToken] = useState({ balance: 0.0, price: 0.02 });
+  const [loading, setLoading] = useState(true);
 
   const setupTal = useCallback(async () => {
     let web3;
@@ -24,11 +25,15 @@ const Web3Container = (props) => {
       await web3.initialize();
     }
 
-    const allTalentTokens = await web3.talentTokens.getAllTalentTokens();
+    if (web3.talentTokens && !props.ignoreTokens) {
+      const allTalentTokens = await web3.talentTokens.getAllTalentTokens();
+      setTokens(allTalentTokens);
+    }
+
     setTalweb3(web3);
     setProvider(web3.provider);
-    setTokens(allTalentTokens);
     setTalToken(web3.tal);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -42,11 +47,16 @@ const Web3Container = (props) => {
 
   const updateTokens = async () => {
     await talweb3.loadTalentTokens();
-    const allTokens = await talweb3.talentTokens.getAllTalentTokens(false);
-    setTokens(allTokens);
+    if (talweb3.talentTokens) {
+      const allTokens = await talweb3.talentTokens.getAllTalentTokens(false);
+      setTokens(allTokens);
+    }
   };
 
   const buy = async (address, amount) => {
+    if (!talweb3.talentTokens) {
+      return 0;
+    }
     const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
@@ -61,6 +71,9 @@ const Web3Container = (props) => {
   };
 
   const simulateBuy = async (address, amount) => {
+    if (!talweb3.talentTokens) {
+      return 0;
+    }
     const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
@@ -72,6 +85,9 @@ const Web3Container = (props) => {
   };
 
   const sell = async (address, amount) => {
+    if (!talweb3.talentTokens) {
+      return 0;
+    }
     const desiredToken = await talweb3.talentTokens.getTalentToken(
       address,
       false
@@ -86,6 +102,9 @@ const Web3Container = (props) => {
   };
 
   const simulateSell = async (address, amount) => {
+    if (!talweb3.talentTokens) {
+      return 0;
+    }
     if (amount == 0 || amount == 0.0) {
       return 0;
     }
@@ -101,12 +120,18 @@ const Web3Container = (props) => {
   };
 
   const approve = async (address, amount) => {
+    if (!talweb3.tal) {
+      return false;
+    }
     const approved = await talweb3.tal.approve(address, amount);
 
     return approved;
   };
 
   const transfer = async (address, amount) => {
+    if (!talweb3.tal) {
+      return 0;
+    }
     const result = await talweb3.tal.transfer(address, amount);
 
     return result;
@@ -132,6 +157,7 @@ const Web3Container = (props) => {
     simulateSell,
     simulateBuy,
     toWei,
+    loading,
   };
 
   return (

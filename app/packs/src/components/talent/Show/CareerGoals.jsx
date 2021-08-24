@@ -74,7 +74,7 @@ const CareerGoals = ({ careerGoal, allowEdit, talentId }) => {
               rows="6"
               value={careerGoalText}
               onChange={(e) => setCareerGoalText(e.target.value)}
-              placeholder="Add a brief description.."
+              placeholder="Add a brief description..."
               className="form-control"
             />
           </Modal.Body>

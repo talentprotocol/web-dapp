@@ -262,18 +262,20 @@ const TalentDetail = ({
             <Button type="primary" text="Save Changes" onClick={handleSave} />
           </Modal.Footer>
         </Modal>
-        <a
-          className="mt-0 mt-md-2 mx-auto"
-          href={showLinkedinUrl}
-          target="self"
-        >
-          <img
-            src={LinkedInIcon}
-            height={24}
-            alt="LinkedIn Icon"
-            className="greyscale-img"
-          />
-        </a>
+        {showLinkedinUrl != "" && (
+          <a
+            className="mt-0 mt-md-2 mx-auto"
+            href={showLinkedinUrl}
+            target="self"
+          >
+            <img
+              src={LinkedInIcon}
+              height={24}
+              alt="LinkedIn Icon"
+              className="greyscale-img"
+            />
+          </a>
+        )}
       </div>
     </div>
   );

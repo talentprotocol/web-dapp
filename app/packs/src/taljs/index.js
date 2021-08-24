@@ -10,13 +10,10 @@ import TalentTokens from "./TalentTokens";
 const TAL_ADDRESSES = {
   3: "0xbc4c1d9b3904f2f592edd595b45cdde09304bcf1", // ropsten
 };
-const LOCAL_TAL_ADDRESS = "0x96465668B947CC7c0FD39A3ad35320316B6CadF9"; // local fallback from ABIs
 
 const TALENT_TOKENS_ADDRESSES = {
   3: "0x303c6209B50c157DB5f45A0D0079FC5BdDfaeb4E",
 };
-const LOCAL_TALENT_TOKENS_ADDRESS =
-  "0xF5746B6243349FBE31fdF64474E36C0dF62790E9"; // local fallback from ABIs
 
 class TalWeb3 {
   constructor() {
@@ -58,15 +55,11 @@ class TalWeb3 {
       } else {
         if (TAL_ADDRESSES[this.networkId]) {
           address = TAL_ADDRESSES[this.networkId];
-        } else {
-          address = LOCAL_TAL_ADDRESS;
         }
       }
     } else {
       if (TAL_ADDRESSES[this.networkId]) {
         address = TAL_ADDRESSES[this.networkId];
-      } else {
-        address = LOCAL_TAL_ADDRESS;
       }
     }
     return address;
@@ -76,11 +69,20 @@ class TalWeb3 {
     const address = this.talAddress();
 
     if (address) {
-      const contract = new this.web3.eth.Contract(TalentProtocol.abi, address);
-      this.tal = new Tal(contract, this.account, this.networkId);
-      await this.tal.getBalance();
+      try {
+        const contract = new this.web3.eth.Contract(
+          TalentProtocol.abi,
+          address,
+          this.networkId
+        );
+        this.tal = new Tal(contract, this.account, this.networkId);
+        await this.tal.getBalance();
+      } catch {
+        console.log(
+          "Talent Protocol contract not deployed to detected network."
+        );
+      }
     } else {
-      this.tal = new Tal(null, null, null);
       console.log("Talent Protocol contract not deployed to detected network.");
     }
 
@@ -97,31 +99,32 @@ class TalWeb3 {
       } else {
         if (TALENT_TOKENS_ADDRESSES[this.networkId]) {
           address = TALENT_TOKENS_ADDRESSES[this.networkId];
-        } else {
-          address = LOCAL_TALENT_TOKENS_ADDRESS;
         }
       }
     } else {
       if (TALENT_TOKENS_ADDRESSES[this.networkId]) {
         address = TALENT_TOKENS_ADDRESSES[this.networkId];
-      } else {
-        address = LOCAL_TALENT_TOKENS_ADDRESS;
       }
     }
 
     if (address) {
-      const contract = new this.web3.eth.Contract(
-        TalentProtocolFactory.abi,
-        address
-      );
-      this.talentTokens = new TalentTokens(
-        contract,
-        this.networkId,
-        this.web3,
-        this.account
-      );
+      try {
+        const contract = new this.web3.eth.Contract(
+          TalentProtocolFactory.abi,
+          address
+        );
+        this.talentTokens = new TalentTokens(
+          contract,
+          this.networkId,
+          this.web3,
+          this.account
+        );
+      } catch {
+        console.log(
+          "Talent Protocol Factory contract not deployed to detected network."
+        );
+      }
     } else {
-      this.talentTokens = new TalentTokens(null, null, this.web3, this.account);
       console.log(
         "Talent Protocol Factory contract not deployed to detected network."
       );

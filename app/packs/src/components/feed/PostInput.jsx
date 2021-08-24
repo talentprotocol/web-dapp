@@ -37,7 +37,7 @@ const PostInput = ({ profilePictureUrl, addPost }) => {
           id="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Start a post.."
+          placeholder="Start a post..."
           className="form-control"
         />
         <button

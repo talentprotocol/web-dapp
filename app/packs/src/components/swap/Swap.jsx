@@ -5,8 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import { post } from "src/utils/requests";
+import AsyncValue from "../loader/AsyncValue";
 
-const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
+const TokenSelection = ({
+  uniqueId,
+  selectedToken,
+  tokens,
+  setToken,
+  loading,
+}) => {
   const tokenArray = Object.keys(tokens).map((address) => tokens[address]);
   return (
     <Dropdown>
@@ -19,14 +26,31 @@ const TokenSelection = ({ uniqueId, selectedToken, tokens, setToken }) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {tokenArray.map((otherToken) => (
-          <Dropdown.Item
-            key={`${uniqueId}-${otherToken.symbol}`}
-            onClick={() => setToken(otherToken)}
-          >
-            ${otherToken.symbol}
-          </Dropdown.Item>
-        ))}
+        {loading && (
+          <>
+            <Dropdown.Item>
+              <AsyncValue size={10} />
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <AsyncValue size={10} />
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <AsyncValue size={10} />
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <AsyncValue size={10} />
+            </Dropdown.Item>
+          </>
+        )}
+        {!loading &&
+          tokenArray.map((otherToken) => (
+            <Dropdown.Item
+              key={`${uniqueId}-${otherToken.symbol}`}
+              onClick={() => setToken(otherToken)}
+            >
+              ${otherToken.symbol}
+            </Dropdown.Item>
+          ))}
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -133,7 +157,7 @@ const Swap = () => {
     if (mode == "buy") {
       const amount = parseFloat(inputAmount) * 100.0;
       const assumeAlreadyTracking = web3.tokens[selectedToken].balance > 0;
-      setTradeText("Trading..");
+      setTradeText("Trading...");
       web3.buy(selectedToken, amount).then((result) => {
         setInputAmount("");
         setOutputAmount("");
@@ -235,6 +259,7 @@ const Swap = () => {
               tokens={web3.tokens}
               setToken={onInputTokenSet}
               uniqueId="input-swap"
+              loading={web3.loading}
             />
           )}
           {mode == "buy" && "$TAL"}
@@ -259,7 +284,8 @@ const Swap = () => {
               value={inputAmount}
             />
             <small className="text-muted">
-              Balance {inputToken().balance || 0.0}
+              Balance{" "}
+              {web3.loading ? <AsyncValue /> : inputToken().balance || 0.0}
             </small>
           </div>
         </div>
@@ -277,6 +303,7 @@ const Swap = () => {
               tokens={web3.tokens}
               setToken={onOutputTokenSet}
               uniqueId="output-swap"
+              loading={web3.loading}
             />
           )}
           {mode != "buy" && "$TAL"}
@@ -301,7 +328,7 @@ const Swap = () => {
               value={outputAmount}
             />
             <small className="text-muted">
-              Balance {outputToken().balance}
+              Balance {web3.loading ? <AsyncValue /> : outputToken().balance}
             </small>
           </div>
         </div>

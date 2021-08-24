@@ -2,3 +2,25 @@
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -200px 0
+  }
+  100% {
+    background-position: 200px 0
+  }
+}
+
+.animated-background {
+  animation-duration: 6s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, transparent, #dcdcdc 18%, transparent);
+  background-size: 200px 104px;
+  height: 70px;
+  position: relative;
+  border-radius: 2px;
+}
