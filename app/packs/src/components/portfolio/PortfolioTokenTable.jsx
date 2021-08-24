@@ -23,13 +23,13 @@ const PortfolioTokenTable = ({ tokens }) => {
 
   const amountForToken = (token) => web3.tokens[token.contract_id]?.balance;
 
-  const priceOfToken = (token) => {
+  const tokenInTal = (token) => {
     if (web3.tokens[token.contract_id]) {
       return web3.tokens[token.contract_id]?.dollarPerToken.toFixed(2);
     }
   };
 
-  const priceOfTokenInTal = (token) => {
+  const tokenInDollar = (token) => {
     if (web3.tokens[token.contract_id]) {
       return (
         web3.tokens[token.contract_id]?.dollarPerToken * web3.talToken?.price
@@ -107,24 +107,34 @@ const PortfolioTokenTable = ({ tokens }) => {
                 </small>
               </td>
               <td className="align-middle tal-table-price text-right">
-                {web3.loading ? <AsyncValue /> : `$${priceOfTokenInTal(token)}`}
+                {web3.loading ? <AsyncValue /> : `$${tokenInDollar(token)}`}
                 <br />
                 <span className="text-muted">
                   <small>
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      `${priceOfToken(token)} ✦`
+                      `${tokenInTal(token)} ✦`
                     )}
                   </small>
                 </span>
               </td>
               <td className="align-middle tal-table-price text-right">
-                {web3.loading ? <AsyncValue size={5} /> : token.value}
+                {web3.loading ? (
+                  <AsyncValue size={5} />
+                ) : (
+                  `$${(tokenInDollar(token) * amountForToken(token)).toFixed(
+                    2
+                  )}`
+                )}
                 <br />
                 <span className="text-muted">
                   <small>
-                    {web3.loading ? <AsyncValue size={5} /> : token.valueInTal}
+                    {web3.loading ? (
+                      <AsyncValue size={5} />
+                    ) : (
+                      (tokenInTal(token) * amountForToken(token)).toFixed(2)
+                    )}
                   </small>
                 </span>
               </td>
