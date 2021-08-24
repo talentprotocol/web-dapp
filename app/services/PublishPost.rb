@@ -7,7 +7,8 @@ class PublishPost
       post = Post.find(post_id)
       writer = post.user
 
-      writer.followers.find_each do |follower|
+      # All followers except self in case we're following ourselves
+      writer.followers.where.not(id: writer.id).find_each do |follower|
         follower.feed.posts << post
       end
 
