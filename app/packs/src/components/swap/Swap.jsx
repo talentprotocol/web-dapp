@@ -69,9 +69,10 @@ const Swap = () => {
   const [outputAmount, setOutputAmount] = useState("");
   const [trading, setTrading] = useState(false);
   const [approved, setApproved] = useState(false);
-  const [requested, setRequested] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [done, setDone] = useState(false);
+  const [stepError, setStepError] = useState("");
 
   const inputToken = () =>
     mode == "buy"
@@ -190,7 +191,8 @@ const Swap = () => {
     setOutputAmount("");
     setTrading(false);
     setApproved(false);
-    setRequested(false);
+    setSubmitted(false);
+    setStepError("");
     setConfirmed(false);
     setDone(false);
   };
@@ -205,6 +207,7 @@ const Swap = () => {
       const approved = await web3.approve(selectedToken, amount);
 
       if (!approved) {
+        setStepError("approval");
         return;
       } else {
         setApproved(true);
@@ -221,7 +224,7 @@ const Swap = () => {
           inbound: true,
         });
         if (response.error) {
-          console.log(response.error);
+          setStepError("done");
         } else {
           setDone(true);
         }
@@ -231,14 +234,14 @@ const Swap = () => {
         selectedToken,
         amount,
         (receipt) => onConfirmation(receipt),
-        (e) => console.log(e),
-        () => setRequested(true)
+        () => setStepError("confirm"),
+        () => setSubmitted(true)
       );
     } else {
       const amount = parseFloat(inputAmount) * 100.0;
 
       setApproved(true);
-      setRequested(true);
+      setSubmitted(true);
 
       const onConfirmation = async (receipt) => {
         setConfirmed(true);
@@ -251,7 +254,7 @@ const Swap = () => {
           inbound: false,
         });
         if (response.error) {
-          console.log(response.error);
+          setStepError("done");
         } else {
           setDone(true);
         }
@@ -261,8 +264,8 @@ const Swap = () => {
         selectedToken,
         amount,
         (receipt) => onConfirmation(receipt),
-        (e) => console.log(e),
-        () => setRequested(true)
+        () => setStepError("confirm"),
+        () => setSubmitted(true)
       );
     }
   };
@@ -369,9 +372,10 @@ const Swap = () => {
           trackToken={trackToken}
           transact={transact}
           approved={approved}
-          requested={requested}
+          submitted={submitted}
           confirmed={confirmed}
           done={done}
+          stepError={stepError}
         />
         <button
           type="submit"

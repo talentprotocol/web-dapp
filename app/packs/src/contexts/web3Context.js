@@ -145,6 +145,7 @@ const Web3Container = (props) => {
     if (!talweb3.tal) {
       return false;
     }
+
     const approved = await talweb3.tal.approve(address, amount);
 
     return approved;
