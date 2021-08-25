@@ -60,12 +60,15 @@ class TalentToken {
     return estimatedReward;
   }
 
-  async buy(amount) {
-    const mintedAmount = await this.contract.methods
+  async buy(amount, onSuccess, onError, onTransactionHash) {
+    const result = await this.contract.methods
       .mintFromTal(amount)
-      .send({ from: this.account });
+      .send({ from: this.account })
+      .on("transactionHash", (hash) => onTransactionHash(hash))
+      .on("receipt", (receipt) => onSuccess(receipt))
+      .on("error", (e) => onError(e));
 
-    return mintedAmount;
+    return result;
   }
 
   async simulateSell(amount) {
@@ -76,10 +79,13 @@ class TalentToken {
     return estimatedRefund;
   }
 
-  async sell(amount) {
+  async sell(amount, onSuccess, onError, onTransactionHash) {
     const burnedAmount = await this.contract.methods
       .burnToTal(amount)
-      .send({ from: this.account });
+      .send({ from: this.account })
+      .on("transactionHash", (hash) => onTransactionHash(hash))
+      .on("receipt", (receipt) => onSuccess(receipt))
+      .on("error", (e) => onError(e));
 
     return burnedAmount;
   }
