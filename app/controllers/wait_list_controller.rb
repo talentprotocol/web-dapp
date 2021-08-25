@@ -3,7 +3,7 @@ class WaitListController < ApplicationController
     if User.where(email: wait_list_create_params[:email]).exists?
       render json: {error: "This email already exists in the database, you should be able to sign in with it."}, status: :conflict
     else
-      wait_list = WaitList.create(wait_list_create_params)
+      wait_list = WaitList.create(email: wait_list_create_params[:email].downcase)
 
       render json: wait_list, status: :ok
     end

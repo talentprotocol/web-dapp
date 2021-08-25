@@ -17,6 +17,8 @@ const TalentLeaderboard = ({ topTalents, className }) => {
         web3.tokens[talent.token_contract_id]?.dollarPerToken *
         web3.talToken?.price
       ).toFixed(2);
+    } else {
+      return 0.0;
     }
   };
 
