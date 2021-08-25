@@ -76,6 +76,7 @@ class TalWeb3 {
           this.networkId
         );
         this.tal = new Tal(contract, this.account, this.networkId);
+
         await this.tal.getBalance();
       } catch {
         console.log(

@@ -41,14 +41,19 @@ const AccessRequested = ({ changeStep, email }) => {
   const [errorDetails, setErrorDetails] = useState("");
 
   useEffect(() => {
-    post("/wait_list.json", { email }).then((response) => {
-      if (response.error) {
+    post("/wait_list.json", { email })
+      .then((response) => {
+        if (response.error) {
+          setStatus("error");
+          setErrorDetails(response.error);
+        } else {
+          setStatus("success");
+        }
+      })
+      .catch(() => {
         setStatus("error");
-        setErrorDetails(response.error);
-      } else {
-        setStatus("success");
-      }
-    });
+        setErrorDetails("We were unable to add you to the waitlist.");
+      });
   }, [email]);
 
   return (

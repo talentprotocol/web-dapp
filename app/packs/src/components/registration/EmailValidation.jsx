@@ -55,7 +55,7 @@ const EmailValidation = ({ changeStep, email }) => {
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
-    get(`/wait_list?email=${email}`).then((response) => {
+    get(`/wait_list?email=${email.toLowerCase()}`).then((response) => {
       if (response.error) {
         setStatus("error");
       } else {

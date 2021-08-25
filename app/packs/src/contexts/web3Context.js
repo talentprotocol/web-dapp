@@ -53,7 +53,13 @@ const Web3Container = (props) => {
     }
   };
 
-  const buy = async (address, amount) => {
+  const buy = async (
+    address,
+    amount,
+    onSuccess,
+    onError = () => {},
+    onTransactionHash = () => {}
+  ) => {
     if (!talweb3.talentTokens) {
       return 0;
     }
@@ -62,12 +68,17 @@ const Web3Container = (props) => {
       false
     );
 
-    const transaction = await desiredToken.buy(amount);
+    const rewardAmount = await desiredToken.buy(
+      amount,
+      onSuccess,
+      onError,
+      onTransactionHash
+    );
 
     await updateTalToken();
     await updateTokens();
 
-    return transaction;
+    return rewardAmount;
   };
 
   const simulateBuy = async (address, amount) => {
@@ -84,7 +95,13 @@ const Web3Container = (props) => {
     return estimatedAmount;
   };
 
-  const sell = async (address, amount) => {
+  const sell = async (
+    address,
+    amount,
+    onSuccess,
+    onError = () => {},
+    onTransactionHash = () => {}
+  ) => {
     if (!talweb3.talentTokens) {
       return 0;
     }
@@ -93,7 +110,12 @@ const Web3Container = (props) => {
       false
     );
 
-    const transaction = await desiredToken.sell(amount);
+    const transaction = await desiredToken.sell(
+      amount,
+      onSuccess,
+      onError,
+      onTransactionHash
+    );
 
     await updateTalToken();
     await updateTokens();
@@ -123,6 +145,7 @@ const Web3Container = (props) => {
     if (!talweb3.tal) {
       return false;
     }
+
     const approved = await talweb3.tal.approve(address, amount);
 
     return approved;

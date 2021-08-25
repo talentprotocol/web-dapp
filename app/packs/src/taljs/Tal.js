@@ -19,9 +19,13 @@ class Tal {
 
   async approve(address, amount) {
     if (this.contract && this.account) {
-      return await this.contract.methods
-        .approve(address, amount)
-        .send({ from: this.account });
+      try {
+        return await this.contract.methods
+          .approve(address, amount)
+          .send({ from: this.account });
+      } catch {
+        return false;
+      }
     }
 
     return false;

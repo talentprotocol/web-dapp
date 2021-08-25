@@ -78,6 +78,7 @@ class TalentTokens {
         await token.load();
 
         this.cache[address].name = token.name;
+        this.cache[address].address = token.contract._address;
         this.cache[address].symbol = token.symbol;
         this.cache[address].balance = token.balance;
         this.cache[address].circulatingSupply = token.mintedTokens;

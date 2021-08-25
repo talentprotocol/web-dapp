@@ -12,7 +12,7 @@ class TalentController < ApplicationController
   end
 
   def show
-    @talent_leaderboard = base_talent.order(id: :desc).limit(10)
+    @talent_leaderboard = base_talent.where("ito_date < ?", Time.current).order(id: :desc).limit(10)
 
     @is_following = current_user.following.where(user_id: @talent.user.id).exists?
 

@@ -50,7 +50,7 @@ class CreateUser
 
   def create_user(email, username, metamask_id)
     user = User.new
-    user.email = email
+    user.email = email.downcase
     user.username = username.downcase.delete(" ", "")
     user.wallet_id = metamask_id&.downcase
     user.save!
