@@ -3,7 +3,7 @@ import { differenceInMinutes } from "date-fns";
 import TalentTokenAbi from "../abis/CareerCoin.json";
 import TalentToken from "./TalentToken";
 
-const MASTER_ACCOUNT = "0xF9BB10F122722cCf86767490f33Dd74dd0B9C5F2";
+const MASTER_ACCOUNT = "0xf6F2dF72F234e67c468B8aE5bCD983D984de9C55";
 
 class TalentTokens {
   constructor(

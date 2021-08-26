@@ -62,10 +62,10 @@ class TalentController < ApplicationController
 
   def set_talent
     @talent =
-      if id_param
+      if id_param > 0
         Talent.find(params[:id])
       else
-        Talent.find_by!(public_key: params[:id])
+        Talent.includes(:token).find_by!(token: {ticker: params[:id]})
       end
   end
 

@@ -22,23 +22,7 @@ Rails.application.routes.draw do
       resources :users
     end
   end
-
   # end Admin
-
-  # Auth - Clearance generated routes
-  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
-  resource :session, controller: "sessions", only: [:create]
-
-  resources :users, only: [:create, :index] do
-    resource :password,
-      controller: "clearance/passwords",
-      only: [:edit, :update]
-  end
-
-  get "/sign_in" => "sessions#new", :as => "sign_in"
-  delete "/sign_out" => "sessions#destroy", :as => "sign_out"
-
-  # end Auth
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
@@ -82,7 +66,28 @@ Rails.application.routes.draw do
     # Swap
     resource :swap, only: [:show]
     resources :transactions, only: [:create]
+
+    namespace :api, defaults: {format: :json} do
+      namespace :v1 do
+        resources :tokens, only: [:show]
+      end
+    end
   end
+
+  # Public routes
+  # Auth - Clearance generated routes
+  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
+  resource :session, controller: "sessions", only: [:create]
+
+  resources :users, only: [:create, :index] do
+    resource :password,
+      controller: "clearance/passwords",
+      only: [:edit, :update]
+  end
+
+  get "/sign_in" => "sessions#new", :as => "sign_in"
+  delete "/sign_out" => "sessions#destroy", :as => "sign_out"
+  # end Auth
 
   resources :wait_list, only: [:create, :index]
 
