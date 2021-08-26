@@ -36,7 +36,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <AnimatedNumber value={web3.talToken.balance} />
+            <AnimatedNumber value={web3.talToken?.balance} />
           )}
         </div>
       </div>
@@ -65,7 +65,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
             </h4>
           ) : (
             <AnimatedNumber
-              value={((web3.talToken.balance || 0.0) + talCommited) * talValue}
+              value={((web3.talToken?.balance || 0.0) + talCommited) * talValue}
             />
           )}
         </div>

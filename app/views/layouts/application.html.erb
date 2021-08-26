@@ -9,16 +9,6 @@
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag "application", media: 'all' %>
     <link rel="shortcut icon" href="/favicon.ico">
-    <% unless Rails.env.development? || Rails.env.test? %>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-11PCKF12YC"></script>
-      <%= javascript_tag nonce: true do -%>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-11PCKF12YC');
-      <% end -%>
-    <% end %>
   </head>
 
   <body>
