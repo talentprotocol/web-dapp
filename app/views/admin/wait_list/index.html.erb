@@ -2,7 +2,15 @@
   <main class="col-12 px-2 d-flex flex-column justify-content-start">
     <h1>Manage Waitlist</h1>
 
-    <%= link_to "Add to the waitlist", new_admin_wait_list_path, class: "btn btn-primary talent-button mt-4" %>
+    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+      <%= form_tag(admin_wait_list_index_path, method: :get) do %>
+        <div class="form-group d-flex flex-row align-items-center">
+          <%= text_field_tag(:search, nil, placeholder: "Search by email", class: "form-control mr-2") %>
+          <%= submit_tag("Search", name: nil, class: "btn btn-primary talent-button") %>
+        </div>
+      <% end %>
+      <%= link_to "Add to the waitlist", new_admin_wait_list_path, class: "btn btn-primary talent-button" %>
+    </div>
 
     <%= render "shared/flashes" %>
 
