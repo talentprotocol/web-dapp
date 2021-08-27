@@ -34,7 +34,11 @@ const Web3Container = (props) => {
     let web3;
     if (talweb3 === null) {
       web3 = new TalWeb3();
-      await web3.initialize();
+      const web3Available = await web3.initialize();
+      if (!web3Available) {
+        setLoading(false);
+        return;
+      }
     }
 
     web3.provider.on("chainChanged", () => window.location.reload());
