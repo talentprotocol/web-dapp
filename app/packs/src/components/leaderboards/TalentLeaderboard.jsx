@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import currency from "currency.js";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
@@ -13,12 +14,12 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       web3.tokens[talent.token_contract_id]?.dollarPerToken &&
       web3.talToken?.price
     ) {
-      return (
+      return currency(
         web3.tokens[talent.token_contract_id]?.dollarPerToken *
-        web3.talToken?.price
-      ).toFixed(2);
+          web3.talToken?.price
+      ).format();
     } else {
-      return 0.0;
+      return "$0.00";
     }
   };
 
@@ -61,7 +62,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
           </div>
           <p className="mb-0 col-3 text-right text-muted leaderboard-info">
             <small>
-              {web3.loading ? <AsyncValue /> : `$${priceOfToken(topTalent)}`}
+              {web3.loading ? <AsyncValue /> : priceOfToken(topTalent)}
             </small>
           </p>
         </a>

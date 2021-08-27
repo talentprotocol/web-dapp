@@ -168,7 +168,7 @@ const Post = ({ post, user, currentUser, priceOfToken }) => {
               <small>
                 <span className="text-primary">{user.ticker}</span>{" "}
                 <span className="text-muted">
-                  {"->"} $<AsyncValue value={priceOfToken} />
+                  {"->"} <AsyncValue value={priceOfToken} />
                 </span>
               </small>
             </p>

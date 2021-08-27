@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
+import currency from "currency.js";
+
 import TalentProfilePicture from "./TalentProfilePicture";
 import TalentTags from "./TalentTags";
-
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
@@ -34,10 +35,10 @@ const TalentCard = ({ talent, href }) => {
 
   const priceOfToken = () => {
     if (web3.tokens[talent.token.contract_id]?.dollarPerToken) {
-      return (
+      return currency(
         web3.tokens[talent.token.contract_id]?.dollarPerToken *
-        web3.talToken?.price
-      ).toFixed(2);
+          web3.talToken?.price
+      ).format();
     }
   };
 
@@ -45,7 +46,7 @@ const TalentCard = ({ talent, href }) => {
     if (web3.tokens[talent.token.contract_id]?.reserve) {
       const reserve = parseInt(web3.tokens[talent.token.contract_id]?.reserve);
 
-      return ((reserve * web3.talToken.price) / 100.0).toFixed(2);
+      return currency((reserve * web3.talToken.price) / 100.0).format();
     }
   };
 
@@ -72,7 +73,7 @@ const TalentCard = ({ talent, href }) => {
           </div>
           <div>
             <strong>
-              $<AsyncValue value={priceOfToken()} />
+              <AsyncValue value={priceOfToken()} />
             </strong>
           </div>
         </div>
@@ -82,7 +83,7 @@ const TalentCard = ({ talent, href }) => {
           </div>
           <div>
             <strong>
-              $<AsyncValue value={marketCap()} size={8} />
+              <AsyncValue value={marketCap()} size={8} />
             </strong>
           </div>
         </div>
