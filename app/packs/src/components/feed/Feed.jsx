@@ -30,11 +30,11 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
   return (
     <>
       <section className="col-12 col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-700 pt-3">
-        <h1 className="h5 px-2">
+        <h1 className="h5 px-2 pb-2 mb-2 border-bottom">
           <strong>Home</strong>
         </h1>
         {user.isTalent && (
-          <div className="px-2 border-top border-bottom bg-white border-right">
+          <div className="px-2 bg-white border-right">
             <PostInput
               profilePictureUrl={user.profilePictureUrl}
               addPost={(post) => addPost(post)}
@@ -50,7 +50,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
         {currentPosts.map((post) => (
           <div
             key={`post-${post.id}`}
-            className="bg-white border-bottom border-right"
+            className="bg-white border-bottom border-right border-top mb-2"
           >
             <Post
               post={post}

@@ -8,6 +8,10 @@ const defaultValue = {
   balance: 0.0,
 };
 
+const networks = {
+  ropsten: 3,
+};
+
 const Web3Context = createContext(defaultValue);
 Web3Context.displayName = "Web3Context";
 
@@ -18,11 +22,29 @@ const Web3Container = (props) => {
   const [talToken, setTalToken] = useState({ balance: 0.0, price: 0.02 });
   const [loading, setLoading] = useState(true);
 
+  const validNetwork = (web3) => {
+    if (window.location.href.includes("localhost")) {
+      return true;
+    }
+
+    return web3.provider != null && web3.networkId == networks["ropsten"];
+  };
+
   const setupTal = useCallback(async () => {
     let web3;
     if (talweb3 === null) {
       web3 = new TalWeb3();
       await web3.initialize();
+    }
+
+    web3.provider.on("chainChanged", () => window.location.reload());
+    web3.provider.on("accountsChanged", () => window.location.reload());
+
+    if (!validNetwork(web3)) {
+      return await web3.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x3" }],
+      });
     }
 
     if (web3.talentTokens && !props.ignoreTokens) {
@@ -181,6 +203,7 @@ const Web3Container = (props) => {
     simulateBuy,
     toWei,
     loading,
+    networkId: talweb3?.networkId,
   };
 
   return (

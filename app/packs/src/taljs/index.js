@@ -26,11 +26,15 @@ class TalWeb3 {
   }
 
   async initialize() {
-    await this.loadWeb3();
+    const result = await this.loadWeb3();
+    if (!result) return false;
+
     await this.loadAccount();
     await this.loadNetworkId();
     await this.loadTal();
     await this.loadTalentTokens();
+
+    return true;
   }
 
   async loadAccount() {
@@ -135,7 +139,7 @@ class TalWeb3 {
   }
 
   async loadWeb3() {
-    const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+    const provider = await detectEthereumProvider();
 
     if (provider) {
       this.provider = provider;

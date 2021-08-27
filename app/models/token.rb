@@ -89,20 +89,4 @@ class Token < ApplicationRecord
   def display_value(user)
     "$#{(transactions.where(investor: user.investor).sum(&:amount).to_f * TAL_VALUE / 100).to_s(:delimited)}"
   end
-
-  def for_user_view(user)
-    {
-      id: id,
-      ticker: display_ticker,
-      talentName: talent.username,
-      profilePictureUrl: talent.profile_picture_url,
-      amount: transactions.where(investor: user.investor).sum(&:amount),
-      price: display_price,
-      priceInTal: display_price_in_tal,
-      value: display_value(user),
-      valueInTal: display_value_in_tal(user),
-      priceVariance7d: variance7d.round(2).to_s(:delimited),
-      contract_id: talent.token.contract_id
-    }
-  end
 end

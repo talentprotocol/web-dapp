@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useState } from "react";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
@@ -6,6 +6,8 @@ import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import AsyncValue from "../loader/AsyncValue";
+
+import { get } from "src/utils/requests";
 
 const EmptyInvestments = () => (
   <tr>
@@ -18,24 +20,42 @@ const EmptyInvestments = () => (
   </tr>
 );
 
-const PortfolioTokenTable = ({ tokens }) => {
+const Web3Loading = () => (
+  <tr>
+    <td className="align-middle text-muted" colSpan="7">
+      <small>We're loading your portfolio.</small>
+    </td>
+    <td className="align-middle" colSpan="1">
+      <Button type="primary" text="See Talent" href="/talent" size="sm" />
+    </td>
+  </tr>
+);
+
+const PortfolioTokenTable = () => {
   const web3 = useContext(Web3Context);
-
-  const amountForToken = (token) => web3.tokens[token.contract_id]?.balance;
-
-  const tokenInTal = (token) => {
-    if (web3.tokens[token.contract_id]) {
-      return web3.tokens[token.contract_id]?.dollarPerToken.toFixed(2);
-    }
-  };
+  const [tokenAPIData, setTokenAPIData] = useState({});
 
   const tokenInDollar = (token) => {
-    if (web3.tokens[token.contract_id]) {
-      return (
-        web3.tokens[token.contract_id]?.dollarPerToken * web3.talToken?.price
-      ).toFixed(2);
+    if (token) {
+      return (token.dollarPerToken * web3.talToken.price).toFixed(2);
     }
   };
+
+  const tokensWithBalance = useMemo(() => {
+    const relevantTokens = Object.keys(web3.tokens).filter(
+      (address) => web3.tokens[address].balance > 0
+    );
+
+    relevantTokens.forEach((address) => {
+      get(`/api/v1/tokens/${address}`).then(
+        (result) =>
+          result.id &&
+          setTokenAPIData((prev) => ({ ...prev, [address]: result }))
+      );
+    });
+
+    return relevantTokens.map((key) => web3.tokens[key]);
+  }, [web3.tokens]);
 
   return (
     <div className="table-responsive">
@@ -86,24 +106,29 @@ const PortfolioTokenTable = ({ tokens }) => {
           </tr>
         </thead>
         <tbody>
-          {tokens.length == 0 && <EmptyInvestments />}
-          {tokens.map((token) => (
-            <tr key={`transaction-${token.id}`} className="tal-tr-item">
+          {web3.loading && <Web3Loading />}
+          {!web3.loading && tokensWithBalance.length == 0 && (
+            <EmptyInvestments />
+          )}
+          {tokensWithBalance.map((token) => (
+            <tr key={`transaction-${token.address}`} className="tal-tr-item">
               <th className="text-muted align-middle">
                 <TalentProfilePicture
-                  src={token.profilePictureUrl}
+                  src={tokenAPIData[token.address]?.profilePictureUrl}
                   height={40}
                 />
               </th>
               <th className="align-middle pr-0 text-primary" scope="row">
-                <small>{token.ticker}</small>
+                <small>
+                  {web3.loading ? <AsyncValue /> : `$${token.symbol}`}
+                </small>
               </th>
               <td className="align-middle text-right">
-                <small>{token.talentName}</small>
+                <small>{web3.loading ? <AsyncValue /> : `${token.name}`}</small>
               </td>
               <td className="align-middle text-right">
                 <small>
-                  <AsyncValue value={amountForToken(token)} size={10} />
+                  <AsyncValue value={token.balance} size={10} />
                 </small>
               </td>
               <td className="align-middle tal-table-price text-right">
@@ -114,7 +139,7 @@ const PortfolioTokenTable = ({ tokens }) => {
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      `${tokenInTal(token)} ✦`
+                      `${token.dollarPerToken.toFixed(2)} ✦`
                     )}
                   </small>
                 </span>
@@ -123,9 +148,7 @@ const PortfolioTokenTable = ({ tokens }) => {
                 {web3.loading ? (
                   <AsyncValue size={5} />
                 ) : (
-                  `$${(tokenInDollar(token) * amountForToken(token)).toFixed(
-                    2
-                  )}`
+                  `$${(tokenInDollar(token) * token.balance).toFixed(2)}`
                 )}
                 <br />
                 <span className="text-muted">
@@ -133,9 +156,9 @@ const PortfolioTokenTable = ({ tokens }) => {
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      `${(tokenInTal(token) * amountForToken(token)).toFixed(
-                        2
-                      )} ✦`
+                      `${(
+                        token.dollarPerToken.toFixed(2) * token.balance
+                      ).toFixed(2)} ✦`
                     )}
                   </small>
                 </span>
@@ -146,14 +169,16 @@ const PortfolioTokenTable = ({ tokens }) => {
                     <AsyncValue size={5} />
                   </div>
                 ) : (
-                  <DisplayTokenVariance variance={token.priceVariance7d} />
+                  <DisplayTokenVariance
+                    variance={tokenAPIData[token.address]?.variance7d || "0"}
+                  />
                 )}
               </td>
               <td className="align-middle">
                 <Button
                   type="primary"
                   text="See Talent"
-                  href={token.talentUrl}
+                  href={`/talent/${token.symbol}`}
                   size="sm"
                 />
               </td>
