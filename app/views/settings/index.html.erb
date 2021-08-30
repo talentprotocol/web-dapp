@@ -3,9 +3,13 @@
     <% if current_user.present? %>
       <div class="d-flex flex-column mt-3">
         <%= render "shared/flashes" %>
-        <p>You are logged in as: <%= current_user.email %></p>
-        <%= button_to "Sign out", sign_out_path, method: :delete, class: "btn btn-primary talent-button" %>
-
+        <h1>Settings</h1>
+        <p>Hello <%= current_user.username %></p>
+        <p>Your connected wallet: <%= current_user.wallet_id %></p>
+        <div class="d-flex flex-row align-items-center">
+          <%= react_component("MetamaskConnect", props: { user_id: current_user.id }, prerender: false, html_options: { class: "mr-2 mb-2" }) %>
+          <%= button_to "Sign out", sign_out_path, method: :delete, class: "btn btn-primary talent-button" %>
+        </div>
         <% if current_user.investor.present? && current_user.talent.nil? %>
           <p class="mt-4 mb-2">Change your profile picture: </p>
 
@@ -16,8 +20,6 @@
           <%= render "investors/investor_form", investor: current_user.investor %>
         <% end %>
       </div>
-
-      <p>Wallet ID: <%= current_user.wallet_id %></p>
     <% else %>
       <%= link_to "Sign in", sign_in_path %>
     <% end %>
