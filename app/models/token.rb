@@ -2,6 +2,8 @@ class Token < ApplicationRecord
   belongs_to :talent
   has_many :transactions
 
+  validates :ticker, length: {in: 3..8}
+
   TAL_VALUE = 2
 
   def display_ticker

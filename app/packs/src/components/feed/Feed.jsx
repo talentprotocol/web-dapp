@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
+import currency from "currency.js";
 
 import Pagination from "../pagination";
 import Post from "./Post";
@@ -14,12 +15,12 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
 
   const priceOfToken = (post) => {
     if (post.user.ticker == "$TAL") {
-      return web3.talToken?.price;
+      return currency(web3.talToken?.price).format();
     }
     if (web3.tokens[post.user.contract_id]?.dollarPerToken) {
       const dollar = web3.tokens[post.user.contract_id]?.dollarPerToken;
 
-      return (dollar * web3.talToken?.price).toFixed(2);
+      return currency(dollar * web3.talToken?.price).format();
     }
   };
 

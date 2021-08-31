@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { useSpring, animated, config } from "@react-spring/web";
+import currency from "currency.js";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
-const AnimatedNumber = ({ value, withoutDecimal }) => {
+const AnimatedNumber = ({ value, unformatted, dollarSign }) => {
   const { number } = useSpring({
     reset: true,
     reverse: false,
@@ -16,7 +17,15 @@ const AnimatedNumber = ({ value, withoutDecimal }) => {
 
   return (
     <animated.h4>
-      {number.to((n) => (withoutDecimal ? n.toFixed(0) : n.toFixed(2)))}
+      {number.to((n) =>
+        unformatted
+          ? `${n}`
+          : `${
+              dollarSign
+                ? currency(n).format()
+                : currency(n).format().substring(1)
+            }`
+      )}
     </animated.h4>
   );
 };
@@ -65,6 +74,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
             </h4>
           ) : (
             <AnimatedNumber
+              dollarSign={true}
               value={((web3.talToken?.balance || 0.0) + talCommited) * talValue}
             />
           )}
@@ -75,7 +85,7 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
           <div className="text-muted">
             <small>Talent supported</small>
           </div>
-          <AnimatedNumber value={talentCount} withoutDecimal={true} />
+          <h4>{talentCount}</h4>
         </div>
       </div>
     </div>

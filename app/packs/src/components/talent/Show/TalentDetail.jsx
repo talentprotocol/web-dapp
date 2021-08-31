@@ -179,6 +179,9 @@ const TalentDetail = ({
                   placeholder="Change your ticker"
                   className="form-control mb-2 rounded-sm"
                 />
+                <small id="tickerHelp" className="form-text text-muted">
+                  Your ticker needs to be between 3-8 letters.
+                </small>
               </div>
             )}
             <div className="form-group">
@@ -259,7 +262,12 @@ const TalentDetail = ({
               text="Discard Changes"
               onClick={handleDismiss}
             />
-            <Button type="primary" text="Save Changes" onClick={handleSave} />
+            <Button
+              disabled={editTicker.length < 3 || editTicker.length > 9}
+              type="primary"
+              text="Save Changes"
+              onClick={handleSave}
+            />
           </Modal.Footer>
         </Modal>
         {showLinkedinUrl != "" && (
