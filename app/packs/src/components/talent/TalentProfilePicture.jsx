@@ -6,8 +6,9 @@ const TalentProfilePicture = ({ src, height, greyscale, className }) => {
   const grey = greyscale ? " image-greyscale" : "";
   return (
     <img
-      className={`rounded-circle${grey} ${className}`}
+      className={`rounded-circle${grey} ${className} image-fit`}
       src={imgSrc}
+      width={height}
       height={height}
       alt="Profile Picture"
     />
