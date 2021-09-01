@@ -206,6 +206,16 @@ const Web3Container = (props) => {
     }
   };
 
+  const getToken = async (address) => {
+    if (talweb3) {
+      const talentToken = await talweb3.talentTokens.getTalentToken(
+        address,
+        false
+      );
+      return talentToken;
+    }
+  };
+
   const value = {
     ...defaultValue,
     talToken,
@@ -221,6 +231,7 @@ const Web3Container = (props) => {
     loading,
     networkId: talweb3?.networkId,
     connectAccount,
+    getToken,
   };
 
   return (

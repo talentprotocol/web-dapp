@@ -8,6 +8,7 @@ import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
 const TalentToken = ({
+  talentId,
   ticker,
   sponsors,
   priceVariance7d,
@@ -134,6 +135,14 @@ const TalentToken = ({
             text="Send a message"
             className="talent-button w-100 mt-2"
             href={`/messages?user=${talentUserId}`}
+          />
+        )}
+        {sponsors > 0 && (
+          <Button
+            href={`/talent/${talentId}/sponsors`}
+            variant="outline-primary"
+            text="See sponsors"
+            className="talent-button w-100 mt-2"
           />
         )}
       </div>
