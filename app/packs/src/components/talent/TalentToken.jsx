@@ -140,7 +140,7 @@ const TalentToken = ({
         {sponsors > 0 && (
           <Button
             href={`/talent/${talentId}/sponsors`}
-            type="info"
+            variant="outline-primary"
             text="See sponsors"
             className="talent-button w-100 mt-2"
           />
