@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     resources :talent, only: [:index, :show, :update] do
       resources :career_goals, only: [:create, :update], module: "talent"
       resources :rewards, only: [:create, :update, :destroy], module: "talent"
+      resources :sponsors, only: [:index], module: "talent"
     end
 
     # Portfolio

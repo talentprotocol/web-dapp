@@ -33,6 +33,7 @@ import MetamaskLogin from "src/components/login/MetamaskLogin";
 import DeployTokenButton from "src/components/token/DeployTokenButton";
 import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
+import TalentSponsorsTable from "src/components/sponsors/TalentSponsorsTable";
 
 import "stylesheets/application.scss";
 
@@ -62,6 +63,7 @@ ReactOnRails.register({
   Logo,
   PortfolioTokenTable,
   MetamaskConnect,
+  TalentSponsorsTable,
 });
 
 Rails.start();
