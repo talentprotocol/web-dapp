@@ -5,6 +5,7 @@ import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import AsyncValue from "../loader/AsyncValue";
+import TalentTags from "../talent/TalentTags";
 import Button from "../button";
 
 const EmptySponsors = () => (
@@ -17,38 +18,34 @@ const EmptySponsors = () => (
 
 const SponsorOverview = ({ loading, reserve, sponsorCount }) => {
   return (
-    <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-center">
-      <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>$TAL in reserve</small>
-          </div>
-          {loading || !reserve ? (
-            <h4>
-              <AsyncValue size={12} />
-            </h4>
-          ) : (
-            <h4>
-              {currency(reserve / 100.0)
-                .format()
-                .substring(1)}
-            </h4>
-          )}
+    <div className="col-12 col-lg-6 d-flex flex-row align-items-center">
+      <div className="col-6 d-flex flex-column align-items-center border bg-white px-3">
+        <div className="text-muted">
+          <small>$TAL in reserve</small>
         </div>
+        {loading || !reserve ? (
+          <h4>
+            <AsyncValue size={12} />
+          </h4>
+        ) : (
+          <h4>
+            {currency(reserve / 100.0)
+              .format()
+              .substring(1)}
+          </h4>
+        )}
       </div>
-      <div className="col-12 col-sm-6 col-md-3 mt-2 pl-1 pr-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>Sponsors</small>
-          </div>
-          <h4>{sponsorCount}</h4>
+      <div className="col-6 d-flex flex-column align-items-center border bg-white px-3 ml-2">
+        <div className="text-muted">
+          <small>Sponsors</small>
         </div>
+        <h4>{sponsorCount}</h4>
       </div>
     </div>
   );
 };
 
-const TalentSponsorsTable = ({ contractId, sponsors }) => {
+const TalentSponsorsTable = ({ talent, contractId, sponsors }) => {
   const [token, setToken] = useState(null);
   const [sponsorBalances, setSponsorBalances] = useState({});
   const web3 = useContext(Web3Context);
@@ -77,11 +74,25 @@ const TalentSponsorsTable = ({ contractId, sponsors }) => {
 
   return (
     <div className="table-responsive">
-      <SponsorOverview
-        sponsorCount={sponsors.length}
-        loading={web3.loading}
-        reserve={token?.reserve}
-      />
+      <div className="d-flex flex-row flex-wrap justify-content-between w-100 pt-3 mb-3">
+        <div className="d-flex flex-row col-12 col-lg-6">
+          <TalentProfilePicture src={talent.profilePictureUrl} height={96} />
+          <div className="d-flex flex-column ml-2">
+            <h1 className="h2">
+              <small>
+                {talent.username}{" "}
+                <span className="text-muted">(${talent.ticker})</span>
+              </small>
+            </h1>
+            <TalentTags tags={talent.tags} />
+          </div>
+        </div>
+        <SponsorOverview
+          sponsorCount={sponsors.length}
+          loading={web3.loading}
+          reserve={token?.reserve}
+        />
+      </div>
       <p>These are the current holders of your token.</p>
       <table className="table table-hover mb-0 border-bottom border-left border-right">
         <thead>
@@ -90,22 +101,15 @@ const TalentSponsorsTable = ({ contractId, sponsors }) => {
               <small>Sponsor</small>
             </th>
             <th
-              className="tal-th py-1 text-muted border-bottom-0"
-              scope="col"
-            ></th>
-            <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
-              scope="col"
-            >
-              <small>Name</small>
-            </th>
-            <th
               className="tal-th py-1 text-muted border-bottom-0 text-right"
               scope="col"
             >
               <small>Amount held</small>
             </th>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
+            <th
+              className="tal-th py-1 text-right text-muted border-bottom-0"
+              scope="col"
+            >
               <small>Actions</small>
             </th>
           </tr>
@@ -119,25 +123,8 @@ const TalentSponsorsTable = ({ contractId, sponsors }) => {
                   src={sponsor.profilePictureUrl}
                   height={40}
                 />
+                <small className="ml-2 text-primary">{sponsor.username}</small>
               </th>
-              <th className="align-middle pr-0 text-primary" scope="row">
-                <small>
-                  {web3.loading || token == undefined ? (
-                    <AsyncValue />
-                  ) : (
-                    `$${token.symbol}`
-                  )}
-                </small>
-              </th>
-              <td className="align-middle text-right">
-                <small>
-                  {web3.loading || token == undefined ? (
-                    <AsyncValue />
-                  ) : (
-                    `${token.name}`
-                  )}
-                </small>
-              </td>
               <td className="align-middle text-right">
                 <small>
                   <AsyncValue
@@ -146,7 +133,7 @@ const TalentSponsorsTable = ({ contractId, sponsors }) => {
                   />
                 </small>
               </td>
-              <td className="align-middle">
+              <td className="align-middle text-right">
                 <Button
                   type="primary"
                   text="Message"

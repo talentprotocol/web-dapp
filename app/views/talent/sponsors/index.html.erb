@@ -1,13 +1,19 @@
 <div class="col-12 col-lg-9 lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row">
   <main class="col-12 mx-auto mx-lg-0 px-0 d-flex flex-column talent-content-body-1200 px-3 py-3 px-sm-5">
-    <h1>$<%= @talent.token.ticker %></h1>
     <%= react_component("TalentSponsorsTable",
       props: {
-        talentId: @talent.id,
+        talent: {
+          id: @talent.id,
+          username: @talent.username,
+          ticker: @talent.token.ticker,
+          tags: @talent.tags.map(&:description),
+          profilePictureUrl: @talent.profile_picture_url,
+        },
         contractId: @talent.token.contract_id,
         sponsors: @sponsors.map { |sponsor| {
           id: sponsor.id,
           walletId: sponsor.wallet_id,
+          username: sponsor.username,
           profilePictureUrl: sponsor.talent? ? sponsor.talent.profile_picture_url : sponsor.investor.profile_picture_url
         }}
       },

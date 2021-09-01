@@ -25,6 +25,7 @@
     <div>
       <%= react_component("TalentToken", props:
         {
+          talentId: @talent.id,
           ticker: @talent.token&.ticker,
           sponsors: @talent.investors.distinct(:id).count,
           circulatingSupply: @talent.token&.transactions&.sum(:amount),
