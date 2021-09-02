@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import currency from "currency.js";
+
 import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
 
@@ -6,6 +8,7 @@ import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
 const TalentToken = ({
+  talentId,
   ticker,
   sponsors,
   priceVariance7d,
@@ -19,7 +22,11 @@ const TalentToken = ({
 
   const circulatingSupply = () => {
     if (web3.tokens[tokenAddress]?.circulatingSupply) {
-      return parseInt(web3.tokens[tokenAddress]?.circulatingSupply) / 100.0;
+      return currency(web3.tokens[tokenAddress]?.circulatingSupply, {
+        fromCents: true,
+      })
+        .format()
+        .substring(1);
     } else {
       return 0;
     }
@@ -29,7 +36,9 @@ const TalentToken = ({
   const marketCap = () => {
     const reserve = parseInt(web3.tokens[tokenAddress]?.reserve) || 0.0;
 
-    return ((reserve * web3.talToken.price) / 100.0).toFixed(2);
+    return currency(reserve * web3.talToken.price, {
+      fromCents: true,
+    }).format();
   };
 
   return (
@@ -41,11 +50,10 @@ const TalentToken = ({
           </div>
           <div>
             <strong>
-              $
               {web3.loading ? (
                 <AsyncValue size={3} />
               ) : (
-                (priceOfToken * web3.talToken?.price).toFixed(2)
+                currency(priceOfToken * web3.talToken?.price).format()
               )}
             </strong>
           </div>
@@ -127,6 +135,14 @@ const TalentToken = ({
             text="Send a message"
             className="talent-button w-100 mt-2"
             href={`/messages?user=${talentUserId}`}
+          />
+        )}
+        {sponsors > 0 && (
+          <Button
+            href={`/talent/${talentId}/sponsors`}
+            variant="outline-primary"
+            text="See sponsors"
+            className="talent-button w-100 mt-2"
           />
         )}
       </div>

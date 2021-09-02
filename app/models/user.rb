@@ -38,11 +38,11 @@ class User < ApplicationRecord
   end
 
   def talent?
-    talent.exists?
+    talent.present?
   end
 
   def investor?
-    investor.exists?
+    investor.present?
   end
 
   def display_name

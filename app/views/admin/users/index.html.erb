@@ -2,6 +2,15 @@
   <main class="col-12 px-4 d-flex flex-column justify-content-start">
     <h1>Users</h1>
 
+    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+      <%= form_tag(admin_users_path, method: :get) do %>
+        <div class="form-group d-flex flex-row align-items-center">
+          <%= text_field_tag(:search, nil, placeholder: "Search by email", class: "form-control mr-2") %>
+          <%= submit_tag("Search", name: nil, class: "btn btn-primary talent-button") %>
+        </div>
+      <% end %>
+    </div>
+
     <table class="table table-hover mt-4">
       <thead class="table-primary">
         <tr>

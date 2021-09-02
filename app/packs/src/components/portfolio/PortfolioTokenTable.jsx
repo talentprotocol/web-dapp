@@ -1,4 +1,5 @@
 import React, { useContext, useMemo, useState } from "react";
+import currency from "currency.js";
 
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
@@ -37,7 +38,15 @@ const PortfolioTokenTable = () => {
 
   const tokenInDollar = (token) => {
     if (token) {
-      return (token.dollarPerToken * web3.talToken.price).toFixed(2);
+      return currency(token.dollarPerToken * web3.talToken.price).format();
+    }
+  };
+
+  const balanceInDollar = (token) => {
+    if (token) {
+      return currency(
+        token.dollarPerToken * web3.talToken.price * token.balance
+      ).format();
     }
   };
 
@@ -128,18 +137,23 @@ const PortfolioTokenTable = () => {
               </td>
               <td className="align-middle text-right">
                 <small>
-                  <AsyncValue value={token.balance} size={10} />
+                  <AsyncValue
+                    value={currency(token.balance).format().substring(1)}
+                    size={10}
+                  />
                 </small>
               </td>
               <td className="align-middle tal-table-price text-right">
-                {web3.loading ? <AsyncValue /> : `$${tokenInDollar(token)}`}
+                {web3.loading ? <AsyncValue /> : tokenInDollar(token)}
                 <br />
                 <span className="text-muted">
                   <small>
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      `${token.dollarPerToken.toFixed(2)} ✦`
+                      `${currency(token.dollarPerToken)
+                        .format()
+                        .substring(1)} ✦`
                     )}
                   </small>
                 </span>
@@ -148,7 +162,7 @@ const PortfolioTokenTable = () => {
                 {web3.loading ? (
                   <AsyncValue size={5} />
                 ) : (
-                  `$${(tokenInDollar(token) * token.balance).toFixed(2)}`
+                  balanceInDollar(token)
                 )}
                 <br />
                 <span className="text-muted">
@@ -156,9 +170,9 @@ const PortfolioTokenTable = () => {
                     {web3.loading ? (
                       <AsyncValue size={5} />
                     ) : (
-                      `${(
-                        token.dollarPerToken.toFixed(2) * token.balance
-                      ).toFixed(2)} ✦`
+                      `${currency(token.dollarPerToken * token.balance)
+                        .format()
+                        .substring(1)} ✦`
                     )}
                   </small>
                 </span>

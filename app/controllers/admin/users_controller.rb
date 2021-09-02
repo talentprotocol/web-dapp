@@ -2,7 +2,7 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def index
-    @pagy, @users = pagy(User.all.order(:id), items: 15)
+    @pagy, @users = pagy(get_users.order(id: :desc), items: 10)
   end
 
   def show
@@ -23,6 +23,14 @@ class Admin::UsersController < ApplicationController
   end
 
   private
+
+  def get_users
+    if params[:search]
+      User.where("email ilike ? OR username ilike ?", "%#{params[:search]}%", "%#{params[:search]}%")
+    else
+      User.all
+    end
+  end
 
   def set_user
     @user = User.find(params[:id])

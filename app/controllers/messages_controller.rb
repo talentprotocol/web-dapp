@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
 
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
 
-    ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message)
+    ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)
 
     render json: message.to_json

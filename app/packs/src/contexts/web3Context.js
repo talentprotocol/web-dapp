@@ -66,6 +66,18 @@ const Web3Container = (props) => {
     setupTal();
   }, [setupTal]);
 
+  const connectAccount = (account) => {
+    if (talweb3) {
+      talweb3.account = account;
+      talweb3.talentTokens.account = account;
+    }
+    if (talToken) {
+      talToken.account = account;
+    }
+
+    talweb3.talentTokens.getAllTalentTokens(false);
+  };
+
   const updateTalToken = async () => {
     await talweb3.loadTal();
     setTalToken(talweb3.tal);
@@ -194,6 +206,16 @@ const Web3Container = (props) => {
     }
   };
 
+  const getToken = async (address) => {
+    if (talweb3) {
+      const talentToken = await talweb3.talentTokens.getTalentToken(
+        address,
+        false
+      );
+      return talentToken;
+    }
+  };
+
   const value = {
     ...defaultValue,
     talToken,
@@ -208,6 +230,8 @@ const Web3Container = (props) => {
     toWei,
     loading,
     networkId: talweb3?.networkId,
+    connectAccount,
+    getToken,
   };
 
   return (

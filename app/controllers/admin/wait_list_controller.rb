@@ -2,7 +2,7 @@ class Admin::WaitListController < ApplicationController
   before_action :set_wait_list, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pagy, @wait_list = pagy(WaitList.all)
+    @pagy, @wait_list = pagy(get_wait_list.order(id: :desc))
   end
 
   def show
@@ -51,6 +51,14 @@ class Admin::WaitListController < ApplicationController
   end
 
   private
+
+  def get_wait_list
+    if params[:search]
+      WaitList.where("email ilike ?", "%#{params[:search]}%")
+    else
+      WaitList.all
+    end
+  end
 
   def set_wait_list
     @wait_list = WaitList.find(params[:id])

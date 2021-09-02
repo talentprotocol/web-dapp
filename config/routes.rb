@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     resources :talent, only: [:index, :show, :update] do
       resources :career_goals, only: [:create, :update], module: "talent"
       resources :rewards, only: [:create, :update, :destroy], module: "talent"
+      resources :sponsors, only: [:index], module: "talent"
     end
 
     # Portfolio
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
+        resources :users, only: [:update]
       end
     end
   end

@@ -2,6 +2,8 @@ class Token < ApplicationRecord
   belongs_to :talent
   has_many :transactions
 
+  validates :ticker, length: {in: 3..8}, if: :ticker_exists?
+
   TAL_VALUE = 2
 
   def display_ticker
@@ -88,5 +90,11 @@ class Token < ApplicationRecord
 
   def display_value(user)
     "$#{(transactions.where(investor: user.investor).sum(&:amount).to_f * TAL_VALUE / 100).to_s(:delimited)}"
+  end
+
+  private
+
+  def ticker_exists?
+    ticker.present?
   end
 end
