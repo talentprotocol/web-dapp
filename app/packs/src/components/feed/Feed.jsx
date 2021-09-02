@@ -30,7 +30,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
 
   return (
     <>
-      <section className="col-12 col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-700 pt-3">
+      <section className="col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-700 pt-3">
         <h1 className="h5 px-2 pb-2 mb-2 border-bottom">
           <strong>Home</strong>
         </h1>
@@ -70,7 +70,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
           />
         )}
       </section>
-      <section className="col-12 col-lg-5 p-4 talent-content-body-500">
+      <section className="col-lg-5 p-4 talent-content-body-500">
         <TalentLeaderboard topTalents={topTalents} className="mb-4" />
         {alert.type && (
           <Alert direction="column" centerText={true} {...alert}>
