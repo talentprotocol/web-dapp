@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
   def index
-    @user = User.find_by(wallet_id: user_params[:wallet_id]&.downcase)
+    if user_params[:email].present?
+      @user = User.find_by(email: user_params[:email].downcase)
+    elsif user_params[:wallet_id].present?
+      @user = User.find_by(wallet_id: user_params[:wallet_id].downcase)
+    elsif user_params[:username].present?
+      @user = User.find_by(username: user_params[:username])
+    end
 
     if @user.present?
       @user.update!(nounce: SecureRandom.uuid) if @user.nounce.nil?

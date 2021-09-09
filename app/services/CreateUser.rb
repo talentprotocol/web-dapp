@@ -12,10 +12,12 @@ class CreateUser
       create_feed(user)
       wait_list = WaitList.find_by(email: email)
 
-      if wait_list.talent?
-        create_talent(user)
-        create_token(user)
+      unless wait_list.present?
+        WaitList.create(email: email, approved: true, talent: true)
       end
+
+      create_talent(user)
+      create_token(user)
 
       @result[:user] = user
       @result[:success] = true
