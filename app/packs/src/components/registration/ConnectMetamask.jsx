@@ -68,7 +68,7 @@ const ConnectMetamask = ({ metamaskSubmit, changeStep }) => {
 
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
-      <h6 className="registration_step_subtitle">Step 4 of 4</h6>
+      <h6 className="registration_step_subtitle">Step 3 of 3</h6>
       <h1>Connect Metamask</h1>
       <p>
         Click the Connect button below. When the MetaMask browser extension

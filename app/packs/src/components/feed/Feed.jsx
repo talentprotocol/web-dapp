@@ -31,7 +31,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert }) => {
   return (
     <>
       <section className="col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-700 pt-3">
-        <h1 className="h5 px-2 pb-2 mb-2 border-bottom">
+        <h1 className="h5 px-2 pb-2 mb-0 border-bottom">
           <strong>Home</strong>
         </h1>
         {user.isTalent && (
