@@ -1,14 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import debounce from "lodash/debounce";
 import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { get } from "../../utils/requests";
 
-const Welcome = ({ changeStep, changeEmail, email }) => {
+const Welcome = ({ changeStep, changeEmail, changePassword, email, username, changeUsername }) => {
   const [localEmail, setEmail] = useState(email);
+  const [localPassword, setLocalPassword] = useState('');
   const [requestingEmail, setRequestingEmail] = useState(false);
   const [emailValidated, setEmailValidated] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
+  const [validPassword, setValidPassword] = useState(true);
+  const [localUsername, setUsername] = useState(username);
+  const [requestingUsername, setRequestingUsername] = useState(false);
+  const [usernameValidated, setUsernameValidated] = useState(false);
+  const [usernameExists, setUsernameExists] = useState(false);
+
+  const editUsername = (e) => {
+    if (e.target.value == "" || /^[A-Za-z0-9]+$/.test(e.target.value)) {
+      setUsername(e.target.value.toLowerCase());
+    }
+  };
+
+  const verify = useCallback(
+    debounce((name, setname, setvalid, setexists) => {
+      setRequestingUsername(true);
+      setvalid(false);
+
+      get(`/users?username=${name}`)
+        .then((response) => {
+          if (response.error) {
+            setname(false);
+            setexists(false);
+            setvalid(true);
+          } else {
+            setname(false);
+            setvalid(false);
+            setexists(true);
+          }
+        })
+        .catch(() => {
+          setname(false);
+          setexists(false);
+          setvalid(true);
+        });
+    }, 200),
+    []
+  );
 
   const validEmail = () => {
     const re =
@@ -16,13 +55,31 @@ const Welcome = ({ changeStep, changeEmail, email }) => {
     return re.test(String(localEmail).toLowerCase());
   };
 
+  const invalidForm = !validEmail() || !emailValidated || localPassword.length < 8 || !usernameValidated
+
   const submitWelcomeForm = (e) => {
     e.preventDefault();
-    if (localEmail != "" && validEmail()) {
+    if (localEmail != "" && validEmail() && localPassword.length > 7 && localUsername != "") {
       changeEmail(localEmail);
-      changeStep(3);
+      changePassword(localPassword);
+      changeUsername(localUsername);
+      changeStep(2);
     }
   };
+
+  useEffect(() => {
+    if (localUsername == "") {
+      setUsernameValidated(false);
+      return;
+    }
+
+    verify(
+      localUsername,
+      setRequestingUsername,
+      setUsernameValidated,
+      setUsernameExists
+    );
+  }, [localUsername]);
 
   useEffect(() => {
     if (!validEmail()) {
@@ -51,16 +108,23 @@ const Welcome = ({ changeStep, changeEmail, email }) => {
       });
   }, [localEmail]);
 
+  useEffect(() => {
+    if (localPassword.length > 0 && localPassword.length < 8) {
+      setValidPassword(false);
+    } else {
+      setValidPassword(true)
+    }
+  }, [localPassword, setValidPassword])
+
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
-      <h6 className="registration_step_subtitle">Step 1 of 3</h6>
       <h1>Welcome!</h1>
       <p>
         We're currently in alpha. Enter your email to register your account.
       </p>
       <p>
         <small>
-          If you already have an account <a href="/sign_in">sign in</a>.
+          If you already have an account <a href="/">sign in</a>.
         </small>
       </p>
       <form onSubmit={submitWelcomeForm} className="d-flex flex-column">
@@ -106,14 +170,84 @@ const Welcome = ({ changeStep, changeEmail, email }) => {
               We already have that email in the system.
             </small>
           )}
+          <label htmlFor="inputPassword">
+            <small>Password</small>
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="inputPassword"
+            aria-describedby="passwordHelp"
+            value={localPassword}
+            onChange={(e) => setLocalPassword(e.target.value)}
+          />
+          {localPassword.length > 7 && (
+            <FontAwesomeIcon
+            icon={faCheck}
+            className="position-absolute text-success"
+            style={{ top: 136, right: 10 }}
+          />
+          )}
+          {!validPassword && (
+            <FontAwesomeIcon
+            icon={faTimes}
+            className="position-absolute text-danger"
+            style={{ top: 136, right: 10 }}
+          />
+          )}
+          {!validPassword && (
+            <small id="passwordErrorHelp" className="form-text text-danger">
+              Password needs to have a minimum of 8 characters
+          </small>
+          )}
+                    <label htmlFor="inputUsername">
+            <small>Username</small>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputUsername"
+            value={localUsername}
+            onChange={editUsername}
+          />
+          {requestingUsername && (
+            <FontAwesomeIcon
+              icon={faSpinner}
+              spin
+              className="position-absolute"
+              style={{ top: 205, right: 10 }}
+            />
+          )}
+          {usernameValidated && (
+            <FontAwesomeIcon
+              icon={faCheck}
+              className="position-absolute text-success"
+              style={{ top: 205, right: 10 }}
+            />
+          )}
+          {usernameExists && (
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="position-absolute text-danger"
+              style={{ top: 205, right: 10 }}
+            />
+          )}
+          <small id="usernameHelp" className="form-text text-muted">
+            Only lowercased letters and numbers allowed.
+          </small>
+          {usernameExists && (
+            <small id="usernameErrorHelp" className="form-text text-danger">
+              We already have that username in the system.
+            </small>
+          )}
         </div>
         <div className="align-self-end">
           <button
             type="submit"
-            disabled={!validEmail() || !emailValidated}
+            disabled={invalidForm}
             className="ml-2 btn btn-primary talent-button"
           >
-            Next {">"}
+            Sign up
           </button>
         </div>
       </form>

@@ -20,7 +20,7 @@ const UserCreated = () => (
     </div>
     <a
       role="button"
-      href={"/sign_in"}
+      href={"/"}
       className="ml-2 btn btn-primary talent-button"
     >
       Sign in
@@ -38,15 +38,14 @@ const UserFailed = ({ error }) => (
   </div>
 );
 
-const ProcessFlow = ({ email, username, metamaskId }) => {
+const ProcessFlow = ({ email, username, password }) => {
   const [userCreated, setUserCreated] = useState(false);
   const [requesting, setRequesting] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setRequesting(true);
-
-    post("/users.json", { email, username, metamaskId })
+    post("/users.json", { email, username, password })
       .then((response) => {
         if (response.error) {
           setError(response.error);
