@@ -200,7 +200,7 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
               Password needs to have a minimum of 8 characters
           </small>
           )}
-                    <label htmlFor="inputUsername">
+          <label htmlFor="inputUsername">
             <small>Username</small>
           </label>
           <input
