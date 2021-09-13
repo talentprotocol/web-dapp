@@ -8,13 +8,13 @@
 
     <p><%= t(".description") %></p>
     <%= form_for :password, url: passwords_path do |form| %>
-      <div class="text-field">
+      <div class="form-group">
         <%= form.label :email %>
-        <%= form.text_field :email, type: 'email' %>
+        <%= form.text_field :email, type: 'email', class: "form-control" %>
       </div>
 
       <div class="submit-field">
-        <%= form.submit %>
+        <%= form.submit "Reset password", class: "btn btn-primary talent-button float-right mt-3" %>
       </div>
     <% end %>
   </div>
