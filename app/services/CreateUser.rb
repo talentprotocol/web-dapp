@@ -10,14 +10,10 @@ class CreateUser
       user = create_user(email, username, password)
       create_investor(user)
       create_feed(user)
-      wait_list = WaitList.find_by(email: email)
-
-      unless wait_list.present?
-        WaitList.create(email: email, approved: true, talent: true)
-      end
-
       create_talent(user)
       create_token(user)
+
+      UserMailer.with(user: user).send_sign_up_email.deliver_later
 
       @result[:user] = user
       @result[:success] = true
@@ -54,6 +50,7 @@ class CreateUser
     user.email = email.downcase
     user.password = password
     user.username = username.downcase.delete(" ", "")
+    user.email_confirmation_token = Clearance::Token.new
     user.save!
     user
   end

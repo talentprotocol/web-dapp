@@ -16,15 +16,8 @@ const UserCreated = () => (
   <>
     <div className="d-flex flex-row text-success align-items-center">
       <FontAwesomeIcon icon={faCheck} />
-      <p className="ml-2 mb-0">User profile created.</p>
+      <p className="ml-2 mb-0">We just sent you a confirmation email</p>
     </div>
-    <a
-      role="button"
-      href={"/"}
-      className="ml-2 btn btn-primary talent-button"
-    >
-      Sign in
-    </a>
   </>
 );
 

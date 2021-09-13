@@ -4,12 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <p><%= t(".opening") %></p>
+    <h1>Thanks for signing up!</h1>
+
+    <h3>Click on the link below to confirm your email</h3>
+
     <p>
-      <%= link_to t(".link_text", default: "Change my password"),
-        url_for([@user, :password, action: :edit, token: @user.confirmation_token]) %>
+      <%= link_to "Confirm my email", confirm_email_url(token: @user.email_confirmation_token) %>
     </p>
-    <p><%= t(".closing") %></p>
   </body>
   <footer>
     <br>

@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
       render json: { id: @user.id, nounce: @user.nounce }, status: :ok
     else
-      render json: { error: "Couldn't find the user for that email" }, status: :not_found
+      render json: { error: "Couldn't find the user for that email or username" }, status: :not_found
     end
   end
 

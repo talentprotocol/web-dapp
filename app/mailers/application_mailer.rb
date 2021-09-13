@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@talentprotocol.com"
+  default from: "Talent Protocol <no-reply@talentprotocol.com>"
   layout "mailer"
 end
