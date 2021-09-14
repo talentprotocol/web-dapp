@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include Clearance::User
 
   validate :role_is_valid, if: -> { role.present? }
-  validate :wallet_id_or_email_and_password
+  validate :email_and_password
 
   has_one :talent
   has_one :investor
@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def display_wallet_id
-    "#{wallet_id[0..10]}..."
+    wallet_id ? "#{wallet_id[0..10]}..." : ""
   end
 
   def sender_chat_id(chat_user)
@@ -70,6 +70,11 @@ class User < ApplicationRecord
     end
   end
 
+  def confirm_email
+    self.email_confirmed_at = Time.current
+    save
+  end
+
   private
 
   def role_is_valid
@@ -86,9 +91,9 @@ class User < ApplicationRecord
     true
   end
 
-  def wallet_id_or_email_and_password
-    unless wallet_id.present? || (email.present? && encrypted_password.present?)
-      errors.add(:base, "The user doesn't respect the required login requirements")
-    end
+  def email_and_password
+    return if email.present? && encrypted_password.present?
+
+    errors.add(:base, "The user doesn't respect the required login requirements")
   end
 end

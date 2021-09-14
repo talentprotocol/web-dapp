@@ -5,19 +5,15 @@ class CreateUser
     @result = {}
   end
 
-  def call(email:, username:, metamask_id:)
+  def call(email:, username:, password:)
     ActiveRecord::Base.transaction do
-      user = create_user(email, username, metamask_id)
+      user = create_user(email, username, password)
       create_investor(user)
       create_feed(user)
-      wait_list = WaitList.find_by(email: email)
-
-      unless wait_list.present?
-        WaitList.create(email: email, approved: true, talent: true)
-      end
-
       create_talent(user)
       create_token(user)
+
+      UserMailer.with(user: user).send_sign_up_email.deliver_later
 
       @result[:user] = user
       @result[:success] = true
@@ -40,8 +36,7 @@ class CreateUser
         e,
         "Unable to create user with unexpected error.",
         email: email,
-        username: username,
-        metamask_id: metamask_id
+        username: username
       )
 
       raise e
@@ -50,11 +45,12 @@ class CreateUser
 
   private
 
-  def create_user(email, username, metamask_id)
+  def create_user(email, username, password)
     user = User.new
     user.email = email.downcase
+    user.password = password
     user.username = username.downcase.delete(" ", "")
-    user.wallet_id = metamask_id&.downcase
+    user.email_confirmation_token = Clearance::Token.new
     user.save!
     user
   end

@@ -49,9 +49,8 @@ en:
       description: Your password has been reset. Choose a new password below.
       title: Change your password
     new:
-      description: To be emailed a link to reset your password, please enter
-        your email address.
-      title: Reset your password
+      description: To reset your password, please enter your email.
+      title: Reset password
   sessions:
     form:
       forgot_password: Forgot password?

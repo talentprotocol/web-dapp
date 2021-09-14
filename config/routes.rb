@@ -87,13 +87,15 @@ Rails.application.routes.draw do
       only: [:edit, :update]
   end
 
-  get "/sign_in" => "sessions#new", :as => "sign_in"
+  get "/sign_up" => "pages#home", as: :sign_up
+  get "/" => "sessions#new", :as => "sign_in"
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
+  get "/confirm_email(/:token)" => "email_confirmations#update", as: "confirm_email"
   # end Auth
 
   resources :wait_list, only: [:create, :index]
 
-  root to: "pages#home", as: :root
+  root to: "sessions#new", as: :root
 
   match "*unmatched", to: "application#route_not_found", via: :all
 end

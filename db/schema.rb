@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_20_112856) do
+ActiveRecord::Schema.define(version: 2021_09_13_183711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.datetime "last_sign_in_at"
     t.string "wallet_id"
     t.string "nounce"
+    t.string "email_confirmation_token", default: "", null: false
+    t.datetime "email_confirmed_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
