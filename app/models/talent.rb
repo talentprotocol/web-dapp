@@ -1,6 +1,21 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
 
+  store :profile, accessors: %i[
+    pronouns
+    location
+    headline
+    website
+    video
+    wallet_address
+    email
+    linkedin
+    twitter
+    telegram
+    discord
+    github
+  ], coder: JSON
+
   validate :public_key_is_valid
 
   belongs_to :user, optional: true
@@ -10,6 +25,9 @@ class Talent < ApplicationRecord
   has_many :investors, through: :transactions
   has_one :career_goal
   has_many :rewards
+  has_many :perks
+  has_many :services
+  has_many :milestones
 
   has_many :tags
   has_one :primary_tag, -> { where(primary: true) }, class_name: "Tag"
