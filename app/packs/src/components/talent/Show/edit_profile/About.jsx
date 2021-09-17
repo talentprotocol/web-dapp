@@ -280,8 +280,7 @@ const About = ({
             Make profile public
           </label>
         </div>
-        <div className="mb-2 d-flex flex-row align-items-end justify-content-between">
-          <Button type="secondary" text="Cancel" onClick={handleCancel} />
+        <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             disabled={saving}
             onClick={handleSave}
@@ -295,6 +294,7 @@ const About = ({
               "Save"
             )}
           </button>
+          <Button type="secondary" text="Cancel" onClick={handleCancel} />
         </div>
       </form>
     </div>

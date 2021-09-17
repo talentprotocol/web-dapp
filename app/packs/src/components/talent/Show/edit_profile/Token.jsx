@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { patch } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const Token = () => {
+const Token = ({ close, talent, token }) => {
+  const [saving, setSaving] = useState(false);
   const [tokenInfo, setTokenInfo] = useState({
-    ticker: "",
+    ticker: token.ticker || "",
     max_supply: 100000,
     price: 50,
   });
@@ -15,9 +18,30 @@ const Token = () => {
     setTokenInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
 
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+
+    const response = await patch(
+      `/api/v1/talent/${talent.id}/tokens/${token.id}`,
+      {
+        token: {
+          ticker: tokenInfo["ticker"],
+        },
+      }
+    ).catch(() => setSaving(false));
+
+    setSaving(false);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    close();
+  };
+
   return (
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="form-group">
           <div className="d-flex flex-row justify-content-between">
             <label htmlFor="ticker">Ticker</label>
@@ -67,9 +91,22 @@ const Token = () => {
             The price in TAL of each token. (Can't be changed)
           </small>
         </div>
-        <div className="mb-2 d-flex flex-row align-items-end justify-content-between">
-          <Button type="secondary" text="Cancel" onClick={() => null} />
-          <Button type="primary" text="Save" onClick={() => null} />
+        <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
+          <button
+            type="submit"
+            disabled={saving}
+            onClick={handleSave}
+            className="btn btn-primary talent-button"
+          >
+            {saving ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Saving
+              </>
+            ) : (
+              "Save"
+            )}
+          </button>
+          <Button type="secondary" text="Cancel" onClick={handleCancel} />
         </div>
       </form>
     </div>
