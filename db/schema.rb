@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2021_09_16_174153) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -106,6 +105,27 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "milestones", force: :cascade do |t|
+    t.string "title", null: false
+    t.date "start_date", null: false
+    t.date "end_date"
+    t.string "description"
+    t.string "link"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_milestones_on_talent_id"
+  end
+
+  create_table "perks", force: :cascade do |t|
+    t.integer "price", null: false
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_perks_on_talent_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "text"
     t.datetime "created_at", precision: 6, null: false
@@ -122,6 +142,15 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "required_text"
     t.index ["talent_id"], name: "index_rewards_on_talent_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.integer "price", null: false
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_services_on_talent_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -145,6 +174,8 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.text "profile_picture_data"
     t.string "youtube_url"
     t.boolean "public", default: false
+    t.jsonb "profile", default: {}
+    t.boolean "disable_messages", default: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
@@ -197,6 +228,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.string "nounce"
     t.string "email_confirmation_token", default: "", null: false
     t.datetime "email_confirmed_at"
+    t.string "display_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -221,8 +253,11 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
   add_foreign_key "feeds", "users"
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "milestones", "talent"
+  add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "rewards", "talent"
+  add_foreign_key "services", "talent"
   add_foreign_key "tags", "talent"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"

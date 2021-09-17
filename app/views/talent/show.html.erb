@@ -2,22 +2,17 @@
   <section class="col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column">
     <%= react_component("TalentShow", props:
       {
-        talent: {
-          id: @talent.id,
-          publicProfile: @talent.public,
-          userId: @talent.user.id,
-          username: @talent.username,
-          description: @talent.description,
-          ticker: @talent.token&.display_ticker,
-          tags: @talent.tags.map(&:description),
-          linkedinUrl: @talent.linkedin_url,
-          profilePictureUrl: @talent.profile_picture_url,
-          youtubeUrl: @talent.youtube_url
-        },
-        currentUserId: current_user.id,
-        tokenDeployed: @talent.token&.deployed? || false,
-        careerGoal: { id: @talent.career_goal&.id, description: @talent.career_goal&.description },
-        rewards: @talent.rewards.map { |reward| { id: reward.id, required_amount: reward.required_amount, display_required_amount: reward.required_amount&.to_s(:delimited), description: reward.description, required_text: reward.required_text } }
+        talent: @talent.as_json,
+        profilePictureUrl: @talent.profile_picture_url,
+        primary_tag: @talent.primary_tag.description,
+        secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
+        services: @talent.services.as_json,
+        token: @talent.token.as_json,
+        perks: @talent.services.as_json,
+        milestones: @talent.milestones.as_json,
+        current_user_id: current_user.id,
+        token_live: @talent.token.deployed?,
+        user: { id: @talent.user_id, username: @talent.user.username, display_name: @talent.user.display_name }
       }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
     %>
   </section>
