@@ -74,10 +74,10 @@ Rails.application.routes.draw do
         resources :users, only: [:update]
         resources :notifications, only: [:update]
         resources :talent, only: [:update] do
-          resources :milestones
-          resources :perks
-          resources :services
-          resources :tokens
+          resources :milestones, module: "talent"
+          resources :perks, module: "talent"
+          resources :services, module: "talent"
+          resources :tokens, only: [:update], module: "talent"
         end
       end
     end

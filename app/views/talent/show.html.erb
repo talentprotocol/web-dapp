@@ -12,7 +12,7 @@
         milestones: @talent.milestones.as_json,
         current_user_id: current_user.id,
         token_live: @talent.token.deployed?,
-        user: { id: @talent.user_id, username: @talent.user.username, display_name: @talent.user.display_name }
+        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name }
       }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
     %>
   </section>
