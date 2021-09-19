@@ -27,6 +27,8 @@ class TalentController < ApplicationController
       return render json: {error: "You can't edit that profile."}, status: :unauthorized
     end
 
+    profile_turned_public = !@talent.public && talent_params[:public] ? true : false
+
     result = @talent.update(talent_params)
 
     if result
@@ -34,7 +36,8 @@ class TalentController < ApplicationController
       service.call(
         talent: params[:talent][:tags].present? && tag_params,
         user: params[:user].present? && user_params,
-        token: params[:token].present? && token_params
+        token: params[:token].present? && token_params,
+        public: talent_params[:public] && profile_turned_public
       )
 
       render json: {success: "Talent successfully updated."}, status: :ok

@@ -64,8 +64,6 @@ Rails.application.routes.draw do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
 
-    resources :notifications, only: [:update]
-
     # Swap
     resource :swap, only: [:show]
     resources :transactions, only: [:create]
@@ -74,6 +72,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :tokens, only: [:show]
         resources :users, only: [:update]
+        resources :notifications, only: [:update]
       end
     end
   end

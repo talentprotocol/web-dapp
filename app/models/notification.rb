@@ -1,10 +1,11 @@
 class Notification < ApplicationRecord
   belongs_to :user
+  belongs_to :source, class_name: 'User', optional: true 
 
   validates_presence_of :body
 
   TYPES = %w[
-    Notifications::CoinBought
+    Notifications::TokenAcquired
     Notifications::MessageReceived
     Notifications::TalentListed
     Notifications::TalentChanged

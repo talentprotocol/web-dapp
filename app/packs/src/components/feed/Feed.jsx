@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import currency from "currency.js";
 
-import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../pagination";
 import Post from "./Post";
@@ -16,7 +16,7 @@ import { patch } from "src/utils/requests";
 
 const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
-  const [currentNotifications, setCurrentNotifications] = useState(notifications);
+  const [currentNotifications] = useState(notifications);
   const web3 = useContext(Web3Context);
 
   const priceOfToken = (post) => {
@@ -34,20 +34,26 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
     setCurrentPosts([post, ...currentPosts]);
   };
 
-  const hrefForNotification = (type) => {
+  const hrefForNotification = (type, talentId, sourceTalentId) => {
     switch(type) {
+      case 'Notifications::TokenAcquired':
+        return `/talent/${talentId}/sponsors`;
       case 'Notifications::MessageReceived':
         return '/messages';
+      case 'Notifications::TalentListed':
+        return '/talent';
+      case 'Notifications::TalentChanged':
+        return `/talent/${sourceTalentId}`;
       default:
         return '';
     }
   }
 
-  const notificationRead = async (notificationId) => {
-    await patch(`/notifications/${notificationId}`, { notification: { read: true } });
-  };
+  const notificationsUnread = currentNotifications.some((notif) => notif.read === false)
 
-  console.log(currentNotifications)
+  const notificationRead = async (notificationId) => {
+    await patch(`/api/v1/notifications/${notificationId}`, { notification: { read: true } });
+  };
 
   return (
     <>
@@ -70,7 +76,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
                   <div className="w-100 my-2" key={`notification-${notification.id}`}>
                     <Button
                       type={`${notification.read ? "outline-secondary" : "primary"}`}
-                      href={hrefForNotification(notification.type)}
+                      href={hrefForNotification(notification.type, notification.talent_id, notification.source_talent_id)}
                       text={notification.body}
                       className="border-bottom border-top border-right border-left w-100 notification-link"
                       onClick={() => notification.read ? null : notificationRead(notification.id)}
@@ -81,7 +87,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
             }
           >
             <button className="border-0 bg-transparent">
-              <FontAwesomeIcon icon={faBell} />
+              <FontAwesomeIcon icon={notificationsUnread ? faBell : faBellSlash} />
             </button>
           </OverlayTrigger>
         </div>

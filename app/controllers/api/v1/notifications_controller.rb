@@ -1,4 +1,4 @@
-class NotificationsController < ApplicationController
+class API::V1::NotificationsController < ApplicationController
   before_action :set_notification, only: [:update]
 
   def update
