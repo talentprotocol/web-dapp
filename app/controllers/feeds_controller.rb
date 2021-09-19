@@ -5,6 +5,7 @@ class FeedsController < ApplicationController
     @pagy, @posts = pagy(current_user.feed.posts.includes([user: [talent: :token]]).order(id: :desc))
 
     @talent_leaderboard = Talent.where(public: true).where("ito_date < ?", Time.current).includes([:user, :token]).order(id: :desc).limit(10)
+    @notifications = Notification.where(user: current_user).order(id: :desc)
   end
 
   private
