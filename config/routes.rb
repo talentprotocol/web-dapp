@@ -64,6 +64,8 @@ Rails.application.routes.draw do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
 
+    resources :notifications, only: [:update]
+
     # Swap
     resource :swap, only: [:show]
     resources :transactions, only: [:create]
