@@ -54,7 +54,7 @@ const EditService = ({ talent, selectedService, setMode }) => {
     }).catch(() => setSaving(false));
 
     setSaving(false);
-    changeMode("view");
+    setMode("view");
   };
 
   return (
