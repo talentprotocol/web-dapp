@@ -6,6 +6,7 @@ class CreateMilestones < ActiveRecord::Migration[6.1]
       t.date :end_date
       t.string :description
       t.string :link
+      t.string :institution
       t.timestamps
     end
 

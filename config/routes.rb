@@ -37,7 +37,6 @@ Rails.application.routes.draw do
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show, :update] do
-      resources :career_goals, only: [:create, :update], module: "talent"
       resources :rewards, only: [:create, :update, :destroy], module: "talent"
       resources :sponsors, only: [:index], module: "talent"
     end
@@ -72,11 +71,15 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :tokens, only: [:show]
         resources :users, only: [:update]
+        resources :career_goals, only: [] do
+          resources :goals, only: [:update, :create, :delete], module: "career_goals"
+        end
         resources :talent, only: [:update] do
-          resources :milestones, module: "talent"
-          resources :perks, module: "talent"
-          resources :services, module: "talent"
+          resources :milestones, only: [:create, :update, :delete], module: "talent"
+          resources :perks, only: [:create, :update, :delete], module: "talent"
+          resources :services, only: [:create, :update, :delete], module: "talent"
           resources :tokens, only: [:update], module: "talent"
+          resources :career_goals, only: [:update, :create], module: "talent"
         end
       end
     end

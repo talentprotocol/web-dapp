@@ -1,20 +1,66 @@
 import React, { useState } from "react";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { patch } from "src/utils/requests";
+import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditTimeline = () => {
-  const [timelineInfo, setTimelineInfo] = useState({
-    title: "",
-    year: "",
-    institution: "",
-    description: "",
-    link: "",
+const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
+  const [saving, setSaving] = useState(false);
+  const [destroying, setDestroying] = useState(false);
+  const [milestoneInfo, setMilestoneInfo] = useState({
+    id: selectedMilestone.id || "",
+    title: selectedMilestone.title || "",
+    start_date: selectedMilestone.start_date || "",
+    institution: selectedMilestone.institution || "",
+    description: selectedMilestone.description || "",
+    link: selectedMilestone.link || "",
   });
 
   const changeAttribute = (attribute, value) => {
-    setTimelineInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+    setMilestoneInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+  };
+
+  const handleDestroy = async (e) => {
+    e.preventDefault();
+    setDestroying(true);
+    const response = await destroy(
+      `/api/v1/talent/${talent.id}/milestones/${milestoneInfo["id"]}`
+    ).catch(() => setDestroying(false));
+
+    setDestroying(false);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setMode("view");
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    let requestType, url;
+    if (milestoneInfo["id"] != "") {
+      requestType = patch;
+      url = `/api/v1/talent/${talent.id}/milestones/${milestoneInfo["id"]}`;
+    } else {
+      requestType = post;
+      url = `/api/v1/talent/${talent.id}/milestones`;
+    }
+
+    const response = await requestType(url, {
+      milestone: {
+        title: milestoneInfo["title"],
+        start_date: milestoneInfo["start_date"],
+        institution: milestoneInfo["institution"],
+        description: milestoneInfo["description"],
+        link: milestoneInfo["price"],
+      },
+    }).catch(() => setSaving(false));
+
+    setSaving(false);
+    setMode("view");
   };
 
   return (
@@ -25,18 +71,18 @@ const EditTimeline = () => {
           id="title"
           className="form-control"
           placeholder="Your position or achievement"
-          value={timelineInfo["title"]}
+          value={milestoneInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}
         />
       </div>
       <div className="form-group">
         <label htmlFor="year">Year</label>
         <input
-          id="year"
+          id="start_date"
           type="month"
           className="form-control"
-          value={timelineInfo["year"]}
-          onChange={(e) => changeAttribute("year", e.target.value)}
+          value={milestoneInfo["start_date"]}
+          onChange={(e) => changeAttribute("start_date", e.target.value)}
         />
       </div>
       <div className="form-group">
@@ -46,7 +92,7 @@ const EditTimeline = () => {
           id="description"
           className="form-control"
           placeholder="Describe what you did"
-          value={timelineInfo["description"]}
+          value={milestoneInfo["description"]}
           onChange={(e) => changeAttribute("description", e.target.value)}
         />
       </div>
@@ -56,56 +102,73 @@ const EditTimeline = () => {
           id="link"
           className="form-control"
           placeholder="https://..."
-          value={timelineInfo["link"]}
+          value={milestoneInfo["link"]}
           onChange={(e) => changeAttribute("link", e.target.value)}
         />
       </div>
-      <div className="mb-2 d-flex flex-row align-items-end justify-content-between">
-        <Button type="secondary" text="Cancel" onClick={() => null} />
-        <Button type="primary" text="Save" onClick={() => null} />
+
+      <div className="mb-2 d-flex flex-row-reverse align-items-end">
+        <button
+          disabled={saving}
+          onClick={handleSave}
+          className="btn btn-primary talent-button ml-2"
+        >
+          {saving ? (
+            <>
+              <FontAwesomeIcon icon={faSpinner} spin /> Saving
+            </>
+          ) : (
+            "Save"
+          )}
+        </button>
+        <Button type="secondary" text="Cancel" onClick={handleCancel} />
+        {milestoneInfo["id"] != "" && (
+          <button
+            disabled={destroying}
+            onClick={handleDestroy}
+            className="btn btn-danger talent-button mr-2"
+          >
+            {destroying ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Delete
+              </>
+            ) : (
+              "Delete"
+            )}
+          </button>
+        )}
       </div>
     </form>
   );
 };
 
-const ViewTimeline = () => {
-  const timelines = {
-    1: {
-      id: 1,
-      title: "Fullstack Developer",
-      year: "1993",
-      institution: "iCapital Network",
-      description:
-        "Lead a team of some people many times. Lead a team of some people many times Lead a team of some people many times",
-      link: "https://icapitalnetwork.com",
-    },
-  };
-
+const ViewMilestones = ({ milestones, setSelectedMilestone }) => {
   return (
     <div className="d-flex flex-column mt-3">
-      {Object.keys(timelines).length == 0 && (
+      {milestones.length == 0 && (
         <small className="text-muted">
-          Start by creating your first service!
+          Start by adding your first milestones!
         </small>
       )}
-      {Object.keys(timelines).map((timeline_id) => {
+      {milestones.map((milestone) => {
         return (
           <button
-            key={`timeline_${timeline_id}`}
+            key={`milestone_${milestone.id}`}
             className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            onClick={() => setSelectedMilestone(milestone)}
           >
             <div className="d-flex flex-row w-100 justify-content-between">
               <h5 className="mb-1">
-                <a href={timelines[timeline_id].link} className="text-reset">
-                  {timelines[timeline_id].title}
+                <a href={milestone.link} className="text-reset">
+                  {milestone.title}
                 </a>
               </h5>
-              <small>{timelines[timeline_id].year}</small>
+              <small>{milestone.year}</small>
             </div>
             <small className="text-left">
-              <i>{timelines[timeline_id].institution}</i>
+              <i>{milestone.institution}</i>
             </small>
-            <p className="mb-1">{timelines[timeline_id].description}</p>
+            <p className="mb-1">{milestone.description}</p>
           </button>
         );
       })}
@@ -113,8 +176,19 @@ const ViewTimeline = () => {
   );
 };
 
-const Timeline = () => {
+const Timeline = (props) => {
   const [mode, setMode] = useState("view");
+  const [selectedMilestone, setSelectedMilestone] = useState({});
+
+  const selectMilestone = (perk) => {
+    setSelectedMilestone(perk);
+    setMode("edit");
+  };
+
+  const changeMode = (newMode) => {
+    setMode(newMode);
+    setSelectedMilestone({});
+  };
 
   return (
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
@@ -128,8 +202,16 @@ const Timeline = () => {
           />
         )}
       </div>
-      {mode == "edit" && <EditTimeline />}
-      {mode == "view" && <ViewTimeline />}
+      {mode == "edit" && (
+        <EditMilestone
+          {...props}
+          selectedMilestone={selectedMilestone}
+          setMode={changeMode}
+        />
+      )}
+      {mode == "view" && (
+        <ViewMilestones {...props} setSelectedMilestone={selectMilestone} />
+      )}
     </div>
   );
 };
