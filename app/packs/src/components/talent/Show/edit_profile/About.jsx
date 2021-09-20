@@ -37,18 +37,18 @@ const About = ({
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
   const [aboutInfo, setAboutInfo] = useState({
-    username: user.username,
-    display_name: user.display_name,
-    pronouns: talent.profile.pronouns,
-    location: talent.profile.location,
-    primary_tag: primary_tag,
+    username: user.username || "",
+    display_name: user.display_name || "",
+    pronouns: talent.profile.pronouns || "",
+    location: talent.profile.location || "",
+    primary_tag: primary_tag || "",
     secondary_tags: secondary_tags.join(", "),
-    headline: talent.profile.headline,
-    website: talent.profile.website,
-    wallet_address: talent.profile.wallet_address,
-    disable_messages: talent.disable_messages,
-    public_profile: talent.public,
-    video: talent.profile.video,
+    headline: talent.profile.headline || "",
+    website: talent.profile.website || "",
+    wallet_address: talent.profile.wallet_address || "",
+    disable_messages: talent.disable_messages || "",
+    public_profile: talent.public || "",
+    video: talent.profile.video || "",
     uploadedFileData: null,
   });
 

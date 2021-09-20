@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_174153) do
+ActiveRecord::Schema.define(version: 2021_09_20_161800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.date "target_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "bio"
+    t.string "pitch"
+    t.string "challenges"
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
   end
 
@@ -70,6 +73,15 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.index ["follower_id"], name: "index_follows_on_follower_id"
     t.index ["user_id", "follower_id"], name: "index_follows_on_user_id_and_follower_id", unique: true
     t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.date "due_date", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "career_goal_id"
+    t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
   end
 
   create_table "investors", force: :cascade do |t|
@@ -111,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
     t.date "end_date"
     t.string "description"
     t.string "link"
+    t.string "institution"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "talent_id"
@@ -253,6 +266,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_174153) do
   add_foreign_key "feeds", "users"
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "goals", "career_goals"
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"

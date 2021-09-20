@@ -11,6 +11,9 @@ class API::V1::Talent::MilestonesController < ApplicationController
 
   def create
     @milestone = Milestone.new(milestone_params)
+
+    parsed_date = milestone_params[:start_date].split("-").map(&:to_i)
+    @milestone.start_date = Date.new(parsed_date[0], parsed_date[1])
     @milestone.talent = talent
 
     if @milestone.save
@@ -45,8 +48,11 @@ class API::V1::Talent::MilestonesController < ApplicationController
 
   def milestone_params
     params.require(:milestone).permit(
-      :price,
-      :title
+      :title,
+      :start_date,
+      :institution,
+      :description,
+      :link
     )
   end
 

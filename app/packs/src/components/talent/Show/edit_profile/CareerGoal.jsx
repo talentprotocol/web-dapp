@@ -1,17 +1,60 @@
 import React, { useState } from "react";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { patch } from "src/utils/requests";
+import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditCareerGoal = () => {
-  const [careerGoalInfo, setCareerGoalInfo] = useState({
-    due_date: "",
-    goal: "",
+const EditGoal = ({ career_goal, selectedGoal, setMode }) => {
+  const [saving, setSaving] = useState(false);
+  const [destroying, setDestroying] = useState(false);
+  const [goalInfo, setGoalInfo] = useState({
+    id: selectedGoal.id || "",
+    due_date: selectedGoal.due_date || "",
+    description: selectedGoal.description || "",
   });
 
   const changeAttribute = (attribute, value) => {
-    setCareerGoalInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+    setGoalInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+  };
+
+  const handleDestroy = async (e) => {
+    e.preventDefault();
+    setDestroying(true);
+    const response = await destroy(
+      `/api/v1/career_goal/${career_goal.id}/goals/${goalInfo["id"]}`
+    ).catch(() => setDestroying(false));
+
+    setDestroying(false);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setMode("view");
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    let requestType, url;
+    if (goalInfo["id"] != "") {
+      requestType = patch;
+      url = `/api/v1/career_goals/${career_goal.id}/goals/${goalInfo["id"]}`;
+    } else {
+      requestType = post;
+      url = `/api/v1/career_goals/${career_goal.id}/goals`;
+    }
+
+    const response = await requestType(url, {
+      goal: {
+        due_date: goalInfo["due_date"],
+        description: goalInfo["description"],
+      },
+    }).catch(() => setSaving(false));
+
+    setSaving(false);
+    setMode("view");
   };
 
   return (
@@ -23,8 +66,8 @@ const EditCareerGoal = () => {
           id="goal"
           className="form-control"
           placeholder="Describe your goal"
-          value={careerGoalInfo["goal"]}
-          onChange={(e) => changeAttribute("goal", e.target.value)}
+          value={goalInfo["description"]}
+          onChange={(e) => changeAttribute("description", e.target.value)}
         />
       </div>
       <div className="form-group">
@@ -34,40 +77,68 @@ const EditCareerGoal = () => {
           type="date"
           className="form-control"
           aria-describedby="due_date_help"
-          value={careerGoalInfo["due_date"]}
+          value={goalInfo["due_date"]}
           onChange={(e) => changeAttribute("due_date", e.target.value)}
         />
         <small id="due_date_help" className="form-text text-muted">
           When you expect to reach your goal
         </small>
       </div>
-      <div className="mb-2 d-flex flex-row align-items-end justify-content-between">
-        <Button type="secondary" text="Cancel" onClick={() => null} />
-        <Button type="primary" text="Save" onClick={() => null} />
+      <div className="mb-2 d-flex flex-row-reverse align-items-end">
+        <button
+          disabled={saving}
+          onClick={handleSave}
+          className="btn btn-primary talent-button ml-2"
+        >
+          {saving ? (
+            <>
+              <FontAwesomeIcon icon={faSpinner} spin /> Saving
+            </>
+          ) : (
+            "Save"
+          )}
+        </button>
+        <Button type="secondary" text="Cancel" onClick={handleCancel} />
+        {goalInfo["id"] != "" && (
+          <button
+            disabled={destroying}
+            onClick={handleDestroy}
+            className="btn btn-danger talent-button mr-2"
+          >
+            {destroying ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Delete
+              </>
+            ) : (
+              "Delete"
+            )}
+          </button>
+        )}
       </div>
     </form>
   );
 };
 
-const ViewCareerGoals = () => {
-  const career_goals = { 1: { id: 1, goal: "hello", due_date: "11/11/11" } };
-
+const ViewGoals = ({ goals, setSelectedGoal }) => {
   return (
     <div className="d-flex flex-column mt-3">
       <p>Goals</p>
-      {Object.keys(career_goals).length == 0 && (
-        <small className="text-muted">Start by creating your first goal!</small>
+      {goals.length == 0 && (
+        <small className="text-muted">
+          Start by adding what was your first goal!
+        </small>
       )}
-      {Object.keys(career_goals).map((career_goal_id) => {
+      {goals.map((goal) => {
         return (
           <button
-            key={`career_goal_${career_goal_id}`}
+            key={`career_goal_${goal.id}`}
             className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            onClick={() => setSelectedGoal(goal)}
           >
             <div className="d-flex flex-row w-100 justify-content-end">
-              <small>{career_goals[career_goal_id].due_date}</small>
+              <small>{goal.due_date}</small>
             </div>
-            <p className="mb-1">{career_goals[career_goal_id].goal}</p>
+            <p className="mb-1">{goal.description}</p>
           </button>
         );
       })}
@@ -75,16 +146,58 @@ const ViewCareerGoals = () => {
   );
 };
 
-const CareerGoal = () => {
+const CareerGoal = (props) => {
+  const [saving, setSaving] = useState(false);
   const [mode, setMode] = useState("view");
   const [careerInfo, setCareerInfo] = useState({
-    bio: "",
-    pitch: "",
-    challenges: "",
+    id: props.career_goal?.id || "",
+    bio: props.career_goal?.bio || "",
+    pitch: props.career_goal?.pitch || "",
+    challenges: props.career_goal?.challenges || "",
   });
+  const [selectedGoal, setSelectedGoal] = useState({});
+
+  const selectGoal = (goal) => {
+    setSelectedGoal(goal);
+    setMode("edit");
+  };
+
+  const changeMode = (newMode) => {
+    setMode(newMode);
+    setSelectedGoal({});
+  };
 
   const changeAttribute = (attribute, value) => {
     setCareerInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    let requestType, url;
+
+    if (careerInfo["id"] != "") {
+      requestType = patch;
+      url = `/api/v1/talent/${props.talent.id}/career_goals/${careerInfo["id"]}`;
+    } else {
+      requestType = post;
+      url = `/api/v1/talent/${props.talent.id}/career_goals`;
+    }
+
+    const response = await requestType(url, {
+      career_goal: {
+        bio: careerInfo["bio"],
+        pitch: careerInfo["pitch"],
+        challenges: careerInfo["challenges"],
+      },
+    }).catch(() => setSaving(false));
+
+    setSaving(false);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    close();
   };
 
   return (
@@ -94,7 +207,7 @@ const CareerGoal = () => {
         {mode != "edit" && (
           <Button
             type="primary"
-            text="Add Goal"
+            text="Add goal"
             onClick={() => setMode("edit")}
           />
         )}
@@ -131,10 +244,30 @@ const CareerGoal = () => {
               value={careerInfo["challenges"]}
             />
           </div>
+          <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
+            <button
+              type="submit"
+              disabled={saving}
+              onClick={handleSave}
+              className="btn btn-primary talent-button"
+            >
+              {saving ? (
+                <>
+                  <FontAwesomeIcon icon={faSpinner} spin /> Saving
+                </>
+              ) : (
+                "Save"
+              )}
+            </button>
+            <Button type="secondary" text="Cancel" onClick={handleCancel} />
+          </div>
         </form>
       )}
-      {mode == "view" && <ViewCareerGoals />}
-      {mode == "edit" && <EditCareerGoal />}
+
+      {mode == "edit" && (
+        <EditGoal {...props} selectedGoal={selectedGoal} setMode={changeMode} />
+      )}
+      {mode == "view" && <ViewGoals {...props} setSelectedGoal={selectGoal} />}
     </div>
   );
 };

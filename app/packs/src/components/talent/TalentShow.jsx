@@ -18,6 +18,8 @@ const TalentShow = ({
   profilePictureUrl,
   primary_tag,
   secondary_tags,
+  career_goal,
+  goals,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
 
@@ -29,8 +31,10 @@ const TalentShow = ({
         primary_tag={primary_tag}
         secondary_tags={secondary_tags}
         profilePictureUrl={profilePictureUrl}
+        career_goal={career_goal}
         services={services}
         token={token}
+        goals={goals}
         token_live={token_live}
         perks={perks}
         milestones={milestones}
