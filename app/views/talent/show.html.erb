@@ -8,7 +8,7 @@
         secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
         services: @talent.services.as_json,
         token: @talent.token.as_json,
-        perks: @talent.services.as_json,
+        perks: @talent.perks.as_json,
         milestones: @talent.milestones.as_json,
         current_user_id: current_user.id,
         token_live: @talent.token.deployed?,

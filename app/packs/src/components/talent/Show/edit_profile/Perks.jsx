@@ -1,17 +1,60 @@
 import React, { useState } from "react";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { patch } from "src/utils/requests";
+import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditPerk = () => {
+const EditPerk = ({ talent, selectedPerk, setMode }) => {
+  const [saving, setSaving] = useState(false);
+  const [destroying, setDestroying] = useState(false);
   const [perksInfo, setPerksInfo] = useState({
-    title: "",
-    price: "",
+    id: selectedPerk.id || "",
+    title: selectedPerk.title || "",
+    price: selectedPerk.price || "",
   });
 
   const changeAttribute = (attribute, value) => {
     setPerksInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+  };
+
+  const handleDestroy = async (e) => {
+    e.preventDefault();
+    setDestroying(true);
+    const response = await destroy(
+      `/api/v1/talent/${talent.id}/perks/${perksInfo["id"]}`
+    ).catch(() => setDestroying(false));
+
+    setDestroying(false);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setMode("view");
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    let requestType, url;
+    if (perksInfo["id"] != "") {
+      requestType = patch;
+      url = `/api/v1/talent/${talent.id}/perks/${perksInfo["id"]}`;
+    } else {
+      requestType = post;
+      url = `/api/v1/talent/${talent.id}/perks`;
+    }
+
+    const response = await requestType(url, {
+      perk: {
+        price: perksInfo["price"],
+        title: perksInfo["title"],
+      },
+    }).catch(() => setSaving(false));
+
+    setSaving(false);
+    setMode("view");
   };
 
   return (
@@ -36,38 +79,64 @@ const EditPerk = () => {
           onChange={(e) => changeAttribute("title", e.target.value)}
         />
       </div>
-      <div className="mb-2 d-flex flex-row align-items-end justify-content-between">
-        <Button type="secondary" text="Cancel" onClick={() => null} />
-        <Button type="primary" text="Save" onClick={() => null} />
+      <div className="mb-2 d-flex flex-row-reverse align-items-end">
+        <button
+          disabled={saving}
+          onClick={handleSave}
+          className="btn btn-primary talent-button ml-2"
+        >
+          {saving ? (
+            <>
+              <FontAwesomeIcon icon={faSpinner} spin /> Saving
+            </>
+          ) : (
+            "Save"
+          )}
+        </button>
+        <Button type="secondary" text="Cancel" onClick={handleCancel} />
+        {perksInfo["id"] != "" && (
+          <button
+            disabled={destroying}
+            onClick={handleDestroy}
+            className="btn btn-danger talent-button mr-2"
+          >
+            {destroying ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Delete
+              </>
+            ) : (
+              "Delete"
+            )}
+          </button>
+        )}
       </div>
     </form>
   );
 };
 
-const ViewPerks = () => {
-  const perks = { 1: { id: 1, title: "hello", price: "123" } };
-
+const ViewPerks = ({ perks, setSelectedPerk }) => {
   return (
     <div className="d-flex flex-column mt-3">
-      {Object.keys(perks).length == 0 && (
+      {perks.length == 0 && (
         <li className="list-group-item">
           <small className="text-muted">
             Start by creating your first perk!
           </small>
         </li>
       )}
-      {Object.keys(perks).map((perk_id) => {
+      {perks.map((perk) => {
         return (
           <button
-            key={`perk_${perk_id}`}
+            key={`perk_${perk.id}`}
             className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            onClick={() => setSelectedPerk(perk)}
           >
             <div className="d-flex flex-row w-100 justify-content-between">
               <h5 className="mb-1">
-                {perks[perk_id].price} <small>Talent Tokens</small>
+                {perk.price} <small>Talent Tokens</small>
               </h5>
             </div>
-            <p className="mb-1">{perks[perk_id].title}</p>
+            <p className="mb-1">{perk.title}</p>
           </button>
         );
       })}
@@ -75,8 +144,19 @@ const ViewPerks = () => {
   );
 };
 
-const Perks = () => {
+const Perks = (props) => {
   const [mode, setMode] = useState("view");
+  const [selectedPerk, setSelectedPerk] = useState({});
+
+  const selectPerk = (perk) => {
+    setSelectedPerk(perk);
+    setMode("edit");
+  };
+
+  const changeMode = (newMode) => {
+    setMode(newMode);
+    setSelectedPerk({});
+  };
 
   return (
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
@@ -90,8 +170,10 @@ const Perks = () => {
           />
         )}
       </div>
-      {mode == "edit" && <EditPerk />}
-      {mode == "view" && <ViewPerks />}
+      {mode == "edit" && (
+        <EditPerk {...props} selectedPerk={selectedPerk} setMode={changeMode} />
+      )}
+      {mode == "view" && <ViewPerks {...props} setSelectedPerk={selectPerk} />}
     </div>
   );
 };
