@@ -10,12 +10,13 @@
         token: @talent.token.as_json,
         perks: @talent.perks.as_json,
         career_goal: @talent.career_goal.as_json,
-        goals: @talent.career_goal.present? ? @talent.career_goal&.goals : [],
+        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
         milestones: @talent.milestones.as_json,
         current_user_id: current_user.id,
         token_live: @talent.token.deployed?,
-        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name }
-      }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
+        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
+        posts: @talent.user.posts.as_json,
+      }, prerender: false, html_options: { class: "bg-white border-right"})
     %>
   </section>
   <section class="col-lg-5 p-4">
