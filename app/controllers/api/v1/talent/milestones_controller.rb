@@ -2,7 +2,11 @@ class API::V1::Talent::MilestonesController < ApplicationController
   before_action :validate_access
 
   def update
-    if milestone.update(milestone_params)
+    milestone.assign_attributes(milestone_params)
+    parsed_date = milestone_params[:start_date].split("-").map(&:to_i)
+    milestone.start_date = Date.new(parsed_date[0], parsed_date[1])
+
+    if milestone.save
       render json: milestone, status: :ok
     else
       render json: {error: "Unable to update milestone"}, status: :unprocessable_entity

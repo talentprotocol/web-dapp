@@ -55,7 +55,7 @@ const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
         start_date: milestoneInfo["start_date"],
         institution: milestoneInfo["institution"],
         description: milestoneInfo["description"],
-        link: milestoneInfo["price"],
+        link: milestoneInfo["link"],
       },
     }).catch(() => setSaving(false));
 
@@ -76,10 +76,20 @@ const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
         />
       </div>
       <div className="form-group">
+        <label htmlFor="institution">Institution</label>
+        <input
+          id="institution"
+          className="form-control"
+          placeholder="Company, client or school"
+          value={milestoneInfo["institution"]}
+          onChange={(e) => changeAttribute("institution", e.target.value)}
+        />
+      </div>
+      <div className="form-group">
         <label htmlFor="year">Year</label>
         <input
           id="start_date"
-          type="month"
+          type="date"
           className="form-control"
           value={milestoneInfo["start_date"]}
           onChange={(e) => changeAttribute("start_date", e.target.value)}
@@ -163,7 +173,7 @@ const ViewMilestones = ({ milestones, setSelectedMilestone }) => {
                   {milestone.title}
                 </a>
               </h5>
-              <small>{milestone.year}</small>
+              <small>{milestone.start_date}</small>
             </div>
             <small className="text-left">
               <i>{milestone.institution}</i>

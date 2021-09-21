@@ -14,7 +14,7 @@ import Timeline from "./edit_profile/Timeline";
 const EditProfile = (props) => {
   const [show, setShow] = useState(false);
   const [activeSection, setActiveSection] = useState("About");
-  const allowEdit = true; // TODO: Change later
+  const allowEdit = props.allowEdit; // TODO: Change later
 
   return (
     <>

@@ -36,7 +36,7 @@ const TalentToken = ({
   const marketCap = () => {
     const reserve = parseInt(web3.tokens[tokenAddress]?.reserve) || 0.0;
 
-    return currency(reserve * web3.talToken.price, {
+    return currency(reserve * (web3.talToken?.price || 0.0), {
       fromCents: true,
     }).format();
   };
@@ -53,7 +53,7 @@ const TalentToken = ({
               {web3.loading ? (
                 <AsyncValue size={3} />
               ) : (
-                currency(priceOfToken * web3.talToken?.price).format()
+                currency(priceOfToken * (web3.talToken?.price || 0)).format()
               )}
             </strong>
           </div>
