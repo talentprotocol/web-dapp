@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @result = service.call(
       email: user_params[:email],
       username: user_params[:username],
-      password: user_params[:password],
+      password: user_params[:password]
     )
 
     if @result[:success]

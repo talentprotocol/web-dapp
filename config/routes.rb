@@ -72,6 +72,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :tokens, only: [:show]
         resources :users, only: [:update]
+        resources :notifications, only: [:update]
       end
     end
   end

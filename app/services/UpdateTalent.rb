@@ -9,9 +9,11 @@ class UpdateTalent
 
       update_user(params[:user])
 
-      if params[:talent]
-        update_tags(params[:talent][:tags])
-      end
+      update_tags(params[:talent][:tags]) if params[:talent]
+
+      CreateNotificationNewTalentListedJob.perform_later(@talent.user.id) if params[:public]
+
+      create_notification_talent_changed(@talent.user)
 
       @talent
     rescue => e
@@ -53,5 +55,10 @@ class UpdateTalent
 
       tag.save!
     end
+  end
+
+  def create_notification_talent_changed(user)
+    users_ids = user.followers.pluck(:id)
+    CreateNotificationTalentChangedJob.perform_later(users_ids, user.id)
   end
 end

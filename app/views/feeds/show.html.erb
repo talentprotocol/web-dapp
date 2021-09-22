@@ -13,5 +13,6 @@
     },
     posts: @posts.map { |post| post.to_json },
     topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, token_contract_id: tal.token.contract_id, profilePictureUrl: tal.profile_picture_url } },
-    alert: { type: @alert&.alert_type, text: @alert&.text, href: @alert&.href, buttonText: @alert&.button_text }
+    alert: { type: @alert&.alert_type, text: @alert&.text, href: @alert&.href, buttonText: @alert&.button_text },
+    notifications: @notifications.map { |notif| { id: notif.id, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, source_talent_id: notif.source.talent&.id } }
   }, prerender: false, html_options: { class: "col-12 col-lg-9 lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row" }) %>
