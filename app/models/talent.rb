@@ -24,7 +24,6 @@ class Talent < ApplicationRecord
   has_many :transactions, through: :token
   has_many :investors, through: :transactions
   has_one :career_goal
-  has_many :rewards
   has_many :perks
   has_many :services
   has_many :milestones

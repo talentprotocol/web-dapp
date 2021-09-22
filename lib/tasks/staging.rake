@@ -89,14 +89,6 @@ namespace :staging do
         description: Faker::Company.bs,
         talent: user.talent
       )
-
-      Random.new.rand(1..3).times.each do |_i|
-        Reward.create!(
-          required_amount: Random.new.rand(100..2000),
-          description: Faker::Lorem.sentence,
-          talent: user.talent
-        )
-      end
     end
 
     puts "Setting up follows.."

@@ -14,7 +14,7 @@ class Admin::Talent::TagsController < ApplicationController
   end
 
   def create
-    @tag = @talent.tags.new(reward_params)
+    @tag = @talent.tags.new(tag_params)
 
     if @tag.save
       redirect_to(
