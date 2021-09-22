@@ -6,7 +6,13 @@ import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditPerk = ({ talent, selectedPerk, setMode }) => {
+const EditPerk = ({
+  talent,
+  selectedPerk,
+  setMode,
+  perks,
+  updateSharedState,
+}) => {
   const [saving, setSaving] = useState(false);
   const [destroying, setDestroying] = useState(false);
   const [perksInfo, setPerksInfo] = useState({
@@ -26,7 +32,21 @@ const EditPerk = ({ talent, selectedPerk, setMode }) => {
       `/api/v1/talent/${talent.id}/perks/${perksInfo["id"]}`
     ).catch(() => setDestroying(false));
 
+    if (response) {
+      const perkIndex = perks.findIndex((perk) => perk.id == perksInfo["id"]);
+      let newPerks = [...perks];
+      if (perkIndex > -1) {
+        newPerks.splice(perkIndex);
+      }
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        perks: newPerks,
+      }));
+    }
+
     setDestroying(false);
+    setMode("view");
   };
 
   const handleCancel = (e) => {
@@ -52,6 +72,29 @@ const EditPerk = ({ talent, selectedPerk, setMode }) => {
         title: perksInfo["title"],
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      const perkIndex = perks.findIndex((perk) => perk.id == perksInfo["id"]);
+      let newPerks = [...perks];
+      if (perkIndex > -1) {
+        newPerks.splice(perkIndex);
+      }
+
+      newPerks.push(response);
+      newPerks.sort((fItem, lItem) => {
+        if (fItem.price > lItem.price) {
+          return 1;
+        } else if (fItem.price < lItem.price) {
+          return -1;
+        }
+        return 0;
+      });
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        perks: newPerks,
+      }));
+    }
 
     setSaving(false);
     setMode("view");

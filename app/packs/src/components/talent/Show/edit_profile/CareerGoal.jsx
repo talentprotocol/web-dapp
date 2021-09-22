@@ -6,7 +6,13 @@ import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditGoal = ({ career_goal, selectedGoal, setMode }) => {
+const EditGoal = ({
+  goals,
+  career_goal,
+  selectedGoal,
+  setMode,
+  updateSharedState,
+}) => {
   const [saving, setSaving] = useState(false);
   const [destroying, setDestroying] = useState(false);
   const [goalInfo, setGoalInfo] = useState({
@@ -26,7 +32,21 @@ const EditGoal = ({ career_goal, selectedGoal, setMode }) => {
       `/api/v1/career_goal/${career_goal.id}/goals/${goalInfo["id"]}`
     ).catch(() => setDestroying(false));
 
+    if (response) {
+      const goalIndex = goals.findIndex((goal) => goal.id == goalInfo["id"]);
+      let newGoals = [...goals];
+      if (goalIndex > -1) {
+        newGoals.splice(goalIndex);
+      }
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        goals: newGoals,
+      }));
+    }
+
     setDestroying(false);
+    setMode("view");
   };
 
   const handleCancel = (e) => {
@@ -52,6 +72,29 @@ const EditGoal = ({ career_goal, selectedGoal, setMode }) => {
         description: goalInfo["description"],
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      const goalIndex = goals.findIndex((goal) => goal.id == goalInfo["id"]);
+      let newGoals = [...goals];
+      if (goalIndex > -1) {
+        newGoals.splice(goalIndex);
+      }
+
+      newGoals.push(response);
+      newGoals.sort((fItem, lItem) => {
+        if (fItem.due_date > lItem.due_date) {
+          return 1;
+        } else if (fItem.due_date < lItem.due_date) {
+          return -1;
+        }
+        return 0;
+      });
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        goals: newGoals,
+      }));
+    }
 
     setSaving(false);
     setMode("view");
@@ -191,6 +234,18 @@ const CareerGoal = (props) => {
         challenges: careerInfo["challenges"],
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      props.updateSharedState((prevState) => ({
+        ...prevState,
+        career_goal: {
+          ...prevState.career_goal,
+          bio: careerInfo["bio"],
+          pitch: careerInfo["pitch"],
+          challenges: careerInfo["challenges"],
+        },
+      }));
+    }
 
     setSaving(false);
   };

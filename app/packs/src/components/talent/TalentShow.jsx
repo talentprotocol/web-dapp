@@ -36,22 +36,40 @@ const TalentShow = ({
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [show, setShow] = useState(false);
+  const [sharedState, setSharedState] = useState({
+    talent,
+    services,
+    token,
+    perks,
+    milestones,
+    current_user_id,
+    token_live,
+    user,
+    profilePictureUrl,
+    primary_tag,
+    secondary_tags,
+    career_goal,
+    goals,
+    posts,
+  });
 
-  const ticker = () => (token.ticker ? `$${token.ticker}` : "");
-  const allTags = () => [primary_tag].concat(secondary_tags);
+  const ticker = () =>
+    sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
+  const allTags = () =>
+    [sharedState.primary_tag].concat(sharedState.secondary_tags);
   const displayName = () => {
-    if (talent.profile.website) {
+    if (sharedState.talent.profile.website) {
       return (
-        <a href={talent.profile.website} className="text-reset">
-          {user.display_name || user.username}
+        <a href={sharedState.talent.profile.website} className="text-reset">
+          {sharedState.user.display_name || sharedState.user.username}
         </a>
       );
     }
-    return user.display_name || user.username;
+    return sharedState.user.display_name || sharedState.user.username;
   };
 
   const picture = () => {
-    if (talent.profile.video) {
+    if (sharedState.talent.profile.video) {
       return (
         <>
           <Modal
@@ -64,7 +82,7 @@ const TalentShow = ({
             contentClassName="talent-video-height"
           >
             <ReactPlayer
-              url={talent.profile.video}
+              url={sharedState.talent.profile.video}
               light
               width={"100%"}
               height={"100%"}
@@ -72,7 +90,7 @@ const TalentShow = ({
           </Modal>
           <button className="btn p-0 border-0" onClick={() => setShow(true)}>
             <img
-              src={profilePictureUrl}
+              src={sharedState.profilePictureUrl}
               className="card-img-top"
               alt="Profile Picture"
             />
@@ -83,7 +101,7 @@ const TalentShow = ({
 
     return (
       <img
-        src={profilePictureUrl}
+        src={sharedState.profilePictureUrl}
         className="card-img-top"
         alt="Profile Picture"
       />
@@ -100,27 +118,30 @@ const TalentShow = ({
           </h1>
           <div className="d-flex flex-column">
             <small className="text-muted mb-2 ml-1 w-100">
-              {talent.profile.wallet_address || user.wallet_id}
+              {sharedState.talent.profile.wallet_address ||
+                sharedState.user.wallet_id}
             </small>
-            {talent.profile.pronouns && (
+            {sharedState.talent.profile.pronouns && (
               <small className="text-muted mb-2 ml-1">
-                {talent.profile.pronouns}
+                {sharedState.talent.profile.pronouns}
               </small>
             )}
-            {talent.profile.location && (
+            {sharedState.talent.profile.location && (
               <small className="text-muted mb-2 ml-1">
-                {talent.profile.location}
+                {sharedState.talent.profile.location}
               </small>
             )}
           </div>
           <TalentTags tags={allTags()} />
-          <p className="card-text mt-2">{talent.profile.headline}</p>
+          <p className="card-text mt-2">
+            {sharedState.talent.profile.headline}
+          </p>
 
           <section className="d-flex flex-column">
             <h6 className="talent-show-h6 p-2 bg-primary text-white">
               Sponsor Perks
             </h6>
-            {perks.map((perk) => (
+            {sharedState.perks.map((perk) => (
               <div key={`perk_list_${perk.id}`} className="ml-2">
                 <small>
                   <strong>
@@ -135,7 +156,7 @@ const TalentShow = ({
             <h6 className="talent-show-h6 p-2 bg-primary text-white">
               Token Utility
             </h6>
-            {services.map((service) => (
+            {sharedState.services.map((service) => (
               <div key={`service_list_${service.id}`} className="ml-2">
                 <small>
                   <strong>
@@ -153,22 +174,22 @@ const TalentShow = ({
             <h6 style={{ textDecoration: "underline" }}>
               <strong>Bio</strong>
             </h6>
-            <p>{career_goal.bio}</p>
+            <p>{sharedState.career_goal.bio}</p>
             <h6 style={{ textDecoration: "underline" }}>
               <strong>Pitch</strong>
             </h6>
-            <p>{career_goal.pitch}</p>
+            <p>{sharedState.career_goal.pitch}</p>
             <h6 style={{ textDecoration: "underline" }}>
               <strong>Challenges</strong>
             </h6>
-            <p>{career_goal.challenges}</p>
+            <p>{sharedState.career_goal.challenges}</p>
             <h6 style={{ textDecoration: "underline" }}>
               <strong>Goals</strong>
             </h6>
             <div className="d-flex flex-row mb-2">
               <div className="border-right p-0"></div>
               <div className="col-11 p-0">
-                {goals.map((goal) => (
+                {sharedState.goals.map((goal) => (
                   <div key={`goal_list_${goal.id}`} className="ml-2">
                     <small>
                       <strong>
@@ -185,7 +206,7 @@ const TalentShow = ({
             <h6 className="talent-show-h6 p-2 bg-primary text-white">
               Career Timeline
             </h6>
-            {milestones.map((milestone) => (
+            {sharedState.milestones.map((milestone) => (
               <div
                 key={`milestone_list_${milestone.id}`}
                 className="w-100 mt-2"
@@ -209,16 +230,22 @@ const TalentShow = ({
           </section>
           <section className="d-flex flex-column">
             <h6 className="talent-show-h6 p-2 bg-primary text-white">Posts</h6>
-            {posts.map((post) => (
+            {sharedState.posts.map((post) => (
               <div
                 key={`post_list_${post.id}`}
                 className="d-flex flex-row w-100 pt-3 pl-4 pr-2 border-bottom"
               >
-                <TalentProfilePicture src={profilePictureUrl} height={40} />
+                <TalentProfilePicture
+                  src={sharedState.profilePictureUrl}
+                  height={40}
+                />
                 <div className="d-flex flex-column pl-3 w-100">
                   <div className="d-flex flex-row justify-content-between">
                     <p>
-                      <strong>{user.display_name || user.username}</strong>{" "}
+                      <strong>
+                        {sharedState.user.display_name ||
+                          sharedState.user.username}
+                      </strong>{" "}
                       <small className="text-muted">
                         {"\u25CF"}{" "}
                         {formatDistanceToNow(parseJSON(post.created_at))}
@@ -240,39 +267,57 @@ const TalentShow = ({
           <section className="d-flex flex-column mt-2">
             <h6 className="talent-show-h6 p-2 bg-primary text-white">Social</h6>
             <div className="d-flex flex-row">
-              {talent.profile.github && (
-                <a href={talent.profile.github} className="mr-2 text-black">
+              {sharedState.talent.profile.github && (
+                <a
+                  href={sharedState.talent.profile.github}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faGithub} size="lg" />
                 </a>
               )}
-              {talent.profile.linkedin && (
-                <a href={talent.profile.linkedin} className="mr-2 text-black">
+              {sharedState.talent.profile.linkedin && (
+                <a
+                  href={sharedState.talent.profile.linkedin}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faLinkedin} size="lg" />
                 </a>
               )}
-              {talent.profile.twitter && (
-                <a href={talent.profile.twitter} className="mr-2 text-black">
+              {sharedState.talent.profile.twitter && (
+                <a
+                  href={sharedState.talent.profile.twitter}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faTwitter} size="lg" />
                 </a>
               )}
-              {talent.profile.instagram && (
-                <a href={talent.profile.instagram} className="mr-2 text-black">
+              {sharedState.talent.profile.instagram && (
+                <a
+                  href={sharedState.talent.profile.instagram}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faInstagram} size="lg" />
                 </a>
               )}
-              {talent.profile.telegram && (
-                <a href={talent.profile.telegram} className="mr-2 text-black">
+              {sharedState.talent.profile.telegram && (
+                <a
+                  href={sharedState.talent.profile.telegram}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faTelegram} size="lg" />
                 </a>
               )}
-              {talent.profile.discord && (
-                <a href={talent.profile.discord} className="mr-2 text-black">
+              {sharedState.talent.profile.discord && (
+                <a
+                  href={sharedState.talent.profile.discord}
+                  className="mr-2 text-black"
+                >
                   <FontAwesomeIcon icon={faDiscord} size="lg" />
                 </a>
               )}
-              {talent.profile.email && (
+              {sharedState.talent.profile.email && (
                 <a
-                  href={`mailto:${talent.profile.email}`}
+                  href={`mailto:${sharedState.talent.profile.email}`}
                   className="mr-2 text-black"
                 >
                   <FontAwesomeIcon icon={faEnvelope} size="lg" />
@@ -284,18 +329,8 @@ const TalentShow = ({
       </div>
 
       <EditProfile
-        talent={talent}
-        user={user}
-        primary_tag={primary_tag}
-        secondary_tags={secondary_tags}
-        profilePictureUrl={profilePictureUrl}
-        career_goal={career_goal}
-        services={services}
-        token={token}
-        goals={goals}
-        token_live={token_live}
-        perks={perks}
-        milestones={milestones}
+        {...sharedState}
+        updateSharedState={setSharedState}
         allowEdit={talentIsFromCurrentUser}
       />
     </div>
