@@ -6,7 +6,13 @@ import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
+const EditMilestone = ({
+  talent,
+  selectedMilestone,
+  setMode,
+  milestones,
+  updateSharedState,
+}) => {
   const [saving, setSaving] = useState(false);
   const [destroying, setDestroying] = useState(false);
   const [milestoneInfo, setMilestoneInfo] = useState({
@@ -29,7 +35,23 @@ const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
       `/api/v1/talent/${talent.id}/milestones/${milestoneInfo["id"]}`
     ).catch(() => setDestroying(false));
 
+    if (response) {
+      const milestoneIndex = milestones.findIndex(
+        (milestone) => milestone.id == milestoneInfo["id"]
+      );
+      let newMilestones = [...milestones];
+      if (milestoneIndex > -1) {
+        newMilestones.splice(milestoneIndex);
+      }
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        milestones: newMilestones,
+      }));
+    }
+
     setDestroying(false);
+    setMode("view");
   };
 
   const handleCancel = (e) => {
@@ -58,6 +80,31 @@ const EditMilestone = ({ talent, selectedMilestone, setMode }) => {
         link: milestoneInfo["link"],
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      const milestoneIndex = milestones.findIndex(
+        (milestone) => milestone.id == milestoneInfo["id"]
+      );
+      let newMilestones = [...milestones];
+      if (milestoneIndex > -1) {
+        newMilestones.splice(milestoneIndex);
+      }
+
+      newMilestones.push(response);
+      newMilestones.sort((fItem, lItem) => {
+        if (fItem.id > lItem.id) {
+          return 1;
+        } else if (fItem.id < lItem.id) {
+          return -1;
+        }
+        return 0;
+      });
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        milestones: newMilestones,
+      }));
+    }
 
     setSaving(false);
     setMode("view");

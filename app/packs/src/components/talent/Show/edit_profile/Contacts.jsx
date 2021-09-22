@@ -40,6 +40,25 @@ const Contacts = ({ close, talent, user }) => {
       },
     }).catch(() => setSaving(false));
 
+    if (response) {
+      updateSharedState((prevState) => ({
+        ...prevState,
+        talent: {
+          ...prevState.talent,
+          profile: {
+            ...prevState.talent.profile,
+            github: contactsInfo["github"],
+            linkedin: contactsInfo["linkedin"],
+            twitter: contactsInfo["twitter"],
+            instagram: contactsInfo["instagram"],
+            email: contactsInfo["email"],
+            telegram: contactsInfo["telegram"],
+            discord: contactsInfo["discord"],
+          },
+        },
+      }));
+    }
+
     setSaving(false);
   };
 

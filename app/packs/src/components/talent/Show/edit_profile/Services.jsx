@@ -6,7 +6,13 @@ import { patch, post, destroy } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const EditService = ({ talent, selectedService, setMode }) => {
+const EditService = ({
+  talent,
+  selectedService,
+  setMode,
+  services,
+  updateSharedState,
+}) => {
   const [saving, setSaving] = useState(false);
   const [destroying, setDestroying] = useState(false);
   const [servicesInfo, setServicesInfo] = useState({
@@ -26,7 +32,23 @@ const EditService = ({ talent, selectedService, setMode }) => {
       `/api/v1/talent/${talent.id}/services/${servicesInfo["id"]}`
     ).catch(() => setDestroying(false));
 
+    if (response) {
+      const serviceIndex = services.findIndex(
+        (service) => service.id == servicesInfo["id"]
+      );
+      let newServices = [...services];
+      if (serviceIndex > -1) {
+        newServices.splice(serviceIndex);
+      }
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        services: newServices,
+      }));
+    }
+
     setDestroying(false);
+    setMode("view");
   };
 
   const handleCancel = (e) => {
@@ -52,6 +74,31 @@ const EditService = ({ talent, selectedService, setMode }) => {
         title: servicesInfo["title"],
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      const serviceIndex = services.findIndex(
+        (service) => service.id == servicesInfo["id"]
+      );
+      let newServices = [...services];
+      if (serviceIndex > -1) {
+        newServices.splice(serviceIndex);
+      }
+
+      newServices.push(response);
+      newServices.sort((fItem, lItem) => {
+        if (fItem.price > lItem.price) {
+          return 1;
+        } else if (fItem.price < lItem.price) {
+          return -1;
+        }
+        return 0;
+      });
+
+      updateSharedState((prevState) => ({
+        ...prevState,
+        services: newServices,
+      }));
+    }
 
     setSaving(false);
     setMode("view");

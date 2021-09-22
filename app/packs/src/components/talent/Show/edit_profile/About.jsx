@@ -33,6 +33,7 @@ const About = ({
   primary_tag,
   secondary_tags,
   profile_picture_url,
+  updateSharedState,
 }) => {
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -50,10 +51,13 @@ const About = ({
     public_profile: talent.public || "",
     video: talent.profile.video || "",
     uploadedFileData: null,
+    fileUrl: "",
   });
 
   useEffect(() => {
     uppy.on("upload-success", (file, response) => {
+      changeAttribute("fileUrl", response.uploadURL);
+
       changeAttribute("uploadedFileData", {
         id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
         storage: "cache",
@@ -93,6 +97,36 @@ const About = ({
         },
       },
     }).catch(() => setSaving(false));
+
+    if (response) {
+      updateSharedState((prevState) => ({
+        ...prevState,
+        talent: {
+          ...prevState.talent,
+          public: aboutInfo["public_profile"],
+          disable_messages: aboutInfo["disable_messages"],
+          profile: {
+            ...prevState.talent.profile,
+            pronouns: aboutInfo["pronouns"],
+            location: aboutInfo["location"],
+            headline: aboutInfo["headline"],
+            website: aboutInfo["website"],
+            wallet_address: aboutInfo["wallet_address"],
+            video: aboutInfo["video"],
+          },
+        },
+        profilePictureUrl: aboutInfo["fileUrl"] || prevState.profilePictureUrl,
+        user: {
+          ...prevState.user,
+          username: aboutInfo["username"],
+          display_name: aboutInfo["display_name"],
+        },
+        primary_tag: aboutInfo["primary_tag"],
+        secondary_tags: aboutInfo["secondary_tags"]
+          .split(",")
+          .map((t) => t.trim()),
+      }));
+    }
 
     setSaving(false);
   };

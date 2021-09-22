@@ -31,6 +31,16 @@ const Token = ({ close, talent, token }) => {
       }
     ).catch(() => setSaving(false));
 
+    if (response) {
+      updateSharedState((prevState) => ({
+        ...prevState,
+        token: {
+          ...prevState.token,
+          ticker: tokenInfo["ticker"],
+        },
+      }));
+    }
+
     setSaving(false);
   };
 
