@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_091552) do
+ActiveRecord::Schema.define(version: 2021_09_22_094049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,16 +136,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_091552) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "rewards", force: :cascade do |t|
-    t.integer "required_amount"
-    t.text "description"
-    t.bigint "talent_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "required_text"
-    t.index ["talent_id"], name: "index_rewards_on_talent_id"
-  end
-
   create_table "services", force: :cascade do |t|
     t.integer "price", null: false
     t.string "title", null: false
@@ -256,7 +246,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_091552) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
-  add_foreign_key "rewards", "talent"
   add_foreign_key "services", "talent"
   add_foreign_key "tags", "talent"
   add_foreign_key "tokens", "talent"

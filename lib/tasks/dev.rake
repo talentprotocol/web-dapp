@@ -105,23 +105,6 @@ if Rails.env.development?
         talent: marx
       )
 
-      puts "Setting up Rewards.."
-      Reward.create(
-        required_amount: 1_000,
-        description: "You get a monthly update on progress",
-        talent: elon
-      )
-      Reward.create(
-        required_amount: 100_000_000,
-        description: "You get a ticket for the first trip",
-        talent: elon
-      )
-      Reward.create(
-        required_amount: 5_000,
-        description: "You get a copy of my book on launch",
-        talent: marx
-      )
-
       puts "Setting up Feeds.."
       Feed.create(user: admin)
       Feed.create(user: investor)

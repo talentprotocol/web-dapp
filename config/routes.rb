@@ -15,7 +15,6 @@ Rails.application.routes.draw do
       resources :talent do
         resources :tokens, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
-        resources :rewards, module: "talent"
         resources :tags, module: "talent"
       end
       resources :wait_list
@@ -36,8 +35,7 @@ Rails.application.routes.draw do
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
-    resources :talent, only: [:index, :show, :update] do
-      resources :rewards, only: [:create, :update, :destroy], module: "talent"
+    resources :talent, only: [:index, :show] do
       resources :sponsors, only: [:index], module: "talent"
     end
 
