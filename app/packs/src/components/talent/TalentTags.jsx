@@ -1,9 +1,9 @@
 import React from "react";
 
-const TalentTags = ({ tags, talent_id }) => {
+const TalentTags = ({ tags, talent_id, className }) => {
   if (tags && tags.length > 0) {
     return (
-      <div className="d-flex flex-row flex-wrap">
+      <div className={`d-flex flex-row flex-wrap ${className || ""}`}>
         {tags.map((tag) => (
           <div
             key={`${talent_id}_${tag}`}

@@ -51,22 +51,27 @@ const TalentCard = ({ talent, href }) => {
   };
 
   return (
-    <a href={href} className="card talent-link border py-3 h-100">
-      <div className="card-body px-3 position-relative">
-        <TalentProfilePicture src={talent.profilePictureUrl} height={64} />
-        <h4 className="card-title mt-2">
-          <strong>{talent.username}</strong>
+    <a href={href} className="card talent-link border pb-3 h-100">
+      <div className="card-body position-relative p-0">
+        {/* <TalentProfilePicture src={talent.profilePictureUrl} height={64} /> */}
+        <img
+          src={talent.profilePictureUrl}
+          className="card-img-top"
+          alt="Profile Picture"
+        />
+        <h4 className="card-title mt-2 px-3">
+          <strong>{talent.display_name || talent.username}</strong>
         </h4>
-        <h6 className="card-subtitle mb-2 text-primary">
+        <h6 className="card-subtitle mb-2 text-primary px-3">
           <strong>{talent.token.display_ticker}</strong>
         </h6>
         <TalentBadge status={talent.status} />
-        <p className="card-text">
-          <small>{textDescription(talent.description)}</small>
+        <TalentTags className="ml-3" tags={talent.tags} talent_id={talent.id} />
+        <p className="card-text px-3">
+          <small>{textDescription(talent.headline)}</small>
         </p>
-        <TalentTags tags={talent.tags} talent_id={talent.id} />
       </div>
-      <div className="d-flex flex-row justify-content-around px-3 border-light talent-border-separator-dashed">
+      <div className="d-flex flex-row justify-content-around px-3 mt-3 border-light talent-border-separator-dashed">
         <div className="d-flex flex-column align-items-center">
           <div className="text-muted">
             <small>Price</small>
