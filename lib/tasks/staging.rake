@@ -71,12 +71,20 @@ namespace :staging do
       user.talent.create_token!(
         ticker: Faker::Name.initials(number: 4),
         price: Random.new.rand(1..500),
-        market_cap: 0
+        market_cap: 0,
+        contract_id: "0x#{SecureRandom.hex(32)}",
       )
       user.create_feed!
 
       service = CreateTransaction.new
-      service.call(token: user.talent.token, amount: Random.new.rand(500..1500), investor: Investor.first)
+      service.call(
+        token_address: user.talent.token.contract_id,
+        amount: Random.new.rand(500..1500),
+        user_id: User.first,
+        inbound: true,
+        transaction_id: "0x#{SecureRandom.hex(32)}",
+        block_id: "0x#{SecureRandom.hex(32)}"
+      )
 
       CareerGoal.create!(
         target_date: Date.today + Random.new.rand(6..24).month,
@@ -108,8 +116,9 @@ namespace :staging do
     puts "Setting up some posts.."
     User.where(role: nil).find_each do |user|
       Random.new.rand(1..3).times.each do |_i|
-        service = CreatePost.new
-        service.call(text: Faker::Lorem.paragraph, writer: user)
+        post = Post.create(text: Faker::Lorem.paragraph, user: user)
+        service = PublishPost.new
+        service.call(post_id: post.id)
       end
     end
 
