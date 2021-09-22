@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_20_161800) do
+ActiveRecord::Schema.define(version: 2021_09_22_091552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -176,16 +176,13 @@ ActiveRecord::Schema.define(version: 2021_09_20_161800) do
   end
 
   create_table "talent", force: :cascade do |t|
-    t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.datetime "ito_date"
     t.integer "activity_count", default: 0
-    t.string "linkedin_url"
     t.text "profile_picture_data"
-    t.string "youtube_url"
     t.boolean "public", default: false
     t.jsonb "profile", default: {}
     t.boolean "disable_messages", default: false

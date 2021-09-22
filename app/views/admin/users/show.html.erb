@@ -83,12 +83,6 @@
         <dt class="col-md-3 sm-text-left md-text-right">Transactions</dt>
         <dd class="col-md-9"><%= @user.talent.activity_count %></dd>
 
-        <dt class="col-md-3 sm-text-left md-text-right">LinkedIn URL</dt>
-        <dd class="col-md-9"><%= @user.talent.linkedin_url || "-" %></dd>
-
-        <dt class="col-md-3 sm-text-left md-text-right">Youtube URL</dt>
-        <dd class="col-md-9"><%= @user.talent.youtube_url || "-" %></dd>
-
         <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
         <dd class="col-md-9"><%= l(@user.talent.created_at, format: :long) %></dd>
 
