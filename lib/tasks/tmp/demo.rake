@@ -13,7 +13,6 @@ namespace :demo do
       description: "Vitalik Buterin is a Russian-Canadian programmer and writer who is best known as one of the co-founders of Ethereum. Buterin became involved with cryptocurrency early in its inception, co-founding Bittoken Magazine in 2011. In 2014, Buterin launched Ethereum with Gavin Wood.",
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
-      linkedin_url: "https://www.linkedin.com/"
     )
 
     Tag.create(talent: talent, description: "Entrepreneur", primary: true)
@@ -60,8 +59,6 @@ namespace :demo do
       description: user.investor.description,
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
-      linkedin_url: "https://www.linkedin.com/",
-      youtube_url: "https://www.youtube.com/watch?v=AmrrSfiMxGA"
     )
 
     Tag.create(talent: talent, description: "Space", primary: true)

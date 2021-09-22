@@ -64,15 +64,12 @@ if Rails.env.development?
         description: "I want to revolutionize the socioeconomic system.",
         ito_date: Time.current + 1.week,
         activity_count: 2,
-        linkedin_url: "https://www.linkedin.com/",
         user: talent2
       )
       elon = Talent.create!(
         description: "I want to take mankind to Pluto!",
         ito_date: Time.current - 1.week,
         activity_count: 2,
-        linkedin_url: "https://www.linkedin.com/",
-        youtube_url: "https://www.youtube.com/watch?v=fCF8I_X1qKI",
         user: talent
       )
 
