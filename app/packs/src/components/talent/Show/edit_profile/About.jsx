@@ -171,6 +171,7 @@ const About = ({
           <input
             id="username"
             className="form-control"
+            disabled
             placeholder="talentprotocol"
             value={aboutInfo["username"]}
             aria-describedby="username_help"
@@ -246,6 +247,7 @@ const About = ({
           <textarea
             rows="3"
             id="headline"
+            maxLength="70"
             className="form-control"
             value={aboutInfo["headline"]}
             placeholder="Short description of what you are about"
@@ -290,6 +292,7 @@ const About = ({
           <input
             type="checkbox"
             id="disable_messages"
+            disabled
             className="form-check-input"
             checked={aboutInfo["disable_messages"]}
             onChange={(e) =>
