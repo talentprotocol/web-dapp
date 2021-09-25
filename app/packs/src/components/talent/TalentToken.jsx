@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import currency from "currency.js";
 
 import Button from "../button";
 import DisplayTokenVariance from "../token/DisplayTokenVariance";
 
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
+import { OnChain } from "src/onchain";
+
 import AsyncValue from "../loader/AsyncValue";
 
 const TalentToken = ({
@@ -16,30 +17,56 @@ const TalentToken = ({
   active,
   talentUserId,
   tokenAddress,
+  talentName,
 }) => {
-  const web3 = useContext(Web3Context);
   const buttonText = active ? "Buy / Sell" : "Coming soon";
+  const [factory, setFactory] = useState(null);
+  const [token, setToken] = useState({
+    circulatingSupply: 0,
+  });
 
-  const circulatingSupply = () => {
-    if (web3.tokens[tokenAddress]?.circulatingSupply) {
-      return currency(web3.tokens[tokenAddress]?.circulatingSupply, {
-        fromCents: true,
-      })
-        .format()
-        .substring(1);
-    } else {
-      return 0;
+  const priceOfToken = 0.0;
+  const marketCap = () => 0.0;
+
+  const createToken = async (e) => {
+    e.preventDefault();
+
+    if (factory) {
+      await factory.createTalent(talentName, ticker);
     }
   };
 
-  const priceOfToken = web3.tokens[tokenAddress]?.dollarPerToken || 0.0;
-  const marketCap = () => {
-    const reserve = parseInt(web3.tokens[tokenAddress]?.reserve) || 0.0;
+  const setupOnChain = useCallback(async () => {
+    const newOnChain = new OnChain();
+    let result;
 
-    return currency(reserve * (web3.talToken?.price || 0.0), {
-      fromCents: true,
-    }).format();
-  };
+    result = await newOnChain.initialize();
+
+    if (!result) {
+      return;
+    }
+
+    result = newOnChain.loadFactory();
+
+    if (result) {
+      setFactory(newOnChain);
+      console.log("FACTORY LOADED");
+    } else {
+      console.log("NO FACTORY");
+    }
+
+    if (tokenAddress) {
+      const _token = newOnChain.getToken(tokenAddress);
+      const circulatingSupply = await _token.methods.totalSupply().call();
+      setToken({
+        circulatingSupply: newOnChain.web3.utils.fromWei(circulatingSupply),
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    setupOnChain();
+  }, []);
 
   return (
     <div className="d-flex flex-row flex-wrap border p-2 p-md-4 bg-white">
@@ -49,13 +76,7 @@ const TalentToken = ({
             <small>Price</small>
           </div>
           <div>
-            <strong>
-              {web3.loading ? (
-                <AsyncValue size={3} />
-              ) : (
-                currency(priceOfToken * (web3.talToken?.price || 0)).format()
-              )}
-            </strong>
+            <strong>{priceOfToken}</strong>
           </div>
         </div>
       </div>
@@ -65,9 +86,7 @@ const TalentToken = ({
             <small>Market Cap</small>
           </div>
           <div>
-            <strong>
-              {web3.loading ? <AsyncValue size={5} /> : marketCap()}
-            </strong>
+            <strong>{marketCap()}</strong>
           </div>
         </div>
       </div>
@@ -77,7 +96,7 @@ const TalentToken = ({
             <small>Sponsor</small>
           </div>
           <div>
-            <strong>{web3.loading ? <AsyncValue size={5} /> : sponsors}</strong>
+            <strong>{sponsors}</strong>
           </div>
         </div>
       </div>
@@ -87,9 +106,7 @@ const TalentToken = ({
             <small>Circ. Supply</small>
           </div>
           <div>
-            <strong>
-              {web3.loading ? <AsyncValue size={5} /> : circulatingSupply()}
-            </strong>
+            <strong>{token.circulatingSupply}</strong>
           </div>
         </div>
       </div>
@@ -98,13 +115,7 @@ const TalentToken = ({
           <div className="text-muted">
             <small>Price (7D)</small>
           </div>
-          {web3.loading ? (
-            <div>
-              <AsyncValue size={5} />
-            </div>
-          ) : (
-            <DisplayTokenVariance variance={priceVariance7d} />
-          )}
+          <DisplayTokenVariance variance={priceVariance7d} />
         </div>
       </div>
       <div className="col-6 mt-2 px-1">
@@ -112,13 +123,7 @@ const TalentToken = ({
           <div className="text-muted">
             <small>Price (30D)</small>
           </div>
-          {web3.loading ? (
-            <div>
-              <AsyncValue size={5} />
-            </div>
-          ) : (
-            <DisplayTokenVariance variance={priceVariance30d} />
-          )}
+          <DisplayTokenVariance variance={priceVariance30d} />
         </div>
       </div>
       <div className="col-12 flex-wrap mt-2 px-1">
@@ -145,15 +150,15 @@ const TalentToken = ({
             className="talent-button w-100 mt-2"
           />
         )}
+        <Button
+          type="primary"
+          text={"Launch token"}
+          className="talent-button w-100"
+          onClick={createToken}
+        />
       </div>
     </div>
   );
 };
 
-const ConnectedTalentToken = (props) => (
-  <Web3Container>
-    <TalentToken {...props} />
-  </Web3Container>
-);
-
-export default ConnectedTalentToken;
+export default TalentToken;

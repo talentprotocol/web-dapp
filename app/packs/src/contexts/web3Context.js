@@ -47,7 +47,7 @@ const Web3Container = (props) => {
     if (!validNetwork(web3)) {
       return await web3.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x3" }],
+        params: [{ chainId: "0x44787" }],
       });
     }
 
