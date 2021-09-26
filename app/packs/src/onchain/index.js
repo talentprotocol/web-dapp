@@ -12,6 +12,7 @@ class OnChain {
     this.account = null;
     this.networkId = null;
     this.talentFactory = null;
+    this.staking = null;
   }
 
   async initialize() {
@@ -28,6 +29,15 @@ class OnChain {
     this.talentFactory = new this.web3.eth.Contract(
       TalentFactory.abi,
       "0x228D74bCf10b9ad89600E70DE265653C9Da1B514"
+    );
+
+    return true;
+  }
+
+  loadStaking() {
+    this.staking = new this.web3.eth.Contract(
+      Staking.abi,
+      "0x3678cE749b0ffa5C62dd9b300148259d2DFAE572"
     );
 
     return true;
@@ -92,6 +102,19 @@ class OnChain {
     const result = await this.talentFactory.methods
       .talentToToken(address)
       .call()
+      .catch(() => false);
+
+    return result;
+  }
+
+  async createStake(token, amount) {
+    if (!this.staking) {
+      return;
+    }
+
+    const result = await this.staking.methods
+      .stakeStable(token, amount)
+      .send({ from: this.account })
       .catch(() => false);
 
     return result;

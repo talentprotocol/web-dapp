@@ -74,7 +74,6 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       }
     } else {
       const _token = await newOnChain.getTokenFromTalent(user.wallet_id);
-
       if (_token != "0x0000000000000000000000000000000000000000") {
         setDeploy("Your token is already live");
       } else {
