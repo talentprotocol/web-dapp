@@ -17,6 +17,7 @@ const EditGoal = ({
   const [destroying, setDestroying] = useState(false);
   const [goalInfo, setGoalInfo] = useState({
     id: selectedGoal.id || "",
+    title: selectedGoal.title || "",
     due_date: selectedGoal.due_date || "",
     description: selectedGoal.description || "",
   });
@@ -36,7 +37,7 @@ const EditGoal = ({
       const goalIndex = goals.findIndex((goal) => goal.id == goalInfo["id"]);
       let newGoals = [...goals];
       if (goalIndex > -1) {
-        newGoals.splice(goalIndex);
+        newGoals.splice(goalIndex, 1);
       }
 
       updateSharedState((prevState) => ({
@@ -70,6 +71,7 @@ const EditGoal = ({
       goal: {
         due_date: goalInfo["due_date"],
         description: goalInfo["description"],
+        title: goalInfo["title"],
       },
     }).catch(() => setSaving(false));
 
@@ -77,7 +79,7 @@ const EditGoal = ({
       const goalIndex = goals.findIndex((goal) => goal.id == goalInfo["id"]);
       let newGoals = [...goals];
       if (goalIndex > -1) {
-        newGoals.splice(goalIndex);
+        newGoals.splice(goalIndex, 1);
       }
 
       newGoals.push(response);
@@ -102,11 +104,22 @@ const EditGoal = ({
 
   return (
     <form>
+      <h5>Goal</h5>
       <div className="form-group">
-        <label htmlFor="title">Goal</label>
+        <label htmlFor="title">Title</label>
+        <input
+          id="title"
+          className="form-control"
+          placeholder="What is your goal"
+          value={goalInfo["title"]}
+          onChange={(e) => changeAttribute("title", e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="title">Description</label>
         <textarea
           rows="3"
-          id="goal"
+          id="description"
           className="form-control"
           placeholder="Describe your goal"
           value={goalInfo["description"]}
@@ -181,6 +194,7 @@ const ViewGoals = ({ goals, setSelectedGoal }) => {
             <div className="d-flex flex-row w-100 justify-content-end">
               <small>{goal.due_date}</small>
             </div>
+            <h5 className="mb-1">{goal.title}</h5>
             <p className="mb-1">{goal.description}</p>
           </button>
         );

@@ -36,7 +36,7 @@ const EditPerk = ({
       const perkIndex = perks.findIndex((perk) => perk.id == perksInfo["id"]);
       let newPerks = [...perks];
       if (perkIndex > -1) {
-        newPerks.splice(perkIndex);
+        newPerks.splice(perkIndex, 1);
       }
 
       updateSharedState((prevState) => ({
@@ -77,7 +77,7 @@ const EditPerk = ({
       const perkIndex = perks.findIndex((perk) => perk.id == perksInfo["id"]);
       let newPerks = [...perks];
       if (perkIndex > -1) {
-        newPerks.splice(perkIndex);
+        newPerks.splice(perkIndex, 1);
       }
 
       newPerks.push(response);

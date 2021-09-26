@@ -5,9 +5,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Services = ({ services, ticker }) => {
+const Services = ({ services, ticker, width }) => {
   const [start, setStart] = useState(0);
-  const itemsPerRow = 3;
+  const itemsPerRow = width < 768 ? 1 : 3;
 
   const end =
     services.length > itemsPerRow ? start + itemsPerRow : services.length;
@@ -18,8 +18,6 @@ const Services = ({ services, ticker }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= services.length;
 
-  console.log(disableLeft);
-  console.log(start);
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -43,13 +41,13 @@ const Services = ({ services, ticker }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex flex-row">
+      <div className="d-flex flex-row mt-3 mb-2">
         {sliceInDisplay.map((service, index) => (
           <div
             key={`service_list_${service.id}`}
-            className={`${
-              index == 0 && "mr-2"
-            } bg-light rounded p-2 col-4 d-flex flex-column`}
+            className={`${index == 0 && "mr-2"} bg-light rounded p-2 col-${
+              itemsPerRow == 1 ? 12 : 4
+            } d-flex flex-column`}
           >
             <p>{service.title}</p>
             <small className="text-warning">

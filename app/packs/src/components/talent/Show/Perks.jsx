@@ -5,9 +5,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Perks = ({ perks, ticker }) => {
+const Perks = ({ perks, ticker, width }) => {
   const [start, setStart] = useState(0);
-  const itemsPerRow = 3;
+  const itemsPerRow = width < 768 ? 1 : 3;
 
   const end = perks.length > itemsPerRow ? start + itemsPerRow : perks.length;
   const sliceInDisplay = perks.slice(start, end);
@@ -40,13 +40,13 @@ const Perks = ({ perks, ticker }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex flex-row">
+      <div className="d-flex flex-row mt-3 mb-2">
         {sliceInDisplay.map((perk, index) => (
           <div
             key={`perk_list_${perk.id}`}
-            className={`${
-              index == 0 && "mr-2"
-            } bg-light rounded p-2 col-4 d-flex flex-column`}
+            className={`${index == 0 && "mr-2"} bg-light rounded p-2 col-${
+              itemsPerRow == 1 ? 12 : 4
+            } d-flex flex-column`}
           >
             <p>{perk.title}</p>
             <small className="text-warning">

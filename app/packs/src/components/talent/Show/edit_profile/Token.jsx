@@ -98,7 +98,7 @@ const Token = ({ close, talent, token }) => {
             aria-describedby="price_help"
           />
           <small id="price_help" className="form-text text-muted">
-            The price in TAL of each token. (Can't be changed)
+            $1 - The price in TAL of each token. (Can't be changed)
           </small>
         </div>
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">

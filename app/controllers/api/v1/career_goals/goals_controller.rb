@@ -41,6 +41,7 @@ class API::V1::CareerGoals::GoalsController < ApplicationController
 
   def goal_params
     params.require(:goal).permit(
+      :title,
       :due_date,
       :description
     )

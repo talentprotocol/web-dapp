@@ -33,7 +33,7 @@ class API::V1::TalentController < ApplicationController
       :secondary_tags,
       :public,
       :disable_messages,
-      profile: [:pronouns, :location, :headline, :website, :video, :wallet_address, :email, :linkedin, :twitter, :telegram, :discord, :github],
+      profile: [:pronouns, :ocupation, :location, :headline, :website, :video, :wallet_address, :email, :linkedin, :twitter, :telegram, :discord, :github],
       profile_picture: {}
     )
   end

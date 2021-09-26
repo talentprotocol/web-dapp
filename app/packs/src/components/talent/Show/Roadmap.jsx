@@ -5,9 +5,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Roadmap = ({ goals }) => {
+const Roadmap = ({ goals, width }) => {
   const [start, setStart] = useState(0);
-  const itemsPerRow = 2;
+  const itemsPerRow = width < 768 ? 1 : 2;
 
   const end = goals.length > itemsPerRow ? start + itemsPerRow : goals.length;
   const sliceInDisplay = goals.slice(start, end);
@@ -49,6 +49,7 @@ const Roadmap = ({ goals }) => {
             <small>
               <strong>{goal.due_date}</strong>
             </small>
+            <h5>{goal.title}</h5>
             <p>{goal.description}</p>
           </div>
         ))}

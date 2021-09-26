@@ -3,7 +3,6 @@ import {
   faUserFriends,
   faHandHoldingUsd,
   faEnvelope,
-  faStar,
   faCog,
   faQuestionCircle,
   faHome,
@@ -25,7 +24,6 @@ const TalNavbar = (props) => {
     talentPath,
     portfolioPath,
     messagesPath,
-    tradePath,
     settingsPath,
     helpPath,
     admin,
@@ -62,7 +60,6 @@ const TalNavbar = (props) => {
             <NavbarItem url={messagesPath}>
               {icon(faEnvelope)} Messages
             </NavbarItem>
-            <NavbarItem url={tradePath}>{icon(faStar)} Trade $TAL</NavbarItem>
             {admin && (
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
             )}

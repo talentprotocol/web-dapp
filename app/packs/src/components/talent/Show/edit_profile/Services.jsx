@@ -38,7 +38,7 @@ const EditService = ({
       );
       let newServices = [...services];
       if (serviceIndex > -1) {
-        newServices.splice(serviceIndex);
+        newServices.splice(serviceIndex, 1);
       }
 
       updateSharedState((prevState) => ({
@@ -81,7 +81,7 @@ const EditService = ({
       );
       let newServices = [...services];
       if (serviceIndex > -1) {
-        newServices.splice(serviceIndex);
+        newServices.splice(serviceIndex, 1);
       }
 
       newServices.push(response);

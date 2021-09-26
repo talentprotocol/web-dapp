@@ -44,6 +44,7 @@ class API::UpdateTalent
       @talent[:public] = params[:public] || false
       @talent[:disable_messages] = params[:disable_messages] || false
       @talent.pronouns = params[:profile][:pronouns]
+      @talent.ocupation = params[:profile][:ocupation]
       @talent.location = params[:profile][:location]
       @talent.headline = params[:profile][:headline]
       @talent.website = params[:profile][:website]

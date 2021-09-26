@@ -41,7 +41,7 @@ const EditMilestone = ({
       );
       let newMilestones = [...milestones];
       if (milestoneIndex > -1) {
-        newMilestones.splice(milestoneIndex);
+        newMilestones.splice(milestoneIndex, 1);
       }
 
       updateSharedState((prevState) => ({
@@ -87,7 +87,7 @@ const EditMilestone = ({
       );
       let newMilestones = [...milestones];
       if (milestoneIndex > -1) {
-        newMilestones.splice(milestoneIndex);
+        newMilestones.splice(milestoneIndex, 1);
       }
 
       newMilestones.push(response);

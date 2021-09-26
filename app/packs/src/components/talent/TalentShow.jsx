@@ -1,28 +1,16 @@
 import React, { useState } from "react";
-import ReactPlayer from "react-player/youtube";
-import Modal from "react-bootstrap/Modal";
 import {
-  faGithub,
-  faTwitter,
-  faLinkedin,
-  faDiscord,
-  faTelegram,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faEnvelope,
   faCommentAlt,
   faStar as faStarOutline,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faChevronLeft,
   faChevronRight,
   faStar,
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseJSON, formatDistanceToNow } from "date-fns";
-import parse from "html-react-parser";
+
+import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import EditProfile from "./Show/EditProfile";
@@ -55,6 +43,7 @@ const TalentShow = ({
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
+  const { height, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
     services,
@@ -109,37 +98,40 @@ const TalentShow = ({
           </span>
         </div>
       </section>
-      <section className="d-flex flex-row mt-3 ml-3 align-items-center">
-        <TalentProfilePicture
-          src={sharedState.profilePictureUrl}
-          height={192}
-        />
-        <div className="d-flex flex-column ml-2">
-          <div className="d-flex flex-row align-items-center">
-            <h2 className="mb-0 mr-2">{displayName({ withLink: false })}</h2>
-            <p className="mb-0 border rounded p-1 bg-light">
-              <small>{ticker()}</small>
-            </p>
-            <button className="btn border-0 text-warning">
-              {isFollowing ? (
-                <FontAwesomeIcon icon={faStar} />
-              ) : (
-                <FontAwesomeIcon icon={faStarOutline} />
-              )}
-            </button>
+      <section className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap">
+        <div className="d-flex flex-row align-items-center flex-wrap">
+          <TalentProfilePicture
+            src={sharedState.profilePictureUrl}
+            height={192}
+            className="mr-2"
+          />
+          <div className="d-flex flex-column">
+            <div className="d-flex flex-row align-items-center">
+              <h2 className="mb-0">{displayName({ withLink: false })}</h2>
+              <p className="mb-0 border rounded p-1 bg-light ml-2">
+                <small>{ticker()}</small>
+              </p>
+              <button className="btn border-0 text-warning">
+                {isFollowing ? (
+                  <FontAwesomeIcon icon={faStar} />
+                ) : (
+                  <FontAwesomeIcon icon={faStarOutline} />
+                )}
+              </button>
+            </div>
+            <div className="d-flex flex-row">
+              <p>{sharedState.talent.profile.ocupation}</p>
+              <a
+                href={sharedState.talent.profile.website}
+                className="text-primary ml-2"
+              >
+                {prettifyWebsiteUrl(sharedState.talent.profile.website)}
+              </a>
+            </div>
+            <TalentTags tags={allTags()} className="mr-2" />
           </div>
-          <div className="d-flex flex-row">
-            <p>{sharedState.talent.profile.headline}</p>
-            <a
-              href={sharedState.talent.profile.website}
-              className="text-primary ml-2"
-            >
-              {prettifyWebsiteUrl(sharedState.talent.profile.website)}
-            </a>
-          </div>
-          <TalentTags tags={allTags()} />
         </div>
-        <div className="d-flex flex-row align-items-center ml-2">
+        <div className="d-flex flex-row align-items-center mt-2">
           <button
             className="btn btn-secondary"
             style={{ height: 38, width: 99 }}
@@ -149,14 +141,16 @@ const TalentShow = ({
           <a href={`/message?user=${user.id}`} className="text-secondary ml-2">
             <FontAwesomeIcon icon={faCommentAlt} size="lg" />
           </a>
-          <button className="btn btn-light bg-transparent border-0">
-            <FontAwesomeIcon icon={faEllipsisV} size="lg" />
-          </button>
+          <EditProfile
+            {...sharedState}
+            updateSharedState={setSharedState}
+            allowEdit={talentIsFromCurrentUser}
+          />
         </div>
       </section>
       <div className="d-flex flex-row mx-3 mt-3">
         <button
-          className={`btn btn-light rounded mr-2 ${
+          className={`btn btn-light rounded mr-2 p-1 ${
             pageInDisplay == "Overview" && "active"
           }`}
           onClick={() => setPageInDisplay("Overview")}
@@ -164,7 +158,7 @@ const TalentShow = ({
           <small>Overview</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 ${
+          className={`btn btn-light rounded mr-2 p-1 ${
             pageInDisplay == "Timeline" && "active"
           }`}
           onClick={() => setPageInDisplay("Timeline")}
@@ -172,7 +166,7 @@ const TalentShow = ({
           <small>Timeline</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 ${
+          className={`btn btn-light rounded mr-2 p-1 ${
             pageInDisplay == "Activity" && "active"
           }`}
           onClick={() => setPageInDisplay("Activity")}
@@ -181,7 +175,7 @@ const TalentShow = ({
           <small>Activity</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 ${
+          className={`btn btn-light rounded mr-2 p-1 ${
             pageInDisplay == "Community" && "active"
           }`}
           onClick={() => setPageInDisplay("Community")}
@@ -190,8 +184,8 @@ const TalentShow = ({
           <small>Community</small>
         </button>
       </div>
-      <div className="d-flex flex-row">
-        <div className="col-8">
+      <div className="d-flex flex-row flex-wrap">
+        <div className="col-12 col-lg-8">
           {pageInDisplay == "Overview" && (
             <Overview sharedState={sharedState} />
           )}
@@ -199,23 +193,22 @@ const TalentShow = ({
             <Timeline sharedState={sharedState} />
           )}
         </div>
-        <div className="col-4">
+        <div className="col-12 col-lg-4">
           <TokenDetails
             ticker={ticker()}
             displayName={displayName({ withLink: false })}
           />
         </div>
       </div>
-      <section className="d-flex flex-column mx-3 mt-3">
-        <Roadmap goals={sharedState.goals} />
-        <Services services={sharedState.services} ticker={ticker()} />
-        <Perks perks={sharedState.perks} ticker={ticker()} />
+      <section className="d-flex flex-column mx-3 my-3">
+        <Roadmap goals={sharedState.goals} width={width} />
+        <Services
+          services={sharedState.services}
+          ticker={ticker()}
+          width={width}
+        />
+        <Perks perks={sharedState.perks} ticker={ticker()} width={width} />
       </section>
-      <EditProfile
-        {...sharedState}
-        updateSharedState={setSharedState}
-        allowEdit={talentIsFromCurrentUser}
-      />
     </div>
   );
 };
