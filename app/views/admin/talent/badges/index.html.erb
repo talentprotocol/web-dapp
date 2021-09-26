@@ -1,0 +1,40 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <div class="d-flex flex-row justify-content-between align-items-center mt-4">
+      <h1>Badges - for <%= @talent.username %></h1>
+
+      <%= link_to "Add new badge", new_admin_talent_badge_path(@talent, @badge), class: "btn btn-primary talent-button" %>
+    </div>
+
+    <%= render "shared/flashes" %>
+
+    <table class="table table-hover mt-4">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Url</th>
+          <th scope="col">Alt</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @badges.each do |badge|%>
+          <tr>
+            <th scope="row"><%= badge.id%></th>
+            <td><%= badge.name %></td>
+            <td><%= badge.url %></td>
+            <td><%= badge.alt %></td>
+            <td><%= link_to "Remove Badge", admin_talent_badge_path(@talent, badge), class: "btn btn-danger", method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="d-flex flex-row">
+      <div class="col-md-12">
+        <%= link_to "Back to User", admin_user_path(@talent.user), class: "btn btn-secondary talent-button" %>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,21 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>New badge - for <%= @talent.username %></h1>
+
+    <div class="d-flex flex-row">
+      <%= form_with model: [:admin, @talent, @badge], local: true do |form |%>
+        <%= render "shared/form_errors", resource: @badge%>
+
+        <div class="form-group">
+          <%= form.label :badge_id %>
+          <%= form.collection_select :badge_id, Badge.all, :id, :name %>
+        </div>
+
+        <div class="form-actions">
+          <%= link_to "Cancel", @badge.persisted? && admin_talent_badges_path(@talent, @badge), class: "btn btn-secondary talent-button", role: "button"%>
+          <%= form.submit "Save Badge", class: "btn btn-primary talent-button" %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

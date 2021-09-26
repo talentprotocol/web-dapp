@@ -13,6 +13,6 @@
 
   <div class="form-actions">
     <%= link_to "Cancel", tag.persisted? && admin_talent_tags_path(talent, tag) || admin_talent_tags_path(tag), class: "btn btn-secondary talent-button", role: "button"%>
-    <%= form.submit "Save Tab", class: "btn btn-primary talent-button" %>
+    <%= form.submit "Save Tag", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>

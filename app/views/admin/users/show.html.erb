@@ -112,6 +112,20 @@
         </div>
       <% end %>
 
+      <h3 class="border-top mt-2">Badges</h3>
+      <dl class="d-flex flex-row flex-wrap">
+        <dt class="col-md-3 sm-text-left md-text-right">Badges</dt>
+        <dd class="col-md-9">
+          <%= @user.talent.badges.map(&:name).join(" | ") %>
+        </dd>
+      </dl>
+
+      <div class="d-flex flex-row">
+        <div class="offset-md-3 col-md-9 pb-2">
+          <%= link_to "Edit Badges", admin_talent_badges_path(@user.talent), class: "btn btn-primary talent-button" %>
+        </div>
+      </div>
+
       <% if @user.talent.token.present? %>
         <h3 class="border-top mt-2">Token</h3>
         <dl class="d-flex flex-row flex-wrap">
