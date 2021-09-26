@@ -1,0 +1,34 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Badge</h1>
+
+    <%= render "shared/flashes" %>
+
+    <dl class="d-flex flex-row flex-wrap">
+      <dt class="col-md-3 sm-text-left md-text-right">ID</dt>
+      <dd class="col-md-9"><%= @badge.id %></dd>
+
+      <dt class="col-md-3 sm-text-left md-text-right">Name</dt>
+      <dd class="col-md-9"><%= @badge.name %></dd>
+
+      <% if @badge.image.present? %>
+        <dt class="col-md-3 sm-text-left md-text-right">Image</dt>
+        <dd class="col-md-9"><%= image_tag @badge.image_url %></dd>
+      <% end %>
+
+      <dt class="col-md-3 sm-text-left md-text-right">Url</dt>
+      <dd class="col-md-9"><%= link_to @badge.url %></dd>
+
+      <dt class="col-md-3 sm-text-left md-text-right">Alt</dt>
+      <dd class="col-md-9"><%= @badge.alt %></dd>
+    </dl>
+
+    <div class="d-flex flex-row">
+      <div class="col-md-9 offset-md-3">
+        <%= link_to "Back to Badges", admin_badges_path, class: "btn btn-secondary talent-button" %>
+        <%= link_to "Edit badge", edit_admin_badge_path(@badge), class: "btn btn-primary talent-button" %>
+        <%= link_to "Destroy badge", admin_badge_path(@badge), class: "btn btn-danger talent-button", method: :delete %>
+      </div>
+    </div>
+  </main>
+</div>

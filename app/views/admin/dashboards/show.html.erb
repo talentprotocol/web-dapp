@@ -23,6 +23,11 @@
           <th scope="row"><%= @wait_list_count %></th>
           <td><%= react_component("Button", props: { type: "primary", href: admin_wait_list_index_path, text: "Manage"}, prerender: false) %></td>
         </tr>
+        <tr>
+          <th scope="row">Badges</th>
+          <th scope="row"><%= @badge_count %></th>
+          <td><%= react_component("Button", props: { type: "primary", href: admin_badges_path, text: "Manage"}, prerender: false) %></td>
+        </tr>
       </tbody>
     </table>
   </main>

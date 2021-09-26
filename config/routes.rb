@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       end
       resources :wait_list
       resources :users
+      resources :badges
     end
   end
   # end Admin
