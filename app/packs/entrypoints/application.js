@@ -8,6 +8,7 @@ import "regenerator-runtime/runtime";
 import Rails from "@rails/ujs";
 
 import "channels";
+import "@fontsource/plus-jakarta-sans";
 
 import ReactOnRails from "react-on-rails";
 import Button from "src/components/button";
@@ -27,7 +28,6 @@ import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import RegistrationFlow from "src/components/registration/RegistrationFlow";
 import Feed from "src/components/feed/Feed";
-import Swap from "src/components/swap/Swap";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskLogin from "src/components/login/MetamaskLogin";
 import DeployTokenButton from "src/components/token/DeployTokenButton";
@@ -56,7 +56,6 @@ ReactOnRails.register({
   Chat,
   RegistrationFlow,
   Feed,
-  Swap,
   TalentNameSearch,
   MetamaskLogin,
   DeployTokenButton,

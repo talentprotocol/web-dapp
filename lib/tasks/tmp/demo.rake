@@ -13,7 +13,6 @@ namespace :demo do
       description: "Vitalik Buterin is a Russian-Canadian programmer and writer who is best known as one of the co-founders of Ethereum. Buterin became involved with cryptocurrency early in its inception, co-founding Bittoken Magazine in 2011. In 2014, Buterin launched Ethereum with Gavin Wood.",
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
-      linkedin_url: "https://www.linkedin.com/"
     )
 
     Tag.create(talent: talent, description: "Entrepreneur", primary: true)
@@ -39,14 +38,6 @@ namespace :demo do
       talent: user.talent
     )
 
-    Random.new.rand(1..3).times.each do |_i|
-      Reward.create!(
-        required_amount: Random.new.rand(100..2000),
-        description: Faker::Lorem.sentence,
-        talent: user.talent
-      )
-    end
-
     user = User.create!(
       username: "João Montenegro",
       wallet_id: "0x#{SecureRandom.hex(32)}"
@@ -60,8 +51,6 @@ namespace :demo do
       description: user.investor.description,
       ito_date: Time.current - Random.new.rand(1..19).week,
       activity_count: 0,
-      linkedin_url: "https://www.linkedin.com/",
-      youtube_url: "https://www.youtube.com/watch?v=AmrrSfiMxGA"
     )
 
     Tag.create(talent: talent, description: "Space", primary: true)
@@ -86,29 +75,6 @@ namespace :demo do
     CareerGoal.create!(
       target_date: Date.today + Random.new.rand(6..24).month,
       description: "João is looking for support to become the first Portuguese astronaut ever.\n1. Space Studies Program (SSP) in Strasbourg this summer.\n2. Pilot's license.\n3. Start a space business.\n4. Astronaut candidate in 5 years.\n5. Land on the moon in 10 years.",
-      talent: user.talent
-    )
-
-    Reward.create!(
-      required_amount: 0,
-      required_text: "First 10 sponsors",
-      description: "The first 10 sponsors will receive an airdrop of 1,000 $SPACE.",
-      talent: user.talent
-    )
-    Reward.create!(
-      required_amount: 0,
-      required_text: "All sponsors",
-      description: "All sponsors will have access to a private newsletter.",
-      talent: user.talent
-    )
-    Reward.create!(
-      required_amount: 2000,
-      description: "Shoutout in the newsletter.",
-      talent: user.talent
-    )
-    Reward.create!(
-      required_amount: 50000,
-      description: "A postcard from space.",
       talent: user.talent
     )
   end

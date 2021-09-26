@@ -36,7 +36,6 @@ namespace :staging do
         description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
-        linkedin_url: "https://www.linkedin.com/in/#{admin[:linkedin]}/"
       )
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
@@ -60,7 +59,6 @@ namespace :staging do
         description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
-        linkedin_url: "https://www.linkedin.com/"
       )
       talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
@@ -91,14 +89,6 @@ namespace :staging do
         description: Faker::Company.bs,
         talent: user.talent
       )
-
-      Random.new.rand(1..3).times.each do |_i|
-        Reward.create!(
-          required_amount: Random.new.rand(100..2000),
-          description: Faker::Lorem.sentence,
-          talent: user.talent
-        )
-      end
     end
 
     puts "Setting up follows.."

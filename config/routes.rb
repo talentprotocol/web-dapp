@@ -15,7 +15,6 @@ Rails.application.routes.draw do
       resources :talent do
         resources :tokens, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
-        resources :rewards, module: "talent"
         resources :tags, module: "talent"
       end
       resources :wait_list
@@ -36,9 +35,7 @@ Rails.application.routes.draw do
     # Talent pages & search
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
-    resources :talent, only: [:index, :show, :update] do
-      resources :career_goals, only: [:create, :update], module: "talent"
-      resources :rewards, only: [:create, :update, :destroy], module: "talent"
+    resources :talent, only: [:index, :show] do
       resources :sponsors, only: [:index], module: "talent"
     end
 
@@ -65,7 +62,6 @@ Rails.application.routes.draw do
     end
 
     # Swap
-    resource :swap, only: [:show]
     resources :transactions, only: [:create]
 
     namespace :api, defaults: {format: :json} do
@@ -73,6 +69,16 @@ Rails.application.routes.draw do
         resources :tokens, only: [:show]
         resources :users, only: [:update]
         resources :notifications, only: [:update]
+        resources :career_goals, only: [] do
+          resources :goals, only: [:update, :create, :delete], module: "career_goals"
+        end
+        resources :talent, only: [:update] do
+          resources :milestones, only: [:create, :update, :delete], module: "talent"
+          resources :perks, only: [:create, :update, :delete], module: "talent"
+          resources :services, only: [:create, :update, :delete], module: "talent"
+          resources :tokens, only: [:update], module: "talent"
+          resources :career_goals, only: [:update, :create], module: "talent"
+        end
       end
     end
   end
@@ -88,10 +94,10 @@ Rails.application.routes.draw do
       only: [:edit, :update]
   end
 
-  get "/sign_up" => "pages#home", as: :sign_up
+  get "/sign_up" => "pages#home", :as => :sign_up
   get "/" => "sessions#new", :as => "sign_in"
   delete "/sign_out" => "sessions#destroy", :as => "sign_out"
-  get "/confirm_email(/:token)" => "email_confirmations#update", as: "confirm_email"
+  get "/confirm_email(/:token)" => "email_confirmations#update", :as => "confirm_email"
   # end Auth
 
   resources :wait_list, only: [:create, :index]

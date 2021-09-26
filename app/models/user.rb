@@ -45,10 +45,6 @@ class User < ApplicationRecord
     investor.present?
   end
 
-  def display_name
-    username || email
-  end
-
   def display_wallet_id
     wallet_id ? "#{wallet_id[0..10]}..." : ""
   end

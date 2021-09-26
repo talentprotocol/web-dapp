@@ -1,13 +1,13 @@
 import React from "react";
 
-const TalentTags = ({ tags, talent_id }) => {
+const TalentTags = ({ tags, talent_id, className }) => {
   if (tags && tags.length > 0) {
     return (
-      <div className="d-flex flex-row flex-wrap">
+      <div className={`d-flex flex-row flex-wrap ${className || ""}`}>
         {tags.map((tag) => (
           <div
             key={`${talent_id}_${tag}`}
-            className="text-regular px-1 mr-2 border border-light rounded-pill"
+            className="text-regular p-1 mr-2 border border-light bg-light rounded"
           >
             <small>
               <strong>{tag}</strong>
