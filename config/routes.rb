@@ -62,7 +62,6 @@ Rails.application.routes.draw do
     end
 
     # Swap
-    resource :swap, only: [:show]
     resources :transactions, only: [:create]
 
     namespace :api, defaults: {format: :json} do
