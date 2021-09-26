@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
     t.index ["page"], name: "index_alert_configurations_on_page", unique: true
   end
 
+  create_table "badges", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "image_data"
+    t.string "url"
+    t.string "alt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "career_goals", force: :cascade do |t|
     t.text "description"
     t.bigint "talent_id", null: false
@@ -184,6 +193,15 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
+  create_table "talent_badges", force: :cascade do |t|
+    t.bigint "talent_id", null: false
+    t.bigint "badge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["badge_id"], name: "index_talent_badges_on_badge_id"
+    t.index ["talent_id"], name: "index_talent_badges_on_talent_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.integer "price"
     t.integer "market_cap"
@@ -261,6 +279,8 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
   add_foreign_key "posts", "users"
   add_foreign_key "services", "talent"
   add_foreign_key "tags", "talent"
+  add_foreign_key "talent_badges", "badges"
+  add_foreign_key "talent_badges", "talent"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"
   add_foreign_key "transactions", "tokens"
