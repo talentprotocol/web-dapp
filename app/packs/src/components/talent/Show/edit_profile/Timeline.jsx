@@ -211,7 +211,7 @@ const ViewMilestones = ({ milestones, setSelectedMilestone }) => {
         return (
           <button
             key={`milestone_${milestone.id}`}
-            className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            className="btn btn-outline-secondary w-100 rounded-0 text-left mt-2"
             onClick={() => setSelectedMilestone(milestone)}
           >
             <div className="d-flex flex-row w-100 justify-content-between">

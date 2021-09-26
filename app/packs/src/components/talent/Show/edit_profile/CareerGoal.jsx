@@ -165,7 +165,7 @@ const EditGoal = ({
 const ViewGoals = ({ goals, setSelectedGoal }) => {
   return (
     <div className="d-flex flex-column mt-3">
-      <p>Goals</p>
+      <p>Roadmap</p>
       {goals.length == 0 && (
         <small className="text-muted">
           Start by adding what was your first goal!
@@ -175,7 +175,7 @@ const ViewGoals = ({ goals, setSelectedGoal }) => {
         return (
           <button
             key={`career_goal_${goal.id}`}
-            className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            className="btn btn-outline-secondary w-100 rounded-0 text-left mt-2"
             onClick={() => setSelectedGoal(goal)}
           >
             <div className="d-flex flex-row w-100 justify-content-end">
@@ -271,8 +271,9 @@ const CareerGoal = (props) => {
         <form>
           <div className="form-group">
             <label htmlFor="bio">Bio</label>
-            <input
+            <textarea
               id="bio"
+              rows="3"
               className="form-control"
               placeholder="A short bio"
               value={careerInfo["bio"]}
@@ -283,6 +284,7 @@ const CareerGoal = (props) => {
             <label htmlFor="pitch">Pitch</label>
             <textarea
               id="pitch"
+              rows="3"
               className="form-control"
               placeholder="Your long term ambition, why do you have potential"
               onChange={(e) => changeAttribute("pitch", e.target.value)}
@@ -292,7 +294,8 @@ const CareerGoal = (props) => {
           <div className="form-group">
             <label htmlFor="challenge">Challenges</label>
             <textarea
-              id="pitch"
+              id="challenges"
+              rows="3"
               className="form-control"
               placeholder="What do you need support with"
               onChange={(e) => changeAttribute("challenges", e.target.value)}

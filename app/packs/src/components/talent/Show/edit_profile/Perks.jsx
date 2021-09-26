@@ -171,7 +171,7 @@ const ViewPerks = ({ perks, setSelectedPerk }) => {
         return (
           <button
             key={`perk_${perk.id}`}
-            className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            className="btn btn-outline-secondary w-100 rounded-0 text-left mt-2"
             onClick={() => setSelectedPerk(perk)}
           >
             <div className="d-flex flex-row w-100 justify-content-between">

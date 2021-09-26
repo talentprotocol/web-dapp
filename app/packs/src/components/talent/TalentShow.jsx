@@ -9,7 +9,17 @@ import {
   faTelegram,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import {
+  faEnvelope,
+  faCommentAlt,
+  faStar as faStarOutline,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faStar,
+  faEllipsisV,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseJSON, formatDistanceToNow } from "date-fns";
 import parse from "html-react-parser";
@@ -17,6 +27,13 @@ import TalentProfilePicture from "./TalentProfilePicture";
 
 import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
+
+import Roadmap from "./Show/Roadmap";
+import Services from "./Show/Services";
+import Perks from "./Show/Perks";
+import Overview from "./Show/Overview";
+import Timeline from "./Show/Timeline";
+import TokenDetails from "./Show/TokenDetails";
 
 const TalentShow = ({
   talent,
@@ -33,8 +50,10 @@ const TalentShow = ({
   career_goal,
   goals,
   posts,
+  isFollowing,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
+  const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
   const [sharedState, setSharedState] = useState({
     talent,
@@ -57,8 +76,8 @@ const TalentShow = ({
     sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
   const allTags = () =>
     [sharedState.primary_tag].concat(sharedState.secondary_tags);
-  const displayName = () => {
-    if (sharedState.talent.profile.website) {
+  const displayName = ({ withLink }) => {
+    if (sharedState.talent.profile.website && withLink) {
       return (
         <a href={sharedState.talent.profile.website} className="text-reset">
           {sharedState.user.display_name || sharedState.user.username}
@@ -68,266 +87,130 @@ const TalentShow = ({
     return sharedState.user.display_name || sharedState.user.username;
   };
 
-  const picture = () => {
-    if (sharedState.talent.profile.video) {
-      return (
-        <>
-          <Modal
-            size="lg"
-            scrollable={true}
-            fullscreen={"md-down"}
-            show={show}
-            onHide={() => setShow(false)}
-            centered
-            contentClassName="talent-video-height"
-          >
-            <ReactPlayer
-              url={sharedState.talent.profile.video}
-              light
-              width={"100%"}
-              height={"100%"}
-            />
-          </Modal>
-          <button className="btn p-0 border-0" onClick={() => setShow(true)}>
-            <img
-              src={sharedState.profilePictureUrl}
-              className="card-img-top"
-              alt="Profile Picture"
-            />
-          </button>
-        </>
-      );
-    }
-
-    return (
-      <img
-        src={sharedState.profilePictureUrl}
-        className="card-img-top"
-        alt="Profile Picture"
-      />
-    );
+  const prettifyWebsiteUrl = (url) => {
+    const link = new URL(url);
+    return link.host;
   };
 
   return (
     <div className="d-flex flex-column">
-      <div className="card border-0 rounded-0" style={{ width: "100%" }}>
-        {picture()}
-        <div className="card-body">
-          <h1 className="h2 card-title mb-0">
-            <strong>{displayName()}</strong> <small>{ticker()}</small>
-          </h1>
-          <div className="d-flex flex-column">
-            <small className="text-muted mb-2 ml-1 w-100">
-              {sharedState.talent.profile.wallet_address ||
-                sharedState.user.wallet_id}
-            </small>
-            {sharedState.talent.profile.pronouns && (
-              <small className="text-muted mb-2 ml-1">
-                {sharedState.talent.profile.pronouns}
-              </small>
-            )}
-            {sharedState.talent.profile.location && (
-              <small className="text-muted mb-2 ml-1">
-                {sharedState.talent.profile.location}
-              </small>
-            )}
+      <section className="mt-3">
+        <div className="d-flex flex-row text-muted mx-3">
+          <span>
+            <a href="/talent" className="text-reset">
+              <small>TALENT</small>
+            </a>
+          </span>
+          <span className="mx-3">
+            <FontAwesomeIcon icon={faChevronRight} size="sm" />
+          </span>
+          <span className="text-uppercase">
+            <small>{displayName({ withLink: false })}</small>
+          </span>
+        </div>
+      </section>
+      <section className="d-flex flex-row mt-3 ml-3 align-items-center">
+        <TalentProfilePicture
+          src={sharedState.profilePictureUrl}
+          height={192}
+        />
+        <div className="d-flex flex-column ml-2">
+          <div className="d-flex flex-row align-items-center">
+            <h2 className="mb-0 mr-2">{displayName({ withLink: false })}</h2>
+            <p className="mb-0 border rounded p-1 bg-light">
+              <small>{ticker()}</small>
+            </p>
+            <button className="btn border-0 text-warning">
+              {isFollowing ? (
+                <FontAwesomeIcon icon={faStar} />
+              ) : (
+                <FontAwesomeIcon icon={faStarOutline} />
+              )}
+            </button>
+          </div>
+          <div className="d-flex flex-row">
+            <p>{sharedState.talent.profile.headline}</p>
+            <a
+              href={sharedState.talent.profile.website}
+              className="text-primary ml-2"
+            >
+              {prettifyWebsiteUrl(sharedState.talent.profile.website)}
+            </a>
           </div>
           <TalentTags tags={allTags()} />
-          <p className="card-text mt-2">
-            {sharedState.talent.profile.headline}
-          </p>
-
-          <section className="d-flex flex-column">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">
-              Sponsor Perks
-            </h6>
-            {sharedState.perks.map((perk) => (
-              <div key={`perk_list_${perk.id}`} className="ml-2">
-                <small>
-                  <strong>
-                    {perk.price} {ticker()}
-                  </strong>
-                </small>
-                <p>{perk.title}</p>
-              </div>
-            ))}
-          </section>
-          <section className="d-flex flex-column">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">
-              Token Utility
-            </h6>
-            {sharedState.services.map((service) => (
-              <div key={`service_list_${service.id}`} className="ml-2">
-                <small>
-                  <strong>
-                    {service.price} {ticker()}
-                  </strong>
-                </small>
-                <p>{service.title}</p>
-              </div>
-            ))}
-          </section>
-          <section className="d-flex flex-column">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">
-              Career Goal(s)
-            </h6>
-            <h6 style={{ textDecoration: "underline" }}>
-              <strong>Bio</strong>
-            </h6>
-            <p>{sharedState.career_goal.bio}</p>
-            <h6 style={{ textDecoration: "underline" }}>
-              <strong>Pitch</strong>
-            </h6>
-            <p>{sharedState.career_goal.pitch}</p>
-            <h6 style={{ textDecoration: "underline" }}>
-              <strong>Challenges</strong>
-            </h6>
-            <p>{sharedState.career_goal.challenges}</p>
-            <h6 style={{ textDecoration: "underline" }}>
-              <strong>Goals</strong>
-            </h6>
-            <div className="d-flex flex-row mb-2">
-              <div className="border-right p-0"></div>
-              <div className="col-11 p-0">
-                {sharedState.goals.map((goal) => (
-                  <div key={`goal_list_${goal.id}`} className="ml-2">
-                    <small>
-                      <strong>
-                        {goal.due_date} {ticker()}
-                      </strong>
-                    </small>
-                    <p>{goal.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-          <section className="d-flex flex-column mb-2">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">
-              Career Timeline
-            </h6>
-            {sharedState.milestones.map((milestone) => (
-              <div
-                key={`milestone_list_${milestone.id}`}
-                className="w-100 mt-2"
-              >
-                <div className="d-flex flex-row w-100 justify-content-between">
-                  <h6 className="mb-1" style={{ textDecoration: "underline" }}>
-                    <strong>{milestone.title}</strong>
-                  </h6>
-                  <small>{milestone.start_date}</small>
-                </div>
-                <small className="text-left">
-                  <i>
-                    <a href={milestone.link} className="text-reset">
-                      {milestone.institution}
-                    </a>
-                  </i>
-                </small>
-                <p className="mb-1">{milestone.description}</p>
-              </div>
-            ))}
-          </section>
-          <section className="d-flex flex-column">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">Posts</h6>
-            {sharedState.posts.map((post) => (
-              <div
-                key={`post_list_${post.id}`}
-                className="d-flex flex-row w-100 pt-3 pl-4 pr-2 border-bottom"
-              >
-                <TalentProfilePicture
-                  src={sharedState.profilePictureUrl}
-                  height={40}
-                />
-                <div className="d-flex flex-column pl-3 w-100">
-                  <div className="d-flex flex-row justify-content-between">
-                    <p>
-                      <strong>
-                        {sharedState.user.display_name ||
-                          sharedState.user.username}
-                      </strong>{" "}
-                      <small className="text-muted">
-                        {"\u25CF"}{" "}
-                        {formatDistanceToNow(parseJSON(post.created_at))}
-                      </small>
-                    </p>
-                    <p>
-                      <small>
-                        <span className="text-primary">{ticker()}</span>
-                      </small>
-                    </p>
-                  </div>
-                  <p className="w-100 text-white-space-wrap">
-                    {parse(post.text)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </section>
-          <section className="d-flex flex-column mt-2">
-            <h6 className="talent-show-h6 p-2 bg-primary text-white">Social</h6>
-            <div className="d-flex flex-row">
-              {sharedState.talent.profile.github && (
-                <a
-                  href={sharedState.talent.profile.github}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faGithub} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.linkedin && (
-                <a
-                  href={sharedState.talent.profile.linkedin}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faLinkedin} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.twitter && (
-                <a
-                  href={sharedState.talent.profile.twitter}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faTwitter} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.instagram && (
-                <a
-                  href={sharedState.talent.profile.instagram}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faInstagram} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.telegram && (
-                <a
-                  href={sharedState.talent.profile.telegram}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faTelegram} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.discord && (
-                <a
-                  href={sharedState.talent.profile.discord}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faDiscord} size="lg" />
-                </a>
-              )}
-              {sharedState.talent.profile.email && (
-                <a
-                  href={`mailto:${sharedState.talent.profile.email}`}
-                  className="mr-2 text-black"
-                >
-                  <FontAwesomeIcon icon={faEnvelope} size="lg" />
-                </a>
-              )}
-            </div>
-          </section>
+        </div>
+        <div className="d-flex flex-row align-items-center ml-2">
+          <button
+            className="btn btn-secondary"
+            style={{ height: 38, width: 99 }}
+          >
+            <small>GET {ticker()}</small>
+          </button>
+          <a href={`/message?user=${user.id}`} className="text-secondary ml-2">
+            <FontAwesomeIcon icon={faCommentAlt} size="lg" />
+          </a>
+          <button className="btn btn-light bg-transparent border-0">
+            <FontAwesomeIcon icon={faEllipsisV} size="lg" />
+          </button>
+        </div>
+      </section>
+      <div className="d-flex flex-row mx-3 mt-3">
+        <button
+          className={`btn btn-light rounded mr-2 ${
+            pageInDisplay == "Overview" && "active"
+          }`}
+          onClick={() => setPageInDisplay("Overview")}
+        >
+          <small>Overview</small>
+        </button>
+        <button
+          className={`btn btn-light rounded mr-2 ${
+            pageInDisplay == "Timeline" && "active"
+          }`}
+          onClick={() => setPageInDisplay("Timeline")}
+        >
+          <small>Timeline</small>
+        </button>
+        <button
+          className={`btn btn-light rounded mr-2 ${
+            pageInDisplay == "Activity" && "active"
+          }`}
+          onClick={() => setPageInDisplay("Activity")}
+          disabled
+        >
+          <small>Activity</small>
+        </button>
+        <button
+          className={`btn btn-light rounded mr-2 ${
+            pageInDisplay == "Community" && "active"
+          }`}
+          onClick={() => setPageInDisplay("Community")}
+          disabled
+        >
+          <small>Community</small>
+        </button>
+      </div>
+      <div className="d-flex flex-row">
+        <div className="col-8">
+          {pageInDisplay == "Overview" && (
+            <Overview sharedState={sharedState} />
+          )}
+          {pageInDisplay == "Timeline" && (
+            <Timeline sharedState={sharedState} />
+          )}
+        </div>
+        <div className="col-4">
+          <TokenDetails
+            ticker={ticker()}
+            displayName={displayName({ withLink: false })}
+          />
         </div>
       </div>
-
+      <section className="d-flex flex-column mx-3 mt-3">
+        <Roadmap goals={sharedState.goals} />
+        <Services services={sharedState.services} ticker={ticker()} />
+        <Perks perks={sharedState.perks} ticker={ticker()} />
+      </section>
       <EditProfile
         {...sharedState}
         updateSharedState={setSharedState}

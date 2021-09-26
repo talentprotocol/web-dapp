@@ -8,6 +8,7 @@ import "regenerator-runtime/runtime";
 import Rails from "@rails/ujs";
 
 import "channels";
+import "@fontsource/plus-jakarta-sans";
 
 import ReactOnRails from "react-on-rails";
 import Button from "src/components/button";

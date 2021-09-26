@@ -175,7 +175,7 @@ const ViewServices = ({ services, setSelectedService }) => {
         return (
           <button
             key={`service_${service.id}`}
-            className="btn btn-outline-secondary w-100 rounded-0 text-left"
+            className="btn btn-outline-secondary w-100 rounded-0 text-left mt-2"
             onClick={() => setSelectedService(service)}
           >
             <div className="d-flex flex-row w-100 justify-content-between">
