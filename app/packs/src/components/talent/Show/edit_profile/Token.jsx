@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { patch } from "src/utils/requests";
+import { OnChain } from "src/onchain";
 
 import Button from "../../../button";
 
-const Token = ({ close, talent, token }) => {
+const Token = ({ close, talent, token, user, updateSharedState }) => {
   const [saving, setSaving] = useState(false);
+  const [deploy, setDeploy] = useState("Loading...");
+  const [factory, setFactory] = useState(null);
   const [tokenInfo, setTokenInfo] = useState({
     ticker: token.ticker || "",
     max_supply: 100000,
@@ -17,6 +20,72 @@ const Token = ({ close, talent, token }) => {
   const changeAttribute = (attribute, value) => {
     setTokenInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
+
+  const createToken = async (e) => {
+    e.preventDefault();
+
+    if (factory) {
+      setDeploy("We're waiting for confirmation of a successful deploy");
+      const result = await factory.createTalent(user.wallet_id, token.ticker);
+      if (result) {
+        const contractAddress = result.events.TalentCreated.returnValues.token;
+
+        const response = await patch(
+          `/api/v1/talent/${talent.id}/tokens/${token.id}`,
+          {
+            token: { contract_id: contractAddress, deployed: true },
+          }
+        );
+
+        if (response) {
+          setDeploy("We've successfully deployed your token");
+        }
+      }
+    }
+  };
+
+  const setupOnChain = useCallback(async () => {
+    const newOnChain = new OnChain();
+    let result;
+
+    result = await newOnChain.initialize();
+
+    if (!result) {
+      return;
+    }
+
+    result = newOnChain.loadFactory();
+
+    if (result) {
+      setFactory(newOnChain);
+      console.log("FACTORY LOADED");
+    } else {
+      console.log("NO FACTORY");
+      setDeploy("Unable to deploy token");
+      return;
+    }
+
+    if (token.contract_id) {
+      const _token = newOnChain.getToken(token.contract_id);
+      if (_token) {
+        setDeploy("Your token is already live");
+      } else {
+        setDeploy("Deploy your token");
+      }
+    } else {
+      const _token = await newOnChain.getTokenFromTalent(user.wallet_id);
+
+      if (_token != "0x0000000000000000000000000000000000000000") {
+        setDeploy("Your token is already live");
+      } else {
+        setDeploy("Deploy your token");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    setupOnChain();
+  }, []);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -119,6 +188,15 @@ const Token = ({ close, talent, token }) => {
           <Button type="secondary" text="Cancel" onClick={handleCancel} />
         </div>
       </form>
+      <div className="dropdown-divider border-secondary my-3"></div>
+      <p>{deploy}</p>
+      <button
+        className="btn btn-primary"
+        disabled={deploy != "Deploy your token"}
+        onClick={createToken}
+      >
+        Deploy Your Talent Token
+      </button>
     </div>
   );
 };

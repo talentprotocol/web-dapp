@@ -138,7 +138,7 @@ const TalentShow = ({
           >
             <small>GET {ticker()}</small>
           </button>
-          <a href={`/message?user=${user.id}`} className="text-secondary ml-2">
+          <a href={`/message?user=${user.id}`} className="text-secondary mx-2">
             <FontAwesomeIcon icon={faCommentAlt} size="lg" />
           </a>
           <EditProfile

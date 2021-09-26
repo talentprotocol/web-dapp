@@ -27,7 +27,7 @@ class OnChain {
   loadFactory() {
     this.talentFactory = new this.web3.eth.Contract(
       TalentFactory.abi,
-      "0x8aFd8f844b92F8C97B806E3B50ebff25632a4CB5"
+      "0x228D74bCf10b9ad89600E70DE265653C9Da1B514"
     );
 
     return true;
@@ -74,13 +74,27 @@ class OnChain {
 
     const result = await this.talentFactory.methods
       .createTalent(this.account, name, symbol)
-      .send({ from: this.account });
+      .send({ from: this.account })
+      .catch(() => false);
 
     return result;
   }
 
   getToken(address) {
     return new this.web3.eth.Contract(TalentToken.abi, address);
+  }
+
+  async getTokenFromTalent(address) {
+    if (!this.talentFactory) {
+      return;
+    }
+
+    const result = await this.talentFactory.methods
+      .talentToToken(address)
+      .call()
+      .catch(() => false);
+
+    return result;
   }
 }
 
