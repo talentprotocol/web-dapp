@@ -67,9 +67,6 @@
           <dd class="col-md-9"><%= image_tag @user.talent.profile_picture_url, height: 128 %></dd>
         <% end %>
 
-        <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
-        <dd class="col-md-9"><%= @user.talent.description %></dd>
-
         <dt class="col-md-3 sm-text-left md-text-right">Public Key</dt>
         <dd class="col-md-9"><%= @user.talent.public_key || "-" %></dd>
 

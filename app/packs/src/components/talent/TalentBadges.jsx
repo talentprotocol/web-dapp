@@ -5,14 +5,19 @@ const TalentBadges = ({ badges, height }) => {
     return (
       <div className="d-flex flex-row flex-wrap">
         {badges.map((badge) => (
+          <a
+            href={badge.url}
+            target="_blank"
+            key={`${badge.id}_${badge}`}
+          >
             <img
-              key={`${badge.id}_${badge}`}
-              className={"image-fit px-1 mr-2 border border-light rounded-pill"}
+              className={"image-fit mr-2"}
               src={badge.imageUrl}
               width={height}
               height={height}
               alt={badge.alt}
             />
+          </a>
         ))}
       </div>
     );
