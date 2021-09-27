@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
+import StakeModal from "../token/StakeModal";
 import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
 
@@ -62,7 +63,7 @@ const TalentShow = ({
   });
 
   const ticker = () =>
-    sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
+    sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
   const allTags = () =>
     [sharedState.primary_tag].concat(sharedState.secondary_tags);
   const displayName = ({ withLink }) => {
@@ -121,12 +122,14 @@ const TalentShow = ({
             </div>
             <div className="d-flex flex-row">
               <p>{sharedState.talent.profile.ocupation}</p>
-              <a
-                href={sharedState.talent.profile.website}
-                className="text-primary ml-2"
-              >
-                {prettifyWebsiteUrl(sharedState.talent.profile.website)}
-              </a>
+              {sharedState.talent.profile.website && (
+                <a
+                  href={sharedState.talent.profile.website}
+                  className="text-primary ml-2"
+                >
+                  {prettifyWebsiteUrl(sharedState.talent.profile.website)}
+                </a>
+              )}
             </div>
             <TalentTags tags={allTags()} className="mr-2" />
           </div>
@@ -135,9 +138,17 @@ const TalentShow = ({
           <button
             className="btn btn-secondary"
             style={{ height: 38, width: 99 }}
+            onClick={() => setShow(true)}
           >
             <small>GET {ticker()}</small>
           </button>
+          <StakeModal
+            show={show}
+            setShow={setShow}
+            tokenAddress={sharedState.token.contract_id}
+            talentAddress={sharedState.user.wallet_id}
+            ticker={ticker()}
+          />
           <a href={`/message?user=${user.id}`} className="text-secondary mx-2">
             <FontAwesomeIcon icon={faCommentAlt} size="lg" />
           </a>
