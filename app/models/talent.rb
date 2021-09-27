@@ -57,6 +57,11 @@ class Talent < ApplicationRecord
     status == "Active"
   end
 
+  def to_param
+    return nil unless persisted?
+    user&.username || id
+  end
+
   private
 
   def public_key_is_valid

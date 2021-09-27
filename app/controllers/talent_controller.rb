@@ -44,7 +44,7 @@ class TalentController < ApplicationController
       if id_param > 0
         Talent.find(params[:id])
       else
-        Talent.includes(:token).find_by!(token: {ticker: params[:id]})
+        Talent.includes(:user).find_by!(user: {username: params[:id]})
       end
   end
 end
