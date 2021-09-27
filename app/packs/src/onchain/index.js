@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { newKit } from "@celo/contractkit";
 
 import TalentToken from "../abis/recent/TalentToken.json";
 import Staking from "../abis/recent/Staking.json";
@@ -13,6 +14,8 @@ class OnChain {
     this.networkId = null;
     this.talentFactory = null;
     this.staking = null;
+    this.stabletoken = null;
+    this.celoKit = null;
   }
 
   async initialize() {
@@ -39,6 +42,14 @@ class OnChain {
       Staking.abi,
       "0x3678cE749b0ffa5C62dd9b300148259d2DFAE572"
     );
+
+    return true;
+  }
+
+  async loadStableToken() {
+    this.celoKit = newKit("https://alfajores-forno.celo-testnet.org");
+
+    this.stabletoken = await this.celoKit.contracts.getStableToken();
 
     return true;
   }
@@ -107,17 +118,83 @@ class OnChain {
     return result;
   }
 
-  async createStake(token, amount) {
+  async createStake(token, _amount, onSuccess, onError, onTransactionHash) {
+    if (!this.staking) {
+      return;
+    }
+
+    const amount = this.web3.utils.toBN(
+      this.web3.utils.toWei(_amount.toString())
+    );
+
+    const result = await this.staking.methods
+      .stakeStable(token, amount)
+      .send({ from: this.account, gas: "210000" })
+      .on("transactionHash", (hash) => onTransactionHash(hash))
+      .on("receipt", (receipt) => onSuccess(receipt))
+      .on("error", (e) => onError(e));
+
+    return result;
+  }
+
+  async approveStable(_amount) {
+    if (!this.staking || !this.stabletoken) {
+      return;
+    }
+
+    const amount = this.web3.utils.toBN(
+      this.web3.utils.toWei(_amount.toString())
+    );
+
+    const result = await this.stabletoken
+      .approve(this.staking._address, amount)
+      .send({ from: this.account });
+
+    return result;
+  }
+
+  async getStableBalance(formatted = false) {
+    if (!this.stabletoken || !this.account) {
+      return;
+    }
+
+    const result = await this.stabletoken.balanceOf(this.account);
+
+    if (formatted) {
+      return this.web3.utils.fromWei(result.toString());
+    } else {
+      return result;
+    }
+  }
+
+  async maxPossibleStake(tokenAddress, formatted = false) {
     if (!this.staking) {
       return;
     }
 
     const result = await this.staking.methods
-      .stakeStable(token, amount)
-      .send({ from: this.account })
-      .catch(() => false);
+      .stakeAvailability(tokenAddress)
+      .call();
 
-    return result;
+    if (formatted) {
+      return this.web3.utils.fromWei(result.toString());
+    } else {
+      return result;
+    }
+  }
+
+  async getTokenAvailability(token, formatted = false) {
+    if (!token) {
+      return;
+    }
+
+    const result = await token.methods.mintingAvailability().call();
+
+    if (formatted) {
+      return this.web3.utils.fromWei(result.toString());
+    } else {
+      return result;
+    }
   }
 }
 
