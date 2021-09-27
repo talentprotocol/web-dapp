@@ -6,13 +6,14 @@ const customConfig = {
   resolve: {
     extensions: [".css", ".scss"],
     fallback: {
+      url: require.resolve("url"),
+      assert: require.resolve("assert"),
       http: require.resolve("stream-http"),
       https: require.resolve("https-browserify"),
       crypto: require.resolve("crypto-browserify"),
       stream: require.resolve("stream-browserify"),
       os: require.resolve("os-browserify/browser"),
-      url: require.resolve("url"),
-      assert: require.resolve("assert"),
+      querystring: require.resolve("querystring-es3"),
       fs: false,
       net: false,
     },
