@@ -30,19 +30,22 @@ if Rails.env.development?
       investor = User.create!(
         username: "Investor",
         wallet_id: "0x123",
-        email: nil
+        email: "investor@talentprotocol.com",
+        password: "password",
       )
 
       talent = User.create!(
         username: "Elon Musk",
         wallet_id: "0x1234444",
-        email: nil
+        email: "elon@talentprotocol.com",
+        password: "password",
       )
 
       talent2 = User.create!(
         username: "Karl Marx",
         wallet_id: "0x12345",
-        email: nil
+        email: "talent2@talentprotocol.com",
+        password: "password",
       )
 
       puts "Setting up Investors.."
@@ -61,13 +64,11 @@ if Rails.env.development?
 
       puts "Setting up .."
       marx = Talent.create!(
-        description: "I want to revolutionize the socioeconomic system.",
         ito_date: Time.current + 1.week,
         activity_count: 2,
         user: talent2
       )
       elon = Talent.create!(
-        description: "I want to take mankind to Pluto!",
         ito_date: Time.current - 1.week,
         activity_count: 2,
         user: talent

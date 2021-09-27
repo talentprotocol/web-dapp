@@ -1,0 +1,42 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Manage Badges</h1>
+
+    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+      <%= form_tag(admin_badges_path, method: :get) do %>
+        <div class="form-group d-flex flex-row align-items-center">
+          <%= text_field_tag(:search, nil, placeholder: "Search by url or alt", class: "form-control mr-2") %>
+          <%= submit_tag("Search", name: nil, class: "btn btn-primary talent-button") %>
+        </div>
+      <% end %>
+      <%= link_to "Create new badge", new_admin_badge_path, class: "btn btn-primary talent-button" %>
+    </div>
+
+    <%= render "shared/flashes" %>
+
+    <table class="table table-hover mt-4">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Url</th>
+          <th scope="col">Alt</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @badges.each do |badge|%>
+          <tr>
+            <th scope="row"><%= badge.id%></th>
+            <th scope="row"><%= badge.name%></th>
+            <td><%= link_to badge.url %></td>
+            <td><%= badge.alt %></td>
+            <td><%= link_to "Details", admin_badge_path(badge), class: "btn btn-primary talent-button", role: "button" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </main>
+</div>

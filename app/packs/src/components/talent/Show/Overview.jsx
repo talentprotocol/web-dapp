@@ -90,13 +90,13 @@ const Overview = ({ sharedState }) => {
             <strong>{sharedState.talent.profile.headline}</strong>
           </h5>
         )}
-        {sharedState.career_goal.bio && <p>{sharedState.career_goal.bio}</p>}
+        {sharedState.career_goal?.bio && <p>{sharedState.career_goal?.bio}</p>}
         <div className="dropdown-divider"></div>
         <h5>
           <strong>Pitch</strong>
         </h5>
-        {sharedState.career_goal.pitch && (
-          <p>{sharedState.career_goal.pitch}</p>
+        {sharedState.career_goal?.pitch && (
+          <p>{sharedState.career_goal?.pitch}</p>
         )}
         {sharedState.talent.profile.video && (
           <ReactPlayer
@@ -109,8 +109,8 @@ const Overview = ({ sharedState }) => {
         <h5>
           <strong>Challenges</strong>
         </h5>
-        {sharedState.career_goal.challenges && (
-          <p>{sharedState.career_goal.challenges}</p>
+        {sharedState.career_goal?.challenges && (
+          <p>{sharedState.career_goal?.challenges}</p>
         )}
       </section>
     </>

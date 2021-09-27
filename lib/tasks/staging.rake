@@ -33,7 +33,6 @@ namespace :staging do
         description: admin[:description] || Faker::Lorem.paragraph
       )
       talent = user.create_talent!(
-        description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
       )
@@ -53,10 +52,11 @@ namespace :staging do
     6.times.each do |i|
       user = User.create!(
         username: Faker::Name.name,
-        wallet_id: "0x#{SecureRandom.hex(32)}"
+        email: Faker::Internet.email,
+        wallet_id: "0x#{SecureRandom.hex(32)}",
+        password: SecureRandom.base64(12),
       )
       talent = user.create_talent!(
-        description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
       )

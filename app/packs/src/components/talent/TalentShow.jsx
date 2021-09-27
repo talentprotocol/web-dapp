@@ -16,6 +16,7 @@ import TalentProfilePicture from "./TalentProfilePicture";
 import StakeModal from "../token/StakeModal";
 import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
+import TalentBadges from "./TalentBadges";
 
 import Roadmap from "./Show/Roadmap";
 import Services from "./Show/Services";
@@ -40,6 +41,7 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
+  badges,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
@@ -131,7 +133,10 @@ const TalentShow = ({
                 </a>
               )}
             </div>
-            <TalentTags tags={allTags()} className="mr-2" />
+            <div className="d-flex justify-content-between">
+              <TalentBadges badges={badges} height={40} />
+              <TalentTags tags={allTags()} className="mr-2" />
+            </div>
           </div>
         </div>
         <div className="d-flex flex-row align-items-center mt-2">

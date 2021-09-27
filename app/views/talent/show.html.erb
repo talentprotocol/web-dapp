@@ -16,6 +16,7 @@
         token_live: @talent.token.deployed?,
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
         posts: @talent.user.posts.as_json,
+        badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } }
       }, prerender: false, html_options: { class: "bg-white"})
     %>
   </section>
