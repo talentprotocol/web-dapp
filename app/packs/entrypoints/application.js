@@ -18,7 +18,6 @@ import TalentCard from "src/components/talent/TalentCard";
 import Pagination from "src/components/pagination";
 import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
-import TalentToken from "src/components/talent/TalentToken";
 import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard";
 import PortfolioTransactionTable from "src/components/portfolio/PortfolioTransactionTable";
 import PortfolioTokenTable from "src/components/portfolio/PortfolioTokenTable";
@@ -47,7 +46,6 @@ ReactOnRails.register({
   Pagination,
   NavTabs,
   TalentShow,
-  TalentToken,
   TalentLeaderboard,
   PortfolioTransactionTable,
   PortfolioTalOverview,

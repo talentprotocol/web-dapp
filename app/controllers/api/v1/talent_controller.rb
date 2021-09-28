@@ -10,7 +10,7 @@ class API::V1::TalentController < ApplicationController
     if service.success
       render json: service.talent, status: :ok
     else
-      render json: {error: "Unable to update Token"}, status: :unprocessable_entity
+      render json: {error: "Unable to update Talent."}, status: :unprocessable_entity
     end
   end
 

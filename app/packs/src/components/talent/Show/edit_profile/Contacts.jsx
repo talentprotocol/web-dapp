@@ -8,6 +8,7 @@ import Button from "../../../button";
 
 const Contacts = ({ close, talent, user }) => {
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
   const [contactsInfo, setContactsInfo] = useState({
     github: talent.profile.github || "",
     linkedin: talent.profile.linkedin || "",
@@ -38,25 +39,32 @@ const Contacts = ({ close, talent, user }) => {
           discord: contactsInfo["discord"],
         },
       },
-    }).catch(() => setSaving(false));
+    }).catch(() => {
+      setError(true);
+      setSaving(false);
+    });
 
     if (response) {
-      updateSharedState((prevState) => ({
-        ...prevState,
-        talent: {
-          ...prevState.talent,
-          profile: {
-            ...prevState.talent.profile,
-            github: contactsInfo["github"],
-            linkedin: contactsInfo["linkedin"],
-            twitter: contactsInfo["twitter"],
-            instagram: contactsInfo["instagram"],
-            email: contactsInfo["email"],
-            telegram: contactsInfo["telegram"],
-            discord: contactsInfo["discord"],
+      if (response.error) {
+        setError(true);
+      } else {
+        updateSharedState((prevState) => ({
+          ...prevState,
+          talent: {
+            ...prevState.talent,
+            profile: {
+              ...prevState.talent.profile,
+              github: contactsInfo["github"],
+              linkedin: contactsInfo["linkedin"],
+              twitter: contactsInfo["twitter"],
+              instagram: contactsInfo["instagram"],
+              email: contactsInfo["email"],
+              telegram: contactsInfo["telegram"],
+              discord: contactsInfo["discord"],
+            },
           },
-        },
-      }));
+        }));
+      }
     }
 
     setSaving(false);
@@ -131,6 +139,14 @@ const Contacts = ({ close, talent, user }) => {
             onChange={(e) => changeAttribute("github", e.target.value)}
           />
         </div>
+        {error && (
+          <>
+            <p className="text-danger">
+              We had some trouble updating your contacts. Reach out to us if
+              this persists.
+            </p>
+          </>
+        )}
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             type="submit"

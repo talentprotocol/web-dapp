@@ -9,12 +9,13 @@ import Button from "../../../button";
 
 const Token = ({ close, talent, token, user, updateSharedState }) => {
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
   const [deploy, setDeploy] = useState("Loading...");
   const [factory, setFactory] = useState(null);
   const [tokenInfo, setTokenInfo] = useState({
     ticker: token.ticker || "",
-    max_supply: 100000,
-    price: 50,
+    max_supply: 1000000,
+    price: 5,
   });
 
   const changeAttribute = (attribute, value) => {
@@ -58,9 +59,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
 
     if (result) {
       setFactory(newOnChain);
-      console.log("FACTORY LOADED");
     } else {
-      console.log("NO FACTORY");
       setDeploy("Unable to deploy token");
       return;
     }
@@ -68,13 +67,6 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
     if (token.contract_id) {
       const _token = newOnChain.getToken(token.contract_id);
       if (_token) {
-        setDeploy("Your token is already live");
-      } else {
-        setDeploy("Deploy your token");
-      }
-    } else {
-      const _token = await newOnChain.getTokenFromTalent(user.wallet_id);
-      if (_token != "0x0000000000000000000000000000000000000000") {
         setDeploy("Your token is already live");
       } else {
         setDeploy("Deploy your token");
@@ -97,16 +89,23 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
           ticker: tokenInfo["ticker"],
         },
       }
-    ).catch(() => setSaving(false));
+    ).catch(() => {
+      setError(true);
+      setSaving(false);
+    });
 
     if (response) {
-      updateSharedState((prevState) => ({
-        ...prevState,
-        token: {
-          ...prevState.token,
-          ticker: tokenInfo["ticker"],
-        },
-      }));
+      if (response.error) {
+        setError(true);
+      } else {
+        updateSharedState((prevState) => ({
+          ...prevState,
+          token: {
+            ...prevState.token,
+            ticker: tokenInfo["ticker"],
+          },
+        }));
+      }
     }
 
     setSaving(false);
@@ -166,9 +165,17 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
             aria-describedby="price_help"
           />
           <small id="price_help" className="form-text text-muted">
-            $1 - The price in TAL of each token. (Can't be changed)
+            $0.1 - The price in TAL of each token. (Can't be changed)
           </small>
         </div>
+        {error && (
+          <>
+            <p className="text-danger">
+              We had some trouble updating your token. The ticker is already
+              taken.
+            </p>
+          </>
+        )}
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             type="submit"

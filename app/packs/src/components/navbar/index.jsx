@@ -61,7 +61,11 @@ const TalNavbar = (props) => {
           <Nav className="flex-lg-column w-100 mt-5">
             <h6>WATCHLIST</h6>
             {watchList.map((watchItem) => (
-              <NavbarItem url={watchItem.url} noTracking>
+              <NavbarItem
+                key={`watch_list_item_${watchItem.id}`}
+                url={watchItem.url}
+                noTracking
+              >
                 <TalentProfilePicture
                   src={watchItem.picture}
                   height={24}

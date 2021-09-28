@@ -11,6 +11,7 @@ import "@uppy/drag-drop/dist/style.css";
 import { patch, getAuthToken } from "src/utils/requests";
 
 import Button from "../../../button";
+import { Binding } from "@babel/traverse";
 
 const uppy = new Uppy({
   meta: { type: "avatar" },
@@ -37,6 +38,7 @@ const About = ({
 }) => {
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
   const [aboutInfo, setAboutInfo] = useState({
     username: user.username || "",
     display_name: user.display_name || "",
@@ -98,39 +100,46 @@ const About = ({
           video: aboutInfo["video"],
         },
       },
-    }).catch(() => setSaving(false));
+    }).catch(() => {
+      setError(true);
+      setSaving(false);
+    });
 
     if (response) {
-      updateSharedState((prevState) => ({
-        ...prevState,
-        talent: {
-          ...prevState.talent,
-          public: aboutInfo["public_profile"],
-          disable_messages: aboutInfo["disable_messages"],
-          profile: {
-            ...prevState.talent.profile,
-            pronouns: aboutInfo["pronouns"],
-            location: aboutInfo["location"],
-            ocupation: aboutInfo["ocupation"],
-            headline: aboutInfo["headline"],
-            website: aboutInfo["website"],
-            wallet_address: aboutInfo["wallet_address"],
-            video: aboutInfo["video"],
+      if (response.error) {
+        setError(true);
+      } else {
+        updateSharedState((prevState) => ({
+          ...prevState,
+          talent: {
+            ...prevState.talent,
+            public: aboutInfo["public_profile"],
+            disable_messages: aboutInfo["disable_messages"],
+            profile: {
+              ...prevState.talent.profile,
+              pronouns: aboutInfo["pronouns"],
+              location: aboutInfo["location"],
+              ocupation: aboutInfo["ocupation"],
+              headline: aboutInfo["headline"],
+              website: aboutInfo["website"],
+              wallet_address: aboutInfo["wallet_address"],
+              video: aboutInfo["video"],
+            },
           },
-        },
-        profilePictureUrl: aboutInfo["fileUrl"] || prevState.profilePictureUrl,
-        user: {
-          ...prevState.user,
-          username: aboutInfo["username"],
-          display_name: aboutInfo["display_name"],
-        },
-        primary_tag: aboutInfo["primary_tag"],
-        secondary_tags: aboutInfo["secondary_tags"]
-          .split(",")
-          .map((t) => t.trim()),
-      }));
+          profilePictureUrl:
+            aboutInfo["fileUrl"] || prevState.profilePictureUrl,
+          user: {
+            ...prevState.user,
+            username: aboutInfo["username"],
+            display_name: aboutInfo["display_name"],
+          },
+          primary_tag: aboutInfo["primary_tag"],
+          secondary_tags: aboutInfo["secondary_tags"]
+            .split(",")
+            .map((t) => t.trim()),
+        }));
+      }
     }
-
     setSaving(false);
   };
 
@@ -330,6 +339,14 @@ const About = ({
             Make profile public
           </label>
         </div>
+        {error && (
+          <>
+            <p className="text-danger">
+              We had some trouble updating your profile. Reach out to us if this
+              persists.
+            </p>
+          </>
+        )}
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             disabled={saving}

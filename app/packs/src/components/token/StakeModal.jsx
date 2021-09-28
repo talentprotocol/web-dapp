@@ -36,12 +36,6 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       if (_token) {
         setTargetToken(_token);
       }
-    } else {
-      const _tokenAddress = await newOnChain.getTokenFromTalent(talentAddress);
-      if (_tokenAddress != "0x0000000000000000000000000000000000000000") {
-        _token = newOnChain.getToken(_tokenAddress);
-        setTargetToken(_token);
-      }
     }
 
     result = await newOnChain.loadStableToken();
@@ -55,11 +49,13 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
 
     newOnChain.loadStaking();
 
-    const _tokenAvailability = await newOnChain.getTokenAvailability(
-      _token,
-      true
-    );
-    setMaxMinting(_tokenAvailability);
+    if (_token) {
+      const _tokenAvailability = await newOnChain.getTokenAvailability(
+        _token,
+        true
+      );
+      setMaxMinting(_tokenAvailability);
+    }
   }, []);
 
   const getWalletBalance = useCallback(async () => {

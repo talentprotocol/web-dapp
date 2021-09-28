@@ -182,13 +182,15 @@ const TalentShow = ({
           >
             <small>GET {ticker()}</small>
           </button>
-          <StakeModal
-            show={show}
-            setShow={setShow}
-            tokenAddress={sharedState.token.contract_id}
-            talentAddress={sharedState.user.wallet_id}
-            ticker={ticker()}
-          />
+          {sharedState.token.contract_id && (
+            <StakeModal
+              show={show}
+              setShow={setShow}
+              tokenAddress={sharedState.token.contract_id}
+              talentAddress={sharedState.user.wallet_id}
+              ticker={ticker()}
+            />
+          )}
           <a href={`/message?user=${user.id}`} className="text-secondary mx-2">
             <FontAwesomeIcon icon={faCommentAlt} size="lg" />
           </a>
@@ -247,6 +249,7 @@ const TalentShow = ({
         <div className="col-12 col-lg-4">
           <TokenDetails
             ticker={ticker()}
+            token={token}
             displayName={displayName({ withLink: false })}
           />
         </div>
