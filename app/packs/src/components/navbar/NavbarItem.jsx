@@ -5,7 +5,11 @@ const NavbarItem = (props) => {
   const urlExactMatch = () => window.location.pathname == props.url;
   const urlPartialMatch = () => window.location.pathname.includes(props.url);
 
-  const active = props.exact ? urlExactMatch() : urlPartialMatch();
+  const active = props.noTracking
+    ? false
+    : props.exact
+    ? urlExactMatch()
+    : urlPartialMatch();
 
   return (
     <Nav.Link
