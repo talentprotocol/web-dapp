@@ -14,8 +14,6 @@ class CreateTransaction
       token.talent.update!(activity_count: token.transactions.count)
 
       if token.talent.user_id != user.id
-        service = CreateFollow.new
-        service.call(user_id: token.talent.user_id, follower_id: user.id)
         create_notification_coin_bought(token.talent.user, user)
       end
 
@@ -34,7 +32,7 @@ class CreateTransaction
     service.call(
       body: "#{user.display_name} bought your coin",
       user_id: talent_user.id,
-      type: 'Notifications::TokenAcquired'
+      type: "Notifications::TokenAcquired"
     )
   end
 end

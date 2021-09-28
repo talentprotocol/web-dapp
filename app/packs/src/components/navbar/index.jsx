@@ -3,17 +3,14 @@ import {
   faUserFriends,
   faHandHoldingUsd,
   faEnvelope,
-  faCog,
-  faQuestionCircle,
   faHome,
   faLock,
-  faIdCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 import NavbarItem from "./NavbarItem";
-import TalBox from "./TalBox";
+import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Logo from "src/components/logo";
 
 const icon = (i) => <FontAwesomeIcon icon={i} />;
@@ -24,12 +21,9 @@ const TalNavbar = (props) => {
     talentPath,
     portfolioPath,
     messagesPath,
-    settingsPath,
-    helpPath,
     admin,
     adminPath,
-    talent,
-    editTalentPath,
+    watchList,
   } = props;
 
   return (
@@ -44,7 +38,7 @@ const TalNavbar = (props) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse
-          className="flex-lg-column w-100 lg-h-100 justify-content-lg-between"
+          className="flex-lg-column w-100 lg-h-100"
           id="responsive-navbar-nav"
         >
           <Nav className="me-auto flex-lg-column w-100">
@@ -64,22 +58,18 @@ const TalNavbar = (props) => {
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
             )}
           </Nav>
-          <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
-            {talent && (
-              <NavbarItem url={editTalentPath} exact>
-                {icon(faIdCard)} My Profile
+          <Nav className="flex-lg-column w-100 mt-5">
+            <h6>WATCHLIST</h6>
+            {watchList.map((watchItem) => (
+              <NavbarItem url={watchItem.url} noTracking>
+                <TalentProfilePicture
+                  src={watchItem.picture}
+                  height={24}
+                  className="mr-2"
+                />{" "}
+                {watchItem.displayName}
               </NavbarItem>
-            )}
-            <NavbarItem url={settingsPath} exact>
-              {icon(faCog)} Settings
-            </NavbarItem>
-            <NavbarItem url={helpPath} exact target={"self"}>
-              {icon(faQuestionCircle)} Contact Us
-            </NavbarItem>
-            <TalBox price="0.02" variance="+0%" />
-            <p className="text-danger">
-              Live on <strong>Ropsten Network.</strong>
-            </p>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>

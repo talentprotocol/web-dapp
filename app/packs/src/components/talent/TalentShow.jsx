@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
@@ -46,6 +47,7 @@ const TalentShow = ({
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
+  const [changingFollow, setChangingFollow] = useState(false);
   const { height, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
@@ -59,6 +61,7 @@ const TalentShow = ({
     profilePictureUrl,
     primary_tag,
     secondary_tags,
+    isFollowing,
     career_goal,
     goals,
     posts,
@@ -82,6 +85,34 @@ const TalentShow = ({
   const prettifyWebsiteUrl = (url) => {
     const link = new URL(url);
     return link.host;
+  };
+
+  const toggleWatchlist = async () => {
+    setChangingFollow(true);
+    if (sharedState.isFollowing) {
+      const response = await destroy(
+        `/api/v1/follows?user_id=${user.id}`
+      ).catch(() => setChangingFollow(false));
+
+      if (response.success) {
+        setSharedState((prev) => ({
+          ...prev,
+          isFollowing: false,
+        }));
+      }
+    } else {
+      const response = await post(`/api/v1/follows`, {
+        user_id: user.id,
+      }).catch(() => setChangingFollow(false));
+
+      if (response.success) {
+        setSharedState((prev) => ({
+          ...prev,
+          isFollowing: true,
+        }));
+      }
+    }
+    setChangingFollow(false);
   };
 
   return (
@@ -114,8 +145,12 @@ const TalentShow = ({
               <p className="mb-0 border rounded p-1 bg-light ml-2">
                 <small>{ticker()}</small>
               </p>
-              <button className="btn border-0 text-warning">
-                {isFollowing ? (
+              <button
+                className="btn border-0 text-warning"
+                onClick={toggleWatchlist}
+                disabled={changingFollow}
+              >
+                {sharedState.isFollowing ? (
                   <FontAwesomeIcon icon={faStar} />
                 ) : (
                   <FontAwesomeIcon icon={faStarOutline} />

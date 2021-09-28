@@ -56,8 +56,6 @@ Rails.application.routes.draw do
 
     # Feeds
     resource :feed, only: [:show]
-    resources :follows, only: [:index, :create]
-    delete "follows", to: "follows#destroy"
 
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
@@ -70,6 +68,8 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :tokens, only: [:show]
         resources :users, only: [:update]
+        resources :follows, only: [:index, :create]
+        delete "follows", to: "follows#destroy"
         resources :notifications, only: [:update]
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :delete], module: "career_goals"
