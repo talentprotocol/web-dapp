@@ -55,6 +55,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       return;
     }
 
+    console.log("LOADING FACTORY");
     result = newOnChain.loadFactory();
 
     if (result) {
@@ -64,6 +65,8 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       return;
     }
 
+    console.log("LOADING TOKEN");
+
     if (token.contract_id) {
       const _token = newOnChain.getToken(token.contract_id);
       if (_token) {
@@ -71,6 +74,8 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       } else {
         setDeploy("Deploy your token");
       }
+    } else {
+      setDeploy("Deploy your token");
     }
   }, []);
 
