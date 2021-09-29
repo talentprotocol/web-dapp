@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Web3 from "web3";
+import { ethers } from "ethers";
 import { OnChain } from "src/onchain";
 import currency from "currency.js";
 
@@ -22,11 +22,10 @@ const TokenDetails = ({ token, ticker, displayName }) => {
       if (_token) {
         setTalentToken(_token);
 
-        _token.methods
+        _token
           .totalSupply()
-          .call()
           .then((_totalSupply) =>
-            setTotalSupply(Web3.utils.fromWei(_totalSupply))
+            setTotalSupply(ethers.utils.formatUnits(_totalSupply))
           );
       }
     }

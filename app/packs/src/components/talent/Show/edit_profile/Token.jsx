@@ -27,9 +27,11 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
 
     if (factory) {
       setDeploy("We're waiting for confirmation of a successful deploy");
-      const result = await factory.createTalent(user.wallet_id, token.ticker);
+      const result = await factory.createTalent(user.username, token.ticker);
+      console.log(result);
+
       if (result) {
-        const contractAddress = result.events.TalentCreated.returnValues.token;
+        const contractAddress = result.args.token;
 
         const response = await patch(
           `/api/v1/talent/${talent.id}/tokens/${token.id}`,

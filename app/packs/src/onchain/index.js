@@ -1,5 +1,4 @@
-import Web3 from "web3";
-import detectEthereumProvider from "@metamask/detect-provider";
+import { ethers } from "ethers";
 import { newKit, CeloContract } from "@celo/contractkit";
 
 import TalentToken from "../abis/recent/TalentToken.json";
@@ -18,6 +17,7 @@ class OnChain {
     this.stabletoken = null;
     this.celoKit = null;
     this.tokenTest = null;
+    this.signer = null;
   }
 
   async initialize() {
@@ -25,24 +25,25 @@ class OnChain {
     if (!result) return false;
 
     await this.loadAccount();
-    await this.loadNetworkId();
 
     return true;
   }
 
   loadFactory() {
-    this.talentFactory = new this.web3.eth.Contract(
+    this.talentFactory = new ethers.Contract(
+      "0xcF2b5dd4367B083d495Cfc4332b0970464ee1472",
       TalentFactory.abi,
-      "0x84b0086D0e356F2a98e4ab228E2a3473b2ea5A3d"
+      this.provider
     );
 
     return true;
   }
 
   loadStaking() {
-    this.staking = new this.web3.eth.Contract(
+    this.staking = new ethers.Contract(
+      "0xaAe247516e1e8C9744cE2de6C4dFef282FCf5753",
       Staking.abi,
-      "0x3b034E5ff32d8475b3b041Ebb0EC4c0Cb851177c"
+      this.provider
     );
 
     return true;
@@ -55,39 +56,47 @@ class OnChain {
       CeloContract.StableToken
     );
 
-    this.stabletoken = new this.web3.eth.Contract(
+    console.log("StableToken: ", stableTokenAddress);
+
+    this.stabletoken = new ethers.Contract(
+      stableTokenAddress,
       StableToken.abi,
-      stableTokenAddress
+      this.provider
     );
 
     return true;
   }
 
   async loadAccount() {
-    const accounts = await this.web3.eth.getAccounts();
-    this.account = accounts[0];
+    this.signer = this.provider.getSigner();
+
+    if (this.signer) {
+      this.account = await this.signer
+        .getAddress()
+        .catch(() => console.log("Wallet not connected."));
+    }
 
     return this.account;
   }
 
-  async loadNetworkId() {
-    this.networkId = await this.web3.eth.net.getId();
+  async connect() {
+    await this.provider.send("eth_requestAccounts");
 
-    return this.networkId;
+    return await this.loadAccount();
   }
 
   async loadWeb3() {
-    const provider = await detectEthereumProvider();
-
-    if (provider) {
-      this.provider = provider;
-      this.web3 = new Web3(provider);
-    } else if (window.ethereum) {
-      this.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
+    if (window.ethereum) {
+      // below is what is required to load accounts (the connect button)
+      // const result = await window.ethereum.send("eth_requestAccounts");
+      this.provider = new ethers.providers.Web3Provider(window.ethereum);
     } else if (window.web3) {
-      this.web3 = new Web3(window.web3.currentProvider);
+      this.provider = new ethers.providers.Web3Provider(
+        window.web3.currentProvider
+      );
     } else {
+      // Add fallback to infura
+      // const provider = new ethers.providers.JsonRpcProvider();
       console.log(
         "Non-Ethereum browser detected. You should consider trying MetaMask!"
       );
@@ -96,66 +105,83 @@ class OnChain {
     return true;
   }
 
-  // Creates a new talent token
   async createTalent(name, symbol) {
     if (!this.talentFactory) {
       return;
     }
 
-    const result = await this.talentFactory.methods
-      .createTalent(this.account, name, symbol)
-      .send({ from: this.account })
-      .catch(() => false);
+    console.log("NAME: ", name);
+    console.log("SYMBOL: ", symbol);
+    console.log("SIGNER: ", this.signer);
+    console.log("ACCOUNT: ", this.account);
+
+    const tx = await this.talentFactory
+      .connect(this.signer)
+      .createTalent(this.account, name, symbol);
+
+    console.log("TX: ", tx);
+    const receipt = await tx.wait();
+    console.log("RECEIPT: ", receipt);
+
+    const event = receipt.events?.find((e) => {
+      return e.event === "TalentCreated";
+    });
+    console.log("EVENT: ", event);
+
+    return event;
+  }
+
+  async calculateEstimatedReturns(token) {
+    if (!this.staking) {
+      return;
+    }
+
+    const timestamp = Math.floor(new Date().getTime() / 1000);
+
+    const result = await this.staking.calculateEstimatedReturns(
+      this.account,
+      token,
+      timestamp
+    );
 
     return result;
   }
 
   getToken(address) {
-    return new this.web3.eth.Contract(TalentToken.abi, address);
+    return new ethers.Contract(address, TalentToken.abi, this.provider);
   }
 
-  async getTokenFromTalent(address) {
-    if (!this.talentFactory) {
-      return;
-    }
-
-    const result = await this.talentFactory.methods
-      .talentToToken(address)
-      .call()
-      .catch(() => false);
-
-    return result;
-  }
-
-  async createStake(token, _amount, onSuccess, onError, onTransactionHash) {
+  async createStake(token, _amount) {
     if (!this.staking) {
       return;
     }
 
-    const amount = this.web3.utils.toWei(_amount.toString());
+    const amount = ethers.utils.parseUnits(_amount);
 
     console.log("STAKING ATTEMPT");
     console.log("AMOUNT: ", _amount);
+    console.log("TOKEN: ", token);
     console.log("AMOUNT (wei): ", amount);
     console.log(
       "BALANCE OF ACCOUNT: ",
-      await this.stabletoken.methods.balanceOf(this.account).call()
+      ethers.utils.formatUnits(await this.stabletoken.balanceOf(this.account))
     );
     console.log(
       "ALLOWANCE OF STAKING CONTRACT: ",
-      await this.stabletoken.methods
-        .allowance(this.account, this.staking._address)
-        .call()
+      ethers.utils.formatUnits(
+        await this.stabletoken.allowance(this.account, this.staking.address)
+      )
     );
 
-    const result = await this.staking.methods
-      .stakeStable(token, amount)
-      .send({ from: this.account, gas: "210000" })
-      .on("transactionHash", (hash) => onTransactionHash(hash))
-      .on("receipt", (receipt) => onSuccess(receipt))
-      .on("error", (e) => onError(e));
+    const tx = await this.staking
+      .connect(this.signer)
+      .stakeStable(token, amount);
+    console.log("RESULT: ", result);
 
-    return result;
+    const receipt = await tx.wait();
+    console.log("RECEIPT: ", receipt);
+
+    return tx;
   }
 
   async approveStable(_amount) {
@@ -163,11 +189,9 @@ class OnChain {
       return;
     }
 
-    const amount = this.web3.utils.toWei(_amount.toString());
-
-    const result = await this.stabletoken.methods
-      .approve(this.staking._address, amount)
-      .send({ from: this.account });
+    const result = await this.stabletoken
+      .connect(this.signer)
+      .approve(this.staking.address, ethers.utils.parseUnits(_amount));
 
     return result;
   }
@@ -177,12 +201,10 @@ class OnChain {
       return;
     }
 
-    const result = await this.stabletoken.methods
-      .balanceOf(this.account)
-      .call();
+    const result = await this.stabletoken.balanceOf(this.account);
 
     if (formatted) {
-      return this.web3.utils.fromWei(result.toString());
+      return ethers.utils.formatUnits(result);
     } else {
       return result;
     }
@@ -193,12 +215,10 @@ class OnChain {
       return;
     }
 
-    const result = await this.staking.methods
-      .stakeAvailability(tokenAddress)
-      .call();
+    const result = await this.staking.stakeAvailability(tokenAddress);
 
     if (formatted) {
-      return this.web3.utils.fromWei(result.toString());
+      return ethers.utils.formatUnits(result);
     } else {
       return result;
     }
@@ -209,10 +229,10 @@ class OnChain {
       return;
     }
 
-    const result = await token.methods.mintingAvailability().call();
+    const result = await token.mintingAvailability();
 
     if (formatted) {
-      return this.web3.utils.fromWei(result.toString());
+      return ethers.utils.formatUnits(result);
     } else {
       return result;
     }
