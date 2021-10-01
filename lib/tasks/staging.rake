@@ -2,14 +2,6 @@ namespace :staging do
   task prime: ["db:seed"] do
     puts "Setting up Alert configurations.."
 
-    AlertConfiguration.create!(
-      page: "/feed",
-      alert_type: "primary",
-      text: "Apply to launch your Career Token on Talent Protocol",
-      href: "https://www.talentprotocol.com/invite",
-      button_text: "Reserve $TICKER"
-    )
-
     available_tags_main = ["EdTech", "eCommerce", "Mobility", "Space", "Healthcare", "Entertainment", "Logistics"]
     available_tags_secondary = ["Entrepreneur", "NGO", "Founder", "Under 30"]
 
@@ -35,7 +27,9 @@ namespace :staging do
       talent = user.create_talent!(
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
+        public: true
       )
+      talent.create_career_goal!
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
 
@@ -59,9 +53,11 @@ namespace :staging do
       talent = user.create_talent!(
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
+        public: true
       )
       talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
+      talent.create_career_goal!
 
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
