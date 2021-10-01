@@ -4,6 +4,7 @@ import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { OnChain } from "src/onchain";
+import { ethers } from "ethers";
 
 const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const [amount, setAmount] = useState("");
@@ -25,8 +26,6 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       return;
     }
 
-    setChainData(newOnChain);
-
     if (newOnChain.account) {
       setCurrentAccount(newOnChain.account);
     }
@@ -41,6 +40,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     result = await newOnChain.loadStableToken();
 
     if (!result) {
+      setChainData(newOnChain);
       return;
     }
 
@@ -56,11 +56,12 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       );
       setMaxMinting(_tokenAvailability);
     }
+
+    setChainData(newOnChain);
   }, []);
 
   const getWalletBalance = useCallback(async () => {
     if (chainData) {
-      await chainData.loadAccount();
       const _availableAmount = await chainData.getStableBalance(true);
       setAvailableAmount(_availableAmount);
     }
@@ -90,7 +91,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     setStage("Confirm");
 
     const result = await chainData.createStake(
-      targetToken._address,
+      targetToken.address,
       amount,
       (v) => {
         setStage("Verified");
@@ -117,13 +118,11 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const connectWallet = async (e) => {
     e.preventDefault();
 
-    if (chainData.web3.currentProvider) {
-      const accounts = await chainData.web3.currentProvider.request({
-        method: "eth_requestAccounts",
-      });
+    if (chainData) {
+      const result = await chainData.connect();
 
-      if (accounts.length > 0) {
-        setCurrentAccount(accounts[0]);
+      if (result) {
+        setCurrentAccount(chainData.account);
       }
     }
   };

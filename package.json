@@ -2,6 +2,7 @@
   "name": "mvp",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.4.15",
     "@babel/preset-react": "^7.13.13",
     "@celo/contractkit": "^1.2.5",
     "@fontsource/plus-jakarta-sans": "^4.5.0",
@@ -30,6 +31,8 @@
     "date-fns": "^2.22.1",
     "eth-sig-util": "^3.0.1",
     "ethereumjs-util": "^7.1.0",
+    "ethers": "^5.4.7",
+    "graphql": "^15.6.0",
     "html-react-parser": "^1.2.8",
     "https-browserify": "^1.0.0",
     "lodash": "^4.17.21",

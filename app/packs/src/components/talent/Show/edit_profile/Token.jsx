@@ -27,9 +27,11 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
 
     if (factory) {
       setDeploy("We're waiting for confirmation of a successful deploy");
-      const result = await factory.createTalent(user.wallet_id, token.ticker);
+      const result = await factory.createTalent(user.username, token.ticker);
+      console.log(result);
+
       if (result) {
-        const contractAddress = result.events.TalentCreated.returnValues.token;
+        const contractAddress = result.args.token;
 
         const response = await patch(
           `/api/v1/talent/${talent.id}/tokens/${token.id}`,
@@ -55,6 +57,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       return;
     }
 
+    console.log("LOADING FACTORY");
     result = newOnChain.loadFactory();
 
     if (result) {
@@ -64,6 +67,8 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       return;
     }
 
+    console.log("LOADING TOKEN");
+
     if (token.contract_id) {
       const _token = newOnChain.getToken(token.contract_id);
       if (_token) {
@@ -71,6 +76,8 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       } else {
         setDeploy("Deploy your token");
       }
+    } else {
+      setDeploy("Deploy your token");
     }
   }, []);
 
