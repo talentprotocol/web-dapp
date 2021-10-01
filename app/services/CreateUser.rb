@@ -57,6 +57,7 @@ class CreateUser
 
   def create_talent(user)
     user.create_talent!
+    user.talent.create_career_goal!
   end
 
   def create_token(user)
