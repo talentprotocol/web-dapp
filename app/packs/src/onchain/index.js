@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { newKit, CeloContract } from "@celo/contractkit";
+import dayjs from "dayjs";
 
 import TalentToken from "../abis/recent/TalentToken.json";
 import Staking from "../abis/recent/Staking.json";
@@ -31,7 +32,7 @@ class OnChain {
 
   loadFactory() {
     this.talentFactory = new ethers.Contract(
-      "0xcF2b5dd4367B083d495Cfc4332b0970464ee1472",
+      "0xC074e41887fEc0EE3a92EE0eE1F34d4005c87758",
       TalentFactory.abi,
       this.provider
     );
@@ -41,7 +42,7 @@ class OnChain {
 
   loadStaking() {
     this.staking = new ethers.Contract(
-      "0xaAe247516e1e8C9744cE2de6C4dFef282FCf5753",
+      "0x761dCAD6D103E388a004B06D3454DdCe303ff209",
       Staking.abi,
       this.provider
     );
@@ -55,8 +56,6 @@ class OnChain {
     const stableTokenAddress = await this.celoKit.registry.addressFor(
       CeloContract.StableToken
     );
-
-    console.log("StableToken: ", stableTokenAddress);
 
     this.stabletoken = new ethers.Contract(
       stableTokenAddress,
@@ -110,23 +109,15 @@ class OnChain {
       return;
     }
 
-    console.log("NAME: ", name);
-    console.log("SYMBOL: ", symbol);
-    console.log("SIGNER: ", this.signer);
-    console.log("ACCOUNT: ", this.account);
-
     const tx = await this.talentFactory
       .connect(this.signer)
       .createTalent(this.account, name, symbol);
 
-    console.log("TX: ", tx);
     const receipt = await tx.wait();
-    console.log("RECEIPT: ", receipt);
 
     const event = receipt.events?.find((e) => {
       return e.event === "TalentCreated";
     });
-    console.log("EVENT: ", event);
 
     return event;
   }
@@ -136,7 +127,7 @@ class OnChain {
       return;
     }
 
-    const timestamp = Math.floor(new Date().getTime() / 1000);
+    const timestamp = dayjs().unix();
 
     const result = await this.staking.calculateEstimatedReturns(
       this.account,
@@ -158,30 +149,13 @@ class OnChain {
 
     const amount = ethers.utils.parseUnits(_amount);
 
-    console.log("STAKING ATTEMPT");
-    console.log("AMOUNT: ", _amount);
-    console.log("TOKEN: ", token);
-    console.log("AMOUNT (wei): ", amount);
-    console.log(
-      "BALANCE OF ACCOUNT: ",
-      ethers.utils.formatUnits(await this.stabletoken.balanceOf(this.account))
-    );
-    console.log(
-      "ALLOWANCE OF STAKING CONTRACT: ",
-      ethers.utils.formatUnits(
-        await this.stabletoken.allowance(this.account, this.staking.address)
-      )
-    );
-
     const tx = await this.staking
       .connect(this.signer)
       .stakeStable(token, amount);
-    console.log("RESULT: ", result);
 
     const receipt = await tx.wait();
-    console.log("RECEIPT: ", receipt);
 
-    return tx;
+    return receipt;
   }
 
   async approveStable(_amount) {

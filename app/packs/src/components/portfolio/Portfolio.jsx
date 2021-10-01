@@ -8,10 +8,12 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
+
 import PortfolioTable from "./PortfolioTable";
+import PortfolioTalOverview from "./PortfolioTalOverview";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.3",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.4",
   cache: new InMemoryCache(),
 });
 
@@ -42,12 +44,11 @@ const Portfolio = ({ address }) => {
     variables: { id: address.toLowerCase() },
   });
   const [chainAPI, setChainAPI] = useState(null);
+  const [stableBalance, setStableBalance] = useState(0);
+  const [returnValues, setReturnValues] = useState({});
 
   const supportedTalents = useMemo(() => {
-    console.log(data);
-    console.log(address);
-
-    if (!data) {
+    if (!data || data.sponsor == null) {
       return [];
     }
 
@@ -62,20 +63,57 @@ const Portfolio = ({ address }) => {
     }));
   }, [data]);
 
+  const amountInvested = useMemo(() => {
+    if (!data || data.sponsor == null) {
+      return 0;
+    }
+
+    return ethers.utils.formatUnits(
+      data.sponsor.talents.reduce((prev, current) => {
+        return prev.add(ethers.BigNumber.from(current.amount));
+      }, ethers.BigNumber.from(0))
+    );
+  }, [data]);
+
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain();
 
     await newOnChain.initialize();
     await newOnChain.loadStaking();
+    await newOnChain.loadStableToken();
+    const balance = await newOnChain.getStableBalance(true);
+    setStableBalance(balance);
 
     setChainAPI(newOnChain);
   });
 
+  const updateAll = async () => {
+    supportedTalents.forEach((element) => {
+      loadReturns(element.contract_id).then((returns) => {
+        setReturnValues((prev) => ({
+          ...prev,
+          [element.id]: returns,
+        }));
+      });
+    });
+  };
+
+  const returnsSum = useMemo(() => {
+    let sum = ethers.BigNumber.from(0);
+
+    Object.keys(returnValues).map((key) => {
+      sum = sum.add(ethers.utils.parseUnits(returnValues[key]));
+    });
+    return ethers.utils.formatUnits(sum);
+  }, [returnValues]);
+
+  useEffect(() => {
+    updateAll();
+  }, [supportedTalents, chainAPI]);
+
   useEffect(() => {
     setupChain();
   }, []);
-
-  console.log(data);
 
   const loadReturns = async (contractAddress) => {
     if (chainAPI && contractAddress) {
@@ -83,15 +121,10 @@ const Portfolio = ({ address }) => {
         contractAddress,
         true
       );
-      console.log(
-        "STAKER REWARDS: ",
-        ethers.utils.formatUnits(value.stakerRewards)
+
+      return ethers.utils.formatUnits(
+        ethers.utils.parseEther(value.stakerRewards.toString())
       );
-      console.log(
-        "TALENT REWARDS: ",
-        ethers.utils.formatEther(value.talentRewards)
-      );
-      return ethers.utils.formatUnits(value.stakerRewards);
     }
 
     return "0";
@@ -99,11 +132,17 @@ const Portfolio = ({ address }) => {
 
   return (
     <>
-      <h2>Portfolio</h2>
+      <PortfolioTalOverview
+        loading={loading}
+        cUSDBalance={parseFloat(stableBalance)}
+        totalTal={parseFloat(amountInvested)}
+        yieldSum={parseFloat(returnsSum)}
+        talentCount={supportedTalents.length}
+      />
       <PortfolioTable
         loading={loading}
         talents={supportedTalents}
-        loadReturns={loadReturns}
+        returnValues={returnValues}
       />
     </>
   );

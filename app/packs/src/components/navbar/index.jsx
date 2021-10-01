@@ -29,11 +29,11 @@ const TalNavbar = (props) => {
   return (
     <Navbar
       collapseOnSelect
-      className="flex-lg-column py-3 lg-h-100 border-right border-bottom"
+      className="flex-lg-column py-3 pr-4 lg-h-100 border-right border-bottom"
       expand="lg"
     >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/" style={{ marginLeft: -10 }}>
           <Logo />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

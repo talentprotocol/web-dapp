@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ethers } from "ethers";
 import Button from "../button";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
@@ -25,24 +25,7 @@ const Web3Loading = () => (
   </tr>
 );
 
-const PortfolioTable = ({ loading, talents, loadReturns }) => {
-  const [returnValues, setReturnValues] = useState({});
-
-  const updateAll = async () => {
-    talents.forEach((element) => {
-      loadReturns(element.contract_id).then((returns) =>
-        setReturnValues((prev) => ({
-          ...prev,
-          [element.id]: returns,
-        }))
-      );
-    });
-  };
-
-  useEffect(() => {
-    updateAll();
-  }, [talents]);
-
+const PortfolioTable = ({ loading, talents, returnValues }) => {
   return (
     <div className="table-responsive">
       <h3>Talent</h3>
@@ -109,7 +92,8 @@ const PortfolioTable = ({ loading, talents, loadReturns }) => {
               </td>
               <td className="align-middle text-right">0%</td>
               <td className="align-middle tal-table-price text-right">
-                {returnValues[talent.id]}
+                {returnValues[talent.id] &&
+                  ethers.utils.commify(returnValues[talent.id].toString())}
               </td>
               <td className="align-middle">
                 <Button
