@@ -21,10 +21,7 @@
           prerender: false)
         %>
 
-        <%= react_component("PortfolioTokenTable",
-          props: {},
-          prerender: false, html_options: { class: "mt-4" })
-        %>
+        <%= react_component("Portfolio", props: { address: current_user.wallet_id }, prerender: false) %>
       </div>
     </div>
   </main>
