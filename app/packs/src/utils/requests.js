@@ -67,7 +67,7 @@ const destroy = (url) => {
     method: "DELETE",
     headers,
   }).then((response) => {
-    return response.json();
+    return response;
   });
 };
 

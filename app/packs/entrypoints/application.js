@@ -31,6 +31,7 @@ import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
 import TalentSponsorsTable from "src/components/sponsors/TalentSponsorsTable";
 import Portfolio from "src/components/portfolio/Portfolio";
+import UserMenu from "src/components/user_menu";
 
 import "stylesheets/application.scss";
 
@@ -57,6 +58,7 @@ ReactOnRails.register({
   MetamaskConnect,
   TalentSponsorsTable,
   Portfolio,
+  UserMenu,
 });
 
 Rails.start();

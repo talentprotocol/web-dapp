@@ -5,6 +5,7 @@ import currency from "currency.js";
 import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../pagination";
+import UserMenu from "../user_menu";
 import Post from "./Post";
 import PostInput from "./PostInput";
 import TalentLeaderboard from "../leaderboards/TalentLeaderboard";
@@ -14,7 +15,7 @@ import Alert from "../alert";
 import Button from "../button";
 import { patch } from "src/utils/requests";
 
-const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
+const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
   const [currentNotifications] = useState(notifications);
   const web3 = useContext(Web3Context);
@@ -128,6 +129,12 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications }) => {
         )}
       </section>
       <section className="col-lg-5 p-4 talent-content-body-500">
+        <div className="d-flex justify-content-end mb-4">
+          <UserMenu
+            user={user}
+            signOutPath={signOutPath}
+          />
+        </div>
         <TalentLeaderboard topTalents={topTalents} className="mb-4" />
         {alert.type && (
           <Alert direction="column" centerText={true} {...alert}>
