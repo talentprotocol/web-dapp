@@ -19,9 +19,6 @@ import Pagination from "src/components/pagination";
 import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
 import TalentLeaderboard from "src/components/leaderboards/TalentLeaderboard";
-import PortfolioTransactionTable from "src/components/portfolio/PortfolioTransactionTable";
-import PortfolioTokenTable from "src/components/portfolio/PortfolioTokenTable";
-import PortfolioTalOverview from "src/components/portfolio/PortfolioTalOverview";
 import DisplayTokenVariance from "src/components/token/DisplayTokenVariance";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
@@ -48,8 +45,6 @@ ReactOnRails.register({
   NavTabs,
   TalentShow,
   TalentLeaderboard,
-  PortfolioTransactionTable,
-  PortfolioTalOverview,
   DisplayTokenVariance,
   MessageUserList,
   Chat,
@@ -59,7 +54,6 @@ ReactOnRails.register({
   MetamaskLogin,
   DeployTokenButton,
   Logo,
-  PortfolioTokenTable,
   MetamaskConnect,
   TalentSponsorsTable,
   Portfolio,

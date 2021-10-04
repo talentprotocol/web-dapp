@@ -32,7 +32,7 @@ class OnChain {
 
   loadFactory() {
     this.talentFactory = new ethers.Contract(
-      "0xC074e41887fEc0EE3a92EE0eE1F34d4005c87758",
+      "0x6a630d53ABb7c17E51f7B67743e1502C3Ecc9360",
       TalentFactory.abi,
       this.provider
     );
@@ -42,7 +42,7 @@ class OnChain {
 
   loadStaking() {
     this.staking = new ethers.Contract(
-      "0x761dCAD6D103E388a004B06D3454DdCe303ff209",
+      "0x29270C602C0659260D555Ecd0b4F62eAb2c964Ef",
       Staking.abi,
       this.provider
     );
@@ -122,7 +122,7 @@ class OnChain {
     return event;
   }
 
-  async calculateEstimatedReturns(token) {
+  async calculateEstimatedReturns(token, _account) {
     if (!this.staking) {
       return;
     }
@@ -130,7 +130,7 @@ class OnChain {
     const timestamp = dayjs().unix();
 
     const result = await this.staking.calculateEstimatedReturns(
-      this.account,
+      _account || this.account,
       token,
       timestamp
     );
@@ -152,6 +152,18 @@ class OnChain {
     const tx = await this.staking
       .connect(this.signer)
       .stakeStable(token, amount);
+
+    const receipt = await tx.wait();
+
+    return receipt;
+  }
+
+  async claimRewards(token) {
+    if (!this.staking) {
+      return;
+    }
+
+    const tx = await this.staking.connect(this.signer).claimRewards(token);
 
     const receipt = await tx.wait();
 

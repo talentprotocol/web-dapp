@@ -9,6 +9,11 @@ class Talent::SponsorsController < ApplicationController
   private
 
   def set_talent
-    @talent ||= Talent.find(params[:talent_id])
+    @talent =
+      if talent_id_param > 0
+        Talent.find(params[:talent_id])
+      else
+        Talent.includes(:user).find_by!(user: {username: params[:talent_id]})
+      end
   end
 end

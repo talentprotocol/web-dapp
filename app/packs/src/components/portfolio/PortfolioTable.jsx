@@ -25,7 +25,14 @@ const Web3Loading = () => (
   </tr>
 );
 
-const PortfolioTable = ({ loading, talents, returnValues }) => {
+const PortfolioTable = ({
+  loading,
+  talents,
+  returnValues,
+  unstake,
+  withdraw,
+  claim,
+}) => {
   return (
     <div className="table-responsive">
       <h3>Talent</h3>
@@ -98,10 +105,31 @@ const PortfolioTable = ({ loading, talents, returnValues }) => {
               <td className="align-middle">
                 <Button
                   type="primary"
-                  text="See Talent"
+                  text="Profile"
+                  className="talent-button ml-2 my-1"
                   href={`/talent/${talent.name}`}
                   size="sm"
                 />
+                <button
+                  className="btn btn-sm btn-danger ml-2 my-1"
+                  onClick={unstake}
+                  disabled
+                >
+                  Unstake
+                </button>
+                <button
+                  className="btn btn-sm btn-light ml-2 my-1"
+                  onClick={withdraw}
+                  disabled
+                >
+                  Withdraw
+                </button>
+                <button
+                  className="btn btn-sm btn-primary ml-2 my-1"
+                  onClick={() => claim(talent.contract_id)}
+                >
+                  Claim
+                </button>
               </td>
             </tr>
           ))}

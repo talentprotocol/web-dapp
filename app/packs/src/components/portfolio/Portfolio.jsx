@@ -13,7 +13,7 @@ import PortfolioTable from "./PortfolioTable";
 import PortfolioTalOverview from "./PortfolioTalOverview";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.4",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.11",
   cache: new InMemoryCache(),
 });
 
@@ -119,15 +119,19 @@ const Portfolio = ({ address }) => {
     if (chainAPI && contractAddress) {
       const value = await chainAPI.calculateEstimatedReturns(
         contractAddress,
-        true
+        null
       );
 
-      return ethers.utils.formatUnits(
-        ethers.utils.parseEther(value.stakerRewards.toString())
-      );
+      return ethers.utils.formatUnits(value.stakerRewards);
     }
 
     return "0";
+  };
+
+  const claimRewards = async (contractAddress) => {
+    if (chainAPI && contractAddress) {
+      const result = await chainAPI.claimRewards(contractAddress);
+    }
   };
 
   return (
@@ -143,6 +147,9 @@ const Portfolio = ({ address }) => {
         loading={loading}
         talents={supportedTalents}
         returnValues={returnValues}
+        unstake={() => null}
+        withdraw={() => null}
+        claim={claimRewards}
       />
     </>
   );

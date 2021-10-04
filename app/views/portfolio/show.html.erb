@@ -3,8 +3,6 @@
   <main class="col-12 mx-auto mx-lg-0 p-3 mt-3">
       <div class="d-flex flex-column flex-sm-row justify-content-between">
         <h1 class="mb-0 mr-2">Portfolio</h1>
-          
-        <%= react_component("Button", props:{ type: "primary", text: "Buy $TAL", href: "https://app.uniswap.org/#/swap"}, prerender: false )%>
       </div>
 
       <%= react_component("Portfolio", props: { address: current_user.wallet_id }, prerender: false) %>

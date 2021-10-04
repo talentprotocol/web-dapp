@@ -4,7 +4,6 @@ import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { OnChain } from "src/onchain";
-import { ethers } from "ethers";
 
 const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const [amount, setAmount] = useState("");
@@ -93,18 +92,9 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     const result = await chainData.createStake(
       targetToken.address,
       amount,
-      (v) => {
-        setStage("Verified");
-        console.log(v);
-      },
-      (v) => {
-        setStage("Error");
-        console.log(v);
-      },
-      (v) => {
-        setStage("Validation");
-        console.log(v);
-      }
+      (v) => setStage("Verified"),
+      (v) => setStage("Error"),
+      (v) => setStage("Validation")
     );
   };
 
@@ -160,9 +150,11 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
         scrollable={true}
         fullscreen={"md-down"}
         show={show}
+        size="lg"
+        centered
         onHide={() => setShow(false)}
       >
-        <Modal.Body className="show-grid">
+        <Modal.Body className="show-grid p-4">
           <div className="container-fluid">
             <div className="row d-flex flex-column">
               <h2>GET {ticker}</h2>

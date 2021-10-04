@@ -176,11 +176,11 @@ const TalentShow = ({
         </div>
         <div className="d-flex flex-row align-items-center mt-2">
           <button
-            className="btn btn-secondary"
+            className="btn btn-primary"
             style={{ height: 38, width: 99 }}
             onClick={() => setShow(true)}
           >
-            <small>GET {ticker()}</small>
+            Buy {ticker()}
           </button>
           {sharedState.token.contract_id && (
             <StakeModal
@@ -191,8 +191,8 @@ const TalentShow = ({
               ticker={ticker()}
             />
           )}
-          <a href={`/message?user=${user.id}`} className="text-secondary mx-2">
-            <FontAwesomeIcon icon={faCommentAlt} size="lg" />
+          <a href={`/message?user=${user.id}`} className="btn btn-light mx-2">
+            <FontAwesomeIcon icon={faCommentAlt} /> Message
           </a>
           <EditProfile
             {...sharedState}
@@ -203,24 +203,24 @@ const TalentShow = ({
       </section>
       <div className="d-flex flex-row mx-3 mt-3">
         <button
-          className={`btn btn-light rounded mr-2 p-1 ${
-            pageInDisplay == "Overview" && "active"
+          className={`btn rounded mr-2 p-1 underline-hover ${
+            pageInDisplay == "Overview" && "btn-light active"
           }`}
           onClick={() => setPageInDisplay("Overview")}
         >
           <small>Overview</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 p-1 ${
-            pageInDisplay == "Timeline" && "active"
+          className={`btn rounded mr-2 p-1 underline-hover ${
+            pageInDisplay == "Timeline" && "btn-light active"
           }`}
           onClick={() => setPageInDisplay("Timeline")}
         >
           <small>Timeline</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 p-1 ${
-            pageInDisplay == "Activity" && "active"
+          className={`btn rounded mr-2 p-1 underline-hover ${
+            pageInDisplay == "Activity" && "btn-light active"
           }`}
           onClick={() => setPageInDisplay("Activity")}
           disabled
@@ -228,8 +228,8 @@ const TalentShow = ({
           <small>Activity</small>
         </button>
         <button
-          className={`btn btn-light rounded mr-2 p-1 ${
-            pageInDisplay == "Community" && "active"
+          className={`btn rounded mr-2 p-1 underline-hover ${
+            pageInDisplay == "Community" && "btn-light active"
           }`}
           onClick={() => setPageInDisplay("Community")}
           disabled
