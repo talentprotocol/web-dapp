@@ -74,7 +74,9 @@ const SponsorOverview = ({
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <h4>{ethers.utils.commify(reserve)}</h4>
+            <h4>
+              {ethers.utils.commify(Number.parseFloat(reserve).toFixed(2))}
+            </h4>
           )}
         </div>
       </div>
@@ -88,7 +90,11 @@ const SponsorOverview = ({
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <h4>{ethers.utils.commify(talentRewards)}</h4>
+            <h4>
+              {ethers.utils.commify(
+                Number.parseFloat(talentRewards).toFixed(2)
+              )}
+            </h4>
           )}
         </div>
       </div>
@@ -102,7 +108,9 @@ const SponsorOverview = ({
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <h4>${ethers.utils.commify(marketCap)}</h4>
+            <h4>
+              ${ethers.utils.commify(Number.parseFloat(marketCap).toFixed(2))}
+            </h4>
           )}
         </div>
       </div>

@@ -66,6 +66,10 @@ class OnChain {
     return true;
   }
 
+  isConnected() {
+    return !!this.account;
+  }
+
   async loadAccount() {
     this.signer = this.provider.getSigner();
 
@@ -180,6 +184,23 @@ class OnChain {
       .approve(this.staking.address, ethers.utils.parseUnits(_amount));
 
     return result;
+  }
+
+  async getStableAllowance(formatted = false) {
+    if (!this.stabletoken || !this.account) {
+      return;
+    }
+
+    const result = await this.stabletoken.allowance(
+      this.account,
+      this.staking.address
+    );
+
+    if (formatted) {
+      return ethers.utils.formatUnits(result);
+    } else {
+      return result;
+    }
   }
 
   async getStableBalance(formatted = false) {

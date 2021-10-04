@@ -5,7 +5,7 @@ import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const EmptyInvestments = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="7">
+    <td className="align-middle text-muted" colSpan="6">
       <small>Sponsor Talent to start building your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
@@ -16,7 +16,7 @@ const EmptyInvestments = () => (
 
 const Web3Loading = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="7">
+    <td className="align-middle text-muted" colSpan="6">
       <small>We're loading your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
@@ -68,12 +68,6 @@ const PortfolioTable = ({
               className="tal-th py-1 text-muted border-bottom-0 text-right"
               scope="col"
             >
-              <small>7d %</small>
-            </th>
-            <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
-              scope="col"
-            >
               <small>Yield</small>
             </th>
             <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
@@ -90,26 +84,20 @@ const PortfolioTable = ({
                 <TalentProfilePicture src={undefined} height={40} />
               </th>
               <th className="align-middle pr-0 text-primary" scope="row">
-                {talent.symbol}
+                <a className="text-reset" href={`/talent/${talent.name}`}>
+                  {talent.symbol}
+                </a>
               </th>
               <td className="align-middle text-right">{talent.name}</td>
               <td className="align-middle text-right">{talent.amount}</td>
               <td className="align-middle tal-table-price text-right">
                 {talent.totalSupply}
               </td>
-              <td className="align-middle text-right">0%</td>
               <td className="align-middle tal-table-price text-right">
                 {returnValues[talent.id] &&
                   ethers.utils.commify(returnValues[talent.id].toString())}
               </td>
               <td className="align-middle">
-                <Button
-                  type="primary"
-                  text="Profile"
-                  className="talent-button ml-2 my-1"
-                  href={`/talent/${talent.name}`}
-                  size="sm"
-                />
                 <button
                   className="btn btn-sm btn-danger ml-2 my-1"
                   onClick={unstake}

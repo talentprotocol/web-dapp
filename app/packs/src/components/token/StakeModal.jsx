@@ -14,6 +14,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const [targetToken, setTargetToken] = useState(null);
   const [stage, setStage] = useState(null);
   const [approving, setApproving] = useState(false);
+  const [didAllowance, setDidAllowance] = useState(false);
 
   const setupOnChain = useCallback(async () => {
     const newOnChain = new OnChain();
@@ -89,19 +90,29 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
 
     setStage("Confirm");
 
-    const result = await chainData.createStake(
-      targetToken.address,
-      amount,
-      (v) => setStage("Verified"),
-      (v) => setStage("Error"),
-      (v) => setStage("Validation")
-    );
+    const result = await chainData
+      .createStake(targetToken.address, amount)
+      .catch(() => setStage("Error"));
+
+    if (result) {
+      setStage("Verified");
+    } else {
+      setStage("Error");
+    }
   };
 
   const approve = async (e) => {
     e.preventDefault();
     setApproving(true);
-    await chainData.approveStable(amount);
+    const allowedValue = await chainData.getStableAllowance(true);
+
+    console.log(allowedValue);
+
+    if (parseFloat(amount) > parseFloat(allowedValue)) {
+      await chainData.approveStable(amount);
+    }
+
+    setDidAllowance(true);
     setApproving(false);
   };
 
@@ -141,7 +152,23 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       return true;
     }
 
+    if (stage !== null) {
+      return true;
+    }
+
     return false;
+  };
+
+  const step = () => {
+    if (chainData?.isConnected()) {
+      if (didAllowance) {
+        return "Stake";
+      } else {
+        return "Approve";
+      }
+    } else {
+      return "Connect";
+    }
   };
 
   return (
@@ -150,7 +177,6 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
         scrollable={true}
         fullscreen={"md-down"}
         show={show}
-        size="lg"
         centered
         onHide={() => setShow(false)}
       >
@@ -159,10 +185,9 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
             <div className="row d-flex flex-column">
               <h2>GET {ticker}</h2>
               <p>
-                We're currently only accepting cUSD to trade for Talent Tokens.
-              </p>
-              <p>
-                1 cUSD {"<->"} 1 Talent Token {"<->"} 50 TAL
+                We're currently only accepting cUSD to mint Talent Tokens. If
+                you already have an active stake we'll use your current yield to
+                increase you stake as well.
               </p>
               <form onSubmit={onSubmit}>
                 <div className="form-group">
@@ -176,7 +201,9 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
                     onChange={(e) => setAmount(e.target.value)}
                     value={amount}
                   />
-                  {<small></small>}
+                  <small className="form-text text-primary">
+                    You will receive {amount * 10} Talent Tokens.
+                  </small>
                   <small className="form-text text-muted">
                     Available cUSD on your wallet:{" "}
                     {currentAccount
@@ -187,27 +214,33 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
                     There are {ticker} Talent Tokens available to be minted:{" "}
                     {maxMinting}
                   </small>
-                  <div className="d-flex flex-row justify-content-between mt-3">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={connectWallet}
-                    >
-                      Connect Wallet
-                    </button>
-                    <button
-                      className="btn btn-primary"
-                      disabled={approving}
-                      onClick={approve}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="btn btn-primary"
-                      type="submit"
-                      disabled={disabledStakeButton()}
-                    >
-                      Stake {icon()}
-                    </button>
+                  <div className="d-flex flex-row mt-3">
+                    {step() == "Connect" && (
+                      <button
+                        className="btn btn-primary w-100"
+                        onClick={connectWallet}
+                      >
+                        Connect Wallet
+                      </button>
+                    )}
+                    {step() == "Approve" && (
+                      <button
+                        className="btn btn-primary w-100"
+                        disabled={amount == "" || approving}
+                        onClick={approve}
+                      >
+                        Approve
+                      </button>
+                    )}
+                    {step() == "Stake" && (
+                      <button
+                        className="btn btn-primary w-100"
+                        type="submit"
+                        disabled={disabledStakeButton()}
+                      >
+                        Stake {icon()}
+                      </button>
+                    )}
                   </div>
                 </div>
               </form>
