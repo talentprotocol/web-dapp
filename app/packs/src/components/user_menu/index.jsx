@@ -8,6 +8,23 @@ import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 import { OnChain } from "src/onchain";
+import transakSDK from "@transak/transak-sdk";
+
+const transak = new transakSDK({
+  apiKey: "d8921427-8447-4523-9333-f062f738026f", // Your API Key
+  environment: "STAGING", // STAGING/PRODUCTION
+  defaultCryptoCurrency: "CUSD",
+  walletAddress: "", // Your customer's wallet address
+  themeColor: "000000", // App theme color
+  fiatCurrency: "", // INR/GBP
+  email: "", // Your customer's email address
+  redirectURL: "",
+  hostURL: window.location.origin,
+  widgetHeight: "700px",
+  widgetWidth: "450px",
+  network: "CELO",
+  cryptoCurrencyList: "CUSD",
+});
 
 const UserMenu = ({ user, signOutPath }) => {
   const [show, setShow] = useState(false);
@@ -16,6 +33,22 @@ const UserMenu = ({ user, signOutPath }) => {
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
+  };
+
+  const onClickTransak = (e) => {
+    e.preventDefault();
+    transak.init();
+
+    // To get all the events
+    transak.on(transak.ALL_EVENTS, (data) => {
+      console.log(data);
+    });
+
+    // This will trigger when the user marks payment is made.
+    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+      console.log(orderData);
+      transak.close();
+    });
   };
 
   const signOut = () => {
@@ -56,6 +89,21 @@ const UserMenu = ({ user, signOutPath }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
+          {chainAPI?.isConnected() && (
+            <Dropdown.Item
+              key="tab-dropdown-address"
+              onClick={copyAddressToClipboard}
+            >
+              <small className="text-black">Address: </small>
+              <small className="text-secondary">{user.displayWalletId}</small>
+              <FontAwesomeIcon icon={faCopy} />
+            </Dropdown.Item>
+          )}
+          {!chainAPI?.isConnected() && (
+            <Dropdown.Item key="tab-dropdown-connect-wallet">
+              <MetamaskConnect user_id={user.id} />
+            </Dropdown.Item>
+          )}
           <Dropdown.ItemText key="tab-dropdown-balance">
             <small className="text-black">Balance: </small>
             <small className="text-secondary">{stableBalance}</small>
@@ -64,17 +112,9 @@ const UserMenu = ({ user, signOutPath }) => {
           <Dropdown.Item
             key="tab-dropdown-get-funds"
             className="text-black"
-            disabled
+            onClick={onClickTransak}
           >
             <small>Get funds</small>
-          </Dropdown.Item>
-          <Dropdown.Item
-            key="tab-dropdown-address"
-            onClick={copyAddressToClipboard}
-          >
-            <small className="text-black">Address: </small>
-            <small className="text-secondary">{user.displayWalletId}</small>
-            <FontAwesomeIcon icon={faCopy} />
           </Dropdown.Item>
           {user.isTalent ? (
             <Dropdown.Item
@@ -100,11 +140,6 @@ const UserMenu = ({ user, signOutPath }) => {
           >
             <small>Sign out</small>
           </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item key="tab-dropdown-connect-wallet">
-            <MetamaskConnect user_id={user.id} />
-          </Dropdown.Item>
-          <Dropdown.Divider />
         </Dropdown.Menu>
       </Dropdown>
       <EditInvestorProfilePicture
