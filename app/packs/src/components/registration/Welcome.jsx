@@ -5,9 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { get } from "../../utils/requests";
 
-const Welcome = ({ changeStep, changeEmail, changePassword, email, username, changeUsername }) => {
+const Welcome = ({
+  changeStep,
+  changeEmail,
+  changePassword,
+  email,
+  username,
+  changeUsername,
+  changeCode,
+}) => {
   const [localEmail, setEmail] = useState(email);
-  const [localPassword, setLocalPassword] = useState('');
+  const [localPassword, setLocalPassword] = useState("");
   const [requestingEmail, setRequestingEmail] = useState(false);
   const [emailValidated, setEmailValidated] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
@@ -16,6 +24,8 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
   const [requestingUsername, setRequestingUsername] = useState(false);
   const [usernameValidated, setUsernameValidated] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
+  const url = new URL(document.location);
+  const [localCode, setCode] = useState(url.searchParams.get("code") || "");
 
   const editUsername = (e) => {
     if (e.target.value == "" || /^[A-Za-z0-9]+$/.test(e.target.value)) {
@@ -55,14 +65,25 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
     return re.test(String(localEmail).toLowerCase());
   };
 
-  const invalidForm = !validEmail() || !emailValidated || localPassword.length < 8 || !usernameValidated
+  const invalidForm =
+    !validEmail() ||
+    !emailValidated ||
+    localPassword.length < 8 ||
+    !usernameValidated ||
+    localCode.length < 1;
 
   const submitWelcomeForm = (e) => {
     e.preventDefault();
-    if (localEmail != "" && validEmail() && localPassword.length > 7 && localUsername != "") {
+    if (
+      localEmail != "" &&
+      validEmail() &&
+      localPassword.length > 7 &&
+      localUsername != ""
+    ) {
       changeEmail(localEmail);
       changePassword(localPassword);
       changeUsername(localUsername);
+      changeCode(localCode);
       changeStep(2);
     }
   };
@@ -112,15 +133,16 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
     if (localPassword.length > 0 && localPassword.length < 8) {
       setValidPassword(false);
     } else {
-      setValidPassword(true)
+      setValidPassword(true);
     }
-  }, [localPassword, setValidPassword])
+  }, [localPassword, setValidPassword]);
 
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
       <h1>Welcome!</h1>
       <p>
-        We're currently in alpha. Enter your email to register your account.
+        We're currently in private beta. Enter the information below to register
+        your account.
       </p>
       <p>
         <small>
@@ -170,7 +192,7 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
               We already have that email in the system.
             </small>
           )}
-          <label htmlFor="inputPassword">
+          <label htmlFor="inputPassword" className="mt-2">
             <small>Password</small>
           </label>
           <input
@@ -183,24 +205,24 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
           />
           {localPassword.length > 7 && (
             <FontAwesomeIcon
-            icon={faCheck}
-            className="position-absolute text-success"
-            style={{ top: 136, right: 10 }}
-          />
+              icon={faCheck}
+              className="position-absolute text-success"
+              style={{ top: 144, right: 10 }}
+            />
           )}
           {!validPassword && (
             <FontAwesomeIcon
-            icon={faTimes}
-            className="position-absolute text-danger"
-            style={{ top: 136, right: 10 }}
-          />
+              icon={faTimes}
+              className="position-absolute text-danger"
+              style={{ top: 144, right: 10 }}
+            />
           )}
           {!validPassword && (
             <small id="passwordErrorHelp" className="form-text text-danger">
               Password needs to have a minimum of 8 characters
-          </small>
+            </small>
           )}
-          <label htmlFor="inputUsername">
+          <label htmlFor="inputUsername" className="mt-2">
             <small>Username</small>
           </label>
           <input
@@ -215,21 +237,21 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
               icon={faSpinner}
               spin
               className="position-absolute"
-              style={{ top: 205, right: 10 }}
+              style={{ top: 222, right: 10 }}
             />
           )}
           {usernameValidated && (
             <FontAwesomeIcon
               icon={faCheck}
               className="position-absolute text-success"
-              style={{ top: 205, right: 10 }}
+              style={{ top: 222, right: 10 }}
             />
           )}
           {usernameExists && (
             <FontAwesomeIcon
               icon={faTimes}
               className="position-absolute text-danger"
-              style={{ top: 205, right: 10 }}
+              style={{ top: 222, right: 10 }}
             />
           )}
           <small id="usernameHelp" className="form-text text-muted">
@@ -240,6 +262,16 @@ const Welcome = ({ changeStep, changeEmail, changePassword, email, username, cha
               We already have that username in the system.
             </small>
           )}
+          <label htmlFor="inputCode" className="mt-2">
+            <small>Code</small>
+          </label>
+          <input
+            className="form-control"
+            id="inputCode"
+            aria-describedby="codeHelp"
+            value={localCode}
+            onChange={(e) => setCode(e.target.value)}
+          />
         </div>
         <div className="align-self-end">
           <button

@@ -24,6 +24,7 @@ const RegistrationFlow = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [code, setCode] = useState("");
 
   const Component = renderCurrentStep(currentStep);
 
@@ -41,6 +42,8 @@ const RegistrationFlow = (props) => {
           password={password}
           username={username}
           changeUsername={setUsername}
+          code={code}
+          changeCode={setCode}
           {...props}
         />
       </div>
