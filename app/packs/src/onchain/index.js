@@ -7,8 +7,10 @@ import Staking from "../abis/recent/Staking.json";
 import TalentFactory from "../abis/recent/TalentFactory.json";
 import StableToken from "../abis/recent/StableToken.json";
 
+import Addresses from "./addresses.json";
+
 class OnChain {
-  constructor() {
+  constructor(env) {
     this.web3 = null;
     this.provider = null;
     this.account = null;
@@ -19,6 +21,16 @@ class OnChain {
     this.celoKit = null;
     this.tokenTest = null;
     this.signer = null;
+
+    if (env) {
+      this.factoryAddress = Addresses[env]["factory"];
+      this.stakingAddress = Addresses[env]["staking"];
+      this.fornoURI = Addresses[env]["forno"];
+    } else {
+      this.factoryAddress = Addresses["production"]["factory"];
+      this.stakingAddress = Addresses["production"]["staking"];
+      this.fornoURI = Addresses["production"]["forno"];
+    }
   }
 
   async initialize() {
@@ -32,7 +44,7 @@ class OnChain {
 
   loadFactory() {
     this.talentFactory = new ethers.Contract(
-      "0x6a630d53ABb7c17E51f7B67743e1502C3Ecc9360",
+      this.factoryAddress,
       TalentFactory.abi,
       this.provider
     );
@@ -42,7 +54,7 @@ class OnChain {
 
   loadStaking() {
     this.staking = new ethers.Contract(
-      "0x29270C602C0659260D555Ecd0b4F62eAb2c964Ef",
+      this.stakingAddress,
       Staking.abi,
       this.provider
     );
@@ -51,7 +63,7 @@ class OnChain {
   }
 
   async loadStableToken() {
-    this.celoKit = newKit("https://alfajores-forno.celo-testnet.org");
+    this.celoKit = newKit(this.fornoURI);
 
     const stableTokenAddress = await this.celoKit.registry.addressFor(
       CeloContract.StableToken
@@ -98,12 +110,13 @@ class OnChain {
         window.web3.currentProvider
       );
     } else {
-      // Add fallback to infura
-      // const provider = new ethers.providers.JsonRpcProvider();
+      // Add fallback to infura or forno
+      this.provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      await this.provider.ready;
+
       console.log(
         "Non-Ethereum browser detected. You should consider trying MetaMask!"
       );
-      return false;
     }
     return true;
   }
@@ -127,7 +140,7 @@ class OnChain {
   }
 
   async calculateEstimatedReturns(token, _account) {
-    if (!this.staking) {
+    if (!this.staking || !_account || !this.account) {
       return;
     }
 
@@ -188,7 +201,7 @@ class OnChain {
 
   async getStableAllowance(formatted = false) {
     if (!this.stabletoken || !this.account) {
-      return;
+      return "0";
     }
 
     const result = await this.stabletoken.allowance(

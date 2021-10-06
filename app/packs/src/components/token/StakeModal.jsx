@@ -106,8 +106,6 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     setApproving(true);
     const allowedValue = await chainData.getStableAllowance(true);
 
-    console.log(allowedValue);
-
     if (parseFloat(amount) > parseFloat(allowedValue)) {
       await chainData.approveStable(amount);
     }

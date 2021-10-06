@@ -39,7 +39,7 @@ const GET_SPONSOR_PORTFOLIO = gql`
   }
 `;
 
-const Portfolio = ({ address }) => {
+const Portfolio = ({ address, railsContext }) => {
   const [localAccount, setLocalAccount] = useState(address || "");
   const { loading, error, data, refetch } = useQuery(GET_SPONSOR_PORTFOLIO, {
     variables: { id: localAccount.toLowerCase() },
@@ -78,7 +78,7 @@ const Portfolio = ({ address }) => {
   }, [data]);
 
   const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const newOnChain = new OnChain(railsContext.railsEnv);
 
     await newOnChain.initialize();
     await newOnChain.loadStaking();
@@ -94,7 +94,9 @@ const Portfolio = ({ address }) => {
       refetch();
     }
 
-    setChainAPI(newOnChain);
+    if (newOnChain) {
+      setChainAPI(newOnChain);
+    }
   });
 
   const updateAll = async () => {
@@ -132,7 +134,11 @@ const Portfolio = ({ address }) => {
         null
       );
 
-      return ethers.utils.formatUnits(value.stakerRewards);
+      if (value?.stakerRewards) {
+        return ethers.utils.formatUnits(value.stakerRewards);
+      } else {
+        return "0";
+      }
     }
 
     return "0";
@@ -140,7 +146,7 @@ const Portfolio = ({ address }) => {
 
   const claimRewards = async (contractAddress) => {
     if (chainAPI && contractAddress) {
-      const result = await chainAPI.claimRewards(contractAddress);
+      await chainAPI.claimRewards(contractAddress);
     }
   };
 
@@ -165,8 +171,10 @@ const Portfolio = ({ address }) => {
   );
 };
 
-export default (props) => (
-  <ApolloProvider client={client}>
-    <Portfolio {...props} />
-  </ApolloProvider>
-);
+export default (props, railsContext) => {
+  return () => (
+    <ApolloProvider client={client}>
+      <Portfolio {...props} railsContext={railsContext} />
+    </ApolloProvider>
+  );
+};
