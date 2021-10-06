@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { newKit, CeloContract } from "@celo/contractkit";
+import dayjs from "dayjs";
 
 import TalentToken from "../abis/recent/TalentToken.json";
 import Staking from "../abis/recent/Staking.json";
@@ -31,7 +32,7 @@ class OnChain {
 
   loadFactory() {
     this.talentFactory = new ethers.Contract(
-      "0xcF2b5dd4367B083d495Cfc4332b0970464ee1472",
+      "0x6a630d53ABb7c17E51f7B67743e1502C3Ecc9360",
       TalentFactory.abi,
       this.provider
     );
@@ -41,7 +42,7 @@ class OnChain {
 
   loadStaking() {
     this.staking = new ethers.Contract(
-      "0xaAe247516e1e8C9744cE2de6C4dFef282FCf5753",
+      "0x29270C602C0659260D555Ecd0b4F62eAb2c964Ef",
       Staking.abi,
       this.provider
     );
@@ -56,8 +57,6 @@ class OnChain {
       CeloContract.StableToken
     );
 
-    console.log("StableToken: ", stableTokenAddress);
-
     this.stabletoken = new ethers.Contract(
       stableTokenAddress,
       StableToken.abi,
@@ -65,6 +64,10 @@ class OnChain {
     );
 
     return true;
+  }
+
+  isConnected() {
+    return !!this.account;
   }
 
   async loadAccount() {
@@ -110,36 +113,28 @@ class OnChain {
       return;
     }
 
-    console.log("NAME: ", name);
-    console.log("SYMBOL: ", symbol);
-    console.log("SIGNER: ", this.signer);
-    console.log("ACCOUNT: ", this.account);
-
     const tx = await this.talentFactory
       .connect(this.signer)
       .createTalent(this.account, name, symbol);
 
-    console.log("TX: ", tx);
     const receipt = await tx.wait();
-    console.log("RECEIPT: ", receipt);
 
     const event = receipt.events?.find((e) => {
       return e.event === "TalentCreated";
     });
-    console.log("EVENT: ", event);
 
     return event;
   }
 
-  async calculateEstimatedReturns(token) {
+  async calculateEstimatedReturns(token, _account) {
     if (!this.staking) {
       return;
     }
 
-    const timestamp = Math.floor(new Date().getTime() / 1000);
+    const timestamp = dayjs().unix();
 
     const result = await this.staking.calculateEstimatedReturns(
-      this.account,
+      _account || this.account,
       token,
       timestamp
     );
@@ -158,30 +153,25 @@ class OnChain {
 
     const amount = ethers.utils.parseUnits(_amount);
 
-    console.log("STAKING ATTEMPT");
-    console.log("AMOUNT: ", _amount);
-    console.log("TOKEN: ", token);
-    console.log("AMOUNT (wei): ", amount);
-    console.log(
-      "BALANCE OF ACCOUNT: ",
-      ethers.utils.formatUnits(await this.stabletoken.balanceOf(this.account))
-    );
-    console.log(
-      "ALLOWANCE OF STAKING CONTRACT: ",
-      ethers.utils.formatUnits(
-        await this.stabletoken.allowance(this.account, this.staking.address)
-      )
-    );
-
     const tx = await this.staking
       .connect(this.signer)
       .stakeStable(token, amount);
-    console.log("RESULT: ", result);
 
     const receipt = await tx.wait();
-    console.log("RECEIPT: ", receipt);
 
-    return tx;
+    return receipt;
+  }
+
+  async claimRewards(token) {
+    if (!this.staking) {
+      return;
+    }
+
+    const tx = await this.staking.connect(this.signer).claimRewards(token);
+
+    const receipt = await tx.wait();
+
+    return receipt;
   }
 
   async approveStable(_amount) {
@@ -194,6 +184,23 @@ class OnChain {
       .approve(this.staking.address, ethers.utils.parseUnits(_amount));
 
     return result;
+  }
+
+  async getStableAllowance(formatted = false) {
+    if (!this.stabletoken || !this.account) {
+      return;
+    }
+
+    const result = await this.stabletoken.allowance(
+      this.account,
+      this.staking.address
+    );
+
+    if (formatted) {
+      return ethers.utils.formatUnits(result);
+    } else {
+      return result;
+    }
   }
 
   async getStableBalance(formatted = false) {

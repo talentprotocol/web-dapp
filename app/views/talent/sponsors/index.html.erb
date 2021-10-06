@@ -8,14 +8,10 @@
           ticker: @talent.token.ticker,
           tags: @talent.tags.map(&:description),
           profilePictureUrl: @talent.profile_picture_url,
+          created_at: @talent.created_at,
+          talentRewards: 0
         },
         contractId: @talent.token.contract_id,
-        sponsors: @sponsors.map { |sponsor| {
-          id: sponsor.id,
-          walletId: sponsor.wallet_id,
-          username: sponsor.username,
-          profilePictureUrl: sponsor.talent? ? sponsor.talent.profile_picture_url : sponsor.investor.profile_picture_url
-        }}
       },
       prerender: false) %>
   </main>

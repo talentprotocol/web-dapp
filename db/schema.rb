@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_26_093321) do
+ActiveRecord::Schema.define(version: 2021_10_06_102906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,17 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
     t.text "profile_picture_data"
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.string "code", null: false
+    t.integer "uses", default: 0
+    t.integer "max_uses", default: 2
+    t.boolean "talent_invite", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -249,7 +260,9 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
     t.string "email_confirmation_token", default: "", null: false
     t.datetime "email_confirmed_at"
     t.string "display_name"
+    t.bigint "invite_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
@@ -274,6 +287,7 @@ ActiveRecord::Schema.define(version: 2021_09_26_093321) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "invites", "users"
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"

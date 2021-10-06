@@ -28,7 +28,6 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
     if (factory) {
       setDeploy("We're waiting for confirmation of a successful deploy");
       const result = await factory.createTalent(user.username, token.ticker);
-      console.log(result);
 
       if (result) {
         const contractAddress = result.args.token;
@@ -57,7 +56,6 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       return;
     }
 
-    console.log("LOADING FACTORY");
     result = newOnChain.loadFactory();
 
     if (result) {
@@ -66,8 +64,6 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       setDeploy("Unable to deploy token");
       return;
     }
-
-    console.log("LOADING TOKEN");
 
     if (token.contract_id) {
       const _token = newOnChain.getToken(token.contract_id);
@@ -144,7 +140,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
             onChange={(e) => changeAttribute("ticker", e.target.value)}
           />
           <small id="ticker_help" className="form-text text-muted">
-            Upcase letters only. 3 to 8 characters.
+            Upcase letters only, 3 to 8 characters.
           </small>
         </div>
         <div className="form-group">

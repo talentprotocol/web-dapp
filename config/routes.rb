@@ -42,9 +42,7 @@ Rails.application.routes.draw do
     end
 
     # Portfolio
-    resource :portfolio, only: [:show] do
-      resources :tokens, only: [:show], module: "portfolio"
-    end
+    resource :portfolio, only: [:show]
 
     # Chat
     resources :messages, only: [:index, :show, :create]
