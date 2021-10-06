@@ -40,9 +40,11 @@ const GET_SPONSOR_PORTFOLIO = gql`
 `;
 
 const Portfolio = ({ address }) => {
-  const { loading, error, data } = useQuery(GET_SPONSOR_PORTFOLIO, {
-    variables: { id: address.toLowerCase() },
+  const [localAccount, setLocalAccount] = useState(address || "");
+  const { loading, error, data, refetch } = useQuery(GET_SPONSOR_PORTFOLIO, {
+    variables: { id: localAccount.toLowerCase() },
   });
+
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
   const [returnValues, setReturnValues] = useState({});
@@ -85,6 +87,11 @@ const Portfolio = ({ address }) => {
 
     if (balance) {
       setStableBalance(balance);
+    }
+
+    if (localAccount != "" && newOnChain.account) {
+      setLocalAccount(newOnChain.account);
+      refetch();
     }
 
     setChainAPI(newOnChain);

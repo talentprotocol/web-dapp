@@ -20,6 +20,6 @@
             prerender: false) %>
       </div>
 
-      <%= react_component("Portfolio", props: { address: current_user.wallet_id }, prerender: false) %>
+      <%= react_component("Portfolio", props: { address: current_user.wallet_id || "" }, prerender: false) %>
   </main>
 </div>
