@@ -82,7 +82,10 @@ const Portfolio = ({ address }) => {
     await newOnChain.loadStaking();
     await newOnChain.loadStableToken();
     const balance = await newOnChain.getStableBalance(true);
-    setStableBalance(balance);
+
+    if (balance) {
+      setStableBalance(balance);
+    }
 
     setChainAPI(newOnChain);
   });

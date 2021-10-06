@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
+
 import { OnChain } from "src/onchain";
+
 import transakSDK from "@transak/transak-sdk";
 
 const transak = new transakSDK({
@@ -61,9 +63,13 @@ const UserMenu = ({ user, signOutPath }) => {
     const newOnChain = new OnChain();
 
     await newOnChain.initialize();
+
     await newOnChain.loadStableToken();
     const balance = await newOnChain.getStableBalance(true);
-    setStableBalance(balance);
+
+    if (balance) {
+      setStableBalance(balance);
+    }
 
     setChainAPI(newOnChain);
   });
@@ -107,7 +113,7 @@ const UserMenu = ({ user, signOutPath }) => {
           <Dropdown.ItemText key="tab-dropdown-balance">
             <small className="text-black">Balance: </small>
             <small className="text-secondary">{stableBalance}</small>
-            <small className="text-secondary">cUSD</small>
+            <small className="text-secondary ml-1">cUSD</small>
           </Dropdown.ItemText>
           <Dropdown.Item
             key="tab-dropdown-get-funds"
