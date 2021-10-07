@@ -3,8 +3,23 @@
   <main class="col-12 mx-auto mx-lg-0 p-3 mt-3">
       <div class="d-flex flex-column flex-sm-row justify-content-between">
         <h1 class="mb-0 mr-2">Portfolio</h1>
+        <%= react_component("UserMenu",
+            props: {
+              user: {
+                id: current_user.id,
+                profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+                talentId: current_user.talent&.id,
+                investorId: current_user.investor&.id,
+                isTalent: current_user.talent.present?,
+                displayWalletId: current_user.display_wallet_id,
+                walletId: current_user.wallet_id,
+                username: current_user.username,
+              },
+              signOutPath: sign_out_path
+            },
+            prerender: false) %>
       </div>
 
-      <%= react_component("Portfolio", props: { address: current_user.wallet_id }, prerender: false) %>
+      <%= react_component("Portfolio", props: { address: current_user.wallet_id || "" }, prerender: false) %>
   </main>
 </div>

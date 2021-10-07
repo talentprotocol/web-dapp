@@ -7,8 +7,9 @@ import { setupChannel, removeChannel } from "channels/message_channel";
 import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
+import UserMenu from "../user_menu";
 
-const Chat = ({ users, userId }) => {
+const Chat = ({ users, userId, user, signOutPath }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
@@ -115,6 +116,12 @@ const Chat = ({ users, userId }) => {
       )}
       {(width > 992 || activeUserId > 0) && (
         <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
+          <div className="d-flex justify-content-end mb-4 mt-2">
+            <UserMenu
+              user={user}
+              signOutPath={signOutPath}
+            />
+          </div>
           <MessageExchange
             smallScreen={width <= 992}
             clearActiveUserId={() => clearActiveUser()}

@@ -79,6 +79,7 @@ Rails.application.routes.draw do
           resources :tokens, only: [:update], module: "talent"
           resources :career_goals, only: [:update, :create], module: "talent"
         end
+        resources :investor, only: [:update]
       end
     end
   end

@@ -68,18 +68,17 @@ const MetamaskConnect = ({ user_id }) => {
           hide={() => setShowNoMetamask(false)}
         />
       )}
-      <button
+      <small
         disabled={!allowConnect()}
         onClick={connectMetamask}
-        className="btn btn-primary talent-button"
       >
         {connected
           ? "Connected"
           : web3.loading
           ? "Loading..."
           : "Connect Wallet"}{" "}
-        <img src={MetamaskFox} height={32} alt="Metamask Fox" />
-      </button>
+        <img src={MetamaskFox} height={16} alt="Metamask Fox" />
+      </small>
     </>
   );
 };
