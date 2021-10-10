@@ -41,13 +41,11 @@ const Services = ({ services, ticker, width }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex flex-row mt-3 mb-2">
+      <div className="d-flex justify-content-between mt-3 mb-2">
         {sliceInDisplay.map((service, index) => (
           <div
             key={`service_list_${service.id}`}
-            className={`${index == 0 && "mr-2"} bg-light rounded p-2 col-${
-              itemsPerRow == 1 ? 12 : 4
-            } d-flex flex-column`}
+            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-32'}`}
           >
             <p>{service.title}</p>
             <small className="text-warning">

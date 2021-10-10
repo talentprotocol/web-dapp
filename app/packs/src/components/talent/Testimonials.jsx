@@ -105,10 +105,10 @@ const Testimonials = ({
           <h5 className="mb-0"><strong>Testimonials</strong></h5>
           <button
             className="btn btn-primary ml-2"
-            style={{ height: 38, width: 99 }}
+            style={{ height: 38, width: 150 }}
             onClick={() => setShowAddTestimonialModal(true)}
           >
-            Add your
+            Add Testimonial
           </button>
         </div>
         <div className="d-flex flex-row">
@@ -128,22 +128,21 @@ const Testimonials = ({
           </button>
         </div>
       </div>
-      <div className="d-flex flex-row mb-2 mt-3">
+      <div className="d-flex justify-content-between mb-2 mt-3">
         {sliceInDisplay.map((testimonial) => (
           <div
             key={`goal_list_${testimonial.id}`}
-            className={`card bg-light col-${itemsPerRow == 1 ? 12 : 4}`}>
-            <div className="card-body">
-              <div className="d-flex align-items-center">
-                <TalentProfilePicture src={testimonial.user.profilePictureUrl} height={24} />
-                <h6 className="ml-2 mb-0">{testimonial.user.display_name || testimonial.user.username}</h6>
-              </div>
-              <div className="mt-4">
-                <h6 className="card-title">{testimonial.title}</h6>
-              </div>
-              <div className="mt-4">
-                <small className="card-title">{testimonial.description}</small>
-              </div>
+            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-32'}`}
+          >
+            <div className="d-flex align-items-center">
+              <TalentProfilePicture src={testimonial.user.profilePictureUrl} height={24} />
+              <h6 className="ml-2 mb-0">{testimonial.user.display_name || testimonial.user.username}</h6>
+            </div>
+            <div className="mt-4">
+              <h6 className="card-title">{testimonial.title}</h6>
+            </div>
+            <div className="mt-4">
+              <small className="card-title">{testimonial.description}</small>
             </div>
           </div>
         ))}
