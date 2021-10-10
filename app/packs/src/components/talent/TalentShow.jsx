@@ -191,7 +191,7 @@ const TalentShow = ({
               ticker={ticker()}
             />
           )}
-          <a href={`/message?user=${user.id}`} className="btn btn-light mx-2">
+          <a href={`/messages?user=${user.id}`} className="btn btn-light mx-2">
             <FontAwesomeIcon icon={faCommentAlt} /> Message
           </a>
           <EditProfile
