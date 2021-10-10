@@ -1,39 +1,55 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { OnChain } from "src/onchain";
 import currency from "currency.js";
 
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
+  cache: new InMemoryCache(),
+});
+
+const GET_TALENT_PORTFOLIO = gql`
+  query GetTalentPortfolio($id: String!) {
+    talentToken(id: $id) {
+      id
+      totalValueLocked
+      sponsorCounter
+      totalSupply
+      marketCap
+    }
+  }
+`;
+
 const TokenDetails = ({ token, ticker, displayName }) => {
-  const [talentToken, setTalentToken] = useState(null);
-  const [totalSupply, setTotalSupply] = useState(0);
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO, {
+    variables: { id: token.contract_id.toLowerCase() },
+  });
 
-  const setupOnChain = useCallback(async () => {
-    const newOnChain = new OnChain();
-    let result;
+  const [tokenData, setTokenData] = useState({
+    price: 0.1,
+    totalSupply: 0,
+    sponsorCount: 0,
+  });
 
-    result = await newOnChain.initialize();
-
-    if (!result) {
+  useEffect(() => {
+    if (loading) {
       return;
     }
 
-    if (token.contract_id) {
-      const _token = newOnChain.getToken(token.contract_id);
-      if (_token) {
-        setTalentToken(_token);
-
-        _token
-          .totalSupply()
-          .then((_totalSupply) =>
-            setTotalSupply(ethers.utils.formatUnits(_totalSupply))
-          );
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    setupOnChain();
-  }, []);
+    setTokenData({
+      ...tokenData,
+      totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
+      sponsorCount: data.talentToken.sponsorCounter,
+    });
+  }, [data, loading]);
 
   return (
     <div className="card bg-light mt-3 sticky-top" style={{ top: 20 }}>
@@ -45,11 +61,11 @@ const TokenDetails = ({ token, ticker, displayName }) => {
         <div className="dropdown-divider border-secondary"></div>
         <div className="d-flex flex-row justify-content-between">
           <small>{ticker} Price</small>
-          <small>$0.10</small>
+          <small>${tokenData.price}</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
           <small>Market Value</small>
-          <small>{currency(totalSupply * 0.1).format()}</small>
+          <small>{currency(tokenData.totalSupply * 0.1).format()}</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
           <small>
@@ -69,7 +85,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
         <div className="dropdown-divider border-secondary"></div>
         <div className="d-flex flex-row justify-content-between">
           <small>Circulating Supply</small>
-          <small>{currency(totalSupply).format().substring(1)}</small>
+          <small>{currency(tokenData.totalSupply).format().substring(1)}</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
           <small>Max Supply</small>
@@ -77,11 +93,15 @@ const TokenDetails = ({ token, ticker, displayName }) => {
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
           <small>Total Sponsors</small>
-          <small>0</small>
+          <small>{tokenData.sponsorCount}</small>
         </div>
       </div>
     </div>
   );
 };
 
-export default TokenDetails;
+export default (props) => (
+  <ApolloProvider client={client}>
+    <TokenDetails {...props} />
+  </ApolloProvider>
+);

@@ -210,7 +210,7 @@ const TalentShow = ({
       <div className="d-flex flex-row mx-3 mt-3">
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Overview" && "btn-light active"
+            pageInDisplay == "Overview" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Overview")}
         >
@@ -218,7 +218,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Timeline" && "btn-light active"
+            pageInDisplay == "Timeline" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Timeline")}
         >
@@ -226,7 +226,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Activity" && "btn-light active"
+            pageInDisplay == "Activity" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Activity")}
           disabled
@@ -235,7 +235,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Community" && "btn-light active"
+            pageInDisplay == "Community" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Community")}
           disabled
