@@ -72,7 +72,7 @@ const Portfolio = ({ address, railsContext }) => {
 
     return ethers.utils.formatUnits(
       data.sponsor.talents.reduce((prev, current) => {
-        return prev.add(ethers.BigNumber.from(current.amount));
+        return prev.add(ethers.BigNumber.from(current.amount).mul(5));
       }, ethers.BigNumber.from(0))
     );
   }, [data]);

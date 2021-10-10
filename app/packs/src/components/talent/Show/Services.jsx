@@ -53,7 +53,7 @@ const Services = ({ services, ticker, width }) => {
                 {service.price} {ticker}
               </strong>
             </small>
-            <button className="btn btn-secondary mt-2">
+            <button className="btn btn-secondary mt-2" disabled>
               <small>REDEEM</small>
             </button>
           </div>
