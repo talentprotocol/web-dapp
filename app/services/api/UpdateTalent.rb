@@ -44,7 +44,7 @@ class API::UpdateTalent
       @talent[:public] = params[:public] || false
       @talent[:disable_messages] = params[:disable_messages] || false
       @talent.pronouns = params[:profile][:pronouns]
-      @talent.ocupation = params[:profile][:ocupation]
+      @talent.occupation = params[:profile][:occupation]
       @talent.location = params[:profile][:location]
       @talent.headline = params[:profile][:headline]
       @talent.website = params[:profile][:website]
@@ -54,6 +54,10 @@ class API::UpdateTalent
 
     if params[:profile_picture]
       @talent.profile_picture = params[:profile_picture].as_json
+    end
+
+    if params[:banner]
+      @talent.banner = params[:banner].as_json
     end
 
     if params[:profile][:email]

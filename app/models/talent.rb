@@ -1,5 +1,6 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
+  include ::ImageUploader::Attachment(:banner)
 
   store :profile, accessors: %i[
     pronouns
@@ -14,7 +15,7 @@ class Talent < ApplicationRecord
     telegram
     discord
     github
-    ocupation
+    occupation
   ], coder: JSON
 
   validate :public_key_is_valid

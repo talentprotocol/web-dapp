@@ -11,15 +11,28 @@ import "@uppy/drag-drop/dist/style.css";
 import { patch, getAuthToken } from "src/utils/requests";
 
 import Button from "../../../button";
-import { Binding } from "@babel/traverse";
 
-const uppy = new Uppy({
+const uppyProfile = new Uppy({
   meta: { type: "avatar" },
   restrictions: { maxNumberOfFiles: 1 },
   autoProceed: true,
 });
 
-uppy.use(AwsS3Multipart, {
+const uppyBanner = new Uppy({
+  meta: { type: "avatar" },
+  restrictions: { maxNumberOfFiles: 1 },
+  autoProceed: true,
+});
+
+uppyProfile.use(AwsS3Multipart, {
+  limit: 4,
+  companionUrl: "/",
+  companionHeaders: {
+    "X-CSRF-Token": getAuthToken(),
+  },
+});
+
+uppyBanner.use(AwsS3Multipart, {
   limit: 4,
   companionUrl: "/",
   companionHeaders: {
@@ -44,7 +57,7 @@ const About = ({
     display_name: user.display_name || "",
     pronouns: talent.profile.pronouns || "",
     location: talent.profile.location || "",
-    ocupation: talent.profile.ocupation || "",
+    occupation: talent.profile.occupation || "",
     primary_tag: primary_tag || "",
     secondary_tags: secondary_tags.join(", "),
     headline: talent.profile.headline || "",
@@ -54,11 +67,12 @@ const About = ({
     public_profile: talent.public || "",
     video: talent.profile.video || "",
     uploadedFileData: null,
+    uploadedBannerData: null,
     fileUrl: "",
   });
 
   useEffect(() => {
-    uppy.on("upload-success", (file, response) => {
+    uppyProfile.on("upload-success", (file, response) => {
       changeAttribute("fileUrl", response.uploadURL);
 
       changeAttribute("uploadedFileData", {
@@ -70,29 +84,50 @@ const About = ({
           mime_type: file.type,
         },
       });
-      setUploadingFileS3(false);
+      setUploadingFileS3("");
     });
-    uppy.on("upload", () => {
-      setUploadingFileS3(true);
+    uppyProfile.on("upload", () => {
+      setUploadingFileS3("profile");
+    });
+    uppyBanner.on("upload-success", (file, response) => {
+      changeAttribute("bannerUrl", response.uploadURL);
+
+      console.log("changing: ", file);
+
+      changeAttribute("uploadedBannerData", {
+        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
+        storage: "cache",
+        metadata: {
+          size: file.size,
+          filename: file.name,
+          mime_type: file.type,
+        },
+      });
+      setUploadingFileS3("");
+    });
+    uppyBanner.on("upload", () => {
+      setUploadingFileS3("banner");
     });
   }, []);
 
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
+    console.log(aboutInfo["uploadedBannerData"]);
 
     const response = await patch(`/api/v1/talent/${talent.id}`, {
       talent: {
         username: aboutInfo["username"],
         display_name: aboutInfo["display_name"],
         profile_picture: aboutInfo["uploadedFileData"],
+        banner: aboutInfo["uploadedBannerData"],
         public: aboutInfo["public_profile"],
         primary_tag: aboutInfo["primary_tag"],
         secondary_tags: aboutInfo["secondary_tags"],
         disable_messages: aboutInfo["disable_messages"],
         profile: {
           pronouns: aboutInfo["pronouns"],
-          ocupation: aboutInfo["ocupation"],
+          occupation: aboutInfo["occupation"],
           location: aboutInfo["location"],
           headline: aboutInfo["headline"],
           website: aboutInfo["website"],
@@ -119,7 +154,7 @@ const About = ({
               ...prevState.talent.profile,
               pronouns: aboutInfo["pronouns"],
               location: aboutInfo["location"],
-              ocupation: aboutInfo["ocupation"],
+              occupation: aboutInfo["occupation"],
               headline: aboutInfo["headline"],
               website: aboutInfo["website"],
               wallet_address: aboutInfo["wallet_address"],
@@ -128,6 +163,7 @@ const About = ({
           },
           profilePictureUrl:
             aboutInfo["fileUrl"] || prevState.profilePictureUrl,
+          bannerUrl: aboutInfo["bannerUrl"] || prevState.bannerUrl,
           user: {
             ...prevState.user,
             username: aboutInfo["username"],
@@ -158,25 +194,49 @@ const About = ({
       <form>
         <div className="form-group">
           <label className="mr-1">Profile picture</label>
-          {uploadingFileS3 && (
+          {uploadingFileS3 == "profile" && (
             <p>
               <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
             </p>
           )}
-          {!uploadingFileS3 && aboutInfo["uploadedFileData"] !== null && (
-            <p>Uploaded file. </p>
+          {uploadingFileS3 != "profile" &&
+            aboutInfo["uploadedFileData"] !== null && <p>Uploaded file. </p>}
+          {uploadingFileS3 != "profile" &&
+            aboutInfo["uploadedFileData"] === null && (
+              <DragDrop
+                uppy={uppyProfile}
+                locale={{
+                  strings: {
+                    dropHereOr: "Drop here or %{browse}",
+                    browse: "browse",
+                  },
+                }}
+              />
+            )}
+        </div>
+        <div className="form-group">
+          <label className="mr-1">Banner</label>
+          {uploadingFileS3 == "banner" && (
+            <p>
+              <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
+            </p>
           )}
-          {!uploadingFileS3 && aboutInfo["uploadedFileData"] === null && (
-            <DragDrop
-              uppy={uppy}
-              locale={{
-                strings: {
-                  dropHereOr: "Drop here or %{browse}",
-                  browse: "browse",
-                },
-              }}
-            />
-          )}
+          {uploadingFileS3 != "banner" &&
+            aboutInfo["uploadedBannerData"] !== null && (
+              <p>Uploaded banner. </p>
+            )}
+          {uploadingFileS3 != "banner" &&
+            aboutInfo["uploadedBannerData"] === null && (
+              <DragDrop
+                uppy={uppyBanner}
+                locale={{
+                  strings: {
+                    dropHereOr: "Drop here or %{browse}",
+                    browse: "browse",
+                  },
+                }}
+              />
+            )}
         </div>
         <div className="form-group">
           <label htmlFor="username">Username</label>
@@ -204,13 +264,13 @@ const About = ({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="ocupation">Ocupation</label>
+          <label htmlFor="occupation">occupation</label>
           <input
-            id="ocupation"
+            id="occupation"
             className="form-control"
-            placeholder="Your current ocupation"
-            onChange={(e) => changeAttribute("ocupation", e.target.value)}
-            value={aboutInfo["ocupation"]}
+            placeholder="Your current occupation"
+            onChange={(e) => changeAttribute("occupation", e.target.value)}
+            value={aboutInfo["occupation"]}
           />
         </div>
         <div className="form-group">

@@ -3,7 +3,9 @@ class TalentController < ApplicationController
   before_action :set_talent, only: [:show, :update]
 
   def index
-    @pagy, @talents = pagy(apply_filters(base_talent.includes(:primary_tag, :user)), items: 6)
+    @talents = apply_filters(base_talent.includes(:primary_tag, :user))
+    @active_talents = @talents.where.not(token: {contract_id: nil})
+    @upcoming_talents = @talents.where(token: {contract_id: nil})
 
     respond_to do |format|
       format.html # index.html.erb

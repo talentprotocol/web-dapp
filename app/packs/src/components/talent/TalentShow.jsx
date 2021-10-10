@@ -37,6 +37,7 @@ const TalentShow = ({
   token_live,
   user,
   profilePictureUrl,
+  bannerUrl,
   primary_tag,
   secondary_tags,
   career_goal,
@@ -59,6 +60,7 @@ const TalentShow = ({
     milestones,
     current_user_id,
     token_live,
+    bannerUrl,
     user,
     profilePictureUrl,
     primary_tag,
@@ -123,11 +125,11 @@ const TalentShow = ({
       ...prev,
       testimonials: [...testimonials, newTestimonial],
     }));
-  }
+  };
 
   return (
-    <div className="d-flex flex-column">
-      <section className="mt-3">
+    <div className="d-flex flex-column border-left lg-h-100">
+      <section className="my-4">
         <div className="d-flex flex-row text-muted mx-3">
           <span>
             <a href="/talent" className="text-reset">
@@ -142,7 +144,27 @@ const TalentShow = ({
           </span>
         </div>
       </section>
-      <section className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap">
+      {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
+        <TalentProfilePicture
+          src={sharedState.profilePictureUrl}
+          height={192}
+          className="w-100 pull-bottom-content"
+          straight
+          blur
+        />
+      )}
+      {sharedState.bannerUrl && (
+        <TalentProfilePicture
+          src={sharedState.bannerUrl}
+          height={192}
+          className="w-100 pull-bottom-content"
+          straight
+        />
+      )}
+      <section
+        className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap"
+        style={{ zIndex: 1 }}
+      >
         <div className="d-flex flex-row align-items-center flex-wrap">
           <TalentProfilePicture
             src={sharedState.profilePictureUrl}
@@ -168,7 +190,7 @@ const TalentShow = ({
               </button>
             </div>
             <div className="d-flex flex-row">
-              <p>{sharedState.talent.profile.ocupation}</p>
+              <p>{sharedState.talent.profile.occupation}</p>
               {sharedState.talent.profile.website && (
                 <a
                   href={sharedState.talent.profile.website}
@@ -185,11 +207,7 @@ const TalentShow = ({
           </div>
         </div>
         <div className="d-flex flex-row align-items-center mt-2">
-          <button
-            className="btn btn-primary"
-            style={{ height: 38, width: 99 }}
-            onClick={() => setShow(true)}
-          >
+          <button className="btn btn-primary" onClick={() => setShow(true)}>
             Buy {ticker()}
           </button>
           {sharedState.token.contract_id && (
@@ -214,7 +232,7 @@ const TalentShow = ({
       <div className="d-flex flex-row mx-3 mt-3">
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Overview" && "btn-light active"
+            pageInDisplay == "Overview" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Overview")}
         >
@@ -222,7 +240,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Timeline" && "btn-light active"
+            pageInDisplay == "Timeline" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Timeline")}
         >
@@ -230,7 +248,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Activity" && "btn-light active"
+            pageInDisplay == "Activity" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Activity")}
           disabled
@@ -239,7 +257,7 @@ const TalentShow = ({
         </button>
         <button
           className={`btn rounded mr-2 p-1 underline-hover ${
-            pageInDisplay == "Community" && "btn-light active"
+            pageInDisplay == "Community" && "btn-primary active"
           }`}
           onClick={() => setPageInDisplay("Community")}
           disabled
@@ -271,7 +289,12 @@ const TalentShow = ({
           ticker={ticker()}
           width={width}
         />
-        <Perks perks={sharedState.perks} ticker={ticker()} width={width} />
+        <Perks
+          perks={sharedState.perks}
+          ticker={ticker()}
+          width={width}
+          contract={token.contract_id}
+        />
         <Testimonials
           talentId={talent.id}
           testimonials={sharedState.testimonials}

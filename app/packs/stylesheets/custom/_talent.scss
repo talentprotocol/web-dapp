@@ -26,6 +26,15 @@
   }
 }
 
+.blur-photo {
+  filter: blur(128px);
+  opacity: 40%;
+}
+
+.pull-bottom-content {
+  margin-bottom: -40px;
+}
+
 .talent-edit-nav-btn {
   background-color: transparent !important;
   color: $secondary;

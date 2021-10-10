@@ -95,6 +95,17 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       .catch(() => setStage("Error"));
 
     if (result) {
+      if (chainData) {
+        const _availableAmount = await chainData.getStableBalance(true);
+        setAvailableAmount(_availableAmount);
+
+        const _tokenAvailability = await chainData.getTokenAvailability(
+          targetToken,
+          true
+        );
+        setMaxMinting(_tokenAvailability);
+      }
+
       setStage("Verified");
     } else {
       setStage("Error");

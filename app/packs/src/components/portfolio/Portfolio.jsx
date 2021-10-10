@@ -13,7 +13,7 @@ import PortfolioTable from "./PortfolioTable";
 import PortfolioTalOverview from "./PortfolioTalOverview";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.11",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
   cache: new InMemoryCache(),
 });
 
@@ -72,7 +72,7 @@ const Portfolio = ({ address, railsContext }) => {
 
     return ethers.utils.formatUnits(
       data.sponsor.talents.reduce((prev, current) => {
-        return prev.add(ethers.BigNumber.from(current.amount));
+        return prev.add(ethers.BigNumber.from(current.amount).mul(5));
       }, ethers.BigNumber.from(0))
     );
   }, [data]);

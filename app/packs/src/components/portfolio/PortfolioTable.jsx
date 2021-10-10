@@ -1,7 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Button from "../button";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
+
+import { get } from "src/utils/requests";
 
 const EmptyInvestments = () => (
   <tr>
@@ -33,6 +35,21 @@ const PortfolioTable = ({
   withdraw,
   claim,
 }) => {
+  const [talentProfilePictures, setTalentProfilePictures] = useState({});
+
+  useEffect(() => {
+    talents.forEach((talent) => {
+      get(`api/v1/talent/${talent.contract_id.toLowerCase()}`).then(
+        (response) => {
+          setTalentProfilePictures((prev) => ({
+            ...prev,
+            [talent.contract_id]: response.profilePictureUrl,
+          }));
+        }
+      );
+    });
+  }, [talents]);
+
   return (
     <div className="table-responsive">
       <h3>Talent</h3>
@@ -79,9 +96,12 @@ const PortfolioTable = ({
           {loading && <Web3Loading />}
           {!loading && talents.length == 0 && <EmptyInvestments />}
           {talents.map((talent) => (
-            <tr key={`talent-${talent.id}`} className="tal-tr-item">
+            <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
-                <TalentProfilePicture src={undefined} height={40} />
+                <TalentProfilePicture
+                  src={talentProfilePictures[talent.contract_id]}
+                  height={40}
+                />
               </th>
               <th className="align-middle pr-0 text-primary" scope="row">
                 <a className="text-reset" href={`/talent/${talent.name}`}>
@@ -91,7 +111,7 @@ const PortfolioTable = ({
               <td className="align-middle text-right">{talent.name}</td>
               <td className="align-middle text-right">{talent.amount}</td>
               <td className="align-middle tal-table-price text-right">
-                {talent.totalSupply}
+                ${ethers.utils.commify(talent.totalSupply * 0.1)}
               </td>
               <td className="align-middle tal-table-price text-right">
                 {returnValues[talent.id] &&
