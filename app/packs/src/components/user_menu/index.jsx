@@ -126,7 +126,7 @@ const UserMenu = ({ user, signOutPath }) => {
             <Dropdown.Item
               key="tab-dropdown-my-profile"
               className="text-black"
-              href={`/talent/${user.talentId}`}
+              href={`/talent/${user.username}`}
             >
               <small>My profile</small>
             </Dropdown.Item>

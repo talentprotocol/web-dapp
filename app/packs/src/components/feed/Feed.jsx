@@ -1,6 +1,4 @@
-import React, { useState, useContext } from "react";
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
-import currency from "currency.js";
+import React, { useState } from "react";
 
 import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,51 +7,51 @@ import UserMenu from "../user_menu";
 import Post from "./Post";
 import PostInput from "./PostInput";
 import TalentLeaderboard from "../leaderboards/TalentLeaderboard";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 import Alert from "../alert";
 import Button from "../button";
 import { patch } from "src/utils/requests";
 
-const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath }) => {
+const Feed = ({
+  posts,
+  user,
+  pagy,
+  topTalents,
+  alert,
+  notifications,
+  signOutPath,
+}) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
   const [currentNotifications] = useState(notifications);
-  const web3 = useContext(Web3Context);
-
-  const priceOfToken = (post) => {
-    if (post.user.ticker == "$TAL") {
-      return currency(web3.talToken?.price).format();
-    }
-    if (web3.tokens[post.user.contract_id]?.dollarPerToken) {
-      const dollar = web3.tokens[post.user.contract_id]?.dollarPerToken;
-
-      return currency(dollar * web3.talToken?.price).format();
-    }
-  };
 
   const addPost = (post) => {
     setCurrentPosts([post, ...currentPosts]);
   };
 
   const hrefForNotification = (type, talentId, sourceTalentId) => {
-    switch(type) {
-      case 'Notifications::TokenAcquired':
+    switch (type) {
+      case "Notifications::TokenAcquired":
         return `/talent/${talentId}/sponsors`;
-      case 'Notifications::MessageReceived':
-        return '/messages';
-      case 'Notifications::TalentListed':
-        return '/talent';
-      case 'Notifications::TalentChanged':
+      case "Notifications::MessageReceived":
+        return "/messages";
+      case "Notifications::TalentListed":
+        return "/talent";
+      case "Notifications::TalentChanged":
         return `/talent/${sourceTalentId}`;
       default:
-        return '';
+        return "";
     }
-  }
+  };
 
-  const notificationsUnread = currentNotifications.some((notif) => notif.read === false)
+  const notificationsUnread = currentNotifications.some(
+    (notif) => notif.read === false
+  );
 
   const notificationRead = async (notificationId) => {
-    await patch(`/api/v1/notifications/${notificationId}`, { notification: { read: true } });
+    await patch(`/api/v1/notifications/${notificationId}`, {
+      notification: { read: true },
+    });
   };
 
   return (
@@ -72,15 +70,30 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath
                 className="w-25 overflow-auto"
                 style={{ maxHeight: 400 }}
               >
-                {currentNotifications.length == 0 &&  <p className="w-100 text-center">No notifications</p>}
+                {currentNotifications.length == 0 && (
+                  <p className="w-100 text-center">No notifications</p>
+                )}
                 {currentNotifications.map((notification) => (
-                  <div className="w-100 my-2" key={`notification-${notification.id}`}>
+                  <div
+                    className="w-100 my-2"
+                    key={`notification-${notification.id}`}
+                  >
                     <Button
-                      type={`${notification.read ? "outline-secondary" : "primary"}`}
-                      href={hrefForNotification(notification.type, notification.talent_id, notification.source_talent_id)}
+                      type={`${
+                        notification.read ? "outline-secondary" : "primary"
+                      }`}
+                      href={hrefForNotification(
+                        notification.type,
+                        notification.talent_id,
+                        notification.source_talent_id
+                      )}
                       text={notification.body}
                       className="border-bottom border-top border-right border-left w-100 notification-link"
-                      onClick={() => notification.read ? null : notificationRead(notification.id)}
+                      onClick={() =>
+                        notification.read
+                          ? null
+                          : notificationRead(notification.id)
+                      }
                     />
                   </div>
                 ))}
@@ -88,7 +101,9 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath
             }
           >
             <button className="border-0 bg-transparent">
-              <FontAwesomeIcon icon={notificationsUnread ? faBell : faBellSlash} />
+              <FontAwesomeIcon
+                icon={notificationsUnread ? faBell : faBellSlash}
+              />
             </button>
           </OverlayTrigger>
         </div>
@@ -111,12 +126,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath
             key={`post-${post.id}`}
             className="bg-white border-bottom border-right border-top mb-2"
           >
-            <Post
-              post={post}
-              user={post.user}
-              currentUser={user}
-              priceOfToken={priceOfToken(post)}
-            />
+            <Post post={post} user={post.user} currentUser={user} />
           </div>
         ))}
         {currentPosts.length > 0 && (
@@ -130,10 +140,7 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath
       </section>
       <section className="col-lg-5 p-4 talent-content-body-500">
         <div className="d-flex justify-content-end mb-4">
-          <UserMenu
-            user={user}
-            signOutPath={signOutPath}
-          />
+          <UserMenu user={user} signOutPath={signOutPath} />
         </div>
         <TalentLeaderboard topTalents={topTalents} className="mb-4" />
         {alert.type && (
@@ -155,10 +162,4 @@ const Feed = ({ posts, user, pagy, topTalents, alert, notifications, signOutPath
   );
 };
 
-const ConnectedFeed = (props) => (
-  <Web3Container>
-    <Feed {...props} />
-  </Web3Container>
-);
-
-export default ConnectedFeed;
+export default Feed;
