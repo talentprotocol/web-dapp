@@ -55,6 +55,10 @@ const TokenDetails = ({ token, ticker, displayName }) => {
     <div className="card bg-light mt-3 sticky-top" style={{ top: 20 }}>
       <div className="card-body">
         <h6 className="card-title">{ticker} Price Statistics</h6>
+        <div className="d-flex flex-column justify-content-between">
+          <small className="text-muted">Token Address</small>
+          <small>{token.contract_id}</small>
+        </div>
         <h6 className="card-subtitle mb-2 text-muted mt-4">
           {displayName} Price today
         </h6>
@@ -67,7 +71,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
           <small>Market Value</small>
           <small>{currency(tokenData.totalSupply * 0.1).format()}</small>
         </div>
-        <div className="d-flex flex-row justify-content-between mt-2">
+        {/* <div className="d-flex flex-row justify-content-between mt-2">
           <small>
             Market Change{" "}
             <span
@@ -78,7 +82,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
             </span>
           </small>
           <small>+$0.00</small>
-        </div>
+        </div> */}
         <h6 className="card-subtitle mb-2 text-muted mt-4">
           {displayName} Token
         </h6>

@@ -7,13 +7,17 @@ const TalentProfilePicture = ({
   greyscale,
   className,
   straight,
+  blur,
 }) => {
   const imgSrc = src || DefaultProfilePicture;
   const grey = greyscale ? " image-greyscale" : "";
   const roundPhoto = straight ? "" : "rounded-circle";
+  const blurPhoto = !blur ? "" : "blur-photo";
   return (
     <img
-      className={`${roundPhoto}${grey} ${className || ""} image-fit`}
+      className={`${roundPhoto}${grey}${blurPhoto} ${
+        className || ""
+      } image-fit`}
       src={imgSrc}
       width={height}
       height={height}

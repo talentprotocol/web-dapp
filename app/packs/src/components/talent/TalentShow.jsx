@@ -123,7 +123,7 @@ const TalentShow = ({
       ...prev,
       testimonials: [...testimonials, newTestimonial],
     }));
-  }
+  };
 
   return (
     <div className="d-flex flex-column">
@@ -142,7 +142,19 @@ const TalentShow = ({
           </span>
         </div>
       </section>
-      <section className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap">
+      {sharedState.profilePictureUrl && (
+        <TalentProfilePicture
+          src={sharedState.profilePictureUrl}
+          height={192}
+          className="w-100 pull-bottom-content"
+          straight
+          blur
+        />
+      )}
+      <section
+        className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap"
+        style={{ zIndex: 1 }}
+      >
         <div className="d-flex flex-row align-items-center flex-wrap">
           <TalentProfilePicture
             src={sharedState.profilePictureUrl}
@@ -267,7 +279,12 @@ const TalentShow = ({
           ticker={ticker()}
           width={width}
         />
-        <Perks perks={sharedState.perks} ticker={ticker()} width={width} />
+        <Perks
+          perks={sharedState.perks}
+          ticker={ticker()}
+          width={width}
+          contract={token.contract_id}
+        />
         <Testimonials
           talentId={talent.id}
           testimonials={sharedState.testimonials}
