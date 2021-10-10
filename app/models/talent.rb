@@ -1,5 +1,6 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
+  include ::ImageUploader::Attachment(:banner)
 
   store :profile, accessors: %i[
     pronouns

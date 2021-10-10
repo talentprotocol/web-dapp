@@ -44,7 +44,8 @@ class API::V1::TalentController < ApplicationController
       :public,
       :disable_messages,
       profile: [:pronouns, :ocupation, :location, :headline, :website, :video, :wallet_address, :email, :linkedin, :twitter, :telegram, :discord, :github],
-      profile_picture: {}
+      profile_picture: {},
+      banner: {}
     )
   end
 end

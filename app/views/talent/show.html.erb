@@ -4,6 +4,7 @@
       {
         talent: @talent.as_json,
         profilePictureUrl: @talent.profile_picture_url,
+        bannerUrl: @talent.banner_url,
         primary_tag: @talent.primary_tag&.description,
         secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
         services: @talent.services.as_json,

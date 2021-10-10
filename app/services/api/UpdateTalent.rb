@@ -56,6 +56,10 @@ class API::UpdateTalent
       @talent.profile_picture = params[:profile_picture].as_json
     end
 
+    if params[:banner]
+      @talent.banner = params[:banner].as_json
+    end
+
     if params[:profile][:email]
       @talent.email = params[:profile][:email]
       @talent.linkedin = params[:profile][:linkedin]

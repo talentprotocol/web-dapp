@@ -29,7 +29,7 @@ const TalNavbar = (props) => {
   return (
     <Navbar
       collapseOnSelect
-      className="flex-lg-column py-3 pr-4 lg-h-100 border-right border-bottom"
+      className="flex-lg-column py-3 pr-4 lg-h-100 border-bottom"
       expand="lg"
     >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">

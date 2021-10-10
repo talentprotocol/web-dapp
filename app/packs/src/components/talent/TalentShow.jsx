@@ -37,6 +37,7 @@ const TalentShow = ({
   token_live,
   user,
   profilePictureUrl,
+  bannerUrl,
   primary_tag,
   secondary_tags,
   career_goal,
@@ -59,6 +60,7 @@ const TalentShow = ({
     milestones,
     current_user_id,
     token_live,
+    bannerUrl,
     user,
     profilePictureUrl,
     primary_tag,
@@ -126,8 +128,8 @@ const TalentShow = ({
   };
 
   return (
-    <div className="d-flex flex-column">
-      <section className="mt-3">
+    <div className="d-flex flex-column border-left lg-h-100">
+      <section className="my-4">
         <div className="d-flex flex-row text-muted mx-3">
           <span>
             <a href="/talent" className="text-reset">
@@ -142,13 +144,21 @@ const TalentShow = ({
           </span>
         </div>
       </section>
-      {sharedState.profilePictureUrl && (
+      {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
           height={192}
           className="w-100 pull-bottom-content"
           straight
           blur
+        />
+      )}
+      {sharedState.bannerUrl && (
+        <TalentProfilePicture
+          src={sharedState.bannerUrl}
+          height={192}
+          className="w-100 pull-bottom-content"
+          straight
         />
       )}
       <section
