@@ -40,11 +40,11 @@ const Roadmap = ({ goals, width }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex flex-row mb-2 mt-3">
+      <div className="d-flex justify-content-between mb-2 mt-3">
         {sliceInDisplay.map((goal, index) => (
           <div
             key={`goal_list_${goal.id}`}
-            className={`${index == 0 && "mr-2"} bg-light rounded p-2 w-100`}
+            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-49'}`}
           >
             <small>
               <strong>{goal.due_date}</strong>

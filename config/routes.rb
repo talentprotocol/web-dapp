@@ -80,6 +80,7 @@ Rails.application.routes.draw do
           resources :career_goals, only: [:update, :create], module: "talent"
         end
         resources :investor, only: [:update]
+        resources :testimonials, only: [:create]
       end
     end
   end

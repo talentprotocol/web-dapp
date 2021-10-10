@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :following, foreign_key: :follower_id, class_name: "Follow"
   has_many :comments
   has_many :posts
+  has_many :testimonials
 
   VALID_ROLES = ["admin"].freeze
 

@@ -18,6 +18,7 @@ import StakeModal from "../token/StakeModal";
 import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
 import TalentBadges from "./TalentBadges";
+import Testimonials from "./Testimonials";
 
 import Roadmap from "./Show/Roadmap";
 import Services from "./Show/Services";
@@ -43,6 +44,7 @@ const TalentShow = ({
   posts,
   isFollowing,
   badges,
+  testimonials,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
@@ -65,6 +67,7 @@ const TalentShow = ({
     career_goal,
     goals,
     posts,
+    testimonials,
   });
 
   const ticker = () =>
@@ -114,6 +117,13 @@ const TalentShow = ({
     }
     setChangingFollow(false);
   };
+
+  const updateTestimonials = (newTestimonial) => {
+    setSharedState((prev) => ({
+      ...prev,
+      testimonials: [...testimonials, newTestimonial],
+    }));
+  }
 
   return (
     <div className="d-flex flex-column">
@@ -262,6 +272,12 @@ const TalentShow = ({
           width={width}
         />
         <Perks perks={sharedState.perks} ticker={ticker()} width={width} />
+        <Testimonials
+          talentId={talent.id}
+          testimonials={sharedState.testimonials}
+          width={width}
+          updateTestimonials={updateTestimonials}
+        />
       </section>
     </div>
   );
