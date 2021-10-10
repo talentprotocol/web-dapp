@@ -65,14 +65,14 @@ Rails.application.routes.draw do
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
-        resources :users, only: [:update]
+        resources :users, only: [:show, :update]
         resources :follows, only: [:index, :create]
         delete "follows", to: "follows#destroy"
         resources :notifications, only: [:update]
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :delete], module: "career_goals"
         end
-        resources :talent, only: [:update] do
+        resources :talent, only: [:show, :update] do
           resources :milestones, only: [:create, :update, :delete], module: "talent"
           resources :perks, only: [:create, :update, :delete], module: "talent"
           resources :services, only: [:create, :update, :delete], module: "talent"

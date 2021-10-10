@@ -49,7 +49,7 @@ const DeployTokenButton = ({
       setTokenAddress(contractAddress);
 
       const response = await patch(`${updateTokenUrl}.json`, {
-        token: { contract_id: contractAddress, deployed: true },
+        token: { contract_id: contractAddress.toLowerCase(), deployed: true },
       });
       if (response.error) {
         setButtonText("Error updating contract ID");

@@ -1,4 +1,14 @@
 class API::V1::TalentController < ApplicationController
+  def show
+    @talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
+
+    if @talent
+      render json: {id: @talent.id, profilePictureUrl: @talent.profile_picture_url}, status: :ok
+    else
+      render json: {error: "Not found."}, status: :not_found
+    end
+  end
+
   def update
     if talent.id != current_user.talent.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized

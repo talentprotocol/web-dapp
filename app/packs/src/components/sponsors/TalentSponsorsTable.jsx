@@ -8,6 +8,7 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
+import { get } from "src/utils/requests";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import AsyncValue from "../loader/AsyncValue";
@@ -138,6 +139,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
   });
   const [chainAPI, setChainAPI] = useState(null);
   const [returnValues, setReturnValues] = useState({});
+  const [sponsorProfilePictures, setSponsorProfilePictures] = useState({});
 
   const sponsors = useMemo(() => {
     if (!data || data.talentToken == null) {
@@ -149,6 +151,17 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
       amount: ethers.utils.formatUnits(amount),
     }));
   }, [data]);
+
+  useEffect(() => {
+    sponsors.forEach((sponsor) => {
+      get(`/api/v1/users/${sponsor.id.toLowerCase()}`).then((response) => {
+        setSponsorProfilePictures((prev) => ({
+          ...prev,
+          [sponsor.id]: response.profilePictureUrl,
+        }));
+      });
+    });
+  }, [sponsors]);
 
   const talentData = useMemo(() => {
     if (!data || data.talentToken == null) {
@@ -282,7 +295,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
             <tr key={`sponsor-${sponsor.id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
                 <TalentProfilePicture
-                  src={sponsor.profilePictureUrl}
+                  src={sponsorProfilePictures[sponsor.id]}
                   height={40}
                 />
                 <small className="ml-2 text-primary">{sponsor.id}</small>

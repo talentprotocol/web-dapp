@@ -35,7 +35,10 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
         const response = await patch(
           `/api/v1/talent/${talent.id}/tokens/${token.id}`,
           {
-            token: { contract_id: contractAddress, deployed: true },
+            token: {
+              contract_id: contractAddress.toLowerCase(),
+              deployed: true,
+            },
           }
         );
 
