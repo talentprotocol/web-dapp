@@ -190,7 +190,7 @@ const TalentShow = ({
               </button>
             </div>
             <div className="d-flex flex-row">
-              <p>{sharedState.talent.profile.ocupation}</p>
+              <p>{sharedState.talent.profile.occupation}</p>
               {sharedState.talent.profile.website && (
                 <a
                   href={sharedState.talent.profile.website}

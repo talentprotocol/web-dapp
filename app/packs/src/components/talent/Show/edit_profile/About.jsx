@@ -57,7 +57,7 @@ const About = ({
     display_name: user.display_name || "",
     pronouns: talent.profile.pronouns || "",
     location: talent.profile.location || "",
-    ocupation: talent.profile.ocupation || "",
+    occupation: talent.profile.occupation || "",
     primary_tag: primary_tag || "",
     secondary_tags: secondary_tags.join(", "),
     headline: talent.profile.headline || "",
@@ -127,7 +127,7 @@ const About = ({
         disable_messages: aboutInfo["disable_messages"],
         profile: {
           pronouns: aboutInfo["pronouns"],
-          ocupation: aboutInfo["ocupation"],
+          occupation: aboutInfo["occupation"],
           location: aboutInfo["location"],
           headline: aboutInfo["headline"],
           website: aboutInfo["website"],
@@ -154,7 +154,7 @@ const About = ({
               ...prevState.talent.profile,
               pronouns: aboutInfo["pronouns"],
               location: aboutInfo["location"],
-              ocupation: aboutInfo["ocupation"],
+              occupation: aboutInfo["occupation"],
               headline: aboutInfo["headline"],
               website: aboutInfo["website"],
               wallet_address: aboutInfo["wallet_address"],
@@ -264,13 +264,13 @@ const About = ({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="ocupation">Ocupation</label>
+          <label htmlFor="occupation">occupation</label>
           <input
-            id="ocupation"
+            id="occupation"
             className="form-control"
-            placeholder="Your current ocupation"
-            onChange={(e) => changeAttribute("ocupation", e.target.value)}
-            value={aboutInfo["ocupation"]}
+            placeholder="Your current occupation"
+            onChange={(e) => changeAttribute("occupation", e.target.value)}
+            value={aboutInfo["occupation"]}
           />
         </div>
         <div className="form-group">

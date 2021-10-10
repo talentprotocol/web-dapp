@@ -32,12 +32,16 @@ import MetamaskConnect from "src/components/login/MetamaskConnect";
 import TalentSponsorsTable from "src/components/sponsors/TalentSponsorsTable";
 import Portfolio from "src/components/portfolio/Portfolio";
 import UserMenu from "src/components/user_menu";
+import UpcomingTalents from "src/components/talent/UpcomingTalents";
+import ActiveTalents from "src/components/talent/ActiveTalents";
 
 import "stylesheets/application.scss";
 
 require.context("../images", true);
 
 ReactOnRails.register({
+  ActiveTalents,
+  UpcomingTalents,
   Button,
   Navbar,
   Alert,

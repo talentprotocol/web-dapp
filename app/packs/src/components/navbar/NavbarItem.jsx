@@ -15,7 +15,9 @@ const NavbarItem = (props) => {
     <Nav.Link
       href={props.url}
       target={props.target}
-      className={`${active ? "text-primary" : "text-secondary"} mt-2`}
+      className={`${
+        active ? "text-primary" : "text-secondary"
+      } mt-2 d-flex flex-row align-items-center`}
     >
       {props.children}
     </Nav.Link>

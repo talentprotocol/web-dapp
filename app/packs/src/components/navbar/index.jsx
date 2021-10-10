@@ -13,7 +13,7 @@ import NavbarItem from "./NavbarItem";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Logo from "src/components/logo";
 
-const icon = (i) => <FontAwesomeIcon icon={i} />;
+const icon = (i) => <FontAwesomeIcon icon={i} className="mr-2" />;
 
 const TalNavbar = (props) => {
   const {
@@ -29,7 +29,7 @@ const TalNavbar = (props) => {
   return (
     <Navbar
       collapseOnSelect
-      className="flex-lg-column py-3 pr-4 lg-h-100 border-bottom"
+      className="flex-lg-column py-3 lg-h-100 border-bottom"
       expand="lg"
     >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">

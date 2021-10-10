@@ -15,7 +15,7 @@ class Talent < ApplicationRecord
     telegram
     discord
     github
-    ocupation
+    occupation
   ], coder: JSON
 
   validate :public_key_is_valid
