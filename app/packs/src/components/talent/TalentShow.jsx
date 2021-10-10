@@ -185,11 +185,7 @@ const TalentShow = ({
           </div>
         </div>
         <div className="d-flex flex-row align-items-center mt-2">
-          <button
-            className="btn btn-primary"
-            style={{ height: 38, width: 99 }}
-            onClick={() => setShow(true)}
-          >
+          <button className="btn btn-primary" onClick={() => setShow(true)}>
             Buy {ticker()}
           </button>
           {sharedState.token.contract_id && (

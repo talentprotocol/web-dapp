@@ -15,7 +15,7 @@ import TalentTags from "../talent/TalentTags";
 import Button from "../button";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.11",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
   cache: new InMemoryCache(),
 });
 
@@ -119,7 +119,7 @@ const SponsorOverview = ({
           <div className="text-muted">
             <small>Sponsors</small>
           </div>
-          {loading || !sponsorCount ? (
+          {loading || sponsorCount < 0 ? (
             <h4>
               <AsyncValue size={12} />
             </h4>

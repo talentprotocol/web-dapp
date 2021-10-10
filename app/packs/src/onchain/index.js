@@ -140,7 +140,7 @@ class OnChain {
   }
 
   async calculateEstimatedReturns(token, _account) {
-    if (!this.staking || !_account || !this.account) {
+    if (!this.staking || !(_account || this.account)) {
       return;
     }
 

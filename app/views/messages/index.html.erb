@@ -1,7 +1,10 @@
 <%= react_component("Chat",
   props: {
     users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.token&.display_ticker, last_message: current_user.last_message_with(user)&.text, last_message_date: current_user.last_message_with(user)&.created_at&.strftime("%b %d"), profilePictureUrl: user.talent&.profile_picture_url || user.investor&.profile_picture_url } },
-    userId: current_user.id,
+    userId: current_user.id
+  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100" }) %>
+<%= react_component("UserMenu",
+  props: {
     user: {
       id: current_user.id,
       profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
@@ -13,4 +16,5 @@
       username: current_user.username,
     },
     signOutPath: sign_out_path
-  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100" }) %>
+  },
+  prerender: false, html_options: { style: "position:absolute;top:20px;right:20px"}) %>

@@ -7,25 +7,27 @@
             <h1>Talent</h1>
             <p><small>Sponsor talent and be rewarded when they succeed.</small></p>
           </div>
-          <%= react_component("TalentNameSearch",
-            props: {},
-            prerender: false) %>
-
-          <%= react_component("UserMenu",
-            props: {
-              user: {
-                id: current_user.id,
-                profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-                talentId: current_user.talent&.id,
-                investorId: current_user.investor&.id,
-                isTalent: current_user.talent.present?,
-                displayWalletId: current_user.display_wallet_id,
-                walletId: current_user.wallet_id,
-                username: current_user.username,
+          <div class="d-flex flex-column justify-content-between align-items-end">
+            <%= react_component("UserMenu",
+              props: {
+                user: {
+                  id: current_user.id,
+                  profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+                  talentId: current_user.talent&.id,
+                  investorId: current_user.investor&.id,
+                  isTalent: current_user.talent.present?,
+                  displayWalletId: current_user.display_wallet_id,
+                  walletId: current_user.wallet_id,
+                  username: current_user.username,
+                },
+                signOutPath: sign_out_path
               },
-              signOutPath: sign_out_path
-            },
-            prerender: false) %>
+              prerender: false) %>
+            
+            <%= react_component("TalentNameSearch",
+              props: {},
+              prerender: false) %>
+          </div>
         </div>
 
         <% if @alert.present? %>

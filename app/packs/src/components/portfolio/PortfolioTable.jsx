@@ -79,7 +79,7 @@ const PortfolioTable = ({
           {loading && <Web3Loading />}
           {!loading && talents.length == 0 && <EmptyInvestments />}
           {talents.map((talent) => (
-            <tr key={`talent-${talent.id}`} className="tal-tr-item">
+            <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
                 <TalentProfilePicture src={undefined} height={40} />
               </th>

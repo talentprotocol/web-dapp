@@ -4,7 +4,7 @@
       {
         talent: @talent.as_json,
         profilePictureUrl: @talent.profile_picture_url,
-        primary_tag: @talent.primary_tag.description,
+        primary_tag: @talent.primary_tag&.description,
         secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
         services: @talent.services.as_json,
         token: @talent.token.as_json,
@@ -21,5 +21,20 @@
         testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } }
       }, prerender: false, html_options: { class: "bg-white"})
     %>
+    <%= react_component("UserMenu",
+      props: {
+        user: {
+          id: current_user.id,
+          profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+          talentId: current_user.talent&.id,
+          investorId: current_user.investor&.id,
+          isTalent: current_user.talent.present?,
+          displayWalletId: current_user.display_wallet_id,
+          walletId: current_user.wallet_id,
+          username: current_user.username,
+        },
+        signOutPath: sign_out_path
+      },
+      prerender: false, html_options: { style: "position:absolute;top:20px;right:20px"}) %>
   </section>
 </div>

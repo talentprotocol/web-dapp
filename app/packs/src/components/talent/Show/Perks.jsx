@@ -44,7 +44,9 @@ const Perks = ({ perks, ticker, width }) => {
         {sliceInDisplay.map((perk, index) => (
           <div
             key={`perk_list_${perk.id}`}
-            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-32'}`}
+            className={`bg-light rounded p-3 ${
+              itemsPerRow == 1 ? "col-12" : "lg-w-32"
+            }`}
           >
             <p>{perk.title}</p>
             <small className="text-warning">

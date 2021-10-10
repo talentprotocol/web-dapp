@@ -6,7 +6,7 @@ import { patch } from "src/utils/requests";
 
 import Button from "../../../button";
 
-const Contacts = ({ close, talent, user }) => {
+const Contacts = ({ close, talent, user, updateSharedState }) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const [contactsInfo, setContactsInfo] = useState({
