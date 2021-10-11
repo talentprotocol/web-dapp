@@ -16,7 +16,7 @@ import TalentTags from "../talent/TalentTags";
 import Button from "../button";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.13",
   cache: new InMemoryCache(),
 });
 
@@ -25,14 +25,14 @@ const GET_TALENT_PORTFOLIO = gql`
     talentToken(id: $id) {
       id
       totalValueLocked
-      sponsorCounter
+      supporterCounter
       totalSupply
       marketCap
-      sponsors {
+      supporters {
         id
         amount
         talAmount
-        sponsor {
+        supporter {
           id
         }
       }
@@ -48,18 +48,18 @@ const LoadingData = () => (
   </tr>
 );
 
-const EmptySponsors = () => (
+const EmptySupporters = () => (
   <tr>
     <td className="align-middle text-muted" colSpan="6">
-      <small>You don't have sponsors yet.</small>
+      <small>You don't have supporters yet.</small>
     </td>
   </tr>
 );
 
-const SponsorOverview = ({
+const SupporterOverview = ({
   loading,
   reserve,
-  sponsorCount,
+  supporterCount,
   talentRewards,
   marketCap,
 }) => {
@@ -118,14 +118,14 @@ const SponsorOverview = ({
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
         <div className="d-flex flex-column align-items-center border bg-white">
           <div className="text-muted">
-            <small>Sponsors</small>
+            <small>Supporters</small>
           </div>
-          {loading || sponsorCount < 0 ? (
+          {loading || supporterCount < 0 ? (
             <h4>
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <h4>{sponsorCount}</h4>
+            <h4>{supporterCount}</h4>
           )}
         </div>
       </div>
@@ -133,41 +133,41 @@ const SponsorOverview = ({
   );
 };
 
-const TalentSponsorsTable = ({ talent, contractId }) => {
+const TalentSupportersTable = ({ talent, contractId }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: { id: contractId.toLowerCase() },
   });
   const [chainAPI, setChainAPI] = useState(null);
   const [returnValues, setReturnValues] = useState({});
-  const [sponsorProfilePictures, setSponsorProfilePictures] = useState({});
+  const [supporterProfilePictures, setSupporterProfilePictures] = useState({});
 
-  const sponsors = useMemo(() => {
+  const supporters = useMemo(() => {
     if (!data || data.talentToken == null) {
       return [];
     }
 
-    return data.talentToken.sponsors.map(({ amount, sponsor }) => ({
-      id: sponsor.id,
+    return data.talentToken.supporters.map(({ amount, supporter }) => ({
+      id: supporter.id,
       amount: ethers.utils.formatUnits(amount),
     }));
   }, [data]);
 
   useEffect(() => {
-    sponsors.forEach((sponsor) => {
-      get(`/api/v1/users/${sponsor.id.toLowerCase()}`).then((response) => {
-        setSponsorProfilePictures((prev) => ({
+    supporters.forEach((supporter) => {
+      get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
+        setSupporterProfilePictures((prev) => ({
           ...prev,
-          [sponsor.id]: response.profilePictureUrl,
+          [supporter.id]: response.profilePictureUrl,
         }));
       });
     });
-  }, [sponsors]);
+  }, [supporters]);
 
   const talentData = useMemo(() => {
     if (!data || data.talentToken == null) {
       return {
         totalValueLocked: 0,
-        sponsorCounter: 0,
+        supporterCounter: 0,
         totalSupply: 0,
         marketCap: 0,
       };
@@ -177,7 +177,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
       totalValueLocked: ethers.utils.formatUnits(
         data.talentToken.totalValueLocked
       ),
-      sponsorCounter: data.talentToken.sponsorCounter,
+      supporterCounter: data.talentToken.supporterCounter,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
       marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
     };
@@ -215,7 +215,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
   }, [returnValues]);
 
   const updateAll = async () => {
-    sponsors.forEach((element) => {
+    supporters.forEach((element) => {
       loadReturns(element.id).then((returns) => {
         setReturnValues((prev) => ({
           ...prev,
@@ -227,7 +227,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
 
   useEffect(() => {
     updateAll();
-  }, [sponsors, chainAPI]);
+  }, [supporters, chainAPI]);
 
   useEffect(() => {
     setupChain();
@@ -253,20 +253,20 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
             Claim rewards
           </button>
         </div>
-        <SponsorOverview
-          sponsorCount={sponsors.length}
+        <SupporterOverview
+          supporterCount={supporters.length}
           loading={loading}
           reserve={talentData.totalValueLocked}
           talentRewards={returnsSum}
           marketCap={talentData.marketCap}
         />
       </div>
-      <p>These are {talent.username} current sponsors.</p>
+      <p>These are {talent.username} current supporters.</p>
       <table className="table table-hover mb-0 border-bottom border-left border-right">
         <thead>
           <tr>
             <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
-              <small>Sponsor</small>
+              <small>Supporter</small>
             </th>
             <th
               className="tal-th py-1 text-muted border-bottom-0 text-right"
@@ -290,26 +290,28 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
         </thead>
         <tbody>
           {loading && <LoadingData />}
-          {!loading && sponsors.length == 0 && <EmptySponsors />}
-          {sponsors.map((sponsor) => (
-            <tr key={`sponsor-${sponsor.id}`} className="tal-tr-item">
+          {!loading && supporters.length == 0 && <EmptySupporters />}
+          {supporters.map((supporter) => (
+            <tr key={`supporter-${supporter.id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
                 <TalentProfilePicture
-                  src={sponsorProfilePictures[sponsor.id]}
+                  src={supporterProfilePictures[supporter.id]}
                   height={40}
                 />
-                <small className="ml-2 text-primary">{sponsor.id}</small>
+                <small className="ml-2 text-primary">{supporter.id}</small>
               </th>
               <td className="align-middle text-right">
                 <small>
-                  <AsyncValue value={sponsor.amount} size={10} />
+                  <AsyncValue value={supporter.amount} size={10} />
                 </small>
               </td>
 
               <td className="align-middle text-right">
                 <small>
                   <AsyncValue
-                    value={ethers.utils.commify(returnValues[sponsor.id] || "")}
+                    value={ethers.utils.commify(
+                      returnValues[supporter.id] || ""
+                    )}
                     size={10}
                   />
                 </small>
@@ -318,7 +320,7 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
                 <Button
                   type="primary"
                   text="Message"
-                  href={`/messages?user=${sponsor.id}`}
+                  href={`/messages?user=${supporter.id}`}
                   size="sm"
                 />
               </td>
@@ -332,6 +334,6 @@ const TalentSponsorsTable = ({ talent, contractId }) => {
 
 export default (props) => (
   <ApolloProvider client={client}>
-    <TalentSponsorsTable {...props} />
+    <TalentSupportersTable {...props} />
   </ApolloProvider>
 );

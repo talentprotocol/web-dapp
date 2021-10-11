@@ -12,7 +12,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.13",
   cache: new InMemoryCache(),
 });
 
@@ -21,7 +21,7 @@ const GET_TALENT_PORTFOLIO = gql`
     talentToken(id: $id) {
       id
       totalValueLocked
-      sponsorCounter
+      supporterCounter
       totalSupply
       marketCap
     }
@@ -36,7 +36,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
   const [tokenData, setTokenData] = useState({
     price: 0.1,
     totalSupply: 0,
-    sponsorCount: 0,
+    supporterCount: 0,
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
     setTokenData({
       ...tokenData,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
-      sponsorCount: data.talentToken.sponsorCounter,
+      supporterCount: data.talentToken.supporterCounter,
     });
   }, [data, loading]);
 
@@ -96,8 +96,8 @@ const TokenDetails = ({ token, ticker, displayName }) => {
           <small>1,000,000</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
-          <small>Total Sponsors</small>
-          <small>{tokenData.sponsorCount}</small>
+          <small>Total Supporters</small>
+          <small>{tokenData.supporterCount}</small>
         </div>
       </div>
     </div>

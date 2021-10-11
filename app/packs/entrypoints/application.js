@@ -29,7 +29,7 @@ import MetamaskLogin from "src/components/login/MetamaskLogin";
 import DeployTokenButton from "src/components/token/DeployTokenButton";
 import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
-import TalentSponsorsTable from "src/components/sponsors/TalentSponsorsTable";
+import TalentSupportersTable from "src/components/supporters/TalentSupportersTable";
 import Portfolio from "src/components/portfolio/Portfolio";
 import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
@@ -60,7 +60,7 @@ ReactOnRails.register({
   DeployTokenButton,
   Logo,
   MetamaskConnect,
-  TalentSponsorsTable,
+  TalentSupportersTable,
   Portfolio,
   UserMenu,
 });

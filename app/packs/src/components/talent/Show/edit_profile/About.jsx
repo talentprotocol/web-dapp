@@ -304,7 +304,7 @@ const About = ({
             onChange={(e) => changeAttribute("primary_tag", e.target.value)}
           />
           <small id="primary_tag_help" className="form-text text-muted">
-            Sponsors can search for this keyword
+            Supporters can search for this keyword
           </small>
         </div>
         <div className="form-group">

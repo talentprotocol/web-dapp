@@ -8,7 +8,7 @@ import { get } from "src/utils/requests";
 const EmptyInvestments = () => (
   <tr>
     <td className="align-middle text-muted" colSpan="6">
-      <small>Sponsor Talent to start building your portfolio.</small>
+      <small>Support Talent to start building your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
       <Button type="primary" text="See Talent" href="/talent" size="sm" />

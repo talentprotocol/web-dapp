@@ -1,9 +1,9 @@
-class Talent::SponsorsController < ApplicationController
+class Talent::SupportersController < ApplicationController
   before_action :set_talent, only: [:index]
 
   def index
-    sponsor_ids = @talent.token.transactions.distinct.pluck(:investor_id)
-    @sponsors = User.joins(:investor).where(investors: {id: sponsor_ids})
+    supporter_ids = @talent.token.transactions.distinct.pluck(:investor_id)
+    @supporters = User.joins(:investor).where(investors: {id: supporter_ids})
   end
 
   private

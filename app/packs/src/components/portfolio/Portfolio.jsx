@@ -13,13 +13,13 @@ import PortfolioTable from "./PortfolioTable";
 import PortfolioTalOverview from "./PortfolioTalOverview";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.12",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.13",
   cache: new InMemoryCache(),
 });
 
-const GET_SPONSOR_PORTFOLIO = gql`
-  query GetSponsorPortfolio($id: String!) {
-    sponsor(id: $id) {
+const GET_SUPPORTER_PORTFOLIO = gql`
+  query GetSupporterPortfolio($id: String!) {
+    supporter(id: $id) {
       id
       totalAmount
       talents {
@@ -31,7 +31,7 @@ const GET_SPONSOR_PORTFOLIO = gql`
           symbol
           name
           totalSupply
-          sponsorCounter
+          supporterCounter
           owner
         }
       }
@@ -41,7 +41,7 @@ const GET_SPONSOR_PORTFOLIO = gql`
 
 const Portfolio = ({ address, railsContext }) => {
   const [localAccount, setLocalAccount] = useState(address || "");
-  const { loading, error, data, refetch } = useQuery(GET_SPONSOR_PORTFOLIO, {
+  const { loading, error, data, refetch } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: { id: localAccount.toLowerCase() },
   });
 
@@ -50,28 +50,28 @@ const Portfolio = ({ address, railsContext }) => {
   const [returnValues, setReturnValues] = useState({});
 
   const supportedTalents = useMemo(() => {
-    if (!data || data.sponsor == null) {
+    if (!data || data.supporter == null) {
       return [];
     }
 
-    return data.sponsor.talents.map(({ amount, talent }) => ({
+    return data.supporter.talents.map(({ amount, talent }) => ({
       id: talent.owner,
       symbol: talent.symbol,
       name: talent.name,
       amount: ethers.utils.formatUnits(amount),
       totalSupply: ethers.utils.formatUnits(talent.totalSupply),
-      nrOfSponsors: talent.sponsorCounter,
+      nrOfSupporters: talent.supporterCounter,
       contract_id: talent.id,
     }));
   }, [data]);
 
   const amountInvested = useMemo(() => {
-    if (!data || data.sponsor == null) {
+    if (!data || data.supporter == null) {
       return 0;
     }
 
     return ethers.utils.formatUnits(
-      data.sponsor.talents.reduce((prev, current) => {
+      data.supporter.talents.reduce((prev, current) => {
         return prev.add(ethers.BigNumber.from(current.amount).mul(5));
       }, ethers.BigNumber.from(0))
     );
