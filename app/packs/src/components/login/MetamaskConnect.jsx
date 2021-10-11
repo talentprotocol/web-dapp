@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import { ethers } from "ethers";
+import { OnChain } from "src/onchain";
 
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "../../utils/requests";
-
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
 
 const NoMetamask = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -30,24 +30,38 @@ const MetamaskConnect = ({ user_id }) => {
   const [requestingMetamask, setRequestingMetamask] = useState("false");
   const [connected, setConnected] = useState(false);
   const [showNoMetamask, setShowNoMetamask] = useState(true);
-  const web3 = useContext(Web3Context);
+  const [chainAPI, setChainAPI] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const setupChain = useCallback(async () => {
+    const newOnChain = new OnChain();
+
+    await newOnChain.initialize();
+
+    if (newOnChain) {
+      setChainAPI(newOnChain);
+    }
+
+    setLoading(false);
+  });
+
+  useEffect(() => {
+    setupChain();
+  }, []);
 
   const connectMetamask = async (e) => {
     e.preventDefault();
 
     setRequestingMetamask("true");
-    if (web3.provider) {
-      const accounts = await web3.provider.request({
-        method: "eth_requestAccounts",
-      });
+    if (chainAPI) {
+      const account = await chainAPI.connect();
 
-      if (accounts.length > 0) {
+      if (account) {
         const result = await patch(`/api/v1/users/${user_id}`, {
-          wallet_id: accounts[0],
+          wallet_id: account.toLowerCase(),
         });
 
         if (result) {
-          web3.connectAccount(accounts[0]);
           setConnected(true);
         }
         setRequestingMetamask("false");
@@ -56,37 +70,24 @@ const MetamaskConnect = ({ user_id }) => {
   };
 
   const allowConnect = () =>
-    web3.loading == false &&
+    loading == false &&
     requestingMetamask == "false" &&
-    web3.provider != null;
+    chainAPI.provider != null;
 
   return (
     <>
-      {web3.loading == false && web3.provider == null && (
+      {loading == false && chainAPI.provider == null && (
         <NoMetamask
           show={showNoMetamask}
           hide={() => setShowNoMetamask(false)}
         />
       )}
-      <small
-        disabled={!allowConnect()}
-        onClick={connectMetamask}
-      >
-        {connected
-          ? "Connected"
-          : web3.loading
-          ? "Loading..."
-          : "Connect Wallet"}{" "}
+      <small disabled={!allowConnect()} onClick={connectMetamask}>
+        {connected ? "Connected" : loading ? "Loading..." : "Connect Wallet"}{" "}
         <img src={MetamaskFox} height={16} alt="Metamask Fox" />
       </small>
     </>
   );
 };
 
-const MetamaskConnected = (props) => (
-  <Web3Container ignoreTokens={true}>
-    <MetamaskConnect {...props} />
-  </Web3Container>
-);
-
-export default MetamaskConnected;
+export default MetamaskConnect;
