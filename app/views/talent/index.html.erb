@@ -1,5 +1,25 @@
 <div class="lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left">
   <main class="d-flex flex-column col-12 p-3 h-100">
+    <div class="d-flex flex-row justify-content-between">
+      <%= react_component("TalentNameSearch",
+        props: {},
+        prerender: false, html_options: { class: "w-100 mr-2"}) %>
+      <%= react_component("UserMenu",
+        props: {
+          user: {
+            id: current_user.id,
+            profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+            talentId: current_user.talent&.id,
+            investorId: current_user.investor&.id,
+            isTalent: current_user.talent.present?,
+            displayWalletId: current_user.display_wallet_id,
+            walletId: current_user.wallet_id,
+            username: current_user.username,
+          },
+          signOutPath: sign_out_path
+        },
+        prerender: false) %>
+      </div>
     <%= react_component("ActiveTalents",
       props: {
         talents: @active_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contract_id: talent.token.contract_id, occupation: talent.occupation, ticker: talent.token.ticker, name: talent.user.display_name || talent.user.username }}
