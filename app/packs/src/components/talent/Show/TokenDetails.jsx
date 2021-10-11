@@ -12,7 +12,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.13",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.14",
   cache: new InMemoryCache(),
 });
 
