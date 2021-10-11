@@ -10,29 +10,27 @@ import Button from "../button";
 import { post } from "src/utils/requests";
 
 const AddTestimonial = ({ show, hide, saveTestimonial }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const closeModal = (e) => {
     e.preventDefault();
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     hide();
-  }
+  };
 
   const save = (e) => {
     e.preventDefault();
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     saveTestimonial(title, description);
-  }
+  };
 
   return (
     <Modal show={show} onHide={hide} centered>
       <Modal.Header>
-        <Modal.Title>
-          Add your testimonial
-        </Modal.Title>
+        <Modal.Title>Add your testimonial</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form>
@@ -50,7 +48,7 @@ const AddTestimonial = ({ show, hide, saveTestimonial }) => {
           </div>
           <div className="form-group">
             <label className="mr-1 my-2">Description</label>
-              <textarea
+            <textarea
               id="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -61,12 +59,16 @@ const AddTestimonial = ({ show, hide, saveTestimonial }) => {
           </div>
           <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
             <Button type="primary" text="Save" onClick={(e) => save(e)} />
-            <Button type="secondary" text="Cancel" onClick={(e) => closeModal(e)} />
+            <Button
+              type="secondary"
+              text="Cancel"
+              onClick={(e) => closeModal(e)}
+            />
           </div>
         </form>
       </Modal.Body>
     </Modal>
-  )
+  );
 };
 
 const Testimonials = ({
@@ -79,7 +81,10 @@ const Testimonials = ({
   const [showAddTestimonialModal, setShowAddTestimonialModal] = useState(false);
   const itemsPerRow = width < 768 ? 1 : 3;
 
-  const end = testimonials.length > itemsPerRow ? start + itemsPerRow : testimonials.length;
+  const end =
+    testimonials.length > itemsPerRow
+      ? start + itemsPerRow
+      : testimonials.length;
   const sliceInDisplay = testimonials.slice(start, end);
 
   const slideLeft = () => setStart((prev) => prev - 1);
@@ -88,21 +93,25 @@ const Testimonials = ({
   const disableRight = start + itemsPerRow >= testimonials.length;
 
   const saveTestimonial = (title, description) => {
-    post("/api/v1/testimonials", { testimonial: {
-      title: title,
-      description: description,
-      talent_id: talentId,
-    }}).then((response) => {
+    post("/api/v1/testimonials", {
+      testimonial: {
+        title: title,
+        description: description,
+        talent_id: talentId,
+      },
+    }).then((response) => {
       updateTestimonials(response);
       setShowAddTestimonialModal(false);
-    })
-  }
+    });
+  };
 
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
         <div className="d-flex flex-row align-items-center">
-          <h5 className="mb-0"><strong>Testimonials</strong></h5>
+          <h5 className="mb-0">
+            <strong>Testimonials</strong>
+          </h5>
           <button
             className="btn btn-primary ml-2"
             style={{ height: 38, width: 150 }}
@@ -132,11 +141,18 @@ const Testimonials = ({
         {sliceInDisplay.map((testimonial) => (
           <div
             key={`goal_list_${testimonial.id}`}
-            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-32'}`}
+            className={`bg-light rounded p-3 ${
+              itemsPerRow == 1 ? "col-12" : "w-32"
+            }`}
           >
             <div className="d-flex align-items-center">
-              <TalentProfilePicture src={testimonial.user.profilePictureUrl} height={24} />
-              <h6 className="ml-2 mb-0">{testimonial.user.display_name || testimonial.user.username}</h6>
+              <TalentProfilePicture
+                src={testimonial.user.profilePictureUrl}
+                height={24}
+              />
+              <h6 className="ml-2 mb-0">
+                {testimonial.user.display_name || testimonial.user.username}
+              </h6>
             </div>
             <div className="mt-4">
               <h6 className="card-title">{testimonial.title}</h6>

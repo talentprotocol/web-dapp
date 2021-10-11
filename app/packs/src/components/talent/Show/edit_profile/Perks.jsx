@@ -117,7 +117,7 @@ const EditPerk = ({
         <input
           id="title"
           className="form-control"
-          placeholder="Describe the service"
+          placeholder="Describe the perk"
           value={perksInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}
         />

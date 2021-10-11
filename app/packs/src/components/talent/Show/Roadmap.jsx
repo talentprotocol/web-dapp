@@ -44,7 +44,9 @@ const Roadmap = ({ goals, width }) => {
         {sliceInDisplay.map((goal, index) => (
           <div
             key={`goal_list_${goal.id}`}
-            className={`bg-light rounded p-3 ${itemsPerRow == 1 ? 'col-12' : 'lg-w-49'}`}
+            className={`bg-light rounded p-3 ${
+              itemsPerRow == 1 ? "col-12" : "w-49"
+            }`}
           >
             <small>
               <strong>{goal.due_date}</strong>

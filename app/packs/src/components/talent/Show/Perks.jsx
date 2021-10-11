@@ -74,7 +74,7 @@ const Perks = ({ perks, ticker, width, contract }) => {
           <div
             key={`perk_list_${perk.id}`}
             className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${
-              itemsPerRow == 1 ? "col-12" : "lg-w-32"
+              itemsPerRow == 1 ? "col-12" : "w-32"
             }`}
           >
             <p>{perk.title}</p>

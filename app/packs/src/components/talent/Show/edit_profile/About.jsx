@@ -264,7 +264,7 @@ const About = ({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="occupation">occupation</label>
+          <label htmlFor="occupation">Occupation</label>
           <input
             id="occupation"
             className="form-control"

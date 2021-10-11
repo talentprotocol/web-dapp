@@ -46,7 +46,7 @@ const Services = ({ services, ticker, width }) => {
           <div
             key={`service_list_${service.id}`}
             className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${
-              itemsPerRow == 1 ? "col-12" : "lg-w-32"
+              itemsPerRow == 1 ? "col-12" : "w-32"
             }`}
           >
             <p>{service.title}</p>

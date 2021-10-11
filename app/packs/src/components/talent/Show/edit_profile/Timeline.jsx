@@ -237,8 +237,8 @@ const Timeline = (props) => {
   const [mode, setMode] = useState("view");
   const [selectedMilestone, setSelectedMilestone] = useState({});
 
-  const selectMilestone = (perk) => {
-    setSelectedMilestone(perk);
+  const selectMilestone = (milestone) => {
+    setSelectedMilestone(milestone);
     setMode("edit");
   };
 

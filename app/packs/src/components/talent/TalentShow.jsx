@@ -170,6 +170,7 @@ const TalentShow = ({
             src={sharedState.profilePictureUrl}
             height={192}
             className="mr-2"
+            border
           />
           <div className="d-flex flex-column">
             <div className="d-flex flex-row align-items-center">
