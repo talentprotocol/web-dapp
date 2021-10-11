@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useWindowDimensionsHook } from "../../utils/window";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { ethers } from "ethers";
+import { OnChain } from "src/onchain";
+
 import TalentProfilePicture from "./TalentProfilePicture";
 
 const ActiveTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
+  const [chainAPI, setChainAPI] = useState(null);
+  const [displaySupplies, setDisplaySupplies] = useState({});
   const { height, width } = useWindowDimensionsHook();
   const itemsPerRow = width < 768 ? 2 : 4;
 
@@ -21,6 +27,38 @@ const ActiveTalents = ({ talents }) => {
   const slideRight = () => setStart((prev) => prev + 1);
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= talents.length;
+
+  const setupChain = useCallback(async () => {
+    const newOnChain = new OnChain();
+    await newOnChain.initialize();
+
+    if (newOnChain) {
+      setChainAPI(newOnChain);
+    }
+  });
+
+  useEffect(() => {
+    setupChain();
+  }, []);
+
+  useEffect(() => {
+    if (!chainAPI) {
+      return;
+    }
+
+    sliceInDisplay.forEach((talent) => {
+      const token = chainAPI.getToken(talent.contract_id);
+
+      token.totalSupply().then((result) =>
+        setDisplaySupplies((prev) => ({
+          ...prev,
+          [talent.contract_id]: ethers.utils.commify(
+            ethers.utils.formatUnits(result)
+          ),
+        }))
+      );
+    });
+  }, [chainAPI, sliceInDisplay]);
 
   return (
     <>
@@ -66,7 +104,9 @@ const ActiveTalents = ({ talents }) => {
               <h6 className="text-muted">{talent.occupation}</h6>
               <small className="text-muted mt-3">CIRCULATING SUPPLY</small>
               <small className="text-warning mt-2">
-                <strong className="text-black mr-2">012301203</strong>{" "}
+                <strong className="text-black mr-2">
+                  {displaySupplies[talent.contract_id] || 0}
+                </strong>{" "}
                 {talent.ticker}
               </small>
             </div>
