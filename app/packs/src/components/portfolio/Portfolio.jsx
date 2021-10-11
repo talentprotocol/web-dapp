@@ -104,7 +104,7 @@ const Portfolio = ({ address, railsContext }) => {
       loadReturns(element.contract_id).then((returns) => {
         setReturnValues((prev) => ({
           ...prev,
-          [element.id]: returns,
+          [element.contract_id]: returns,
         }));
       });
     });

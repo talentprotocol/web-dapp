@@ -114,8 +114,10 @@ const PortfolioTable = ({
                 ${ethers.utils.commify(talent.totalSupply * 0.1)}
               </td>
               <td className="align-middle tal-table-price text-right">
-                {returnValues[talent.id] &&
-                  ethers.utils.commify(returnValues[talent.id].toString())}
+                {returnValues[talent.contract_id] &&
+                  ethers.utils.commify(
+                    returnValues[talent.contract_id].toString()
+                  )}
               </td>
               <td className="align-middle">
                 <button

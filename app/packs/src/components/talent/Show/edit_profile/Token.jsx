@@ -207,7 +207,10 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
         disabled={deploy != "Deploy your token"}
         onClick={createToken}
       >
-        Deploy Your Talent Token
+        Deploy Your Talent Token{" "}
+        {deploy == "We're waiting for confirmation of a successful deploy" && (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        )}
       </button>
     </div>
   );
