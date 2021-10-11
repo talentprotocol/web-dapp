@@ -15,7 +15,7 @@ class CreateInvite
       invite.talent_invite = true
       invite.max_uses = nil
     elsif user.talent?
-      invite.max_uses = nil
+      invite.max_uses = 2
     end
 
     count = 0

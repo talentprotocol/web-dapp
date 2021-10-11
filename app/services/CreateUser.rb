@@ -16,6 +16,7 @@ class CreateUser
         return @result
       end
 
+      invite.update(uses: invite.uses + 1)
       user = create_user(email, username, password, invite)
 
       create_investor(user)
