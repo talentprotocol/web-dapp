@@ -10,7 +10,9 @@ class API::V1::FollowsController < ApplicationController
     if follow.persisted?
       render json: {error: "Already following."}, status: :conflict
     elsif follow.save
-      SyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
+      if params[:user_id] != current_user.id
+        SyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
+      end
 
       render json: {success: "Follow successfully created."}, status: :created
     else
@@ -22,7 +24,9 @@ class API::V1::FollowsController < ApplicationController
     follow = Follow.find_by(user_id: follow_params[:user_id], follower_id: current_user.id)
 
     if follow && follow.destroy
-      DeSyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
+      if params[:user_id] != current_user.id
+        DeSyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
+      end
 
       render json: {success: "Follow successfully removed."}, status: :ok
     else

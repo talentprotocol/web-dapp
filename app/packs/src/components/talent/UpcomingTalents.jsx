@@ -22,6 +22,10 @@ const UpcomingTalents = ({ talents }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= talents.length;
 
+  if (talents.length === 0) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -55,9 +59,9 @@ const UpcomingTalents = ({ talents }) => {
                 itemsPerRow == 1 ? "col-12 mx-auto" : "col-4"
               }`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
+              key={`upcoming_talent_list${talent.id}`}
             >
               <a
-                key={`upcoming_talent_list${talent.id}`}
                 className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
                 href={`/talent/${talent.username}`}
               >

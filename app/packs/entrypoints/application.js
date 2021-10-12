@@ -34,6 +34,7 @@ import Portfolio from "src/components/portfolio/Portfolio";
 import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import ActiveTalents from "src/components/talent/ActiveTalents";
+import TalentTable from "src/components/talent/TalentTable";
 
 import "stylesheets/application.scss";
 
@@ -63,6 +64,7 @@ ReactOnRails.register({
   TalentSupportersTable,
   Portfolio,
   UserMenu,
+  TalentTable,
 });
 
 Rails.start();

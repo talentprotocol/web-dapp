@@ -22,7 +22,6 @@ const ActiveTalents = ({ talents }) => {
     talents.length > itemsPerRow ? start + itemsPerRow : talents.length;
 
   const sliceInDisplay = talents.slice(start, end);
-  // const sliceInDisplay = [talents[0], talents[0]];
 
   const slideLeft = () => setStart((prev) => prev - 1);
   const slideRight = () => setStart((prev) => prev + 1);
@@ -61,19 +60,9 @@ const ActiveTalents = ({ talents }) => {
     });
   }, [chainAPI, sliceInDisplay]);
 
-  const margins = (index) => {
-    if (sliceInDisplay.length < itemsPerRow) {
-      return "mr-3";
-    }
-
-    if (index === 0) {
-      return "mr-auto";
-    } else if (index === itemsPerRow - 1) {
-      return "ml-auto";
-    }
-
-    return "mx-auto";
-  };
+  if (talents.length === 0) {
+    return <></>;
+  }
 
   return (
     <>
@@ -104,13 +93,13 @@ const ActiveTalents = ({ talents }) => {
         <div className="row">
           {sliceInDisplay.map((talent, index) => (
             <div
+              key={`active_talent_list${talent.id}`}
               className={`mt-3 ${
                 itemsPerRow == 1 ? "col-12 mx-auto" : "col-4"
               }`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
             >
               <a
-                key={`active_talent_list${talent.id}`}
                 className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
                 href={`/talent/${talent.username}`}
               >
