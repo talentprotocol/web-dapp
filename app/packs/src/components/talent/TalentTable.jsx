@@ -120,8 +120,6 @@ const TalentTable = ({ talents }) => {
     return 0;
   };
 
-  console.log(follows);
-
   return (
     <table className="table table-hover mb-0 mt-4">
       <thead>
