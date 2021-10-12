@@ -191,7 +191,7 @@ const Post = ({ post, user, currentUser }) => {
               )}
               <Button
                 type="primary"
-                href={`/swap?ticker=${user.ticker.substring(1)}`}
+                href={`/talent/${user.username}`}
                 text={buyButtonText}
                 disabled={!user.active}
                 className="talent-button ml-2"
