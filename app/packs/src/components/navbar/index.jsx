@@ -33,7 +33,7 @@ const TalNavbar = (props) => {
       expand="lg"
     >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
-        <Navbar.Brand href="/" style={{ marginLeft: -10 }}>
+        <Navbar.Brand href="/">
           <Logo />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -59,7 +59,7 @@ const TalNavbar = (props) => {
             )}
           </Nav>
           <Nav className="flex-lg-column w-100 mt-5">
-            <h6>WATCHLIST</h6>
+            <h6 className="mx-auto">WATCHLIST</h6>
             {watchList.map((watchItem) => (
               <NavbarItem
                 key={`watch_list_item_${watchItem.id}`}
@@ -71,7 +71,7 @@ const TalNavbar = (props) => {
                   height={24}
                   className="mr-2"
                 />{" "}
-                {watchItem.displayName}
+                <small>{watchItem.displayName}</small>
               </NavbarItem>
             ))}
           </Nav>
