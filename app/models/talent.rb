@@ -46,9 +46,7 @@ class Talent < ApplicationRecord
   end
 
   def status
-    if ito_date.nil?
-      "Inactive"
-    elsif ito_date > Time.current
+    if token.contract_id.nil?
       "Upcoming"
     else
       "Active"

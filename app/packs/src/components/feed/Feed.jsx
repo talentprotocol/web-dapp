@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 
-import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../pagination";
 import UserMenu from "../user_menu";
 import Post from "./Post";
 import PostInput from "./PostInput";
 import TalentLeaderboard from "../leaderboards/TalentLeaderboard";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
 import Alert from "../alert";
 import Button from "../button";
-import { patch } from "src/utils/requests";
 
 const Feed = ({ posts, user, pagy, topTalents, alert, signOutPath }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
