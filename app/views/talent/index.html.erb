@@ -27,7 +27,7 @@
       prerender: false) %>
     <%= react_component("UpcomingTalents",
       props: {
-        talents: @upcoming_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, occupation: talent.occupation, name: talent.user.display_name || talent.user.username, username: talent.user.username }}
+        talents: Talent.all.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, occupation: talent.occupation, name: talent.user.display_name || talent.user.username, username: talent.user.username }}
       },
       prerender: false) %>
   </main>

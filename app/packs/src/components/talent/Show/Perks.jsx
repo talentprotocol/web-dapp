@@ -46,6 +46,20 @@ const Perks = ({ perks, ticker, width, contract }) => {
     }
   };
 
+  const margins = (index) => {
+    if (sliceInDisplay.length < itemsPerRow) {
+      return "mr-3";
+    }
+
+    if (index === 0) {
+      return "mr-auto";
+    } else if (index === itemsPerRow - 1) {
+      return "ml-auto";
+    }
+
+    return "mx-auto";
+  };
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -69,13 +83,13 @@ const Perks = ({ perks, ticker, width, contract }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex justify-content-between mt-3 mb-2">
+      <div className="d-flex justify-content-start mt-3 mb-2">
         {sliceInDisplay.map((perk, index) => (
           <div
             key={`perk_list_${perk.id}`}
-            className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${
-              itemsPerRow == 1 ? "col-12" : "w-32"
-            }`}
+            className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${margins(
+              index
+            )} ${itemsPerRow == 1 ? "col-12" : "w-32"}`}
           >
             <p>{perk.title}</p>
             <small className="text-warning">

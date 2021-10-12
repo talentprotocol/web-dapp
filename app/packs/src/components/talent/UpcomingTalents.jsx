@@ -10,7 +10,7 @@ import TalentProfilePicture from "./TalentProfilePicture";
 const UpcomingTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
   const { height, width } = useWindowDimensionsHook();
-  const itemsPerRow = width < 768 ? 2 : 4;
+  const itemsPerRow = width < 768 ? 1 : 3;
 
   const end =
     talents.length > itemsPerRow ? start + itemsPerRow : talents.length;
@@ -48,29 +48,34 @@ const UpcomingTalents = ({ talents }) => {
         </div>
       </div>
       <div className="container-fluid mb-2 mt-3">
-        <div className="row justify-content-between">
+        <div className="row">
           {sliceInDisplay.map((talent) => (
-            <a
-              key={`upcoming_talent_list${talent.id}`}
-              className={`bg-light rounded row${
-                itemsPerRow == 2 ? "col-12 mx-auto" : "col-3"
-              } d-flex flex-column p-3 mt-3 talent-link`}
-              href={`/talent/${talent.username}`}
+            <div
+              className={`mt-3 ${
+                itemsPerRow == 1 ? "col-12 mx-auto" : "col-4"
+              }`}
+              style={{ paddingRight: 10, paddingLeft: 10 }}
             >
-              <TalentProfilePicture
-                src={talent.profilePictureUrl}
-                height={220}
-                straight
-                className={"rounded mx-auto"}
-              />
-              <h5 className="mt-3 talent-link">{talent.name}</h5>
-              <h6 className="text-muted talent-link">{talent.occupation}</h6>
-              <div className="mt-2 talent-link">
-                <small className="p-2 text-primary bg-info rounded talent-link">
-                  Coming Soon
-                </small>
-              </div>
-            </a>
+              <a
+                key={`upcoming_talent_list${talent.id}`}
+                className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
+                href={`/talent/${talent.username}`}
+              >
+                <TalentProfilePicture
+                  src={talent.profilePictureUrl}
+                  height={220}
+                  straight
+                  className={"rounded mx-auto"}
+                />
+                <h5 className="mt-3 talent-link">{talent.name}</h5>
+                <h6 className="text-muted talent-link">{talent.occupation}</h6>
+                <div className="mt-2 talent-link">
+                  <small className="p-2 text-primary bg-info rounded talent-link">
+                    Coming Soon
+                  </small>
+                </div>
+              </a>
+            </div>
           ))}
         </div>
       </div>

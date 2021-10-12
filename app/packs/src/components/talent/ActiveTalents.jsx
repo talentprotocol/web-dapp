@@ -16,12 +16,13 @@ const ActiveTalents = ({ talents }) => {
   const [chainAPI, setChainAPI] = useState(null);
   const [displaySupplies, setDisplaySupplies] = useState({});
   const { height, width } = useWindowDimensionsHook();
-  const itemsPerRow = width < 768 ? 2 : 4;
+  const itemsPerRow = width < 768 ? 1 : 3;
 
   const end =
     talents.length > itemsPerRow ? start + itemsPerRow : talents.length;
 
   const sliceInDisplay = talents.slice(start, end);
+  // const sliceInDisplay = [talents[0], talents[0]];
 
   const slideLeft = () => setStart((prev) => prev - 1);
   const slideRight = () => setStart((prev) => prev + 1);
@@ -60,6 +61,20 @@ const ActiveTalents = ({ talents }) => {
     });
   }, [chainAPI, sliceInDisplay]);
 
+  const margins = (index) => {
+    if (sliceInDisplay.length < itemsPerRow) {
+      return "mr-3";
+    }
+
+    if (index === 0) {
+      return "mr-auto";
+    } else if (index === itemsPerRow - 1) {
+      return "ml-auto";
+    }
+
+    return "mx-auto";
+  };
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -86,33 +101,38 @@ const ActiveTalents = ({ talents }) => {
         </div>
       </div>
       <div className="container-fluid mb-2 mt-3">
-        <div className="row justify-content-between">
-          {sliceInDisplay.map((talent) => (
-            <a
-              key={`active_talent_list${talent.id}`}
-              className={`bg-light rounded row${
-                itemsPerRow == 2 ? "col-12 mx-auto" : "col-3"
-              } d-flex flex-column p-3 mt-3 talent-link`}
-              href={`/talent/${talent.username}`}
+        <div className="row">
+          {sliceInDisplay.map((talent, index) => (
+            <div
+              className={`mt-3 ${
+                itemsPerRow == 1 ? "col-12 mx-auto" : "col-4"
+              }`}
+              style={{ paddingRight: 10, paddingLeft: 10 }}
             >
-              <TalentProfilePicture
-                src={talent.profilePictureUrl}
-                height={220}
-                straight
-                className={"rounded mx-auto"}
-              />
-              <h5 className="mt-3 talent-link">{talent.name}</h5>
-              <h6 className="text-muted talent-link">{talent.occupation}</h6>
-              <small className="text-muted mt-3 talent-link">
-                CIRCULATING SUPPLY
-              </small>
-              <small className="text-warning mt-2 talent-link">
-                <strong className="text-black mr-2">
-                  {displaySupplies[talent.contract_id] || 0}
-                </strong>{" "}
-                {talent.ticker}
-              </small>
-            </a>
+              <a
+                key={`active_talent_list${talent.id}`}
+                className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
+                href={`/talent/${talent.username}`}
+              >
+                <TalentProfilePicture
+                  src={talent.profilePictureUrl}
+                  height={220}
+                  straight
+                  className={"rounded mx-auto"}
+                />
+                <h5 className="mt-3 talent-link">{talent.name}</h5>
+                <h6 className="text-muted talent-link">{talent.occupation}</h6>
+                <small className="text-muted mt-3 talent-link">
+                  CIRCULATING SUPPLY
+                </small>
+                <small className="text-warning mt-2 talent-link">
+                  <strong className="text-black mr-2">
+                    {displaySupplies[talent.contract_id] || 0}
+                  </strong>{" "}
+                  {talent.ticker}
+                </small>
+              </a>
+            </div>
           ))}
         </div>
       </div>

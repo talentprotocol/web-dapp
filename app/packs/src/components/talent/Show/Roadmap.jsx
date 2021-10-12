@@ -17,6 +17,20 @@ const Roadmap = ({ goals, width }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= goals.length;
 
+  const margins = (index) => {
+    if (sliceInDisplay.length < itemsPerRow) {
+      return "mr-3";
+    }
+
+    if (index === 0) {
+      return "mr-auto";
+    } else if (index === itemsPerRow - 1) {
+      return "ml-auto";
+    }
+
+    return "mx-auto";
+  };
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -40,11 +54,11 @@ const Roadmap = ({ goals, width }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex justify-content-between mb-2 mt-3">
+      <div className="d-flex justify-content-start mb-2 mt-3">
         {sliceInDisplay.map((goal, index) => (
           <div
             key={`goal_list_${goal.id}`}
-            className={`bg-light rounded p-3 ${
+            className={`bg-light rounded p-3 ${margins(index)} ${
               itemsPerRow == 1 ? "col-12" : "w-49"
             }`}
           >

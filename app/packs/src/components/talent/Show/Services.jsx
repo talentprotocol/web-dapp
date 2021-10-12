@@ -18,6 +18,20 @@ const Services = ({ services, ticker, width }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= services.length;
 
+  const margins = (index) => {
+    if (sliceInDisplay.length < itemsPerRow) {
+      return "mr-3";
+    }
+
+    if (index === 0) {
+      return "mr-auto";
+    } else if (index === itemsPerRow - 1) {
+      return "ml-auto";
+    }
+
+    return "mx-auto";
+  };
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
@@ -41,13 +55,13 @@ const Services = ({ services, ticker, width }) => {
           </button>
         </div>
       </div>
-      <div className="d-flex justify-content-between mt-3 mb-2">
+      <div className="d-flex justify-content-start mt-3 mb-2">
         {sliceInDisplay.map((service, index) => (
           <div
             key={`service_list_${service.id}`}
-            className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${
-              itemsPerRow == 1 ? "col-12" : "w-32"
-            }`}
+            className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${margins(
+              index
+            )} ${itemsPerRow == 1 ? "col-12" : "w-32"}`}
           >
             <p>{service.title}</p>
             <small className="text-warning">
