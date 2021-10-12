@@ -20,7 +20,7 @@ const TalentLeaderboard = ({ topTalents, className }) => {
       )}
       {topTalents.map((topTalent) => (
         <a
-          href={`/talent/${topTalent.id}`}
+          href={`/talent/${topTalent.name}`}
           className="mt-2 col-12 d-flex flex-row p-0 align-items-center text-reset"
           key={`talent-leaderboard-tal-${topTalent.id}`}
         >
