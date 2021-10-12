@@ -182,7 +182,12 @@ const TalentTable = ({ talents }) => {
                 src={talent.profilePictureUrl}
                 height={24}
               />
-              {talent.username}{" "}
+              <a
+                href={`/talent/${talent.username}`}
+                className="ml-2 text-reset"
+              >
+                {talent.username}
+              </a>{" "}
               <small className="text-warning">{talent.ticker}</small>
             </th>
             <th className="align-middle pr-0" scope="row">
