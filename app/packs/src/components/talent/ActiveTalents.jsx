@@ -88,11 +88,12 @@ const ActiveTalents = ({ talents }) => {
       <div className="container-fluid mb-2 mt-3">
         <div className="row justify-content-between">
           {sliceInDisplay.map((talent) => (
-            <div
+            <a
               key={`active_talent_list${talent.id}`}
               className={`bg-light rounded row${
                 itemsPerRow == 2 ? "col-12 mx-auto" : "col-3"
-              } d-flex flex-column p-3 mt-3`}
+              } d-flex flex-column p-3 mt-3 talent-link`}
+              href={`/talent/${talent.username}`}
             >
               <TalentProfilePicture
                 src={talent.profilePictureUrl}
@@ -100,16 +101,18 @@ const ActiveTalents = ({ talents }) => {
                 straight
                 className={"rounded mx-auto"}
               />
-              <h5 className="mt-3">{talent.name}</h5>
-              <h6 className="text-muted">{talent.occupation}</h6>
-              <small className="text-muted mt-3">CIRCULATING SUPPLY</small>
-              <small className="text-warning mt-2">
+              <h5 className="mt-3 talent-link">{talent.name}</h5>
+              <h6 className="text-muted talent-link">{talent.occupation}</h6>
+              <small className="text-muted mt-3 talent-link">
+                CIRCULATING SUPPLY
+              </small>
+              <small className="text-warning mt-2 talent-link">
                 <strong className="text-black mr-2">
                   {displaySupplies[talent.contract_id] || 0}
                 </strong>{" "}
                 {talent.ticker}
               </small>
-            </div>
+            </a>
           ))}
         </div>
       </div>

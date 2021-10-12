@@ -9,6 +9,24 @@ import StableToken from "../abis/recent/StableToken.json";
 
 import Addresses from "./addresses.json";
 
+const ALFAJORES_PARAMS = {
+  chainId: "0xaef3",
+  chainName: "Alfajores Testnet",
+  nativeCurrency: { name: "Alfajores Celo", symbol: "A-CELO", decimals: 18 },
+  rpcUrls: ["https://alfajores-forno.celo-testnet.org"],
+  blockExplorerUrls: ["https://alfajores-blockscout.celo-testnet.org/"],
+  iconUrls: ["future"],
+};
+
+const CELO_PARAMS = {
+  chainId: "0xa4ec",
+  chainName: "Celo",
+  nativeCurrency: { name: "Celo", symbol: "CELO", decimals: 18 },
+  rpcUrls: ["https://forno.celo.org"],
+  blockExplorerUrls: ["https://explorer.celo.org/"],
+  iconUrls: ["future"],
+};
+
 class OnChain {
   constructor(env) {
     this.web3 = null;
@@ -21,6 +39,7 @@ class OnChain {
     this.celoKit = null;
     this.tokenTest = null;
     this.signer = null;
+    this.network = null;
 
     if (env) {
       this.factoryAddress = Addresses[env]["factory"];
@@ -36,6 +55,8 @@ class OnChain {
   async initialize() {
     const result = await this.loadWeb3();
     if (!result) return false;
+
+    ethereum.on("chainChanged", (_chainId) => window.location.reload());
 
     await this.loadAccount();
 
@@ -83,6 +104,33 @@ class OnChain {
   }
 
   async loadAccount() {
+    this.network = await this.provider.getNetwork();
+
+    if (
+      !ethers.BigNumber.from(this.network.chainId).eq(
+        ethers.BigNumber.from(ALFAJORES_PARAMS.chainId)
+      )
+    ) {
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+        });
+      } catch (error) {
+        if (error.code === 4902) {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [ALFAJORES_PARAMS],
+          });
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+          });
+        }
+      }
+      return;
+    }
+
     this.signer = this.provider.getSigner();
 
     if (this.signer) {
