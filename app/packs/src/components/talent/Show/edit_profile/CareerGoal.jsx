@@ -175,10 +175,13 @@ const EditGoal = ({
   );
 };
 
-const ViewGoals = ({ goals, setSelectedGoal }) => {
+const ViewGoals = ({ goals, setSelectedGoal, setMode }) => {
   return (
     <div className="d-flex flex-column mt-3">
-      <p>Roadmap</p>
+      <div className="d-flex flex-row justify-content-between">
+        <h5>Roadmap</h5>
+        <Button type="primary" text="Add goal" onClick={setMode} />
+      </div>
       {goals.length == 0 && (
         <small className="text-muted">
           Start by adding what was your first goal!
@@ -273,13 +276,6 @@ const CareerGoal = (props) => {
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
       <div className="d-flex flex-row justify-content-between align-items-center">
         <h4>Career Goal</h4>
-        {mode != "edit" && (
-          <Button
-            type="primary"
-            text="Add goal"
-            onClick={() => setMode("edit")}
-          />
-        )}
       </div>
       {mode == "view" && (
         <form>
@@ -335,11 +331,16 @@ const CareerGoal = (props) => {
           </div>
         </form>
       )}
-
       {mode == "edit" && (
         <EditGoal {...props} selectedGoal={selectedGoal} setMode={changeMode} />
       )}
-      {mode == "view" && <ViewGoals {...props} setSelectedGoal={selectGoal} />}
+      {mode == "view" && (
+        <ViewGoals
+          {...props}
+          setMode={() => setMode("edit")}
+          setSelectedGoal={selectGoal}
+        />
+      )}
     </div>
   );
 };
