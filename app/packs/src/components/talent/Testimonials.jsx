@@ -127,11 +127,10 @@ const Testimonials = ({
             <strong>Testimonials</strong>
           </h5>
           <button
-            className="btn btn-primary ml-2"
-            style={{ height: 38, width: 150 }}
+            className="btn btn-light ml-2"
             onClick={() => setShowAddTestimonialModal(true)}
           >
-            Add Testimonial
+            +
           </button>
         </div>
         <div className="d-flex flex-row">
