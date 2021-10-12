@@ -2,7 +2,7 @@ import React from "react";
 import LogoImage from "images/logo.svg";
 
 const Logo = ({ width, height, bigName }) => (
-  <div className="d-flex flex-row align-items-center">
+  <div className="d-flex flex-row justify-content-center align-items-center">
     <img
       className="mr-2"
       src={LogoImage}
