@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   faChevronLeft,
   faChevronRight,
@@ -11,7 +11,19 @@ const Services = ({ services, ticker, width }) => {
 
   const end =
     services.length > itemsPerRow ? start + itemsPerRow : services.length;
-  const sliceInDisplay = services.slice(start, end);
+
+  const sortedServices = useMemo(() => {
+    return services.sort((first, second) => {
+      if (first.price > second.price) {
+        return 1;
+      } else if (first.price < second.price) {
+        return -1;
+      }
+      return 0;
+    });
+  }, [services]);
+
+  const sliceInDisplay = sortedServices.slice(start, end);
 
   const slideLeft = () => setStart((prev) => prev - 1);
   const slideRight = () => setStart((prev) => prev + 1);
