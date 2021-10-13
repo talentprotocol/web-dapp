@@ -114,7 +114,7 @@ const PortfolioTable = ({
                 {parseAndCommify(talent.amount)}
               </td>
               <td className="align-middle tal-table-price text-right">
-                ${ethers.utils.commify(talent.totalSupply * 0.1)}
+                ${parseAndCommify(talent.totalSupply * 0.1)}
               </td>
               <td className="align-middle tal-table-price text-right">
                 {returnValues[talent.contract_id] &&
