@@ -52,6 +52,7 @@ const About = ({
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
+  const [errorTracking, setErrorTracking] = useState({});
   const [aboutInfo, setAboutInfo] = useState({
     username: user.username || "",
     display_name: user.display_name || "",
@@ -185,7 +186,31 @@ const About = ({
   };
 
   const changeAttribute = (attribute, value) => {
+    validateWebsite(attribute, value);
+
     setAboutInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+  };
+
+  const validateWebsite = (attribute, value) => {
+    if (attribute != "website") {
+      return;
+    }
+
+    if (value?.includes("http://") || value?.includes("https://")) {
+      setErrorTracking((prev) => ({ ...prev, [attribute]: false }));
+    } else {
+      setErrorTracking((prev) => ({ ...prev, [attribute]: true }));
+    }
+  };
+
+  const validForm = () => {
+    let valid = true;
+
+    Object.keys(errorTracking).forEach((error) => {
+      valid = !errorTracking[error] && valid;
+    });
+
+    return valid;
   };
 
   return (
@@ -340,11 +365,16 @@ const About = ({
           <label htmlFor="website">Website</label>
           <input
             id="website"
-            className="form-control"
+            className={`form-control ${
+              errorTracking["website"] ? "border-danger" : ""
+            }`}
             value={aboutInfo["website"]}
             placeholder="The main url that represents you online"
             onChange={(e) => changeAttribute("website", e.target.value)}
           />
+          <small id="website_help" className="form-text text-muted">
+            The link must include "http://" or "https://"
+          </small>
         </div>
         <div className="form-group">
           <label htmlFor="video">Video</label>
@@ -409,7 +439,7 @@ const About = ({
         )}
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
-            disabled={saving}
+            disabled={saving || !validForm()}
             onClick={handleSave}
             className="btn btn-primary talent-button"
           >

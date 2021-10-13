@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { OnChain } from "src/onchain";
 import {
   faChevronLeft,
@@ -12,7 +12,19 @@ const Perks = ({ perks, ticker, width, contract }) => {
   const itemsPerRow = width < 768 ? 1 : 3;
 
   const end = perks.length > itemsPerRow ? start + itemsPerRow : perks.length;
-  const sliceInDisplay = perks.slice(start, end);
+
+  const sortedPerks = useMemo(() => {
+    return perks.sort((first, second) => {
+      if (first.price > second.price) {
+        return 1;
+      } else if (first.price < second.price) {
+        return -1;
+      }
+      return 0;
+    });
+  }, [perks]);
+
+  const sliceInDisplay = sortedPerks.slice(start, end);
 
   const slideLeft = () => setStart((prev) => prev - 1);
   const slideRight = () => setStart((prev) => prev + 1);

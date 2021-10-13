@@ -88,8 +88,12 @@ const TalentShow = ({
   };
 
   const prettifyWebsiteUrl = (url) => {
-    const link = new URL(url);
-    return link.host;
+    try {
+      const link = new URL(url);
+      return link.host;
+    } catch {
+      return url;
+    }
   };
 
   const toggleWatchlist = async () => {
