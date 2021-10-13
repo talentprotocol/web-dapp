@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useWindowDimensionsHook } from "../../utils/window";
 import {
   faChevronLeft,
@@ -10,7 +10,26 @@ import TalentProfilePicture from "./TalentProfilePicture";
 const UpcomingTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
   const { height, width } = useWindowDimensionsHook();
-  const itemsPerRow = width < 768 ? 1 : 3;
+
+  const itemsPerRow = useMemo(() => {
+    if (width > 1200) {
+      return 4;
+    } else if (width > 768) {
+      return 3;
+    } else {
+      return 1;
+    }
+  }, [width]);
+
+  const colStyling = useMemo(() => {
+    if (itemsPerRow === 4) {
+      return "col-3";
+    } else if (itemsPerRow === 3) {
+      return "col-4";
+    } else {
+      return "col-12 mx-auto";
+    }
+  }, [itemsPerRow]);
 
   const end =
     talents.length > itemsPerRow ? start + itemsPerRow : talents.length;
@@ -55,9 +74,7 @@ const UpcomingTalents = ({ talents }) => {
         <div className="row">
           {sliceInDisplay.map((talent) => (
             <div
-              className={`mt-3 ${
-                itemsPerRow == 1 ? "col-12 mx-auto" : "col-4"
-              }`}
+              className={`mt-3 ${colStyling}`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
               key={`upcoming_talent_list${talent.id}`}
             >
