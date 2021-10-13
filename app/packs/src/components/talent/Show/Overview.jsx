@@ -18,6 +18,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.github && (
           <a
             href={sharedState.talent.profile.github}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faGithub} size="lg" />
@@ -26,6 +27,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.linkedin && (
           <a
             href={sharedState.talent.profile.linkedin}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faLinkedin} size="lg" />
@@ -34,6 +36,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.twitter && (
           <a
             href={sharedState.talent.profile.twitter}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faTwitter} size="lg" />
@@ -42,6 +45,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.instagram && (
           <a
             href={sharedState.talent.profile.instagram}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faInstagram} size="lg" />
@@ -50,6 +54,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.telegram && (
           <a
             href={`https://t.me/${sharedState.talent.profile.telegram}`}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faTelegram} size="lg" />
@@ -58,6 +63,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.discord && (
           <a
             href={`https://discordapp.com/users/${sharedState.talent.profile.discord}`}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faDiscord} size="lg" />
@@ -66,6 +72,7 @@ const Overview = ({ sharedState }) => {
         {sharedState.talent.profile.email && (
           <a
             href={`mailto:${sharedState.talent.profile.email}`}
+            target="self"
             className="mr-3 text-reset"
           >
             <FontAwesomeIcon icon={faEnvelope} size="lg" />
