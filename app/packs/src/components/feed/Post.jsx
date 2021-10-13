@@ -191,7 +191,7 @@ const Post = ({ post, user, currentUser }) => {
               )}
               <Button
                 type="primary"
-                href={`/talent/${user.username}`}
+                href={user.talentUrl}
                 text={buyButtonText}
                 disabled={!user.active}
                 className="talent-button ml-2"

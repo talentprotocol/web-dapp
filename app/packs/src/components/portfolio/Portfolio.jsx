@@ -164,8 +164,9 @@ const Portfolio = ({ address, railsContext }) => {
         talents={supportedTalents}
         returnValues={returnValues}
         unstake={() => null}
-        withdraw={() => null}
-        claim={claimRewards}
+        claim={() => null}
+        restake={claimRewards}
+        // function names on contract are not correct
       />
     </>
   );

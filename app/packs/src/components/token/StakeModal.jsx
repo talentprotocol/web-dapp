@@ -211,7 +211,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
                     value={amount}
                   />
                   <small className="form-text text-primary">
-                    You will receive {amount * 10} Talent Tokens.
+                    You will receive {amount * 10} {ticker}.
                   </small>
                   <small className="form-text text-muted">
                     Available cUSD on your wallet:{" "}
