@@ -109,7 +109,9 @@ const PortfolioTable = ({
                 </a>
               </th>
               <td className="align-middle text-right">{talent.name}</td>
-              <td className="align-middle text-right">{talent.amount}</td>
+              <td className="align-middle text-right">
+                {ethers.utils.commify(talent.amount)}
+              </td>
               <td className="align-middle tal-table-price text-right">
                 ${ethers.utils.commify(talent.totalSupply * 0.1)}
               </td>
