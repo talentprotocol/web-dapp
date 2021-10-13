@@ -32,8 +32,8 @@ const PortfolioTable = ({
   talents,
   returnValues,
   unstake,
-  withdraw,
   claim,
+  restake,
 }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
 
@@ -85,7 +85,7 @@ const PortfolioTable = ({
               className="tal-th py-1 text-muted border-bottom-0 text-right"
               scope="col"
             >
-              <small>Yield</small>
+              <small>Yield ($TAL)</small>
             </th>
             <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
               <small>Actions</small>
@@ -129,16 +129,16 @@ const PortfolioTable = ({
                 </button>
                 <button
                   className="btn btn-sm btn-light ml-2 my-1"
-                  onClick={withdraw}
+                  onClick={claim}
                   disabled
                 >
-                  Withdraw
+                  Claim
                 </button>
                 <button
                   className="btn btn-sm btn-primary ml-2 my-1"
-                  onClick={() => claim(talent.contract_id)}
+                  onClick={() => restake(talent.contract_id)}
                 >
-                  Claim
+                  Restake
                 </button>
               </td>
             </tr>
