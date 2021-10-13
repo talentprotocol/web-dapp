@@ -13,7 +13,7 @@ import PortfolioTable from "./PortfolioTable";
 import PortfolioTalOverview from "./PortfolioTalOverview";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.15",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
   cache: new InMemoryCache(),
 });
 

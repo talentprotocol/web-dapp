@@ -16,7 +16,7 @@ import { post, destroy } from "src/utils/requests";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.15",
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
   cache: new InMemoryCache(),
 });
 
