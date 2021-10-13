@@ -8,6 +8,10 @@ class ConfirmedUserGuard < Clearance::SignInGuard
   end
 
   def user_confirmed?
-    signed_in? && current_user.email_confirmed_at.present?
+    if signed_in?
+      current_user.email_confirmed_at.present?
+    else
+      true
+    end
   end
 end

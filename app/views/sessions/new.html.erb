@@ -4,9 +4,9 @@
     prerender: false, html_options: { class: "my-3" })
   %>
 
-  <div class="border p-3 p-md-5 registration-box bg-white">
-    <h1 class="h2"><%= t(".title") %></h1>
-
+  <div class="border p-5 registration-box bg-white">
+    <h1 class="h2 mb-3"><%= t(".title") %></h1>
+    <%= render partial: '/shared/flashes' %>
     <%= render partial: '/sessions/form' %>
   </div>
 </main>

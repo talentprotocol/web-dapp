@@ -54,10 +54,10 @@ en:
   sessions:
     form:
       forgot_password: Forgot password?
-      sign_up: Sign up
+      sign_up: Sign up for Talent Protocol
     new:
-      title: Sign in
+      title: Sign in to your account
   users:
     new:
-      sign_in: Sign in
-      title: Sign up
+      sign_in: Sign in to your account
+      title: Sign up for Talent Protocol

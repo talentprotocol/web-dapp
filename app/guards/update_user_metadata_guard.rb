@@ -12,6 +12,8 @@ class UpdateUserMetadataGuard < Clearance::SignInGuard
       current_user.sign_in_count += 1
       current_user.last_sign_in_at = Time.current
       current_user.save
+    else
+      true
     end
   end
 end
