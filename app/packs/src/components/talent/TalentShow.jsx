@@ -199,6 +199,7 @@ const TalentShow = ({
               {sharedState.talent.profile.website && (
                 <a
                   href={sharedState.talent.profile.website}
+                  target="self"
                   className="text-primary ml-2"
                 >
                   {prettifyWebsiteUrl(sharedState.talent.profile.website)}
