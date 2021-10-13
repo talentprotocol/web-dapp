@@ -113,8 +113,8 @@ const TalentTable = ({ talents }) => {
 
     if (chosenTalent) {
       return ethers.BigNumber.from(chosenTalent.totalSupply)
-        .div(chosenTalent.maxSupply)
         .mul(100)
+        .div(chosenTalent.maxSupply)
         .toNumber();
     }
     return 0;
