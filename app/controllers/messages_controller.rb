@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
 
     @chat_id = current_user.sender_chat_id(@receiver)
 
-    render json: {messages: @messages.map(&:to_json), chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url}
+    render json: {messages: @messages.map(&:to_json), chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url || @receiver.investor&.profile_picture_url}
   end
 
   def create
@@ -34,9 +34,9 @@ class MessagesController < ApplicationController
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
     service = CreateNotification.new
     service.call(
-      body: 'You have a new message',
+      body: "You have a new message",
       user_id: @receiver.id,
-      type: 'Notifications::MessageReceived'
+      type: "Notifications::MessageReceived"
     )
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)
