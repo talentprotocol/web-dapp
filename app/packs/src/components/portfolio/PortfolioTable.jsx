@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { parseAndCommify } from "src/onchain/utils";
 import Button from "../button";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
@@ -110,16 +111,14 @@ const PortfolioTable = ({
               </th>
               <td className="align-middle text-right">{talent.name}</td>
               <td className="align-middle text-right">
-                {ethers.utils.commify(talent.amount)}
+                {parseAndCommify(talent.amount)}
               </td>
               <td className="align-middle tal-table-price text-right">
                 ${ethers.utils.commify(talent.totalSupply * 0.1)}
               </td>
               <td className="align-middle tal-table-price text-right">
                 {returnValues[talent.contract_id] &&
-                  ethers.utils.commify(
-                    returnValues[talent.contract_id].toString()
-                  )}
+                  parseAndCommify(returnValues[talent.contract_id].toString())}
               </td>
               <td className="align-middle">
                 <button
