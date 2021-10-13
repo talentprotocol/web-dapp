@@ -8,7 +8,6 @@ class UserRegisteredGuard < Clearance::SignInGuard
   end
 
   def user_confirmed?
-    binding.pry
     signed_in?
   end
 end
