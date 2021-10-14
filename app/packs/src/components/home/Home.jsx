@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
+import ActiveTalentLeaderboard from "./ActiveTalentLeaderboard";
+import UpcomingTalentLeaderboard from "./UpcomingTalentLeaderboard";
 import PostInput from "./PostInput";
 import Post from "./Post";
+import UserMenu from "../user_menu";
 
-const Home = ({ user, posts }) => {
+const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
 
   const addPost = (post) => {
@@ -24,8 +27,12 @@ const Home = ({ user, posts }) => {
           </div>
         ))}
       </section>
-      <section className="col-12 col-lg-5 lg-h-100">
-        <p>leaderboards</p>
+      <section className="col-12 col-lg-5 lg-h-100 py-4">
+        <div className="d-flex flex-row w-100 justify-content-end mb-3">
+          <UserMenu user={user} signOutPath={signOutPath} />
+        </div>
+        <ActiveTalentLeaderboard talents={activeTalents} />
+        <UpcomingTalentLeaderboard talents={upcomingTalents} />
       </section>
     </>
   );

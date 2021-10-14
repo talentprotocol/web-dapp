@@ -21,19 +21,13 @@ const CreatePostModal = ({ show, hide, onSubmit, profilePictureUrl, name }) => (
           <textarea
             className="w-100 border-0 form-control"
             placeholder={`What do you want to share, ${name}?`}
-            rows={3}
+            rows={5}
           />
-          <div className="ml-2">
-            <button className="btn text-muted" onClick={hide}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-          </div>
         </div>
-        <div className="d-flex flex-row justify-content-between align-items-center w-100 mt-3">
-          <div className="d-flex flex-row text-muted ml-2">
-            <FontAwesomeIcon icon={faImage} className="mr-2" />
-            <FontAwesomeIcon icon={faSmileBeam} />
-          </div>
+        <div className="d-flex flex-row justify-content-end align-items-center w-100 mt-3">
+          <button className="btn btn-light talent-button mr-2" onClick={hide}>
+            Cancel
+          </button>
           <button className="btn btn-primary talent-button" type="submit">
             Post
           </button>

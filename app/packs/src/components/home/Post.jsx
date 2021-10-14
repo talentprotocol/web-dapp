@@ -42,8 +42,6 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   const [creatingComment, setCreatingComment] = useState(false);
   const [focusedInput, setFocusedInput] = useState(false);
 
-  console.log(focusedInput);
-
   const createComment = () => {
     setCreatingComment(true);
 
@@ -166,7 +164,7 @@ const Post = ({ post, user, currentUser }) => {
             <div className="d-flex flex-row mt-2 mt-md-0">
               <button
                 onClick={() => toggleCommentSection()}
-                className="ml-2 border-0 bg-transparent"
+                className="border-0 bg-transparent"
               >
                 <FontAwesomeIcon icon={faComment} />{" "}
                 <small>
