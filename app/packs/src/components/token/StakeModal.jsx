@@ -5,8 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { OnChain } from "src/onchain";
 
+import { NoMetamask } from "../login/MetamaskConnect";
+
 const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const [amount, setAmount] = useState("");
+  const [showNoMetamask, setShowNoMetamask] = useState(false);
   const [availableAmount, setAvailableAmount] = useState("0");
   const [currentAccount, setCurrentAccount] = useState(null);
   const [maxMinting, setMaxMinting] = useState("0");
@@ -134,6 +137,9 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       if (result) {
         setCurrentAccount(chainData.account);
       }
+    } else {
+      setShow(false);
+      setShowNoMetamask(true);
     }
   };
 
@@ -182,6 +188,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
 
   return (
     <>
+      <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
       <Modal
         scrollable={true}
         fullscreen={"md-down"}

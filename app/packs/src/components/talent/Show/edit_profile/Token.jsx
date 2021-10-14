@@ -19,7 +19,11 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
   });
 
   const changeAttribute = (attribute, value) => {
-    setTokenInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
+    let realValue = value;
+    if (attribute == "ticker") {
+      realValue = realValue.replace(/[^A-Z]/g, "");
+    }
+    setTokenInfo((prevInfo) => ({ ...prevInfo, [attribute]: realValue }));
   };
 
   const createToken = async (e) => {
@@ -136,7 +140,9 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
           </div>
           <input
             id="ticker"
-            className="form-control"
+            className={`form-control${
+              tokenInfo["ticker"].length > 8 ? " border-danger" : ""
+            }`}
             placeholder="TAL"
             value={tokenInfo["ticker"]}
             aria-describedby="ticker_help"
@@ -185,7 +191,11 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             type="submit"
-            disabled={saving}
+            disabled={
+              saving ||
+              tokenInfo["ticker"].length < 3 ||
+              tokenInfo["ticker"].length > 8
+            }
             onClick={handleSave}
             className="btn btn-primary talent-button"
           >
@@ -201,10 +211,14 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
         </div>
       </form>
       <div className="dropdown-divider border-secondary my-3"></div>
-      <p>{deploy}</p>
+      <p>
+        {!token.ticker
+          ? "You must choose a ticker before you can deploy your token"
+          : deploy}
+      </p>
       <button
         className="btn btn-primary"
-        disabled={deploy != "Deploy your token"}
+        disabled={deploy != "Deploy your token" || !token.ticker}
         onClick={createToken}
       >
         Deploy Your Talent Token{" "}

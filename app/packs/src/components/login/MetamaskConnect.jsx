@@ -6,7 +6,7 @@ import { OnChain } from "src/onchain";
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "../../utils/requests";
 
-const NoMetamask = ({ show, hide }) => (
+export const NoMetamask = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
     <Modal.Header closeButton>
       <Modal.Title>
@@ -36,10 +36,11 @@ const MetamaskConnect = ({ user_id }) => {
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain();
 
-    await newOnChain.initialize();
+    await newOnChain.initialize().catch(() => setLoading(false));
 
     if (newOnChain) {
       setChainAPI(newOnChain);
+      setShowNoMetamask(false);
     }
 
     setLoading(false);
@@ -54,7 +55,12 @@ const MetamaskConnect = ({ user_id }) => {
 
     setRequestingMetamask("true");
     if (chainAPI) {
-      const account = await chainAPI.connect();
+      const account = await chainAPI.connect().catch((e) => {
+        if (e?.code == 4001) {
+          return;
+        }
+        setShowNoMetamask(true);
+      });
 
       if (account) {
         const result = await patch(`/api/v1/users/${user_id}`, {
@@ -72,11 +78,11 @@ const MetamaskConnect = ({ user_id }) => {
   const allowConnect = () =>
     loading == false &&
     requestingMetamask == "false" &&
-    chainAPI.provider != null;
+    chainAPI?.provider != null;
 
   return (
     <>
-      {loading == false && chainAPI.provider == null && (
+      {loading == false && (
         <NoMetamask
           show={showNoMetamask}
           hide={() => setShowNoMetamask(false)}
