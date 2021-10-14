@@ -29,7 +29,10 @@ const UpcomingTalentLeaderboard = ({ talents }) => {
               className="mr-3"
             />
             <a className="text-reset" href={`/talent/${talent.username}`}>
-              {talent.name} <span className="text-muted">{talent.ticker}</span>
+              <small>
+                {talent.name}{" "}
+                <span className="text-muted">{talent.ticker}</span>
+              </small>
             </a>
           </div>
         </div>

@@ -5,16 +5,39 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from "@apollo/client";
 
 import { ethers } from "ethers";
-import { OnChain } from "src/onchain";
 
 import TalentProfilePicture from "./TalentProfilePicture";
 
+const client = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
+  cache: new InMemoryCache(),
+});
+
+const GET_TALENT_PORTFOLIO = gql`
+  query GetTalentList {
+    talentTokens {
+      id
+      supporterCounter
+      totalSupply
+      maxSupply
+      marketCap
+      name
+    }
+  }
+`;
+
 const ActiveTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
-  const [chainAPI, setChainAPI] = useState(null);
-  const [displaySupplies, setDisplaySupplies] = useState({});
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);
   const { height, width } = useWindowDimensionsHook();
 
   const itemsPerRow = useMemo(() => {
@@ -47,37 +70,22 @@ const ActiveTalents = ({ talents }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= talents.length;
 
-  const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain();
-    await newOnChain.initialize();
-
-    if (newOnChain) {
-      setChainAPI(newOnChain);
-    }
-  });
-
-  useEffect(() => {
-    setupChain();
-  }, []);
-
-  useEffect(() => {
-    if (!chainAPI) {
-      return;
+  const getCirculatingSupply = (contract_id) => {
+    if (loading || !data) {
+      return 0;
     }
 
-    sliceInDisplay.forEach((talent) => {
-      const token = chainAPI.getToken(talent.contract_id);
+    const chosenTalent = data.talentTokens.find(
+      (element) => element.id == contract_id.toLowerCase()
+    );
 
-      token.totalSupply().then((result) =>
-        setDisplaySupplies((prev) => ({
-          ...prev,
-          [talent.contract_id]: ethers.utils.commify(
-            ethers.utils.formatUnits(result)
-          ),
-        }))
+    if (chosenTalent) {
+      return ethers.utils.commify(
+        ethers.utils.formatUnits(chosenTalent.totalSupply)
       );
-    });
-  }, [chainAPI, sliceInDisplay]);
+    }
+    return 0;
+  };
 
   if (talents.length === 0) {
     return <></>;
@@ -133,7 +141,7 @@ const ActiveTalents = ({ talents }) => {
                 </small>
                 <small className="text-warning mt-2 talent-link">
                   <strong className="text-black mr-2">
-                    {displaySupplies[talent.contract_id] || 0}
+                    {getCirculatingSupply(talent.contract_id)}
                   </strong>{" "}
                   {talent.ticker}
                 </small>
@@ -146,4 +154,8 @@ const ActiveTalents = ({ talents }) => {
   );
 };
 
-export default ActiveTalents;
+export default (props) => (
+  <ApolloProvider client={client}>
+    <ActiveTalents {...props} />
+  </ApolloProvider>
+);
