@@ -23,7 +23,6 @@ import DisplayTokenVariance from "src/components/token/DisplayTokenVariance";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import RegistrationFlow from "src/components/registration/RegistrationFlow";
-import Feed from "src/components/feed/Feed";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskLogin from "src/components/login/MetamaskLogin";
 import DeployTokenButton from "src/components/token/DeployTokenButton";
@@ -56,7 +55,6 @@ ReactOnRails.register({
   MessageUserList,
   Chat,
   RegistrationFlow,
-  Feed,
   TalentNameSearch,
   MetamaskLogin,
   DeployTokenButton,
