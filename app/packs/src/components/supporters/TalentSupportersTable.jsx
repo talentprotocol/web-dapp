@@ -1,44 +1,18 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { ethers } from "ethers";
 import { OnChain } from "src/onchain";
+import { get } from "src/utils/requests";
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   useQuery,
-  gql,
-} from "@apollo/client";
-import { get } from "src/utils/requests";
+  GET_TALENT_PORTFOLIO_FOR_ID,
+  client,
+} from "src/utils/thegraph";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import AsyncValue from "../loader/AsyncValue";
 import TalentTags from "../talent/TalentTags";
 import Button from "../button";
-
-const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
-  cache: new InMemoryCache(),
-});
-
-const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentPortfolio($id: String!) {
-    talentToken(id: $id) {
-      id
-      totalValueLocked
-      supporterCounter
-      totalSupply
-      marketCap
-      supporters {
-        id
-        amount
-        talAmount
-        supporter {
-          id
-        }
-      }
-    }
-  }
-`;
 
 const LoadingData = () => (
   <tr>
@@ -134,7 +108,7 @@ const SupporterOverview = ({
 };
 
 const TalentSupportersTable = ({ talent, contractId }) => {
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO, {
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: contractId.toLowerCase() },
   });
   const [chainAPI, setChainAPI] = useState(null);

@@ -1,43 +1,16 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { OnChain } from "src/onchain";
+
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   useQuery,
-  gql,
-} from "@apollo/client";
+  GET_SUPPORTER_PORTFOLIO,
+  client,
+} from "src/utils/thegraph";
 
 import PortfolioTable from "./PortfolioTable";
 import PortfolioTalOverview from "./PortfolioTalOverview";
-
-const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
-  cache: new InMemoryCache(),
-});
-
-const GET_SUPPORTER_PORTFOLIO = gql`
-  query GetSupporterPortfolio($id: String!) {
-    supporter(id: $id) {
-      id
-      totalAmount
-      talents {
-        id
-        amount
-        talAmount
-        talent {
-          id
-          symbol
-          name
-          totalSupply
-          supporterCounter
-          owner
-        }
-      }
-    }
-  }
-`;
 
 const Portfolio = ({ address, railsContext }) => {
   const [localAccount, setLocalAccount] = useState(address || "");

@@ -2,34 +2,16 @@ import React from "react";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { ethers } from "ethers";
+
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   useQuery,
-  gql,
-} from "@apollo/client";
+  GET_TALENT_PORTFOLIO,
+  client,
+} from "src/utils/thegraph";
 
-import { ethers } from "ethers";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-
-const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
-  cache: new InMemoryCache(),
-});
-
-const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList {
-    talentTokens {
-      id
-      supporterCounter
-      totalSupply
-      maxSupply
-      marketCap
-      name
-    }
-  }
-`;
 
 const ActiveTalentLeaderboard = ({ talents }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);

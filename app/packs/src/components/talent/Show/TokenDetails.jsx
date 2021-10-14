@@ -4,34 +4,19 @@ import { OnChain } from "src/onchain";
 import currency from "currency.js";
 
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   useQuery,
-  gql,
-} from "@apollo/client";
-
-const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
-  cache: new InMemoryCache(),
-});
-
-const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentPortfolio($id: String!) {
-    talentToken(id: $id) {
-      id
-      totalValueLocked
-      supporterCounter
-      totalSupply
-      marketCap
-    }
-  }
-`;
+  GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+  client,
+} from "src/utils/thegraph";
 
 const TokenDetails = ({ token, ticker, displayName }) => {
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO, {
-    variables: { id: token?.contract_id?.toLowerCase() },
-  });
+  const { loading, error, data } = useQuery(
+    GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+    {
+      variables: { id: token?.contract_id?.toLowerCase() },
+    }
+  );
 
   const [tokenData, setTokenData] = useState({
     price: 0.1,
