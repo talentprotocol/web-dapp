@@ -13,7 +13,7 @@ class Post < ApplicationRecord
       comments: comments.count,
       user: {
         id: user.id,
-        username: user.display_name || user.username,
+        username: user.display_name.blank? ? user.username : user.display_name,
         ticker: user.talent&.token&.display_ticker,
         contract_id: user.talent&.token&.contract_id,
         profilePictureUrl: user.talent.profile_picture_url,

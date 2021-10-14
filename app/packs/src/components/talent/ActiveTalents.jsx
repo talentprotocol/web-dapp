@@ -112,7 +112,7 @@ const ActiveTalents = ({ talents }) => {
         <div className="row">
           {sliceInDisplay.map((talent, index) => (
             <div
-              key={`active_talent_list${talent.id}`}
+              key={`active_talent_list_${talent.id}`}
               className={`mt-3 ${colStyling}`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
             >
@@ -122,7 +122,7 @@ const ActiveTalents = ({ talents }) => {
               >
                 <TalentProfilePicture
                   src={talent.profilePictureUrl}
-                  height={220}
+                  height={"100%"}
                   straight
                   className={"rounded mx-auto"}
                 />

@@ -9,7 +9,7 @@
         messagesPath: messages_path,
         admin: current_user&.admin?,
         adminPath: current_user.present? && admin_path,
-        watchList: current_user.following.where.not(user: { id: 1 }).includes(user: :talent).map { |f| {id: f.user.id, picture: f.user.talent.profile_picture_url, displayName: f.user.display_name || f.user.username, url: talent_path(f.user.talent) }},
+        watchList: current_user.following.where.not(user: { id: 1 }).includes(user: :talent).map { |f| {id: f.user.id, picture: f.user.talent.profile_picture_url, displayName: f.user.display_name.blank? ? f.user.username : f.user.display_name, url: talent_path(f.user.talent) }},
       },
       prerender: false, html_options: { class: "d-flex flex-column align-self-lg-stretch lg-h-100" }) %>
   </header>

@@ -121,100 +121,102 @@ const TalentTable = ({ talents }) => {
   };
 
   return (
-    <table className="table table-hover mb-0 mt-4">
-      <thead>
-        <tr>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          ></th>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          >
-            #
-          </th>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          >
-            <small>TALENT</small>
-          </th>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          >
-            <small>OCCUPATION</small>
-          </th>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          >
-            <small>SUPPORTERS</small>
-          </th>
-          <th
-            className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-            scope="col"
-          >
-            <small>CIRCULATING SUPPLY</small>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {talents.map((talent) => (
-          <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
-            <th className="text-muted align-middle">
-              <button
-                className="btn border-0 text-warning"
-                onClick={() => toggleWatchlist(talent)}
-                disabled={changingFollow}
-              >
-                {follows[talent.id] ? (
-                  <FontAwesomeIcon icon={faStar} />
-                ) : (
-                  <FontAwesomeIcon icon={faStarOutline} />
-                )}
-              </button>
+    <div className="table-responsive">
+      <table className="table table-hover mb-0 mt-4">
+        <thead>
+          <tr>
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            ></th>
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            >
+              #
             </th>
-            <th className="text-muted align-middle">{talent.id}</th>
-            <th className="text-muted align-middle">
-              <TalentProfilePicture
-                src={talent.profilePictureUrl}
-                height={24}
-              />
-              <a
-                href={`/talent/${talent.username}`}
-                className="ml-2 text-reset"
-              >
-                {talent.username}
-              </a>{" "}
-              <small className="text-warning">{talent.ticker}</small>
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            >
+              <small>TALENT</small>
             </th>
-            <th className="align-middle pr-0" scope="row">
-              {talent.occupation}
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            >
+              <small>OCCUPATION</small>
             </th>
-            <th className="align-middle pr-0" scope="row">
-              {getSponsorCount(talent.contract_id)}
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            >
+              <small>SUPPORTERS</small>
             </th>
-            <td className="align-middle d-flex flex-column">
-              <small>
-                {getCirculatingSupply(talent.contract_id)} {talent.ticker}
-              </small>
-              <div className="progress" style={{ height: 6 }}>
-                <div
-                  className="progress-bar bg-secondary"
-                  role="progressbar"
-                  aria-valuenow={getProgress(talent.contract_id)}
-                  style={{ width: `${getProgress(talent.contract_id)}%` }}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
-              </div>
-            </td>
+            <th
+              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
+              scope="col"
+            >
+              <small>CIRCULATING SUPPLY</small>
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {talents.map((talent) => (
+            <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
+              <th className="text-muted align-middle">
+                <button
+                  className="btn border-0 text-warning"
+                  onClick={() => toggleWatchlist(talent)}
+                  disabled={changingFollow}
+                >
+                  {follows[talent.id] ? (
+                    <FontAwesomeIcon icon={faStar} />
+                  ) : (
+                    <FontAwesomeIcon icon={faStarOutline} />
+                  )}
+                </button>
+              </th>
+              <th className="text-muted align-middle">{talent.id}</th>
+              <th className="text-muted align-middle">
+                <TalentProfilePicture
+                  src={talent.profilePictureUrl}
+                  height={24}
+                />
+                <a
+                  href={`/talent/${talent.username}`}
+                  className="ml-2 text-reset"
+                >
+                  {talent.username}
+                </a>{" "}
+                <small className="text-warning">{talent.ticker}</small>
+              </th>
+              <th className="align-middle pr-0" scope="row">
+                {talent.occupation}
+              </th>
+              <th className="align-middle pr-0" scope="row">
+                {getSponsorCount(talent.contract_id)}
+              </th>
+              <td className="align-middle d-flex flex-column">
+                <small>
+                  {getCirculatingSupply(talent.contract_id)} {talent.ticker}
+                </small>
+                <div className="progress" style={{ height: 6 }}>
+                  <div
+                    className="progress-bar bg-secondary"
+                    role="progressbar"
+                    aria-valuenow={getProgress(talent.contract_id)}
+                    style={{ width: `${getProgress(talent.contract_id)}%` }}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -1,23 +1,10 @@
-<%= react_component("Feed",
-  props: {
-    pagy: {
-      prev: @pagy.prev,
-      next: @pagy.next,
-      page: @pagy.page,
-      last: @pagy.last
-    },
+<main class="lg-overflow-y-scroll border-left lg-h-100">
+  <%= react_component("Home", props: {
     user: {
       id: current_user.id,
       profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-      talentId: current_user.talent&.id,
-      investorId: current_user.investor&.id,
-      isTalent: current_user.talent.present?,
-      displayWalletId: current_user.display_wallet_id,
-      walletId: current_user.wallet_id,
-      username: current_user.username,
+      displayName: current_user.display_name.blank? ? current_user.username : current_user.display_name
     },
-    posts: @posts.map { |post| post.to_json },
-    topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.user.display_name || tal.user.username, username: tal.user.username, ticker: tal.token.display_ticker, token_contract_id: tal.token.contract_id, profilePictureUrl: tal.profile_picture_url } },
-    alert: { type: @alert&.alert_type, text: @alert&.text, href: @alert&.href, buttonText: @alert&.button_text },
-    signOutPath: sign_out_path
-  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100" }) %>
+    posts: @posts.map(&:to_json),
+  }, prerender: false, html_options: { class: "d-flex flex-row w-100 lg-h-100" }) %>
+</main>
