@@ -76,7 +76,7 @@ const UpcomingTalents = ({ talents }) => {
             <div
               className={`mt-3 ${colStyling}`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
-              key={`upcoming_talent_list${talent.id}`}
+              key={`upcoming_talent_list_${talent.id}`}
             >
               <a
                 className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
@@ -84,7 +84,7 @@ const UpcomingTalents = ({ talents }) => {
               >
                 <TalentProfilePicture
                   src={talent.profilePictureUrl}
-                  height={220}
+                  height={"100%"}
                   straight
                   className={"rounded mx-auto"}
                 />

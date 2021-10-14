@@ -7,14 +7,18 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { ethers } from "ethers";
-import { OnChain } from "src/onchain";
+import {
+  ApolloProvider,
+  useQuery,
+  GET_TALENT_PORTFOLIO,
+  client,
+} from "src/utils/thegraph";
 
 import TalentProfilePicture from "./TalentProfilePicture";
 
 const ActiveTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
-  const [chainAPI, setChainAPI] = useState(null);
-  const [displaySupplies, setDisplaySupplies] = useState({});
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);
   const { height, width } = useWindowDimensionsHook();
 
   const itemsPerRow = useMemo(() => {
@@ -47,37 +51,22 @@ const ActiveTalents = ({ talents }) => {
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= talents.length;
 
-  const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain();
-    await newOnChain.initialize();
-
-    if (newOnChain) {
-      setChainAPI(newOnChain);
-    }
-  });
-
-  useEffect(() => {
-    setupChain();
-  }, []);
-
-  useEffect(() => {
-    if (!chainAPI) {
-      return;
+  const getCirculatingSupply = (contract_id) => {
+    if (loading || !data) {
+      return 0;
     }
 
-    sliceInDisplay.forEach((talent) => {
-      const token = chainAPI.getToken(talent.contract_id);
+    const chosenTalent = data.talentTokens.find(
+      (element) => element.id == contract_id.toLowerCase()
+    );
 
-      token.totalSupply().then((result) =>
-        setDisplaySupplies((prev) => ({
-          ...prev,
-          [talent.contract_id]: ethers.utils.commify(
-            ethers.utils.formatUnits(result)
-          ),
-        }))
+    if (chosenTalent) {
+      return ethers.utils.commify(
+        ethers.utils.formatUnits(chosenTalent.totalSupply)
       );
-    });
-  }, [chainAPI, sliceInDisplay]);
+    }
+    return 0;
+  };
 
   if (talents.length === 0) {
     return <></>;
@@ -112,7 +101,7 @@ const ActiveTalents = ({ talents }) => {
         <div className="row">
           {sliceInDisplay.map((talent, index) => (
             <div
-              key={`active_talent_list${talent.id}`}
+              key={`active_talent_list_${talent.id}`}
               className={`mt-3 ${colStyling}`}
               style={{ paddingRight: 10, paddingLeft: 10 }}
             >
@@ -122,7 +111,7 @@ const ActiveTalents = ({ talents }) => {
               >
                 <TalentProfilePicture
                   src={talent.profilePictureUrl}
-                  height={220}
+                  height={"100%"}
                   straight
                   className={"rounded mx-auto"}
                 />
@@ -133,7 +122,7 @@ const ActiveTalents = ({ talents }) => {
                 </small>
                 <small className="text-warning mt-2 talent-link">
                   <strong className="text-black mr-2">
-                    {displaySupplies[talent.contract_id] || 0}
+                    {getCirculatingSupply(talent.contract_id)}
                   </strong>{" "}
                   {talent.ticker}
                 </small>
@@ -146,4 +135,8 @@ const ActiveTalents = ({ talents }) => {
   );
 };
 
-export default ActiveTalents;
+export default (props) => (
+  <ApolloProvider client={client}>
+    <ActiveTalents {...props} />
+  </ApolloProvider>
+);

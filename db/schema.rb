@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_10_182952) do
+ActiveRecord::Schema.define(version: 2021_10_14_213426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(version: 2021_10_10_182952) do
     t.boolean "deployed", default: false
     t.string "contract_id"
     t.index ["talent_id"], name: "index_tokens_on_talent_id"
-    t.index ["ticker"], name: "index_tokens_on_ticker"
+    t.index ["ticker"], name: "index_tokens_on_ticker", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

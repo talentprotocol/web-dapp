@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSpring, animated, config } from "@react-spring/web";
 import currency from "currency.js";
 
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
 const AnimatedNumber = ({ value, unformatted, dollarSign }) => {

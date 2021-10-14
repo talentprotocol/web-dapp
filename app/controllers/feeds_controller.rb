@@ -2,9 +2,10 @@ class FeedsController < ApplicationController
   before_action :set_alert, only: [:show]
 
   def show
-    @pagy, @posts = pagy(current_user.feed.posts.includes([user: [talent: :token]]).order(id: :desc))
+    @posts = current_user.feed.posts.includes([user: [talent: :token]]).order(id: :desc)
 
-    @talent_leaderboard = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).includes([:user]).order(id: :desc).limit(10)
+    @active_talents = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).limit(3)
+    @upcoming_talents = Talent.joins(:token).where(public: true).where(token: {contract_id: nil}).limit(3)
   end
 
   private

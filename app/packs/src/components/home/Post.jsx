@@ -10,27 +10,23 @@ import { post as postRequest, get } from "src/utils/requests";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
-import AsyncValue from "../loader/AsyncValue";
 
 const Comment = ({ text, username, ticker, profilePictureUrl, created_at }) => {
   const date = parseJSON(created_at);
   const timeSinceCreation = formatDistanceToNow(date);
 
   return (
-    <div className="d-flex flex-row w-100 pt-3 pl-4 pr-2 border-top bg-white">
-      <TalentProfilePicture src={profilePictureUrl} height={40} />
-      <div className="d-flex flex-column pl-3 w-100">
-        <div className="d-flex flex-row justify-content-between">
+    <div className="d-flex flex-row w-100 pt-3 px-3">
+      <TalentProfilePicture
+        src={profilePictureUrl}
+        height={40}
+        className="mt-3"
+      />
+      <div className="d-flex flex-column ml-3 pt-3 border-top w-100">
+        <div className="d-flex flex-row">
           <p>
             <strong>{username}</strong>{" "}
-            <small className="text-muted">
-              {"\u25CF"} {timeSinceCreation}
-            </small>
-          </p>
-          <p>
-            <small>
-              <span className="text-primary">{ticker}</span>
-            </small>
+            <small className="text-muted ml-2">{timeSinceCreation}</small>
           </p>
         </div>
         <p className="w-100 text-white-space-wrap">{parse(text)}</p>
@@ -44,6 +40,7 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [creatingComment, setCreatingComment] = useState(false);
+  const [focusedInput, setFocusedInput] = useState(false);
 
   const createComment = () => {
     setCreatingComment(true);
@@ -81,51 +78,50 @@ const CommentSection = ({ post_id, profilePictureUrl, incrementComments }) => {
     });
   }, [post_id]);
 
-  const transitions = useTransition(comments, {
-    from: { translateY: -100, opacity: 0 },
-    enter: { translateY: 0, opacity: 1 },
-    leave: { translateY: 100, opacity: 0 },
-  });
-
   return (
-    <div className="d-flex flex-column align-items-center border-top mb-3">
+    <div className="d-flex flex-column align-items-center mb-3">
       <form
         action={`/posts/${post_id}/comments`}
         method="post"
         onSubmit={onSubmit}
         style={{ zIndex: 1 }}
-        className="w-100 py-3 pl-4 d-flex flex-row bg-white"
+        className="w-100 px-3 d-flex flex-row mb-3"
       >
-        <TalentProfilePicture src={profilePictureUrl} height={40} />
-        <div className="d-flex flex-column flex-md-row w-100 px-2">
+        <TalentProfilePicture
+          src={profilePictureUrl}
+          height={40}
+          className="mt-3 mr-3"
+        />
+        <div className="position-relative w-100 border-top pt-3">
           <textarea
             id="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Write a new comment..."
-            className="form-control"
+            placeholder="Write your reply..."
+            className="border-0 form-control"
+            rows={focusedInput ? "5" : "1"}
+            onFocus={() => setFocusedInput(true)}
+            style={{ paddingRight: 80 }}
           />
-          <button
-            type="submit"
-            disabled={creatingComment == true || text == ""}
-            className="btn btn-primary btn-small ml-0 ml-md-2 mt-2 mt-md-0 md-w-100"
-          >
-            Reply
-          </button>
+          {focusedInput && (
+            <button
+              type="submit"
+              disabled={creatingComment == true || text == ""}
+              className="btn btn-primary btn-small position-absolute b-24 r-24"
+            >
+              Reply
+            </button>
+          )}
         </div>
       </form>
       {!loading && comments.length === 0 && (
-        <div className="w-100 px-4 pt-2 border-top text-center">
+        <div className="w-100 px-4 pt-2 text-center mt-3">
           No comments yet. Be the first!
         </div>
       )}
       {!loading &&
         comments.length > 0 &&
-        transitions((style, item) => (
-          <animated.div style={style} className="d-flex flex-row w-100">
-            <Comment key={item.id} {...item} />
-          </animated.div>
-        ))}
+        comments.map((item) => <Comment key={item.id} {...item} />)}
     </div>
   );
 };
@@ -148,11 +144,11 @@ const Post = ({ post, user, currentUser }) => {
 
   return (
     <div className="d-flex flex-column">
-      <div className="d-flex flex-row w-100 py-3 px-2">
+      <div className="d-flex flex-row w-100 p-3">
         <TalentProfilePicture src={user.profilePictureUrl} height={40} />
-        <div className="d-flex flex-column pl-3 w-100">
-          <div className="d-flex flex-column flex-md-row justify-content-between">
-            <p className="mb-0 mb-md-2">
+        <div className="d-flex flex-column px-3 w-100">
+          <div className="d-flex flex-row">
+            <p className="mr-2">
               {user.talentUrl ? (
                 <a href={user.talentUrl} className="text-reset">
                   <strong>{user.username}</strong>
@@ -160,14 +156,7 @@ const Post = ({ post, user, currentUser }) => {
               ) : (
                 <strong>{user.username}</strong>
               )}{" "}
-              <small className="text-muted">
-                {"\u25CF"} {timeSinceCreation}
-              </small>
-            </p>
-            <p>
-              <small>
-                <span className="text-primary">{user.ticker}</span>
-              </small>
+              <small className="text-muted">{timeSinceCreation}</small>
             </p>
           </div>
           <p className="text-white-space-wrap">{parse(post.text)}</p>
@@ -175,27 +164,13 @@ const Post = ({ post, user, currentUser }) => {
             <div className="d-flex flex-row mt-2 mt-md-0">
               <button
                 onClick={() => toggleCommentSection()}
-                className="ml-2 border-0 bg-transparent"
+                className="border-0 bg-transparent"
               >
-                <FontAwesomeIcon icon={faComment} flip="horizontal" />{" "}
-                {commentCount}
+                <FontAwesomeIcon icon={faComment} />{" "}
+                <small>
+                  {commentCount} <span className="text-muted">Comments</span>
+                </small>
               </button>
-            </div>
-            <div className="d-flex flex-row">
-              {user.id != currentUser.id && (
-                <Button
-                  type="outline-secondary"
-                  text="Message"
-                  href={`/messages?user=${user.id}`}
-                />
-              )}
-              <Button
-                type="primary"
-                href={user.talentUrl}
-                text={buyButtonText}
-                disabled={!user.active}
-                className="talent-button ml-2"
-              />
             </div>
           </div>
         </div>
