@@ -150,18 +150,6 @@
         <div class="d-flex flex-row">
           <div class="offset-md-3 col-md-9 pb-2 d-flex flex-row">
             <%= link_to "Edit Token", edit_admin_talent_token_path(@user.talent, @user.talent.token), class: "btn btn-primary talent-button mr-2" %>
-            <%= react_component("DeployTokenButton",
-              props: {
-                ticker: @user.talent.token.ticker,
-                username: @user.username,
-                address: @user.wallet_id,
-                reserveRatio: @user.talent.token.reserve_ratio,
-                talentFee: @user.talent.token.talent_fee,
-                updateTokenUrl: admin_talent_token_path(@user.talent, @user.talent.token),
-                contract_id: @user.talent.token.contract_id,
-                wallet_id: @user.wallet_id,
-              },
-              prerender: false) %>
           </div>
         </div>
       <% end %>
