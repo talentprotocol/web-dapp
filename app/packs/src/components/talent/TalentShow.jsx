@@ -166,10 +166,10 @@ const TalentShow = ({
         />
       )}
       <section
-        className="d-flex flex-row mt-3 ml-3 align-items-center justify-content-between flex-wrap"
+        className="d-flex flex-row mt-3 ml-lg-3 align-items-center justify-content-between flex-wrap"
         style={{ zIndex: 1 }}
       >
-        <div className="d-flex flex-row align-items-center flex-wrap">
+        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center flex-wrap">
           <TalentProfilePicture
             src={sharedState.profilePictureUrl}
             height={192}
@@ -177,11 +177,13 @@ const TalentShow = ({
             border
           />
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center">
+            <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
               <h2 className="mb-0">{displayName({ withLink: false })}</h2>
-              <p className="mb-0 border rounded p-1 bg-light ml-2">
-                <small>{ticker()}</small>
-              </p>
+              {ticker() != "" && (
+                <p className="mb-0 border rounded p-1 bg-light ml-2">
+                  <small>{ticker()}</small>
+                </p>
+              )}
               <button
                 className="btn border-0 text-warning"
                 onClick={toggleWatchlist}
@@ -212,9 +214,13 @@ const TalentShow = ({
             </div>
           </div>
         </div>
-        <div className="d-flex flex-row align-items-center mt-2">
-          <button className="btn btn-primary" onClick={() => setShow(true)}>
-            Buy {ticker()}
+        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-2 w-100 lg-width-reset">
+          <button
+            className="btn btn-primary"
+            onClick={() => setShow(true)}
+            disabled={!sharedState.token.contract_id}
+          >
+            Buy {ticker() || "Token"}
           </button>
           {sharedState.token.contract_id && (
             <StakeModal
@@ -235,7 +241,7 @@ const TalentShow = ({
           />
         </div>
       </section>
-      <div className="d-flex flex-row mx-3 mt-3">
+      <div className="d-flex flex-row justify-content-center justify-content-lg-start mx-3 mt-5 mt-lg-4">
         <button
           className={`btn rounded mr-2 p-1 px-2 underline-hover ${
             pageInDisplay == "Overview" && "btn-primary active"
