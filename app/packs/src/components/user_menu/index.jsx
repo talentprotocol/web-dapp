@@ -11,27 +11,28 @@ import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 import { OnChain } from "src/onchain";
 
 import transakSDK from "@transak/transak-sdk";
+import { useWindowDimensionsHook } from "src/utils/window";
 
-const transak = new transakSDK({
-  apiKey: "d8921427-8447-4523-9333-f062f738026f", // Your API Key
-  environment: "STAGING", // STAGING/PRODUCTION
-  defaultCryptoCurrency: "CUSD",
-  walletAddress: "", // Your customer's wallet address
-  themeColor: "000000", // App theme color
-  fiatCurrency: "", // INR/GBP
-  email: "", // Your customer's email address
-  redirectURL: "",
-  hostURL: window.location.origin,
-  widgetHeight: "700px",
-  widgetWidth: "450px",
-  network: "CELO",
-  cryptoCurrencyList: "CUSD",
-});
+const newTransak = (width, height) =>
+  new transakSDK({
+    apiKey: "d8921427-8447-4523-9333-f062f738026f", // Your API Key
+    environment: "STAGING", // STAGING/PRODUCTION
+    defaultCryptoCurrency: "CUSD",
+    fiatCurrency: "EUR",
+    defaultPaymentMethod: "credit_debit_card",
+    themeColor: "000000",
+    hostURL: window.location.origin,
+    widgetHeight: `${height}px`,
+    widgetWidth: `${width}px`,
+    network: "CELO",
+    cryptoCurrencyList: "CUSD",
+  });
 
 const UserMenu = ({ user, signOutPath }) => {
   const [show, setShow] = useState(false);
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
+  const { height, width } = useWindowDimensionsHook();
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
@@ -39,6 +40,11 @@ const UserMenu = ({ user, signOutPath }) => {
 
   const onClickTransak = (e) => {
     e.preventDefault();
+
+    const _width = width > 700 ? 700 : width;
+    const _height = height > 450 ? 450 : height;
+
+    const transak = newTransak(_width, _height);
     transak.init();
 
     // To get all the events

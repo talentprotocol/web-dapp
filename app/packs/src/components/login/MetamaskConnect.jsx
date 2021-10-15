@@ -72,6 +72,8 @@ const MetamaskConnect = ({ user_id }) => {
         }
         setRequestingMetamask("false");
       }
+    } else {
+      setShowNoMetamask(true);
     }
   };
 

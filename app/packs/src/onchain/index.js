@@ -150,16 +150,21 @@ class OnChain {
 
   async loadWeb3() {
     if (window.ethereum) {
-      // below is what is required to load accounts (the connect button)
-      // const result = await window.ethereum.send("eth_requestAccounts");
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
     } else if (window.web3) {
       this.provider = new ethers.providers.Web3Provider(
         window.web3.currentProvider
       );
     } else {
+      // On mobile ethereum might not be ready yet
+      window.addEventListener("ethereum#initialized", loadWeb3, {
+        once: true,
+      });
+      setTimeout(loadWeb3, 3000);
+
       // Add fallback to infura or forno
       this.provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+
       await this.provider.ready;
 
       console.log(
