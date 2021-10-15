@@ -15,7 +15,7 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
 
   return (
     <>
-      <section className="col-12 col-lg-7 lg-h-100 d-flex flex-column py-4">
+      <section className="col-12 col-lg-7 lg-h-100 d-flex flex-column flex-wrap py-4">
         <PostInput
           profilePictureUrl={user.profilePictureUrl}
           addPost={addPost}
@@ -27,7 +27,7 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
           </div>
         ))}
       </section>
-      <section className="col-12 col-lg-5 lg-h-100 py-4">
+      <section className="col-12 col-lg-5 d-flex flex-column lg-h-100 py-4">
         <div className="d-flex flex-row w-100 justify-content-end mb-3">
           <UserMenu user={user} signOutPath={signOutPath} />
         </div>
