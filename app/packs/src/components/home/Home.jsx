@@ -16,11 +16,13 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
   return (
     <>
       <section className="col-12 col-lg-7 lg-h-100 d-flex flex-column flex-wrap py-4">
-        <PostInput
-          profilePictureUrl={user.profilePictureUrl}
-          addPost={addPost}
-          name={user.displayName}
-        />
+        {user.isTalent && (
+          <PostInput
+            profilePictureUrl={user.profilePictureUrl}
+            addPost={addPost}
+            name={user.displayName}
+          />
+        )}
         {currentPosts.map((post) => (
           <div key={`post-${post.id}`} className="bg-light mb-4 rounded">
             <Post post={post} user={post.user} currentUser={user} />

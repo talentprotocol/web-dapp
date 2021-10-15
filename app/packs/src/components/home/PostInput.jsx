@@ -8,7 +8,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
-const CreatePostModal = ({ show, hide, onSubmit, profilePictureUrl, name }) => (
+const CreatePostModal = ({
+  show,
+  hide,
+  onSubmit,
+  profilePictureUrl,
+  name,
+  creatingPost,
+  text,
+  setText,
+  error,
+}) => (
   <Modal show={show} onHide={hide} centered>
     <Modal.Body>
       <form className="p-3 d-flex flex-column" onSubmit={onSubmit}>
@@ -22,13 +32,25 @@ const CreatePostModal = ({ show, hide, onSubmit, profilePictureUrl, name }) => (
             className="w-100 border-0 form-control"
             placeholder={`What do you want to share, ${name}?`}
             rows={5}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           />
         </div>
+        {error && (
+          <p className="text-danger">
+            We're sorry but it seems our server is having a bad day. Try again
+            later or contact us.
+          </p>
+        )}
         <div className="d-flex flex-row justify-content-end align-items-center w-100 mt-3">
           <button className="btn btn-light talent-button mr-2" onClick={hide}>
             Cancel
           </button>
-          <button className="btn btn-primary talent-button" type="submit">
+          <button
+            className="btn btn-primary talent-button"
+            type="submit"
+            disabled={creatingPost}
+          >
             Post
           </button>
         </div>
@@ -41,16 +63,18 @@ const PostInput = ({ profilePictureUrl, name, addPost }) => {
   const [text, setText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [creatingPost, setCreatingPost] = useState(false);
+  const [error, setError] = useState(false);
 
   const createPost = () => {
     setCreatingPost(true);
 
     post(`/posts`, { text }).then((response) => {
       if (response.error) {
-        console.log(response.error);
+        setError(true);
       } else {
         addPost(response);
         setText("");
+        setShowModal(false);
       }
       setCreatingPost(false);
     });
@@ -76,8 +100,12 @@ const PostInput = ({ profilePictureUrl, name, addPost }) => {
         show={showModal}
         profilePictureUrl={profilePictureUrl}
         hide={() => setShowModal(false)}
+        setText={setText}
+        text={text}
         onSubmit={onSubmit}
         name={name}
+        creatingPost={creatingPost}
+        error={error}
       />
     </div>
   );
