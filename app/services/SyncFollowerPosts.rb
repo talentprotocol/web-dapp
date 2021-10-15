@@ -8,7 +8,9 @@ class SyncFollowerPosts
       follower = User.find_by!(id: follower_id)
 
       user.posts.each do |post|
-        follower.feed.posts << post
+        unless follower.feed.posts.where(id: post.id).exists?
+          follower.feed.posts << post
+        end
       end
     end
   end
