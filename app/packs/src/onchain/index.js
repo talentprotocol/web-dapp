@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import detectEthereumProvider from "@metamask/detect-provider";
 import { newKit, CeloContract } from "@celo/contractkit";
 import dayjs from "dayjs";
 
@@ -29,17 +30,12 @@ const CELO_PARAMS = {
 
 class OnChain {
   constructor(env) {
-    this.web3 = null;
-    this.provider = null;
     this.account = null;
-    this.networkId = null;
     this.talentFactory = null;
     this.staking = null;
     this.stabletoken = null;
     this.celoKit = null;
-    this.tokenTest = null;
     this.signer = null;
-    this.network = null;
 
     if (env) {
       this.factoryAddress = Addresses[env]["factory"];
@@ -52,38 +48,143 @@ class OnChain {
     }
   }
 
-  async initialize() {
-    const result = await this.loadWeb3();
-    if (!result) return false;
+  // LOAD WEB3
 
-    ethereum.on("chainChanged", (_chainId) => window.location.reload());
+  async connectedAccount() {
+    try {
+      await detectEthereumProvider();
 
-    await this.loadAccount();
+      if (window.ethereum !== undefined) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = await provider.getSigner();
+        this.signer = signer;
+        const account = await signer.getAddress();
+        this.account = account;
 
-    return true;
+        return this.account;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
   }
 
-  loadFactory() {
+  async getChainID() {
+    let provider;
+    await detectEthereumProvider();
+
+    if (window.ethereum !== undefined) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+    const network = await provider.getNetwork();
+
+    return network.chainId;
+  }
+
+  async SwitchChain() {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+      });
+    } catch (error) {
+      if (error.code === 4902) {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [ALFAJORES_PARAMS],
+        });
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+        });
+      }
+    }
+  }
+
+  async recognizedChain() {
+    const chainId = await this.getChainID();
+    const chainBN = ethers.BigNumber.from(chainId);
+
+    if (chainBN.eq(ethers.BigNumber.from(ALFAJORES_PARAMS.chainId))) {
+      return true;
+    } else if (chainBN.eq(ethers.BigNumber.from(CELO_PARAMS.chainId))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async retrieveAccount() {
+    try {
+      await detectEthereumProvider();
+      if (window.ethereum !== undefined) {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = await provider.getSigner();
+        this.signer = signer;
+        const account = await signer.getAddress();
+        this.account = account;
+
+        return this.account;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  // CONTRACT INTERACTION
+
+  async loadFactory() {
+    await detectEthereumProvider();
+
+    let provider;
+    if (window.ethereum !== undefined) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+
     this.talentFactory = new ethers.Contract(
       this.factoryAddress,
       TalentFactory.abi,
-      this.provider
+      provider
     );
 
     return true;
   }
 
-  loadStaking() {
+  async loadStaking() {
+    await detectEthereumProvider();
+
+    let provider;
+    if (window.ethereum !== undefined) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+
     this.staking = new ethers.Contract(
       this.stakingAddress,
       Staking.abi,
-      this.provider
+      provider
     );
 
     return true;
   }
 
   async loadStableToken() {
+    let provider;
+    if (window.ethereum !== undefined) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+
     this.celoKit = newKit(this.fornoURI);
 
     const stableTokenAddress = await this.celoKit.registry.addressFor(
@@ -93,84 +194,9 @@ class OnChain {
     this.stabletoken = new ethers.Contract(
       stableTokenAddress,
       StableToken.abi,
-      this.provider
+      provider
     );
 
-    return true;
-  }
-
-  isConnected() {
-    return !!this.account;
-  }
-
-  async loadAccount() {
-    this.network = await this.provider.getNetwork();
-
-    if (
-      !ethers.BigNumber.from(this.network.chainId).eq(
-        ethers.BigNumber.from(ALFAJORES_PARAMS.chainId)
-      )
-    ) {
-      try {
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: ALFAJORES_PARAMS.chainId }],
-        });
-      } catch (error) {
-        if (error.code === 4902) {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [ALFAJORES_PARAMS],
-          });
-          await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: ALFAJORES_PARAMS.chainId }],
-          });
-        }
-      }
-      return;
-    }
-
-    this.signer = this.provider.getSigner();
-
-    if (this.signer) {
-      this.account = await this.signer
-        .getAddress()
-        .catch(() => console.log("Wallet not connected."));
-    }
-
-    return this.account;
-  }
-
-  async connect() {
-    await this.provider.send("eth_requestAccounts");
-
-    return await this.loadAccount();
-  }
-
-  async loadWeb3() {
-    if (window.ethereum) {
-      this.provider = new ethers.providers.Web3Provider(window.ethereum);
-    } else if (window.web3) {
-      this.provider = new ethers.providers.Web3Provider(
-        window.web3.currentProvider
-      );
-    } else {
-      // On mobile ethereum might not be ready yet
-      window.addEventListener("ethereum#initialized", loadWeb3, {
-        once: true,
-      });
-      setTimeout(loadWeb3, 3000);
-
-      // Add fallback to infura or forno
-      this.provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
-
-      await this.provider.ready;
-
-      console.log(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
     return true;
   }
 
@@ -209,7 +235,14 @@ class OnChain {
   }
 
   getToken(address) {
-    return new ethers.Contract(address, TalentToken.abi, this.provider);
+    let provider;
+    if (window.ethereum !== undefined) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+
+    return new ethers.Contract(address, TalentToken.abi, provider);
   }
 
   async createStake(token, _amount) {

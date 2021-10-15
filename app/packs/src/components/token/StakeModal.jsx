@@ -18,14 +18,19 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   const [stage, setStage] = useState(null);
   const [approving, setApproving] = useState(false);
   const [didAllowance, setDidAllowance] = useState(false);
+  const [validChain, setValidChain] = useState(true);
 
   const setupOnChain = useCallback(async () => {
     const newOnChain = new OnChain();
     let result, _token;
 
-    result = await newOnChain.initialize();
+    result = await newOnChain.connectedAccount();
+
+    const validChain = await newOnChain.recognizedChain();
+    setValidChain(validChain);
 
     if (!result) {
+      setChainData(newOnChain);
       return;
     }
 
@@ -65,7 +70,9 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
 
   const getWalletBalance = useCallback(async () => {
     if (chainData) {
+      await chainData.loadStableToken();
       const _availableAmount = await chainData.getStableBalance(true);
+
       setAvailableAmount(_availableAmount);
     }
   }, [currentAccount]);
@@ -132,7 +139,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     e.preventDefault();
 
     if (chainData) {
-      const result = await chainData.connect();
+      const result = await chainData.retrieveAccount();
 
       if (result) {
         setCurrentAccount(chainData.account);
@@ -174,8 +181,16 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     return false;
   };
 
+  const changeNetwork = async () => {
+    await chainData.SwitchChain();
+    window.location.reload;
+  };
+
   const step = () => {
-    if (chainData?.isConnected()) {
+    if (chainData?.account) {
+      if (!validChain) {
+        return "Change network";
+      }
       if (didAllowance) {
         return "Stake";
       } else {
@@ -239,10 +254,22 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
                         Connect Wallet
                       </button>
                     )}
+                    {step() == "Change network" && (
+                      <button
+                        className="btn btn-primary w-100"
+                        onclick={changeNetwork}
+                      >
+                        Change Network
+                      </button>
+                    )}
                     {step() == "Approve" && (
                       <button
                         className="btn btn-primary w-100"
-                        disabled={amount == "" || approving}
+                        disabled={
+                          amount == "" ||
+                          approving ||
+                          parseFloat(amount) > parseFloat(maxMinting)
+                        }
                         onClick={approve}
                       >
                         Approve

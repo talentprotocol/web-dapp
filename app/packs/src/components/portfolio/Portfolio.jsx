@@ -53,7 +53,7 @@ const Portfolio = ({ address, railsContext }) => {
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.railsEnv);
 
-    await newOnChain.initialize();
+    await newOnChain.connectedAccount();
     await newOnChain.loadStaking();
     await newOnChain.loadStableToken();
     const balance = await newOnChain.getStableBalance(true);

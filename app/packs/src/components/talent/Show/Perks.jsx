@@ -33,7 +33,7 @@ const Perks = ({ perks, ticker, width, contract }) => {
 
   const setupOnChain = useCallback(async () => {
     const newOnChain = new OnChain();
-    const result = await newOnChain.initialize();
+    const result = await newOnChain.connectedAccount();
 
     if (!result) {
       return;
