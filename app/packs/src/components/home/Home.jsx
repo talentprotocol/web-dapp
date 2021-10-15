@@ -15,7 +15,7 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
 
   return (
     <>
-      <section className="col-12 col-lg-7 lg-h-100 d-flex flex-column flex-wrap py-4">
+      <section className="col-12 col-lg-7 lg-h-100 d-flex flex-column py-4">
         {user.isTalent && (
           <PostInput
             profilePictureUrl={user.profilePictureUrl}
