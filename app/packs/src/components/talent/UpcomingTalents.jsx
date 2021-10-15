@@ -70,35 +70,33 @@ const UpcomingTalents = ({ talents }) => {
           </button>
         </div>
       </div>
-      <div className="container-fluid mb-2 mt-3">
-        <div className="row">
-          {sliceInDisplay.map((talent) => (
-            <div
-              className={`mt-3 ${colStyling}`}
-              style={{ paddingRight: 10, paddingLeft: 10 }}
-              key={`upcoming_talent_list_${talent.id}`}
+      <div className="d-flex flex-row flex-wrap mb-2 mt-3">
+        {sliceInDisplay.map((talent) => (
+          <div
+            className={`mt-3 h-100 ${colStyling}`}
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            key={`upcoming_talent_list_${talent.id}`}
+          >
+            <a
+              className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
+              href={`/talent/${talent.username}`}
             >
-              <a
-                className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
-                href={`/talent/${talent.username}`}
-              >
-                <TalentProfilePicture
-                  src={talent.profilePictureUrl}
-                  height={"100%"}
-                  straight
-                  className={"rounded mx-auto"}
-                />
-                <h5 className="mt-3 talent-link">{talent.name}</h5>
-                <h6 className="text-muted talent-link">{talent.occupation}</h6>
-                <div className="mt-2 talent-link">
-                  <small className="p-2 text-primary bg-info rounded talent-link">
-                    Coming Soon
-                  </small>
-                </div>
-              </a>
-            </div>
-          ))}
-        </div>
+              <TalentProfilePicture
+                src={talent.profilePictureUrl}
+                height={"100%"}
+                straight
+                className={"rounded mx-auto"}
+              />
+              <h5 className="mt-3 talent-link">{talent.name}</h5>
+              <h6 className="text-muted talent-link">{talent.occupation}</h6>
+              <div className="mt-2 talent-link">
+                <small className="p-2 text-primary bg-info rounded talent-link">
+                  Coming Soon
+                </small>
+              </div>
+            </a>
+          </div>
+        ))}
       </div>
     </>
   );
