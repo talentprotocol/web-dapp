@@ -93,8 +93,6 @@ const About = ({
     uppyBanner.on("upload-success", (file, response) => {
       changeAttribute("bannerUrl", response.uploadURL);
 
-      console.log("changing: ", file);
-
       changeAttribute("uploadedBannerData", {
         id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
         storage: "cache",
@@ -114,7 +112,6 @@ const About = ({
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
-    console.log(aboutInfo["uploadedBannerData"]);
 
     const response = await patch(`/api/v1/talent/${talent.id}`, {
       talent: {

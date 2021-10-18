@@ -40,9 +40,11 @@ const Perks = ({ perks, ticker, width, contract }) => {
     }
 
     if (contract) {
-      const _token = newOnChain.getToken(contract);
-      const balance = await _token.balanceOf(newOnChain.account);
-      setAvailableBalance(balance);
+      const _token = await newOnChain.getToken(contract);
+      if (_token) {
+        const balance = await _token.balanceOf(newOnChain.account);
+        setAvailableBalance(balance);
+      }
     }
   }, []);
 

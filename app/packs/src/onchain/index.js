@@ -56,6 +56,9 @@ class OnChain {
 
       if (window.ethereum !== undefined) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+        window.ethereum.on("chainChanged", (_chainId) =>
+          window.location.reload()
+        );
         const signer = await provider.getSigner();
         this.signer = signer;
         const account = await signer.getAddress();
@@ -84,7 +87,7 @@ class OnChain {
     return network.chainId;
   }
 
-  async SwitchChain() {
+  async switchChain() {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -123,10 +126,17 @@ class OnChain {
       if (window.ethereum !== undefined) {
         await window.ethereum.request({ method: "eth_requestAccounts" });
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+        window.ethereum.on("chainChanged", (_chainId) =>
+          window.location.reload()
+        );
         const signer = await provider.getSigner();
         this.signer = signer;
         const account = await signer.getAddress();
         this.account = account;
+
+        if (!(await this.recognizedChain())) {
+          this.switchChain();
+        }
 
         return this.account;
       } else {
@@ -168,13 +178,17 @@ class OnChain {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
 
-    this.staking = new ethers.Contract(
-      this.stakingAddress,
-      Staking.abi,
-      provider
-    );
+    if (await this.recognizedChain()) {
+      this.staking = new ethers.Contract(
+        this.stakingAddress,
+        Staking.abi,
+        provider
+      );
 
-    return true;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async loadStableToken() {
@@ -185,19 +199,23 @@ class OnChain {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
 
-    this.celoKit = newKit(this.fornoURI);
+    if (await this.recognizedChain()) {
+      this.celoKit = newKit(this.fornoURI);
 
-    const stableTokenAddress = await this.celoKit.registry.addressFor(
-      CeloContract.StableToken
-    );
+      const stableTokenAddress = await this.celoKit.registry.addressFor(
+        CeloContract.StableToken
+      );
 
-    this.stabletoken = new ethers.Contract(
-      stableTokenAddress,
-      StableToken.abi,
-      provider
-    );
+      this.stabletoken = new ethers.Contract(
+        stableTokenAddress,
+        StableToken.abi,
+        provider
+      );
 
-    return true;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async createTalent(name, symbol) {
@@ -234,15 +252,18 @@ class OnChain {
     return result;
   }
 
-  getToken(address) {
+  async getToken(address) {
     let provider;
     if (window.ethereum !== undefined) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
     } else {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
-
-    return new ethers.Contract(address, TalentToken.abi, provider);
+    if (await this.recognizedChain()) {
+      return new ethers.Contract(address, TalentToken.abi, provider);
+    } else {
+      return false;
+    }
   }
 
   async createStake(token, _amount) {
