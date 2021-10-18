@@ -73,7 +73,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
     }
 
     if (token.contract_id) {
-      const _token = newOnChain.getToken(token.contract_id);
+      const _token = await newOnChain.getToken(token.contract_id);
       if (_token) {
         setDeploy("Your token is already live");
       } else {

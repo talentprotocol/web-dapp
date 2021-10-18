@@ -119,7 +119,11 @@ const Portfolio = ({ address, railsContext }) => {
 
   const claimRewards = async (contractAddress) => {
     if (chainAPI && contractAddress) {
-      await chainAPI.claimRewards(contractAddress);
+      if (!(await chainAPI.recognizedChain())) {
+        await chainAPI.switchChain();
+      } else {
+        await chainAPI.claimRewards(contractAddress);
+      }
     }
   };
 

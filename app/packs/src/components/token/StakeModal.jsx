@@ -39,7 +39,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
     }
 
     if (tokenAddress) {
-      _token = newOnChain.getToken(tokenAddress);
+      _token = await newOnChain.getToken(tokenAddress);
       if (_token) {
         setTargetToken(_token);
       }
@@ -182,8 +182,8 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
   };
 
   const changeNetwork = async () => {
-    await chainData.SwitchChain();
-    window.location.reload;
+    await chainData.switchChain();
+    window.location.reload();
   };
 
   const step = () => {
@@ -257,7 +257,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
                     {step() == "Change network" && (
                       <button
                         className="btn btn-primary w-100"
-                        onclick={changeNetwork}
+                        onClick={changeNetwork}
                       >
                         Change Network
                       </button>
