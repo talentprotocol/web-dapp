@@ -57,7 +57,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
     const newOnChain = new OnChain();
     let result;
 
-    result = await newOnChain.initialize();
+    result = await newOnChain.connectedAccount();
 
     if (!result) {
       return;

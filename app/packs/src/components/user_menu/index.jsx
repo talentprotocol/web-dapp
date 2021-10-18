@@ -30,6 +30,7 @@ const newTransak = (width, height) =>
 
 const UserMenu = ({ user, signOutPath }) => {
   const [show, setShow] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
   const { height, width } = useWindowDimensionsHook();
@@ -68,17 +69,25 @@ const UserMenu = ({ user, signOutPath }) => {
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain();
 
-    await newOnChain.initialize();
+    const account = await newOnChain.connectedAccount();
 
-    await newOnChain.loadStableToken();
-    const balance = await newOnChain.getStableBalance(true);
+    if (account) {
+      setWalletConnected(true);
 
-    if (balance) {
-      setStableBalance(balance);
+      await newOnChain.loadStableToken();
+      const balance = await newOnChain.getStableBalance(true);
+
+      if (balance) {
+        setStableBalance(balance);
+      }
     }
 
     setChainAPI(newOnChain);
-  });
+  }, [walletConnected]);
+
+  const onWalletConnect = async () => {
+    await setupChain();
+  };
 
   useEffect(() => {
     setupChain();
@@ -101,7 +110,7 @@ const UserMenu = ({ user, signOutPath }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          {chainAPI?.isConnected() && (
+          {walletConnected && (
             <Dropdown.Item
               key="tab-dropdown-address"
               onClick={copyAddressToClipboard}
@@ -111,9 +120,9 @@ const UserMenu = ({ user, signOutPath }) => {
               <FontAwesomeIcon icon={faCopy} />
             </Dropdown.Item>
           )}
-          {!chainAPI?.isConnected() && (
+          {!walletConnected && (
             <Dropdown.Item key="tab-dropdown-connect-wallet">
-              <MetamaskConnect user_id={user.id} />
+              <MetamaskConnect user_id={user.id} onConnect={onWalletConnect} />
             </Dropdown.Item>
           )}
           <Dropdown.ItemText key="tab-dropdown-balance">

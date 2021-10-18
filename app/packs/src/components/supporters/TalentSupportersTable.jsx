@@ -160,7 +160,7 @@ const TalentSupportersTable = ({ talent, contractId }) => {
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain();
 
-    await newOnChain.initialize();
+    await newOnChain.connectedAccount();
     await newOnChain.loadStaking();
 
     setChainAPI(newOnChain);
