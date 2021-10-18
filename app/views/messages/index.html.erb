@@ -2,19 +2,29 @@
   props: {
     users: @users.map { |user| { id: user.id, username: user.username, ticker: user.talent&.token&.display_ticker, last_message: current_user.last_message_with(user)&.text, last_message_date: current_user.last_message_with(user)&.created_at&.strftime("%b %d"), profilePictureUrl: user.talent&.profile_picture_url || user.investor&.profile_picture_url } },
     userId: current_user.id
-  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100" }) %>
-<%= react_component("UserMenu",
-  props: {
-    user: {
-      id: current_user.id,
-      profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-      talentId: current_user.talent&.id,
-      investorId: current_user.investor&.id,
-      isTalent: current_user.talent.present?,
-      displayWalletId: current_user.display_wallet_id,
-      walletId: current_user.wallet_id,
-      username: current_user.username,
+  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100" })
+%>
+<div class="d-flex" style="position:absolute;top:20px;right:20px">
+  <%= react_component("UserMenu",
+    props: {
+      user: {
+        id: current_user.id,
+        profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+        talentId: current_user.talent&.id,
+        investorId: current_user.investor&.id,
+        isTalent: current_user.talent.present?,
+        displayWalletId: current_user.display_wallet_id,
+        walletId: current_user.wallet_id,
+        username: current_user.username,
+      },
+      signOutPath: sign_out_path
     },
-    signOutPath: sign_out_path
-  },
-  prerender: false, html_options: { style: "position:absolute;top:20px;right:20px"}) %>
+    prerender: false)
+  %>
+  <%= react_component("Notifications",
+    props: {
+      notifications: current_user.notifications.order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, source_talent_id: notif.source&.talent&.id, created_at: notif.created_at } },
+    },
+    prerender: false, html_options: { class: "ml-2"})
+  %>
+</div>

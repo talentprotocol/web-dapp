@@ -4,9 +4,10 @@ import ActiveTalentLeaderboard from "./ActiveTalentLeaderboard";
 import UpcomingTalentLeaderboard from "./UpcomingTalentLeaderboard";
 import PostInput from "./PostInput";
 import Post from "./Post";
+import Notifications from "../notifications";
 import UserMenu from "../user_menu";
 
-const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
+const Home = ({ user, posts, activeTalents, upcomingTalents, notifications, signOutPath }) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
 
   const addPost = (post) => {
@@ -32,6 +33,9 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, signOutPath }) => {
       <section className="col-12 col-lg-5 d-flex flex-column lg-h-100 py-4">
         <div className="d-flex flex-row w-100 justify-content-end mb-3">
           <UserMenu user={user} signOutPath={signOutPath} />
+          <div className="ml-2">
+            <Notifications notifications={notifications} />
+          </div>
         </div>
         <ActiveTalentLeaderboard talents={activeTalents} />
         <UpcomingTalentLeaderboard talents={upcomingTalents} />

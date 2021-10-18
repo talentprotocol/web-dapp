@@ -13,8 +13,12 @@ class CreateTransaction
 
       token.talent.update!(activity_count: token.transactions.count)
 
-      if token.talent.user_id != user.id
-        create_notification_coin_bought(token.talent.user, user)
+      if token.talent.user_id != user.id && inbound
+        if Transaction.find_by(token: token, investor: user.investor)
+          create_notification_new_talent_token_bought(token.talent.user, user)
+        else
+          create_notification_talent_token_bought(token.talent.user, user)
+        end
       end
 
       transaction
@@ -27,12 +31,25 @@ class CreateTransaction
 
   private
 
-  def create_notification_coin_bought(talent_user, user)
+  def create_notification_new_talent_token_bought(talent_user, user)
+    name = user.display_name || user.username
     service = CreateNotification.new
     service.call(
-      body: "#{user.display_name} bought your coin",
+      title: 'Supporter',
+      body: "#{name} bought your talent token",
       user_id: talent_user.id,
-      type: "Notifications::TokenAcquired"
+      type: 'Notifications::TokenAcquired'
+    )
+  end
+
+  def create_notification_talent_token_bought(talent_user, user)
+    name = user.display_name || user.username
+    service = CreateNotification.new
+    service.call(
+      title: 'Supporter',
+      body: "#{name} bought more of your talent token",
+      user_id: talent_user.id,
+      type: 'Notifications::TokenAcquired'
     )
   end
 end
