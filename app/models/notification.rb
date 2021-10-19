@@ -1,7 +1,8 @@
 class Notification < ApplicationRecord
   belongs_to :user
-  belongs_to :source, class_name: 'User', optional: true 
+  belongs_to :source, class_name: 'User', optional: true
 
+  validates_presence_of :title
   validates_presence_of :body
 
   TYPES = %w[

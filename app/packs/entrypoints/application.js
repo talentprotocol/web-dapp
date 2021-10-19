@@ -30,6 +30,7 @@ import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import ActiveTalents from "src/components/talent/ActiveTalents";
 import TalentTable from "src/components/talent/TalentTable";
 import Home from "src/components/home/Home";
+import Notifications from "src/components/notifications";
 
 import "stylesheets/application.scss";
 
@@ -55,6 +56,7 @@ ReactOnRails.register({
   UserMenu,
   TalentTable,
   Home,
+  Notifications,
 });
 
 Rails.start();

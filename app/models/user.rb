@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :posts
   has_many :testimonials
+  has_many :notifications
 
   VALID_ROLES = ["admin"].freeze
 

@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2021_10_14_213426) do
     t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title", default: "", null: false
     t.index ["source_id"], name: "index_notifications_on_source_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end

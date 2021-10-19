@@ -109,7 +109,7 @@ const SupporterOverview = ({
 
 const TalentSupportersTable = ({ talent, contractId }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
-    variables: { id: contractId.toLowerCase() },
+    variables: { id: contractId?.toLowerCase() },
   });
   const [chainAPI, setChainAPI] = useState(null);
   const [returnValues, setReturnValues] = useState({});
