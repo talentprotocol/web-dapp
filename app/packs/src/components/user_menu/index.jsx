@@ -31,8 +31,8 @@ const newTransak = (width, height) =>
 const UserMenu = ({ user, signOutPath }) => {
   const [show, setShow] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
-  const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
+  const [account, setAccount] = useState("");
   const { height, width } = useWindowDimensionsHook();
 
   const copyAddressToClipboard = () => {
@@ -67,31 +67,44 @@ const UserMenu = ({ user, signOutPath }) => {
   };
 
   const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const onChain = new OnChain();
 
-    const account = await newOnChain.connectedAccount();
+    const account = await onChain.connectedAccount();
 
     if (account) {
+      setAccount(account.toLowerCase());
       setWalletConnected(true);
 
-      await newOnChain.loadStableToken();
-      const balance = await newOnChain.getStableBalance(true);
+      await onChain.loadStableToken();
+      const balance = await onChain.getStableBalance(true);
 
       if (balance) {
         setStableBalance(balance);
       }
     }
-
-    setChainAPI(newOnChain);
   }, [walletConnected]);
 
-  const onWalletConnect = async () => {
+  const onWalletConnect = async (account) => {
     await setupChain();
+
+    if (account) {
+      setAccount(account.toLowerCase());
+    }
   };
 
   useEffect(() => {
     setupChain();
   }, []);
+
+  const showConnectButton = () => {
+    if (!account || !user.walletId) {
+      return true;
+    } else if (account != user.walletId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <>
@@ -110,7 +123,7 @@ const UserMenu = ({ user, signOutPath }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          {walletConnected && (
+          {!showConnectButton() && (
             <Dropdown.Item
               key="tab-dropdown-address"
               onClick={copyAddressToClipboard}
@@ -120,7 +133,7 @@ const UserMenu = ({ user, signOutPath }) => {
               <FontAwesomeIcon icon={faCopy} />
             </Dropdown.Item>
           )}
-          {!walletConnected && (
+          {showConnectButton() && (
             <Dropdown.Item key="tab-dropdown-connect-wallet">
               <MetamaskConnect user_id={user.id} onConnect={onWalletConnect} />
             </Dropdown.Item>

@@ -25,10 +25,28 @@ export const NoMetamask = ({ show, hide }) => (
   </Modal>
 );
 
+export const UnableToConnect = ({ show, hide }) => (
+  <Modal show={show} onHide={hide} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>
+        Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p className="text-danger">
+        We already have the public key you tried to connect in our system. We do
+        not allow multiple users to use the same wallet, please select a
+        different one and try to connect again.
+      </p>
+    </Modal.Body>
+  </Modal>
+);
+
 const MetamaskConnect = ({ user_id, onConnect }) => {
   const [requestingMetamask, setRequestingMetamask] = useState(false);
   const [account, setAccount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
+  const [error, setError] = useState(false);
 
   const connectMetamask = async (e) => {
     e.preventDefault();
@@ -41,12 +59,12 @@ const MetamaskConnect = ({ user_id, onConnect }) => {
     if (_account) {
       const result = await patch(`/api/v1/users/${user_id}`, {
         wallet_id: _account.toLowerCase(),
-      });
+      }).catch(() => setError(true));
 
       if (result) {
         setAccount(_account);
       }
-      onConnect();
+      onConnect(_account);
       setRequestingMetamask(false);
     } else {
       setRequestingMetamask(false);
@@ -59,8 +77,13 @@ const MetamaskConnect = ({ user_id, onConnect }) => {
   return (
     <>
       <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
-      <small onClick={connectMetamask} disabled={!allowConnect()}>
-        {account == "" ? "Connect Wallet" : `${account.substring(0, 8)}`}{" "}
+      <UnableToConnect show={error} hide={() => setError(false)} />
+      <small
+        onClick={connectMetamask}
+        disabled={!allowConnect()}
+        className={error ? "text-danger" : ""}
+      >
+        {account == "" ? "Connect Wallet" : `${account.substring(0, 10)}...`}{" "}
         <img src={MetamaskFox} height={16} alt="Metamask Fox" />
       </small>
     </>
