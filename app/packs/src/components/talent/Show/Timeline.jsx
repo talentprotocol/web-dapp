@@ -34,7 +34,11 @@ const Timeline = ({ sharedState }) => {
               </h6>
               <small className="text-warning">
                 <i>
-                  <a href={milestone.link} className="text-reset">
+                  <a
+                    href={milestone.link}
+                    target="_blank"
+                    className="text-reset"
+                  >
                     {milestone.institution}
                   </a>
                 </i>
