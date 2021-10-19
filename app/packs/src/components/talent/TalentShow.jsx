@@ -139,7 +139,7 @@ const TalentShow = ({
 
   return (
     <div className="d-flex flex-column border-left lg-h-100">
-      <section className="my-4">
+      <section className="d-none d-md-flex my-4">
         <div className="d-flex flex-row text-muted mx-3">
           <span>
             <a href="/talent" className="text-reset">
