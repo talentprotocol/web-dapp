@@ -41,7 +41,7 @@
       %>
       <%= react_component("Notifications",
         props: {
-          notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, source_talent_id: notif.source&.talent&.id, created_at: notif.created_at } },
+          notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
         },
         prerender: false, html_options: { class: "ml-2"})
       %>
