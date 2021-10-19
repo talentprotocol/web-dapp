@@ -32,6 +32,10 @@ const ActiveTalentLeaderboard = ({ talents }) => {
     return 0;
   };
 
+  if (talents.length === 0) {
+    return <></>;
+  }
+
   return (
     <div className="d-flex flex-column bg-light px-3 py-4 mb-3">
       <div className="d-flex flex-row w-100 justify-content-between">
@@ -51,7 +55,6 @@ const ActiveTalentLeaderboard = ({ talents }) => {
           className="d-flex flex-row justify-content-between mt-3 align-items-center"
         >
           <div className="d-flex flex-row align-items-center">
-            <small className="mr-3">{talent.id}</small>
             <TalentProfilePicture
               src={talent.profilePictureUrl}
               height={24}

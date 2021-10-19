@@ -5,6 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 const UpcomingTalentLeaderboard = ({ talents }) => {
+  if (talents.length === 0) {
+    return <></>;
+  }
+
   return (
     <div className="d-flex flex-column bg-light px-3 py-4 mb-3">
       <div className="d-flex flex-row w-100 justify-content-between">
