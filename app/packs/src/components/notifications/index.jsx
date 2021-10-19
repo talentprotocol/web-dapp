@@ -94,7 +94,7 @@ const Notifications = ({ notifications }) => {
 
   return (
     <>
-      <Dropdown align="left">
+      <Dropdown drop="bottom">
         <Dropdown.Toggle
           className="user-menu-dropdown-btn no-caret"
           id="notifications-dropdown"
