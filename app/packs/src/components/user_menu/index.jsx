@@ -61,8 +61,8 @@ const UserMenu = ({ user, signOutPath }) => {
   const onClickTransak = (e) => {
     e.preventDefault();
 
-    const _width = width > 700 ? 700 : width;
-    const _height = height > 450 ? 450 : height;
+    const _width = width > 450 ? 450 : width;
+    const _height = height > 700 ? 700 : height;
 
     const transak = newTransak(_width, _height);
     transak.init();

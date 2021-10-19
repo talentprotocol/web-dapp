@@ -80,22 +80,24 @@ const Perks = ({ perks, ticker, width, contract }) => {
         <h5>
           <strong>Perks</strong>
         </h5>
-        <div className="d-flex flex-row">
-          <button
-            className="btn btn-secondary"
-            onClick={slideLeft}
-            disabled={disableLeft}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-          </button>
-          <button
-            className="btn btn-secondary ml-2"
-            onClick={slideRight}
-            disabled={disableRight}
-          >
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </button>
-        </div>
+        {sortedPerks.length > itemsPerRow && (
+          <div className="d-flex flex-row">
+            <button
+              className="btn btn-secondary"
+              onClick={slideLeft}
+              disabled={disableLeft}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} size="sm" />
+            </button>
+            <button
+              className="btn btn-secondary ml-2"
+              onClick={slideRight}
+              disabled={disableRight}
+            >
+              <FontAwesomeIcon icon={faChevronRight} size="sm" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="d-flex justify-content-start mt-3 mb-2">
         {sliceInDisplay.map((perk, index) => (

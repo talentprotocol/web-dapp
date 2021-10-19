@@ -93,10 +93,16 @@ const TalentTable = ({ talents }) => {
     );
 
     if (chosenTalent) {
-      return ethers.BigNumber.from(chosenTalent.totalSupply)
+      const value = ethers.BigNumber.from(chosenTalent.totalSupply)
         .mul(100)
         .div(chosenTalent.maxSupply)
         .toNumber();
+
+      if (value < 1) {
+        return 1;
+      } else {
+        return value;
+      }
     }
     return 0;
   };

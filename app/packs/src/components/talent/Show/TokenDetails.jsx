@@ -37,7 +37,10 @@ const TokenDetails = ({ token, ticker, displayName }) => {
   }, [data, loading]);
 
   return (
-    <div className="card bg-light mt-3 sticky-top" style={{ top: 20 }}>
+    <div
+      className="card bg-light mt-3 sticky-top"
+      style={{ top: 20, zIndex: 1 }}
+    >
       <div className="card-body">
         <h6 className="card-title">{ticker} Price Statistics</h6>
         <div className="d-flex flex-column justify-content-between">
