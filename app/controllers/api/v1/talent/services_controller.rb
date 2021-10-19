@@ -1,6 +1,8 @@
 class API::V1::Talent::ServicesController < ApplicationController
   before_action :validate_access
 
+  after_action :notify_of_change
+
   def update
     if service.update(service_params)
       render json: service, status: :ok
@@ -29,6 +31,10 @@ class API::V1::Talent::ServicesController < ApplicationController
   end
 
   private
+
+  def notify_of_change
+    CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
+  end
 
   def talent
     @talent ||=

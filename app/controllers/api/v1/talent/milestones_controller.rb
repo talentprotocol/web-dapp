@@ -1,5 +1,6 @@
 class API::V1::Talent::MilestonesController < ApplicationController
   before_action :validate_access
+  after_action :notify_of_change
 
   def update
     milestone.assign_attributes(milestone_params)
@@ -36,6 +37,10 @@ class API::V1::Talent::MilestonesController < ApplicationController
   end
 
   private
+
+  def notify_of_change
+    CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
+  end
 
   def talent
     @talent ||=

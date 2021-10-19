@@ -1,4 +1,6 @@
 class API::V1::Talent::CareerGoalsController < ApplicationController
+  after_action :notify_of_change
+
   def update
     if talent.id != current_user.talent.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
@@ -23,6 +25,10 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
   end
 
   private
+
+  def notify_of_change
+    CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
+  end
 
   def talent
     @talent ||=

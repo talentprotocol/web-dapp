@@ -1,4 +1,6 @@
 class API::V1::Talent::TokensController < ApplicationController
+  after_action :notify_of_change
+
   def update
     if talent.id != current_user.talent.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
@@ -9,6 +11,7 @@ class API::V1::Talent::TokensController < ApplicationController
       if token.deployed? && !was_deployed
         CreateNotificationNewTalentListedJob.perform_later(talent.user_id)
       end
+      CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
       render json: token, status: :ok
     else
       render json: {error: "Unable to update Token"}, status: :unprocessable_entity
@@ -16,6 +19,10 @@ class API::V1::Talent::TokensController < ApplicationController
   end
 
   private
+
+  def notify_of_change
+    CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
+  end
 
   def talent
     @talent ||=
