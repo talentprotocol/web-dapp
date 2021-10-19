@@ -3,8 +3,12 @@ class API::V1::Talent::TokensController < ApplicationController
     if talent.id != current_user.talent.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
+    was_deployed = token.deployed
 
     if token.update(token_params)
+      if token.deployed? && !was_deployed
+        CreateNotificationNewTalentListedJob.perform_later(talent.user_id)
+      end
       render json: token, status: :ok
     else
       render json: {error: "Unable to update Token"}, status: :unprocessable_entity

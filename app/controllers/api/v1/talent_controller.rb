@@ -18,6 +18,7 @@ class API::V1::TalentController < ApplicationController
     service.call(talent_params)
 
     if service.success
+      CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
       render json: service.talent, status: :ok
     else
       render json: {error: "Unable to update Talent."}, status: :unprocessable_entity

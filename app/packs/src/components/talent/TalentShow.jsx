@@ -233,7 +233,7 @@ const TalentShow = ({
               show={show}
               setShow={setShow}
               tokenAddress={sharedState.token.contract_id}
-              talentAddress={sharedState.user.wallet_id}
+              tokenId={sharedState.token.id}
               ticker={ticker()}
             />
           )}

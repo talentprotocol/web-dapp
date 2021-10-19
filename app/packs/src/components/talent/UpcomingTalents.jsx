@@ -73,8 +73,7 @@ const UpcomingTalents = ({ talents }) => {
       <div className="d-flex flex-row flex-wrap mb-2 mt-3">
         {sliceInDisplay.map((talent) => (
           <div
-            className={`mt-3 h-100 ${colStyling}`}
-            style={{ paddingRight: 10, paddingLeft: 10 }}
+            className={`mt-3 mh-100 ${colStyling}`}
             key={`upcoming_talent_list_${talent.id}`}
           >
             <a

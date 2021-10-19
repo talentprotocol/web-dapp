@@ -9,19 +9,21 @@ import Star from "../icons/Star";
 import { formatDistance } from "date-fns";
 import { patch } from "src/utils/requests";
 
+import { useWindowDimensionsHook } from "../../utils/window";
+
 const Notification = ({ notification }) => {
   const presentDay = new Date();
   const createdAt = new Date(notification.created_at);
 
   const icon = () => {
     switch (notification.type) {
-      case 'Notifications::TokenAcquired':
+      case "Notifications::TokenAcquired":
         return <Rocket />;
-      case 'Notifications::MessageReceived':
+      case "Notifications::MessageReceived":
         return <Chat />;
-      case 'Notifications::TalentListed':
+      case "Notifications::TalentListed":
         return <Talent />;
-      case 'Notifications::TalentChanged':
+      case "Notifications::TalentChanged":
         return <Star />;
       default:
         return <Rocket />;
@@ -29,39 +31,47 @@ const Notification = ({ notification }) => {
   };
 
   return (
-    <div className="d-flex py-2 text-wrap">
-      <section className="d-flex flex-column col-1">
-        {icon()}
-      </section>
-      <section className="d-flex flex-column col-10">
+    <div className="d-flex flex-row w-100 py-2 text-wrap">
+      <section className="d-flex flex-column ml-2">{icon()}</section>
+      <section className="d-flex flex-column mx-2 w-100">
         <div>
-          <small className="text-black mb-2 d-block">{notification.title}</small>
-          <small className="text-secondary mb-2 d-block">{notification.body}</small>
-          <small className="text-secondary d-block">{formatDistance(presentDay, createdAt)}</small>
+          <small className="text-black mb-2 d-block">
+            {notification.title}
+          </small>
+          <small className="text-secondary mb-2 d-block">
+            {notification.body}
+          </small>
+          <small className="text-secondary d-block">
+            {formatDistance(presentDay, createdAt)}
+          </small>
         </div>
       </section>
-      <section className="d-flex flex-column col-1">
-        {!notification.read && <span className="notification-unread-icon"></span>}
-      </section>
+      {!notification.read && (
+        <div className="d-flex flex-column mr-2">
+          <span className="notification-unread-icon"></span>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
 const Notifications = ({ notifications }) => {
-  const [currentNotifications] = useState(notifications);
+  const { height, width } = useWindowDimensionsHook();
+  const [currentNotifications, setCurrentNotifications] =
+    useState(notifications);
 
   const notificationHref = (type, talentId, sourceTalentId) => {
     switch (type) {
-      case 'Notifications::TokenAcquired':
+      case "Notifications::TokenAcquired":
         return `/talent/${talentId}/supporters`;
-      case 'Notifications::MessageReceived':
-        return '/messages';
-      case 'Notifications::TalentListed':
-        return '/talent';
-      case 'Notifications::TalentChanged':
+      case "Notifications::MessageReceived":
+        return "/messages";
+      case "Notifications::TalentListed":
+        return "/talent";
+      case "Notifications::TalentChanged":
         return `/talent/${sourceTalentId}`;
       default:
-        return '';
+        return "";
     }
   };
 
@@ -69,24 +79,36 @@ const Notifications = ({ notifications }) => {
     (notif) => notif.read === false
   );
 
-  const notificationRead = async (notificationId) => {
-    await patch(`/api/v1/notifications/${notificationId}`, {
-      notification: { read: true },
-    });
+  const notificationRead = async (notification) => {
+    if (!notification.read) {
+      await patch(`/api/v1/notifications/${notification.id}`, {
+        notification: { read: true },
+      });
+    }
+    window.location.href = notificationHref(
+      notification.type,
+      notification.talent_id,
+      notification.source_talent_id
+    );
   };
 
   return (
     <>
-      <Dropdown>
+      <Dropdown drop="bottom">
         <Dropdown.Toggle
           className="user-menu-dropdown-btn no-caret"
           id="notifications-dropdown"
         >
           <Bell />
-          {notificationsUnread && <span className="notifications-unread-icon"></span>}
+          {notificationsUnread && (
+            <span className="notifications-unread-icon"></span>
+          )}
         </Dropdown.Toggle>
 
-        <Dropdown.Menu className="notifications-menu">
+        <Dropdown.Menu
+          className="notifications-menu"
+          style={width < 400 ? { width: width - 50 } : {}}
+        >
           {currentNotifications.length == 0 && (
             <Dropdown.ItemText key="no-notifications">
               <small className="w-100 text-center">No notifications</small>
@@ -95,16 +117,10 @@ const Notifications = ({ notifications }) => {
           {currentNotifications.map((notification) => (
             <Dropdown.Item
               key={`${notification.id}-notification`}
-              // type={`${
-              //   notification.read ? "outline-secondary" : "primary"
-              // }`}
               className="p-0"
-              href={notificationHref(notification.type ,notification.talent_id, notification.source_talent_id)}
-              onClick={() => notification.read ? null : notificationRead(notification.id)}
+              onClick={() => notificationRead(notification)}
             >
-              <Notification
-                notification={notification}
-              />
+              <Notification notification={notification} />
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>

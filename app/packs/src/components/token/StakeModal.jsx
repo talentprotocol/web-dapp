@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { OnChain } from "src/onchain";
 
+import { post } from "src/utils/requests";
+
 import { NoMetamask } from "../login/MetamaskConnect";
 
-const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
+const StakeModal = ({ show, setShow, ticker, tokenAddress, tokenId }) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
   const [availableAmount, setAvailableAmount] = useState("0");
@@ -105,16 +107,18 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, talentAddress }) => {
       .catch(() => setStage("Error"));
 
     if (result) {
-      if (chainData) {
-        const _availableAmount = await chainData.getStableBalance(true);
-        setAvailableAmount(_availableAmount);
+      const _availableAmount = await chainData.getStableBalance(true);
+      setAvailableAmount(_availableAmount);
 
-        const _tokenAvailability = await chainData.getTokenAvailability(
-          targetToken,
-          true
-        );
-        setMaxMinting(_tokenAvailability);
-      }
+      const _tokenAvailability = await chainData.getTokenAvailability(
+        targetToken,
+        true
+      );
+      setMaxMinting(_tokenAvailability);
+
+      await post(`/api/v1/stakes`, {
+        stake: { token_id: tokenId },
+      }).catch((e) => console.log(e));
 
       setStage("Verified");
     } else {
