@@ -1,10 +1,10 @@
 <div class="lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left">
   <main class="d-flex flex-column col-12 p-3 h-100">
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row flex-wrap-reverse flex-md-nowrap justify-content-end justify-content-md-between">
       <%= react_component("TalentNameSearch",
         props: {},
         prerender: false, html_options: { class: "w-100 mr-2"}) %>
-      <div class="d-flex">
+      <div class="d-flex mb-3 mb-md-0">
         <%= react_component("UserMenu",
           props: {
             user: {
