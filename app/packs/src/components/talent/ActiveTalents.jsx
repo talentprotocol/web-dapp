@@ -80,22 +80,24 @@ const ActiveTalents = ({ talents }) => {
             <strong>Top Talent</strong>
           </h5>
         </div>
-        <div className="d-flex flex-row">
-          <button
-            className="btn btn-light"
-            onClick={slideLeft}
-            disabled={disableLeft}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-          </button>
-          <button
-            className="btn btn-light ml-2"
-            onClick={slideRight}
-            disabled={disableRight}
-          >
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </button>
-        </div>
+        {talents.length > itemsPerRow && (
+          <div className="d-flex flex-row">
+            <button
+              className="btn btn-light"
+              onClick={slideLeft}
+              disabled={disableLeft}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} size="sm" />
+            </button>
+            <button
+              className="btn btn-light ml-2"
+              onClick={slideRight}
+              disabled={disableRight}
+            >
+              <FontAwesomeIcon icon={faChevronRight} size="sm" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="d-flex flex-row flex-wrap mb-2 mt-3">
         {sliceInDisplay.map((talent, index) => (

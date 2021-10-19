@@ -35,26 +35,40 @@ const AddTestimonial = ({ show, hide, saveTestimonial }) => {
       <Modal.Body>
         <form>
           <div className="form-group">
-            <label className="mr-1 my-2">Title</label>
+            <div className="d-flex flex-row justify-content-between">
+              <label htmlFor="text">Title</label>
+              <label htmlFor="text">
+                <small className="text-muted">{title.length || 0} of 45</small>
+              </label>
+            </div>
             <input
               type="text"
               name="title"
               id="title"
               value={title}
+              maxLength={45}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Write a title"
               className="form-control"
             />
           </div>
           <div className="form-group">
-            <label className="mr-1 my-2">Description</label>
+            <div className="d-flex flex-row justify-content-between">
+              <label htmlFor="text">Description</label>
+              <label htmlFor="text">
+                <small className="text-muted">
+                  {description.length || 0} of 250
+                </small>
+              </label>
+            </div>
             <textarea
               id="text"
+              rows={7}
+              maxLength={250}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Write a description"
               className="form-control"
-              style={{ minHeight: 200 }}
             />
           </div>
           <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
@@ -133,22 +147,24 @@ const Testimonials = ({
             +
           </button>
         </div>
-        <div className="d-flex flex-row">
-          <button
-            className="btn btn-secondary"
-            onClick={slideLeft}
-            disabled={disableLeft}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-          </button>
-          <button
-            className="btn btn-secondary ml-2"
-            onClick={slideRight}
-            disabled={disableRight}
-          >
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </button>
-        </div>
+        {testimonials.length > itemsPerRow && (
+          <div className="d-flex flex-row">
+            <button
+              className="btn btn-secondary"
+              onClick={slideLeft}
+              disabled={disableLeft}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} size="sm" />
+            </button>
+            <button
+              className="btn btn-secondary ml-2"
+              onClick={slideRight}
+              disabled={disableRight}
+            >
+              <FontAwesomeIcon icon={faChevronRight} size="sm" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="d-flex justify-content-start mb-2 mt-3">
         {sliceInDisplay.map((testimonial, index) => (

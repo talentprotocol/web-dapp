@@ -37,22 +37,24 @@ const Roadmap = ({ goals, width }) => {
         <h5>
           <strong>Roadmap</strong>
         </h5>
-        <div className="d-flex flex-row">
-          <button
-            className="btn btn-secondary"
-            onClick={slideLeft}
-            disabled={disableLeft}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-          </button>
-          <button
-            className="btn btn-secondary ml-2"
-            onClick={slideRight}
-            disabled={disableRight}
-          >
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </button>
-        </div>
+        {goals.length > itemsPerRow && (
+          <div className="d-flex flex-row">
+            <button
+              className="btn btn-secondary"
+              onClick={slideLeft}
+              disabled={disableLeft}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} size="sm" />
+            </button>
+            <button
+              className="btn btn-secondary ml-2"
+              onClick={slideRight}
+              disabled={disableRight}
+            >
+              <FontAwesomeIcon icon={faChevronRight} size="sm" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="d-flex justify-content-start mb-2 mt-3">
         {sliceInDisplay.map((goal, index) => (
