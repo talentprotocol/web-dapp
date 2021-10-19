@@ -101,6 +101,8 @@ const TalentTable = ({ talents }) => {
     return 0;
   };
 
+  console.log(follows);
+
   return (
     <div className="table-responsive">
       <table className="table table-hover mb-0 mt-4">

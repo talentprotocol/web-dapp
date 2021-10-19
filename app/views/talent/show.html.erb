@@ -15,7 +15,7 @@
         milestones: @talent.milestones.as_json,
         current_user_id: current_user.id,
         token_live: @talent.token.deployed?,
-        isFollowing: current_user.follows.where(follower_id: @talent.user.id).exists?,
+        isFollowing: current_user.following.where(follower_id: @talent.user_id).exists?,
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
         posts: @talent.user.posts.as_json,
         badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } },
