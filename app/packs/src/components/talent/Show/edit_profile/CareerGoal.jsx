@@ -102,32 +102,53 @@ const EditGoal = ({
     setMode("view");
   };
 
+  const allowSave = () =>
+    goalInfo["title"] != "" &&
+    goalInfo["description"] != "" &&
+    goalInfo["due_date"] != "";
+
   return (
     <form>
       <h5>Goal</h5>
       <div className="form-group">
-        <label htmlFor="title">Title</label>
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="title">Title *</label>
+          <label htmlFor="title">
+            <small className="text-muted">
+              {goalInfo["title"]?.length || 0} of 45
+            </small>
+          </label>
+        </div>
         <input
           id="title"
           className="form-control"
+          maxLength={45}
           placeholder="What is your goal"
           value={goalInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Description</label>
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="description">Description *</label>
+          <label htmlFor="description">
+            <small className="text-muted">
+              {goalInfo["description"]?.length || 0} of 175
+            </small>
+          </label>
+        </div>
         <textarea
-          rows="3"
+          rows="7"
           id="description"
           className="form-control"
+          maxLength={175}
           placeholder="Describe your goal"
           value={goalInfo["description"]}
           onChange={(e) => changeAttribute("description", e.target.value)}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Due Date</label>
+        <label htmlFor="title">Due Date *</label>
         <input
           id="due_date"
           type="date"
@@ -140,9 +161,10 @@ const EditGoal = ({
           When you expect to reach your goal
         </small>
       </div>
+      <p className="my-3">* Field is required.</p>
       <div className="mb-2 d-flex flex-row-reverse align-items-end">
         <button
-          disabled={saving}
+          disabled={saving || !allowSave()}
           onClick={handleSave}
           className="btn btn-primary talent-button ml-2"
         >
@@ -280,10 +302,18 @@ const CareerGoal = (props) => {
       {mode == "view" && (
         <form>
           <div className="form-group">
-            <label htmlFor="bio">Bio</label>
+            <div className="d-flex flex-row justify-content-between">
+              <label htmlFor="bio">Bio *</label>
+              <label htmlFor="bio">
+                <small className="text-muted">
+                  {careerInfo["bio"]?.length || 0} of 175
+                </small>
+              </label>
+            </div>
             <textarea
               id="bio"
-              rows="3"
+              rows="7"
+              maxLength={175}
               className="form-control"
               placeholder="A short bio"
               value={careerInfo["bio"]}
@@ -291,10 +321,18 @@ const CareerGoal = (props) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="pitch">Pitch</label>
+            <div className="d-flex flex-row justify-content-between">
+              <label htmlFor="pitch">Pitch *</label>
+              <label htmlFor="pitch">
+                <small className="text-muted">
+                  {careerInfo["pitch"]?.length || 0} of 70
+                </small>
+              </label>
+            </div>
             <textarea
               id="pitch"
               rows="3"
+              maxLength={70}
               className="form-control"
               placeholder="Your long term ambition, why do you have potential"
               onChange={(e) => changeAttribute("pitch", e.target.value)}
@@ -302,16 +340,25 @@ const CareerGoal = (props) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="challenge">Challenges</label>
+            <div className="d-flex flex-row justify-content-between">
+              <label htmlFor="challenge">Challenges *</label>
+              <label htmlFor="challenge">
+                <small className="text-muted">
+                  {careerInfo["challenge"]?.length || 0} of 175
+                </small>
+              </label>
+            </div>
             <textarea
               id="challenges"
-              rows="3"
+              rows="7"
+              maxLength={175}
               className="form-control"
               placeholder="What do you need support with"
               onChange={(e) => changeAttribute("challenges", e.target.value)}
               value={careerInfo["challenges"]}
             />
           </div>
+          <p className="my-3">* Field is required.</p>
           <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
             <button
               type="submit"

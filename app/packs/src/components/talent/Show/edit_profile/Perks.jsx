@@ -100,10 +100,12 @@ const EditPerk = ({
     setMode("view");
   };
 
+  const allowSave = () => perksInfo["price"] != "" && perksInfo["title"] != "";
+
   return (
     <form>
       <div className="form-group">
-        <label htmlFor="title">Price</label>
+        <label htmlFor="title">Price *</label>
         <input
           id="price"
           className="form-control"
@@ -113,18 +115,28 @@ const EditPerk = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Title</label>
-        <input
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="title">Description *</label>
+          <label htmlFor="title">
+            <small className="text-muted">
+              {perksInfo["title"]?.length || 0} of 45
+            </small>
+          </label>
+        </div>
+        <textarea
+          rows={3}
           id="title"
           className="form-control"
+          maxLength={45}
           placeholder="Describe the perk"
           value={perksInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}
         />
       </div>
+      <p className="my-3">* Field is required.</p>
       <div className="mb-2 d-flex flex-row-reverse align-items-end">
         <button
-          disabled={saving}
+          disabled={saving || !allowSave()}
           onClick={handleSave}
           className="btn btn-primary talent-button ml-2"
         >

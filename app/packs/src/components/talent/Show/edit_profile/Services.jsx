@@ -104,10 +104,13 @@ const EditService = ({
     setMode("view");
   };
 
+  const allowSave = () =>
+    servicesInfo["price"] != "" && servicesInfo["title"] != "";
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="form-group">
-        <label htmlFor="title">Price</label>
+        <label htmlFor="title">Price *</label>
         <input
           id="price"
           className="form-control"
@@ -117,18 +120,28 @@ const EditService = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Title</label>
-        <input
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="title">Description *</label>
+          <label htmlFor="title">
+            <small className="text-muted">
+              {servicesInfo["title"]?.length || 0} of 45
+            </small>
+          </label>
+        </div>
+        <textarea
+          rows={3}
           id="title"
           className="form-control"
+          maxLength={45}
           placeholder="Describe the service"
           value={servicesInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}
         />
       </div>
+      <p className="my-3">* Field is required.</p>
       <div className="mb-2 d-flex flex-row-reverse align-items-end">
         <button
-          disabled={saving}
+          disabled={saving || !allowSave()}
           onClick={handleSave}
           className="btn btn-primary talent-button ml-2"
         >

@@ -46,8 +46,8 @@ const About = ({
   user,
   primary_tag,
   secondary_tags,
-  profile_picture_url,
   updateSharedState,
+  profileIsComplete,
 }) => {
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -215,7 +215,7 @@ const About = ({
       <h4>About</h4>
       <form>
         <div className="form-group">
-          <label className="mr-1">Profile picture</label>
+          <label className="mr-1">Profile picture *</label>
           {uploadingFileS3 == "profile" && (
             <p>
               <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
@@ -276,50 +276,90 @@ const About = ({
           </small>
         </div>
         <div className="form-group">
-          <label htmlFor="display_name">Display Name</label>
+          <div className="d-flex flex-row justify-content-between">
+            <label htmlFor="display_name">Display Name</label>
+            <label htmlFor="display_name">
+              <small className="text-muted">
+                {aboutInfo["display_name"]?.length || 0} of 25
+              </small>
+            </label>
+          </div>
           <input
             id="display_name"
             className="form-control"
+            maxLength="25"
             placeholder="The name that we will generally use"
             onChange={(e) => changeAttribute("display_name", e.target.value)}
             value={aboutInfo["display_name"]}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="occupation">Occupation</label>
+          <div className="d-flex flex-row justify-content-between">
+            <label htmlFor="occupation">Occupation *</label>
+            <label htmlFor="occupation">
+              <small className="text-muted">
+                {aboutInfo["occupation"]?.length || 0} of 25
+              </small>
+            </label>
+          </div>
           <input
             id="occupation"
             className="form-control"
+            maxLength="25"
             placeholder="Your current occupation"
             onChange={(e) => changeAttribute("occupation", e.target.value)}
             value={aboutInfo["occupation"]}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="pronouns">Pronouns</label>
+          <div className="d-flex flex-row justify-content-between">
+            <label htmlFor="pronouns">Pronouns</label>
+            <label htmlFor="pronouns">
+              <small className="text-muted">
+                {aboutInfo["pronouns"]?.length || 0} of 15
+              </small>
+            </label>
+          </div>
           <input
             id="pronouns"
             className="form-control"
+            maxLength="15"
             placeholder="he/him, she/her"
             value={aboutInfo["pronouns"]}
             onChange={(e) => changeAttribute("pronouns", e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="location">Location</label>
+          <div className="d-flex flex-row justify-content-between">
+            <label htmlFor="location">Location *</label>
+            <label htmlFor="location">
+              <small className="text-muted">
+                {aboutInfo["location"]?.length || 0} of 25
+              </small>
+            </label>
+          </div>
           <input
             id="location"
             className="form-control"
             placeholder="Nomad, Lisbon"
+            maxLength={25}
             value={aboutInfo["location"]}
             onChange={(e) => changeAttribute("location", e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="primary_tag">Primary Tag</label>
+          <div className="d-flex flex-row justify-content-between">
+            <label htmlFor="primary_tag">Primary Tag *</label>
+            <label htmlFor="primary_tag">
+              <small className="text-muted">
+                {aboutInfo["primary_tag"]?.length || 0} of 25
+              </small>
+            </label>
+          </div>
           <input
             id="primary_tag"
             className="form-control"
+            maxLength="25"
             value={aboutInfo["primary_tag"]}
             aria-describedby="primary_tag_help"
             placeholder="The main thing that you do"
@@ -341,7 +381,7 @@ const About = ({
         </div>
         <div className="form-group">
           <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="headline">Headline</label>
+            <label htmlFor="headline">Headline *</label>
             <label htmlFor="headline">
               <small className="text-muted">
                 {aboutInfo["headline"]?.length || 0} of 70
@@ -417,13 +457,20 @@ const About = ({
             type="checkbox"
             id="public_profile"
             className="form-check-input"
+            disabled={!profileIsComplete}
             checked={aboutInfo["public_profile"]}
             onChange={(e) =>
               changeAttribute("public_profile", e.target.checked)
             }
           />
           <label className="form-check-label" htmlFor="public_profile">
-            Make profile public
+            Make profile public.{" "}
+            {!profileIsComplete && (
+              <span className="text-danger">
+                You must complete your profile before you can make your profile
+                public
+              </span>
+            )}
           </label>
         </div>
         {error && (
@@ -434,6 +481,7 @@ const About = ({
             </p>
           </>
         )}
+        <p className="my-3">* Field is required.</p>
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             disabled={saving || !validForm()}

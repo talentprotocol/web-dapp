@@ -7,7 +7,14 @@ import { OnChain } from "src/onchain";
 
 import Button from "../../../button";
 
-const Token = ({ close, talent, token, user, updateSharedState }) => {
+const Token = ({
+  close,
+  talent,
+  token,
+  user,
+  updateSharedState,
+  profileIsComplete,
+}) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const [deploy, setDeploy] = useState("Loading...");
@@ -131,7 +138,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="form-group">
           <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="ticker">Ticker</label>
+            <label htmlFor="ticker">Ticker *</label>
             <label htmlFor="ticker">
               <small className="text-muted">
                 {tokenInfo["ticker"]?.length || 0} of 8
@@ -143,6 +150,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
             className={`form-control${
               tokenInfo["ticker"].length > 8 ? " border-danger" : ""
             }`}
+            maxLength="8"
             placeholder="TAL"
             value={tokenInfo["ticker"]}
             aria-describedby="ticker_help"
@@ -188,6 +196,7 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
             </p>
           </>
         )}
+        <p className="my-3">* Field is required.</p>
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             type="submit"
@@ -212,13 +221,13 @@ const Token = ({ close, talent, token, user, updateSharedState }) => {
       </form>
       <div className="dropdown-divider border-secondary my-3"></div>
       <p>
-        {!token.ticker
-          ? "You must choose a ticker before you can deploy your token"
+        {!profileIsComplete
+          ? "You must complete your profile before you can deploy your token."
           : deploy}
       </p>
       <button
         className="btn btn-primary"
-        disabled={deploy != "Deploy your token" || !token.ticker}
+        disabled={deploy != "Deploy your token" || !profileIsComplete}
         onClick={createToken}
       >
         Deploy Your Talent Token{" "}
