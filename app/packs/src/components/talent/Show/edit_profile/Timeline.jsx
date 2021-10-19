@@ -110,12 +110,27 @@ const EditMilestone = ({
     setMode("view");
   };
 
+  const allowSave = () =>
+    milestoneInfo["title"] != "" &&
+    milestoneInfo["institution"] != "" &&
+    milestoneInfo["start_date"] != "" &&
+    milestoneInfo["description"] != "" &&
+    milestoneInfo["link"] != "";
+
   return (
     <form>
       <div className="form-group">
-        <label htmlFor="title">Title</label>
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="title">Title *</label>
+          <label htmlFor="title">
+            <small className="text-muted">
+              {milestoneInfo["title"]?.length || 0} of 45
+            </small>
+          </label>
+        </div>
         <input
           id="title"
+          maxLength={45}
           className="form-control"
           placeholder="Your position or achievement"
           value={milestoneInfo["title"]}
@@ -123,9 +138,17 @@ const EditMilestone = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="institution">Institution</label>
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="institution">Institution *</label>
+          <label htmlFor="institution">
+            <small className="text-muted">
+              {milestoneInfo["institution"]?.length || 0} of 45
+            </small>
+          </label>
+        </div>
         <input
           id="institution"
+          maxLength={45}
           className="form-control"
           placeholder="Company, client or school"
           value={milestoneInfo["institution"]}
@@ -133,7 +156,7 @@ const EditMilestone = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="year">Year</label>
+        <label htmlFor="year">Year *</label>
         <input
           id="start_date"
           type="date"
@@ -143,10 +166,18 @@ const EditMilestone = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="description">Description</label>
+        <div className="d-flex flex-row justify-content-between">
+          <label htmlFor="description">Description *</label>
+          <label htmlFor="description">
+            <small className="text-muted">
+              {milestoneInfo["description"]?.length || 0} of 175
+            </small>
+          </label>
+        </div>
         <textarea
-          rows="5"
+          rows="7"
           id="description"
+          maxLength={175}
           className="form-control"
           placeholder="Describe what you did"
           value={milestoneInfo["description"]}
@@ -154,7 +185,7 @@ const EditMilestone = ({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="link">Link</label>
+        <label htmlFor="link">Link *</label>
         <input
           id="link"
           className="form-control"
@@ -163,10 +194,10 @@ const EditMilestone = ({
           onChange={(e) => changeAttribute("link", e.target.value)}
         />
       </div>
-
+      <p className="my-3">* Field is required.</p>
       <div className="mb-2 d-flex flex-row-reverse align-items-end">
         <button
-          disabled={saving}
+          disabled={saving || !allowSave()}
           onClick={handleSave}
           className="btn btn-primary talent-button ml-2"
         >

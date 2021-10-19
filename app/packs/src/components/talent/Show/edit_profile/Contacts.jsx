@@ -147,6 +147,7 @@ const Contacts = ({ close, talent, user, updateSharedState }) => {
             </p>
           </>
         )}
+        <p className="my-3">* Field is required.</p>
         <div className="mb-2 d-flex flex-row-reverse align-items-end justify-content-between">
           <button
             type="submit"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   faCommentAlt,
   faStar as faStarOutline,
@@ -26,6 +26,8 @@ import Perks from "./Show/Perks";
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
 import TokenDetails from "./Show/TokenDetails";
+
+import { completeProfile } from "./utils/talent";
 
 const TalentShow = ({
   talent,
@@ -130,6 +132,10 @@ const TalentShow = ({
       testimonials: [...testimonials, newTestimonial],
     }));
   };
+
+  const profileIsComplete = useMemo(() => {
+    return completeProfile(sharedState);
+  }, [sharedState]);
 
   return (
     <div className="d-flex flex-column border-left lg-h-100">
@@ -238,6 +244,7 @@ const TalentShow = ({
             {...sharedState}
             updateSharedState={setSharedState}
             allowEdit={talentIsFromCurrentUser}
+            profileIsComplete={profileIsComplete}
           />
         </div>
       </section>
