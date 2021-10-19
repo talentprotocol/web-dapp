@@ -103,7 +103,7 @@ const TalentTable = ({ talents }) => {
 
   return (
     <div className="table-responsive">
-      <table className="table table-hover mb-0 mt-4">
+      <table className="table table-hover mb-0 my-4">
         <thead>
           <tr>
             <th
