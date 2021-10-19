@@ -4,14 +4,32 @@ import TalentProfilePicture from "../talent/TalentProfilePicture";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "react-bootstrap/Modal";
+import transakSDK from "@transak/transak-sdk";
+
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
 
-import transakSDK from "@transak/transak-sdk";
 import { useWindowDimensionsHook } from "src/utils/window";
+
+const TransakDone = ({ show, hide }) => (
+  <Modal show={show} onHide={hide} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>Thank you for your support</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>
+        You have successfully acquired cUSD on the CELO network. It usually
+        takes a couple minutes to finish processing and for you to receive your
+        funds, you'll get a confirmation email from transak once you do. After
+        that you're ready to start supporting talent!
+      </p>
+    </Modal.Body>
+  </Modal>
+);
 
 const newTransak = (width, height) =>
   new transakSDK({
@@ -34,6 +52,7 @@ const UserMenu = ({ user, signOutPath }) => {
   const [stableBalance, setStableBalance] = useState(0);
   const [account, setAccount] = useState("");
   const { height, width } = useWindowDimensionsHook();
+  const [transakDone, setTransakDone] = useState(false);
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
@@ -55,8 +74,8 @@ const UserMenu = ({ user, signOutPath }) => {
 
     // This will trigger when the user marks payment is made.
     transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
-      console.log(orderData);
       transak.close();
+      setTransakDone(true);
     });
   };
 
@@ -108,6 +127,7 @@ const UserMenu = ({ user, signOutPath }) => {
 
   return (
     <>
+      <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
       <Dropdown className="">
         <Dropdown.Toggle
           className="user-menu-dropdown-btn no-caret"
