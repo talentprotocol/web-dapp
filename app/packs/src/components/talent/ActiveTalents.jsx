@@ -101,8 +101,7 @@ const ActiveTalents = ({ talents }) => {
         {sliceInDisplay.map((talent, index) => (
           <div
             key={`active_talent_list_${talent.id}`}
-            className={`mt-3 h-100 ${colStyling}`}
-            style={{ paddingRight: 10, paddingLeft: 10 }}
+            className={`mt-3 mh-100 ${colStyling}`}
           >
             <a
               className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
