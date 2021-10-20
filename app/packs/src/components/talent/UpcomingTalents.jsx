@@ -79,7 +79,7 @@ const UpcomingTalents = ({ talents }) => {
             key={`upcoming_talent_list_${talent.id}`}
           >
             <a
-              className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
+              className={`h-100 w-100 bg-light rounded d-flex flex-column p-3 talent-link`}
               href={`/talent/${talent.username}`}
             >
               <TalentProfilePicture
@@ -88,9 +88,9 @@ const UpcomingTalents = ({ talents }) => {
                 straight
                 className={"rounded mx-auto"}
               />
-              <h5 className="mt-3 talent-link">{talent.name}</h5>
-              <h6 className="text-muted talent-link">{talent.occupation}</h6>
-              <div className="mt-2 talent-link">
+              <h5 className="mt-3 talent-link h-100 w-100">{talent.name}</h5>
+              <h6 className="text-muted talent-link h-100 w-100">{talent.occupation}</h6>
+              <div className="mt-2 talent-link h-100 w-100">
                 <small className="p-2 text-primary bg-info rounded talent-link">
                   Coming Soon
                 </small>

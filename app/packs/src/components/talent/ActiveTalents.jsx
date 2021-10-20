@@ -106,7 +106,7 @@ const ActiveTalents = ({ talents }) => {
             className={`mt-3 mh-100 ${colStyling}`}
           >
             <a
-              className={`h-100 bg-light rounded d-flex flex-column p-3 talent-link`}
+              className={`h-100 w-100 bg-light rounded d-flex flex-column p-3 talent-link`}
               href={`/talent/${talent.username}`}
             >
               <TalentProfilePicture
@@ -115,12 +115,12 @@ const ActiveTalents = ({ talents }) => {
                 straight
                 className={"rounded mx-auto"}
               />
-              <h5 className="mt-3 talent-link">{talent.name}</h5>
-              <h6 className="text-muted talent-link">{talent.occupation}</h6>
-              <small className="text-muted mt-3 talent-link">
+              <h5 className="mt-3 talent-link h-100 w-100">{talent.name}</h5>
+              <h6 className="text-muted talent-link h-100 w-100">{talent.occupation}</h6>
+              <small className="text-muted mt-3 talent-link h-100 w-100">
                 CIRCULATING SUPPLY
               </small>
-              <small className="text-warning mt-2 talent-link">
+              <small className="text-warning mt-2 talent-link h-100 w-100">
                 <strong className="text-black mr-2">
                   {getCirculatingSupply(talent.contract_id)}
                 </strong>{" "}
