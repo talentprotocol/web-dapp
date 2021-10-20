@@ -10,8 +10,8 @@
     "forno": "https://alfajores-forno.celo-testnet.org"
   },
   "production": {
-    "factory": "0x8337b70EFFF73Ad054F56740Ad527625087a3869",
-    "staking": "0xdEB5013B7bd71429A16d568de885960275396EB5",
+    "factory": "0x5f3aA689C4DCBAe505E6F6c8548DbD9b908bA71d",
+    "staking": "0xAa5e353147FFc61F2141a6F8cfef398a5C8ac801",
     "forno": "https://forno.celo.org"
   }
 }
