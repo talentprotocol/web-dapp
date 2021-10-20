@@ -11,9 +11,13 @@ const Logo = ({ width, height, bigName, centerText }) => (
       alt="Talent Protocol"
     />
     {bigName ? (
-      <h1 className={centerText ? "text-center" : ""}>Talent Protocol</h1>
+      <h1 className={centerText ? "text-center h2" : "h2"}>
+        <strong>talent protocol</strong>
+      </h1>
     ) : (
-      <small>Talent Protocol</small>
+      <small>
+        <strong>talent protocol</strong>
+      </small>
     )}
   </div>
 );
