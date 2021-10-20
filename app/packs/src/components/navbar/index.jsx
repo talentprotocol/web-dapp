@@ -5,6 +5,7 @@ import {
   faEnvelope,
   faHome,
   faLock,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Container, Nav } from "react-bootstrap";
@@ -59,7 +60,13 @@ const TalNavbar = (props) => {
             )}
           </Nav>
           <Nav className="flex-lg-column w-100 mt-5">
-            <h6 className="mx-auto">WATCHLIST</h6>
+            <h6 className="ml-3 mb-3">WATCHLIST</h6>
+            {watchList.length == 0 && (
+              <div className="d-flex flex-row align-items-center">
+                <span className="text-warning">{icon(faStar)}</span>{" "}
+                <small>Star a talent to display it here.</small>
+              </div>
+            )}
             {watchList.map((watchItem) => (
               <NavbarItem
                 key={`watch_list_item_${watchItem.id}`}

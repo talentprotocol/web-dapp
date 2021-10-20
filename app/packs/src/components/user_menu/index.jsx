@@ -87,7 +87,6 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   };
 
   const setupChain = useCallback(async () => {
-    console.log(railsContext);
     const onChain = new OnChain(railsContext.contractsEnv);
 
     const account = await onChain.connectedAccount();
