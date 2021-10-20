@@ -90,6 +90,4 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
   );
 };
 
-export default (props, railsContext) => {
-  return <MetamaskConnect {...props} railsContext={railsContext} />;
-};
+export default MetamaskConnect;
