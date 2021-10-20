@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_20_112856) do
+ActiveRecord::Schema.define(version: 2021_10_14_213426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,12 +27,24 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.index ["page"], name: "index_alert_configurations_on_page", unique: true
   end
 
+  create_table "badges", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "image_data"
+    t.string "url"
+    t.string "alt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "career_goals", force: :cascade do |t|
     t.text "description"
     t.bigint "talent_id", null: false
     t.date "target_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "bio"
+    t.string "pitch"
+    t.string "challenges"
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
   end
 
@@ -73,6 +85,16 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
+  create_table "goals", force: :cascade do |t|
+    t.date "due_date", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "career_goal_id"
+    t.string "title"
+    t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
+  end
+
   create_table "investors", force: :cascade do |t|
     t.string "description"
     t.string "public_key"
@@ -82,6 +104,17 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.text "profile_picture_data"
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.string "code", null: false
+    t.integer "uses", default: 0
+    t.integer "max_uses", default: 2
+    t.boolean "talent_invite", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -94,6 +127,41 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
+  create_table "milestones", force: :cascade do |t|
+    t.string "title", null: false
+    t.date "start_date", null: false
+    t.date "end_date"
+    t.string "description"
+    t.string "link"
+    t.string "institution"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_milestones_on_talent_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.text "body", default: "", null: false
+    t.bigint "user_id"
+    t.bigint "source_id"
+    t.string "type", default: "", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title", default: "", null: false
+    t.index ["source_id"], name: "index_notifications_on_source_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "perks", force: :cascade do |t|
+    t.integer "price", null: false
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_perks_on_talent_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "text"
     t.datetime "created_at", precision: 6, null: false
@@ -102,14 +170,13 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "rewards", force: :cascade do |t|
-    t.integer "required_amount"
-    t.text "description"
-    t.bigint "talent_id", null: false
+  create_table "services", force: :cascade do |t|
+    t.integer "price", null: false
+    t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "required_text"
-    t.index ["talent_id"], name: "index_rewards_on_talent_id"
+    t.bigint "talent_id"
+    t.index ["talent_id"], name: "index_services_on_talent_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -122,21 +189,41 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
   end
 
   create_table "talent", force: :cascade do |t|
-    t.string "description"
     t.string "public_key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.datetime "ito_date"
     t.integer "activity_count", default: 0
-    t.string "linkedin_url"
     t.text "profile_picture_data"
-    t.string "youtube_url"
     t.boolean "public", default: false
+    t.jsonb "profile", default: {}
+    t.boolean "disable_messages", default: false
+    t.text "banner_data"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"
+  end
+
+  create_table "talent_badges", force: :cascade do |t|
+    t.bigint "talent_id", null: false
+    t.bigint "badge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["badge_id"], name: "index_talent_badges_on_badge_id"
+    t.index ["talent_id"], name: "index_talent_badges_on_talent_id"
+  end
+
+  create_table "testimonials", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.bigint "user_id", null: false
+    t.bigint "talent_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["talent_id"], name: "index_testimonials_on_talent_id"
+    t.index ["user_id"], name: "index_testimonials_on_user_id"
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -151,7 +238,7 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.boolean "deployed", default: false
     t.string "contract_id"
     t.index ["talent_id"], name: "index_tokens_on_talent_id"
-    t.index ["ticker"], name: "index_tokens_on_ticker"
+    t.index ["ticker"], name: "index_tokens_on_ticker", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -183,7 +270,12 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
     t.datetime "last_sign_in_at"
     t.string "wallet_id"
     t.string "nounce"
+    t.string "email_confirmation_token", default: "", null: false
+    t.datetime "email_confirmed_at"
+    t.string "display_name"
+    t.bigint "invite_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
@@ -207,9 +299,17 @@ ActiveRecord::Schema.define(version: 2021_08_20_112856) do
   add_foreign_key "feeds", "users"
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "goals", "career_goals"
+  add_foreign_key "invites", "users"
+  add_foreign_key "milestones", "talent"
+  add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
-  add_foreign_key "rewards", "talent"
+  add_foreign_key "services", "talent"
   add_foreign_key "tags", "talent"
+  add_foreign_key "talent_badges", "badges"
+  add_foreign_key "talent_badges", "talent"
+  add_foreign_key "testimonials", "talent"
+  add_foreign_key "testimonials", "users"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"
   add_foreign_key "transactions", "tokens"

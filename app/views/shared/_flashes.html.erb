@@ -1,5 +1,5 @@
 <div id="flash">
   <% flash.each do |key, value| %>
-    <div class="mt-2 alert alert-<%= key %> talent-alert talent-alert-<%= key %>"><%= value %></div>
+    <div class="mt-2 alert alert-<%= key == "alert" ? "danger" : key %> talent-alert talent-alert-<%= key == "alert" ? "danger" : key %>"><%= value %></div>
   <% end %>
 </div>

@@ -67,8 +67,6 @@ class Admin::TalentController < ApplicationController
       :public_key,
       :description,
       :profile_picture,
-      :linkedin_url,
-      :youtube_url,
       :ito_date
     )
   end

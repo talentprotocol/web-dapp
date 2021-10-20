@@ -1,7 +1,7 @@
-<main class="d-flex flex-column mx-auto h-100 justify-content-center">
+<main class="d-flex flex-column mx-auto h-100">
   <%= react_component("Logo",
-    props: { width: "100%", height: 50},
-    prerender: false, html_options: { class: "my-3" })
+    props: { width: 34, height: 34, bigName: true, centerText: true },
+    prerender: false, html_options: { class: "m-3" })
   %>
   <%= react_component("RegistrationFlow",
     props: {

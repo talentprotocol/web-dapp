@@ -5,19 +5,31 @@ class CreateUser
     @result = {}
   end
 
-  def call(email:, username:, metamask_id:)
+  def call(email:, username:, password:, invite_code:)
     ActiveRecord::Base.transaction do
-      user = create_user(email, username, metamask_id)
-      create_investor(user)
-      create_feed(user)
-      wait_list = WaitList.find_by(email: email)
+      invite = Invite.find_by(code: invite_code)
 
-      unless wait_list.present?
-        WaitList.create(email: email, approved: true, talent: true)
+      if invite.nil? || !invite.active?
+        @result[:success] = false
+        @result[:field] = "invite"
+        @result[:error] = "no valid invite provided"
+        return @result
       end
 
-      create_talent(user)
-      create_token(user)
+      invite.update(uses: invite.uses + 1)
+      user = create_user(email, username, password, invite)
+
+      create_investor(user)
+      create_feed(user)
+
+      if invite.talent_invite?
+        create_talent(user)
+        create_token(user)
+      end
+
+      create_invite(user)
+
+      UserMailer.with(user: user).send_sign_up_email.deliver_later
 
       @result[:user] = user
       @result[:success] = true
@@ -40,8 +52,7 @@ class CreateUser
         e,
         "Unable to create user with unexpected error.",
         email: email,
-        username: username,
-        metamask_id: metamask_id
+        username: username
       )
 
       raise e
@@ -50,17 +61,20 @@ class CreateUser
 
   private
 
-  def create_user(email, username, metamask_id)
+  def create_user(email, username, password, invite)
     user = User.new
     user.email = email.downcase
+    user.password = password
     user.username = username.downcase.delete(" ", "")
-    user.wallet_id = metamask_id&.downcase
+    user.email_confirmation_token = Clearance::Token.new
+    user.invited = invite
     user.save!
     user
   end
 
   def create_talent(user)
     user.create_talent!
+    user.talent.create_career_goal!
   end
 
   def create_token(user)
@@ -84,5 +98,11 @@ class CreateUser
       end
     end
     feed
+  end
+
+  def create_invite(user)
+    service = CreateInvite.new(user_id: user.id)
+
+    service.call
   end
 end

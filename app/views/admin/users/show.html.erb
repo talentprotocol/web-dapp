@@ -67,9 +67,6 @@
           <dd class="col-md-9"><%= image_tag @user.talent.profile_picture_url, height: 128 %></dd>
         <% end %>
 
-        <dt class="col-md-3 sm-text-left md-text-right">Description</dt>
-        <dd class="col-md-9"><%= @user.talent.description %></dd>
-
         <dt class="col-md-3 sm-text-left md-text-right">Public Key</dt>
         <dd class="col-md-9"><%= @user.talent.public_key || "-" %></dd>
 
@@ -82,12 +79,6 @@
 
         <dt class="col-md-3 sm-text-left md-text-right">Transactions</dt>
         <dd class="col-md-9"><%= @user.talent.activity_count %></dd>
-
-        <dt class="col-md-3 sm-text-left md-text-right">LinkedIn URL</dt>
-        <dd class="col-md-9"><%= @user.talent.linkedin_url || "-" %></dd>
-
-        <dt class="col-md-3 sm-text-left md-text-right">Youtube URL</dt>
-        <dd class="col-md-9"><%= @user.talent.youtube_url || "-" %></dd>
 
         <dt class="col-md-3 sm-text-left md-text-right">Created at</dt>
         <dd class="col-md-9"><%= l(@user.talent.created_at, format: :long) %></dd>
@@ -118,6 +109,20 @@
         </div>
       <% end %>
 
+      <h3 class="border-top mt-2">Badges</h3>
+      <dl class="d-flex flex-row flex-wrap">
+        <dt class="col-md-3 sm-text-left md-text-right">Badges</dt>
+        <dd class="col-md-9">
+          <%= @user.talent.badges.map(&:name).join(" | ") %>
+        </dd>
+      </dl>
+
+      <div class="d-flex flex-row">
+        <div class="offset-md-3 col-md-9 pb-2">
+          <%= link_to "Edit Badges", admin_talent_badges_path(@user.talent), class: "btn btn-primary talent-button" %>
+        </div>
+      </div>
+
       <% if @user.talent.token.present? %>
         <h3 class="border-top mt-2">Token</h3>
         <dl class="d-flex flex-row flex-wrap">
@@ -145,18 +150,6 @@
         <div class="d-flex flex-row">
           <div class="offset-md-3 col-md-9 pb-2 d-flex flex-row">
             <%= link_to "Edit Token", edit_admin_talent_token_path(@user.talent, @user.talent.token), class: "btn btn-primary talent-button mr-2" %>
-            <%= react_component("DeployTokenButton",
-              props: {
-                ticker: @user.talent.token.ticker,
-                username: @user.username,
-                address: @user.wallet_id,
-                reserveRatio: @user.talent.token.reserve_ratio,
-                talentFee: @user.talent.token.talent_fee,
-                updateTokenUrl: admin_talent_token_path(@user.talent, @user.talent.token),
-                contract_id: @user.talent.token.contract_id,
-                wallet_id: @user.wallet_id,
-              },
-              prerender: false) %>
           </div>
         </div>
       <% end %>
@@ -171,22 +164,6 @@
         <div class="d-flex flex-row">
           <div class="offset-md-3 col-md-9">
             <%= link_to "Edit Career Goal", edit_admin_talent_career_goal_path(@user.talent, @user.talent.career_goal), class: "btn btn-primary talent-button" %>
-          </div>
-        </div>
-      <% end %>
-
-      <% if @user.talent.rewards.count > 0 %>
-        <h3 class="border-top mt-2">Reward</h3>
-        <dl class="d-flex flex-row flex-wrap">
-          <dt class="col-md-3 sm-text-left md-text-right">Rewards</dt>
-          <dd class="col-md-9">
-            <%= @user.talent.rewards.map(&:to_s).join(" | ") %>
-          </dd>
-        </dl>
-
-        <div class="d-flex flex-row">
-          <div class="offset-md-3 col-md-9 pb-2">
-            <%= link_to "Edit Rewards", admin_talent_rewards_path(@user.talent), class: "btn btn-primary talent-button" %>
           </div>
         </div>
       <% end %>

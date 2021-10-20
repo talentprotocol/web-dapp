@@ -105,7 +105,7 @@ const Chat = ({ users, userId }) => {
   return (
     <>
       {(width > 992 || activeUserId == 0) && (
-        <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column tal-content-side-500 lg-overflow-y-scroll border-right pt-3">
+        <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll border-right pt-3">
           <MessageUserList
             onClick={(user_id) => setActiveUserId(user_id)}
             activeUserId={activeUserId}
@@ -114,7 +114,7 @@ const Chat = ({ users, userId }) => {
         </section>
       )}
       {(width > 992 || activeUserId > 0) && (
-        <section className="col-lg-7 bg-white px-0 border-right talent-content-body-700 lg-overflow-y-hidden">
+        <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
           <MessageExchange
             smallScreen={width <= 992}
             clearActiveUserId={() => clearActiveUser()}

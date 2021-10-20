@@ -16,15 +16,8 @@ const UserCreated = () => (
   <>
     <div className="d-flex flex-row text-success align-items-center">
       <FontAwesomeIcon icon={faCheck} />
-      <p className="ml-2 mb-0">User profile created.</p>
+      <p className="ml-2 mb-0">We just sent you a confirmation email</p>
     </div>
-    <a
-      role="button"
-      href={"/sign_in"}
-      className="ml-2 btn btn-primary talent-button"
-    >
-      Sign in
-    </a>
   </>
 );
 
@@ -38,15 +31,14 @@ const UserFailed = ({ error }) => (
   </div>
 );
 
-const ProcessFlow = ({ email, username, metamaskId }) => {
+const ProcessFlow = ({ email, username, password, code }) => {
   const [userCreated, setUserCreated] = useState(false);
   const [requesting, setRequesting] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setRequesting(true);
-
-    post("/users.json", { email, username, metamaskId })
+    post("/users.json", { email, username, password, code })
       .then((response) => {
         if (response.error) {
           setError(response.error);

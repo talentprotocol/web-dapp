@@ -1,47 +1,49 @@
-<div class="col-12 col-lg-9 lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row">
-  <section class="col-lg-7 mx-auto mx-lg-0 px-0 d-flex flex-column">
+<div class="lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100">
+  <section class="d-flex flex-column col-12 px-0">
     <%= react_component("TalentShow", props:
       {
-        talent: {
-          id: @talent.id,
-          publicProfile: @talent.public,
-          userId: @talent.user.id,
-          username: @talent.username,
-          description: @talent.description,
-          ticker: @talent.token&.display_ticker,
-          tags: @talent.tags.map(&:description),
-          linkedinUrl: @talent.linkedin_url,
-          profilePictureUrl: @talent.profile_picture_url,
-          youtubeUrl: @talent.youtube_url
-        },
-        currentUserId: current_user.id,
-        tokenDeployed: @talent.token&.deployed? || false,
-        careerGoal: { id: @talent.career_goal&.id, description: @talent.career_goal&.description },
-        rewards: @talent.rewards.map { |reward| { id: reward.id, required_amount: reward.required_amount, display_required_amount: reward.required_amount&.to_s(:delimited), description: reward.description, required_text: reward.required_text } }
-      }, prerender: false, html_options: { class: "py-3 pt-3 px-3 bg-white border-right"})
+        talent: @talent.as_json,
+        profilePictureUrl: @talent.profile_picture_url,
+        bannerUrl: @talent.banner_url,
+        primary_tag: @talent.primary_tag&.description,
+        secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
+        services: @talent.services.as_json,
+        token: @talent.token.as_json,
+        perks: @talent.perks.as_json,
+        career_goal: @talent.career_goal.as_json,
+        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
+        milestones: @talent.milestones.as_json,
+        current_user_id: current_user.id,
+        token_live: @talent.token.deployed?,
+        isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
+        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
+        posts: @talent.user.posts.as_json,
+        badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } },
+        testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } }
+      }, prerender: false, html_options: { class: "bg-white"})
     %>
-  </section>
-  <section class="col-lg-5 p-4">
-    <div>
-      <%= react_component("TalentToken", props:
-        {
-          talentId: @talent.id,
-          ticker: @talent.token&.ticker,
-          sponsors: @talent.investors.distinct(:id).count,
-          circulatingSupply: @talent.token&.transactions&.sum(:amount),
-          priceVariance7d: @talent.token.variance7d.round(2).to_s(:delimited),
-          priceVariance30d: @talent.token.variance30d.round(2).to_s(:delimited),
-          active: @talent.active?,
-          talentUserId: @talent.user.id != current_user.id && @talent.user.id,
-          tokenAddress: @talent.token&.contract_id,
-        }, prerender: false)
+    <div class="d-flex" style="position:absolute;top:20px;right:20px">
+      <%= react_component("UserMenu",
+        props: {
+          user: {
+            id: current_user.id,
+            profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+            talentId: current_user.talent&.id,
+            investorId: current_user.investor&.id,
+            isTalent: current_user.talent.present?,
+            displayWalletId: current_user.display_wallet_id,
+            walletId: current_user.wallet_id,
+            username: current_user.username,
+          },
+          signOutPath: sign_out_path
+        },
+        prerender: false)
       %>
-    </div>
-    <div class="mt-lg-5 mt-3 mb-2">
-      <%= react_component("TalentLeaderboard", props:
-        {
-          topTalents: @talent_leaderboard.map { |tal| { id: tal.id, name: tal.username, ticker: tal.token.display_ticker, token_contract_id: tal.token.contract_id, profilePictureUrl: tal.profile_picture_url } }
-        }, prerender: false)
+      <%= react_component("Notifications",
+        props: {
+          notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
+        },
+        prerender: false, html_options: { class: "ml-2"})
       %>
     </div>
   </section>

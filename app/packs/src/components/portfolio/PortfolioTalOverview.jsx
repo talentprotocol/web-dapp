@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSpring, animated, config } from "@react-spring/web";
 import currency from "currency.js";
 
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
 import AsyncValue from "../loader/AsyncValue";
 
 const AnimatedNumber = ({ value, unformatted, dollarSign }) => {
@@ -30,53 +29,54 @@ const AnimatedNumber = ({ value, unformatted, dollarSign }) => {
   );
 };
 
-const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
-  const web3 = useContext(Web3Context);
-
+const PortfolioTalOverview = ({
+  loading,
+  cUSDBalance,
+  totalTal,
+  yieldSum,
+  talentCount,
+}) => {
   return (
     <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-center">
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
         <div className="d-flex flex-column align-items-center border bg-white">
           <div className="text-muted">
-            <small>$TAL</small>
+            <small>cUSD</small>
           </div>
-          {web3.loading ? (
+          {loading ? (
             <h4>
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <AnimatedNumber value={web3.talToken?.balance} />
+            <AnimatedNumber value={cUSDBalance} />
           )}
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
         <div className="d-flex flex-column align-items-center border bg-white">
           <div className="text-muted">
-            <small>$TAL invested</small>
+            <small>$TAL Invested</small>
           </div>
-          {web3.loading ? (
+          {loading ? (
             <h4>
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <AnimatedNumber value={talCommited} />
+            <AnimatedNumber value={totalTal} />
           )}
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
         <div className="d-flex flex-column align-items-center border bg-white">
           <div className="text-muted">
-            <small>$TAL Total (USD)</small>
+            <small>Total Yield ($TAL)</small>
           </div>
-          {web3.loading ? (
+          {loading ? (
             <h4>
               <AsyncValue size={12} />
             </h4>
           ) : (
-            <AnimatedNumber
-              dollarSign={true}
-              value={((web3.talToken?.balance || 0.0) + talCommited) * talValue}
-            />
+            <AnimatedNumber value={yieldSum} />
           )}
         </div>
       </div>
@@ -92,10 +92,4 @@ const PortfolioTalOverview = ({ talCommited, talentCount, talValue }) => {
   );
 };
 
-const ConnectedOverview = (props) => (
-  <Web3Container>
-    <PortfolioTalOverview {...props} />
-  </Web3Container>
-);
-
-export default ConnectedOverview;
+export default PortfolioTalOverview;

@@ -2,8 +2,6 @@ class UsersController < ApplicationController
   def index
     if user_params[:email].present?
       @user = User.find_by(email: user_params[:email].downcase)
-    elsif user_params[:wallet_id].present?
-      @user = User.find_by(wallet_id: user_params[:wallet_id].downcase)
     elsif user_params[:username].present?
       @user = User.find_by(username: user_params[:username])
     end
@@ -13,7 +11,7 @@ class UsersController < ApplicationController
 
       render json: {id: @user.id, nounce: @user.nounce}, status: :ok
     else
-      render json: {error: "Couldn't find the user for the wallet address provided"}, status: :not_found
+      render json: {error: "Couldn't find the user for that email or username"}, status: :not_found
     end
   end
 
@@ -22,7 +20,8 @@ class UsersController < ApplicationController
     @result = service.call(
       email: user_params[:email],
       username: user_params[:username],
-      metamask_id: user_params[:metamaskId]
+      password: user_params[:password],
+      invite_code: user_params[:code]
     )
 
     if @result[:success]
@@ -35,6 +34,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :username, :metamaskId, :wallet_id)
+    params.permit(:email, :username, :password, :code)
   end
 end

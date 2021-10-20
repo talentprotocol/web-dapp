@@ -2,14 +2,6 @@ namespace :staging do
   task prime: ["db:seed"] do
     puts "Setting up Alert configurations.."
 
-    AlertConfiguration.create!(
-      page: "/feed",
-      alert_type: "primary",
-      text: "Apply to launch your Career Token on Talent Protocol",
-      href: "https://www.talentprotocol.com/invite",
-      button_text: "Reserve $TICKER"
-    )
-
     available_tags_main = ["EdTech", "eCommerce", "Mobility", "Space", "Healthcare", "Entertainment", "Logistics"]
     available_tags_secondary = ["Entrepreneur", "NGO", "Founder", "Under 30"]
 
@@ -33,11 +25,11 @@ namespace :staging do
         description: admin[:description] || Faker::Lorem.paragraph
       )
       talent = user.create_talent!(
-        description: admin[:description] || Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(1..19).week,
         activity_count: 0,
-        linkedin_url: "https://www.linkedin.com/in/#{admin[:linkedin]}/"
+        public: true
       )
+      talent.create_career_goal!
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
 
@@ -54,16 +46,18 @@ namespace :staging do
     6.times.each do |i|
       user = User.create!(
         username: Faker::Name.name,
-        wallet_id: "0x#{SecureRandom.hex(32)}"
+        email: Faker::Internet.email,
+        wallet_id: "0x#{SecureRandom.hex(32)}",
+        password: SecureRandom.base64(12),
       )
       talent = user.create_talent!(
-        description: Faker::Lorem.paragraph,
         ito_date: Time.current - Random.new.rand(-19..19).week,
         activity_count: 0,
-        linkedin_url: "https://www.linkedin.com/"
+        public: true
       )
       talent.profile_picture = URI.parse("https://i.pravatar.cc/300").open
       talent.save!
+      talent.create_career_goal!
 
       Tag.create(talent: talent, description: available_tags_main.sample, primary: true)
       Tag.create(talent: talent, description: available_tags_secondary.sample)
@@ -91,14 +85,6 @@ namespace :staging do
         description: Faker::Company.bs,
         talent: user.talent
       )
-
-      Random.new.rand(1..3).times.each do |_i|
-        Reward.create!(
-          required_amount: Random.new.rand(100..2000),
-          description: Faker::Lorem.sentence,
-          talent: user.talent
-        )
-      end
     end
 
     puts "Setting up follows.."

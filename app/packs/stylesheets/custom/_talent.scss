@@ -22,7 +22,39 @@
   &:hover {
     text-decoration: none;
     color: inherit;
-    border-color: $primary !important;
+  }
+}
+
+.blur-photo {
+  filter: blur(128px);
+  opacity: 40%;
+}
+
+.border-photo {
+  border: 5px solid $white;
+}
+
+.pull-bottom-content {
+  margin-bottom: -40px;
+}
+
+.talent-edit-nav-btn {
+  background-color: transparent !important;
+  color: $secondary;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 0px solid transparent !important;
+  border-radius: 0px;
+  padding: 0px;
+  &:hover {
+    border-bottom: 0px solid $primary !important;
+    color: $primary !important;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    background-color: transparent;
+    text-decoration: underline;
   }
 }
 
@@ -128,4 +160,8 @@
 
 .text-white-space-wrap {
   white-space: pre-wrap;
+}
+
+.talent-video-height {
+  height: 61%;
 }

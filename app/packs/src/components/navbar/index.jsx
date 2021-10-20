@@ -3,21 +3,18 @@ import {
   faUserFriends,
   faHandHoldingUsd,
   faEnvelope,
-  faStar,
-  faCog,
-  faQuestionCircle,
   faHome,
   faLock,
-  faIdCard,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 import NavbarItem from "./NavbarItem";
-import TalBox from "./TalBox";
+import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Logo from "src/components/logo";
 
-const icon = (i) => <FontAwesomeIcon icon={i} />;
+const icon = (i) => <FontAwesomeIcon icon={i} className="mr-2" />;
 
 const TalNavbar = (props) => {
   const {
@@ -25,19 +22,15 @@ const TalNavbar = (props) => {
     talentPath,
     portfolioPath,
     messagesPath,
-    tradePath,
-    settingsPath,
-    helpPath,
     admin,
     adminPath,
-    talent,
-    editTalentPath,
+    watchList,
   } = props;
 
   return (
     <Navbar
       collapseOnSelect
-      className="flex-lg-column py-3 lg-h-100 border-right border-bottom"
+      className="flex-lg-column py-3 lg-h-100 border-bottom"
       expand="lg"
     >
       <Container className="flex-lg-column align-items-lg-start lg-h-100 my-0 my-lg-3">
@@ -46,7 +39,7 @@ const TalNavbar = (props) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse
-          className="flex-lg-column w-100 lg-h-100 justify-content-lg-between"
+          className="flex-lg-column w-100 lg-h-100"
           id="responsive-navbar-nav"
         >
           <Nav className="me-auto flex-lg-column w-100">
@@ -62,27 +55,32 @@ const TalNavbar = (props) => {
             <NavbarItem url={messagesPath}>
               {icon(faEnvelope)} Messages
             </NavbarItem>
-            <NavbarItem url={tradePath}>{icon(faStar)} Trade $TAL</NavbarItem>
             {admin && (
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
             )}
           </Nav>
-          <Nav className="flex-lg-column w-100 mt-3 mt-lg-0">
-            {talent && (
-              <NavbarItem url={editTalentPath} exact>
-                {icon(faIdCard)} My Profile
-              </NavbarItem>
+          <Nav className="flex-lg-column w-100 mt-5">
+            <h6 className="ml-3 mb-3">WATCHLIST</h6>
+            {watchList.length == 0 && (
+              <div className="d-flex flex-row align-items-center">
+                <span className="text-warning">{icon(faStar)}</span>{" "}
+                <small>Star a talent to display it here.</small>
+              </div>
             )}
-            <NavbarItem url={settingsPath} exact>
-              {icon(faCog)} Settings
-            </NavbarItem>
-            <NavbarItem url={helpPath} exact target={"self"}>
-              {icon(faQuestionCircle)} Contact Us
-            </NavbarItem>
-            <TalBox price="0.02" variance="+0%" />
-            <p className="text-danger">
-              Live on <strong>Ropsten Network.</strong>
-            </p>
+            {watchList.map((watchItem) => (
+              <NavbarItem
+                key={`watch_list_item_${watchItem.id}`}
+                url={watchItem.url}
+                noTracking
+              >
+                <TalentProfilePicture
+                  src={watchItem.picture}
+                  height={24}
+                  className="mr-2"
+                />{" "}
+                <small>{watchItem.displayName}</small>
+              </NavbarItem>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>

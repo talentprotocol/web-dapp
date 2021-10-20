@@ -1,3 +1,9 @@
-<div id="clearance" class="password-reset">
-  <p><%= t(".description") %></p>
-</div>
+<main class="mx-auto d-flex px-4 flex-column justify-content-center align-items-center sign-in h-100">
+  <%= react_component("Logo",
+    props: { width: 34, height: 34, bigName: true },
+    prerender: false, html_options: { class: "my-3" })
+  %>
+  <div id="clearance" class="border p-5 registration-box bg-white">
+    <p><%= t(".description") %></p>
+  </div>
+</main>

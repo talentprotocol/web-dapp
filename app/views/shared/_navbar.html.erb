@@ -1,5 +1,5 @@
-<div class="col-12 col-lg-3 flex-grow-0 flex-shrink-0 lg-overflow-y-hidden tal-sidebar px-0 lg-h-100">
-  <header class="col-12 px-0 tal-sidebar lg-h-100">
+<div class="w-100 lg-width-reset lg-navbar-min-width lg-overflow-y-scroll px-0 lg-h-100">
+  <header class="w-100 px-0 lg-h-100">
     <%=
       react_component("Navbar",
       props: {
@@ -7,14 +7,10 @@
         talentPath: talent_index_path,
         portfolioPath: portfolio_path,
         messagesPath: messages_path,
-        tradePath: swap_path,
-        settingsPath: settings_path,
-        talent: current_user&.talent.present?,
-        editTalentPath: current_user&.talent.present? && talent_path(current_user&.talent),
         admin: current_user&.admin?,
         adminPath: current_user.present? && admin_path,
-        helpPath: messages_path(user: 1)
+        watchList: current_user.following.where.not(user: { id: 1 }).includes(user: :talent).map { |f| {id: f.user.id, picture: f.user.talent.profile_picture_url, displayName: f.user.display_name.blank? ? f.user.username : f.user.display_name, url: talent_path(f.user.talent) }},
       },
-      prerender: false, html_options: { class: "d-flex flex-column flex-lg-fill align-self-lg-stretch lg-h-100" }) %>
+      prerender: false, html_options: { class: "d-flex flex-column align-self-lg-stretch lg-h-100" }) %>
   </header>
 </div>

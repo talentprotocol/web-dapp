@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Thanks for signing up!</h1>
+
+    <h3>Click on the link below to confirm your email</h3>
+
+    <p>
+      <%= link_to "Confirm my email", confirm_email_url(token: @user.email_confirmation_token) %>
+    </p>
+  </body>
+  <footer>
+    <br>
+    <h4>Talent Protocol</h4>
+  </footer>
+</html>

@@ -2,10 +2,12 @@ class User < ApplicationRecord
   include Clearance::User
 
   validate :role_is_valid, if: -> { role.present? }
-  validate :wallet_id_or_email_and_password
+  validate :email_and_password
 
   has_one :talent
   has_one :investor
+  has_one :invite
+  belongs_to :invited, class_name: "Invite", foreign_key: "invite_id", optional: true
 
   # Chat
   has_many :messagee, foreign_key: :receiver_id, class_name: "Message"
@@ -20,6 +22,8 @@ class User < ApplicationRecord
   has_many :following, foreign_key: :follower_id, class_name: "Follow"
   has_many :comments
   has_many :posts
+  has_many :testimonials
+  has_many :notifications
 
   VALID_ROLES = ["admin"].freeze
 
@@ -45,12 +49,8 @@ class User < ApplicationRecord
     investor.present?
   end
 
-  def display_name
-    username || email
-  end
-
   def display_wallet_id
-    "#{wallet_id[0..10]}..."
+    wallet_id ? "#{wallet_id[0..10]}..." : ""
   end
 
   def sender_chat_id(chat_user)
@@ -70,6 +70,11 @@ class User < ApplicationRecord
     end
   end
 
+  def confirm_email
+    self.email_confirmed_at = Time.current
+    save
+  end
+
   private
 
   def role_is_valid
@@ -86,9 +91,9 @@ class User < ApplicationRecord
     true
   end
 
-  def wallet_id_or_email_and_password
-    unless wallet_id.present? || (email.present? && encrypted_password.present?)
-      errors.add(:base, "The user doesn't respect the required login requirements")
-    end
+  def email_and_password
+    return if email.present? && encrypted_password.present?
+
+    errors.add(:base, "The user doesn't respect the required login requirements")
   end
 end

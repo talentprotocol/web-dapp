@@ -12,6 +12,12 @@
   }
 }
 
+.underline-hover {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .animated-background {
   animation-duration: 6s;
   animation-fill-mode: forwards;
@@ -27,4 +33,44 @@
 
 .image-fit {
   object-fit: cover;
+}
+
+.mh-100 {
+  min-height: 100%;
+}
+
+.w-32 {
+  width: 32%;
+}
+
+.w-49 {
+  width: 49%;
+}
+
+.t-24 {
+  top: 24px;
+}
+
+.r-24 {
+  right: 24px;
+}
+
+.b-24 {
+  bottom: 24px;
+}
+
+.l-24 {
+  left: 24px;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.text-black {
+  color: $black;
 }

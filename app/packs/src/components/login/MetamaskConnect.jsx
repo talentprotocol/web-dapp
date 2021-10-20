@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { OnChain } from "src/onchain";
 
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "../../utils/requests";
 
-import Web3Container, { Web3Context } from "src/contexts/web3Context";
-
-const NoMetamask = ({ show, hide }) => (
+export const NoMetamask = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
     <Modal.Header closeButton>
       <Modal.Title>
@@ -26,68 +25,71 @@ const NoMetamask = ({ show, hide }) => (
   </Modal>
 );
 
-const MetamaskConnect = ({ user_id }) => {
-  const [requestingMetamask, setRequestingMetamask] = useState("false");
-  const [connected, setConnected] = useState(false);
-  const [showNoMetamask, setShowNoMetamask] = useState(true);
-  const web3 = useContext(Web3Context);
+export const UnableToConnect = ({ show, hide }) => (
+  <Modal show={show} onHide={hide} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>
+        Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p className="text-danger">
+        We already have the public key you tried to connect in our system. We do
+        not allow multiple users to use the same wallet, please select a
+        different one and try to connect again.
+      </p>
+    </Modal.Body>
+  </Modal>
+);
+
+const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
+  const [requestingMetamask, setRequestingMetamask] = useState(false);
+  const [account, setAccount] = useState("");
+  const [showNoMetamask, setShowNoMetamask] = useState(false);
+  const [error, setError] = useState(false);
 
   const connectMetamask = async (e) => {
     e.preventDefault();
 
-    setRequestingMetamask("true");
-    if (web3.provider) {
-      const accounts = await web3.provider.request({
-        method: "eth_requestAccounts",
-      });
+    setRequestingMetamask(true);
 
-      if (accounts.length > 0) {
-        const result = await patch(`/api/v1/users/${user_id}`, {
-          wallet_id: accounts[0],
-        });
+    const api = new OnChain(railsContext.contractsEnv);
+    const _account = await api.retrieveAccount();
 
-        if (result) {
-          web3.connectAccount(accounts[0]);
-          setConnected(true);
-        }
-        setRequestingMetamask("false");
+    if (_account) {
+      const result = await patch(`/api/v1/users/${user_id}`, {
+        wallet_id: _account.toLowerCase(),
+      }).catch(() => setError(true));
+
+      if (result) {
+        setAccount(_account);
       }
+      onConnect(_account);
+      setRequestingMetamask(false);
+    } else {
+      setRequestingMetamask(false);
+      setShowNoMetamask(true);
     }
   };
 
-  const allowConnect = () =>
-    web3.loading == false &&
-    requestingMetamask == "false" &&
-    web3.provider != null;
+  const allowConnect = () => requestingMetamask == "false";
 
   return (
     <>
-      {web3.loading == false && web3.provider == null && (
-        <NoMetamask
-          show={showNoMetamask}
-          hide={() => setShowNoMetamask(false)}
-        />
-      )}
-      <button
-        disabled={!allowConnect()}
+      <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
+      <UnableToConnect show={error} hide={() => setError(false)} />
+      <small
         onClick={connectMetamask}
-        className="btn btn-primary talent-button"
+        disabled={!allowConnect()}
+        className={error ? "text-danger" : ""}
       >
-        {connected
-          ? "Connected"
-          : web3.loading
-          ? "Loading..."
-          : "Connect Wallet"}{" "}
-        <img src={MetamaskFox} height={32} alt="Metamask Fox" />
-      </button>
+        {account == "" ? "Connect Wallet" : `${account.substring(0, 10)}...`}{" "}
+        <img src={MetamaskFox} height={16} alt="Metamask Fox" />
+      </small>
     </>
   );
 };
 
-const MetamaskConnected = (props) => (
-  <Web3Container ignoreTokens={true}>
-    <MetamaskConnect {...props} />
-  </Web3Container>
-);
-
-export default MetamaskConnected;
+export default (props, railsContext) => {
+  return <MetamaskConnect {...props} railsContext={railsContext} />;
+};
