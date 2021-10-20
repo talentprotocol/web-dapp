@@ -1,7 +1,7 @@
 import React from "react";
 import LogoImage from "images/logo.svg";
 
-const Logo = ({ width, height, bigName }) => (
+const Logo = ({ width, height, bigName, centerText }) => (
   <div className="d-flex flex-row justify-content-center align-items-center">
     <img
       className="mr-2"
@@ -10,7 +10,11 @@ const Logo = ({ width, height, bigName }) => (
       height={height || "18"}
       alt="Talent Protocol"
     />
-    {bigName ? <h1>Talent Protocol</h1> : <small>Talent Protocol</small>}
+    {bigName ? (
+      <h1 className={centerText ? "text-center" : ""}>Talent Protocol</h1>
+    ) : (
+      <small>Talent Protocol</small>
+    )}
   </div>
 );
 

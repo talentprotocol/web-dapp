@@ -4,6 +4,7 @@ import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { get } from "../../utils/requests";
+import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
 
 const Welcome = ({
   changeStep,
@@ -20,6 +21,7 @@ const Welcome = ({
   const [emailValidated, setEmailValidated] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
   const [validPassword, setValidPassword] = useState(true);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [localUsername, setUsername] = useState(username);
   const [requestingUsername, setRequestingUsername] = useState(false);
   const [usernameValidated, setUsernameValidated] = useState(false);
@@ -70,7 +72,8 @@ const Welcome = ({
     !emailValidated ||
     localPassword.length < 8 ||
     !usernameValidated ||
-    localCode.length < 1;
+    localCode.length < 1 ||
+    !acceptedTerms;
 
   const submitWelcomeForm = (e) => {
     e.preventDefault();
@@ -272,6 +275,28 @@ const Welcome = ({
             value={localCode}
             onChange={(e) => setCode(e.target.value)}
           />
+          <div class="form-group form-check mt-3">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="termsAndConditions"
+              defaultChecked={acceptedTerms}
+              onChange={() => setAcceptedTerms((prev) => !prev)}
+            />
+            <label class="form-check-label" for="termsAndConditions">
+              <small>
+                I have read and agree to the{" "}
+                <a target="_blank" href={TERMS_HREF}>
+                  Talent Protocol Terms & Conditions
+                </a>
+                and the{" "}
+                <a target="_blank" href={PRIVACY_HREF}>
+                  Talent Protocol Privacy Policy
+                </a>
+                .
+              </small>
+            </label>
+          </div>
         </div>
         <div className="align-self-end">
           <button

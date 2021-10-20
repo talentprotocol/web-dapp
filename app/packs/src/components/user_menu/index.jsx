@@ -9,6 +9,7 @@ import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
+import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
@@ -193,6 +194,23 @@ const UserMenu = ({ user, signOutPath }) => {
             className="text-black"
           >
             <small>Sign out</small>
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item
+            key="tab-dropdown-terms-conditions"
+            href={TERMS_HREF}
+            target="_blank"
+            className="text-black"
+          >
+            <small>Terms & Conditions</small>
+          </Dropdown.Item>
+          <Dropdown.Item
+            key="tab-dropdown-privacy-policy"
+            href={PRIVACY_HREF}
+            target="_blank"
+            className="text-black"
+          >
+            <small>Privacy Policy</small>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
