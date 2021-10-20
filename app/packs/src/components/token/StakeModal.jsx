@@ -28,6 +28,7 @@ const StakeModal = ({
   const [approving, setApproving] = useState(false);
   const [didAllowance, setDidAllowance] = useState(false);
   const [validChain, setValidChain] = useState(true);
+  const [valueError, setValueError] = useState(false);
 
   const setupOnChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
@@ -177,7 +178,7 @@ const StakeModal = ({
   };
 
   const disabledStakeButton = () => {
-    if (!currentAccount || !targetToken) {
+    if (!currentAccount || !targetToken || valueError) {
       return true;
     }
 
@@ -212,6 +213,19 @@ const StakeModal = ({
     }
   };
 
+  const setValidAmount = (value) => {
+    if (
+      parseFloat(value) < 0 ||
+      parseFloat(value) > parseFloat(availableAmount)
+    ) {
+      setValueError(true);
+    } else {
+      setValueError(false);
+    }
+
+    setAmount(value);
+  };
+
   return (
     <>
       <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
@@ -234,13 +248,13 @@ const StakeModal = ({
               <form onSubmit={onSubmit}>
                 <div className="form-group">
                   <input
-                    className="text-right form-control"
+                    className={`text-right form-control ${
+                      valueError ? "border-danger" : ""
+                    }`}
                     inputMode="decimal"
-                    type="text"
+                    type="number"
                     placeholder="0.0"
-                    minLength="1"
-                    maxLength="79"
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setValidAmount(e.target.value)}
                     value={amount}
                   />
                   <small className="form-text text-primary">
@@ -279,7 +293,8 @@ const StakeModal = ({
                         disabled={
                           amount == "" ||
                           approving ||
-                          parseFloat(amount) > parseFloat(maxMinting)
+                          parseFloat(amount) > parseFloat(maxMinting) ||
+                          valueError
                         }
                         onClick={approve}
                       >
