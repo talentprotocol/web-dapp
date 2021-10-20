@@ -114,6 +114,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   const [chainAPI, setChainAPI] = useState(null);
   const [returnValues, setReturnValues] = useState({});
   const [supporterProfilePictures, setSupporterProfilePictures] = useState({});
+  const [supporterDBIds, setSupporterDBIds] = useState({});
 
   const supporters = useMemo(() => {
     if (!data || data.talentToken == null) {
@@ -129,9 +130,14 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   useEffect(() => {
     supporters.forEach((supporter) => {
       get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
+        console.log(response);
         setSupporterProfilePictures((prev) => ({
           ...prev,
           [supporter.id]: response.profilePictureUrl,
+        }));
+        setSupporterDBIds((prev) => ({
+          ...prev,
+          [supporter.id]: response.id,
         }));
       });
     });
@@ -294,7 +300,8 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
                 <Button
                   type="primary"
                   text="Message"
-                  href={`/messages?user=${supporter.id}`}
+                  disabled={!supporterDBIds[supporter.id]}
+                  href={`/messages?user=${supporterDBIds[supporter.id]}`}
                   size="sm"
                 />
               </td>
