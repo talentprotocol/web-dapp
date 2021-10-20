@@ -36,11 +36,12 @@ class OnChain {
     this.stabletoken = null;
     this.celoKit = null;
     this.signer = null;
+    this.env = env || "development";
 
-    if (env) {
-      this.factoryAddress = Addresses[env]["factory"];
-      this.stakingAddress = Addresses[env]["staking"];
-      this.fornoURI = Addresses[env]["forno"];
+    if (this.env) {
+      this.factoryAddress = Addresses[this.env]["factory"];
+      this.stakingAddress = Addresses[this.env]["staking"];
+      this.fornoURI = Addresses[this.env]["forno"];
     } else {
       this.factoryAddress = Addresses["production"]["factory"];
       this.stakingAddress = Addresses["production"]["staking"];
@@ -87,21 +88,37 @@ class OnChain {
     return network.chainId;
   }
 
+  getEnvChainID = () => {
+    if (this.env == "production") {
+      return CELO_PARAMS.chainId;
+    } else {
+      return ALFAJORES_PARAMS.chainId;
+    }
+  };
+
+  getEnvNetworkParams = () => {
+    if (this.env == "production") {
+      return CELO_PARAMS;
+    } else {
+      return ALFAJORES_PARAMS;
+    }
+  };
+
   async switchChain() {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+        params: [{ chainId: this.getEnvChainID() }],
       });
     } catch (error) {
       if (error.code === 4902) {
         await window.ethereum.request({
           method: "wallet_addEthereumChain",
-          params: [ALFAJORES_PARAMS],
+          params: [this.getEnvNetworkParams()],
         });
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: ALFAJORES_PARAMS.chainId }],
+          params: [{ chainId: this.getEnvChainID() }],
         });
       }
     }
@@ -111,9 +128,7 @@ class OnChain {
     const chainId = await this.getChainID();
     const chainBN = ethers.BigNumber.from(chainId);
 
-    if (chainBN.eq(ethers.BigNumber.from(ALFAJORES_PARAMS.chainId))) {
-      return true;
-    } else if (chainBN.eq(ethers.BigNumber.from(CELO_PARAMS.chainId))) {
+    if (chainBN.eq(ethers.BigNumber.from(this.getEnvChainID()))) {
       return true;
     } else {
       return false;

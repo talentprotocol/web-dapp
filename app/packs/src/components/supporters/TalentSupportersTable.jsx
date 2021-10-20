@@ -107,7 +107,7 @@ const SupporterOverview = ({
   );
 };
 
-const TalentSupportersTable = ({ talent, contractId }) => {
+const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: contractId?.toLowerCase() },
   });
@@ -158,7 +158,7 @@ const TalentSupportersTable = ({ talent, contractId }) => {
   }, [data]);
 
   const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const newOnChain = new OnChain(railsContext.contractsEnv);
 
     await newOnChain.connectedAccount();
     await newOnChain.loadStaking();
@@ -306,8 +306,10 @@ const TalentSupportersTable = ({ talent, contractId }) => {
   );
 };
 
-export default (props) => (
-  <ApolloProvider client={client}>
-    <TalentSupportersTable {...props} />
-  </ApolloProvider>
-);
+export default (props, railsContext) => {
+  return () => (
+    <ApolloProvider client={client}>
+      <TalentSupportersTable {...props} railsContext={railsContext} />
+    </ApolloProvider>
+  );
+};

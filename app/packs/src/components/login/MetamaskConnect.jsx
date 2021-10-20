@@ -42,7 +42,7 @@ export const UnableToConnect = ({ show, hide }) => (
   </Modal>
 );
 
-const MetamaskConnect = ({ user_id, onConnect }) => {
+const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
   const [requestingMetamask, setRequestingMetamask] = useState(false);
   const [account, setAccount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -53,7 +53,7 @@ const MetamaskConnect = ({ user_id, onConnect }) => {
 
     setRequestingMetamask(true);
 
-    const api = new OnChain();
+    const api = new OnChain(railsContext.contractsEnv);
     const _account = await api.retrieveAccount();
 
     if (_account) {
@@ -90,4 +90,6 @@ const MetamaskConnect = ({ user_id, onConnect }) => {
   );
 };
 
-export default MetamaskConnect;
+export default (props, railsContext) => {
+  return <MetamaskConnect {...props} railsContext={railsContext} />;
+};

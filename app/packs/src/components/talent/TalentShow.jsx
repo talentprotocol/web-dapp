@@ -48,6 +48,7 @@ const TalentShow = ({
   isFollowing,
   badges,
   testimonials,
+  railsContext,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
@@ -235,6 +236,7 @@ const TalentShow = ({
               tokenAddress={sharedState.token.contract_id}
               tokenId={sharedState.token.id}
               ticker={ticker()}
+              railsContext={railsContext}
             />
           )}
           <a href={`/messages?user=${user.id}`} className="btn btn-light mx-2">
@@ -245,6 +247,7 @@ const TalentShow = ({
             updateSharedState={setSharedState}
             allowEdit={talentIsFromCurrentUser}
             profileIsComplete={profileIsComplete}
+            railsContext={railsContext}
           />
         </div>
       </section>
@@ -313,6 +316,7 @@ const TalentShow = ({
           ticker={ticker()}
           width={width}
           contract={token.contract_id}
+          railsContext={railsContext}
         />
         <Testimonials
           talentId={talent.id}
@@ -325,4 +329,6 @@ const TalentShow = ({
   );
 };
 
-export default TalentShow;
+export default (props, railsContext) => {
+  return () => <TalentShow {...props} railsContext={railsContext} />;
+};

@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Perks = ({ perks, ticker, width, contract }) => {
+const Perks = ({ perks, ticker, width, contract, railsContext }) => {
   const [start, setStart] = useState(0);
   const [availableBalance, setAvailableBalance] = useState(0);
   const itemsPerRow = width < 768 ? 1 : 3;
@@ -32,7 +32,7 @@ const Perks = ({ perks, ticker, width, contract }) => {
   const disableRight = start + itemsPerRow >= perks.length;
 
   const setupOnChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const newOnChain = new OnChain(railsContext.contractsEnv);
     const result = await newOnChain.connectedAccount();
 
     if (!result) {

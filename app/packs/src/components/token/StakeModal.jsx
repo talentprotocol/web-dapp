@@ -9,7 +9,14 @@ import { post } from "src/utils/requests";
 
 import { NoMetamask } from "../login/MetamaskConnect";
 
-const StakeModal = ({ show, setShow, ticker, tokenAddress, tokenId }) => {
+const StakeModal = ({
+  show,
+  setShow,
+  ticker,
+  tokenAddress,
+  tokenId,
+  railsContext,
+}) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
   const [availableAmount, setAvailableAmount] = useState("0");
@@ -23,7 +30,7 @@ const StakeModal = ({ show, setShow, ticker, tokenAddress, tokenId }) => {
   const [validChain, setValidChain] = useState(true);
 
   const setupOnChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const newOnChain = new OnChain(railsContext.contractsEnv);
     let result, _token;
 
     result = await newOnChain.connectedAccount();

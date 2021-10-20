@@ -11,10 +11,10 @@ import CareerGoal from "./edit_profile/CareerGoal";
 import Contacts from "./edit_profile/Contacts";
 import Timeline from "./edit_profile/Timeline";
 
-const EditProfile = (props) => {
+const EditProfile = ({ railsContext, ...props }) => {
   const [show, setShow] = useState(false);
   const [activeSection, setActiveSection] = useState("About");
-  const allowEdit = props.allowEdit; // TODO: Change later
+  const allowEdit = props.allowEdit;
 
   return (
     <>
@@ -108,7 +108,11 @@ const EditProfile = (props) => {
                 <About close={() => setShow(false)} {...props} />
               )}
               {activeSection == "Token" && (
-                <Token close={() => setShow(false)} {...props} />
+                <Token
+                  close={() => setShow(false)}
+                  {...props}
+                  railsContext={railsContext}
+                />
               )}
               {activeSection == "Services" && (
                 <Services close={() => setShow(false)} {...props} />
@@ -133,4 +137,6 @@ const EditProfile = (props) => {
   );
 };
 
-export default EditProfile;
+export default (props, railsContext) => {
+  return <EditProfile {...props} railsContext={railsContext} />;
+};

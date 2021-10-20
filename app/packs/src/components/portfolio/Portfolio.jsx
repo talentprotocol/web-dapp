@@ -51,7 +51,7 @@ const Portfolio = ({ address, railsContext }) => {
   }, [data]);
 
   const setupChain = useCallback(async () => {
-    const newOnChain = new OnChain(railsContext.railsEnv);
+    const newOnChain = new OnChain(railsContext.contractsEnv);
 
     await newOnChain.connectedAccount();
     await newOnChain.loadStaking();

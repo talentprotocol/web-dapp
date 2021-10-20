@@ -47,7 +47,7 @@ const newTransak = (width, height) =>
     cryptoCurrencyList: "CUSD",
   });
 
-const UserMenu = ({ user, signOutPath }) => {
+export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   const [show, setShow] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
   const [stableBalance, setStableBalance] = useState(0);
@@ -87,7 +87,8 @@ const UserMenu = ({ user, signOutPath }) => {
   };
 
   const setupChain = useCallback(async () => {
-    const onChain = new OnChain();
+    console.log(railsContext);
+    const onChain = new OnChain(railsContext.contractsEnv);
 
     const account = await onChain.connectedAccount();
 
@@ -156,7 +157,11 @@ const UserMenu = ({ user, signOutPath }) => {
           )}
           {showConnectButton() && (
             <Dropdown.Item key="tab-dropdown-connect-wallet">
-              <MetamaskConnect user_id={user.id} onConnect={onWalletConnect} />
+              <MetamaskConnect
+                user_id={user.id}
+                onConnect={onWalletConnect}
+                railsContext={railsContext}
+              />
             </Dropdown.Item>
           )}
           <Dropdown.ItemText key="tab-dropdown-balance">
@@ -223,4 +228,6 @@ const UserMenu = ({ user, signOutPath }) => {
   );
 };
 
-export default UserMenu;
+export default (props, railsContext) => {
+  return () => <UserMenuUnconnected {...props} railsContext={railsContext} />;
+};

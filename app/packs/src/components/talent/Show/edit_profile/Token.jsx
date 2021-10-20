@@ -14,6 +14,7 @@ const Token = ({
   user,
   updateSharedState,
   profileIsComplete,
+  railsContext,
 }) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
@@ -61,7 +62,7 @@ const Token = ({
   };
 
   const setupOnChain = useCallback(async () => {
-    const newOnChain = new OnChain();
+    const newOnChain = new OnChain(railsContext.contractsEnv);
     let result;
 
     result = await newOnChain.connectedAccount();
@@ -239,4 +240,6 @@ const Token = ({
   );
 };
 
-export default Token;
+export default (props, railsContext) => {
+  return <Token {...props} railsContext={railsContext} />;
+};

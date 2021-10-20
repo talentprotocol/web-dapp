@@ -5,9 +5,17 @@ import UpcomingTalentLeaderboard from "./UpcomingTalentLeaderboard";
 import PostInput from "./PostInput";
 import Post from "./Post";
 import Notifications from "../notifications";
-import UserMenu from "../user_menu";
+import { UserMenuUnconnected } from "../user_menu";
 
-const Home = ({ user, posts, activeTalents, upcomingTalents, notifications, signOutPath }) => {
+const Home = ({
+  user,
+  posts,
+  activeTalents,
+  upcomingTalents,
+  notifications,
+  signOutPath,
+  railsContext,
+}) => {
   const [currentPosts, setCurrentPosts] = useState(posts);
 
   const addPost = (post) => {
@@ -32,7 +40,11 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, notifications, sign
       </section>
       <section className="col-12 col-lg-5 d-flex flex-column lg-h-100 py-4">
         <div className="d-flex flex-row w-100 justify-content-end mb-3">
-          <UserMenu user={user} signOutPath={signOutPath} />
+          <UserMenuUnconnected
+            user={user}
+            signOutPath={signOutPath}
+            railsContext={railsContext}
+          />
           <div className="ml-2">
             <Notifications notifications={notifications} />
           </div>
@@ -44,4 +56,6 @@ const Home = ({ user, posts, activeTalents, upcomingTalents, notifications, sign
   );
 };
 
-export default Home;
+export default (props, railsContext) => {
+  return () => <Home {...props} railsContext={railsContext} />;
+};
