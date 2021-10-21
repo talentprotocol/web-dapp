@@ -275,15 +275,15 @@ const Welcome = ({
             value={localCode}
             onChange={(e) => setCode(e.target.value)}
           />
-          <div class="form-group form-check mt-3">
+          <div className="form-group form-check mt-3">
             <input
               type="checkbox"
-              class="form-check-input"
+              className="form-check-input"
               id="termsAndConditions"
               defaultChecked={acceptedTerms}
               onChange={() => setAcceptedTerms((prev) => !prev)}
             />
-            <label class="form-check-label" for="termsAndConditions">
+            <label className="form-check-label" htmlFor="termsAndConditions">
               <small>
                 I have read and agree to the{" "}
                 <a target="_blank" href={TERMS_HREF}>

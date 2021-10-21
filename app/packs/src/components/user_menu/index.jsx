@@ -13,6 +13,7 @@ import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
+import { parseAndCommify } from "src/onchain/utils";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -173,7 +174,9 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
           )}
           <Dropdown.ItemText key="tab-dropdown-balance">
             <small className="text-black">Balance: </small>
-            <small className="text-secondary">{stableBalance}</small>
+            <small className="text-secondary">
+              {parseAndCommify(stableBalance)}
+            </small>
             <small className="text-secondary ml-1">cUSD</small>
           </Dropdown.ItemText>
           <Dropdown.Item
