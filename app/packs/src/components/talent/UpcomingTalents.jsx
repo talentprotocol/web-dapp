@@ -89,7 +89,9 @@ const UpcomingTalents = ({ talents }) => {
                 className={"rounded mx-auto"}
               />
               <h5 className="mt-3 talent-link h-100 w-100">{talent.name}</h5>
-              <h6 className="text-muted talent-link h-100 w-100">{talent.occupation}</h6>
+              <h6 className="text-muted talent-link h-100 w-100">
+                {talent.occupation}
+              </h6>
               <div className="mt-2 talent-link h-100 w-100">
                 <small className="p-2 text-primary bg-info rounded talent-link">
                   Coming Soon

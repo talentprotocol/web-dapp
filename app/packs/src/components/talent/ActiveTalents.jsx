@@ -116,7 +116,9 @@ const ActiveTalents = ({ talents }) => {
                 className={"rounded mx-auto"}
               />
               <h5 className="mt-3 talent-link h-100 w-100">{talent.name}</h5>
-              <h6 className="text-muted talent-link h-100 w-100">{talent.occupation}</h6>
+              <h6 className="text-muted talent-link h-100 w-100">
+                {talent.occupation}
+              </h6>
               <small className="text-muted mt-3 talent-link h-100 w-100">
                 CIRCULATING SUPPLY
               </small>
