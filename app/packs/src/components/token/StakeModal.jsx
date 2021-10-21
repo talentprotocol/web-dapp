@@ -4,6 +4,7 @@ import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { OnChain } from "src/onchain";
+import { parseAndCommify } from "src/onchain/utils";
 
 import { post } from "src/utils/requests";
 
@@ -263,7 +264,7 @@ const StakeModal = ({
                   <small className="form-text text-muted">
                     Available cUSD on your wallet:{" "}
                     {currentAccount
-                      ? availableAmount
+                      ? parseAndCommify(availableAmount)
                       : "[Connect wallet to get available balance]"}
                   </small>
                   <small className="form-text text-muted">

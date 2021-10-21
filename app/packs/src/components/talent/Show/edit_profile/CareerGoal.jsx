@@ -341,10 +341,10 @@ const CareerGoal = (props) => {
           </div>
           <div className="form-group">
             <div className="d-flex flex-row justify-content-between">
-              <label htmlFor="challenge">Challenges *</label>
-              <label htmlFor="challenge">
+              <label htmlFor="challenges">Challenges *</label>
+              <label htmlFor="challenges">
                 <small className="text-muted">
-                  {careerInfo["challenge"]?.length || 0} of 175
+                  {careerInfo["challenges"]?.length || 0} of 175
                 </small>
               </label>
             </div>
