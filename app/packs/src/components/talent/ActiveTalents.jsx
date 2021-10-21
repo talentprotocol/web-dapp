@@ -77,7 +77,7 @@ const ActiveTalents = ({ talents }) => {
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
         <div className="d-flex flex-row align-items-center">
           <h5 className="mb-0">
-            <strong>Top Talent</strong>
+            <strong>Talent</strong>
           </h5>
         </div>
         {talents.length > itemsPerRow && (
