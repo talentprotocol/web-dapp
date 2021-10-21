@@ -49,7 +49,10 @@ const Home = ({
             <Notifications notifications={notifications} />
           </div>
         </div>
-        <ActiveTalentLeaderboard talents={activeTalents} />
+        <ActiveTalentLeaderboard
+          talents={activeTalents}
+          railsContext={railsContext}
+        />
         <UpcomingTalentLeaderboard talents={upcomingTalents} />
       </section>
     </>

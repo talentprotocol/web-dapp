@@ -6,10 +6,16 @@ import {
   gql,
 } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
-  cache: new InMemoryCache(),
-});
+import { THE_GRAPH_ENDPOINTS } from "./constants";
+
+const client = (env) => {
+  const uri = THE_GRAPH_ENDPOINTS[env || "staging"];
+
+  return new ApolloClient({
+    uri,
+    cache: new InMemoryCache(),
+  });
+};
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList {

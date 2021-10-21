@@ -301,6 +301,7 @@ const TalentShow = ({
             ticker={ticker()}
             token={token}
             displayName={displayName({ withLink: false })}
+            railsContext={railsContext}
           />
         </div>
       </div>

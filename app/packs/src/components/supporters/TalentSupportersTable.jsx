@@ -315,7 +315,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
 
 export default (props, railsContext) => {
   return () => (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client(railsContext.contractsEnv)}>
       <TalentSupportersTable {...props} railsContext={railsContext} />
     </ApolloProvider>
   );
