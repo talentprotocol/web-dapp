@@ -5,7 +5,7 @@ export const PRIVACY_HREF =
 
 export const THE_GRAPH_ENDPOINTS = {
   production:
-    "https://api.studio.thegraph.com/query/10292/talent-tokens/v0.0.1",
+    "https://api.studio.thegraph.com/query/10292/talent-tokens/v0.0.2",
   staging:
     "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.16",
   development:

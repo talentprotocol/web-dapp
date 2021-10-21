@@ -88,7 +88,7 @@ Rails.application.routes.draw do
 
   # Public routes
   # Auth - Clearance generated routes
-  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
+  resources :passwords, controller: "passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
 
   resources :users, only: [:create, :index] do

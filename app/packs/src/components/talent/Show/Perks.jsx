@@ -5,6 +5,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ethers } from "ethers";
 
 const Perks = ({ perks, ticker, width, contract, railsContext }) => {
   const [start, setStart] = useState(0);
@@ -53,10 +54,15 @@ const Perks = ({ perks, ticker, width, contract, railsContext }) => {
   }, []);
 
   const calculateAmount = (price) => {
-    if (price < availableBalance) {
+    const bnPrice = ethers.BigNumber.from(
+      ethers.utils.parseEther(price.toString())
+    );
+
+    if (bnPrice.lt(availableBalance)) {
       return 0;
     } else {
-      return price - availableBalance;
+      const newValue = bnPrice.sub(availableBalance);
+      return ethers.utils.formatUnits(newValue);
     }
   };
 
@@ -110,7 +116,7 @@ const Perks = ({ perks, ticker, width, contract, railsContext }) => {
             <p>{perk.title}</p>
             <small className="text-warning">
               {calculateAmount(perk.price) === 0 && <strong>AVAILABLE</strong>}
-              {calculateAmount(perk.price) > 0 && (
+              {calculateAmount(perk.price) !== 0 && (
                 <strong>
                   HOLD +{calculateAmount(perk.price)} {ticker}
                 </strong>

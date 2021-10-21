@@ -10,7 +10,9 @@ import "@uppy/drag-drop/dist/style.css";
 
 import { patch, getAuthToken } from "src/utils/requests";
 
+import TalentProfilePicture from "../../TalentProfilePicture";
 import Button from "../../../button";
+import { useWindowDimensionsHook } from "src/utils/window";
 
 const uppyProfile = new Uppy({
   meta: { type: "avatar" },
@@ -48,11 +50,14 @@ const About = ({
   secondary_tags,
   updateSharedState,
   profileIsComplete,
+  profilePictureUrl,
+  bannerUrl,
 }) => {
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const [errorTracking, setErrorTracking] = useState({});
+  const { height, width } = useWindowDimensionsHook();
   const [aboutInfo, setAboutInfo] = useState({
     username: user.username || "",
     display_name: user.display_name || "",
@@ -70,6 +75,7 @@ const About = ({
     uploadedFileData: null,
     uploadedBannerData: null,
     fileUrl: "",
+    bannerUrl: "",
   });
 
   useEffect(() => {
@@ -216,49 +222,90 @@ const About = ({
       <form>
         <div className="form-group">
           <label className="mr-1">Profile picture *</label>
-          {uploadingFileS3 == "profile" && (
-            <p>
-              <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
-            </p>
-          )}
-          {uploadingFileS3 != "profile" &&
-            aboutInfo["uploadedFileData"] !== null && <p>Uploaded file. </p>}
-          {uploadingFileS3 != "profile" &&
-            aboutInfo["uploadedFileData"] === null && (
-              <DragDrop
-                uppy={uppyProfile}
-                locale={{
-                  strings: {
-                    dropHereOr: "Drop here or %{browse}",
-                    browse: "browse",
-                  },
-                }}
-              />
+          <div className="d-flex flex-column">
+            <div className="h-100 d-flex flex-row justify-content-center mb-3">
+              {(aboutInfo["fileUrl"] != "" || profilePictureUrl) && (
+                <TalentProfilePicture
+                  src={
+                    aboutInfo["fileUrl"] != ""
+                      ? aboutInfo["fileUrl"]
+                      : profilePictureUrl
+                  }
+                  height={width > 992 ? "50%" : "100%"}
+                  straight
+                  className={"rounded mx-auto"}
+                />
+              )}
+            </div>
+            {uploadingFileS3 == "profile" && (
+              <p>
+                <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
+              </p>
             )}
+            {uploadingFileS3 != "profile" &&
+              aboutInfo["uploadedFileData"] !== null && <p>Uploaded file. </p>}
+            <div className="w-100">
+              {uploadingFileS3 != "profile" &&
+                aboutInfo["uploadedFileData"] === null && (
+                  <DragDrop
+                    uppy={uppyProfile}
+                    width="100%"
+                    height="100%"
+                    locale={{
+                      strings: {
+                        dropHereOr: "Drop here or %{browse}",
+                        browse: "browse",
+                      },
+                    }}
+                  />
+                )}
+            </div>
+          </div>
         </div>
         <div className="form-group">
           <label className="mr-1">Banner</label>
-          {uploadingFileS3 == "banner" && (
-            <p>
-              <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
-            </p>
-          )}
-          {uploadingFileS3 != "banner" &&
-            aboutInfo["uploadedBannerData"] !== null && (
-              <p>Uploaded banner. </p>
+          <div className="d-flex flex-column">
+            <div className="h-100 d-flex flex-row justify-content-center mb-3">
+              {(aboutInfo["bannerUrl"] != "" || bannerUrl) && (
+                <TalentProfilePicture
+                  src={
+                    aboutInfo["bannerUrl"] != ""
+                      ? aboutInfo["bannerUrl"]
+                      : bannerUrl
+                  }
+                  height={width > 992 ? "50%" : "100%"}
+                  straight
+                  className={"rounded mx-auto"}
+                />
+              )}
+            </div>
+
+            {uploadingFileS3 == "banner" && (
+              <p>
+                <FontAwesomeIcon icon={faSpinner} spin /> Uploading...
+              </p>
             )}
-          {uploadingFileS3 != "banner" &&
-            aboutInfo["uploadedBannerData"] === null && (
-              <DragDrop
-                uppy={uppyBanner}
-                locale={{
-                  strings: {
-                    dropHereOr: "Drop here or %{browse}",
-                    browse: "browse",
-                  },
-                }}
-              />
-            )}
+            {uploadingFileS3 != "banner" &&
+              aboutInfo["uploadedBannerData"] !== null && (
+                <p>Uploaded banner. </p>
+              )}
+            <div className="w-100">
+              {uploadingFileS3 != "banner" &&
+                aboutInfo["uploadedBannerData"] === null && (
+                  <DragDrop
+                    uppy={uppyBanner}
+                    width="100%"
+                    height="100%"
+                    locale={{
+                      strings: {
+                        dropHereOr: "Drop here or %{browse}",
+                        browse: "browse",
+                      },
+                    }}
+                  />
+                )}
+            </div>
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="username">Username</label>

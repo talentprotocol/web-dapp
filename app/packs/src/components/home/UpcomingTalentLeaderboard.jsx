@@ -12,7 +12,7 @@ const UpcomingTalentLeaderboard = ({ talents }) => {
   return (
     <div className="d-flex flex-column bg-light px-3 py-4 mb-3">
       <div className="d-flex flex-row w-100 justify-content-between">
-        <h6>Upcoming Talents</h6>
+        <h6>Upcoming Talent</h6>
         <a className="text-reset" href="/talent">
           More{" "}
           <FontAwesomeIcon icon={faChevronRight} size="sm" className="ml-2" />
