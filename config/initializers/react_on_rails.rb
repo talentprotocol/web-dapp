@@ -6,7 +6,8 @@
 module RenderingExtension
   def self.custom_context(view_context)
     {
-      contractsEnv: ENV["CONTRACTS_ENV"]
+      contractsEnv: ENV["CONTRACTS_ENV"],
+      transakApiKey: ENV["TRANSAK_API_KEY"]
     }
   end
 end
