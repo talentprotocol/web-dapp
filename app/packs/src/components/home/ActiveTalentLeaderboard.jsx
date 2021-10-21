@@ -79,7 +79,7 @@ const ActiveTalentLeaderboard = ({ talents }) => {
 };
 
 export default (props) => (
-  <ApolloProvider client={client}>
+  <ApolloProvider client={client(props.railsContext.contractsEnv)}>
     <ActiveTalentLeaderboard {...props} />
   </ApolloProvider>
 );

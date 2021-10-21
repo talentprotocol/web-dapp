@@ -93,7 +93,7 @@ const TokenDetails = ({ token, ticker, displayName }) => {
 };
 
 export default (props) => (
-  <ApolloProvider client={client}>
+  <ApolloProvider client={client(props.railsContext.contractsEnv)}>
     <TokenDetails {...props} />
   </ApolloProvider>
 );

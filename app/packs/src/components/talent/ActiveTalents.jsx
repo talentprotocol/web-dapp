@@ -134,8 +134,10 @@ const ActiveTalents = ({ talents }) => {
   );
 };
 
-export default (props) => (
-  <ApolloProvider client={client}>
-    <ActiveTalents {...props} />
-  </ApolloProvider>
-);
+export default (props, railsContext) => {
+  return () => (
+    <ApolloProvider client={client(railsContext.contractsEnv)}>
+      <ActiveTalents {...props} />
+    </ApolloProvider>
+  );
+};

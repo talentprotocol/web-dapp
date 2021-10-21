@@ -151,7 +151,7 @@ const Portfolio = ({ address, railsContext }) => {
 
 export default (props, railsContext) => {
   return () => (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client(railsContext.contractsEnv)}>
       <Portfolio {...props} railsContext={railsContext} />
     </ApolloProvider>
   );
