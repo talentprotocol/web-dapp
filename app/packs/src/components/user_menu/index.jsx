@@ -32,10 +32,12 @@ const TransakDone = ({ show, hide }) => (
   </Modal>
 );
 
-const newTransak = (width, height) =>
-  new transakSDK({
-    apiKey: "d8921427-8447-4523-9333-f062f738026f", // Your API Key
-    environment: "STAGING", // STAGING/PRODUCTION
+const newTransak = (width, height, env, apiKey) => {
+  const envName = env ? env.toUpperCase() : "STAGING";
+
+  return new transakSDK({
+    apiKey: apiKey, // Your API Key
+    environment: envName, // STAGING/PRODUCTION
     defaultCryptoCurrency: "CUSD",
     fiatCurrency: "EUR",
     defaultPaymentMethod: "credit_debit_card",
@@ -46,6 +48,7 @@ const newTransak = (width, height) =>
     network: "CELO",
     cryptoCurrencyList: "CUSD",
   });
+};
 
 export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   const [show, setShow] = useState(false);
@@ -65,7 +68,12 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     const _width = width > 450 ? 450 : width;
     const _height = height > 700 ? 700 : height;
 
-    const transak = newTransak(_width, _height);
+    const transak = newTransak(
+      _width,
+      _height,
+      railsContext.contractsEnv,
+      railsContext.transakApiKey
+    );
     transak.init();
 
     // To get all the events

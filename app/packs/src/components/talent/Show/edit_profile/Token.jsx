@@ -240,6 +240,4 @@ const Token = ({
   );
 };
 
-export default (props, railsContext) => {
-  return <Token {...props} railsContext={railsContext} />;
-};
+export default Token;

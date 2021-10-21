@@ -137,6 +137,4 @@ const EditProfile = ({ railsContext, ...props }) => {
   );
 };
 
-export default (props, railsContext) => {
-  return <EditProfile {...props} railsContext={railsContext} />;
-};
+export default EditProfile;
