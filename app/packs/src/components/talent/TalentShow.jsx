@@ -203,7 +203,7 @@ const TalentShow = ({
                 )}
               </button>
             </div>
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row px-3">
               <p>{sharedState.talent.profile.occupation}</p>
               {sharedState.talent.profile.website && (
                 <a
@@ -251,7 +251,7 @@ const TalentShow = ({
           />
         </div>
       </section>
-      <div className="d-flex flex-row justify-content-center justify-content-lg-start mx-3 mt-5 mt-lg-4">
+      <div className="d-flex flex-row flex-wrap justify-content-center justify-content-lg-start mx-3 mt-5 mt-lg-4">
         <button
           className={`btn rounded mr-2 p-1 px-2 underline-hover ${
             pageInDisplay == "Overview" && "btn-primary active"
