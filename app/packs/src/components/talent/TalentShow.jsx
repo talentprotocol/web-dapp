@@ -301,6 +301,7 @@ const TalentShow = ({
             ticker={ticker()}
             token={token}
             displayName={displayName({ withLink: false })}
+            username={sharedState.user.username}
             railsContext={railsContext}
           />
         </div>

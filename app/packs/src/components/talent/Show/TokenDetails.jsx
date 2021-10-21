@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { OnChain } from "src/onchain";
 import currency from "currency.js";
 
 import {
@@ -10,7 +9,7 @@ import {
   client,
 } from "src/utils/thegraph";
 
-const TokenDetails = ({ token, ticker, displayName }) => {
+const TokenDetails = ({ token, ticker, displayName, username }) => {
   const { loading, error, data } = useQuery(
     GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
     {
@@ -84,7 +83,12 @@ const TokenDetails = ({ token, ticker, displayName }) => {
           <small>1,000,000</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">
-          <small>Total Supporters</small>
+          <small>
+            Supporters{" "}
+            <a className="text-reset" href={`/talent/${username}/supporters`}>
+              (See more)
+            </a>
+          </small>
           <small>{tokenData.supporterCount}</small>
         </div>
       </div>
