@@ -120,12 +120,6 @@ const TalentTable = ({ talents }) => {
               className="tal-th py-1 text-muted border-bottom-0 border-top-0"
               scope="col"
             >
-              #
-            </th>
-            <th
-              className="tal-th py-1 text-muted border-bottom-0 border-top-0"
-              scope="col"
-            >
               <small>TALENT</small>
             </th>
             <th
@@ -164,7 +158,6 @@ const TalentTable = ({ talents }) => {
                   )}
                 </button>
               </th>
-              <th className="text-muted align-middle">{talent.id}</th>
               <th className="text-muted align-middle">
                 <TalentProfilePicture
                   src={talent.profilePictureUrl}
