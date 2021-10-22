@@ -111,7 +111,9 @@ class OnChain {
         params: [{ chainId: this.getEnvChainID() }],
       });
     } catch (error) {
-      if (error.code === 4902) {
+      // metamask mobile throws an error but that error has no code
+      // https://github.com/MetaMask/metamask-mobile/issues/3312
+      if (!!error.code || error.code === 4902) {
         await window.ethereum.request({
           method: "wallet_addEthereumChain",
           params: [this.getEnvNetworkParams()],
