@@ -24,7 +24,8 @@ if Rails.env.development?
         username: "Admin",
         email: "admin@talentprotocol.com",
         password: "password",
-        role: "admin"
+        role: "admin",
+        email_confirmed_at: Time.zone.now
       )
 
       investor = User.create!(
@@ -32,6 +33,7 @@ if Rails.env.development?
         wallet_id: "0x123",
         email: "investor@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       talent = User.create!(
@@ -39,6 +41,7 @@ if Rails.env.development?
         wallet_id: "0x1234444",
         email: "elon@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       talent2 = User.create!(
@@ -46,12 +49,13 @@ if Rails.env.development?
         wallet_id: "0x12345",
         email: "talent2@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       puts "Setting up Investors.."
       admin_investor = Investor.create!(
         description: "I own this",
-        user: admin
+        user: admin,
       )
 
       john_doe = Investor.create!(
