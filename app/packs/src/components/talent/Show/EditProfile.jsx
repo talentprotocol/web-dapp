@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import About from "./edit_profile/About";
 import Token from "./edit_profile/Token";
-import Services from "./edit_profile/Services";
 import Perks from "./edit_profile/Perks";
 import CareerGoal from "./edit_profile/CareerGoal";
 import Contacts from "./edit_profile/Contacts";
@@ -61,15 +60,6 @@ const EditProfile = ({ railsContext, ...props }) => {
                 <button
                   type="button"
                   className={`ml-2 my-1 text-left talent-edit-nav-btn w-100 ${
-                    activeSection == "Services" ? "text-primary" : ""
-                  }`}
-                  onClick={() => setActiveSection("Services")}
-                >
-                  Services
-                </button>
-                <button
-                  type="button"
-                  className={`ml-2 my-1 text-left talent-edit-nav-btn w-100 ${
                     activeSection == "Perks" ? "text-primary" : ""
                   }`}
                   onClick={() => setActiveSection("Perks")}
@@ -113,9 +103,6 @@ const EditProfile = ({ railsContext, ...props }) => {
                   {...props}
                   railsContext={railsContext}
                 />
-              )}
-              {activeSection == "Services" && (
-                <Services close={() => setShow(false)} {...props} />
               )}
               {activeSection == "Perks" && (
                 <Perks close={() => setShow(false)} {...props} />
