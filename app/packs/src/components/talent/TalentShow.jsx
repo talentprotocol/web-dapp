@@ -18,10 +18,8 @@ import StakeModal from "../token/StakeModal";
 import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
 import TalentBadges from "./TalentBadges";
-import Testimonials from "./Testimonials";
 
 import Roadmap from "./Show/Roadmap";
-import Services from "./Show/Services";
 import Perks from "./Show/Perks";
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
@@ -31,7 +29,6 @@ import { completeProfile } from "./utils/talent";
 
 const TalentShow = ({
   talent,
-  services,
   token,
   perks,
   milestones,
@@ -47,7 +44,6 @@ const TalentShow = ({
   posts,
   isFollowing,
   badges,
-  testimonials,
   railsContext,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
@@ -57,7 +53,6 @@ const TalentShow = ({
   const { height, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
-    services,
     token,
     perks,
     milestones,
@@ -72,7 +67,6 @@ const TalentShow = ({
     career_goal,
     goals,
     posts,
-    testimonials,
   });
 
   const ticker = () =>
@@ -125,13 +119,6 @@ const TalentShow = ({
       }
     }
     setChangingFollow(false);
-  };
-
-  const updateTestimonials = (newTestimonial) => {
-    setSharedState((prev) => ({
-      ...prev,
-      testimonials: [...testimonials, newTestimonial],
-    }));
   };
 
   const profileIsComplete = useMemo(() => {
@@ -268,24 +255,6 @@ const TalentShow = ({
         >
           <small>Timeline</small>
         </button>
-        <button
-          className={`btn rounded mr-2 p-1 px-2 underline-hover ${
-            pageInDisplay == "Activity" && "btn-primary active"
-          }`}
-          onClick={() => setPageInDisplay("Activity")}
-          disabled
-        >
-          <small>Activity</small>
-        </button>
-        <button
-          className={`btn rounded mr-2 p-1 px-2 underline-hover ${
-            pageInDisplay == "Community" && "btn-primary active"
-          }`}
-          onClick={() => setPageInDisplay("Community")}
-          disabled
-        >
-          <small>Community</small>
-        </button>
       </div>
       <div className="d-flex flex-row flex-wrap">
         <div className="col-12 col-lg-8">
@@ -308,23 +277,12 @@ const TalentShow = ({
       </div>
       <section className="d-flex flex-column mx-3 my-3">
         <Roadmap goals={sharedState.goals} width={width} />
-        <Services
-          services={sharedState.services}
-          ticker={ticker()}
-          width={width}
-        />
         <Perks
           perks={sharedState.perks}
           ticker={ticker()}
           width={width}
           contract={token.contract_id}
           railsContext={railsContext}
-        />
-        <Testimonials
-          talentId={talent.id}
-          testimonials={sharedState.testimonials}
-          width={width}
-          updateTestimonials={updateTestimonials}
         />
       </section>
     </div>
