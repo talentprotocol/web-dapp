@@ -93,7 +93,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create, :index] do
     resource :password,
-      controller: "clearance/passwords",
+      controller: "passwords",
       only: [:edit, :update]
   end
 

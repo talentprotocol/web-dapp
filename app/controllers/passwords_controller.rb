@@ -1,4 +1,6 @@
 class PasswordsController < Clearance::PasswordsController
+  layout "sessions_layout"
+
   def create
     if user = find_user_for_create
       user.forgot_password!
