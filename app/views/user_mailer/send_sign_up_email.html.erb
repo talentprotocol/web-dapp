@@ -1,8 +1,15 @@
 <body>
   <div class="bg-white">
     <div class="container">
-      <img class="ax-center my-10 w-96" src="https://uploads-ssl.webflow.com/614c58bdb680d059cc100ca6/61606238aa310bd1549a2bf4_main-logo.svg" />
-      <h3 class="ax-center text-center mb-10">Welcome to Talent Protocol!</h3>
+      <div class="row my-10 max-w-96 ax-center">
+        <div class="col-2 ay-middle">
+          <img class="img-fluid ay-middle" alt="talent protocol logo" src="https://beta.talentprotocol.com/brand_logo.png" />
+        </div>
+        <div class="col-10 ay-middle">
+          <img class="img-fluid ay-middle" alt="talent protocol name" src="https://beta.talentprotocol.com/brand_name.png" />
+        </div>
+      </div>
+      <h3 class="ax-center text-center mb-10">Welcome!</h3>
       <p class="ax-center max-w-96 lh-lg text-lg mb-10">
         You are almost done, <%= @user.username %>! To complete your talent protocol sign-up, we just need to verify your email address: <%= @user.email %>.
       </p>
