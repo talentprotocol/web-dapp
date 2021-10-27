@@ -1,0 +1,30 @@
+// Override all colors to black
+$font-family-sans-serif: "Plus Jakarta Sans", sans-serif !default;
+
+$body-bg: #FFFFFF;
+
+$primary: #7a55ff !default;
+$secondary: #676a74 !default;
+$info: #EEEAFF !default;
+$danger: #ef4444 !default;
+$warning: #FFB200 !default;
+$success: #10b981 !default;
+$light: #FAFAFB !default;
+$blue: #2797fe !default;
+$black: #000 !default;
+
+// pagination variables
+$pagination-color: #a9acb7 !default;
+$pagination-bg: none !default;
+$pagination-border-width: 0px !default;
+$link-hover-decoration: underline !default;
+$pagination-hover-bg: none !default;
+$pagination-active-color: $primary !default;
+$pagination-active-bg: none !default;
+$pagination-disabled-bg: none !default;
+
+$primary-light: #f2eeff !default;
+$light-grey: #a9acb7 !default;
+
+
+//= @import bootstrap-email;

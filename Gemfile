@@ -14,6 +14,9 @@ gem "jbuilder", "~> 2.7"
 gem "react_on_rails", "= 12.2.0"
 gem "mini_racer", platforms: :ruby
 
+# Email
+gem "bootstrap-email"
+
 # Auth
 gem "clearance"
 gem "schmooze" # Not for auth but currently only used during the auth flow
