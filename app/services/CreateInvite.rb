@@ -3,20 +3,16 @@ class CreateInvite
 
   def initialize(params)
     @user_id = params.fetch(:user_id)
+    @talent = params.fetch(:talent, false)
+    @max_uses = params.fetch(:max_uses, 1)
   end
 
   def call
-    user = User.find_by(id: @user_id)
-    invite = Invite.find_or_initialize_by(user_id: @user_id)
+    invite = Invite.new
+    invite.user_id = @user_id
 
-    return invite if invite.persisted?
-
-    if user.admin?
-      invite.talent_invite = true
-      invite.max_uses = nil
-    elsif user.talent?
-      invite.max_uses = 2
-    end
+    invite.talent_invite = @talent
+    invite.max_uses = @max_uses
 
     count = 0
 
@@ -28,5 +24,6 @@ class CreateInvite
       count += 1
       retry if count <= MAX_RETRIES
     end
+    invite
   end
 end

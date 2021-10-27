@@ -27,7 +27,7 @@ class CreateUser
         create_token(user)
       end
 
-      create_invite(user)
+      # create_invite(user)
 
       UserMailer.with(user: user).send_sign_up_email.deliver_later
 
@@ -100,9 +100,9 @@ class CreateUser
     feed
   end
 
-  def create_invite(user)
-    service = CreateInvite.new(user_id: user.id)
+  # def create_invite(user)
+  #   service = CreateInvite.new(user_id: user.id)
 
-    service.call
-  end
+  #   service.call
+  # end
 end

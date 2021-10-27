@@ -52,6 +52,9 @@ gem "newrelic-infinite_tracing"
 # Async jobs
 gem "sidekiq"
 
+# Requests
+gem "faraday"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"

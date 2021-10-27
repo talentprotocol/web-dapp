@@ -8,4 +8,10 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     bootstrap_mail(to: @user.email, subject: "Talent Protocol - Password reset")
   end
+
+  def send_invite_email
+    @invite = params[:invite]
+    @email = params[:email]
+    bootstrap_mail(to: @email, subject: "Talent Protocol - You're in!")
+  end
 end

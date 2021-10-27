@@ -1,0 +1,11 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0 border-left">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Send a new invite</h1>
+
+    <%= render "shared/flashes" %>
+
+    <div class="d-flex flex-row">
+      <%= render "admin/invites/invite_form", invite: @invite %>
+    </div>
+  </main>
+</div>

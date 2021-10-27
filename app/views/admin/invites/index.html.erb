@@ -1,0 +1,35 @@
+<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0 border-left">
+  <main class="col-12 px-2 d-flex flex-column justify-content-start">
+    <h1>Manage Invites</h1>
+    <%= link_to "Create new invite", new_admin_invite_path, class: "btn btn-primary talent-button" %>
+
+    <%= render "shared/flashes" %>
+
+    <table class="table table-hover mt-4">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Code</th>
+          <th scope="col">Uses</th>
+          <th scope="col">Max Uses</th>
+          <th scope="col">User</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @invites.each do |invite|%>
+          <tr>
+            <th scope="row"><%= invite.id%></th>
+            <td><%= invite.code %></td>
+            <td><%= invite.uses %></td>
+            <td><%= invite.max_uses %></td>
+            <td><%= invite.user.username %></td>
+            <td><%= link_to "Details", admin_invite_path(invite), class: "btn btn-primary talent-button", role: "button" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </main>
+</div>

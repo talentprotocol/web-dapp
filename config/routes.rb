@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :dashboards, only: [:show]
       resources :investors
+      resources :invites
       resources :talent do
         resources :tokens, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
