@@ -1,11 +1,13 @@
 class Admin::InvitesController < ApplicationController
   before_action :load_subscribers, only: [:new]
   def index
+    if request.params[:success]
+      flash[:success] = "Email sent to #{request.params[:success]}."
+    end
     @pagy, @invites = pagy(Invite.all.order(id: :desc))
   end
 
   def new
-    @invite = Invite.new
   end
 
   def create
@@ -15,12 +17,9 @@ class Admin::InvitesController < ApplicationController
     UserMailer.with(invite: @invite, email: invite_params[:email]).send_invite_email.deliver_later
 
     if @invite.save
-      redirect_to(
-        admin_invites_path,
-        flash: {success: "Sent an invite to #{invite_params[:email]}."}
-      )
+      render json: {success: "Sent an invite link"}, status: :ok
     else
-      render :new
+      render json: {error: "Unable to send the email"}, status: :conflict
     end
   end
 
@@ -28,7 +27,7 @@ class Admin::InvitesController < ApplicationController
 
   def load_subscribers
     service = Mailerlite::GetSubscribers.new
-    @subscribers = service.call.map { |s| [s.email, s.email] }
+    @subscribers = service.call.map(&:email)
   end
 
   def invite_params

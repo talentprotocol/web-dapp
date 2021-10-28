@@ -4,8 +4,8 @@
 
     <%= render "shared/flashes" %>
 
-    <div class="d-flex flex-row">
-      <%= render "admin/invites/invite_form", invite: @invite %>
-    </div>
+    <%= react_component("InviteUsers", props: {
+      subscribers: @subscribers,
+    }, prerender: false, html_options: { class: "d-flex flex-row" }) %>
   </main>
 </div>
