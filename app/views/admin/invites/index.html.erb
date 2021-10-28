@@ -12,6 +12,7 @@
           <th scope="col">Code</th>
           <th scope="col">Uses</th>
           <th scope="col">Max Uses</th>
+          <th scope="col">Talent Invite</th>
           <th scope="col">User</th>
           <th scope="col"></th>
         </tr>
@@ -23,6 +24,7 @@
             <td><%= invite.code %></td>
             <td><%= invite.uses %></td>
             <td><%= invite.max_uses %></td>
+            <td><%= invite.talent_invite %></td>
             <td><%= invite.user.username %></td>
             <td><%= link_to "Details", admin_invite_path(invite), class: "btn btn-primary talent-button", role: "button" %></td>
           </tr>

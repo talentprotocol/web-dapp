@@ -2,12 +2,32 @@
   <%= render "shared/form_errors", resource: invite%>
 
   <div class="form-group is-required">
-    <%= form.label :email %>
-    <%= form.select :email, options_for_select(@subscribers), { include_blank: true }, {class: "form-control"} %>
+    <%= form.label :code %>
+    <%= form.text_field :code, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group is-required">
+    <%= form.label :uses %>
+    <%= form.number_field :uses, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :max_uses %>
+    <%= form.number_field :max_uses, class: "form-control" %>
+  </div>
+
+  <div class="form-group form-check">
+    <%= form.check_box :talent_invite, class: "form-check-input" %>
+    <%= form.label :talent_invite, class: "form-check-label" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id, disabled: true, class: "form-control" %>
   </div>
 
   <div class="form-actions">
     <%= link_to "Cancel", invite.persisted? && admin_invite_path(invite) || admin_invites_path, class: "btn btn-secondary talent-button", role: "button"%>
-    <%= form.submit "Send Invite", class: "btn btn-primary talent-button" %>
+    <%= form.submit "Update", class: "btn btn-primary talent-button" %>
   </div>
 <% end %>
