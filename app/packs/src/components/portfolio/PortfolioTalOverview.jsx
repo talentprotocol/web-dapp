@@ -4,7 +4,7 @@ import currency from "currency.js";
 
 import AsyncValue from "../loader/AsyncValue";
 
-const AnimatedNumber = ({ value, unformatted, dollarSign }) => {
+const AnimatedNumber = ({ value, unformatted, dollarSign, unit }) => {
   const { number } = useSpring({
     reset: true,
     reverse: false,
@@ -14,78 +14,99 @@ const AnimatedNumber = ({ value, unformatted, dollarSign }) => {
     config: config.default,
   });
 
+  const unitString = unit ? unit : "";
+
   return (
     <animated.h4>
       {number.to((n) =>
         unformatted
-          ? `${n}`
+          ? `${n}${unitString}`
           : `${
               dollarSign
                 ? currency(n).format()
                 : currency(n).format().substring(1)
-            }`
+            }${unitString}`
       )}
     </animated.h4>
   );
 };
 
 const PortfolioTalOverview = ({
-  loading,
   cUSDBalance,
-  totalTal,
-  yieldSum,
-  talentCount,
+  talentTokensTotal,
+  totalYield,
 }) => {
+  const cUSDBalanceInTAL = cUSDBalance * 50;
+  const totalYieldInCUSD = totalYield * 0.02;
+  const talentTokensInTAL = talentTokensTotal * 5;
+  const talentTokensInCUSD = talentTokensTotal * 0.1;
+
+  const overallCUSD = cUSDBalance + totalYieldInCUSD + talentTokensInCUSD;
+  const overallTAL = cUSDBalanceInTAL + totalYield + talentTokensInTAL;
   return (
-    <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-center">
-      <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>cUSD</small>
+    <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-stretch">
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+        <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
+          <div className="text-warning ml-3">
+            <small>
+              <strong>TOTAL BALANCE</strong>
+            </small>
           </div>
-          {loading ? (
-            <h4>
-              <AsyncValue size={12} />
-            </h4>
-          ) : (
-            <AnimatedNumber value={cUSDBalance} />
-          )}
+          <h3 className="ml-3 mt-4">
+            <strong>{currency(overallTAL).format().substring(1)}</strong>
+            <small className="text-muted"> TAL</small>
+          </h3>
+          <h3 className="ml-3 text-muted">
+            <small>{currency(overallCUSD).format()}</small>
+          </h3>
         </div>
       </div>
-      <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>$TAL Invested</small>
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+        <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
+          <div className="ml-3 text-warning">
+            <small>
+              <strong>CUSD BALANCE</strong>
+            </small>
           </div>
-          {loading ? (
-            <h4>
-              <AsyncValue size={12} />
-            </h4>
-          ) : (
-            <AnimatedNumber value={totalTal} />
-          )}
+          <h3 className="ml-3 mt-4">
+            <strong>{currency(cUSDBalanceInTAL).format().substring(1)}</strong>
+            <small className="text-muted"> TAL</small>
+          </h3>
+          <h3 className="ml-3 text-muted">
+            <small>{currency(cUSDBalance).format()}</small>
+          </h3>
         </div>
       </div>
-      <div className="col-12 col-sm-6 col-md-3 mt-2 px-1">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>Total Yield ($TAL)</small>
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+        <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
+          <div className="ml-3 text-warning">
+            <small>
+              <strong>REWARDS TOTAL</strong>
+            </small>
           </div>
-          {loading ? (
-            <h4>
-              <AsyncValue size={12} />
-            </h4>
-          ) : (
-            <AnimatedNumber value={yieldSum} />
-          )}
+          <h3 className="ml-3 mt-4">
+            <strong>{currency(totalYield).format().substring(1)}</strong>
+            <small className="text-muted"> TAL</small>
+          </h3>
+          <h3 className="ml-3 text-muted">
+            <small>{currency(totalYieldInCUSD).format()}</small>
+          </h3>
         </div>
       </div>
-      <div className="col-12 col-sm-6 col-md-3 mt-2 pl-1 pr-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
-          <div className="text-muted">
-            <small>Talent supported</small>
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+        <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
+          <div className="text-warning ml-3">
+            <small>
+              <strong>TALENT TOKENS BALANCE</strong>
+            </small>
           </div>
-          <h4>{talentCount}</h4>
+          <h3 className="ml-3 mt-4">
+            <strong>{currency(talentTokensInTAL).format().substring(1)}</strong>
+            <small className="text-muted"> TAL</small>
+          </h3>
+          <h3 className="ml-3 text-muted">
+            <small>{currency(talentTokensInCUSD).format()}</small>
+          </h3>
         </div>
       </div>
     </div>

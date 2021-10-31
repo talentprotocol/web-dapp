@@ -38,18 +38,6 @@ const Portfolio = ({ address, railsContext }) => {
     }));
   }, [data]);
 
-  const amountInvested = useMemo(() => {
-    if (!data || data.supporter == null) {
-      return 0;
-    }
-
-    return ethers.utils.formatUnits(
-      data.supporter.talents.reduce((prev, current) => {
-        return prev.add(ethers.BigNumber.from(current.amount).mul(5));
-      }, ethers.BigNumber.from(0))
-    );
-  }, [data]);
-
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
 
@@ -83,7 +71,16 @@ const Portfolio = ({ address, railsContext }) => {
     });
   };
 
-  const returnsSum = useMemo(() => {
+  const talentTokensSum = useMemo(() => {
+    let sum = ethers.BigNumber.from(0);
+
+    supportedTalents.map((talent) => {
+      sum = sum.add(ethers.utils.parseUnits(talent.amount));
+    });
+    return ethers.utils.formatUnits(sum);
+  }, [supportedTalents]);
+
+  const yieldSum = useMemo(() => {
     let sum = ethers.BigNumber.from(0);
 
     Object.keys(returnValues).map((key) => {
@@ -130,11 +127,9 @@ const Portfolio = ({ address, railsContext }) => {
   return (
     <>
       <PortfolioTalOverview
-        loading={loading}
         cUSDBalance={parseFloat(stableBalance)}
-        totalTal={parseFloat(amountInvested)}
-        yieldSum={parseFloat(returnsSum)}
-        talentCount={supportedTalents.length}
+        talentTokensTotal={parseFloat(talentTokensSum)}
+        totalYield={parseFloat(yieldSum)}
       />
       <PortfolioTable
         loading={loading}
