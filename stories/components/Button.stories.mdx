@@ -1,6 +1,6 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import Button from 'src/components/button';
+import Button from 'src/components/design_system/button';
 
 <Meta title="Components/Button" component={Button} />
 
@@ -15,45 +15,123 @@ There are 6 currently supported types, `primary`, `info`, `success`, `warning`, 
 export const Template = (args) => <Button {...args} />
 
 <Canvas>
-  <Story name="Primary" args={{ 
-      text: "Primary!",
+  <Story
+    name="Primary default"
+    args={{ 
+      text: "Primary default!",
       onClick: () => null,
-      type: "primary"
+      type: "primary-default",
+      mode: "light",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary outline"
+    args={{ 
+      text: "Primary outline!",
+      onClick: () => null,
+      type: "primary-outline",
+      mode: "light",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary ghost"
+    args={{ 
+      text: "Primary ghost!",
+      onClick: () => null,
+      type: "primary-ghost",
+      mode: "light",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary subtle"
+    args={{ 
+      text: "Primary subtle!",
+      onClick: () => null,
+      type: "primary-subtle",
+      mode: "light",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story name="Danger default" args={{ 
+      text: "Danger default!",
+      onClick: () => null,
+      type: "danger-default",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-  <Story name="Secondary" args={{ 
-      text: "Secondary!",
+   <Story name="Danger outline" args={{ 
+      text: "Danger outline!",
       onClick: () => null,
-      type: "secondary"
+      type: "danger-outline",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-  <Story name="Danger" args={{ 
-      text: "Danger!",
+   <Story name="Danger ghost" args={{ 
+      text: "Danger ghost!",
       onClick: () => null,
-      type: "danger"
+      type: "danger-ghost",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-  <Story name="Warning" args={{ 
-      text: "Warning!",
+   <Story name="Danger subtle" args={{ 
+      text: "Danger subtle!",
       onClick: () => null,
-      type: "warning"
+      type: "danger-subtle",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-  <Story name="Info" args={{ 
-      text: "Info!",
+   <Story name="White default" args={{ 
+      text: "White default!",
       onClick: () => null,
-      type: "info"
+      type: "white-default",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-  <Story name="Success" args={{ 
-      text: "Success!",
+   <Story name="White outline" args={{ 
+      text: "White outline!",
       onClick: () => null,
-      type: "success"
+      type: "white-outline",
+      mode: "light",
+      disabled: false,
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story name="White ghost" args={{ 
+      text: "White ghost!",
+      onClick: () => null,
+      type: "white-ghost",
+      mode: "light",
+      disabled: false,
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story name="White subtle" args={{ 
+      text: "White subtle!",
+      onClick: () => null,
+      type: "white-subtle",
+      mode: "light",
+      disabled: false,
     }}>
     {Template.bind({})}
    </Story>

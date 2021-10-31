@@ -1,0 +1,52 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import H2 from 'src/components/design_system/h2';
+
+<Meta title="Components/H2" component={H2} />
+
+# H2s
+
+Custom H2s to show titles.
+
+## Examples
+
+export const Template = (args) => <H2 {...args} />
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      mode: "light",
+      text: "Example of an header",
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story
+    name="Light mode with bold"
+    args={{
+      mode: "light",
+      bold: true,
+      text: "Example of an header with bold",
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story
+    name="Dark mode"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+      text: "Example of an header"
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story
+    name="Dark mode with bold"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+      bold: true,
+      text: "Example of an header with bold"
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>

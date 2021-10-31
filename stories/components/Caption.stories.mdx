@@ -1,0 +1,52 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Caption from 'src/components/design_system/caption';
+
+<Meta title="Components/Caption" component={Caption} />
+
+# Captions
+
+Custom Captions to show titles.
+
+## Examples
+
+export const Template = (args) => <Caption {...args} />
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      mode: "light",
+      text: "Example of a caption",
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story
+    name="Light mode with bold"
+    args={{
+      mode: "light",
+      bold: true,
+      text: "Example of a caption with bold",
+    }}>
+    {Template.bind({})}
+   </Story>
+  <Story
+    name="Dark mode"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+      text: "Example of a caption"
+    }}>
+    {Template.bind({})}
+   </Story>
+   <Story
+    name="Dark mode with bold"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+      bold: true,
+      text: "Example of a caption with bold"
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>

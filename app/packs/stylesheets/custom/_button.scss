@@ -1,3 +1,332 @@
+@import "../colors";
+
 .talent-button {
-  border-radius: 2px;
+  border-radius: 4px;
+}
+
+.primary-default-button {
+  color: $white;
+  background-color: $primary;
+  border: none;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+
+  &:disabled {
+    color: $primary-outline-disabled;
+    background-color: $primary-disabled;
+  }
+
+  &:active {
+    background-color: $primary;
+  }
+
+  &.dark {
+    &:disabled {
+      color: lighten($primary, 20%);
+      background-color: $primary;
+    }
+  }
+}
+
+.primary-outline-button {
+  color: $primary;
+  background-color: $white;
+  border: 1px solid $primary;
+
+  &:hover {
+    color: $white;
+    background-color: $primary;
+    border: none;
+  }
+
+  &:disabled {
+    color: $primary-outline-disabled;
+    background-color: $white;
+    border: 1px solid $primary-outline-disabled;
+  }
+
+  &:active {
+    color: $primary;
+    background-color: $white;
+    border: 1px solid $primary;
+  }
+
+  &.dark {
+    color: $primary;
+    background-color: $black-primary;
+
+    &:hover {
+      color: $white;
+      background-color: $primary;
+      border: none;
+    }
+  
+    &:disabled {
+      color: $dark-purple;
+      background-color: $black-primary;
+      border: 1px solid $dark-purple;
+    }
+  
+    &:active {
+      color: $primary;
+      background-color: $black-primary;
+    }
+  }
+}
+
+.primary-ghost-button {
+  color: $primary;
+  background-color: $white;
+  border: none;
+
+  &:hover {
+    color: $primary;
+    background-color: $info;
+  }
+
+  &:disabled {
+    color: $primary-outline-disabled;
+  }
+
+  &:active {
+    background-color: $white;
+  }
+
+  &.dark {
+    color: $primary;
+    background-color: $black-primary;
+
+    &:hover {
+      background-color: $dark-purple;
+    }
+  
+    &:disabled {
+      color: $dark-purple;
+      background-color: $black-primary;
+    }
+  
+    &:active {
+      color: $primary;
+      background-color: $black-primary;
+    }
+  }
+}
+
+.primary-subtle-button {
+  color: $primary;
+  background-color: $info;
+  border: none;
+
+  &:hover {
+    color: $white;
+    background-color: $primary;
+  }
+
+  &:disabled {
+    color: $primary-outline-disabled;
+  }
+
+  &:active {
+    color: $primary;
+    background-color: $info;
+  }
+
+  &.dark {
+    color: $primary;
+    background-color: $dark-purple;
+
+    &:hover {
+      color: $white;
+      background-color: $primary;
+    }
+  
+    &:disabled {
+      color: lighten($primary, 20%);
+      background-color: $primary;
+    }
+  
+    &:active {
+      color: $primary;
+      background-color: $dark-purple;
+    }
+  }
+}
+
+.danger-default-button {
+  color: $white;
+  background-color: $danger-default;
+  border: none;
+
+  &:hover {
+    background-color: $danger;
+  }
+
+  &:disabled {
+    color: $white;
+    background-color: $danger-disable;
+  }
+
+  &:active {
+    background-color: $danger-default;
+  }
+}
+
+.danger-outline-button {
+  color: $danger-default;
+  background-color: $white;
+  border: 1px solid $danger-default;
+
+  &:hover {
+    color: $white;
+    background-color: $danger-default;
+  }
+
+  &:disabled {
+    color: $danger-disable;
+    background-color: $white;
+  }
+
+  &:active {
+    color: $danger-default;
+    background-color: $white;
+  }
+}
+
+.danger-ghost-button {
+  color: $danger-default;
+  background-color: $white;
+  border: none;
+
+  &:hover {
+    background-color: $danger-ghost;
+  }
+
+  &:disabled {
+    color: $danger-disable;
+    background-color: $white;
+  }
+
+  &:active {
+    background-color: $white;
+  }
+}
+
+.danger-subtle-button {
+  color: $danger-default;
+  background-color: $danger-ghost;
+  border: none;
+
+  &:hover {
+    background-color: $danger-disable;
+  }
+
+  &:disabled {
+    color: $white;
+    background-color: $danger-disable;
+  }
+
+  &:active {
+    background-color: $danger-ghost;
+  }
+}
+
+.white-default-button {
+  color: $white;
+  background-color: $black-primary;
+  border: none;
+
+  &:hover {
+    background-color: $black-secondary;
+  }
+
+  &:disabled {
+    color: $gray;
+    background-color: $surface-hover;
+  }
+
+  &:active {
+    background-color: $black-primary;
+  }
+}
+
+.white-outline-button {
+  color: $black-primary;
+  background-color: $white;
+  border: 1px solid $black-primary;
+
+  &:hover {
+    color: $white;
+    background-color: $black-primary;
+  }
+
+  &:disabled {
+    color: $gray;
+    background-color: $white;
+    border: 1px solid $gray;
+  }
+
+  &:active {
+    color: $black-primary;
+    background-color: $white;
+  }
+}
+
+.white-ghost-button {
+  color: $black-primary;
+  background-color: $white;
+  border: none;
+
+  &:hover {
+    color: $black-primary;
+    background-color: $surface-hover;
+  }
+
+  &:disabled {
+    color: $gray-secondary;
+    background-color: $white;
+  }
+
+  &:active {
+    color: $black-primary;
+    background-color: $white;
+  }
+}
+
+.white-subtle-button {
+  color: $black-primary;
+  background-color: $gray;
+  border: none;
+
+  &:hover {
+    background-color: $gray-secondary;
+  }
+
+  &:disabled {
+    color: $gray;
+    background-color: $surface-hover;
+  }
+
+  &:active {
+    background-color: $gray;
+  }
+}
+
+.base-size-button {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 8px 12px;
+}
+
+.big-size-button {
+  font-size: 16px;
+  line-height: 26.4px;
+  padding: 8px 32px;
+}
+
+.extra-big-size-button {
+  font-size: 16px;
+  line-height: 26.4px;
+  padding: 12px 32px;
 }
