@@ -1,32 +1,29 @@
 
 <div class="lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100">
   <main class="col-12 mx-auto mx-lg-0 p-3 mt-3">
-      <div class="d-flex flex-column flex-sm-row justify-content-between">
-        <h1 class="mb-0 mr-2">Portfolio</h1>
-        <div class="d-flex">
-          <%= react_component("UserMenu",
-            props: {
-              user: {
-                id: current_user.id,
-                profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-                talentId: current_user.talent&.id,
-                investorId: current_user.investor&.id,
-                isTalent: current_user.talent.present?,
-                displayWalletId: current_user.display_wallet_id,
-                walletId: current_user.wallet_id,
-                username: current_user.username,
-              },
-              signOutPath: sign_out_path
+      <div class="d-flex flex-row justify-content-end">
+        <%= react_component("UserMenu",
+          props: {
+            user: {
+              id: current_user.id,
+              profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+              talentId: current_user.talent&.id,
+              investorId: current_user.investor&.id,
+              isTalent: current_user.talent.present?,
+              displayWalletId: current_user.display_wallet_id,
+              walletId: current_user.wallet_id,
+              username: current_user.username,
             },
-            prerender: false)
-          %>
-          <%= react_component("Notifications",
-            props: {
-              notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
-            },
-            prerender: false, html_options: { class: "ml-2"})
-          %>
-        </div>
+            signOutPath: sign_out_path
+          },
+          prerender: false)
+        %>
+        <%= react_component("Notifications",
+          props: {
+            notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
+          },
+          prerender: false, html_options: { class: "ml-2"})
+        %>
       </div>
 
       <%= react_component("Portfolio", props: { address: current_user.wallet_id || "" }, prerender: false) %>
