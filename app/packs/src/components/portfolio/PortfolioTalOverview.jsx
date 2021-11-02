@@ -52,7 +52,7 @@ const PortfolioTalOverview = ({
         <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
           <div className="ml-3 text-warning">
             <small>
-              <strong>TOTAL REWARDS EARNED</strong>
+              <strong>TOTAL REWARDS CLAIMED</strong>
             </small>
           </div>
           <h4 className="ml-3 mt-4">

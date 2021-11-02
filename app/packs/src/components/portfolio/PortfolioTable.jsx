@@ -28,14 +28,7 @@ const Web3Loading = () => (
   </tr>
 );
 
-const PortfolioTable = ({
-  loading,
-  talents,
-  returnValues,
-  unstake,
-  claim,
-  restake,
-}) => {
+const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
 
   useEffect(() => {
@@ -137,7 +130,7 @@ const PortfolioTable = ({
               <td className="align-middle">
                 <button
                   className="btn btn-sm btn-link text-primary px-0 my-1"
-                  onClick={() => restake(talent.contract_id)}
+                  onClick={() => onClaim(talent.contract_id)}
                 >
                   <strong>Claim Rewards</strong>
                 </button>

@@ -20,9 +20,9 @@ const EditProfile = ({ railsContext, ...props }) => {
       {allowEdit && (
         <button
           onClick={() => setShow((prev) => !prev)}
-          className="btn btn-outline-secondary talent-button border-0"
+          className="btn btn-light talent-button border-0"
         >
-          <FontAwesomeIcon icon={faEdit} />
+          <FontAwesomeIcon icon={faEdit} /> Edit Profile
         </button>
       )}
       <Modal

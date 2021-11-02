@@ -240,11 +240,11 @@ const StakeModal = ({
         <Modal.Body className="show-grid p-4">
           <div className="container-fluid">
             <div className="row d-flex flex-column">
-              <h2>GET {ticker}</h2>
+              <h2>BUY {ticker}</h2>
               <p>
                 We're currently only accepting cUSD to mint Talent Tokens. If
-                you already have an active stake we'll use your current yield to
-                increase you stake as well.
+                you already have an active stake we'll use your current rewards
+                on top of the amount you choose to increase you stake.
               </p>
               <form onSubmit={onSubmit}>
                 <div className="form-group">
