@@ -45,7 +45,7 @@ const PortfolioTalOverview = ({
   const overallTAL = cUSDBalanceInTAL + totalYield + talentTokensInTAL;
   return (
     <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-stretch">
-      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-0 pr-md-3 pl-0">
         <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
           <div className="text-warning ml-3">
             <small>
@@ -61,7 +61,7 @@ const PortfolioTalOverview = ({
           </h4>
         </div>
       </div>
-      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-0 pr-lg-3 pl-0">
         <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
           <div className="ml-3 text-warning">
             <small>
@@ -77,7 +77,7 @@ const PortfolioTalOverview = ({
           </h4>
         </div>
       </div>
-      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-0 pr-md-3 pl-0">
         <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
           <div className="ml-3 text-warning">
             <small>
@@ -93,7 +93,7 @@ const PortfolioTalOverview = ({
           </h4>
         </div>
       </div>
-      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
+      <div className="col-12 col-md-6 col-lg-3 mt-2 pr-0 pl-0">
         <div className="d-flex flex-column align-items-start border bg-light py-4 h-100">
           <div className="text-warning ml-3">
             <small>

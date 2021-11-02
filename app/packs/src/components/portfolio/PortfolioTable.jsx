@@ -107,14 +107,19 @@ const PortfolioTable = ({
           {talents.map((talent) => (
             <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
               <th className="text-dark align-middle">
-                <TalentProfilePicture
-                  src={talentProfilePictures[talent.contract_id]}
-                  height={40}
-                />
-                <a className="text-reset ml-3" href={`/talent/${talent.name}`}>
-                  <strong>{talent.name}</strong>
-                  <span className="ml-2 text-muted">{talent.symbol}</span>
-                </a>
+                <div className="w-100 d-flex flex-row align-items-center">
+                  <TalentProfilePicture
+                    src={talentProfilePictures[talent.contract_id]}
+                    height={40}
+                  />
+                  <a
+                    className="text-reset ml-3"
+                    href={`/talent/${talent.name}`}
+                  >
+                    <strong>{talent.name}</strong>
+                    <span className="ml-2 text-muted">{talent.symbol}</span>
+                  </a>
+                </div>
               </th>
               <td className="align-middle">{parseAndCommify(talent.amount)}</td>
               <td className="align-middle tal-table-price">
