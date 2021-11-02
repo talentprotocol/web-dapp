@@ -35,6 +35,7 @@ const GET_SUPPORTER_PORTFOLIO = gql`
     supporter(id: $id) {
       id
       totalAmount
+      rewardsClaimed
       talents {
         id
         amount

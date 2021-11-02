@@ -39,6 +39,14 @@ const Portfolio = ({ address, railsContext }) => {
     }));
   }, [data]);
 
+  const rewardsClaimed = () => {
+    if (!data || data.supporter == null) {
+      return 0;
+    }
+
+    return ethers.utils.formatUnits(data.supporter.rewardsClaimed);
+  };
+
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
 
@@ -130,7 +138,7 @@ const Portfolio = ({ address, railsContext }) => {
       <PortfolioTalOverview
         cUSDBalance={parseFloat(stableBalance)}
         talentTokensTotal={parseFloat(talentTokensSum)}
-        totalYield={parseFloat(yieldSum)}
+        rewardsClaimed={parseFloat(rewardsClaimed())}
       />
       <PortfolioTable
         loading={loading}
