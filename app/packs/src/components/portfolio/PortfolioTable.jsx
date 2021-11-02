@@ -8,7 +8,7 @@ import { get } from "src/utils/requests";
 
 const EmptyInvestments = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="6">
+    <td className="align-middle text-muted" colSpan="4">
       <small>Support Talent to start building your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
@@ -19,7 +19,7 @@ const EmptyInvestments = () => (
 
 const Web3Loading = () => (
   <tr>
-    <td className="align-middle text-muted" colSpan="6">
+    <td className="align-middle text-muted" colSpan="4">
       <small>We're loading your portfolio.</small>
     </td>
     <td className="align-middle" colSpan="1">
@@ -53,43 +53,51 @@ const PortfolioTable = ({
 
   return (
     <div className="table-responsive">
-      <h3>Talent</h3>
-      <table className="table table-hover mb-0 border-bottom border-left border-right">
+      <button className="btn btn-primary active mt-5 mb-4">Supporting</button>
+      <table className="table table-hover mb-0 border-bottom">
         <thead>
           <tr>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
-              <small>Talent</small>
-            </th>
             <th
-              className="tal-th py-1 text-muted border-bottom-0"
-              scope="col"
-            ></th>
-            <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
+              className="tal-th py-1 border-bottom-0 border-top-0"
               scope="col"
             >
-              <small>Name</small>
+              <span>
+                <small>
+                  <strong>TALENT</strong>
+                </small>
+              </span>
             </th>
             <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
+              className="tal-th py-1 border-bottom-0 border-top-0"
               scope="col"
             >
-              <small>Amount held</small>
+              <small>
+                <strong>AMOUNT</strong>
+              </small>
             </th>
             <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
+              className="tal-th py-1 border-bottom-0 border-top-0"
               scope="col"
             >
-              <small>Market Cap</small>
+              <small>
+                <strong>TAL LOCKED</strong>
+              </small>
             </th>
             <th
-              className="tal-th py-1 text-muted border-bottom-0 text-right"
+              className="tal-th py-1 border-bottom-0 border-top-0"
               scope="col"
             >
-              <small>Yield ($TAL)</small>
+              <small>
+                <strong>TAL REWARDS</strong>
+              </small>
             </th>
-            <th className="tal-th py-1 text-muted border-bottom-0" scope="col">
-              <small>Actions</small>
+            <th
+              className="tal-th py-1 border-bottom-0 border-top-0"
+              scope="col"
+            >
+              <small>
+                <strong>ACTION</strong>
+              </small>
             </th>
           </tr>
         </thead>
@@ -98,48 +106,44 @@ const PortfolioTable = ({
           {!loading && talents.length == 0 && <EmptyInvestments />}
           {talents.map((talent) => (
             <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
-              <th className="text-muted align-middle">
+              <th className="text-dark align-middle">
                 <TalentProfilePicture
                   src={talentProfilePictures[talent.contract_id]}
                   height={40}
                 />
-              </th>
-              <th className="align-middle pr-0 text-primary" scope="row">
-                <a className="text-reset" href={`/talent/${talent.name}`}>
-                  {talent.symbol}
+                <a className="text-reset ml-3" href={`/talent/${talent.name}`}>
+                  <strong>{talent.name}</strong>
+                  <span className="ml-2 text-muted">{talent.symbol}</span>
                 </a>
               </th>
-              <td className="align-middle text-right">{talent.name}</td>
-              <td className="align-middle text-right">
-                {parseAndCommify(talent.amount)}
+              <td className="align-middle">{parseAndCommify(talent.amount)}</td>
+              <td className="align-middle tal-table-price">
+                {parseAndCommify(talent.talAmount)}
               </td>
-              <td className="align-middle tal-table-price text-right">
-                ${parseAndCommify(talent.totalSupply * 0.1)}
-              </td>
-              <td className="align-middle tal-table-price text-right">
+              <td className="align-middle tal-table-price">
                 {returnValues[talent.contract_id] &&
                   parseAndCommify(returnValues[talent.contract_id].toString())}
               </td>
               <td className="align-middle">
                 <button
-                  className="btn btn-sm btn-danger ml-2 my-1"
+                  className="btn btn-sm btn-link text-primary ml-2 my-1"
                   onClick={unstake}
                   disabled
                 >
-                  Unstake
+                  <strong>Unstake</strong>
                 </button>
                 <button
-                  className="btn btn-sm btn-light ml-2 my-1"
+                  className="btn btn-sm btn-link text-primary ml-2 my-1"
                   onClick={claim}
                   disabled
                 >
-                  Claim
+                  <strong>Claim</strong>
                 </button>
                 <button
-                  className="btn btn-sm btn-primary ml-2 my-1"
+                  className="btn btn-sm btn-link text-primary ml-2 my-1"
                   onClick={() => restake(talent.contract_id)}
                 >
-                  Restake
+                  <strong>Stake Rewards</strong>
                 </button>
               </td>
             </tr>

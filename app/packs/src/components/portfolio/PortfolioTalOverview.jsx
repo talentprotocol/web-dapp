@@ -52,13 +52,13 @@ const PortfolioTalOverview = ({
               <strong>TOTAL BALANCE</strong>
             </small>
           </div>
-          <h3 className="ml-3 mt-4">
+          <h4 className="ml-3 mt-4">
             <strong>{currency(overallTAL).format().substring(1)}</strong>
             <small className="text-muted"> TAL</small>
-          </h3>
-          <h3 className="ml-3 text-muted">
+          </h4>
+          <h4 className="ml-3 text-muted">
             <small>{currency(overallCUSD).format()}</small>
-          </h3>
+          </h4>
         </div>
       </div>
       <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
@@ -68,13 +68,13 @@ const PortfolioTalOverview = ({
               <strong>CUSD BALANCE</strong>
             </small>
           </div>
-          <h3 className="ml-3 mt-4">
+          <h4 className="ml-3 mt-4">
             <strong>{currency(cUSDBalanceInTAL).format().substring(1)}</strong>
             <small className="text-muted"> TAL</small>
-          </h3>
-          <h3 className="ml-3 text-muted">
+          </h4>
+          <h4 className="ml-3 text-muted">
             <small>{currency(cUSDBalance).format()}</small>
-          </h3>
+          </h4>
         </div>
       </div>
       <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
@@ -84,13 +84,13 @@ const PortfolioTalOverview = ({
               <strong>REWARDS TOTAL</strong>
             </small>
           </div>
-          <h3 className="ml-3 mt-4">
+          <h4 className="ml-3 mt-4">
             <strong>{currency(totalYield).format().substring(1)}</strong>
             <small className="text-muted"> TAL</small>
-          </h3>
-          <h3 className="ml-3 text-muted">
+          </h4>
+          <h4 className="ml-3 text-muted">
             <small>{currency(totalYieldInCUSD).format()}</small>
-          </h3>
+          </h4>
         </div>
       </div>
       <div className="col-12 col-md-6 col-lg-3 mt-2 pr-1 pl-0">
@@ -100,13 +100,13 @@ const PortfolioTalOverview = ({
               <strong>TALENT TOKENS BALANCE</strong>
             </small>
           </div>
-          <h3 className="ml-3 mt-4">
+          <h4 className="ml-3 mt-4">
             <strong>{currency(talentTokensInTAL).format().substring(1)}</strong>
             <small className="text-muted"> TAL</small>
-          </h3>
-          <h3 className="ml-3 text-muted">
+          </h4>
+          <h4 className="ml-3 text-muted">
             <small>{currency(talentTokensInCUSD).format()}</small>
-          </h3>
+          </h4>
         </div>
       </div>
     </div>

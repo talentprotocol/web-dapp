@@ -27,11 +27,12 @@ const Portfolio = ({ address, railsContext }) => {
       return [];
     }
 
-    return data.supporter.talents.map(({ amount, talent }) => ({
+    return data.supporter.talents.map(({ amount, talAmount, talent }) => ({
       id: talent.owner,
       symbol: talent.symbol,
       name: talent.name,
       amount: ethers.utils.formatUnits(amount),
+      talAmount: ethers.utils.formatUnits(talAmount),
       totalSupply: ethers.utils.formatUnits(talent.totalSupply),
       nrOfSupporters: talent.supporterCounter,
       contract_id: talent.id,
