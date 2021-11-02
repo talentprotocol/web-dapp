@@ -216,6 +216,9 @@ const TalentShow = ({
           >
             Buy {ticker() || "Token"}
           </button>
+          <button className="btn btn-outline-primary ml-2" disabled>
+            Sell {ticker() || "Token"}
+          </button>
           {sharedState.token.contract_id && (
             <StakeModal
               show={show}

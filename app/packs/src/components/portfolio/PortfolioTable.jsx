@@ -28,14 +28,7 @@ const Web3Loading = () => (
   </tr>
 );
 
-const PortfolioTable = ({
-  loading,
-  talents,
-  returnValues,
-  unstake,
-  claim,
-  restake,
-}) => {
+const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
 
   useEffect(() => {
@@ -72,7 +65,7 @@ const PortfolioTable = ({
               scope="col"
             >
               <small>
-                <strong>AMOUNT</strong>
+                <strong>TOKENS HELD</strong>
               </small>
             </th>
             <th
@@ -80,7 +73,7 @@ const PortfolioTable = ({
               scope="col"
             >
               <small>
-                <strong>TAL LOCKED</strong>
+                <strong>AMOUNT LOCKED</strong>
               </small>
             </th>
             <th
@@ -88,7 +81,7 @@ const PortfolioTable = ({
               scope="col"
             >
               <small>
-                <strong>TAL REWARDS</strong>
+                <strong>REWARDS</strong>
               </small>
             </th>
             <th
@@ -117,38 +110,29 @@ const PortfolioTable = ({
                     href={`/talent/${talent.name}`}
                   >
                     <strong>{talent.name}</strong>
-                    <span className="ml-2 text-muted">{talent.symbol}</span>
                   </a>
                 </div>
               </th>
-              <td className="align-middle">{parseAndCommify(talent.amount)}</td>
+              <td className="align-middle">
+                {parseAndCommify(talent.amount)}{" "}
+                <span className="text-muted">{talent.symbol}</span>
+              </td>
               <td className="align-middle tal-table-price">
-                {parseAndCommify(talent.talAmount)}
+                {parseAndCommify(talent.talAmount)} TAL
               </td>
               <td className="align-middle tal-table-price">
                 {returnValues[talent.contract_id] &&
-                  parseAndCommify(returnValues[talent.contract_id].toString())}
+                  parseAndCommify(
+                    returnValues[talent.contract_id].toString()
+                  )}{" "}
+                TAL
               </td>
               <td className="align-middle">
                 <button
-                  className="btn btn-sm btn-link text-primary ml-2 my-1"
-                  onClick={unstake}
-                  disabled
+                  className="btn btn-sm btn-link text-primary px-0 my-1"
+                  onClick={() => onClaim(talent.contract_id)}
                 >
-                  <strong>Unstake</strong>
-                </button>
-                <button
-                  className="btn btn-sm btn-link text-primary ml-2 my-1"
-                  onClick={claim}
-                  disabled
-                >
-                  <strong>Claim</strong>
-                </button>
-                <button
-                  className="btn btn-sm btn-link text-primary ml-2 my-1"
-                  onClick={() => restake(talent.contract_id)}
-                >
-                  <strong>Stake Rewards</strong>
+                  <strong>Claim Rewards</strong>
                 </button>
               </td>
             </tr>
