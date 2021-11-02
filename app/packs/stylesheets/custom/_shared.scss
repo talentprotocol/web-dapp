@@ -74,3 +74,10 @@
 .text-black {
   color: $black;
 }
+
+.hover-black {
+  &:hover {
+    color: $black !important;
+    cursor: pointer;
+  }
+}

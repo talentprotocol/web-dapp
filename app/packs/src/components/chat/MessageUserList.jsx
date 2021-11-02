@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
@@ -75,15 +76,15 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
       <h1 className="h6 px-3">
         <strong>Messages</strong>
       </h1>
-      <div className="w-100 p-2 border-top position-relative">
+      <div className="w-100 d-flex flex-row p-2 border-top position-relative align-items-center">
         <input
           type="text"
           name="searchChat"
           id="searchChat"
           value={search}
-          disabled={users.length < 2}
+          disabled={users.length == 0}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search messages..."
+          placeholder="Search for people..."
           className="chat-input-area border w-100 p-2 pl-5"
         />
         <FontAwesomeIcon
@@ -91,6 +92,13 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
           className="position-absolute chat-search-icon"
           size="lg"
         />
+        <div className="ml-2 bg-light p-2">
+          <FontAwesomeIcon
+            icon={faComment}
+            size="lg"
+            className="text-muted hover-black"
+          />
+        </div>
       </div>
       {users.length == 0 && <EmptyUsers />}
       {filteredUsers(users, search).map((user) => (
