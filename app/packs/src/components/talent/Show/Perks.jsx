@@ -118,8 +118,7 @@ const Perks = ({ perks, ticker, width, contract, railsContext }) => {
               {calculateAmount(perk.price) === 0 && <strong>AVAILABLE</strong>}
               {calculateAmount(perk.price) !== 0 && (
                 <strong>
-                  HOLD +{calculateAmount(perk.price)}{" "}
-                  {ticker ? `$${ticker}` : ""}
+                  HOLD +{calculateAmount(perk.price)} {ticker}
                 </strong>
               )}
             </small>
