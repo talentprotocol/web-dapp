@@ -18,7 +18,7 @@ class API::V1::StakesController < ApplicationController
   end
 
   def create_notification_talent_token_bought(talent_user_id, user)
-    name = user.display_name || user.username
+    name = user.display_name.present? ? user.display_name : user.username
     service = CreateNotification.new
     service.call(
       title: "Supporter",
