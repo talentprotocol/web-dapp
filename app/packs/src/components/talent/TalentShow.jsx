@@ -70,7 +70,7 @@ const TalentShow = ({
   });
 
   const ticker = () =>
-    sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
+    sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
   const allTags = () =>
     [sharedState.primary_tag].concat(sharedState.secondary_tags);
   const displayName = ({ withLink }) => {

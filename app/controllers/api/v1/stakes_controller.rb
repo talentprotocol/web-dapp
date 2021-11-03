@@ -4,6 +4,7 @@ class API::V1::StakesController < ApplicationController
 
     if token.talent.user_id != current_user.id
       create_notification_talent_token_bought(token.talent.user_id, current_user)
+      add_follow(token.talent.user_id)
     end
 
     render json: {success: "Stake created."}, status: :ok
@@ -18,7 +19,7 @@ class API::V1::StakesController < ApplicationController
   end
 
   def create_notification_talent_token_bought(talent_user_id, user)
-    name = user.display_name || user.username
+    name = user.display_name.present? ? user.display_name : user.username
     service = CreateNotification.new
     service.call(
       title: "Supporter",
@@ -26,5 +27,14 @@ class API::V1::StakesController < ApplicationController
       user_id: talent_user_id,
       type: "Notifications::TokenAcquired"
     )
+  end
+
+  def add_follow(user_id)
+    follow = Follow.find_or_initialize_by(user_id: user_id, follower_id: current_user.id)
+
+    if !follow.persisted? && user_id != current_user.id
+      follow.save
+      SyncFollowerPostsJob.perform_later(user_id: user_id, follower_id: current_user.id)
+    end
   end
 end

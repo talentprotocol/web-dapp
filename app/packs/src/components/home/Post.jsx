@@ -132,9 +132,6 @@ const Post = ({ post, user, currentUser }) => {
 
   const date = parseJSON(post.created_at);
   const timeSinceCreation = formatDistanceToNow(date);
-  const buyButtonText = user.active
-    ? `Buy ${user.ticker}`
-    : `${user.ticker} coming soon.`;
 
   const toggleCommentSection = () => {
     setCommentSectionActive(!commentSectionActive);

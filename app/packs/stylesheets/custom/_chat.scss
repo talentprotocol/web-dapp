@@ -8,7 +8,6 @@
 
 .display-messages {
   height: calc(100% - 80px);
-  padding-top: 5rem;
 }
 
 .input-message-height {
@@ -81,4 +80,25 @@
   right: 20px;
   transform: translateY(50%);
   border-radius: 0px;
+}
+
+.new-message-user-list {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+@media (min-width: 992px) {
+  .absolute-menu {
+    position: absolute;
+    top: 12px;
+    right: 20px
+  }
+}
+
+@media (max-width: 991px) {
+  .absolute-menu {
+    position: absolute;
+    top: 85px;
+    right: 20px
+  }
 }
