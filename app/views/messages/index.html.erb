@@ -4,7 +4,7 @@
     userId: current_user.id
   }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100" })
 %>
-<div class="d-flex" style="position:absolute;top:20px;right:20px">
+<div class="d-flex absolute-menu">
   <%= react_component("UserMenu",
     props: {
       user: {

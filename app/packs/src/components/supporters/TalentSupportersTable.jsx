@@ -130,7 +130,6 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   useEffect(() => {
     supporters.forEach((supporter) => {
       get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
-        console.log(response);
         setSupporterProfilePictures((prev) => ({
           ...prev,
           [supporter.id]: response.profilePictureUrl,
