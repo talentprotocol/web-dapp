@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
+import NewMessageModal from "./NewMessageModal";
 
 const lastMessageText = (lastMessage) => {
   if (lastMessage) {
@@ -70,46 +71,58 @@ const EmptyUsers = () => (
 
 const MessageUserList = ({ users, activeUserId, onClick }) => {
   const [search, setSearch] = useState("");
+  const [show, setShow] = useState(false);
+  const [allUsers, setAllUsers] = useState(users);
+
+  const onNewMessageUser = (user) => {
+    onClick(user.id);
+    setAllUsers((prev) => [...prev, user]);
+    setShow(false);
+  };
 
   return (
-    <div className="d-flex flex-column align-items-stretch lg-h-100">
-      <h1 className="h6 px-3">
-        <strong>Messages</strong>
-      </h1>
-      <div className="w-100 d-flex flex-row p-2 border-top position-relative align-items-center">
-        <input
-          type="text"
-          name="searchChat"
-          id="searchChat"
-          value={search}
-          disabled={users.length == 0}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search for people..."
-          className="chat-input-area border w-100 p-2 pl-5"
-        />
-        <FontAwesomeIcon
-          icon={faSearch}
-          className="position-absolute chat-search-icon"
-          size="lg"
-        />
-        <div className="ml-2 bg-light p-2">
-          <FontAwesomeIcon
-            icon={faComment}
-            size="lg"
-            className="text-muted hover-black"
+    <>
+      <NewMessageModal
+        show={show}
+        setShow={setShow}
+        onUserChosen={onNewMessageUser}
+      />
+      <div className="d-flex flex-column align-items-stretch lg-h-100">
+        <div className="w-100 d-flex flex-row p-2 border-top position-relative align-items-center">
+          <input
+            type="text"
+            name="searchChat"
+            id="searchChat"
+            value={search}
+            disabled={allUsers.length == 0}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for people..."
+            className="chat-input-area border w-100 p-2 pl-5"
           />
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="position-absolute chat-search-icon"
+            size="lg"
+          />
+          <div className="ml-2 bg-light p-2" onClick={() => setShow(true)}>
+            <FontAwesomeIcon
+              icon={faComment}
+              size="lg"
+              className="text-muted hover-black"
+            />
+          </div>
         </div>
+        {allUsers.length == 0 && <EmptyUsers />}
+        {filteredUsers(allUsers, search).map((user) => (
+          <UserMessage
+            onClick={onClick}
+            key={`user-message-list-${user.id}`}
+            user={user}
+            activeUserId={activeUserId}
+          />
+        ))}
       </div>
-      {users.length == 0 && <EmptyUsers />}
-      {filteredUsers(users, search).map((user) => (
-        <UserMessage
-          onClick={onClick}
-          key={`user-message-list-${user.id}`}
-          user={user}
-          activeUserId={activeUserId}
-        />
-      ))}
-    </div>
+    </>
   );
 };
 

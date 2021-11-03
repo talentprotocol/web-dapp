@@ -104,30 +104,37 @@ const Chat = ({ users, userId }) => {
 
   return (
     <>
-      {(width > 992 || activeUserId == 0) && (
-        <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll border-right pt-3">
-          <MessageUserList
-            onClick={(user_id) => setActiveUserId(user_id)}
-            activeUserId={activeUserId}
-            users={users}
-          />
-        </section>
-      )}
-      {(width > 992 || activeUserId > 0) && (
-        <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
-          <MessageExchange
-            smallScreen={width <= 992}
-            clearActiveUserId={() => clearActiveUser()}
-            value={message}
-            onChange={setMessage}
-            onSubmit={ignoreAndCallDebounce}
-            messages={messages}
-            sendingMessage={sendingMessage}
-            userId={userId}
-            profilePictureUrl={messengerProfilePicture}
-          />
-        </section>
-      )}
+      <div className="d-flex flex-column w-100 h-100">
+        <h1 className="h6 px-3 py-4 mb-0">
+          <strong>Messages</strong>
+        </h1>
+        <main className="d-flex flex-row w-100 h-100">
+          {(width > 992 || activeUserId == 0) && (
+            <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll border-right">
+              <MessageUserList
+                onClick={(user_id) => setActiveUserId(user_id)}
+                activeUserId={activeUserId}
+                users={users}
+              />
+            </section>
+          )}
+          {(width > 992 || activeUserId > 0) && (
+            <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
+              <MessageExchange
+                smallScreen={width <= 992}
+                clearActiveUserId={() => clearActiveUser()}
+                value={message}
+                onChange={setMessage}
+                onSubmit={ignoreAndCallDebounce}
+                messages={messages}
+                sendingMessage={sendingMessage}
+                userId={userId}
+                profilePictureUrl={messengerProfilePicture}
+              />
+            </section>
+          )}
+        </main>
+      </div>
     </>
   );
 };

@@ -15,6 +15,7 @@
 .underline-hover {
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 }
 
@@ -78,6 +79,13 @@
 .hover-black {
   &:hover {
     color: $black !important;
+    cursor: pointer;
+  }
+}
+
+.hover-primary {
+  &:hover {
+    color: $primary !important;
     cursor: pointer;
   }
 }
