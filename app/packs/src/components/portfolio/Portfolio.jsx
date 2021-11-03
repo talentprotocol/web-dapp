@@ -35,13 +35,7 @@ const RewardsModal = ({
     ) || {};
 
   return (
-    <Modal
-      scrollable={true}
-      fullscreen={"md-down"}
-      show={show}
-      centered
-      onHide={() => setShow(false)}
-    >
+    <Modal scrollable={true} show={show} centered onHide={() => setShow(false)}>
       <Modal.Body className="show-grid p-4">
         <p>
           <strong>Rewards {activeTalent.symbol}</strong>
@@ -54,13 +48,14 @@ const RewardsModal = ({
           <strong>{parseAndCommify(availableRewards)} TAL</strong> accumulated.
         </p>
         <div className="dropdown-divider mt-5 mb-3"></div>
-        <div className="d-flex flex-row w-100">
+        <div className="d-flex flex-row flex-wrap w-100">
           <div className="d-flex flex-column col-12 col-md-6 justify-content-between ">
             <p className="mr-3">Claim rewards to my wallet.</p>
             <button className="btn btn-primary talent-button" disabled>
               Claim TAL
             </button>
           </div>
+          <div className="dropdown-divider col-12 my-3 d-md-none"></div>
           <div className="d-flex flex-column col-12 col-md-6 justify-content-between">
             <div className="d-flex flex-column mr-3">
               <p className="mb-0">Use my rewards to buy more talent tokens.</p>
