@@ -126,7 +126,7 @@ const ActiveTalents = ({ talents }) => {
                 <strong className="text-black mr-2">
                   {getCirculatingSupply(talent.contract_id)}
                 </strong>{" "}
-                {talent.ticker}
+                {talent.ticker ? `$${talent.ticker}` : ""}
               </small>
             </a>
           </div>

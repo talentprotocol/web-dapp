@@ -41,7 +41,9 @@ const TokenDetails = ({ token, ticker, displayName, username }) => {
       style={{ top: 20, zIndex: 1 }}
     >
       <div className="card-body">
-        <h6 className="card-title">{ticker} Price Statistics</h6>
+        <h6 className="card-title">
+          {ticker ? `$${ticker}` : ""} Price Statistics
+        </h6>
         <div className="d-flex flex-column justify-content-between">
           <small className="text-muted">Token Address</small>
           <small>{token.contract_id || "Coming soon"}</small>
@@ -51,7 +53,7 @@ const TokenDetails = ({ token, ticker, displayName, username }) => {
         </h6>
         <div className="dropdown-divider border-secondary"></div>
         <div className="d-flex flex-row justify-content-between">
-          <small>{ticker} Price</small>
+          <small>{ticker ? `$${ticker}` : ""} Price</small>
           <small>${tokenData.price}</small>
         </div>
         <div className="d-flex flex-row justify-content-between mt-2">

@@ -240,7 +240,7 @@ const StakeModal = ({
         <Modal.Body className="show-grid p-4">
           <div className="container-fluid">
             <div className="row d-flex flex-column">
-              <h2>BUY {ticker}</h2>
+              <h2>BUY {ticker ? `$${ticker}` : ""}</h2>
               <p>
                 We're currently only accepting cUSD to mint Talent Tokens. If
                 you already have an active stake we'll use your current rewards
@@ -259,7 +259,7 @@ const StakeModal = ({
                     value={amount}
                   />
                   <small className="form-text text-primary">
-                    You will receive {amount * 10} {ticker}.
+                    You will receive {amount * 10} {ticker ? `$${ticker}` : ""}.
                   </small>
                   <small className="form-text text-muted">
                     Available cUSD on your wallet:{" "}
@@ -268,8 +268,8 @@ const StakeModal = ({
                       : "[Connect wallet to get available balance]"}
                   </small>
                   <small className="form-text text-muted">
-                    There are {ticker} Talent Tokens available to be minted:{" "}
-                    {maxMinting}
+                    There are {ticker ? `$${ticker}` : ""} Talent Tokens
+                    available to be minted: {maxMinting}
                   </small>
                   <div className="d-flex flex-row mt-3">
                     {step() == "Connect" && (
