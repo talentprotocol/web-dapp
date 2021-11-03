@@ -1,23 +1,23 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import Caption from 'src/components/design_system/caption';
+import H4 from 'src/components/design_system/typography/h4';
 
-<Meta title="Components/Caption" component={Caption} />
+<Meta title="Design System/Typography/H4" component={H4} />
 
-# Captions
+# H4s
 
-Custom Captions to show titles.
+Custom H4s to show titles.
 
 ## Examples
 
-export const Template = (args) => <Caption {...args} />
+export const Template = (args) => <H4 {...args} />
 
 <Canvas>
   <Story
     name="Light mode"
     args={{
       mode: "light",
-      text: "Example of a caption",
+      text: "Example of an header",
     }}>
     {Template.bind({})}
    </Story>
@@ -26,7 +26,7 @@ export const Template = (args) => <Caption {...args} />
     args={{
       mode: "light",
       bold: true,
-      text: "Example of a caption with bold",
+      text: "Example of an header with bold",
     }}>
     {Template.bind({})}
    </Story>
@@ -35,7 +35,7 @@ export const Template = (args) => <Caption {...args} />
     parameters={{backgrounds: { default: 'dark' }}}
     args={{
       mode: "dark",
-      text: "Example of a caption"
+      text: "Example of an header"
     }}>
     {Template.bind({})}
    </Story>
@@ -45,7 +45,7 @@ export const Template = (args) => <Caption {...args} />
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of a caption with bold"
+      text: "Example of an header with bold"
     }}>
     {Template.bind({})}
    </Story>

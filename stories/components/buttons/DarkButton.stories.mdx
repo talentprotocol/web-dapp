@@ -2,7 +2,7 @@ import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
 import Button from 'src/components/design_system/button';
 
-<Meta title="Components/Button" component={Button} />
+<Meta title="Design System/Button/Dark Mode" component={Button} />
 
 # Buttons
 
@@ -17,11 +17,12 @@ export const Template = (args) => <Button {...args} />
 <Canvas>
   <Story
     name="Primary default"
-    args={{ 
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Primary default!",
       onClick: () => null,
       type: "primary-default",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}
   >
@@ -29,11 +30,12 @@ export const Template = (args) => <Button {...args} />
   </Story>
   <Story
     name="Primary outline"
-    args={{ 
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Primary outline!",
       onClick: () => null,
       type: "primary-outline",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}
   >
@@ -41,11 +43,12 @@ export const Template = (args) => <Button {...args} />
   </Story>
   <Story
     name="Primary ghost"
-    args={{ 
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Primary ghost!",
       onClick: () => null,
       type: "primary-ghost",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}
   >
@@ -53,84 +56,109 @@ export const Template = (args) => <Button {...args} />
   </Story>
   <Story
     name="Primary subtle"
-    args={{ 
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Primary subtle!",
       onClick: () => null,
       type: "primary-subtle",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}
   >
     {Template.bind({})}
   </Story>
-  <Story name="Danger default" args={{ 
+  <Story
+    name="Danger default"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Danger default!",
       onClick: () => null,
       type: "danger-default",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="Danger outline" args={{ 
+   <Story
+    name="Danger outline"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{ 
       text: "Danger outline!",
       onClick: () => null,
       type: "danger-outline",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="Danger ghost" args={{ 
+   <Story
+    name="Danger ghost"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Danger ghost!",
       onClick: () => null,
       type: "danger-ghost",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="Danger subtle" args={{ 
+   <Story
+    name="Danger subtle"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "Danger subtle!",
       onClick: () => null,
       type: "danger-subtle",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="White default" args={{ 
+   <Story
+    name="White default"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "White default!",
       onClick: () => null,
       type: "white-default",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="White outline" args={{ 
+   <Story
+    name="White outline"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "White outline!",
       onClick: () => null,
       type: "white-outline",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="White ghost" args={{ 
+   <Story
+    name="White ghost"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "White ghost!",
       onClick: () => null,
       type: "white-ghost",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}
    </Story>
-   <Story name="White subtle" args={{ 
+   <Story
+    name="White subtle"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{
       text: "White subtle!",
       onClick: () => null,
       type: "white-subtle",
-      mode: "light",
+      mode: "dark",
       disabled: false,
     }}>
     {Template.bind({})}

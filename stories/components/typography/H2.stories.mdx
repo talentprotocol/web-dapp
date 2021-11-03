@@ -1,23 +1,23 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import P3 from 'src/components/design_system/p3';
+import H2 from 'src/components/design_system/typography/h2';
 
-<Meta title="Components/P3" component={P3} />
+<Meta title="Design System/Typography/H2" component={H2} />
 
-# P3s
+# H2s
 
-Custom P3s to show titles.
+Custom H2s to show titles.
 
 ## Examples
 
-export const Template = (args) => <P3 {...args} />
+export const Template = (args) => <H2 {...args} />
 
 <Canvas>
   <Story
     name="Light mode"
     args={{
       mode: "light",
-      text: "Example of a paragraph",
+      text: "Example of an header",
     }}>
     {Template.bind({})}
    </Story>
@@ -26,7 +26,7 @@ export const Template = (args) => <P3 {...args} />
     args={{
       mode: "light",
       bold: true,
-      text: "Example of a paragraph with bold",
+      text: "Example of an header with bold",
     }}>
     {Template.bind({})}
    </Story>
@@ -35,7 +35,7 @@ export const Template = (args) => <P3 {...args} />
     parameters={{backgrounds: { default: 'dark' }}}
     args={{
       mode: "dark",
-      text: "Example of a paragraph"
+      text: "Example of an header"
     }}>
     {Template.bind({})}
    </Story>
@@ -45,7 +45,7 @@ export const Template = (args) => <P3 {...args} />
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of a paragraph with bold"
+      text: "Example of an header with bold"
     }}>
     {Template.bind({})}
    </Story>

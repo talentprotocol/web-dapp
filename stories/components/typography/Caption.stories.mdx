@@ -1,23 +1,23 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import P1 from 'src/components/design_system/p1';
+import Caption from 'src/components/design_system/typography/caption';
 
-<Meta title="Components/P1" component={P1} />
+<Meta title="Design System/Typography/Caption" component={Caption} />
 
-# P1s
+# Captions
 
-Custom P1s to show titles.
+Custom Captions to show titles.
 
 ## Examples
 
-export const Template = (args) => <P1 {...args} />
+export const Template = (args) => <Caption {...args} />
 
 <Canvas>
   <Story
     name="Light mode"
     args={{
       mode: "light",
-      text: "Example of a paragraph",
+      text: "Example of a caption",
     }}>
     {Template.bind({})}
    </Story>
@@ -26,7 +26,7 @@ export const Template = (args) => <P1 {...args} />
     args={{
       mode: "light",
       bold: true,
-      text: "Example of a paragraph with bold",
+      text: "Example of a caption with bold",
     }}>
     {Template.bind({})}
    </Story>
@@ -35,7 +35,7 @@ export const Template = (args) => <P1 {...args} />
     parameters={{backgrounds: { default: 'dark' }}}
     args={{
       mode: "dark",
-      text: "Example of a paragraph"
+      text: "Example of a caption"
     }}>
     {Template.bind({})}
    </Story>
@@ -45,7 +45,7 @@ export const Template = (args) => <P1 {...args} />
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of a paragraph with bold"
+      text: "Example of a caption with bold"
     }}>
     {Template.bind({})}
    </Story>
