@@ -89,15 +89,6 @@ const Overview = ({ sharedState }) => {
               <FontAwesomeIcon icon={faDiscord} size="lg" />
             </a>
           )}
-          {sharedState.talent.profile.email && (
-            <a
-              href={`mailto:${sharedState.talent.profile.email}`}
-              target="self"
-              className="mr-3 text-reset"
-            >
-              <FontAwesomeIcon icon={faEnvelope} size="lg" />
-            </a>
-          )}
         </div>
         <div className="dropdown-divider"></div>
         <h5>

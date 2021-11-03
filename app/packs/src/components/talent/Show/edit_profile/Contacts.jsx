@@ -14,7 +14,6 @@ const Contacts = ({ close, talent, user, updateSharedState }) => {
     linkedin: talent.profile.linkedin || "",
     twitter: talent.profile.twitter || "",
     instagram: talent.profile.instagram || "",
-    email: user.email || "",
     telegram: talent.profile.telegram || "",
     discord: talent.profile.discord || "",
   });
@@ -34,7 +33,6 @@ const Contacts = ({ close, talent, user, updateSharedState }) => {
           linkedin: contactsInfo["linkedin"],
           twitter: contactsInfo["twitter"],
           instagram: contactsInfo["instagram"],
-          email: contactsInfo["email"],
           telegram: contactsInfo["telegram"],
           discord: contactsInfo["discord"],
         },
@@ -58,7 +56,6 @@ const Contacts = ({ close, talent, user, updateSharedState }) => {
               linkedin: contactsInfo["linkedin"],
               twitter: contactsInfo["twitter"],
               instagram: contactsInfo["instagram"],
-              email: contactsInfo["email"],
               telegram: contactsInfo["telegram"],
               discord: contactsInfo["discord"],
             },
@@ -79,16 +76,6 @@ const Contacts = ({ close, talent, user, updateSharedState }) => {
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
       <h4>About</h4>
       <form>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            className="form-control"
-            value={contactsInfo["email"]}
-            placeholder="you@example.com"
-            onChange={(e) => changeAttribute("email", e.target.value)}
-          />
-        </div>
         <div className="form-group">
           <label htmlFor="linkedin">Linkedin</label>
           <input
