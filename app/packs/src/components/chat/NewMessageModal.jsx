@@ -35,10 +35,6 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
     debouncedFetch();
   }, [search]);
 
-  const chooseUser = (user) => {
-    onUserChosen(user);
-  };
-
   const showLoadingState = () => loading == true && users.length == 0;
 
   return (
@@ -73,7 +69,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
             <a
               key={`new_message_user_${user.id}`}
               className="w-100 d-flex flex-row align-items-center my-2 text-reset hover-primary"
-              onClick={() => chooseUser(user)}
+              onClick={() => onUserChosen(user)}
             >
               <TalentProfilePicture src={user.profilePictureUrl} height={40} />
               <p className="mb-0 ml-3">{user.username}</p>

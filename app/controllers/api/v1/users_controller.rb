@@ -4,9 +4,9 @@ class API::V1::UsersController < ApplicationController
   def index
     @users =
       if search_params[:name].present?
-        User.includes(:investor, talent: [:token]).where("username ilike ? ", "%#{search_params[:name]}%")
+        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).where("username ilike ? ", "%#{search_params[:name]}%")
       else
-        User.includes(:investor, talent: [:token]).limit(20)
+        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).limit(20)
       end
 
     render json: {users: @users.map { |u| {id: u.id, profilePictureUrl: u&.talent&.profile_picture_url || u.investor.profile_picture_url, username: u.username, ticker: u.talent&.token&.display_ticker} }}, status: :ok

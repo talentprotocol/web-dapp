@@ -76,7 +76,10 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
 
   const onNewMessageUser = (user) => {
     onClick(user.id);
-    setAllUsers((prev) => [...prev, user]);
+    const index = allUsers.findIndex((u) => u.id == user.id);
+    if (index < 0) {
+      setAllUsers((prev) => [...prev, user]);
+    }
     setShow(false);
   };
 
