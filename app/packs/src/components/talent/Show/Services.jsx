@@ -80,7 +80,7 @@ const Services = ({ services, ticker, width }) => {
             <p>{service.title}</p>
             <small className="text-warning">
               <strong>
-                {service.price} {ticker}
+                {service.price} {ticker ? `$${ticker}` : ""}
               </strong>
             </small>
             <button className="btn btn-secondary mt-2" disabled>

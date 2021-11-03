@@ -63,13 +63,16 @@ const ActiveTalentLeaderboard = ({ talents }) => {
             <a className="text-reset" href={`/talent/${talent.username}`}>
               <small>
                 {talent.name}{" "}
-                <span className="text-muted">{talent.ticker}</span>
+                <span className="text-muted">
+                  {talent.ticker ? `$${talent.ticker}` : ""}
+                </span>
               </small>
             </a>
           </div>
           <div className="d-flex flex-row align-items-center">
             <small>
-              {getCirculatingSupply(talent.contract_id)} {talent.ticker}
+              {getCirculatingSupply(talent.contract_id)}{" "}
+              {talent.ticker ? `$${talent.ticker}` : ""}
             </small>
           </div>
         </div>

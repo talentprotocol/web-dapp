@@ -39,7 +39,7 @@ const UserMessage = ({ user, activeUserId, onClick }) => {
                 </small>
               </p>
               <p className="text-muted mb-0">
-                <small>{user.ticker}</small>
+                <small>{user.ticker ? `$${user.ticker}` : ""}</small>
               </p>
             </div>
             <p className="text-muted mb-0">

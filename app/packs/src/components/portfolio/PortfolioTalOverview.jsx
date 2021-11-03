@@ -25,7 +25,7 @@ const PortfolioTalOverview = ({
           </div>
           <h4 className="ml-3 mt-4">
             <strong>{currency(overallTAL).format().substring(1)}</strong>
-            <small className="text-muted"> TAL</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
           <h4 className="ml-3 text-muted">
             <small>{currency(overallCUSD).format()}</small>
