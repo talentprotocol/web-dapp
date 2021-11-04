@@ -72,7 +72,7 @@ const RewardsModal = ({
               onClick={claim}
               disabled={loadingRewards}
             >
-              Buy {activeTalent.symbol}{" "}
+              Buy ${activeTalent.symbol}{" "}
               {loadingRewards ? <FontAwesomeIcon icon={faSpinner} spin /> : ""}
             </button>
           </div>
