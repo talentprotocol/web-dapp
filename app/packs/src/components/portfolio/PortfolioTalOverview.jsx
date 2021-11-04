@@ -44,7 +44,7 @@ const PortfolioTalOverview = ({
           </h4>
           <h4 className="ml-3 text-muted">
             <small>{currency(cUSDBalanceInTAL).format().substring(1)}</small>
-            <small className="text-muted"> TAL</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
         </div>
       </div>
@@ -57,7 +57,7 @@ const PortfolioTalOverview = ({
           </div>
           <h4 className="ml-3 mt-4">
             <strong>{currency(rewardsClaimed).format().substring(1)}</strong>
-            <small className="text-muted"> TAL</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
           <h4 className="ml-3 text-muted">
             <small>{currency(totalRewardsInCUSD).format()}</small>
@@ -73,7 +73,7 @@ const PortfolioTalOverview = ({
           </div>
           <h4 className="ml-3 mt-4">
             <strong>{currency(talentTokensInTAL).format().substring(1)}</strong>
-            <small className="text-muted"> TAL</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
           <h4 className="ml-3 text-muted">
             <small>{currency(talentTokensInCUSD).format()}</small>

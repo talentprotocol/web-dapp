@@ -115,7 +115,7 @@ const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
               </th>
               <td className="align-middle">
                 {parseAndCommify(talent.amount)}{" "}
-                <span className="text-muted">{talent.symbol}</span>
+                <span className="text-muted">${talent.symbol}</span>
               </td>
               <td className="align-middle tal-table-price">
                 {parseAndCommify(talent.talAmount)} $TAL
