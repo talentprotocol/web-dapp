@@ -10,6 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
+import { TERMS_HREF, PRIVACY_HREF } from "src/utils/constants";
+
 import NavbarItem from "./NavbarItem";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Logo from "src/components/logo";
@@ -26,6 +28,123 @@ const TalNavbar = (props) => {
     adminPath,
     watchList,
   } = props;
+
+  const newWatchList = [
+    {
+      displayName: "frank",
+      id: 3,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 4,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 5,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 6,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 7,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 8,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 9,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 10,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 11,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 12,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 13,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 14,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 15,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 16,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 17,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 18,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 19,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 20,
+      picture: null,
+      url: "/talent/frank",
+    },
+    {
+      displayName: "frank",
+      id: 21,
+      picture: null,
+      url: "/talent/frank",
+    },
+  ];
 
   return (
     <Navbar
@@ -59,7 +178,7 @@ const TalNavbar = (props) => {
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
             )}
           </Nav>
-          <Nav className="flex-lg-column w-100 mt-5">
+          <Nav className="flex-lg-column w-100 mt-4">
             <h6 className="ml-3 mb-3">WATCHLIST</h6>
             {watchList.length == 0 && (
               <div className="d-flex flex-row align-items-center">
@@ -67,7 +186,7 @@ const TalNavbar = (props) => {
                 <small>Star a talent to display it here.</small>
               </div>
             )}
-            {watchList.map((watchItem) => (
+            {newWatchList.map((watchItem) => (
               <NavbarItem
                 key={`watch_list_item_${watchItem.id}`}
                 url={watchItem.url}
@@ -81,6 +200,17 @@ const TalNavbar = (props) => {
                 <small>{watchItem.displayName}</small>
               </NavbarItem>
             ))}
+          </Nav>
+          <Nav className="flex-lg-column w-100 mt-auto">
+            <NavbarItem url={"/messages?user=1"} noTracking>
+              <small className="text-dark">Feedback</small>
+            </NavbarItem>
+            <NavbarItem url={TERMS_HREF} noTracking>
+              <small>Terms & Conditions</small>
+            </NavbarItem>
+            <NavbarItem url={PRIVACY_HREF} noTracking>
+              <small>Privacy Policy</small>
+            </NavbarItem>
           </Nav>
         </Navbar.Collapse>
       </Container>

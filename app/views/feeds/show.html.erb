@@ -10,6 +10,11 @@
       displayWalletId: current_user.display_wallet_id,
       walletId: current_user.wallet_id,
       username: current_user.username,
+      tokenLive: current_user.talent&.token&.contract_id.present?,
+      code: current_user.invite&.code,
+      invitesLeft: current_user.invite&.invites_left,
+      totalInvites: current_user.invite&.max_uses || 1,
+      sign_up_path: sign_up_path(code: current_user.invite&.code)
     },
     activeTalents: @active_talents.map { |tal| { id: tal.id, name: tal.user.display_name.present? ? tal.user.display_name : tal.user.username, username: tal.user.username, ticker: tal.token.ticker, contract_id: tal.token.contract_id, profilePictureUrl: tal.profile_picture_url } },
     upcomingTalents: @upcoming_talents.map { |tal| { id: tal.id, name: tal.user.display_name.present? ? tal.user.display_name : tal.user.username, username: tal.user.username, ticker: tal.token.ticker, profilePictureUrl: tal.profile_picture_url }},
