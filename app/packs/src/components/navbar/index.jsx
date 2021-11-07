@@ -29,123 +29,6 @@ const TalNavbar = (props) => {
     watchList,
   } = props;
 
-  const newWatchList = [
-    {
-      displayName: "frank",
-      id: 3,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 4,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 5,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 6,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 7,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 8,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 9,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 10,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 11,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 12,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 13,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 14,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 15,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 16,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 17,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 18,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 19,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 20,
-      picture: null,
-      url: "/talent/frank",
-    },
-    {
-      displayName: "frank",
-      id: 21,
-      picture: null,
-      url: "/talent/frank",
-    },
-  ];
-
   return (
     <Navbar
       collapseOnSelect
@@ -158,7 +41,7 @@ const TalNavbar = (props) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse
-          className="flex-lg-column w-100 lg-h-100"
+          className="flex-lg-column w-100 lg-h-100 lg-overflow-y-scroll"
           id="responsive-navbar-nav"
         >
           <Nav className="me-auto flex-lg-column w-100">
@@ -186,20 +69,22 @@ const TalNavbar = (props) => {
                 <small>Star a talent to display it here.</small>
               </div>
             )}
-            {newWatchList.map((watchItem) => (
-              <NavbarItem
-                key={`watch_list_item_${watchItem.id}`}
-                url={watchItem.url}
-                noTracking
-              >
-                <TalentProfilePicture
-                  src={watchItem.picture}
-                  height={24}
-                  className="mr-2"
-                />{" "}
-                <small>{watchItem.displayName}</small>
-              </NavbarItem>
-            ))}
+            <div className="w-100 d-flex flex-column watchlist-max-size">
+              {watchList.map((watchItem) => (
+                <NavbarItem
+                  key={`watch_list_item_${watchItem.id}`}
+                  url={watchItem.url}
+                  noTracking
+                >
+                  <TalentProfilePicture
+                    src={watchItem.picture}
+                    height={24}
+                    className="mr-2"
+                  />{" "}
+                  <small>{watchItem.displayName}</small>
+                </NavbarItem>
+              ))}
+            </div>
           </Nav>
           <Nav className="flex-lg-column w-100 mt-auto">
             <NavbarItem url={"/messages?user=1"} noTracking>
