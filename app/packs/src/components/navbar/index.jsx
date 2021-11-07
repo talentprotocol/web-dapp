@@ -87,7 +87,11 @@ const TalNavbar = (props) => {
             </div>
           </Nav>
           <Nav className="flex-lg-column w-100 mt-auto">
-            <NavbarItem url={"/messages?user=1"} noTracking>
+            <NavbarItem
+              url={"https://talentprotocol.typeform.com/feedback"}
+              target="self"
+              noTracking
+            >
               <small className="text-dark">Feedback</small>
             </NavbarItem>
             <NavbarItem url={TERMS_HREF} noTracking>
