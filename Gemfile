@@ -19,7 +19,10 @@ gem "bootstrap-email"
 
 # Auth
 gem "clearance"
-gem "schmooze" # Not for auth but currently only used during the auth flow
+
+# Web 3
+gem "eth"
+gem "ethereum.rb"
 
 # Crypto
 gem "lockbox" # for application level encryption

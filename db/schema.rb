@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_14_213426) do
+ActiveRecord::Schema.define(version: 2021_11_08_112502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,15 @@ ActiveRecord::Schema.define(version: 2021_10_14_213426) do
     t.index ["transaction_hash"], name: "index_transactions_on_transaction_hash"
   end
 
+  create_table "transfers", force: :cascade do |t|
+    t.bigint "amount"
+    t.string "tx_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_transfers_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "email"
@@ -274,6 +283,7 @@ ActiveRecord::Schema.define(version: 2021_10_14_213426) do
     t.datetime "email_confirmed_at"
     t.string "display_name"
     t.bigint "invite_id"
+    t.string "theme_preference"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
@@ -313,4 +323,5 @@ ActiveRecord::Schema.define(version: 2021_10_14_213426) do
   add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"
   add_foreign_key "transactions", "tokens"
+  add_foreign_key "transfers", "users"
 end
