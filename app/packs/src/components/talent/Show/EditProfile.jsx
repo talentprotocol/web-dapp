@@ -10,10 +10,39 @@ import CareerGoal from "./edit_profile/CareerGoal";
 import Contacts from "./edit_profile/Contacts";
 import Timeline from "./edit_profile/Timeline";
 
+const TokenLaunched = ({ show, setShow, inviteLink }) => {
+  const url = `${window.location.origin}${inviteLink}`;
+  return (
+    <Modal scrollable={true} show={show} centered onHide={() => setShow(false)}>
+      <Modal.Body className="show-grid p-4">
+        <h2>Your token is live</h2>
+        <p>Congratulations on launching your talent token!</p>
+        <p>
+          You probably want your friends and family to be the first ones to buy
+          your tokens, right?
+        </p>
+        <p>
+          Share this exclusive link with up to five people so they can have
+          early access to the Private Beta and invest in you.
+        </p>
+        <a href={url} target="self">
+          {url}
+        </a>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const EditProfile = ({ railsContext, ...props }) => {
   const [show, setShow] = useState(false);
+  const [tokenLaunched, setTokenLaunched] = useState(false);
   const [activeSection, setActiveSection] = useState("About");
   const allowEdit = props.allowEdit;
+
+  const onTokenLaunch = () => {
+    setTokenLaunched(true);
+    setShow(false);
+  };
 
   return (
     <>
@@ -25,11 +54,17 @@ const EditProfile = ({ railsContext, ...props }) => {
           <FontAwesomeIcon icon={faEdit} /> Edit Profile
         </button>
       )}
+      <TokenLaunched
+        show={tokenLaunched}
+        setShow={setTokenLaunched}
+        inviteLink={props.inviteLink}
+      />
       <Modal
         size="lg"
         scrollable={true}
         fullscreen={"md-down"}
         show={show}
+        centered
         onHide={() => setShow(false)}
       >
         <Modal.Body className="show-grid py-0">
@@ -102,6 +137,7 @@ const EditProfile = ({ railsContext, ...props }) => {
                   close={() => setShow(false)}
                   {...props}
                   railsContext={railsContext}
+                  setTokenLaunched={onTokenLaunch}
                 />
               )}
               {activeSection == "Perks" && (

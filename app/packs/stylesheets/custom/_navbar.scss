@@ -78,3 +78,14 @@
     border-bottom: 2px solid $primary !important;
   }
 }
+
+@media (min-width: 992px) {
+  .watchlist-max-size {
+    min-height: 40px;
+    max-height: calc(100vh - 545px);
+    overflow: hidden;
+    &:hover {
+      overflow-y: scroll;
+    }
+  }
+}

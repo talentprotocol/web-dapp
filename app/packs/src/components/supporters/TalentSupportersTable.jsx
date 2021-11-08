@@ -158,7 +158,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
       ),
       supporterCounter: data.talentToken.supporterCounter,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
-      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
+      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap) * 0.1,
     };
   }, [data]);
 
