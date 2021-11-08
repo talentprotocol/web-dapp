@@ -45,10 +45,7 @@ const TalNavbar = (props) => {
           id="responsive-navbar-nav"
         >
           <Nav className="me-auto flex-lg-column w-100">
-            <NavbarItem url={feedPath} exact>
-              {icon(faHome)} Home
-            </NavbarItem>
-            <NavbarItem url={talentPath}>
+            <NavbarItem url={talentPath} secondaryUrl={"/"}>
               {icon(faUserFriends)} Talent
             </NavbarItem>
             <NavbarItem url={portfolioPath}>
