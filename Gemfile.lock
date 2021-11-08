@@ -137,6 +137,7 @@ GEM
       addressable
     diff-lcs (1.4.4)
     digest-sha3 (1.1.0)
+    digest-sha3-patched (1.1.1)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -146,6 +147,12 @@ GEM
     email_validator (2.2.3)
       activemodel
     erubi (1.10.0)
+    eth (0.4.12)
+      digest-sha3-patched (~> 1.1)
+      ffi (~> 1.0)
+      money-tree (~> 0.10.0)
+      rlp (~> 0.7.3)
+      scrypt (~> 3.0.6)
     ethereum.rb (2.5)
       activesupport (>= 4.0)
       digest-sha3 (~> 1.1)
@@ -194,6 +201,8 @@ GEM
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
+    money-tree (0.10.0)
+      ffi
     msgpack (1.4.2)
     newrelic-infinite_tracing (7.2.0)
       grpc (~> 1.34)
@@ -272,6 +281,7 @@ GEM
     redis (4.3.1)
     regexp_parser (2.1.1)
     rexml (3.2.5)
+    rlp (0.7.3)
     roda (3.46.0)
       rack
     rollbar (3.2.0)
@@ -318,6 +328,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    scrypt (3.0.7)
+      ffi-compiler (>= 1.0, < 2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -383,6 +395,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   clearance
   dotenv-rails
+  eth
   ethereum.rb
   factory_bot_rails (~> 6.2.0)
   faker

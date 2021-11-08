@@ -1,22 +1,43 @@
 module Web3
   class TransferCelo
-    DEFAULT_AMOUNT = 0.1
-
-    def initialize
-    end
+    # 0.1 CELO
+    DEFAULT_AMOUNT = 100000000000000000
 
     def call(user_id:)
       user = User.find(user_id)
 
-      if user.wallet_id
-        transfer_to_wallet(DEFAULT_AMOUNT, user.wallet_id)
+      if user.wallet_id && no_previous_transfer(user) && key
+        tx_hash = client.transfer(key, user.wallet_id, DEFAULT_AMOUNT)
+
+        transfer = Transfer.new
+        transfer.user = user
+        transfer.amount = DEFAULT_AMOUNT
+        transfer.tx_hash = tx_hash
+        transfer.save!
       end
     end
 
     private
 
-    def transfer_to_wallet(amount, address)
-      true
+    def no_previous_transfer(user)
+      Transfer.where(user: user).exists?
+    end
+
+    def client
+      @client ||= Ethereum::HttpClient.new(celo_url)
+    end
+
+    def key
+      @key ||=
+        if ENV["CELO_WALLET_PRIVATE_KEY"]
+          Eth::Key.new(priv: ENV["CELO_WALLET_PRIVATE_KEY"])
+        else
+          false
+        end
+    end
+
+    def celo_url
+      ENV["FORNO_URL"] || "https://alfajores-forno.celo-testnet.org"
     end
   end
 end

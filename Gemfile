@@ -21,6 +21,7 @@ gem "bootstrap-email"
 gem "clearance"
 
 # Web 3
+gem "eth"
 gem "ethereum.rb"
 
 # Crypto
