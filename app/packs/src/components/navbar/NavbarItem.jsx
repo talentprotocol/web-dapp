@@ -5,11 +5,19 @@ const NavbarItem = (props) => {
   const urlExactMatch = () => window.location.pathname == props.url;
   const urlPartialMatch = () => window.location.pathname.includes(props.url);
 
-  const active = props.noTracking
-    ? false
-    : props.exact
-    ? urlExactMatch()
-    : urlPartialMatch();
+  const urlMatches = () => {
+    if (props.exact) {
+      return window.location.pathname == props.url;
+    } else {
+      const mainMatches = window.location.pathname.includes(props.url);
+      const secondaryMatchesExact =
+        window.location.pathname == props.secondaryUrl;
+
+      return mainMatches || secondaryMatchesExact;
+    }
+  };
+
+  const active = props.noTracking ? false : urlMatches();
 
   return (
     <Nav.Link
