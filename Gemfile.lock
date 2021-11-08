@@ -136,6 +136,7 @@ GEM
     css_parser (1.10.0)
       addressable
     diff-lcs (1.4.4)
+    digest-sha3 (1.1.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -145,6 +146,9 @@ GEM
     email_validator (2.2.3)
       activemodel
     erubi (1.10.0)
+    ethereum.rb (2.5)
+      activesupport (>= 4.0)
+      digest-sha3 (~> 1.1)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -314,7 +318,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    schmooze (0.2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -380,6 +383,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   clearance
   dotenv-rails
+  ethereum.rb
   factory_bot_rails (~> 6.2.0)
   faker
   foreman
@@ -401,7 +405,6 @@ DEPENDENCIES
   rollbar
   rspec-rails (~> 5.0.1)
   sass-rails (>= 6)
-  schmooze
   selenium-webdriver
   shoulda-matchers (~> 4.5.1)
   shrine (~> 3.0)
