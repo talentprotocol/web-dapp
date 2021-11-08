@@ -60,8 +60,7 @@ class API::UpdateTalent
       @talent.banner = params[:banner].as_json
     end
 
-    if params[:profile][:email]
-      @talent.email = params[:profile][:email]
+    if params[:profile][:discord]
       @talent.linkedin = params[:profile][:linkedin]
       @talent.twitter = params[:profile][:twitter]
       @talent.telegram = params[:profile][:telegram]
