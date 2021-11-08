@@ -3,9 +3,7 @@ module Web3
     # 0.1 CELO
     DEFAULT_AMOUNT = 100000000000000000
 
-    def call(user_id:)
-      user = User.find(user_id)
-
+    def call(user:)
       if user.wallet_id && no_previous_transfer(user) && key
         tx_hash = client.transfer(key, user.wallet_id, DEFAULT_AMOUNT)
 
@@ -20,7 +18,7 @@ module Web3
     private
 
     def no_previous_transfer(user)
-      Transfer.where(user: user).exists?
+      !Transfer.where(user: user).exists?
     end
 
     def client

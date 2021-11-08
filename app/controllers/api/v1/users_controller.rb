@@ -25,6 +25,10 @@ class API::V1::UsersController < ApplicationController
   def update
     if @user
       @user.update!(wallet_id: params[:wallet_id]&.downcase)
+
+      service = Web3::TransferCelo.new
+      service.call(user: @user)
+
       render json: @user, status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
