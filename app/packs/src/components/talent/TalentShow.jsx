@@ -44,6 +44,7 @@ const TalentShow = ({
   posts,
   isFollowing,
   badges,
+  sign_up_path,
   railsContext,
 }) => {
   const talentIsFromCurrentUser = talent.user_id == current_user_id;
@@ -235,6 +236,7 @@ const TalentShow = ({
           <EditProfile
             {...sharedState}
             updateSharedState={setSharedState}
+            inviteLink={sign_up_path}
             allowEdit={talentIsFromCurrentUser}
             profileIsComplete={profileIsComplete}
             railsContext={railsContext}

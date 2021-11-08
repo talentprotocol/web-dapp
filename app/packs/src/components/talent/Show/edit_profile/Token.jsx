@@ -14,7 +14,9 @@ const Token = ({
   user,
   updateSharedState,
   profileIsComplete,
+  inviteLink,
   railsContext,
+  setTokenLaunched,
 }) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
@@ -56,6 +58,7 @@ const Token = ({
 
         if (response) {
           setDeploy("We've successfully deployed your token");
+          setTokenLaunched(true);
         }
       }
     }
