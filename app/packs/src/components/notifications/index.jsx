@@ -60,16 +60,16 @@ const Notifications = ({ notifications }) => {
   const [currentNotifications, setCurrentNotifications] =
     useState(notifications);
 
-  const notificationHref = (type, username) => {
+  const notificationHref = (type, notification) => {
     switch (type) {
       case "Notifications::TokenAcquired":
-        return `/talent/${username}/supporters`;
+        return `/talent/${notification.username}/supporters`;
       case "Notifications::MessageReceived":
         return "/messages";
       case "Notifications::TalentListed":
         return "/talent";
       case "Notifications::TalentChanged":
-        return `/talent/${username}`;
+        return `/talent/${notification.source_username}`;
       default:
         return "";
     }
@@ -85,10 +85,7 @@ const Notifications = ({ notifications }) => {
         notification: { read: true },
       });
     }
-    window.location.href = notificationHref(
-      notification.type,
-      notification.username
-    );
+    window.location.href = notificationHref(notification.type, notification);
   };
 
   return (
