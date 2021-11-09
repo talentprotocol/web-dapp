@@ -12,8 +12,21 @@ const Roadmap = ({ goals, width }) => {
   const end = goals.length > itemsPerRow ? start + itemsPerRow : goals.length;
   const sliceInDisplay = goals.slice(start, end);
 
-  const slideLeft = () => setStart((prev) => prev - 1);
-  const slideRight = () => setStart((prev) => prev + 1);
+  const slideLeft = () => {
+    if (start - itemsPerRow < 0) {
+      setStart(0);
+    } else {
+      setStart((prev) => prev - itemsPerRow);
+    }
+  };
+  const slideRight = () => {
+    if (start + itemsPerRow >= goals.length) {
+      setStart(goals.length - 1);
+    } else {
+      setStart((prev) => prev + itemsPerRow);
+    }
+  };
+
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= goals.length;
 
