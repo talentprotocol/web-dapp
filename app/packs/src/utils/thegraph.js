@@ -73,6 +73,8 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
       supporterCounter
       totalSupply
       marketCap
+      rewardsReady
+      rewardsClaimed
       supporters {
         id
         amount

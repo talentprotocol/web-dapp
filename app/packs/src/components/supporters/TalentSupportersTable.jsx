@@ -58,7 +58,7 @@ const SupporterOverview = ({
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
         <div className="d-flex flex-column align-items-center border bg-white">
           <div className="text-muted">
-            <small>Rewards</small>
+            <small>Rewards $TAL</small>
           </div>
           {loading || !talentRewards ? (
             <h4>
@@ -113,8 +113,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   });
   const [chainAPI, setChainAPI] = useState(null);
   const [returnValues, setReturnValues] = useState({});
-  const [supporterProfilePictures, setSupporterProfilePictures] = useState({});
-  const [supporterDBIds, setSupporterDBIds] = useState({});
+  const [supporterInfo, setSupporterInfo] = useState({});
 
   const supporters = useMemo(() => {
     if (!data || data.talentToken == null) {
@@ -130,13 +129,13 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
   useEffect(() => {
     supporters.forEach((supporter) => {
       get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
-        setSupporterProfilePictures((prev) => ({
+        setSupporterInfo((prev) => ({
           ...prev,
-          [supporter.id]: response.profilePictureUrl,
-        }));
-        setSupporterDBIds((prev) => ({
-          ...prev,
-          [supporter.id]: response.id,
+          [supporter.id]: {
+            profilePictureUrl: response.profilePictureUrl,
+            username: response.username,
+            id: response.id,
+          },
         }));
       });
     });
@@ -159,6 +158,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
       supporterCounter: data.talentToken.supporterCounter,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
       marketCap: ethers.utils.formatUnits(data.talentToken.marketCap) * 0.1,
+      rewardsReady: ethers.utils.formatUnits(data.talentToken.rewardsReady),
     };
   }, [data]);
 
@@ -227,16 +227,11 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
             <TalentTags tags={talent.tags} />
           </div>
         </div>
-        <div>
-          <button className="btn btn-primary" disabled>
-            Claim rewards
-          </button>
-        </div>
         <SupporterOverview
           supporterCount={supporters.length}
           loading={loading}
           reserve={talentData.totalValueLocked}
-          talentRewards={returnsSum}
+          talentRewards={talentData.rewardsReady}
           marketCap={talentData.marketCap}
         />
       </div>
@@ -274,14 +269,22 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
             <tr key={`supporter-${supporter.id}`} className="tal-tr-item">
               <th className="text-muted align-middle">
                 <TalentProfilePicture
-                  src={supporterProfilePictures[supporter.id]}
+                  src={supporterInfo[supporter.id]?.profilePictureUrl}
                   height={40}
                 />
-                <small className="ml-2 text-primary">{supporter.id}</small>
+                <small className="ml-2 text-primary">
+                  {supporterInfo[supporter.id]?.username}{" "}
+                  <span className="text-secondary">
+                    {supporter.id.substring(0, 10)}...
+                  </span>
+                </small>
               </th>
               <td className="align-middle text-right">
                 <small>
-                  <AsyncValue value={supporter.amount} size={10} />
+                  <AsyncValue
+                    value={parseFloat(supporter.amount).toFixed(2)}
+                    size={10}
+                  />
                 </small>
               </td>
 
@@ -289,7 +292,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
                 <small>
                   <AsyncValue
                     value={ethers.utils.commify(
-                      returnValues[supporter.id] || ""
+                      parseFloat(returnValues[supporter.id] || "0").toFixed(2)
                     )}
                     size={10}
                   />
@@ -299,8 +302,8 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
                 <Button
                   type="primary"
                   text="Message"
-                  disabled={!supporterDBIds[supporter.id]}
-                  href={`/messages?user=${supporterDBIds[supporter.id]}`}
+                  disabled={!supporterInfo[supporter.id]?.id}
+                  href={`/messages?user=${supporterInfo[supporter.id]?.id}`}
                   size="sm"
                 />
               </td>

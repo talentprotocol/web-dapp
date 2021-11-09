@@ -16,7 +16,7 @@ class API::V1::UsersController < ApplicationController
     @user = User.find_by(wallet_id: params[:id])
 
     if @user
-      render json: {id: @user.id, profilePictureUrl: @user&.talent&.profile_picture_url || @user.investor.profile_picture_url}, status: :ok
+      render json: {id: @user.id, profilePictureUrl: @user&.talent&.profile_picture_url || @user.investor.profile_picture_url, username: @user.username}, status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end
