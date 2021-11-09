@@ -91,10 +91,10 @@ const TalNavbar = (props) => {
             >
               <small className="text-dark">Feedback</small>
             </NavbarItem>
-            <NavbarItem url={TERMS_HREF} noTracking>
+            <NavbarItem url={TERMS_HREF} target="self" noTracking>
               <small>Terms & Conditions</small>
             </NavbarItem>
-            <NavbarItem url={PRIVACY_HREF} noTracking>
+            <NavbarItem url={PRIVACY_HREF} target="self" noTracking>
               <small>Privacy Policy</small>
             </NavbarItem>
           </Nav>
