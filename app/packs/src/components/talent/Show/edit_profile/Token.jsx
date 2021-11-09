@@ -14,11 +14,14 @@ const Token = ({
   user,
   updateSharedState,
   profileIsComplete,
+  inviteLink,
   railsContext,
+  setTokenLaunched,
 }) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const [deploy, setDeploy] = useState("Loading...");
+  const [validChain, setValidChain] = useState(true);
   const [factory, setFactory] = useState(null);
   const [tokenInfo, setTokenInfo] = useState({
     ticker: token.ticker || "",
@@ -56,6 +59,7 @@ const Token = ({
 
         if (response) {
           setDeploy("We've successfully deployed your token");
+          setTokenLaunched(true);
         }
       }
     }
@@ -70,6 +74,9 @@ const Token = ({
     if (!result) {
       return;
     }
+
+    const validChain = await newOnChain.recognizedChain();
+    setValidChain(validChain);
 
     result = newOnChain.loadFactory();
 
@@ -221,14 +228,24 @@ const Token = ({
         </div>
       </form>
       <div className="dropdown-divider border-secondary my-3"></div>
-      <p>
-        {!profileIsComplete
-          ? "You must complete your profile before you can deploy your token."
-          : deploy}
-      </p>
+      {!validChain && (
+        <p>
+          You're on the wrong network, please change to the CELO network on your
+          metamask.
+        </p>
+      )}
+      {validChain && (
+        <p>
+          {!profileIsComplete
+            ? "You must complete your profile before you can deploy your token."
+            : deploy}
+        </p>
+      )}
       <button
         className="btn btn-primary"
-        disabled={deploy != "Deploy your token" || !profileIsComplete}
+        disabled={
+          deploy != "Deploy your token" || !profileIsComplete || !validChain
+        }
         onClick={createToken}
       >
         Deploy Your Talent Token{" "}

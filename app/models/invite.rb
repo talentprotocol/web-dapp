@@ -8,6 +8,14 @@ class Invite < ApplicationRecord
     max_uses.nil? || uses < max_uses
   end
 
+  def invites_left
+    if max_uses.nil?
+      1
+    else
+      max_uses - uses
+    end
+  end
+
   def self.generate_code
     SecureRandom.hex(INVITE_CODE_SIZE)
   end

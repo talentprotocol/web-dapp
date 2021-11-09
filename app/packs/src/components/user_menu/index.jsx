@@ -63,6 +63,12 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     navigator.clipboard.writeText(user.walletId);
   };
 
+  const copyCodeToClipboard = () => {
+    navigator.clipboard.writeText(
+      `${window.location.origin}${user.sign_up_path}`
+    );
+  };
+
   const onClickTransak = (e) => {
     e.preventDefault();
 
@@ -135,6 +141,8 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     }
   };
 
+  const showInviteCodeButton = () => user.tokenLive && user.invitesLeft > 0;
+
   return (
     <>
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
@@ -157,10 +165,13 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             <Dropdown.Item
               key="tab-dropdown-address"
               onClick={copyAddressToClipboard}
+              className="d-flex flex-row justify-content-between align-items-center"
             >
-              <small className="text-black">Address: </small>
-              <small className="text-secondary">{user.displayWalletId}</small>
-              <FontAwesomeIcon icon={faCopy} />
+              <div>
+                <small className="text-black">Address: </small>
+                <small className="text-secondary">{user.displayWalletId}</small>
+              </div>
+              <FontAwesomeIcon icon={faCopy} className="ml-2" />
             </Dropdown.Item>
           )}
           {showConnectButton() && (
@@ -179,6 +190,18 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             </small>
             <small className="text-secondary ml-1">cUSD</small>
           </Dropdown.ItemText>
+          {showInviteCodeButton() && (
+            <Dropdown.Item
+              key="tab-dropdown-invite-code"
+              onClick={copyCodeToClipboard}
+              className="d-flex flex-row justify-content-between"
+            >
+              <small className="text-black">
+                Invite link ({user.invitesLeft}/{user.totalInvites})
+              </small>
+              <FontAwesomeIcon icon={faCopy} className="ml-2" />
+            </Dropdown.Item>
+          )}
           <Dropdown.Item
             key="tab-dropdown-get-funds"
             className="text-black"
@@ -203,29 +226,13 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
               <small>Change profile picture</small>
             </Dropdown.Item>
           )}
+          <Dropdown.Divider />
           <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
             className="text-black"
           >
             <small>Sign out</small>
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item
-            key="tab-dropdown-terms-conditions"
-            href={TERMS_HREF}
-            target="_blank"
-            className="text-black"
-          >
-            <small>Terms & Conditions</small>
-          </Dropdown.Item>
-          <Dropdown.Item
-            key="tab-dropdown-privacy-policy"
-            href={PRIVACY_HREF}
-            target="_blank"
-            className="text-black"
-          >
-            <small>Privacy Policy</small>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

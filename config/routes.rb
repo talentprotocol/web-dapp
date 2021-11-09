@@ -3,7 +3,7 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   # Admin area
   constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    root to: "feeds#show", as: :admin_root
+    root to: "talent#index", as: :admin_root
 
     get "/admin", to: "admin/dashboards#show"
 
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
-    root to: "feeds#show", as: :user_root
+    root to: "talent#index", as: :user_root
 
     # file uploads
     unless Rails.env.test?
@@ -51,9 +51,6 @@ Rails.application.routes.draw do
     # Profile
     resources :settings, only: [:index, :update]
     resources :investors, only: [:update]
-
-    # Feeds
-    resource :feed, only: [:show]
 
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"

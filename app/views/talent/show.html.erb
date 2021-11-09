@@ -19,7 +19,8 @@
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
         posts: @talent.user.posts.as_json,
         badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } },
-        testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } }
+        testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } },
+        sign_up_path: sign_up_path(code: current_user.invite&.code)
       }, prerender: false, html_options: { class: "bg-white"})
     %>
     <div class="d-flex" style="position:absolute;top:20px;right:20px">
@@ -34,6 +35,11 @@
             displayWalletId: current_user.display_wallet_id,
             walletId: current_user.wallet_id,
             username: current_user.username,
+            tokenLive: current_user.talent&.token&.contract_id.present?,
+            code: current_user.invite&.code,
+            invitesLeft: current_user.invite&.invites_left,
+            totalInvites: current_user.invite&.max_uses || 1,
+            sign_up_path: sign_up_path(code: current_user.invite&.code)
           },
           signOutPath: sign_out_path
         },
@@ -41,7 +47,7 @@
       %>
       <%= react_component("Notifications",
         props: {
-          notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
+          notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_username: notif.source&.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
         },
         prerender: false, html_options: { class: "ml-2"})
       %>
