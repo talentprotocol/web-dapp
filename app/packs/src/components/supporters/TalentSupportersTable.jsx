@@ -281,7 +281,10 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
               </th>
               <td className="align-middle text-right">
                 <small>
-                  <AsyncValue value={supporter.amount} size={10} />
+                  <AsyncValue
+                    value={parseFloat(supporter.amount).toFixed(2)}
+                    size={10}
+                  />
                 </small>
               </td>
 
@@ -289,7 +292,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
                 <small>
                   <AsyncValue
                     value={ethers.utils.commify(
-                      returnValues[supporter.id] || ""
+                      parseFloat(returnValues[supporter.id] || "0").toFixed(2)
                     )}
                     size={10}
                   />
