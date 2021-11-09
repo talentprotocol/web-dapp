@@ -25,6 +25,7 @@ class API::V1::StakesController < ApplicationController
       title: "Supporter",
       body: "#{name} bought more of your talent token",
       user_id: talent_user_id,
+      source_id: user.id,
       type: "Notifications::TokenAcquired"
     )
   end
