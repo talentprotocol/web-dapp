@@ -1,15 +1,5 @@
-namespace :alpha do
+namespace :machine do
   task prime: ["db:seed"] do
-    puts "Setting up Alert configurations.."
-
-    AlertConfiguration.create!(
-      page: "/feed",
-      alert_type: "primary",
-      text: "Apply to launch your Career Token on Talent Protocol",
-      href: "https://www.talentprotocol.com/invite",
-      button_text: "Reserve $TICKER"
-    )
-
     puts "Setting up Admin user"
 
     user = User.create!(
@@ -25,14 +15,30 @@ namespace :alpha do
     user.create_feed!
 
     user.talent.create_token!(
-      ticker: "TAL",
-      price: 2,
-      market_cap: 0
+      ticker: "TAL"
     )
     post = Post.create!(text: "Hello world!", user: user)
     user.feed.posts << post
 
     post = Post.create!(text: "Everyone, welcome to Talent Protocol's Private Beta. We're excited to have you here, you can start by looking up Talent, you can already interact with the profiles from the core team.\n\nIf you have any issues, find any bugs or just have some form of feedback, please do let us know!", user: user)
     user.feed.posts << post
+
+    puts "Setting up invites.."
+
+    invite = Invite.new
+    invite.user = user
+    invite.talent_invite = true
+    invite.code = Invite.generate_code
+    invite.save!
+
+    puts "Your invite that creates talents is: ##{invite.id} - #{invite.code}"
+
+    invite = Invite.new
+    invite.user = user
+    invite.talent_invite = false
+    invite.code = Invite.generate_code
+    invite.save!
+
+    puts "Your invite that creates supporters is: ##{invite.id} - #{invite.code}"
   end
 end

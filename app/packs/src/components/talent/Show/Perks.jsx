@@ -27,8 +27,21 @@ const Perks = ({ perks, ticker, width, contract, railsContext }) => {
 
   const sliceInDisplay = sortedPerks.slice(start, end);
 
-  const slideLeft = () => setStart((prev) => prev - 1);
-  const slideRight = () => setStart((prev) => prev + 1);
+  const slideLeft = () => {
+    if (start - itemsPerRow < 0) {
+      setStart(0);
+    } else {
+      setStart((prev) => prev - itemsPerRow);
+    }
+  };
+  const slideRight = () => {
+    if (start + itemsPerRow >= sortedPerks.length) {
+      setStart(sortedPerks.length - 1);
+    } else {
+      setStart((prev) => prev + itemsPerRow);
+    }
+  };
+
   const disableLeft = start === 0;
   const disableRight = start + itemsPerRow >= perks.length;
 
