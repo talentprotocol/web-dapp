@@ -24,7 +24,8 @@ if Rails.env.development?
         username: "Admin",
         email: "admin@talentprotocol.com",
         password: "password",
-        role: "admin"
+        role: "admin",
+        email_confirmed_at: Time.zone.now
       )
 
       investor = User.create!(
@@ -32,6 +33,7 @@ if Rails.env.development?
         wallet_id: "0x123",
         email: "investor@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       talent = User.create!(
@@ -39,6 +41,7 @@ if Rails.env.development?
         wallet_id: "0x1234444",
         email: "elon@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       talent2 = User.create!(
@@ -46,12 +49,13 @@ if Rails.env.development?
         wallet_id: "0x12345",
         email: "talent2@talentprotocol.com",
         password: "password",
+        email_confirmed_at: Time.zone.now
       )
 
       puts "Setting up Investors.."
       admin_investor = Investor.create!(
         description: "I own this",
-        user: admin
+        user: admin,
       )
 
       john_doe = Investor.create!(
@@ -90,9 +94,30 @@ if Rails.env.development?
 
       puts "Setting up Transactions.."
       service = CreateTransaction.new
-      service.call(token: elon_token, amount: 1000, investor: john_doe)
-      service.call(token: elon_token, amount: 500, investor: admin_investor)
-      service.call(token: marx_token, amount: 350, investor: admin_investor)
+      service.call(
+        token_address: elon_token.contract_id,
+        amount: 1000,
+        user_id: john_doe.id,
+        inbound: true,
+        block_id: SecureRandom.hex,
+        transaction_id: SecureRandom.hex
+      )
+      service.call(
+        token_address: elon_token.contract_id,
+        amount: 500,
+        user_id: admin_investor.id,
+        inbound: false,
+        block_id: SecureRandom.hex,
+        transaction_id: SecureRandom.hex
+      )
+      service.call(
+        token_address: marx_token.contract_id,
+        amount: 350,
+        user_id: admin_investor.id,
+        inbound: true,
+        block_id: SecureRandom.hex,
+        transaction_id: SecureRandom.hex
+      )
 
       puts "Setting up Career Goals.."
       CareerGoal.create(
