@@ -5,25 +5,39 @@ import { OnChain } from "src/onchain";
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "../../utils/requests";
 
-export const NoMetamask = ({ show, hide }) => (
-  <Modal show={show} onHide={hide} centered>
-    <Modal.Header closeButton>
-      <Modal.Title>
-        Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
-      </Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <p>
-        We couldn't find metamask installed on your browser. You can install it{" "}
-        <a href="https://metamask.io/download">here</a>.
-      </p>
-      <p>
-        If you think this is a mistake and you have metamask installed, reach
-        out to us on <a href="https://discord.gg/rEXPJZVh">Discord</a>.
-      </p>
-    </Modal.Body>
-  </Modal>
-);
+export const NoMetamask = ({ show, hide }) => {
+  const openMetamaskDownload = () =>
+    window.open("https://metamask.io/download", "_blank").focus();
+  const openDiscordLink = () =>
+    window.open("https://discord.gg/DMgt9bhawK", "_blank").focus();
+  return (
+    <Modal show={show} onHide={hide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          We couldn't find metamask installed on your browser. You can install
+          it{" "}
+          <a href="https://metamask.io/download" onClick={openMetamaskDownload}>
+            here
+          </a>
+          .
+        </p>
+        <p>
+          If you think this is a mistake and you have metamask installed, reach
+          out to us on{" "}
+          <a href="https://discord.gg/DMgt9bhawK" onClick={openDiscordLink}>
+            Discord
+          </a>
+          .
+        </p>
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 export const UnableToConnect = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -49,8 +63,6 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
   const [error, setError] = useState(false);
 
   const connectMetamask = async (e) => {
-    e.preventDefault();
-
     setRequestingMetamask(true);
 
     const api = new OnChain(railsContext.contractsEnv);
