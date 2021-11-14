@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Rocket = (props) => (
+const Icon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -30,4 +30,4 @@ const Rocket = (props) => (
   </svg>
 );
 
-export default Rocket;
+export default Icon;

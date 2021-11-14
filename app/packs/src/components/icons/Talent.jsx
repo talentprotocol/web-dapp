@@ -1,6 +1,6 @@
 import React from "react";
 
-const Talent = (props) => (
+const Icon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -18,4 +18,4 @@ const Talent = (props) => (
   </svg>
 );
 
-export default Talent;
+export default Icon;

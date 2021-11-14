@@ -1,6 +1,6 @@
 import React from "react";
 
-function Star(props) {
+function Icon(props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,4 +20,4 @@ function Star(props) {
   );
 }
 
-export default Star;
+export default Icon;

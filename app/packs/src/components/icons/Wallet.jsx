@@ -1,6 +1,6 @@
 import React from "react";
 
-const Wallet = (props) => (
+const Icon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -30,4 +30,4 @@ const Wallet = (props) => (
   </svg>
 );
 
-export default Wallet;
+export default Icon;
