@@ -1,0 +1,40 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Slider from 'src/components/design_system/slider';
+
+<Meta title="Design System/Slider" component={Slider} />
+
+# Sliders
+
+Custom Sliders to show titles.
+
+## Examples
+
+export const Template = (args) => <Slider {...args} />
+
+<Canvas>
+  <Story
+    name="Light mode unchecked"
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode checked"
+    args={{ checked: true }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode unchecked"
+    parameters={{backgrounds: { default: 'dark' }}}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode checked"
+    parameters={{backgrounds: { default: 'dark' }}}
+    args={{ checked: true }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
