@@ -226,6 +226,7 @@ const TalentShow = ({
               setShow={setShow}
               tokenAddress={sharedState.token.contract_id}
               tokenId={sharedState.token.id}
+              userId={current_user_id}
               ticker={ticker()}
               railsContext={railsContext}
             />

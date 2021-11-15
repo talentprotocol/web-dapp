@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { OnChain } from "src/onchain";
 import { parseAndCommify } from "src/onchain/utils";
 
-import { post } from "src/utils/requests";
+import { post, patch } from "src/utils/requests";
 
 import { NoMetamask } from "../login/MetamaskConnect";
 
@@ -17,6 +17,7 @@ const StakeModal = ({
   tokenAddress,
   tokenId,
   railsContext,
+  userId,
 }) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -155,6 +156,9 @@ const StakeModal = ({
       const result = await chainData.retrieveAccount();
 
       if (result) {
+        await patch(`/api/v1/users/${userId}`, {
+          wallet_id: chainData.account.toLowerCase(),
+        }).catch(() => null);
         setCurrentAccount(chainData.account);
       }
     } else {
