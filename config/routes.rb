@@ -67,12 +67,12 @@ Rails.application.routes.draw do
         delete "follows", to: "follows#destroy"
         resources :notifications, only: [:update]
         resources :career_goals, only: [] do
-          resources :goals, only: [:update, :create, :delete], module: "career_goals"
+          resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
         resources :talent, only: [:show, :update] do
-          resources :milestones, only: [:create, :update, :delete], module: "talent"
-          resources :perks, only: [:create, :update, :delete], module: "talent"
-          resources :services, only: [:create, :update, :delete], module: "talent"
+          resources :milestones, only: [:create, :update, :destroy], module: "talent"
+          resources :perks, only: [:create, :update, :destroy], module: "talent"
+          resources :services, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
           resources :career_goals, only: [:update, :create], module: "talent"
         end
