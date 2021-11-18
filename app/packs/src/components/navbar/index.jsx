@@ -58,31 +58,6 @@ const TalNavbar = (props) => {
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
             )}
           </Nav>
-          <Nav className="flex-lg-column w-100 mt-4">
-            <h6 className="ml-3 mb-3">WATCHLIST</h6>
-            {watchList.length == 0 && (
-              <div className="d-flex flex-row align-items-center">
-                <span className="text-warning">{icon(faStar)}</span>{" "}
-                <small>Star a talent to display it here.</small>
-              </div>
-            )}
-            <div className="w-100 d-flex flex-column watchlist-max-size">
-              {watchList.map((watchItem) => (
-                <NavbarItem
-                  key={`watch_list_item_${watchItem.id}`}
-                  url={watchItem.url}
-                  noTracking
-                >
-                  <TalentProfilePicture
-                    src={watchItem.picture}
-                    height={24}
-                    className="mr-2"
-                  />{" "}
-                  <small>{watchItem.displayName}</small>
-                </NavbarItem>
-              ))}
-            </div>
-          </Nav>
           <Nav className="flex-lg-column w-100 mt-auto">
             <NavbarItem
               url={"https://talentprotocol.typeform.com/feedback"}
