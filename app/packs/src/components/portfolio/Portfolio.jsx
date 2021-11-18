@@ -50,7 +50,15 @@ const RewardsModal = ({
         <div className="dropdown-divider mt-5 mb-3"></div>
         <div className="d-flex flex-row flex-wrap w-100">
           <div className="d-flex flex-column col-12 col-md-6 justify-content-between ">
-            <p className="mr-3">Claim rewards to my wallet.</p>
+            <p className="mr-3 mb-0">Claim rewards to my wallet.</p>
+            <p className="text-muted">
+              <small>
+                You'll be able to cash out your $TAL rewards to your Metamask
+                wallet once we launch the $TAL token next year (subject to flow
+                controls). Until then you can see your $TAL balance in your
+                Portfolio.
+              </small>
+            </p>
             <button className="btn btn-primary talent-button" disabled>
               Claim $TAL
             </button>
