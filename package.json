@@ -84,7 +84,8 @@
     "glob-parent": "5.1.2",
     "browserslist": "4.16.6",
     "trim": "0.0.3",
-    "node-fetch": "2.6.1"
+    "node-fetch": "2.6.1",
+    "web3": "1.6.1"
   },
   "babel": {
     "presets": [
