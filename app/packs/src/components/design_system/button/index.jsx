@@ -14,8 +14,7 @@ const Button = (props) => {
           ${props.size}-size-button
           ${props.className}
         `
-      } 
-          style={{ width: '100%' }}
+      }
       {...props}
     >
       {props.text ? props.text : props.children}
