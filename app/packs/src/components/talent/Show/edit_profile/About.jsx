@@ -14,33 +14,37 @@ import TalentProfilePicture from "../../TalentProfilePicture";
 import Button from "../../../button";
 import { useWindowDimensionsHook } from "src/utils/window";
 
-const uppyProfile = new Uppy({
-  meta: { type: "avatar" },
-  restrictions: { maxNumberOfFiles: 1 },
-  autoProceed: true,
-});
+const setupUppy = () => {
+  const uppyProfile = new Uppy({
+    meta: { type: "avatar" },
+    restrictions: { maxNumberOfFiles: 1 },
+    autoProceed: true,
+  });
 
-const uppyBanner = new Uppy({
-  meta: { type: "avatar" },
-  restrictions: { maxNumberOfFiles: 1 },
-  autoProceed: true,
-});
+  const uppyBanner = new Uppy({
+    meta: { type: "avatar" },
+    restrictions: { maxNumberOfFiles: 1 },
+    autoProceed: true,
+  });
 
-uppyProfile.use(AwsS3Multipart, {
-  limit: 4,
-  companionUrl: "/",
-  companionHeaders: {
-    "X-CSRF-Token": getAuthToken(),
-  },
-});
+  uppyProfile.use(AwsS3Multipart, {
+    limit: 4,
+    companionUrl: "/",
+    companionHeaders: {
+      "X-CSRF-Token": getAuthToken(),
+    },
+  });
 
-uppyBanner.use(AwsS3Multipart, {
-  limit: 4,
-  companionUrl: "/",
-  companionHeaders: {
-    "X-CSRF-Token": getAuthToken(),
-  },
-});
+  uppyBanner.use(AwsS3Multipart, {
+    limit: 4,
+    companionUrl: "/",
+    companionHeaders: {
+      "X-CSRF-Token": getAuthToken(),
+    },
+  });
+
+  return { uppyBanner, uppyProfile };
+};
 
 const About = ({
   close,
@@ -78,6 +82,8 @@ const About = ({
     bannerUrl: "",
   });
 
+  const { uppyProfile, uppyBanner } = setupUppy();
+
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
       changeAttribute("fileUrl", response.uploadURL);
@@ -94,6 +100,7 @@ const About = ({
       setUploadingFileS3("");
     });
     uppyProfile.on("upload", () => {
+      console.log("HEHRE");
       setUploadingFileS3("profile");
     });
     uppyBanner.on("upload-success", (file, response) => {
@@ -199,7 +206,11 @@ const About = ({
       return;
     }
 
-    if (value?.includes("http://") || value?.includes("https://")) {
+    if (
+      value?.includes("http://") ||
+      value?.includes("https://") ||
+      value == ""
+    ) {
       setErrorTracking((prev) => ({ ...prev, [attribute]: false }));
     } else {
       setErrorTracking((prev) => ({ ...prev, [attribute]: true }));
