@@ -44,6 +44,10 @@ const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
     });
   }, [talents]);
 
+  const talToUSD = (amount) => {
+    return parseFloat(amount) * 0.02;
+  };
+
   return (
     <div className="table-responsive">
       <button className="btn btn-primary active mt-5 mb-4">Supporting</button>
@@ -118,14 +122,15 @@ const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
                 <span className="text-muted">${talent.symbol}</span>
               </td>
               <td className="align-middle tal-table-price">
-                {parseAndCommify(talent.talAmount)} $TAL
+                ${parseAndCommify(talToUSD(talent.talAmount))}
               </td>
               <td className="align-middle tal-table-price">
+                $
                 {returnValues[talent.contract_id] &&
                   parseAndCommify(
-                    returnValues[talent.contract_id].toString()
-                  )}{" "}
-                $TAL
+                    talToUSD(returnValues[talent.contract_id].toString())
+                  )}
+                {!returnValues[talent.contract_id] && "0.0"}
               </td>
               <td className="align-middle">
                 <button

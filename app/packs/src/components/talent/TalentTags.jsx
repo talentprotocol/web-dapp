@@ -10,7 +10,7 @@ const TalentTags = ({ tags, talent_id, className }) => {
           className || ""
         }`}
       >
-        {tags.map((tag) => (
+        {validTags.map((tag) => (
           <div
             key={`${talent_id}_${tag}`}
             className="text-regular p-1 mr-2 border border-light bg-light rounded"

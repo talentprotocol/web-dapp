@@ -165,3 +165,17 @@
 .talent-video-height {
   height: 61%;
 }
+
+.active-talent-table-tab {
+  border-bottom: 2px solid $primary !important;
+  font-weight: 700;
+}
+
+.talent-table-tab{
+  cursor: pointer;
+  margin-bottom: -2px;
+  &:hover {
+    background-color: $light;
+    border-bottom: 2px solid #dee2e6;
+  }
+}

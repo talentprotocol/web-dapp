@@ -12,8 +12,8 @@ const PortfolioTalOverview = ({
   const talentTokensInTAL = talentTokensTotal * 5;
   const talentTokensInCUSD = talentTokensTotal * 0.1;
 
-  const overallCUSD = cUSDBalance + totalRewardsInCUSD + talentTokensInCUSD;
-  const overallTAL = cUSDBalanceInTAL + rewardsClaimed + talentTokensInTAL;
+  const overallCUSD = cUSDBalance + talentTokensInCUSD;
+  const overallTAL = cUSDBalanceInTAL + talentTokensInTAL;
   return (
     <div className="d-flex flex-row flex-wrap pt-3 pb-4 align-items-stretch">
       <div className="col-12 col-md-6 col-lg-3 mt-2 pr-0 pr-md-3 pl-0">
@@ -24,11 +24,11 @@ const PortfolioTalOverview = ({
             </small>
           </div>
           <h4 className="ml-3 mt-4">
-            <strong>{currency(overallTAL).format().substring(1)}</strong>
-            <small className="text-muted"> $TAL</small>
+            <strong>{currency(overallCUSD).format()}</strong>
           </h4>
           <h4 className="ml-3 text-muted">
-            <small>{currency(overallCUSD).format()}</small>
+            <small>{currency(overallTAL).format().substring(1)}</small>
+            <small> $TAL</small>
           </h4>
         </div>
       </div>
@@ -56,11 +56,11 @@ const PortfolioTalOverview = ({
             </small>
           </div>
           <h4 className="ml-3 mt-4">
-            <strong>{currency(rewardsClaimed).format().substring(1)}</strong>
-            <small className="text-muted"> $TAL</small>
+            <strong>{currency(totalRewardsInCUSD).format()}</strong>
           </h4>
           <h4 className="ml-3 text-muted">
-            <small>{currency(totalRewardsInCUSD).format()}</small>
+            <small>{currency(rewardsClaimed).format().substring(1)}</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
         </div>
       </div>
@@ -72,11 +72,11 @@ const PortfolioTalOverview = ({
             </small>
           </div>
           <h4 className="ml-3 mt-4">
-            <strong>{currency(talentTokensInTAL).format().substring(1)}</strong>
-            <small className="text-muted"> $TAL</small>
+            <strong>{currency(talentTokensInCUSD).format()}</strong>
           </h4>
           <h4 className="ml-3 text-muted">
-            <small>{currency(talentTokensInCUSD).format()}</small>
+            <small>{currency(talentTokensInTAL).format().substring(1)}</small>
+            <small className="text-muted"> $TAL</small>
           </h4>
         </div>
       </div>

@@ -246,12 +246,26 @@ const StakeModal = ({
             <div className="row d-flex flex-column">
               <h2>BUY {ticker}</h2>
               <p>
-                We're currently only accepting cUSD to mint Talent Tokens. If
-                you already have an active stake we'll use your current rewards
-                on top of the amount you choose to increase you stake.
+                Please insert the amount of cUSD (Celo's stablecoin) you wish to
+                use to buy Talent Tokens. You'll need to have cUSD in your
+                Metamask wallet to do this transaction. Check the{" "}
+                <a href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">
+                  guide
+                </a>{" "}
+                if you need help to top up your account.
+                <small className="form-text text-muted">
+                  You'll be able to sell your Talent Tokens once we launch the
+                  $TAL token next year (subject to flow controls).
+                </small>
               </p>
               <form onSubmit={onSubmit}>
-                <div className="form-group">
+                <div className="form-group position-relative">
+                  <small className="form-text text-muted">
+                    Available cUSD on your wallet:{" "}
+                    {currentAccount
+                      ? parseAndCommify(availableAmount)
+                      : "[Connect wallet to get available balance]"}
+                  </small>
                   <input
                     className={`text-right form-control ${
                       valueError ? "border-danger" : ""
@@ -262,18 +276,17 @@ const StakeModal = ({
                     onChange={(e) => setValidAmount(e.target.value)}
                     value={amount}
                   />
+                  <small
+                    className="text-muted position-absolute"
+                    style={{ left: 10, top: 30 }}
+                  >
+                    cUSD
+                  </small>
                   <small className="form-text text-primary">
                     You will receive {amount * 10} {ticker}.
                   </small>
                   <small className="form-text text-muted">
-                    Available cUSD on your wallet:{" "}
-                    {currentAccount
-                      ? parseAndCommify(availableAmount)
-                      : "[Connect wallet to get available balance]"}
-                  </small>
-                  <small className="form-text text-muted">
-                    There are {ticker} Talent Tokens available to be minted:{" "}
-                    {maxMinting}
+                    {ticker} tokens still available: {maxMinting}
                   </small>
                   <div className="d-flex flex-row mt-3">
                     {step() == "Connect" && (
@@ -312,7 +325,7 @@ const StakeModal = ({
                         type="submit"
                         disabled={disabledStakeButton()}
                       >
-                        Stake {icon()}
+                        Buy {icon()}
                       </button>
                     )}
                   </div>
