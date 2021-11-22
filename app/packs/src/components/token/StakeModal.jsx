@@ -259,7 +259,7 @@ const StakeModal = ({
                 </small>
               </p>
               <form onSubmit={onSubmit}>
-                <div className="form-group">
+                <div className="form-group position-relative">
                   <small className="form-text text-muted">
                     Available cUSD on your wallet:{" "}
                     {currentAccount
@@ -276,6 +276,12 @@ const StakeModal = ({
                     onChange={(e) => setValidAmount(e.target.value)}
                     value={amount}
                   />
+                  <small
+                    className="text-muted position-absolute"
+                    style={{ left: 10, top: 30 }}
+                  >
+                    cUSD
+                  </small>
                   <small className="form-text text-primary">
                     You will receive {amount * 10} {ticker}.
                   </small>
