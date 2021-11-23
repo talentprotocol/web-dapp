@@ -288,7 +288,7 @@ const Welcome = ({
                 I have read and agree to the{" "}
                 <a target="_blank" href={TERMS_HREF}>
                   Talent Protocol Terms & Conditions
-                </a>
+                </a>{" "}
                 and the{" "}
                 <a target="_blank" href={PRIVACY_HREF}>
                   Talent Protocol Privacy Policy

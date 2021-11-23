@@ -14,33 +14,37 @@ import TalentProfilePicture from "../../TalentProfilePicture";
 import Button from "../../../button";
 import { useWindowDimensionsHook } from "src/utils/window";
 
-const uppyProfile = new Uppy({
-  meta: { type: "avatar" },
-  restrictions: { maxNumberOfFiles: 1 },
-  autoProceed: true,
-});
+const setupUppy = () => {
+  const uppyProfile = new Uppy({
+    meta: { type: "avatar" },
+    restrictions: { maxNumberOfFiles: 1 },
+    autoProceed: true,
+  });
 
-const uppyBanner = new Uppy({
-  meta: { type: "avatar" },
-  restrictions: { maxNumberOfFiles: 1 },
-  autoProceed: true,
-});
+  const uppyBanner = new Uppy({
+    meta: { type: "avatar" },
+    restrictions: { maxNumberOfFiles: 1 },
+    autoProceed: true,
+  });
 
-uppyProfile.use(AwsS3Multipart, {
-  limit: 4,
-  companionUrl: "/",
-  companionHeaders: {
-    "X-CSRF-Token": getAuthToken(),
-  },
-});
+  uppyProfile.use(AwsS3Multipart, {
+    limit: 4,
+    companionUrl: "/",
+    companionHeaders: {
+      "X-CSRF-Token": getAuthToken(),
+    },
+  });
 
-uppyBanner.use(AwsS3Multipart, {
-  limit: 4,
-  companionUrl: "/",
-  companionHeaders: {
-    "X-CSRF-Token": getAuthToken(),
-  },
-});
+  uppyBanner.use(AwsS3Multipart, {
+    limit: 4,
+    companionUrl: "/",
+    companionHeaders: {
+      "X-CSRF-Token": getAuthToken(),
+    },
+  });
+
+  return { uppyBanner, uppyProfile };
+};
 
 const About = ({
   close,
@@ -78,6 +82,8 @@ const About = ({
     bannerUrl: "",
   });
 
+  const { uppyProfile, uppyBanner } = setupUppy();
+
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
       changeAttribute("fileUrl", response.uploadURL);
@@ -94,6 +100,7 @@ const About = ({
       setUploadingFileS3("");
     });
     uppyProfile.on("upload", () => {
+      console.log("HEHRE");
       setUploadingFileS3("profile");
     });
     uppyBanner.on("upload-success", (file, response) => {
@@ -199,7 +206,11 @@ const About = ({
       return;
     }
 
-    if (value?.includes("http://") || value?.includes("https://")) {
+    if (
+      value?.includes("http://") ||
+      value?.includes("https://") ||
+      value == ""
+    ) {
       setErrorTracking((prev) => ({ ...prev, [attribute]: false }));
     } else {
       setErrorTracking((prev) => ({ ...prev, [attribute]: true }));
@@ -360,25 +371,7 @@ const About = ({
         </div>
         <div className="form-group">
           <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="pronouns">Pronouns</label>
-            <label htmlFor="pronouns">
-              <small className="text-muted">
-                {aboutInfo["pronouns"]?.length || 0} of 15
-              </small>
-            </label>
-          </div>
-          <input
-            id="pronouns"
-            className="form-control"
-            maxLength="15"
-            placeholder="he/him, she/her"
-            value={aboutInfo["pronouns"]}
-            onChange={(e) => changeAttribute("pronouns", e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="location">Location *</label>
+            <label htmlFor="location">Location</label>
             <label htmlFor="location">
               <small className="text-muted">
                 {aboutInfo["location"]?.length || 0} of 25
@@ -395,50 +388,28 @@ const About = ({
           />
         </div>
         <div className="form-group">
-          <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="primary_tag">Primary Tag *</label>
-            <label htmlFor="primary_tag">
-              <small className="text-muted">
-                {aboutInfo["primary_tag"]?.length || 0} of 25
-              </small>
-            </label>
-          </div>
+          <label htmlFor="tags">Tags</label>
           <input
-            id="primary_tag"
-            className="form-control"
-            maxLength="25"
-            value={aboutInfo["primary_tag"]}
-            aria-describedby="primary_tag_help"
-            placeholder="The main thing that you do"
-            onChange={(e) => changeAttribute("primary_tag", e.target.value)}
-          />
-          <small id="primary_tag_help" className="form-text text-muted">
-            Supporters can search for this keyword
-          </small>
-        </div>
-        <div className="form-group">
-          <label htmlFor="secondary_tags">Secondary Tags</label>
-          <input
-            id="secondary_tags"
+            id="tags"
             className="form-control"
             value={aboutInfo["secondary_tags"]}
-            placeholder="Other skills, roles, interests"
+            placeholder="Skills, roles, interests"
             onChange={(e) => changeAttribute("secondary_tags", e.target.value)}
           />
         </div>
         <div className="form-group">
           <div className="d-flex flex-row justify-content-between">
-            <label htmlFor="headline">Headline *</label>
+            <label htmlFor="headline">Bio *</label>
             <label htmlFor="headline">
               <small className="text-muted">
-                {aboutInfo["headline"]?.length || 0} of 70
+                {aboutInfo["headline"]?.length || 0} of 240
               </small>
             </label>
           </div>
           <textarea
-            rows="3"
+            rows="5"
             id="headline"
-            maxLength="70"
+            maxLength="240"
             className="form-control"
             value={aboutInfo["headline"]}
             placeholder="Short description of what you are about"
@@ -473,16 +444,6 @@ const About = ({
           <small id="video_help" className="form-text text-muted">
             Currently only youtube links are supported.
           </small>
-        </div>
-        <div className="form-group">
-          <label htmlFor="wallet_address">Wallet Addres/ENS Name</label>
-          <input
-            id="wallet_address"
-            className="form-control"
-            placeholder="Your crypto address"
-            value={aboutInfo["wallet_address"]}
-            onChange={(e) => changeAttribute("wallet_address", e.target.value)}
-          />
         </div>
         <div className="form-check mb-3">
           <input

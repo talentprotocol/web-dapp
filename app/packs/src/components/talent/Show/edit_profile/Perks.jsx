@@ -119,15 +119,15 @@ const EditPerk = ({
           <label htmlFor="title">Description *</label>
           <label htmlFor="title">
             <small className="text-muted">
-              {perksInfo["title"]?.length || 0} of 45
+              {perksInfo["title"]?.length || 0} of 240
             </small>
           </label>
         </div>
         <textarea
-          rows={3}
+          rows={5}
           id="title"
           className="form-control"
-          maxLength={45}
+          maxLength={240}
           placeholder="Describe the perk"
           value={perksInfo["title"]}
           onChange={(e) => changeAttribute("title", e.target.value)}

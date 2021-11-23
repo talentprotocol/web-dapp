@@ -108,7 +108,7 @@ const EditProfile = ({ railsContext, ...props }) => {
                   }`}
                   onClick={() => setActiveSection("CareerGoal")}
                 >
-                  Career Goal
+                  Goals
                 </button>
                 <button
                   type="button"

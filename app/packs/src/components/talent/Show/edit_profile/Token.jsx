@@ -32,7 +32,8 @@ const Token = ({
   const changeAttribute = (attribute, value) => {
     let realValue = value;
     if (attribute == "ticker") {
-      realValue = realValue.replace(/[^A-Z]/g, "");
+      realValue = realValue.replace(/[^a-zA-Z]/g, "");
+      realValue = realValue.toUpperCase();
     }
     setTokenInfo((prevInfo) => ({ ...prevInfo, [attribute]: realValue }));
   };

@@ -297,42 +297,23 @@ const CareerGoal = (props) => {
   return (
     <div className="col-md-8 mx-auto d-flex flex-column my-3">
       <div className="d-flex flex-row justify-content-between align-items-center">
-        <h4>Career Goal</h4>
+        <h4>Goals</h4>
       </div>
       {mode == "view" && (
         <form>
           <div className="form-group">
             <div className="d-flex flex-row justify-content-between">
-              <label htmlFor="bio">Bio *</label>
-              <label htmlFor="bio">
-                <small className="text-muted">
-                  {careerInfo["bio"]?.length || 0} of 175
-                </small>
-              </label>
-            </div>
-            <textarea
-              id="bio"
-              rows="7"
-              maxLength={175}
-              className="form-control"
-              placeholder="A short bio"
-              value={careerInfo["bio"]}
-              onChange={(e) => changeAttribute("bio", e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <div className="d-flex flex-row justify-content-between">
               <label htmlFor="pitch">Pitch *</label>
               <label htmlFor="pitch">
                 <small className="text-muted">
-                  {careerInfo["pitch"]?.length || 0} of 70
+                  {careerInfo["pitch"]?.length || 0} of 400
                 </small>
               </label>
             </div>
             <textarea
               id="pitch"
-              rows="3"
-              maxLength={70}
+              rows="6"
+              maxLength={400}
               className="form-control"
               placeholder="Your long term ambition, why do you have potential"
               onChange={(e) => changeAttribute("pitch", e.target.value)}

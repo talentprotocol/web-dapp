@@ -8,7 +8,6 @@ import {
   faTelegram,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Overview = ({ sharedState }) => {
@@ -28,11 +27,8 @@ const Overview = ({ sharedState }) => {
       </section>
       <section className="d-flex flex-column mt-3">
         {sharedState.talent.profile.headline && (
-          <h5>
-            <strong>{sharedState.talent.profile.headline}</strong>
-          </h5>
+          <p>{sharedState.talent.profile.headline}</p>
         )}
-        {sharedState.career_goal?.bio && <p>{sharedState.career_goal.bio}</p>}
 
         <div className="d-flex flex-row my-3 text-secondary">
           {sharedState.talent.profile.github && (
