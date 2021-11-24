@@ -137,9 +137,10 @@ const Perks = ({
             {calculateAmount(perk.price) === 0 && (
               <>
                 <a
-                  className="text-reset mb-2"
+                  className={`text-reset mb-2${
+                    hideAction ? " disabled-link" : ""
+                  }`}
                   href={`/messages?user=${talentUserId}&perk=${perk.id}`}
-                  disabled
                 >
                   {perk.title}
                 </a>
