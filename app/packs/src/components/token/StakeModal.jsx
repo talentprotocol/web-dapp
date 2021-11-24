@@ -249,7 +249,10 @@ const StakeModal = ({
                 Please insert the amount of cUSD (Celo's stablecoin) you wish to
                 use to buy Talent Tokens. You'll need to have cUSD in your
                 Metamask wallet to do this transaction. Check the{" "}
-                <a href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">
+                <a
+                  target="self"
+                  href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735"
+                >
                   guide
                 </a>{" "}
                 if you need help to top up your account.

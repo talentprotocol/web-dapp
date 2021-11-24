@@ -89,3 +89,7 @@
     cursor: pointer;
   }
 }
+
+.disabled-link {
+  pointer-events: none;
+}
