@@ -7,7 +7,15 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ethers } from "ethers";
 
-const Perks = ({ perks, ticker, width, contract, railsContext }) => {
+const Perks = ({
+  perks,
+  ticker,
+  width,
+  contract,
+  talentUserId,
+  hideAction,
+  railsContext,
+}) => {
   const [start, setStart] = useState(0);
   const [availableBalance, setAvailableBalance] = useState(0);
   const itemsPerRow = width < 768 ? 1 : 3;
@@ -126,15 +134,30 @@ const Perks = ({ perks, ticker, width, contract, railsContext }) => {
               index
             )} ${itemsPerRow == 1 ? "col-12" : "w-32"}`}
           >
-            <p>{perk.title}</p>
-            <small className="text-warning">
-              {calculateAmount(perk.price) === 0 && <strong>AVAILABLE</strong>}
-              {calculateAmount(perk.price) !== 0 && (
-                <strong>
-                  HOLD +{calculateAmount(perk.price)} {ticker}
-                </strong>
-              )}
-            </small>
+            {calculateAmount(perk.price) === 0 && (
+              <>
+                <a
+                  className="text-reset mb-2"
+                  href={`/messages?user=${talentUserId}&perk=${perk.id}`}
+                  disabled
+                >
+                  {perk.title}
+                </a>
+                <small className="text-success">
+                  <strong>AVAILABLE</strong>
+                </small>
+              </>
+            )}
+            {calculateAmount(perk.price) !== 0 && (
+              <>
+                <p>{perk.title}</p>
+                <small className="text-warning">
+                  <strong>
+                    HOLD +{calculateAmount(perk.price)} {ticker}
+                  </strong>
+                </small>
+              </>
+            )}
           </div>
         ))}
       </div>

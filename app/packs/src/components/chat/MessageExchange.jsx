@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Message from "./Message";
 import Button from "../button";
 
@@ -15,6 +15,17 @@ const CommunicateFirst = () => {
 };
 
 const MessageExchange = (props) => {
+  const inputElement = useRef(null);
+  const [height, setHeight] = useState(38);
+
+  useEffect(() => {
+    if (!inputElement) {
+      return;
+    }
+
+    setHeight((prev) => inputElement.current.scrollHeight + 2);
+  }, [props.value]);
+
   return (
     <div className="messages-background lg-h-100 d-flex flex-column">
       {props.smallScreen && (
@@ -42,14 +53,10 @@ const MessageExchange = (props) => {
           />
         ))}
       </div>
-      <form
-        action="/messages"
-        method="post"
-        onSubmit={props.onSubmit}
-        className="input-message-height"
-      >
-        <div className="position-relative chat-send-area">
-          <input
+      <form action="/messages" method="post" onSubmit={props.onSubmit}>
+        <div className="d-flex flex-row justify-content-center align-items-center chat-send-area">
+          <textarea
+            ref={inputElement}
             type="text"
             disabled={props.messages.length == 0 && props.userId == 0}
             name="message"
@@ -57,7 +64,8 @@ const MessageExchange = (props) => {
             value={props.value}
             onChange={(e) => props.onChange(e.target.value)}
             placeholder="Start a new message"
-            className="form-control chat-input-area"
+            className="form-control w-100 mr-2 chat-input-area"
+            style={{ height }}
           />
           <button
             type="submit"
@@ -66,7 +74,7 @@ const MessageExchange = (props) => {
               props.sendingMessage == true ||
               (props.messages.length == 0 && props.userId == 0)
             }
-            className="position-absolute btn btn-primary btn-small chat-send"
+            className="btn btn-primary btn-small"
           >
             Send
           </button>

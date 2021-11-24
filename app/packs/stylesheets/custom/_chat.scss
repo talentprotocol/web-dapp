@@ -72,15 +72,9 @@
 
 .chat-input-area {
   border-radius: 0px;
-  padding-right: 65px;
+  resize: none;
 }
 
-.chat-send {
-  top: 1px;
-  right: 20px;
-  transform: translateY(50%);
-  border-radius: 0px;
-}
 
 .new-message-user-list {
   max-height: 200px;
