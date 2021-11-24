@@ -23,7 +23,17 @@ const MessageExchange = (props) => {
       return;
     }
 
-    setHeight((prev) => inputElement.current.scrollHeight + 2);
+    setHeight(inputElement.current.scrollHeight + 2);
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    if (params.has("perk")) {
+      params.delete("perk");
+      window.history.replaceState(
+        {},
+        document.title,
+        "/messages?" + params.toString()
+      );
+    }
   }, [props.value]);
 
   return (

@@ -50,9 +50,11 @@ const Chat = ({ users, userId }) => {
     }
 
     get(`api/v1/perks/${perkId}`).then((response) => {
-      console.log("PERK");
-      console.log(response);
-      setMessage(`Hi! I'm reaching out because of my perk "${response.title}"`);
+      if (response.title) {
+        setMessage(
+          `Hi! I'm reaching out because of my perk "${response.title}"`
+        );
+      }
     });
   }, [perkId]);
 
