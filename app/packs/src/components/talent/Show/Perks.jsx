@@ -128,38 +128,29 @@ const Perks = ({
       </div>
       <div className="d-flex justify-content-start mt-3 mb-2">
         {sliceInDisplay.map((perk, index) => (
-          <div
+          <a
             key={`perk_list_${perk.id}`}
-            className={`bg-light rounded p-3 d-flex flex-column justify-content-between ${margins(
+            className={`bg-light text-reset talent-link rounded p-3 d-flex flex-column justify-content-between ${margins(
               index
-            )} ${itemsPerRow == 1 ? "col-12" : "w-32"}`}
+            )} ${itemsPerRow == 1 ? "col-12" : "w-32"}${
+              hideAction ? " disabled-link" : ""
+            }`}
+            href={`/messages?user=${talentUserId}&perk=${perk.id}`}
           >
+            <p>{perk.title}</p>
             {calculateAmount(perk.price) === 0 && (
-              <>
-                <a
-                  className={`text-reset mb-2${
-                    hideAction ? " disabled-link" : ""
-                  }`}
-                  href={`/messages?user=${talentUserId}&perk=${perk.id}`}
-                >
-                  {perk.title}
-                </a>
-                <small className="text-success">
-                  <strong>AVAILABLE</strong>
-                </small>
-              </>
+              <small className="text-success">
+                <strong>AVAILABLE</strong>
+              </small>
             )}
             {calculateAmount(perk.price) !== 0 && (
-              <>
-                <p>{perk.title}</p>
-                <small className="text-warning">
-                  <strong>
-                    HOLD +{calculateAmount(perk.price)} {ticker}
-                  </strong>
-                </small>
-              </>
+              <small className="text-warning">
+                <strong>
+                  HOLD +{calculateAmount(perk.price)} {ticker}
+                </strong>
+              </small>
             )}
-          </div>
+          </a>
         ))}
       </div>
     </>
