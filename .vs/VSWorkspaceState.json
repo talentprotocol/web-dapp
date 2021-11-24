@@ -1,16 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\packs",
-    "\\app\\packs\\src",
-    "\\app\\packs\\src\\components",
-    "\\app\\packs\\src\\components\\icons",
     "\\stories",
-    "\\stories\\components",
-    "\\stories\\components\\buttons",
-    "\\stories\\components\\tabs"
+    "\\stories\\components"
   ],
-  "SelectedNode": "\\app\\packs\\src\\components\\icons\\Bell.jsx",
+  "SelectedNode": "\\stories\\components\\buttons",
   "PreviewInSolutionExplorer": false
 }

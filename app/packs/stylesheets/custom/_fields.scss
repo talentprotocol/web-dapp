@@ -1,0 +1,87 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.title-field {
+    font-weight: 700;
+    font-size: 0.9rem;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.short-caption {
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    color: #9FA3A9;
+    font-weight: 400;
+
+    &.dark {
+        color: #686C74;
+    }
+}
+
+.form-control {
+    background: #F3F4F4;
+    color: #202122;
+
+    &:hover {
+        background: #F3F4F4;
+        border: 1px solid $primary-hover;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+
+    &:active {
+        background-color: #F3F4F4;
+    }
+
+    &:focus {
+        background-color: #F3F4F4;
+    }
+
+    &:disabled {
+        color: $primary-outline-disabled;
+        background: #F3F4F4;
+        border: 0px;
+        color: #202122;
+    }
+
+    &.dark {
+        background: $black-shade-1;
+        color: $white;
+        border: 0;
+
+        ::placeholder {
+            color: #686C74 !important;
+        }
+
+
+        &:hover {
+            background: $black-shade-1;
+            border: 1px solid $primary;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        &:active {
+            background: $black-shade-1;
+        }
+
+        &:focus {
+            background: $black-shade-1;
+        }
+
+        &:disabled {
+            color: $primary-outline-disabled;
+            background: $black-shade-1;
+            border: 0px;
+            color: #202122;
+        }
+    }
+}
+
+
+    ::placeholder {
+        color: #9FA3A9 !important;
+    }
