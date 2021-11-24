@@ -13,6 +13,7 @@ const Chat = ({ users, userId }) => {
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
   );
+  const [perkId, setPerkId] = useState(url.searchParams.get("perk") || 0);
   const [activeChannel, setActiveChannel] = useState(null); // @TODO: Refactor chat
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -23,8 +24,6 @@ const Chat = ({ users, userId }) => {
   const { height, width } = useWindowDimensionsHook();
 
   // Get user from URL
-  useEffect(() => {}, []);
-
   useEffect(() => {
     if (activeUserId == 0) {
       return;
@@ -44,6 +43,20 @@ const Chat = ({ users, userId }) => {
       setMessengerProfilePicture(response.profilePictureUrl);
     });
   }, [activeUserId]);
+
+  useEffect(() => {
+    if (perkId <= 0) {
+      return;
+    }
+
+    get(`api/v1/perks/${perkId}`).then((response) => {
+      if (response.title) {
+        setMessage(
+          `Hi! I'm reaching out because of my perk "${response.title}"`
+        );
+      }
+    });
+  }, [perkId]);
 
   useEffect(() => {
     if (chatId != "") {

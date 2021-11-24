@@ -289,6 +289,8 @@ const TalentShow = ({
           width={width}
           contract={token.contract_id}
           railsContext={railsContext}
+          talentUserId={talent.user_id}
+          hideAction={talentIsFromCurrentUser}
         />
       </section>
     </div>
