@@ -5,3 +5,7 @@
   - default
   - mailers
   - low
+:schedule:
+  send_token_launch_reminder:
+    cron: '0 * * * * *'   # Runs once per minute
+    class: SendTokenLaunchReminderJob

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_24_230329) do
+ActiveRecord::Schema.define(version: 2021_11_25_103155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 2021_11_24_230329) do
     t.jsonb "profile", default: {}
     t.boolean "disable_messages", default: false
     t.text "banner_data"
+    t.boolean "token_launch_reminder_sent", default: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true

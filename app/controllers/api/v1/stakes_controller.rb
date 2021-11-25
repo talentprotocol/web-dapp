@@ -4,7 +4,7 @@ class API::V1::StakesController < ApplicationController
 
     if token.talent.user_id != current_user.id
       create_notification_talent_token_bought(token.talent.user_id, current_user)
-      add_follow(token.talent.user_id)
+      # add_follow(token.talent.user_id)
     end
 
     render json: {success: "Stake created."}, status: :ok
@@ -30,6 +30,7 @@ class API::V1::StakesController < ApplicationController
     )
   end
 
+  # Currently we don't want to automatically add follows when a user buys a talent token
   def add_follow(user_id)
     follow = Follow.find_or_initialize_by(user_id: user_id, follower_id: current_user.id)
 
