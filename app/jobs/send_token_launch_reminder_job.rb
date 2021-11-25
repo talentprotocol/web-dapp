@@ -9,7 +9,7 @@ class SendTokenLaunchReminderJob < ApplicationJob
       if user.talent.token.contract_id.nil?
         ActiveRecord::Base.transaction do
           user.talent.update!(token_launch_reminder_sent: true)
-          UserMailer.with(user: user).send_token_launch_reminder.deliver_later
+          UserMailer.with(user: user).send_token_launch_reminder_email.deliver_later
         end
       end
     end

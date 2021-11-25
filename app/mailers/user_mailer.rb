@@ -17,16 +17,21 @@ class UserMailer < ApplicationMailer
 
   def send_welcome_email
     @user = params[:user]
-    bootstrap_mail(to: @user.email, subject: "Talent Protocol - You're in!")
+    bootstrap_mail(to: @user.email, subject: @user.talent? ? "Invite to launch your token on Talent Protocol 🔑" : "Personal invite for Talent Protocol Beta 🔑")
   end
 
-  def send_token_launch_reminder
+  def send_token_launch_reminder_email
     @user = params[:user]
-    bootstrap_mail(to: @user.email, subject: "Talent Protocol - You're in!")
+    bootstrap_mail(to: @user.email, subject: "Ready to launch your Talent Token? 🚀")
   end
 
-  def send_token_launched
+  def send_token_launched_email
     @user = params[:user]
     bootstrap_mail(to: @user.email, subject: "Your Talent Token is live! 💫")
+  end
+
+  def send_token_purchase_reminder_email
+    @user = params[:user]
+    bootstrap_mail(to: @user.email, subject: "You're missing out on TAL rewards 💸")
   end
 end
