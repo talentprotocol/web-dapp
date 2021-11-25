@@ -7,5 +7,5 @@
   - low
 :schedule:
   send_token_launch_reminder:
-    cron: '0 * * * * *'   # Runs once per minute
+    cron: '0 5 * * 4'   # Runs once every thursday at 5pm
     class: SendTokenLaunchReminderJob
