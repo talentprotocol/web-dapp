@@ -144,9 +144,12 @@ GEM
       railties (>= 3.2)
     down (5.2.2)
       addressable (~> 2.5)
+    e2mmap (0.1.0)
     email_validator (2.2.3)
       activemodel
     erubi (1.10.0)
+    et-orbi (1.2.6)
+      tzinfo
     eth (0.4.12)
       digest-sha3-patched (~> 1.1)
       ffi (~> 1.0)
@@ -188,6 +191,9 @@ GEM
       ffi (>= 1.0.0)
       rake
     foreman (0.87.2)
+    fugit (1.5.2)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
     globalid (0.5.2)
       activesupport (>= 5.0)
     google-protobuf (3.17.3)
@@ -252,6 +258,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-mini-profiler (2.3.2)
@@ -339,6 +346,8 @@ GEM
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.0)
+    rufus-scheduler (3.8.0)
+      fugit (~> 1.1, >= 1.1.6)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -364,6 +373,13 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-scheduler (3.1.0)
+      e2mmap
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      thwait
+      tilt (>= 1.4.0)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -376,6 +392,8 @@ GEM
       rubocop (= 1.14.0)
       rubocop-performance (= 1.11.2)
     thor (1.1.0)
+    thwait (0.2.0)
+      e2mmap
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -444,6 +462,7 @@ DEPENDENCIES
   shoulda-matchers (~> 4.5.1)
   shrine (~> 3.0)
   sidekiq
+  sidekiq-scheduler
   spring
   standard
   tzinfo-data
