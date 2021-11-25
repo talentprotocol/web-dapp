@@ -14,4 +14,9 @@ class UserMailer < ApplicationMailer
     @email = params[:email]
     bootstrap_mail(to: @email, subject: "Talent Protocol - You're in!")
   end
+
+  def send_welcome_email
+    @user = params[:user]
+    bootstrap_mail(to: @email, subject: "Talent Protocol - You're in!")
+  end
 end
