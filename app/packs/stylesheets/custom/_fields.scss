@@ -13,38 +13,38 @@
 .short-caption {
     margin-top: 0.6rem;
     font-size: 0.8rem;
-    color: #9FA3A9;
+    color: $primary-04;
     font-weight: 400;
 
     &.dark {
-        color: #686C74;
+        color: $black-secondary;
     }
 }
 
 .form-control {
-    background: #F3F4F4;
+    background: $surface-hover;
     color: #202122;
 
     &:hover {
-        background: #F3F4F4;
+        background: $surface-hover;
         border: 1px solid $primary-hover;
         box-sizing: border-box;
         border-radius: 4px;
     }
 
     &:active {
-        background-color: #F3F4F4;
+        background-color: $surface-hover;
     }
 
     &:focus {
-        background-color: #F3F4F4;
+        background-color: $surface-hover;
     }
 
     &:disabled {
         color: $primary-outline-disabled;
-        background: #F3F4F4;
+        background: $surface-hover;
         border: 0px;
-        color: #202122;
+        color: $black-primary;
     }
 
     &.dark {
@@ -53,7 +53,7 @@
         border: 0;
 
         ::placeholder {
-            color: #686C74 !important;
+            color: $black-secondary !important;
         }
 
 
@@ -76,12 +76,12 @@
             color: $primary-outline-disabled;
             background: $black-shade-1;
             border: 0px;
-            color: #202122;
+            color: $black-primary;
         }
     }
 }
 
 
-    ::placeholder {
-        color: #9FA3A9 !important;
-    }
+::placeholder {
+    color: $primary-04 !important;
+}

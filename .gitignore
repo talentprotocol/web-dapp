@@ -40,5 +40,6 @@ yarn-debug.log*
 /public/uploads/
 .env.development
 .env.test
+.vs/
 .vscode/
 *.dump
