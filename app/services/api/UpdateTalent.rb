@@ -65,19 +65,19 @@ class API::UpdateTalent
     end
 
     if params[:profile][:linkedin]
-      @talent.discord = params[:profile][:linkedin]
+      @talent.linkedin = params[:profile][:linkedin]
     end
 
     if params[:profile][:telegram]
-      @talent.discord = params[:profile][:telegram]
+      @talent.telegram = params[:profile][:telegram]
     end
 
     if params[:profile][:github]
-      @talent.discord = params[:profile][:github]
+      @talent.github = params[:profile][:github]
     end
 
     if params[:profile][:twitter]
-      @talent.discord = params[:profile][:twitter]
+      @talent.twitter = params[:profile][:twitter]
     end
 
     @talent.save!
