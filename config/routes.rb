@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :wait_list
       resources :users
       resources :badges
+      resources :invites
     end
   end
   # end Admin
