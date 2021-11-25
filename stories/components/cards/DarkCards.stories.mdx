@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Card from 'src/components/design_system/cards';
+
+<Meta title="Design System/Cards/Dark Mode" component={Card} />
+
+# Cards
+
+
+export const Template = (args) => <Card {...args} />
+
+<Canvas>
+  <Story
+    name="Card #1"
+    args={{
+      photo_url: "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
+      name: "Lily Caneco",
+      title: "CPO at Jivo.com",
+      circ_supply: "128,320",
+      ticker: "$LILI",
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

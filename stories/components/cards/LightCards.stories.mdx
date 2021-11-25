@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Card from 'src/components/design_system/cards';
+
+<Meta title="Design System/Cards/Light Mode" component={Card} />
+
+# Cards
+
+
+export const Template = (args) => <Card {...args} />
+
+<Canvas>
+  <Story
+    name="Card #1"
+    args={{
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      name: "Cameroon",
+      title: "Product Designer",
+      circ_supply: "415,300",
+      ticker: "$CAM",
+      mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

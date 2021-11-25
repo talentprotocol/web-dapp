@@ -1,0 +1,63 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.card {
+    background-color: $surface-hover;
+    padding: 1.5rem;
+    border: 0;
+
+    img {
+        border-radius: 4px;
+    }
+
+    &.dark {
+        background: $black-shade-1;
+        color: $white;
+    }
+}
+
+.card-body {
+    padding: 0;
+    padding-top: 14px;
+
+    h6 {
+        font-weight: 700;
+    }
+
+    .title {
+        font-weight: 400;
+        color: $black-secondary;
+
+        &.dark {
+            color: $dark-text;
+        }
+    }
+}
+
+.circ-supply {
+    font-weight: 600;
+    color: $black-secondary;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+
+    &.dark {
+        color: $dark-text;
+    }
+}
+
+.circ-supply-data {
+    color: $black-primary;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.ticker {
+    color: $warning;
+
+    &.dark {
+        color: $yellow;
+    }
+}
