@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       resources :wait_list
       resources :users
       resources :badges
-      resources :invites, only:  [:index, :create]
+      resources :invites, only: [:index, :create]
     end
   end
   # end Admin

@@ -27,7 +27,7 @@ class Admin::InvitesController < ApplicationController
   end
 
   def load_subscribers
-    service = Mailerlite::GetSubscribers.new(page: params[:page])
+    service = Mailerlite::GetSubscribers.new(page: params[:page], search: params[:search])
     @subscribers = service.call
   end
 

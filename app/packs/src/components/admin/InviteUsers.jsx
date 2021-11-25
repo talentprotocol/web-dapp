@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { post } from "src/utils/requests";
 
 const InviteUsers = ({ subscribers }) => {
-  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.search);
+  const [email, setEmail] = useState(params.get("search") || "");
   const page = parseInt(params.get("page") || "1");
 
   const sendInvite = async (e) => {
@@ -20,12 +20,6 @@ const InviteUsers = ({ subscribers }) => {
     } else {
       setError(true);
     }
-  };
-
-  const cancel = (e) => {
-    e.preventDefault();
-
-    window.location.href = "/admin/invites";
   };
 
   const emailChosen = (e, emailChosen) => {
@@ -91,6 +85,14 @@ const InviteUsers = ({ subscribers }) => {
           </button>
         </div>
         <div className="d-flex flex-column my-3 border email-options">
+          {subscribers.length == 0 && (
+            <button
+              className="talent-button btn btn-light text-left"
+              disabled={true}
+            >
+              No results found.
+            </button>
+          )}
           {subscribers.map((subscriber) => (
             <button
               key={`option_email_${subscriber.id}`}

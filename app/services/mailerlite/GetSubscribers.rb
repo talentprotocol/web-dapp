@@ -2,7 +2,8 @@ class Mailerlite::GetSubscribers
   def initialize(params)
     @url = "https://api.mailerlite.com/api/v2/subscribers"
     @token = ENV["MAILER_LITE_API_KEY"]
-    @page = Integer(params.fetch(:page, "1"))
+    @page = Integer(params.fetch(:page, "1") || "1")
+    @search = params.fetch(:search, "")
   end
 
   def call
@@ -15,11 +16,12 @@ class Mailerlite::GetSubscribers
 
   def make_request
     url =
-      if @page > 1
+      if @search.blank?
         "#{@url}?offset=#{(@page - 1) * 100}&limit=100"
       else
-        @url.to_s
+        "#{@url}/search?query=#{@search}&offset=#{(@page - 1) * 100}&limit=100"
       end
+
     Faraday.get(url, {}, {'X-MailerLite-ApiKey': @token})
   end
 end
