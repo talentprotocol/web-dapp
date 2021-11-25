@@ -9,6 +9,7 @@ class API::V1::Talent::TokensController < ApplicationController
 
     if token.update(token_params)
       if token.deployed? && !was_deployed
+        UserMailer.with(user: current_user).send_token_launched.deliver_later
         CreateNotificationNewTalentListedJob.perform_later(talent.user_id)
       end
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
