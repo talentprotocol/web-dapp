@@ -4,8 +4,9 @@ import { post } from "src/utils/requests";
 const InviteUsers = ({ subscribers }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-
-  const filteredEmails = subscribers.filter((item) => item.includes(email));
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+  const page = parseInt(params.get("page") || "1");
 
   const sendInvite = async (e) => {
     e.preventDefault();
@@ -33,15 +34,43 @@ const InviteUsers = ({ subscribers }) => {
     setEmail(emailChosen);
   };
 
+  const search = (e) => {
+    e.preventDefault();
+    window.location.href = `/admin/invites?search=${email}`;
+  };
+
+  const nextPage = (e) => {
+    e.preventDefault();
+    if (email != "") {
+      window.location.href = `/admin/invites?search=${email}&page=${page + 1}`;
+    } else {
+      window.location.href = `/admin/invites?page=${page + 1}`;
+    }
+  };
+
+  const enableNextPage = () => subscribers.length == 100;
+
+  const previousPage = (e) => {
+    e.preventDefault();
+    if (page && page > 1) {
+      if (email != "") {
+        window.location.href = `/admin/invites?search=${email}&page=${
+          page - 1
+        }`;
+      } else {
+        window.location.href = `/admin/invites?page=${page - 1}`;
+      }
+    }
+  };
+
+  const enablePrevPage = () => page && page > 1;
+
   return (
     <form className="mt-3" onSubmit={sendInvite}>
       <div className="form-group is-required">
         <label className="mr-2">
           Email <br />
-          <small>
-            Fill in the email or pick one from the list. The list will filter as
-            you type.
-          </small>
+          <small>Fill in the email to search on mailerlite.</small>
         </label>
         <input
           value={email}
@@ -49,29 +78,46 @@ const InviteUsers = ({ subscribers }) => {
           className="form-control"
           placeholder="...@emaildomain.com"
         />
+        <div className="form-actions mt-3">
+          <button
+            className="btn btn-secondary talent-button mr-2"
+            onClick={search}
+          >
+            SEARCH
+          </button>
+
+          <button type="submit" className="btn btn-primary talent-button">
+            SEND INVITE
+          </button>
+        </div>
         <div className="d-flex flex-column my-3 border email-options">
-          {filteredEmails.map((emailItem) => (
+          {subscribers.map((subscriber) => (
             <button
-              key={`option_email_${emailItem}`}
-              className="talent-button btn btn-light"
-              onClick={(e) => emailChosen(e, emailItem)}
+              key={`option_email_${subscriber.id}`}
+              className="talent-button btn btn-light text-left"
+              onClick={(e) => emailChosen(e, subscriber.email)}
             >
-              {emailItem}
+              {subscriber.email}
             </button>
           ))}
         </div>
         {error && <p className="text-danger">Unable to send email</p>}
       </div>
 
-      <div className="form-actions">
+      <div className="form-actions mb-3">
         <button
           className="btn btn-secondary talent-button mr-2"
-          onClick={cancel}
+          onClick={previousPage}
+          disabled={!enablePrevPage()}
         >
-          CANCEL
+          {"<"} Previous
         </button>
-        <button type="submit" className="btn btn-primary talent-button">
-          SEND INVITE
+        <button
+          className="btn btn-primary talent-button"
+          onClick={nextPage}
+          disabled={!enableNextPage()}
+        >
+          Next {">"}
         </button>
       </div>
     </form>

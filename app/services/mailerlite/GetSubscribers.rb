@@ -1,7 +1,8 @@
 class Mailerlite::GetSubscribers
-  def initialize
+  def initialize(params)
     @url = "https://api.mailerlite.com/api/v2/subscribers"
     @token = ENV["MAILER_LITE_API_KEY"]
+    @page = Integer(params.fetch(:page, "1"))
   end
 
   def call
@@ -13,6 +14,12 @@ class Mailerlite::GetSubscribers
   private
 
   def make_request
-    Faraday.get(@url, {}, {'X-MailerLite-ApiKey': @token})
+    url =
+      if @page > 1
+        "#{@url}?offset=#{(@page - 1) * 100}&limit=100"
+      else
+        @url.to_s
+      end
+    Faraday.get(url, {}, {'X-MailerLite-ApiKey': @token})
   end
 end
