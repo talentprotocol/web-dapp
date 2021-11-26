@@ -3,6 +3,7 @@ class Mailerlite::AddSubscriber
     @url = "https://api.mailerlite.com/api/v2/subscribers"
     @token = ENV["MAILER_LITE_API_KEY"]
     @email = params.fetch(:email)
+    @name = params.fetch(:name)
   end
 
   def call
@@ -19,7 +20,7 @@ class Mailerlite::AddSubscriber
   private
 
   def add_subscriber
-    Faraday.post(@url, {email: @email}, {'X-MailerLite-ApiKey': @token})
+    Faraday.post(@url, {email: @email, name: @name}, {'X-MailerLite-ApiKey': @token})
   end
 
   def search_for_email_request

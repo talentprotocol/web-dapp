@@ -6,13 +6,14 @@ const InviteUsers = ({ subscribers }) => {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.search);
   const [email, setEmail] = useState(params.get("search") || "");
+  const [name, setName] = useState("");
   const page = parseInt(params.get("page") || "1");
 
   const sendInvite = async (e) => {
     e.preventDefault();
     // ADD spinner
     const request = await post("/admin/invites", {
-      invite: { email },
+      invite: { email, name },
     });
 
     if (request) {
@@ -59,22 +60,41 @@ const InviteUsers = ({ subscribers }) => {
 
   const enablePrevPage = () => page && page > 1;
 
+  setTimeout(
+    () => window.history.replaceState({}, document.title, "/admin/invites"),
+    5000
+  );
+
   return (
     <form className="mt-3" onSubmit={sendInvite}>
       <div className="form-group is-required">
-        <label className="mr-2">
-          Email <br />
-          <small>
-            Fill in the email to search on mailerlite. (mailerlite will only
-            find exact matches)
-          </small>
-        </label>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="form-control"
-          placeholder="...@emaildomain.com"
-        />
+        <div className="d-flex flex-row w-100">
+          <div className="d-flex flex-column mr-2">
+            <label className="mr-2">Email</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-control"
+              placeholder="...@emaildomain.com"
+            />
+            <small className="mt-2">
+              Fill in the email to search on mailerlite (mailerlite will only
+              find exact matches)
+            </small>
+          </div>
+          <div className="d-flex flex-column ml-2">
+            <label>Name</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="form-control"
+              placeholder="name"
+            />
+            <small className="mt-2">
+              Fill in the name if it's a new subscriber
+            </small>
+          </div>
+        </div>
         <div className="form-actions mt-3">
           <button
             className="btn btn-secondary talent-button mr-2"
@@ -102,7 +122,7 @@ const InviteUsers = ({ subscribers }) => {
               className="talent-button btn btn-light text-left"
               onClick={(e) => emailChosen(e, subscriber.email)}
             >
-              {subscriber.email}
+              {subscriber.name} - {subscriber.email}
             </button>
           ))}
         </div>

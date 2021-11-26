@@ -18,7 +18,7 @@ class Admin::InvitesController < ApplicationController
     service = CreateInvite.new(user_id: 1, single_use: true)
     @invite = service.call
 
-    service = Mailerlite::AddSubscriber.new(email: new_invite_params[:email])
+    service = Mailerlite::AddSubscriber.new(email: new_invite_params[:email], name: new_invite_params[:name])
     service.call
 
     UserMailer.with(invite: @invite, email: new_invite_params[:email]).send_invite_email.deliver_later
@@ -42,6 +42,6 @@ class Admin::InvitesController < ApplicationController
   end
 
   def new_invite_params
-    params.require(:invite).permit(:email)
+    params.require(:invite).permit(:email, :name)
   end
 end
