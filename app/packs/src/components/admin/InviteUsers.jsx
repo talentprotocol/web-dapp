@@ -10,7 +10,7 @@ const InviteUsers = ({ subscribers }) => {
 
   const sendInvite = async (e) => {
     e.preventDefault();
-
+    // ADD spinner
     const request = await post("/admin/invites", {
       invite: { email },
     });
@@ -64,7 +64,10 @@ const InviteUsers = ({ subscribers }) => {
       <div className="form-group is-required">
         <label className="mr-2">
           Email <br />
-          <small>Fill in the email to search on mailerlite.</small>
+          <small>
+            Fill in the email to search on mailerlite. (mailerlite will only
+            find exact matches)
+          </small>
         </label>
         <input
           value={email}
