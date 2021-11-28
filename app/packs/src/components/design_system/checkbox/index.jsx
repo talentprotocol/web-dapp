@@ -1,5 +1,6 @@
 import React from "react";
 import { string, bool, func, oneOf } from "prop-types";
+import cx from "classnames";
 import P3 from "../typography/p3";
 
 const Checkbox = ({ checked, onChange, disabled, label, mode }) => (
@@ -10,8 +11,8 @@ const Checkbox = ({ checked, onChange, disabled, label, mode }) => (
       onChange={onChange}
       disabled={disabled}
     />
-    <span className="checkmark"></span>
-    {label && <P3 text={label} mode={mode} />}
+    <span className={cx("checkmark", mode)}></span>
+    {label && <P3 className="label-checkbox" text={label} mode={mode} />}
   </label>
 );
 

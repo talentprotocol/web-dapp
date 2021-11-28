@@ -44,12 +44,78 @@
     }
   }
 
-  input:checked ~ .checkmark {
-    border: none;
-    background-color: $primary;
+  input:disabled {
+    ~ .checkmark {
+      &.light {
+        border: 1px solid $surface-02;
+      }
 
-    &::after {
-      display: block;
+      &.dark {
+        border: 1px solid $black-shade-1;
+      }
+    }
+
+    ~ .label-checkbox {
+      &.light {
+        color: $surface-02;
+      }
+
+      &.dark {
+        color: $black-shade-1;
+      }
+    }
+  }
+
+  input:checked {
+    &:disabled {
+      ~ .checkmark {
+        &.light {
+          border: none;
+          background-color: $primary-disabled;
+
+          &:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid $primary-outline-disabled;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            display: block;
+          }
+        }
+
+        &.dark {
+          border: none;
+          background-color: $primary-light;
+
+          &:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid $black-shade-1;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            display: block;
+          }
+        }
+      }
+    }
+
+    ~ .checkmark {
+      border: none;
+      background-color: $primary;
+
+      &::after {
+        display: block;
+      }
     }
   }
 }
