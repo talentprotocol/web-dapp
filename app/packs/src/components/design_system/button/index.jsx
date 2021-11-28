@@ -1,38 +1,46 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { string, func, oneOf } from "prop-types";
+import cx from 'classnames';
 
-const Button = (props) => {
-  const typeClassName = `${props.type}-button`;
+const Button = ({
+  text,
+  onClick,
+  type,
+  mode,
+  size,
+  className,
+}) => {
+  const typeClassName = `${type}-button`;
 
   return (
     <button
-      className={
-        `
-          talent-button
-          ${typeClassName}
-          ${props.mode}
-          ${props.size}-size-button
-          ${props.className}
-        `
-      }
-      {...props}
+      className={cx(
+        'talent-button',
+        typeClassName,
+        mode,
+        `${size}-size-button`,
+        className,
+      )}
+      onClick={onClick}
     >
-      {props.text ? props.text : props.children}
+      {text ? text : children}
     </button>
   )
 };
 
 Button.defaultProps = {
   mode: "light",
-  size: "base"
+  size: "base",
+  className: '',
 };
 
 Button.propTypes = {
-  text: PropTypes.string,
-  onClick: PropTypes.func,
-  type: PropTypes.string.isRequired,
-  mode: PropTypes.oneOf(["light", "dark"]),
-  size: PropTypes.oneOf(["base", "big", "extra-big"]),
+  text: string,
+  onClick: func,
+  type: string.isRequired,
+  mode: oneOf(["light", "dark"]),
+  size: oneOf(["base", "big", "extra-big"]),
+  className: string,
 };
 
 export default Button;
