@@ -31,6 +31,7 @@ import ActiveTalents from "src/components/talent/ActiveTalents";
 import TalentTable from "src/components/talent/TalentTable";
 import Home from "src/components/home/Home";
 import Notifications from "src/components/notifications";
+import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
 
 import "stylesheets/application.scss";
 
@@ -57,6 +58,7 @@ ReactOnRails.register({
   TalentTable,
   Home,
   Notifications,
+  WelcomePopup,
 });
 
 Rails.start();

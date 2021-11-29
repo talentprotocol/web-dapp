@@ -24,10 +24,14 @@ class API::V1::UsersController < ApplicationController
 
   def update
     if @user
-      @user.update!(wallet_id: params[:wallet_id]&.downcase)
+      if params[:wallet_id]
+        @user.update!(wallet_id: params[:wallet_id]&.downcase)
 
-      service = Web3::TransferCelo.new
-      service.call(user: @user)
+        service = Web3::TransferCelo.new
+        service.call(user: @user)
+      elsif params[:welcome_pop_up]
+        @user.update!(welcome_pop_up: true)
+      end
 
       render json: @user, status: :ok
     else
