@@ -30,7 +30,7 @@ class API::V1::UsersController < ApplicationController
         service = Web3::TransferCelo.new
         service.call(user: @user)
       elsif params[:welcome_pop_up]
-        @user.update!(welcome_pop_up: true)
+        current_user.update!(welcome_pop_up: true)
       end
 
       render json: @user, status: :ok

@@ -1,4 +1,5 @@
 require "sidekiq/web"
+require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
   # Admin area
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
       resources :wait_list
       resources :users
       resources :badges
+      resources :invites, only: [:index, :create]
     end
   end
   # end Admin

@@ -133,7 +133,9 @@ const Perks = ({
             className={`bg-light text-reset talent-link rounded p-3 d-flex flex-column justify-content-between ${margins(
               index
             )} ${itemsPerRow == 1 ? "col-12" : "w-32"}${
-              hideAction ? " disabled-link" : ""
+              hideAction && calculateAmount(perk.price) === 0
+                ? " disabled-link"
+                : ""
             }`}
             href={`/messages?user=${talentUserId}&perk=${perk.id}`}
           >

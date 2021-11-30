@@ -9,14 +9,19 @@
           <img class="img-fluid ay-middle" alt="talent protocol name" src="https://beta.talentprotocol.com/brand_name.png" />
         </div>
       </div>
-      <h3 class="ax-center text-center mb-10">Reset your password</h3>
+      <h3 class="ax-center text-center mb-10">Hello <%= @user.email %>!</h3>
       <p class="w-full lh-lg text-lg mb-10">
-        We received a request to reset your password. <br>
-        Use the link below to set up a new password for you account. If you did not request to reset your password, ignore this email.
+        It's been a while since you signed up at <%= link_to "beta.talentprotocol.com", root_url %>, but you haven't launched your talent token yet. 
       </p>
-      <%= link_to t(".link_text", default: "Change my password"),
-        url_for([@user, :password, action: :edit, token: @user.confirmation_token]),
-        class: "btn btn-primary rounded-full fw-800 text-5xl py-4 ax-center mb-10 w-full w-lg-80" %>
+      <p class="w-full lh-lg text-lg mb-10">
+        If you felt any difficulty using the platform, I suggest following <a href="https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff">this step by step guide</a> or replying to this email and I'll gladly help.
+      </p>
+      <p class="w-full lh-lg text-lg mb-10">
+        Remember that, in this season, you have access to the $TAL token at a discounted price, beta users are earning a high amount of rewards every week, and Talent Protocol covers the gas fees.
+      </p>
+      <p class="w-full lh-lg text-lg mb-10">
+        Let’s do this! 🚀
+      </p>
       <p class="ax-center text-center text-primary"><a href="https://www.talentprotocol.com/">@talentprotocol</a></p>
       <p class="ax-center text-center text-primary"><small><a href="https://twitter.com/talentprotocol">twitter</a> | <a href="https://discord.com/invite/CBMaQnrcqj">discord</a> | <a href="https://t.me/talentprotocol">telegram</a></small></p>
     </div>
