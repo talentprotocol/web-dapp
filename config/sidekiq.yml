@@ -9,3 +9,6 @@
   send_token_launch_reminder:
     cron: '0 5 * * 4'   # Runs once every thursday at 5pm
     class: SendTokenLaunchReminderJob
+  send_token_purchase_reminder:
+    cron: '0 5 * * 3' # Runs once every wednesday at 5pm
+    class: SendTokenPurchaseReminderJob

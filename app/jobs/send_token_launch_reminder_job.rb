@@ -2,10 +2,7 @@ class SendTokenLaunchReminderJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    User.joins(talent: :token)
-      .where(talent: {token_launch_reminder_sent: false})
-      .where(token: {contract_id: nil})
-      .where("users.created_at < ?", 1.week.ago).find_each do |user|
+    users_that_did_not_deploy_token.find_each do |user|
       if user.talent.token.contract_id.nil?
         ActiveRecord::Base.transaction do
           user.talent.update!(token_launch_reminder_sent: true)
@@ -13,5 +10,14 @@ class SendTokenLaunchReminderJob < ApplicationJob
         end
       end
     end
+  end
+
+  private
+
+  def users_that_did_not_deploy_token
+    User.joins(talent: :token)
+      .where(talent: {token_launch_reminder_sent: false})
+      .where(token: {contract_id: nil})
+      .where("users.created_at < ?", 1.week.ago)
   end
 end
