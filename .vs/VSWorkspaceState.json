@@ -1,9 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\app",
+    "\\app\\packs",
+    "\\app\\packs\\src",
+    "\\app\\packs\\src\\components",
+    "\\app\\packs\\src\\components\\design_system",
+    "\\app\\packs\\src\\components\\design_system\\alert",
+    "\\app\\packs\\src\\components\\talent",
     "\\stories",
-    "\\stories\\components"
+    "\\stories\\components",
+    "\\stories\\components\\cards"
   ],
-  "SelectedNode": "\\stories\\components\\buttons",
+  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\alert\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -11,6 +11,7 @@ const Alert = ({
     title,
     message,
     link,
+    link_text
 }) => {
 
     return (
@@ -26,9 +27,9 @@ const Alert = ({
                     <strong>{title}</strong> 
                     <p>{message}</p>
 
-                    {link ? <a href={`${link}`} target="_blank">Go to link page</a> : null}
+                    {link ? <a href={`${link}`} target="_blank">{link_text}</a> : null}
 
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
                 </div>
             </div>
 

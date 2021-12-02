@@ -9,14 +9,13 @@ const TextInput = ({
 }) => {
 
     return (
-        <div>
-            <div>
-                <h6 className={`title-field ${mode}`}>{title}</h6>
-            </div>
-            <input type="text" className={`form-control ${mode}`} placeholder={placeholder} disabled={disabled} />
+        <>
+            {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
             
-            <p className={`short-caption ${mode}`}>{shortCaption}</p>
-        </div>
+            <input type="text" className={`form-control ${mode}`} placeholder={placeholder} disabled={disabled} />
+
+            {shortCaption ? <p className={`short-caption ${mode}`}>{shortCaption}</p> : null}
+        </>
     )
 };
 
