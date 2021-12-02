@@ -42,3 +42,4 @@ yarn-debug.log*
 .env.test
 .vscode/
 *.dump
+*.sqlite
