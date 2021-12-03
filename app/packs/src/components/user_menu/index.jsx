@@ -9,7 +9,6 @@ import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
-import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
