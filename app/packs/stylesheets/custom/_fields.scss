@@ -13,11 +13,11 @@
 .short-caption {
     margin-top: 0.6rem;
     font-size: 0.8rem;
-    color: $primary-04;
+    color: $gray-primary;
     font-weight: 400;
 
     &.dark {
-        color: $black-secondary;
+        color: $gray-400;
     }
 }
 
@@ -44,45 +44,47 @@
         color: $primary-outline-disabled;
         background: $surface-hover;
         border: 0px;
-        color: $black-primary;
+        color: $gray-800;
     }
 
     &.dark {
-        background: $black-shade-1;
+        background: $gray-600;
         color: $white;
         border: 0;
 
         ::placeholder {
-            color: $black-secondary !important;
+            color: $gray-400 !important;
         }
 
 
         &:hover {
-            background: $black-shade-1;
+            background: $gray-600;
             border: 1px solid $primary;
             box-sizing: border-box;
             border-radius: 4px;
         }
 
         &:active {
-            background: $black-shade-1;
+            background: $gray-600;
         }
 
         &:focus {
-            background: $black-shade-1;
+            background: $gray-600;
         }
 
         &:disabled {
             color: $primary-outline-disabled;
-            background: $black-shade-1;
+            background: $gray-600;
             border: 0px;
-            color: $black-primary;
+            color: $gray-800;
         }
     }
 }
 
 
+
+
 ::placeholder {
-    color: $primary-04 !important;
+    color: $gray-primary !important;
     font-size: 0.9rem;
 }

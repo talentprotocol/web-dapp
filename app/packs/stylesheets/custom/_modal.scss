@@ -4,11 +4,19 @@
 .modal-dialog {
     background-color: $alert-primary;
     border: 0;
+
+    &.dark {
+        background-color: $gray-900;
+    }
 }
 
 .modal-content {
     background-color: $alert-primary;
     border: 0;
+
+    &.dark {
+        background-color: $gray-900;
+    }
 }
 
 .modal-header
@@ -17,13 +25,13 @@
 }
 
 .modal-header .close {
-    color: $black-secondary;
+    color: $gray-400;
     font-weight: 200;
     font-size: 1.5rem;
     text-shadow: none;
 
     &.dark {
-        color: $dark-text;
+        color: $gray-300;
     }
 }
 
@@ -31,41 +39,47 @@
 .modal-body span {
     padding-top: 10px;
     font-size: 0.9rem;
-    padding-right: 10px;
-    margin-bottom: 0.5rem;
-    color: $black-shade-1;
+    color: $gray-600;
 
     &.dark {
-        color: $dark-text;
+        color: $gray-200;
     }
+}
 
-    
+.modal-body p {
+    font-size: 0.9rem;
+    color: $gray-600;
+
+    &.dark {
+        color: $gray-200;
+    }
 }
 
 .modal-body h5 {
     font-weight: 700;
     font-size: 0.9rem;
-    color: $black-primary;
+    color: $gray-800;
+
+    &.dark {
+        color: White;
+    }
 }
 
 .modal-body .availableAmount {
     font-weight: 700;
-    font-size: 0.75rem;
-    color: $gray-primary
+    font-size: 0.7rem;
+    color: $gray-primary;
+
+    &.dark {
+        color: $gray-400;
+    }
 }
 
-.divAmount {
-    margin-top: 1.5rem;
-}
-
-.divInput {
-    margin-bottom: 1.5rem;
-}
 
 .modal-body .short-description {
     font-weight: 400;
     font-size: 0.75rem;
-    color: $black-shade-1;
+    color: $gray-600;
 }
 
 .modal-body .form-check {
@@ -74,7 +88,11 @@
     label {
         font-weight: 400;
         font-size: 1rem;
-        color: $black-primary;
+        color: $gray-800;
+
+        &.dark {
+            color: $white;
+        }
     }
 
     a {

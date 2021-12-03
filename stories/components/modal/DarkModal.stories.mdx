@@ -2,7 +2,7 @@ import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
 import Modal from 'src/components/design_system/modal';
 
-<Meta title="Design System/Modal/Light Mode" component={Modal} />
+<Meta title="Design System/Modal/Dark Mode" component={Modal} />
 
 # Modal
 
@@ -14,8 +14,8 @@ export const Template = (args) => <Modal {...args} />
   <Story
     name="Staking modal"
     args={{
-      mode: "light",
-      amount: "4 230.80",
+      mode: "dark",
+      amount: "810",
     }}
   >
     {Template.bind({})}

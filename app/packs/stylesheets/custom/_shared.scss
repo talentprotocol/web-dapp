@@ -76,6 +76,10 @@
   color: $black;
 }
 
+.text-white {
+    color: $white;
+}
+
 .hover-black {
   &:hover {
     color: $black !important;
@@ -94,4 +98,29 @@
     width: 100%;
     height: 1px;
     background-color: #F3F4F4;
+    overflow: hidden;
+}
+
+.m-1 {
+    margin: 1rem;
+}
+
+.pt-1 {
+    padding-top: 1rem !important;
+}
+
+.mt-1 {
+    margin-top: 1rem !important;
+}
+
+.mt-2 {
+    margin-top: 2rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+.border-0{
+    border: 0 !important;
 }

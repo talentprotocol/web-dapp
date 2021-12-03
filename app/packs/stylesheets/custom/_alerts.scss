@@ -9,7 +9,7 @@
     padding: 0.6rem;
 
     &.dark {
-        background: $black-shade-1;
+        background: $gray-600;
         border: 0;
         box-shadow: 0;
     }
@@ -19,7 +19,7 @@
     color: $success;
 
     &.dark {
-        color: $dark-success;
+        color: $green-500;
     }
 }
 
@@ -27,12 +27,12 @@
     color: $warning;
 
     &.dark {
-        color: $dark-warning;
+        color: $yellow-500;
     }
 }
 
 .alert-info {
-    color: $black-primary;
+    color: $gray-800;
 
     &.dark {
         color: $white;
@@ -43,19 +43,19 @@
     color: $danger;
 
     &.dark {
-        color: $danger-default;
+        color: $danger-tint-01;
     }
 }
 
 .alert-dismissable .close,
 .alert-dismissible .close {
-    color: $black-secondary;
+    color: $gray-400;
     font-weight: 200;
     font-size: 1.5rem;
     text-shadow: none;
 
     &.dark {
-        color: $dark-text;
+        color: $gray-300;
     }
 }
 
@@ -74,10 +74,10 @@
     font-size: 0.8rem;
     padding-right: 10px;
     margin-bottom: 0.5rem;
-    color: $black-secondary;
+    color: $gray-400;
 
     &.dark {
-        color: $dark-text;
+        color: $gray-300;
     }
 }
 

@@ -11,7 +11,7 @@
     }
 
     &.dark {
-        background: $black-shade-1;
+        background: $gray-600;
         color: $white;
     }
 }
@@ -26,28 +26,28 @@
 
     .title {
         font-weight: 400;
-        color: $black-secondary;
+        color: $gray-400;
 
         &.dark {
-            color: $dark-text;
+            color: $gray-300;
         }
     }
 }
 
 .circ-supply {
     font-weight: 600;
-    color: $black-secondary;
+    color: $gray-400;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 
     &.dark {
-        color: $dark-text;
+        color: $gray-300;
     }
 }
 
 .circ-supply-data {
-    color: $black-primary;
+    color: $gray-800;
 
     &.dark {
         color: $white;
