@@ -83,7 +83,11 @@ const Perks = ({
       return 0;
     } else {
       const newValue = bnPrice.sub(availableBalance);
-      return ethers.utils.formatUnits(newValue);
+      if (newValue.eq(0)) {
+        return 0;
+      } else {
+        return ethers.utils.formatUnits(newValue);
+      }
     }
   };
 
@@ -134,8 +138,8 @@ const Perks = ({
               index
             )} ${itemsPerRow == 1 ? "col-12" : "w-32"}${
               hideAction && calculateAmount(perk.price) === 0
-                ? " disabled-link"
-                : ""
+                ? ""
+                : " disabled-link"
             }`}
             href={`/messages?user=${talentUserId}&perk=${perk.id}`}
           >
