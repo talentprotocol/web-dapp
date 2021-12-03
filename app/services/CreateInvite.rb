@@ -30,5 +30,7 @@ class CreateInvite
       count += 1
       retry if count <= MAX_RETRIES
     end
+
+    invite
   end
 end
