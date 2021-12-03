@@ -5,13 +5,12 @@
     "\\app\\packs",
     "\\app\\packs\\src",
     "\\app\\packs\\src\\components",
-    "\\app\\packs\\src\\components\\design_system",
-    "\\app\\packs\\src\\components\\design_system\\fields",
-    "\\app\\packs\\src\\components\\design_system\\fields\\textinput",
+    "\\app\\packs\\src\\components\\alert",
     "\\stories",
     "\\stories\\components",
-    "\\stories\\components\\alerts"
+    "\\stories\\components\\alerts",
+    "\\stories\\components\\notification_all"
   ],
-  "SelectedNode": "\\stories\\components\\slider",
+  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\notification\\index.jsx",
   "PreviewInSolutionExplorer": false
 }
