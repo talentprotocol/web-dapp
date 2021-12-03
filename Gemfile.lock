@@ -199,6 +199,10 @@ GEM
     google-protobuf (3.17.3)
     googleapis-common-protos-types (1.1.0)
       google-protobuf (~> 3.14)
+    graphql (1.13.0)
+    graphql-client (0.17.0)
+      activesupport (>= 3.0)
+      graphql (~> 1.10)
     grpc (1.38.0)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
@@ -440,6 +444,7 @@ DEPENDENCIES
   faker
   faraday
   foreman
+  graphql-client
   jbuilder (~> 2.7)
   listen (~> 3.3)
   lockbox
