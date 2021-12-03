@@ -1,0 +1,87 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.modal-dialog {
+    background-color: $alert-primary;
+    border: 0;
+}
+
+.modal-content {
+    background-color: $alert-primary;
+    border: 0;
+}
+
+.modal-header
+{
+    border: 0;
+}
+
+.modal-header .close {
+    color: $black-secondary;
+    font-weight: 200;
+    font-size: 1.5rem;
+    text-shadow: none;
+
+    &.dark {
+        color: $dark-text;
+    }
+}
+
+
+.modal-body span {
+    padding-top: 10px;
+    font-size: 0.9rem;
+    padding-right: 10px;
+    margin-bottom: 0.5rem;
+    color: $black-shade-1;
+
+    &.dark {
+        color: $dark-text;
+    }
+
+    
+}
+
+.modal-body h5 {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: $black-primary;
+}
+
+.modal-body .availableAmount {
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: $gray-primary
+}
+
+.divAmount {
+    margin-top: 1.5rem;
+}
+
+.divInput {
+    margin-bottom: 1.5rem;
+}
+
+.modal-body .short-description {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: $black-shade-1;
+}
+
+.modal-body .form-check {
+    margin-top: 1.5rem;
+
+    label {
+        font-weight: 400;
+        font-size: 1rem;
+        color: $black-primary;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
+
+.button-confirm {
+    margin-top: 1.5rem;
+}

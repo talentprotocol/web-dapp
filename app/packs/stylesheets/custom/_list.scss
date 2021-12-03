@@ -1,0 +1,43 @@
+@import "../bootstrap/overrides";
+@import "../colors";
+
+.list-container {
+    width: 100%;
+    padding: 0;
+    display: table;
+    height: 56px;
+}
+
+.list-item {
+    padding: 16px;
+
+    .column {
+        display: inline;
+        margin: 4px;
+    }
+}
+
+
+.table-img {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    left: 0px;
+    top: 0px;
+}
+
+.main-secondary {
+    font-weight: 600;
+    color: $gray-primary;
+    font-size: 0.9rem;
+}
+
+.list-container {
+    .list-item:nth-child(even) {
+        background-color: #F3F4F4;
+    }
+
+    .list-item:nth-child(odd) {
+        background-color: white;
+    }
+}

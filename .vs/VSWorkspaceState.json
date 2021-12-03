@@ -6,12 +6,12 @@
     "\\app\\packs\\src",
     "\\app\\packs\\src\\components",
     "\\app\\packs\\src\\components\\design_system",
-    "\\app\\packs\\src\\components\\design_system\\alert",
-    "\\app\\packs\\src\\components\\talent",
+    "\\app\\packs\\src\\components\\design_system\\fields",
+    "\\app\\packs\\src\\components\\design_system\\fields\\textinput",
     "\\stories",
     "\\stories\\components",
-    "\\stories\\components\\cards"
+    "\\stories\\components\\alerts"
   ],
-  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\alert\\index.jsx",
+  "SelectedNode": "\\stories\\components\\slider",
   "PreviewInSolutionExplorer": false
 }
