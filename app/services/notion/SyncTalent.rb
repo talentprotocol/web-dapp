@@ -3,7 +3,7 @@ class Notion::SyncTalent
 
   def initialize
     @notion_key = ENV["NOTION_API_KEY"]
-    @database_id = "a63b3a6b2a19401bbc21e80d02620467"
+    @database_id = ENV["NOTION_TALENT_DATABASE_ID"]
     @url = "https://api.notion.com/v1/pages"
     @version = "2021-08-16"
   end
