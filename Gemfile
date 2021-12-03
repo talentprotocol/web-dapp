@@ -59,6 +59,9 @@ gem "sidekiq-scheduler"
 # Requests
 gem "faraday"
 
+# GraphQL
+gem "graphql-client"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"
