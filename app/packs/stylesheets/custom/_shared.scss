@@ -124,3 +124,13 @@
 .border-0{
     border: 0 !important;
 }
+
+.ellipse-new {
+    background-color: $primary;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    float: left;
+    margin: 4px !important;
+    margin-top: 6px !important;
+}

@@ -24,9 +24,9 @@ const Alert = ({
                     {type === 'critical' && <Critical />}
                 </div>
                 <div className="alertRightArea">
-                    <strong>{title}</strong> 
-                    <p>{message}</p>
-
+                    {title ? <strong>{title}</strong> : null}
+                    {message ? <p>{message}</p> : null}
+                    
                     {link ? <a href={`${link}`} target="_blank">{link_text}</a> : null}
 
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
