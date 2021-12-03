@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { faEdit, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import About from "./edit_profile/About";
@@ -12,6 +12,11 @@ import Timeline from "./edit_profile/Timeline";
 
 const TokenLaunched = ({ show, setShow, inviteLink }) => {
   const url = `${window.location.origin}${inviteLink}`;
+
+  const copyLinkToClipboard = () => {
+    navigator.clipboard.writeText(url);
+  };
+
   return (
     <Modal scrollable={true} show={show} centered onHide={() => setShow(false)}>
       <Modal.Body className="show-grid p-4">
@@ -25,9 +30,17 @@ const TokenLaunched = ({ show, setShow, inviteLink }) => {
           Share this exclusive link with up to five people so they can have
           early access to the Private Beta and invest in you.
         </p>
-        <a href={url} target="self">
-          {url}
-        </a>
+        <div className="d-flex flex-column">
+          <a href={url} target="self">
+            {url}
+          </a>
+          <button
+            onClick={copyLinkToClipboard}
+            className="btn btn-primary mt-2"
+          >
+            Copy link <FontAwesomeIcon icon={faCopy} className="ml-2" />
+          </button>
+        </div>
       </Modal.Body>
     </Modal>
   );
