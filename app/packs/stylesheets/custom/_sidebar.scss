@@ -1,6 +1,70 @@
 @import "../colors";
 @import "../bootstrap/overrides";
 
-.navbar{
+.side-nav {
     background-color: $white;
+    padding: 24px;
+
+    &.dark {
+        background-color: $gray-900;
+    }
+}
+
+.side-nav .menu {
+    margin: 0;
+    margin-top: 3rem;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: $white;
+
+    &.dark {
+        background-color: $gray-900;
+    }
+
+    li a {
+        display: block;
+        height: 44px;
+        color: $gray-400;
+        padding: 8px;
+        text-decoration: none;
+
+        span {
+            margin-left: 8px;
+            margin-top: 2px;
+        }
+
+        &.dark {
+            color: $gray-300;
+        }
+    }
+
+    li a.active {
+        background: $surface-hover;
+        border-radius: 4px;
+        font-weight: bold;
+        color: $black;
+
+        &.dark {
+            background: $gray-600;
+            color: $white;
+        }
+    }
+
+    li a:hover:not(.active) {
+        background: $surface-hover;
+        border-radius: 4px;
+        color: $black;
+
+        &.dark {
+            background: $gray-600;
+            color: $white;
+        }
+    }
+}
+
+.menu-icon {
+    margin-left: 6px !important;
+    margin-right: 10px;
 }

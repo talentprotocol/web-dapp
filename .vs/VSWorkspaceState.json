@@ -5,12 +5,13 @@
     "\\app\\packs",
     "\\app\\packs\\src",
     "\\app\\packs\\src\\components",
-    "\\app\\packs\\src\\components\\alert",
+    "\\app\\packs\\src\\components\\design_system",
+    "\\app\\packs\\src\\components\\design_system\\alert",
+    "\\app\\packs\\src\\components\\design_system\\other",
     "\\stories",
     "\\stories\\components",
-    "\\stories\\components\\alerts",
-    "\\stories\\components\\notification_all"
+    "\\stories\\components\\side_bar"
   ],
-  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\notification\\index.jsx",
+  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\other\\button-connect-wallet.jsx",
   "PreviewInSolutionExplorer": false
 }

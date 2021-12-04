@@ -1,19 +1,50 @@
 import React from 'react';
-import LogoWithText from 'src/components/design_system/other/logo-with-text';
-import MenuItem from 'src/components/design_system/other/menu-item';
+import LogoLight from 'src/components/icons/Logo-Light';
+import LogoDark from 'src/components/icons/Logo-Dark';
+import Home from 'src/components/icons/Home';
+import Talent from 'src/components/icons/Talent';
+import Wallet from 'src/components/icons/Wallet';
+import Chat from 'src/components/icons/Chat';
 
 const SideBar = ({
-    type,
     mode,
 }) => {
 
     return (
         <>
-            <div className="col-md-4">
-                <LogoWithText />
+            <div className={`side-nav ${mode} col-lg-3 col-md-3 col-sm-6 col-xs-6`}>
 
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <MenuItem />
+                {mode === 'light' ? <LogoLight /> : <LogoDark />}
+
+                <ul className={`menu ${mode}`}>
+
+                    <li>
+                        <a href="#" className={`d-flex ${mode} active`}>
+                            <div className="menu-icon"><Home mode={`${mode}`} /></div>
+                            <span>Home</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" className={`d-flex ${mode}`}>
+                            <div className="menu-icon"><Talent mode={`${mode}`} /></div>
+                            <span>Talent</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" className={`d-flex ${mode}`}>
+                            <div className="menu-icon"><Wallet mode={`${mode}`} /></div>
+                            <span>Portfolio</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" className={`d-flex ${mode}`}>
+                            <div className="menu-icon"><Chat mode={`${mode}`} /></div>
+                            <span>Messages</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </>
