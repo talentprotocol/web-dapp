@@ -1,5 +1,4 @@
 import React from 'react';
-import TextInput from '../textinput';
 
 
 const TextInputMax = ({

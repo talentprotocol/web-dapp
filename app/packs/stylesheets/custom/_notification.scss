@@ -19,7 +19,6 @@
     padding: 0.6rem;
     border: 0;
 
-
     &.dark {
         background: $gray-600;
         border: 0;
@@ -27,6 +26,9 @@
     }
 }
 
+.notification-icon{
+    margin: 2px;
+}
 
 .notificationRightArea {
     margin-left: 10px;

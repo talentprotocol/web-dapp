@@ -19,7 +19,7 @@ const Notification = ({
     return (
         <>
             <div className={`notification ${mode} d-flex`}>
-                <div>
+                <div className="notification-icon">
                     {type === 'wallet' && <Wallet mode={`${mode}`} />}
                     {type === 'rocket' && <Rocket mode={`${mode}`} />}
                     {type === 'chat' && <Chat mode={`${mode}`} />}
