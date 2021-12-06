@@ -2,7 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Dropdown } from "react-bootstrap";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-bootstrap/Modal";
 import transakSDK from "@transak/transak-sdk";
@@ -15,6 +18,7 @@ import { OnChain } from "src/onchain";
 import { parseAndCommify } from "src/onchain/utils";
 
 import { useWindowDimensionsHook } from "src/utils/window";
+import { SUPPORTER_GUIDE, TALENT_GUIDE } from "src/utils/constants";
 
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -226,6 +230,19 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             </Dropdown.Item>
           )}
           <Dropdown.Divider />
+          <Dropdown.Item
+            key="tab-dropdown-user-guide"
+            className="text-black d-flex flex-row justify-content-between"
+            target="self"
+            href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
+          >
+            <small>User guide</small>
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="ml-2"
+              size="sm"
+            />
+          </Dropdown.Item>
           <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
