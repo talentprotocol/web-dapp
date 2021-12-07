@@ -47,7 +47,7 @@
   input:disabled {
     ~ .checkmark {
       &.light {
-        border: 1px solid $surface-02;
+        border: 1px solid $gray-surface-2;
       }
 
       &.dark {
@@ -57,7 +57,7 @@
 
     ~ .label-checkbox {
       &.light {
-        color: $surface-02;
+        color: $gray-surface-2;
       }
 
       &.dark {

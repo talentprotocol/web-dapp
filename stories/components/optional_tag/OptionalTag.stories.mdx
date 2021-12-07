@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+
+import OptionalTag from "src/components/design_system/optional_tag";
+
+<Meta title="Design System/Optional Tag" component={OptionalTag} />
+
+# Optional Tags
+
+Custom Optional Tags.
+
+## Examples
+
+export const Template = (args) => <OptionalTag {...args} />;
+
+<Canvas>
+  <Story name="Light mode" args={{ text: "Tag description" }}>
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ text: "Tag description", mode: "dark" }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
