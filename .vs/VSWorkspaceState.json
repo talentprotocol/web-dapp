@@ -1,17 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
+    "\\app\\controllers\\api\\v1",
+    "\\app\\models",
     "\\app\\packs",
-    "\\app\\packs\\src",
-    "\\app\\packs\\src\\components",
-    "\\app\\packs\\src\\components\\design_system",
-    "\\app\\packs\\src\\components\\design_system\\alert",
-    "\\app\\packs\\src\\components\\design_system\\other",
-    "\\stories",
+    "\\app\\packs\\stylesheets",
+    "\\app\\packs\\stylesheets\\custom",
+    "\\app\\services",
+    "\\db\\migrate",
     "\\stories\\components",
-    "\\stories\\components\\side_bar"
+    "\\stories\\components\\notification_all"
   ],
-  "SelectedNode": "\\app\\packs\\src\\components\\design_system\\other\\button-connect-wallet.jsx",
   "PreviewInSolutionExplorer": false
 }
