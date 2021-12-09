@@ -10,3 +10,9 @@ export const THE_GRAPH_ENDPOINTS = {
     "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.18",
   development: "https://api.studio.thegraph.com/query/8098/mvp/v0.0.23",
 };
+
+export const SUPPORTER_GUIDE =
+  "https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735";
+
+export const TALENT_GUIDE =
+  "https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff";

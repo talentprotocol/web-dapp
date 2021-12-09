@@ -5,3 +5,13 @@
   - default
   - mailers
   - low
+:schedule:
+  send_token_launch_reminder:
+    cron: '0 17 * * 4'   # Runs once every thursday at 5pm
+    class: SendTokenLaunchReminderJob
+  send_token_purchase_reminder:
+    cron: '0 17 * * 3' # Runs once every wednesday at 5pm
+    class: SendTokenPurchaseReminderJob
+  sync_talent_with_notion:
+    cron: '0 20 * * *' # Runs once every wednesday at 5pm
+    class: SyncTalentWithNotionJob

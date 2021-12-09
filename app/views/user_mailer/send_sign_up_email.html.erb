@@ -1,7 +1,7 @@
 <body>
   <div class="bg-white">
     <div class="container">
-      <div class="row my-10 max-w-96 ax-center">
+      <div class="row my-10 max-w-80 ax-center">
         <div class="col-2 ay-middle">
           <img class="img-fluid ay-middle" alt="talent protocol logo" src="https://beta.talentprotocol.com/brand_logo.png" />
         </div>
@@ -10,7 +10,7 @@
         </div>
       </div>
       <h3 class="ax-center text-center mb-10">Welcome!</h3>
-      <p class="ax-center max-w-96 lh-lg text-lg mb-10">
+      <p class="w-full lh-lg text-lg mb-10">
         You are almost done, <%= @user.username %>! To complete the sign-up process, we just need to verify your email address: <%= @user.email %>.
       </p>
       <%= link_to "Verify my email", confirm_email_url(token: @user.email_confirmation_token), class: "btn btn-primary rounded-full fw-800 text-5xl py-4 ax-center mb-10 w-full w-lg-80" %>
