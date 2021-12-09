@@ -14,11 +14,11 @@
         As one of the first 100 talents that registered, we just offered you 2,000 of your own Talent Tokens, worth $200 cUSD.
       </p>
       <p class="w-full lh-lg text-lg mb-10">
-        The direct link to your profile is <%= link_to talent_path_url(@user.talent) %>
+        The direct link to your profile is <span class="text-primary"><%= root_url + "talent/#{@user.username}" %></span>
       </p>
       <p class="w-full lh-lg text-lg mb-10">
         And this is your personal invite link that you can share with 5 people to signup as supporters.<br>
-        <%= link_to sign_up_url(code: @invite.code) %>
+        <span class="text-primary"><%= root_url + "sign_up?code=#{@invite.code}" %></span>
       </p>
       <p class="w-full lh-lg text-lg mb-10">
         We recommend sharing the <a href="https://talentprotocol.notion.site/Supporter-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">Supporter Onboarding Guide</a> with your friends to help them create an account, but please bear in mind that this is still a difficult process for non web3 natives.

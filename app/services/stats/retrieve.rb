@@ -14,14 +14,15 @@ class Stats::Retrieve
 
     week_0_users = User.where("created_at < ?", start_date)
     week_0_talent = Talent.where("created_at < ?", start_date)
-    week_0_talent_live = Talent.where(public: true).where("created_at < ?", start_date)
-    week_0_tokens = Token.where.not(contract_id: nil).where("updated_at < ?", start_date)
+    week_0_tokens_deployed = Token.where.not(contract_id: nil).where("updated_at < ?", start_date)
+    week_0_talent_live = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).where("talent.created_at < ?", start_date)
 
     puts "------------ WEEK 0 ------------"
     puts "TOTAL USERS: ##{week_0_users.count}"
-    puts "TOTAL TALENT: ##{week_0_talent.count}"
+    puts "TOTAL SUPPORTERS (TALENT - USERS): ##{week_0_users.count - week_0_talent.count}"
+    puts "TOTAL TALENT (REGISTERED): ##{week_0_talent.count}"
+    puts "TOTAL TOKENS DEPLOYED: ##{week_0_tokens_deployed.count}"
     puts "TOTAL TALENT (LIVE): ##{week_0_talent_live.count}"
-    puts "TOTAL TOKENS DEPLOYED: ##{week_0_tokens.count}"
     puts "------------ #WEEK 0 ------------"
     puts ""
     puts ""
@@ -36,14 +37,15 @@ class Stats::Retrieve
 
       week_users = User.where("created_at < ? AND created_at >= ?", end_date, start_date)
       week_talent = Talent.where("created_at < ? AND created_at >= ?", end_date, start_date)
-      week_talent_live = Talent.where(public: true).where("created_at < ? AND created_at >= ?", end_date, start_date)
-      week_tokens = Token.where.not(contract_id: nil).where("updated_at < ? AND updated_at >= ?", end_date, start_date)
+      week_tokens_deployed = Token.where.not(contract_id: nil).where("updated_at < ? AND updated_at >= ?", end_date, start_date)
+      week_talent_live = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).where("talent.created_at < ? AND talent.created_at >= ?", end_date, start_date)
 
       puts "------------ WEEK #{w} ------------"
       puts "TOTAL USERS: ##{week_users.count}"
-      puts "TOTAL TALENT: ##{week_talent.count}"
+      puts "TOTAL SUPPORTERS (TALENT - USERS): ##{week_users.count - week_talent.count}"
+      puts "TOTAL TALENT (REGISTERED): ##{week_talent.count}"
+      puts "TOTAL TOKENS DEPLOYED: ##{week_tokens_deployed.count}"
       puts "TOTAL TALENT (LIVE): ##{week_talent_live.count}"
-      puts "TOTAL TOKENS DEPLOYED: ##{week_tokens.count}"
       puts "------------ #WEEK #{w} ------------"
       puts ""
       puts ""
