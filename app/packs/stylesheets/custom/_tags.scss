@@ -1,0 +1,77 @@
+.tag-container {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  &.light {
+    background-color: $surface-hover;
+  }
+
+  &.dark {
+    background-color: $black-shade-1;
+  }
+}
+
+.optional-tag-container {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0px 8px;
+  border-radius: 4px;
+
+  &.light {
+    background-color: $gray;
+
+    &:hover {
+      background-color: $gray-surface-2;
+    }
+  }
+
+  &.dark {
+    background-color: $black-secondary;
+
+    &:hover {
+      background-color: $gray-shade-1;
+    }
+  }
+
+  .close-tag {
+    margin-left: 8px;
+    padding-bottom: 2px;
+    cursor: pointer;
+
+    &.light {
+      &:hover::after {
+        color: $black-primary;
+      }
+
+      &:active::after {
+        color: $gray-primary;
+      }
+
+      &:after {
+        content: "\00d7";
+        color: $gray-primary;
+      }
+    }
+
+    &.dark {
+      &:hover::after {
+        color: $white;
+      }
+
+      &:active::after {
+        color: $gray-secondary;
+      }
+
+      &:after {
+        content: "\00d7";
+        color: $gray-secondary;
+      }
+    }
+  }
+}
