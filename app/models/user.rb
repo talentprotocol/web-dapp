@@ -76,6 +76,10 @@ class User < ApplicationRecord
     save
   end
 
+  def has_unread_messages?
+    messagee.unread.any?
+  end
+
   private
 
   def role_is_valid

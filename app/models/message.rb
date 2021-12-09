@@ -4,6 +4,8 @@ class Message < ApplicationRecord
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"
 
+  scope :unread, -> { where(is_read: false) }
+
   def sender_chat_id
     [sender_id, receiver_id].join("")
   end
