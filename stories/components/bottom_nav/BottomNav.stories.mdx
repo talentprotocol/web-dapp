@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Nav from 'src/components/design_system/bottom_nav';
+
+<Meta title="Design System/Mobile/Bottom Nav/Modes" component={Nav} />
+
+export const Template = (args) => <Nav {...args} />
+
+<Canvas>
+  <Story
+    name="Bottom Nav" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Bottom Nav Dark"
+    args={{
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

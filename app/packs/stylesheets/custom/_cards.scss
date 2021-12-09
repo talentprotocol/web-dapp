@@ -14,7 +14,12 @@
         background: $gray-600;
         color: $white;
     }
+
+    &.mobile {
+        background: none;
+    }
 }
+
 
 .card-body {
     padding: 0;
@@ -59,5 +64,16 @@
 
     &.dark {
         color: $yellow;
+    }
+}
+
+.comingsoon {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px;
+    border-radius: 5px;
+
+    &.dark {
+        background-color: $primary-shade-01;
     }
 }
