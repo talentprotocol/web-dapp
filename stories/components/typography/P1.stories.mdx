@@ -1,6 +1,6 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import P1 from 'src/components/design_system/typography/p1';
+import P1 from "src/components/design_system/typography/p1";
 
 <Meta title="Design System/Typography/P1" component={P1} />
 
@@ -10,7 +10,7 @@ Custom P1s to show titles.
 
 ## Examples
 
-export const Template = (args) => <P1 {...args} />
+export const Template = (args) => <P1 {...args} />;
 
 <Canvas>
   <Story
@@ -18,35 +18,39 @@ export const Template = (args) => <P1 {...args} />
     args={{
       mode: "light",
       text: "Example of a paragraph",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Light mode with bold"
     args={{
       mode: "light",
       bold: true,
       text: "Example of a paragraph with bold",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Dark mode"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
-      text: "Example of a paragraph"
-    }}>
+      text: "Example of a paragraph",
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Dark mode with bold"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of a paragraph with bold"
-    }}>
+      text: "Example of a paragraph with bold",
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
 </Canvas>

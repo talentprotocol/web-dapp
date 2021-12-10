@@ -1,7 +1,6 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
-
-import Tooltip from 'src/components/design_system/tooltip';
+import Tooltip from "src/components/design_system/tooltip";
 
 <Meta title="Design System/Tooltip" component={Tooltip} />
 
@@ -11,7 +10,7 @@ Custom Tooltips.
 
 ## Examples
 
-export const Template = (args) => <Tooltip {...args} />
+export const Template = (args) => <Tooltip {...args} />;
 
 <Canvas>
   <Story
@@ -19,7 +18,7 @@ export const Template = (args) => <Tooltip {...args} />
     args={{
       title: "Tooltip title",
       body: "Tooltip body",
-      children: <h1 style={{textAlign: "center"}}>Hover here</h1>,
+      children: <h1 style={{ textAlign: "center" }}>Hover here</h1>,
       popOverAccessibilityId: "1",
     }}
   >
@@ -29,7 +28,7 @@ export const Template = (args) => <Tooltip {...args} />
     name="Light mode only with body"
     args={{
       body: "Tooltip body",
-      children: <h1 style={{textAlign: "center"}}>Hover here</h1>,
+      children: <h1 style={{ textAlign: "center" }}>Hover here</h1>,
       popOverAccessibilityId: "2",
     }}
   >
@@ -37,25 +36,25 @@ export const Template = (args) => <Tooltip {...args} />
   </Story>
   <Story
     name="Dark mode with title and body"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       title: "Tooltip title",
       body: "Tooltip body",
-      children: <h1 style={{textAlign: "center"}}>Hover here</h1>,
+      children: <h1 style={{ textAlign: "center" }}>Hover here</h1>,
       popOverAccessibilityId: "3",
-      mode: 'dark',
+      mode: "dark",
     }}
   >
     {Template.bind({})}
   </Story>
   <Story
     name="Dark mode only with body"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       body: "Tooltip body",
-      children: <h1 style={{textAlign: "center"}}>Hover here</h1>,
+      children: <h1 style={{ textAlign: "center" }}>Hover here</h1>,
       popOverAccessibilityId: "4",
-      mode: 'dark',
+      mode: "dark",
     }}
   >
     {Template.bind({})}

@@ -1,6 +1,6 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import Button from 'src/components/design_system/button';
+import Button from "src/components/design_system/button";
 
 <Meta title="Design System/Button/Light Mode" component={Button} />
 
@@ -12,7 +12,7 @@ Custom button styles for actions in forms, dialogs, and more with support for mu
 
 There are 6 currently supported types, `primary`, `info`, `success`, `warning`, `danger` and `secondary`. We use react-bootstrap button underneath so we accept any prop they use.
 
-export const Template = (args) => <Button {...args} />
+export const Template = (args) => <Button {...args} />;
 
 <Canvas>
   <Story
@@ -71,10 +71,11 @@ export const Template = (args) => <Button {...args} />
       type: "danger-default",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Danger outline"
     args={{
       text: "Danger outline!",
@@ -82,10 +83,11 @@ export const Template = (args) => <Button {...args} />
       type: "danger-outline",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Danger ghost"
     args={{
       text: "Danger ghost!",
@@ -93,10 +95,11 @@ export const Template = (args) => <Button {...args} />
       type: "danger-ghost",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Danger subtle"
     args={{
       text: "Danger subtle!",
@@ -104,10 +107,11 @@ export const Template = (args) => <Button {...args} />
       type: "danger-subtle",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="White default"
     args={{
       text: "White default!",
@@ -115,10 +119,11 @@ export const Template = (args) => <Button {...args} />
       type: "white-default",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="White outline"
     args={{
       text: "White outline!",
@@ -126,10 +131,11 @@ export const Template = (args) => <Button {...args} />
       type: "white-outline",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="White ghost"
     args={{
       text: "White ghost!",
@@ -137,10 +143,11 @@ export const Template = (args) => <Button {...args} />
       type: "white-ghost",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="White subtle"
     args={{
       text: "White subtle!",
@@ -148,7 +155,8 @@ export const Template = (args) => <Button {...args} />
       type: "white-subtle",
       mode: "light",
       disabled: false,
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
 </Canvas>
