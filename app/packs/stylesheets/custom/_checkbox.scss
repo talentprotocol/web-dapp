@@ -24,7 +24,7 @@
     left: 0;
     height: 16px;
     width: 16px;
-    border: 1px solid $gray-shade-1;
+    border: 1px solid $gray-300;
     border-radius: 4px;
 
     &:after {
@@ -51,7 +51,7 @@
       }
 
       &.dark {
-        border: 1px solid $black-shade-1;
+        border: 1px solid $gray-600;
       }
     }
 
@@ -61,7 +61,7 @@
       }
 
       &.dark {
-        color: $black-shade-1;
+        color: $gray-600;
       }
     }
   }
@@ -97,7 +97,7 @@
             top: 2px;
             width: 5px;
             height: 10px;
-            border: solid $black-shade-1;
+            border: solid $gray-600;
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
           }

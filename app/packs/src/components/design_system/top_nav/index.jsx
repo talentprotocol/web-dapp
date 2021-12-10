@@ -12,21 +12,14 @@ const NavTop = ({
     return (
         <>
             <div className="col-lg-3">
-
                 <nav className={`navbar-top-mobile ${mode}`}>
-
                     <div className="navbar-top-menu">
                         <div className="navbar-top-menu-option">{mode === 'light' ? <LogoLight /> : <LogoDark />} </div>
                         <div className="navbar-top-menu">
-                            <div className="navbar-top-menu-option"> <Search mode={`${mode}`} /> </div>
-                            <div className="navbar-top-menu-option"> <Bell mode={`${mode}`} /> </div>
+                            <div className="navbar-top-menu-option"> <Search color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /> </div>
+                            <div className="navbar-top-menu-option"> <Bell color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /> </div>
                         </div>
                     </div>
-                        
-                    
-                        
-
-
                 </nav>
             </div>
         </>

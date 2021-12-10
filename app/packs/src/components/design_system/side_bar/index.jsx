@@ -20,28 +20,28 @@ const SideBar = ({
 
                     <li>
                         <a href="#" className={`d-flex ${mode} active`}>
-                            <div className="menu-icon"><Home mode={`${mode}`} /></div>
+                            <div className="menu-icon"><Home color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /></div>
                             <span>Home</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="#" className={`d-flex ${mode}`}>
-                            <div className="menu-icon"><Talent mode={`${mode}`} /></div>
+                            <div className="menu-icon"><Talent color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /></div>
                             <span>Talent</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="#" className={`d-flex ${mode}`}>
-                            <div className="menu-icon"><Wallet mode={`${mode}`} /></div>
+                            <div className="menu-icon"><Wallet color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /></div>
                             <span>Portfolio</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="#" className={`d-flex ${mode}`}>
-                            <div className="menu-icon"><Chat mode={`${mode}`} /></div>
+                            <div className="menu-icon"><Chat color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /></div>
                             <span>Messages</span>
                         </a>
                     </li>

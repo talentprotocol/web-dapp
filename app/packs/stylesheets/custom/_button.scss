@@ -10,7 +10,7 @@
   border: none;
 
   &:hover {
-    background-color: $primary-hover;
+    background-color: $primary-400;
   }
 
   &:disabled {
@@ -331,7 +331,7 @@
     border: none;
 
     &:hover {
-      background-color: $gray-secondary;
+      background-color: $gray-200;
     }
 
     &:disabled {
@@ -400,7 +400,7 @@
   }
 
   &:disabled {
-    color: $gray-secondary;
+    color: $gray-200;
     background-color: $white;
   }
 
@@ -435,7 +435,7 @@
   border: none;
 
   &:hover {
-    background-color: $gray-secondary;
+    background-color: $gray-200;
   }
 
   &:disabled {
@@ -453,7 +453,7 @@
     border: none;
 
     &:hover {
-      background-color: $gray-secondary;
+      background-color: $gray-200;
     }
 
     &:disabled {

@@ -14,13 +14,12 @@ const NavBottom = ({
             <div className="col-lg-3">
                 <nav className={`navbar-bottom-mobile ${mode}`}>
                     <div className="navbar-bottom-menu">
-                        <div className="navbar-bottom-menu-option"> <Star mode={`${mode}`} /> </div>
-                        <div className="navbar-bottom-menu-option"> <Talent mode={`${mode}`} /> </div>
-                        <div className="navbar-bottom-menu-option"> <Chat mode={`${mode}`} /> </div>
-                        <div className="navbar-bottom-menu-option"> <Wallet mode={`${mode}`} /> </div>
+                        <div className="navbar-bottom-menu-option"> <Star color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`} /> </div>
+                        <div className="navbar-bottom-menu-option"> <Talent color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`}  /> </div>
+                        <div className="navbar-bottom-menu-option"> <Chat color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`}  /> </div>
+                        <div className="navbar-bottom-menu-option"> <Wallet color={`${mode === 'dark' ? "#AAADB3" : "#686C74"}`}  /> </div>
                     </div>
                 </nav>
-
 
             </div>
         </>

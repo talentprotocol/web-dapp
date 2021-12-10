@@ -20,13 +20,13 @@ const Notification = ({
         <>
             <div className={`notification ${mode} d-flex`}>
                 <div className="notification-icon">
-                    {type === 'wallet' && <Wallet mode={`${mode}`} />}
-                    {type === 'rocket' && <Rocket mode={`${mode}`} />}
-                    {type === 'chat' && <Chat mode={`${mode}`} />}
-                    {type === 'talent' && <Talent mode={`${mode}`} />}
-                    {type === 'star' && <Star mode={`${mode}`} />}
-                    {type === 'check' && <Check mode={`${mode}`} />}
-                    {type === 'globe' && <Globe mode={`${mode}`} />}
+                    {type === 'wallet' && <Wallet color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'rocket' && <Rocket color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'chat' && <Chat color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'talent' && <Talent color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'star' && <Star color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'check' && <Check color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
+                    {type === 'globe' && <Globe color={`${mode === 'dark' ? "#FFF" : "#202122"}`} />}
                 </div>
                 <div className="row notificationRightArea">
                     <div className="col-lg-12">
