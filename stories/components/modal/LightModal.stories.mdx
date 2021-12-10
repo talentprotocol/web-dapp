@@ -1,0 +1,23 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Modal from 'src/components/design_system/modal';
+
+<Meta title="Design System/Modal/Light Mode" component={Modal} />
+
+# Modal
+
+Multiple type of modals
+
+export const Template = (args) => <Modal {...args} />
+
+<Canvas>
+  <Story
+    name="Staking modal"
+    args={{
+      mode: "light",
+      amount: "4 230.80",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

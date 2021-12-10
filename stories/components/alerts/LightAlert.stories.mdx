@@ -1,0 +1,88 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Alert from 'src/components/design_system/alert';
+
+<Meta title="Design System/Alert/Light Mode" component={Alert} />
+
+# Alerts
+
+Alerts support multiple types
+
+## Examples
+
+There are 4 currently supported types, `success`, `warning`, `info`, `critical`
+
+export const Template = (args) => <Alert {...args} />
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{
+      type: "success",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Success w/ link to page"
+    args={{
+      type: "success",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages",
+      link: "https://www.google.com/",
+      link_text : "Go to website link here"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Warning"
+    args={{
+      type: "warning",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Info"
+    args={{
+      type: "info",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Critical"
+    args={{
+      type: "critical",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Critical w/ link to page"
+    args={{
+      type: "critical",
+      mode: "light",
+      title: "Title goes here",
+      message: "Describe the event and give further instructions if needed, including links to to other pages",
+      link: "https://www.google.com/",
+      link_text : "Google website"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

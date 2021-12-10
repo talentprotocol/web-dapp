@@ -1,0 +1,22 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import TopBar from 'src/components/design_system/top_bar';
+
+<Meta title="Design System/TopBar/Light Mode" component={TopBar} />
+
+#TopBar
+
+Multiple type of notificatinos: wallet, rocket
+
+export const Template = (args) => <TopBar {...args} />
+
+<Canvas>
+  <Story
+    name="Top Bar" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      type: "wallet",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

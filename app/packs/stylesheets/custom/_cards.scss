@@ -1,0 +1,79 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.card {
+    background-color: $surface-hover;
+    padding: 1.5rem;
+    border: 0;
+
+    img {
+        border-radius: 4px;
+    }
+
+    &.dark {
+        background: $gray-600;
+        color: $white;
+    }
+
+    &.mobile {
+        background: none;
+    }
+}
+
+
+.card-body {
+    padding: 0;
+    padding-top: 14px;
+
+    h6 {
+        font-weight: 700;
+    }
+
+    .title {
+        font-weight: 400;
+        color: $gray-400;
+
+        &.dark {
+            color: $gray-300;
+        }
+    }
+}
+
+.circ-supply {
+    font-weight: 600;
+    color: $gray-400;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+
+    &.dark {
+        color: $gray-300;
+    }
+}
+
+.circ-supply-data {
+    color: $gray-800;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.ticker {
+    color: $warning;
+
+    &.dark {
+        color: $yellow;
+    }
+}
+
+.comingsoon {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px;
+    border-radius: 5px;
+
+    &.dark {
+        background-color: $primary-shade-01;
+    }
+}

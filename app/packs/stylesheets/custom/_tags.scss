@@ -11,7 +11,7 @@
   }
 
   &.dark {
-    background-color: $black-shade-1;
+    background-color: $gray-600;
   }
 }
 
@@ -32,10 +32,10 @@
   }
 
   &.dark {
-    background-color: $black-secondary;
+    background-color: $gray-400;
 
     &:hover {
-      background-color: $gray-shade-1;
+      background-color: $gray-300;
     }
   }
 
@@ -65,12 +65,12 @@
       }
 
       &:active::after {
-        color: $gray-secondary;
+        color: $gray-200;
       }
 
       &:after {
         content: "\00d7";
-        color: $gray-secondary;
+        color: $gray-200;
       }
     }
   }

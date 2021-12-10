@@ -6,7 +6,7 @@
     margin-left: 16px;
 
     &.light {
-      color: $black-secondary;
+      color: $gray-400;
 
       &.active {
         color: $black-primary;
@@ -14,7 +14,7 @@
     }
 
     &.dark {
-      color: $gray-shade-1;
+      color: $gray-300;
 
       &.active {
         color: $white;
@@ -24,7 +24,7 @@
 
   .link-icon {
     &.light {
-      stroke: $black-secondary;
+      stroke: $gray-400;
 
       &.active {
         stroke: $black-primary;
@@ -32,7 +32,7 @@
     }
 
     &.dark {
-      stroke: $gray-shade-1;
+      stroke: $gray-300;
 
       &.active {
         stroke: $white;
