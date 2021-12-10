@@ -1,0 +1,42 @@
+.link-container {
+  display: flex;
+  cursor: pointer;
+
+  .link-text {
+    margin-left: 16px;
+
+    &.light {
+      color: $black-secondary;
+
+      &.active {
+        color: $black-primary;
+      }
+    }
+
+    &.dark {
+      color: $gray-shade-1;
+
+      &.active {
+        color: $white;
+      }
+    }
+  }
+
+  .link-icon {
+    &.light {
+      stroke: $black-secondary;
+
+      &.active {
+        stroke: $black-primary;
+      }
+    }
+
+    &.dark {
+      stroke: $gray-shade-1;
+
+      &.active {
+        stroke: $white;
+      }
+    }
+  }
+}

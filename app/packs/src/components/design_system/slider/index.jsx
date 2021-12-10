@@ -1,13 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { func, bool } from "prop-types";
 
-const Slider = (props) => {
+const Slider = ({ onChange, checked }) => {
   return (
     <label className="form-switch">
-      <input type="checkbox" checked={props.checked} onChange={() => props.onClick()} />
+      <input type="checkbox" checked={checked} onChange={onChange} />
       <i />
     </label>
-  )
+  );
 };
 
 Slider.defaultProps = {
@@ -15,8 +15,8 @@ Slider.defaultProps = {
 };
 
 Slider.propTypes = {
-  onClick: PropTypes.func,
-  checked: PropTypes.bool,
+  onChange: func.isRequired,
+  checked: bool,
 };
 
 export default Slider;

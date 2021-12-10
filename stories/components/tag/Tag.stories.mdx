@@ -1,0 +1,39 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+
+import Tag from "src/components/design_system/tag";
+
+<Meta title="Design System/Tag" component={Tag} />
+
+# Tags
+
+Custom Tags.
+
+## Examples
+
+export const Template = (args) => <Tag {...args} />;
+
+<Canvas>
+  <Story name="Light mode normal size" args={{ text: "Tag description" }}>
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode small size"
+    args={{ text: "Tag description", size: "small" }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode normal size"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ text: "Tag description", mode: "dark" }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode small size"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ text: "Tag description", mode: "dark", size: "small" }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
