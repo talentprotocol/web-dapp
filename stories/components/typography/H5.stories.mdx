@@ -1,6 +1,6 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import H5 from 'src/components/design_system/typography/h5';
+import H5 from "src/components/design_system/typography/h5";
 
 <Meta title="Design System/Typography/H5" component={H5} />
 
@@ -10,7 +10,7 @@ Custom H5s to show titles.
 
 ## Examples
 
-export const Template = (args) => <H5 {...args} />
+export const Template = (args) => <H5 {...args} />;
 
 <Canvas>
   <Story
@@ -18,35 +18,39 @@ export const Template = (args) => <H5 {...args} />
     args={{
       mode: "light",
       text: "Example of an header",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Light mode with bold"
     args={{
       mode: "light",
       bold: true,
       text: "Example of an header with bold",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Dark mode"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
-      text: "Example of an header"
-    }}>
+      text: "Example of an header",
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Dark mode with bold"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of an header with bold"
-    }}>
+      text: "Example of an header with bold",
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
 </Canvas>

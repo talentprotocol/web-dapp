@@ -1,6 +1,6 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import Caption from 'src/components/design_system/typography/caption';
+import Caption from "src/components/design_system/typography/caption";
 
 <Meta title="Design System/Typography/Caption" component={Caption} />
 
@@ -10,7 +10,7 @@ Custom Captions to show titles.
 
 ## Examples
 
-export const Template = (args) => <Caption {...args} />
+export const Template = (args) => <Caption {...args} />;
 
 <Canvas>
   <Story
@@ -18,35 +18,39 @@ export const Template = (args) => <Caption {...args} />
     args={{
       mode: "light",
       text: "Example of a caption",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Light mode with bold"
     args={{
       mode: "light",
       bold: true,
       text: "Example of a caption with bold",
-    }}>
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
   <Story
     name="Dark mode"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
-      text: "Example of a caption"
-    }}>
+      text: "Example of a caption",
+    }}
+  >
     {Template.bind({})}
-   </Story>
-   <Story
+  </Story>
+  <Story
     name="Dark mode with bold"
-    parameters={{backgrounds: { default: 'dark' }}}
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       bold: true,
-      text: "Example of a caption with bold"
-    }}>
+      text: "Example of a caption with bold",
+    }}
+  >
     {Template.bind({})}
-   </Story>
+  </Story>
 </Canvas>

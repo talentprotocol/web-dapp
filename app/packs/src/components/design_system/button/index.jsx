@@ -24,7 +24,7 @@ const Button = ({ text, onClick, type, mode, size, className }) => {
 Button.defaultProps = {
   text: null,
   mode: "light",
-  size: "base",
+  size: "normal",
   className: "",
 };
 
@@ -33,7 +33,7 @@ Button.propTypes = {
   onClick: func.isRequired,
   type: string.isRequired,
   mode: oneOf(["light", "dark"]),
-  size: oneOf(["base", "big", "extra-big"]),
+  size: oneOf(["normal", "big", "extra-big"]),
   className: string,
 };
 
