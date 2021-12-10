@@ -1,9 +1,9 @@
-import React from 'react';
-import cx from 'classnames';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import P3 from 'src/components/design_system/typography/p3';
-import { node, string, bool, arrayOf, oneOfType } from 'prop-types';
+import React from "react";
+import cx from "classnames";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+import P3 from "src/components/design_system/typography/p3";
+import { node, string, bool, arrayOf, oneOfType } from "prop-types";
 
 const Tooltip = ({
   placement,
@@ -21,20 +21,21 @@ const Tooltip = ({
     placement={placement}
     trigger={trigger}
     rootClose={rootClose}
-    overlay={(
+    overlay={
       <Popover
         id={popOverAccessibilityId}
-        className={cx(className, 'talent-tooltip', mode)}
+        className={cx(className, "talent-tooltip", mode)}
       >
-        {popOverContent ?
-          popOverContent :
+        {popOverContent ? (
+          popOverContent
+        ) : (
           <>
-            {title && <P3 text={title} bold className="tooltip-title"/>}
-            {body && <P3 text={body} bold className="tooltip-body"/>}
+            {title && <P3 text={title} bold className="tooltip-title" />}
+            {body && <P3 text={body} bold className="tooltip-body" />}
           </>
-        }
+        )}
       </Popover>
-      )}
+    }
   >
     {children}
   </OverlayTrigger>
@@ -54,15 +55,14 @@ Tooltip.propTypes = {
 };
 
 Tooltip.defaultProps = {
-  popOverContent: '',
-  title: '',
-  body: '',
-  placement: 'bottom',
-  trigger: ['hover', 'focus'],
+  popOverContent: "",
+  title: "",
+  body: "",
+  placement: "bottom",
+  trigger: ["hover", "focus"],
   rootClose: true,
-  className: '',
-  mode: 'light',
+  className: "",
+  mode: "light",
 };
 
 export default Tooltip;
-

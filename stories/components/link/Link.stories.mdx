@@ -1,0 +1,40 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+
+import Link from "src/components/design_system/link";
+import Home from "src/components/icons/Home";
+
+<Meta title="Design System/Link" component={Link} />
+
+# Links
+
+Custom Links.
+
+## Examples
+
+export const Template = (args) => <Link {...args} />;
+
+<Canvas>
+  <Story name="Light mode inactive" args={{ Icon: Home, text: "Home" }}>
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode active"
+    args={{ Icon: Home, text: "Home", active: true }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode inactive"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ Icon: Home, text: "Home", mode: "dark" }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode active"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ Icon: Home, text: "Home", mode: "dark", active: true }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
