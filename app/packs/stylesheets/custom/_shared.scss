@@ -101,6 +101,10 @@
     height: 1px;
     background-color: #F3F4F4;
     overflow: hidden;
+
+    &.dark {
+        background-color: $gray-600;
+    }
 }
 
 .m-1 {

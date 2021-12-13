@@ -16,7 +16,7 @@ export const Template = (args) => <Alert {...args} />
 
 <Canvas>
   <Story
-    name="Success"
+    name="Success"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "success",
       mode: "dark",
@@ -27,7 +27,7 @@ export const Template = (args) => <Alert {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Success w/ link to page"
+    name="Success w/ link to page" parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "success",
       mode: "dark",
@@ -40,7 +40,7 @@ export const Template = (args) => <Alert {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Warning"
+    name="Warning" parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "warning",
       mode: "dark",
@@ -51,7 +51,7 @@ export const Template = (args) => <Alert {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Info"
+    name="Info" parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "info",
       mode: "dark",
@@ -62,7 +62,7 @@ export const Template = (args) => <Alert {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Critical"
+    name="Critical" parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "critical",
       mode: "dark",
@@ -73,7 +73,7 @@ export const Template = (args) => <Alert {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Critical w/ link to page"
+    name="Critical w/ link to page" parameters={{backgrounds: { default: 'dark' }}}
     args={{
       type: "critical",
       mode: "dark",
