@@ -1,0 +1,155 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import Table from "src/components/design_system/table";
+import P2 from "src/components/design_system/typography/p2";
+import Caption from "src/components/design_system/typography/caption";
+import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
+
+<Meta
+  title="Design System/Table"
+  component={Table}
+  subcomponents={{
+    Head: Table.Head,
+    Body: Table.Body,
+    Th: Table.Th,
+    Tr: Table.Tr,
+    Td: Table.Td,
+  }}
+/>
+
+# Tables
+
+Custom Tables.
+
+## Examples
+
+export const Template = (args) => (
+  <Table {...args}>
+    <Table.Head>
+      <Table.Th>
+        <Caption bold text="Supporter" />
+      </Table.Th>
+      <Table.Th>
+        <Caption bold text="Amount" />
+      </Table.Th>
+      <Table.Th>
+        <Caption bold text="Last Buy" />
+      </Table.Th>
+    </Table.Head>
+    <Table.Body>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=1"
+              height="24"
+            />
+            <P2 text="@codyfisher" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="5,000.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="24 May, 2021" />
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=2"
+              height="24"
+            />
+            <P2 text="@darrelsteward" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="10,000.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="8 Sep, 2021" />
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=3"
+              height="24"
+            />
+            <P2 text="@jacobjones" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="1,250.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="21 Sep, 2021" />
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=1"
+              height="24"
+            />
+            <P2 text="@codyfisher" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="10,000.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="10 May, 2021" />
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=2"
+              height="24"
+            />
+            <P2 text="@darrelsteward" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="25,000.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="6 Sep, 2021" />
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Td>
+          <div className="d-flex">
+            <TalentProfilePicture
+              src="https://i.pravatar.cc/150?img=3"
+              height="24"
+            />
+            <P2 text="@jacobjones" bold className="ml-2" />
+          </div>
+        </Table.Td>
+        <Table.Td>
+          <P2 text="15,250.00" />
+        </Table.Td>
+        <Table.Td>
+          <P2 text="13 Sep, 2021" />
+        </Table.Td>
+      </Table.Tr>
+    </Table.Body>
+  </Table>
+);
+
+<Canvas>
+  <Story name="Light mode">{Template.bind({})}</Story>
+  <Story
+    name="Dark mode"
+    args={{ mode: "dark" }}
+    parameters={{ backgrounds: { default: "dark" } }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
