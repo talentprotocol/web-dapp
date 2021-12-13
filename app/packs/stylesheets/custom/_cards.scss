@@ -77,3 +77,50 @@
         background-color: $primary-shade-01;
     }
 }
+
+.perk-area {
+    font-weight: 700;
+    color: $gray-400;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+
+    &.dark {
+        color: $gray-400;
+    }
+}
+
+
+.tag-available {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+
+    &.dark {
+        background-color: $primary;
+        color: $white;
+    }
+}
+
+.tag-unavailable {
+    background-color: $gray-surface-2;
+    color: $gray-primary;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+
+    &.dark {
+        background-color: $gray-500;
+        color: $white;
+    }
+}
+
+.hold-info {
+    font-size: 1rem;
+    color: $warning;
+
+    &.dark {
+        color: $yellow;
+    }
+}

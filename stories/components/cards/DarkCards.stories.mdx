@@ -1,6 +1,9 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import Card from 'src/components/design_system/cards';
+import Card from 'src/components/design_system/cards/talent';
+import CardSupporter from 'src/components/design_system/cards/supporter';
+import Perk from 'src/components/design_system/cards/perk';
+
 
 <Meta title="Design System/Cards/Dark Mode" component={Card} />
 
@@ -8,6 +11,8 @@ import Card from 'src/components/design_system/cards';
 
 
 export const Template = (args) => <Card {...args} />
+export const TemplateSupporter = (args) => <CardSupporter {...args} />
+export const TemplatePerk = (args) => <Perk {...args} />
 
 <Canvas>
   <Story
@@ -22,5 +27,44 @@ export const Template = (args) => <Card {...args} />
     }}
   >
     {Template.bind({})}
+  </Story>
+  <Story
+    name="Card Supporter #1"
+    args={{
+      photo_url: "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
+      name: "Mateus Morrison",
+      address_wallet: "0x71...9d81",
+      mode: "dark",
+    }}
+  >
+    {TemplateSupporter.bind({})}
+  </Story>
+  
+  <Story
+    name="Perk Unavailable #1"
+    args={{
+      mode: "dark",
+      area: "Social media",
+      title: "Be part of my Telgeram group where I post daily news",
+      my_tokens: "152",
+      tokens: "200",
+      ticker: "$GYB"
+    }}
+  >
+    {TemplatePerk.bind({})}
+  </Story>
+  
+  <Story
+    name="Perk Available #2"
+    args={{
+      mode: "dark",
+      area: "Social media",
+      title: "Be part of my Telgeram group where I post daily news",
+      my_tokens: "240",
+      tokens: "200",
+      ticker: "$GYB"
+    }}
+  >
+    {TemplatePerk.bind({})}
   </Story>
 </Canvas>
