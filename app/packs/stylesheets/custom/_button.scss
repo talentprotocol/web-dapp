@@ -62,13 +62,13 @@
       background-color: $primary;
       border: none;
     }
-  
+
     &:disabled {
       color: $primary-800;
       background-color: $gray-800;
       border: 1px solid $primary-800;
     }
-  
+
     &:active {
       color: $primary;
       background-color: $gray-800;
@@ -101,12 +101,12 @@
     &:hover {
       background-color: $primary-800;
     }
-  
+
     &:disabled {
       color: $primary-800;
       background-color: $gray-800;
     }
-  
+
     &:active {
       color: $primary;
       background-color: $gray-800;
@@ -141,12 +141,12 @@
       color: $white;
       background-color: $primary;
     }
-  
+
     &:disabled {
       color: lighten($primary, 20%);
       background-color: $primary;
     }
-  
+
     &:active {
       color: $primary;
       background-color: $primary-800;
@@ -176,12 +176,12 @@
     &:hover {
       background-color: $danger;
     }
-  
+
     &:disabled {
       color: $danger-shade-1;
       background-color: $danger-shade-01;
     }
-  
+
     &:active {
       background-color: $danger-tint-01;
     }
@@ -217,13 +217,13 @@
       color: $white;
       background-color: $danger-tint-01;
     }
-  
+
     &:disabled {
       color: $danger-shade-01;
       background-color: $gray-800;
       border: 1px solid $danger-shade-01;
     }
-  
+
     &:active {
       color: $danger-tint-01;
       background-color: $gray-800;
@@ -468,7 +468,7 @@
   }
 }
 
-.base-size-button {
+.normal-size-button {
   font-size: 14px;
   line-height: 18px;
   padding: 8px 12px;
