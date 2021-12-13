@@ -1,6 +1,54 @@
 @import "../colors";
 @import "../bootstrap/overrides";
 
-.navbar{
+.navbar {
     background-color: $white;
+
+    &.dark {
+        background-color: $gray-900;
+    }
+}
+
+.button-topbar {
+    display: inline;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    padding: 9px;
+    position: static;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    background: $surface-hover;
+    border-radius: 4px;
+    height: 40px !important;
+
+    &:disabled {
+        opacity: 0.4;
+    }
+
+    &.dark {
+        background: $gray-600;
+    }
+}
+
+.button-square {
+    width: 40px !important;
+}
+
+.wallet_balance{
+    color: $black;
+
+    &.dark{
+        color: $white;
+    }
+}
+
+.wallet_address {
+    color: $gray-400;
+
+    &.dark {
+        color: $gray-300;
+    }
 }

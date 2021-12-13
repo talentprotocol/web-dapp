@@ -160,32 +160,10 @@
 
 .ellipse-notifications {
     background-color: $danger;
-    height: 8px;
-    width: 8px;
+    height: 10px;
+    width: 10px;
     border-radius: 50%;
-    position: relative;
-}
-
-.button-topbar {
-    display: inline;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border: 0;
-    padding: 9px;
-    position: static;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
-    background: $surface-hover;
-    border-radius: 4px;
-    height: 40px !important;
-
-    &:disabled {
-        opacity: 0.4;
-    }
-}
-
-.button-square {
-    width: 40px !important;
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
 }
