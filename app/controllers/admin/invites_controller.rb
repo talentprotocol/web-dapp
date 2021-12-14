@@ -18,8 +18,8 @@ class Admin::InvitesController < ApplicationController
     service = CreateInvite.new(user_id: 1, single_use: true)
     @invite = service.call
 
-    service = Mailerlite::AddSubscriber.new(email: new_invite_params[:email], name: new_invite_params[:name])
-    service.call
+    service = Mailerlite::AddSubscriber.new
+    service.call(new_invite_params[:email], new_invite_params[:name])
 
     UserMailer.with(invite: @invite, email: new_invite_params[:email]).send_invite_email.deliver_later
 
