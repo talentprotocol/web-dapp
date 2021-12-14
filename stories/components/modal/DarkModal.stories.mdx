@@ -1,6 +1,7 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 
-import Modal from 'src/components/design_system/modal';
+import Modal from 'src/components/design_system/modal/staking';
+import ModalContact from 'src/components/design_system/modal/contact';
 
 <Meta title="Design System/Modal/Dark Mode" component={Modal} />
 
@@ -9,6 +10,7 @@ import Modal from 'src/components/design_system/modal';
 Multiple type of modals
 
 export const Template = (args) => <Modal {...args} />
+export const TemplateContact = (args) => <ModalContact {...args} />
 
 <Canvas>
   <Story
@@ -19,5 +21,13 @@ export const Template = (args) => <Modal {...args} />
     }}
   >
     {Template.bind({})}
+  </Story>
+  <Story
+    name="Contact modal" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+    }}
+  >
+    {TemplateContact.bind({})}
   </Story>
 </Canvas>
