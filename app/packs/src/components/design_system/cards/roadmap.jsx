@@ -1,24 +1,31 @@
-import React from 'react';
+import React from "react";
+import Caption from "src/components/design_system/typography/caption";
 
-const Roadmap = ({
-    mode,
-    due_date,
-    title,
-    description
-}) => {
+const Roadmap = ({ mode, due_date, title, description }) => {
+  return (
+    <div className={`col-md-3 card ${mode}`}>
+      <Caption
+        className="roadmap-date text-uppercase"
+        mode={`${mode}`}
+        text={`${due_date}`}
+      ></Caption>
 
-    return (
-        <div className={`col-md-3 card ${mode}`}>
+      <Caption
+        className="roadmap-title"
+        mode={`${mode}`}
+        text={`${title}`}
+        bold="true"
+      ></Caption>
 
-            <span className={`roadmap-date text-uppercase ${mode}`}>{due_date}</span>
-
-            <p className={`roadmap-title ${mode}`}>
-                <strong>{title}</strong>
-            </p>
-
-            {description ? <p className={`roadmap-description ${mode}`}>{description}</p> : null}
-        </div>
-    )
+      {description ? (
+        <Caption
+          className="roadmap-description"
+          mode={`${mode}`}
+          text={`${description}`}
+        ></Caption>
+      ) : null}
+    </div>
+  );
 };
 
 export default Roadmap;

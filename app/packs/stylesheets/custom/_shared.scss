@@ -167,3 +167,11 @@
     top: 0.25rem;
     right: 0.25rem;
 }
+
+.icon-theme {
+    stroke: $gray-600;
+
+    &.dark {
+        stroke: $gray-100;
+    }
+}

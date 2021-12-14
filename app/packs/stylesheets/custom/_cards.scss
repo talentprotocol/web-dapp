@@ -11,7 +11,7 @@
     }
 
     &.dark {
-        background: $gray-600;
+        background: $gray-900;
         color: $white;
     }
 
@@ -81,8 +81,8 @@
 .perk-area {
     font-weight: 700;
     color: $gray-400;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.8rem !important;
 
     &.dark {
         color: $gray-400;
@@ -95,7 +95,7 @@
     color: $primary;
     padding: 5px;
     border-radius: 5px;
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
 
     &.dark {
         background-color: $primary;
@@ -108,7 +108,7 @@
     color: $gray-primary;
     padding: 5px;
     border-radius: 5px;
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
 
     &.dark {
         background-color: $gray-500;
@@ -117,7 +117,7 @@
 }
 
 .hold-info {
-    font-size: 1rem;
+    font-size: 1rem !important;
     color: $warning;
 
     &.dark {
@@ -128,9 +128,9 @@
 .project-tag {
     background-color: $primary-disabled;
     color: $primary;
-    padding: 5px;
+    padding: 5px !important;
     border-radius: 5px;
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
 
     &.dark {
         background-color: $primary-shade-01;
@@ -138,9 +138,9 @@
 }
 
 .project-title {
-    margin-top: 1rem;
-    margin-bottom: 0rem;
-    font-size: 1rem;
+    margin-top: 1rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 1rem !important;
 
     &.dark {
         color: $white;
@@ -148,8 +148,8 @@
 }
 
 .project-organization {
-    font-size: 0.8rem;
-    margin-bottom: 0rem;
+    font-size: 0.8rem !important;
+    margin-bottom: 0rem !important;
 
     &.dark {
         color: $white;
@@ -157,7 +157,7 @@
 }
 
 .project-location {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
     color: $gray-primary;
 
     &.dark {
@@ -166,8 +166,8 @@
 }
 
 .project-description {
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    margin-top: 1rem !important;
+    font-size: 0.9rem !important;
 
     &.dark {
         color: $gray-300;
@@ -183,12 +183,11 @@
     height: auto;
 }
 
-
-.roadmap-date{
+.roadmap-date {
     font-weight: 700;
     color: $warning;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.8rem !important;
 
     &.dark {
         color: $yellow;
@@ -196,9 +195,9 @@
 }
 
 .roadmap-title {
-    margin-top: 0.5rem;
-    margin-bottom: 0rem;
-    font-size: 0.9rem;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 0.9rem !important;
 
     &.dark {
         color: $white;
@@ -207,12 +206,11 @@
 
 
 .roadmap-description {
-    margin-top: 0.5rem;
-    margin-bottom: 0rem;
-    font-size: 0.8rem;
-
+    margin-top: 0.75rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 0.8rem !important;
     color: $gray-400;
-    
+
     &.dark {
         color: $gray-300;
     }
@@ -221,8 +219,8 @@
 .portfolio-card-title {
     font-weight: 700;
     color: $warning;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.9rem !important;
 
     &.dark {
         color: $yellow;
@@ -230,9 +228,9 @@
 }
 
 
-.portfolio-card-line1 {
-    margin-top: 1rem;
-    margin-bottom: 0rem;
+.portfolio-card-line-subtitle {
+    margin-top: 1rem !important;
+    margin-bottom: 0rem !important;
 
     &.dark {
         color: $white;
@@ -240,9 +238,9 @@
 }
 
 
-.portfolio-card-line2 {
-    margin-top: 0.25rem;
-    margin-bottom: 0rem;
+.portfolio-card-line-description {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0rem !important;
     color: $gray-400;
 
     &.dark {
@@ -251,7 +249,7 @@
 }
 
 .token-title {
-    margin-top: 1.5rem;
+    margin-top: 1.5rem !important;
     color: $gray-primary;
 
     &.dark {
@@ -260,7 +258,7 @@
 }
 
 .token-item-title {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
     color: $gray-400;
 
     &.dark {

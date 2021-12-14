@@ -1,22 +1,40 @@
-import React from 'react';
+import React from "react";
+import Caption from "src/components/design_system/typography/caption";
+import H3 from "src/components/design_system/typography/h3";
+import H5 from "src/components/design_system/typography/h5";
 
-const PortfolioCard = ({
-    mode,
-    title,
-    line1,
-    line2
-}) => {
+const PortfolioCard = ({ mode, title, subtitle, description }) => {
+  return (
+    <div className={`col-md-3 card ${mode}`}>
+      {title ? (
+        <Caption
+          className="portfolio-card-title text-uppercase"
+          mode={`${mode}`}
+          text={`${mode}`}
+        ></Caption>
+      ) : null}
 
-    return (
-        <div className={`col-md-3 card ${mode}`}>
-            {title ? <span className={`portfolio-card-title text-uppercase ${mode}`}>{title}</span> : null}
+      {subtitle ? (
+        <H3
+          className="portfolio-card-line-subtitle"
+          mode={`${mode}`}
+          bold="true"
+          text={`${subtitle}`}
+        >
+          {" "}
+        </H3>
+      ) : null}
 
-            {line1 ? <h3 className={`portfolio-card-line1 ${mode}`}> <strong>{line1}</strong> </h3> : null}
-
-            {line2 ? <h5 className={`portfolio-card-line2 ${mode}`}> {line2} </h5> : null}
-            
-        </div>
-    )
+      {description ? (
+        <H5
+          className="portfolio-card-line-description"
+          text={`${description} `}
+        >
+          {" "}
+        </H5>
+      ) : null}
+    </div>
+  );
 };
 
 export default PortfolioCard;
