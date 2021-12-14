@@ -1,0 +1,108 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Dropdown from 'src/components/design_system/fields/dropdown';
+
+<Meta title="Design System/Fields/Dropdown/Light Mode" component={Dropdown} />
+
+export const Template = (args) => <Dropdown {...args} />
+
+<Canvas>
+  <Story
+    name="Title"
+    args={{
+      title: "Title here",
+      placeholder: "Placeholder goes here",
+      mode: "light",
+      disabled: false,
+      options: [
+          {
+            label: "Option 1",
+            value: "1",
+          },
+          {
+            label: "Option 2",
+            value: "2",
+          },
+          {
+            label: "Option 3",
+            value: "3",
+          },
+        ],
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="No title"
+    args={{
+      placeholder: "Placeholder goes here",
+      mode: "light",
+      disabled: false,
+      options: [
+          {
+            label: "Option 1",
+            value: "1",
+          },
+          {
+            label: "Option 2",
+            value: "2",
+          },
+          {
+            label: "Option 3",
+            value: "3",
+          },
+        ],
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="With short caption"
+    args={{
+      shortCaption: "Short caption",
+      placeholder: "Placeholder goes here",
+      mode: "light",
+      disabled: false,
+      options: [
+          {
+            label: "Option 1",
+            value: "1",
+          },
+          {
+            label: "Option 2",
+            value: "2",
+          },
+          {
+            label: "Option 3",
+            value: "3",
+          },
+        ],
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="Disabled"
+    args={{
+      placeholder: "Placeholder goes here",
+      mode: "light",
+      disabled: true,
+      options: [
+          {
+            label: "Option 1",
+            value: "1",
+          },
+          {
+            label: "Option 2",
+            value: "2",
+          },
+          {
+            label: "Option 3",
+            value: "3",
+          },
+        ],
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+</Canvas>

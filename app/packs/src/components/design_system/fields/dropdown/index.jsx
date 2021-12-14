@@ -1,16 +1,15 @@
 import React from "react";
 
-const TextInput = ({ title, shortCaption, placeholder, mode, disabled }) => {
+const TextInput = ({ title, shortCaption, mode, disabled, options }) => {
   return (
     <>
       {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
 
-      <input
-        type="text"
-        className={`form-control ${mode}`}
-        placeholder={placeholder}
-        disabled={disabled}
-      />
+      <select className={`form-control ${mode}`} disabled={disabled}>
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
 
       {shortCaption ? (
         <p className={`short-caption ${mode}`}>{shortCaption}</p>
