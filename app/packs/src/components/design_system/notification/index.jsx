@@ -6,6 +6,7 @@ import Talent from "src/components/icons/Talent";
 import Star from "src/components/icons/Star";
 import Check from "src/components/icons/Check";
 import Globe from "src/components/icons/Globe";
+import cx from "classnames";
 
 const Notification = ({
   type,
@@ -20,26 +21,18 @@ const Notification = ({
       <div className={`notification ${mode} d-flex`}>
         <div className="notification-icon">
           {type === "wallet" && (
-            <Wallet color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
+            <Wallet pathClassName={cx("icon-theme", mode)} />
           )}
           {type === "rocket" && (
-            <Rocket color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
+            <Rocket pathClassName={cx("icon-theme", mode)} />
           )}
-          {type === "chat" && (
-            <Chat color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
-          )}
+          {type === "chat" && <Chat pathClassName={cx("icon-theme", mode)} />}
           {type === "talent" && (
-            <Talent color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
+            <Talent pathClassName={cx("icon-theme", mode)} />
           )}
-          {type === "star" && (
-            <Star color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
-          )}
-          {type === "check" && (
-            <Check color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
-          )}
-          {type === "globe" && (
-            <Globe color={`${mode === "dark" ? "#FFF" : "#202122"}`} />
-          )}
+          {type === "star" && <Star pathClassName={cx("icon-theme", mode)} />}
+          {type === "check" && <Check pathClassName={cx("icon-theme", mode)} />}
+          {type === "globe" && <Globe pathClassName={cx("icon-theme", mode)} />}
         </div>
         <div className="row notificationRightArea">
           <div className="col-lg-12">
