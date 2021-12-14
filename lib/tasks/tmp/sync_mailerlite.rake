@@ -3,7 +3,7 @@ namespace :tmp do
     puts "Syncing ##{User.count} users"
     service = Mailerlite::SyncSubscriber.new
     User.find_each do |user|
-      service.call(user: user)
+      service.call(user)
       print "."
       sleep 5
     end

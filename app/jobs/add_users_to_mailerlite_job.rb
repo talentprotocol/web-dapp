@@ -6,6 +6,6 @@ class AddUsersToMailerliteJob < ApplicationJob
 
     service = Mailerlite::SyncSubscriber.new
 
-    service.call(user: user)
+    service.call(user)
   end
 end
