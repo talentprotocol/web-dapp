@@ -146,6 +146,14 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
 
   const showInviteCodeButton = () => user.tokenLive && user.invitesLeft > 0;
 
+  const inviteNumbers = () => {
+    if (!user.totalInvites) {
+      return nil;
+    } else {
+      return ` (${user.invitesLeft}/${user.totalInvites})`;
+    }
+  };
+
   return (
     <>
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
@@ -199,9 +207,7 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
               onClick={copyCodeToClipboard}
               className="d-flex flex-row justify-content-between"
             >
-              <small className="text-black">
-                Invite link ({user.invitesLeft}/{user.totalInvites})
-              </small>
+              <small className="text-black">Invite link{inviteNumbers()}</small>
               <FontAwesomeIcon icon={faCopy} className="ml-2" />
             </Dropdown.Item>
           )}

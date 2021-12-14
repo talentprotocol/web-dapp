@@ -19,7 +19,7 @@
         tokenLive: current_user.talent&.token&.contract_id.present?,
         code: current_user.invite&.code,
         invitesLeft: current_user.invite&.invites_left,
-        totalInvites: current_user.invite&.max_uses || 1,
+        totalInvites: current_user.invite&.max_uses,
         sign_up_path: sign_up_path(code: current_user.invite&.code)
       },
       signOutPath: sign_out_path
