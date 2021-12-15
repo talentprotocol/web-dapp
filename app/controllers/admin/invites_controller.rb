@@ -21,8 +21,6 @@ class Admin::InvitesController < ApplicationController
     service = Mailerlite::AddSubscriber.new
     service.call(new_invite_params[:email], new_invite_params[:name])
 
-    UserMailer.with(invite: @invite, email: new_invite_params[:email]).send_invite_email.deliver_later
-
     if @invite
       render json: {success: "Sent an invite link"}, status: :ok
     else
