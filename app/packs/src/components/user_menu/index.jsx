@@ -144,8 +144,6 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     }
   };
 
-  const showInviteCodeButton = () => user.tokenLive && user.invitesLeft > 0;
-
   const inviteNumbers = () => {
     if (!user.totalInvites) {
       return null;
@@ -201,16 +199,14 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             </small>
             <small className="text-secondary ml-1">cUSD</small>
           </Dropdown.ItemText>
-          {showInviteCodeButton() && (
-            <Dropdown.Item
-              key="tab-dropdown-invite-code"
-              onClick={copyCodeToClipboard}
-              className="d-flex flex-row justify-content-between"
-            >
-              <small className="text-black">Invite link{inviteNumbers()}</small>
-              <FontAwesomeIcon icon={faCopy} className="ml-2" />
-            </Dropdown.Item>
-          )}
+          <Dropdown.Item
+            key="tab-dropdown-invite-code"
+            onClick={copyCodeToClipboard}
+            className="d-flex flex-row justify-content-between"
+          >
+            <small className="text-black">Invite link{inviteNumbers()}</small>
+            <FontAwesomeIcon icon={faCopy} className="ml-2" />
+          </Dropdown.Item>
           <Dropdown.Item
             key="tab-dropdown-get-funds"
             className="text-black"
