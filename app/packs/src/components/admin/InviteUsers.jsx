@@ -7,13 +7,14 @@ const InviteUsers = ({ subscribers }) => {
   const params = new URLSearchParams(url.search);
   const [email, setEmail] = useState(params.get("search") || "");
   const [name, setName] = useState("");
+  const [talentInvite, setTalentInvite] = useState(false);
   const page = parseInt(params.get("page") || "1");
 
   const sendInvite = async (e) => {
     e.preventDefault();
     // ADD spinner
     const request = await post("/admin/invites", {
-      invite: { email, name },
+      invite: { email, name, talent_invite: talentInvite },
     });
 
     if (request) {
@@ -93,6 +94,15 @@ const InviteUsers = ({ subscribers }) => {
             <small className="mt-2">
               Fill in the name if it's a new subscriber
             </small>
+          </div>
+          <div className="d-flex flex-column justify-content-center ml-2 form-check">
+            <label className="mb-0">Talent Invite</label>
+            <input
+              onChange={() => setTalentInvite((prev) => !prev)}
+              className="form-check-input mt-0"
+              type="checkbox"
+              checked={talentInvite}
+            />
           </div>
         </div>
         <div className="form-actions mt-3">
