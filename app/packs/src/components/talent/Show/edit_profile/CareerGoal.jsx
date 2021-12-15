@@ -30,7 +30,7 @@ const EditGoal = ({
     e.preventDefault();
     setDestroying(true);
     const response = await destroy(
-      `/api/v1/career_goal/${career_goal.id}/goals/${goalInfo["id"]}`
+      `/api/v1/career_goals/${career_goal.id}/goals/${goalInfo["id"]}`
     ).catch(() => setDestroying(false));
 
     if (response) {

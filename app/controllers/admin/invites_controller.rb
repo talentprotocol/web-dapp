@@ -15,11 +15,11 @@ class Admin::InvitesController < ApplicationController
       return render json: {error: "Unable to send the email"}
     end
 
-    service = CreateInvite.new(user_id: 1, single_use: true)
+    service = CreateInvite.new(user_id: 1, single_use: true, talent_invite: new_invite_params[:talent_invite])
     @invite = service.call
 
     service = Mailerlite::AddSubscriber.new
-    service.call(new_invite_params[:email], new_invite_params[:name])
+    service.call(new_invite_params[:email], new_invite_params[:name], @invite.code, new_invite_params[:talent_invite])
 
     if @invite
       render json: {success: "Sent an invite link"}, status: :ok
@@ -40,6 +40,6 @@ class Admin::InvitesController < ApplicationController
   end
 
   def new_invite_params
-    params.require(:invite).permit(:email, :name)
+    params.require(:invite).permit(:email, :name, :talent_invite)
   end
 end
