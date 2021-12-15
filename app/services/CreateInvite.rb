@@ -19,7 +19,7 @@ class CreateInvite
     count = 0
 
     begin
-      invite.code = Invite.generate_code
+      invite.code = "#{prefix(invite)}-#{Invite.generate_code}"
 
       invite.save!
     rescue ActiveRecord::RecordNotUnique
@@ -30,6 +30,8 @@ class CreateInvite
     invite
   end
 
+  private
+
   def number_of_invites(user)
     if @single_use
       1
@@ -38,5 +40,9 @@ class CreateInvite
     else
       5
     end
+  end
+
+  def prefix(invite)
+    invite.talent_invite ? "TAL" : "SUP"
   end
 end
