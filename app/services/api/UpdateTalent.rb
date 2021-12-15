@@ -40,6 +40,11 @@ class API::UpdateTalent
   private
 
   def update_talent(params)
+    if @talent[:public] != params[:public]
+      # Notify mailerlite that profile was set public
+      AddUsersToMailerliteJob.perform_later(current_user.id)
+    end
+
     if params[:profile][:headline]
       @talent[:public] = params[:public] || false
       @talent[:disable_messages] = params[:disable_messages] || false
