@@ -29,7 +29,6 @@ class CreateUser
       end
 
       UserMailer.with(user: user).send_sign_up_email.deliver_later
-      AddUsersToMailerliteJob.perform_later(user.id)
 
       @result[:user] = user
       @result[:success] = true
