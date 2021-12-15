@@ -148,7 +148,7 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
 
   const inviteNumbers = () => {
     if (!user.totalInvites) {
-      return nil;
+      return null;
     } else {
       return ` (${user.invitesLeft}/${user.totalInvites})`;
     }
