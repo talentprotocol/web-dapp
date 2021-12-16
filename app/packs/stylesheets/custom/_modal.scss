@@ -5,6 +5,10 @@
     background-color: $alert-primary;
     border: 0;
 
+    &.mobile{
+        border-radius: 20px !important;
+    }
+
     &.dark {
         background-color: $gray-900;
     }
@@ -97,6 +101,13 @@
 
     a {
         text-decoration: underline;
+    }
+}
+
+.modal-body {
+    &.mobile 
+        {
+        padding-top: 0 !important;
     }
 }
 
