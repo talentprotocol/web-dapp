@@ -13,7 +13,7 @@ const Pagination = ({ onChangePage, mode, currentPage, maxPages }) => {
           <li class="page-item">
             <button
               className={`page-link pagination-button ${mode}`}
-              onClick={onChangePage}
+              onClick={() => onChangePage(currentPage - 1)}
             >
               <ArrowBack pathClassName={cx("icon-theme", mode)} />
             </button>
@@ -27,7 +27,7 @@ const Pagination = ({ onChangePage, mode, currentPage, maxPages }) => {
                   currentPage === i + 1 ? "active" : "",
                   mode
                 )}
-                onClick={onChangePage}
+                onClick={() => onChangePage(i)}
               >
                 {i + 1}
               </button>
@@ -37,7 +37,7 @@ const Pagination = ({ onChangePage, mode, currentPage, maxPages }) => {
           <li class="page-item">
             <button
               className={`page-link pagination-button ${mode}`}
-              onClick={onChangePage}
+              onClick={() => onChangePage(currentPage + 1)}
             >
               <ArrowForward pathClassName={cx("icon-theme", mode)} />
             </button>
