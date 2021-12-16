@@ -1,0 +1,22 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.navbar-top-mobile {
+    background-color: $white;
+    height: 60px;
+
+    &.dark {
+        background-color: $bg-01;
+    }
+}
+
+.navbar-top-menu {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    .navbar-top-menu-option {
+        padding: 10px;
+        padding-top: 14px;
+    }
+}

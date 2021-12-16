@@ -1,0 +1,58 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import Checkbox from "src/components/design_system/checkbox";
+
+<Meta title="Design System/Checkbox" component={Checkbox} />
+
+# Checkboxes
+
+Custom Checkboxes.
+
+## Examples
+
+export const Template = (args) => <Checkbox {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode with label"
+    args={{
+      checked: false,
+      onChange: () => null,
+      label: "label",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode without label"
+    args={{
+      checked: false,
+      onChange: () => null,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode with label"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      checked: false,
+      onChange: () => null,
+      label: "label",
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode without label"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      checked: false,
+      onChange: () => null,
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

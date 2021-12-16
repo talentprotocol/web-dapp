@@ -1,0 +1,267 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.card {
+    background-color: $alert-primary;
+    padding: 1.5rem;
+    border: 0;
+
+    img {
+        border-radius: 4px;
+    }
+
+    &.dark {
+        background: $gray-900;
+        color: $white;
+    }
+
+    &.mobile {
+        background: none;
+    }
+}
+
+
+.card-body {
+    padding: 0;
+    padding-top: 14px;
+
+    h6 {
+        font-weight: 700;
+    }
+
+    .title {
+        font-weight: 400;
+        color: $gray-400;
+
+        &.dark {
+            color: $gray-300;
+        }
+    }
+}
+
+.circ-supply {
+    font-weight: 600;
+    color: $gray-400;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+
+    &.dark {
+        color: $gray-300;
+    }
+}
+
+.circ-supply-data {
+    color: $gray-800;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.ticker {
+    color: $warning;
+
+    &.dark {
+        color: $yellow;
+    }
+}
+
+.comingsoon {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px;
+    border-radius: 5px;
+
+    &.dark {
+        background-color: $primary-shade-01;
+    }
+}
+
+.perk-area {
+    font-weight: 700;
+    color: $gray-400;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.8rem !important;
+
+    &.dark {
+        color: $gray-400;
+    }
+}
+
+
+.tag-available {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem !important;
+
+    &.dark {
+        background-color: $primary;
+        color: $white;
+    }
+}
+
+.tag-unavailable {
+    background-color: $gray-surface-2;
+    color: $gray-primary;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem !important;
+
+    &.dark {
+        background-color: $gray-500;
+        color: $white;
+    }
+}
+
+.hold-info {
+    font-size: 1rem !important;
+    color: $warning;
+
+    &.dark {
+        color: $yellow;
+    }
+}
+
+.project-tag {
+    background-color: $primary-disabled;
+    color: $primary;
+    padding: 5px !important;
+    border-radius: 5px;
+    font-size: 0.8rem !important;
+
+    &.dark {
+        background-color: $primary-shade-01;
+    }
+}
+
+.project-title {
+    margin-top: 1rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 1rem !important;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.project-organization {
+    font-size: 0.8rem !important;
+    margin-bottom: 0rem !important;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+.project-location {
+    font-size: 0.8rem !important;
+    color: $gray-primary;
+
+    &.dark {
+        color: $gray-400;
+    }
+}
+
+.project-description {
+    margin-top: 1rem !important;
+    font-size: 0.9rem !important;
+
+    &.dark {
+        color: $gray-300;
+    }
+}
+
+.project-websitelink{
+    margin: 2px;
+}
+
+.project-image{
+    width: 100%;
+    height: auto;
+}
+
+.roadmap-date {
+    font-weight: 700;
+    color: $warning;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.8rem !important;
+
+    &.dark {
+        color: $yellow;
+    }
+}
+
+.roadmap-title {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 0.9rem !important;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+
+.roadmap-description {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0rem !important;
+    font-size: 0.8rem !important;
+    color: $gray-400;
+
+    &.dark {
+        color: $gray-300;
+    }
+}
+
+.portfolio-card-title {
+    font-weight: 700;
+    color: $warning;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.9rem !important;
+
+    &.dark {
+        color: $yellow;
+    }
+}
+
+
+.portfolio-card-line-subtitle {
+    margin-top: 1rem !important;
+    margin-bottom: 0rem !important;
+
+    &.dark {
+        color: $white;
+    }
+}
+
+
+.portfolio-card-line-description {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0rem !important;
+    color: $gray-400;
+
+    &.dark {
+        color: $gray-300;
+    }
+}
+
+.token-title {
+    margin-top: 1.5rem !important;
+    color: $gray-primary;
+
+    &.dark {
+        color: $gray-400;
+    }
+}
+
+.token-item-title {
+    font-size: 0.9rem !important;
+    color: $gray-400;
+
+    &.dark {
+        color: $gray-300;
+    }
+}

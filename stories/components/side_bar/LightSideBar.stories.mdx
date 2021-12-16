@@ -1,0 +1,19 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import SideBar from 'src/components/design_system/side_bar';
+
+<Meta title="Design System/SideBar/Light Mode" component={SideBar} />
+
+
+export const Template = (args) => <SideBar {...args} />
+
+<Canvas>
+  <Story
+    name="Side Bar" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+        mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

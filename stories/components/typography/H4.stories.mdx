@@ -1,0 +1,56 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import H4 from "src/components/design_system/typography/h4";
+
+<Meta title="Design System/Typography/H4" component={H4} />
+
+# H4s
+
+Custom H4s to show titles.
+
+## Examples
+
+export const Template = (args) => <H4 {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      mode: "light",
+      text: "Example of an header",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode with bold"
+    args={{
+      mode: "light",
+      bold: true,
+      text: "Example of an header with bold",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      mode: "dark",
+      text: "Example of an header",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode with bold"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      mode: "dark",
+      bold: true,
+      text: "Example of an header with bold",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

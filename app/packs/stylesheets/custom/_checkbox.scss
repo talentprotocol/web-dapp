@@ -1,0 +1,121 @@
+@import "../colors";
+
+.container-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+
+  &:hover input ~ .checkmark {
+    border: 1px solid $primary;
+  }
+
+  &:hover input:checked ~ .checkmark {
+    border: none;
+  }
+
+  input {
+    display: none;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    border: 1px solid $gray-300;
+    border-radius: 4px;
+
+    &:after {
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid $white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
+
+  input:disabled {
+    ~ .checkmark {
+      &.light {
+        border: 1px solid $gray-surface-2;
+      }
+
+      &.dark {
+        border: 1px solid $gray-600;
+      }
+    }
+
+    ~ .label-checkbox {
+      &.light {
+        color: $gray-surface-2;
+      }
+
+      &.dark {
+        color: $gray-600;
+      }
+    }
+  }
+
+  input:checked {
+    &:disabled {
+      ~ .checkmark {
+        &.light {
+          border: none;
+          background-color: $primary-disabled;
+
+          &:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid $primary-outline-disabled;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            display: block;
+          }
+        }
+
+        &.dark {
+          border: none;
+          background-color: $primary-light;
+
+          &:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid $gray-600;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            display: block;
+          }
+        }
+      }
+    }
+
+    ~ .checkmark {
+      border: none;
+      background-color: $primary;
+
+      &::after {
+        display: block;
+      }
+    }
+  }
+}

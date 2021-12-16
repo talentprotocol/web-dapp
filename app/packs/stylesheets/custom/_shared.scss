@@ -1,3 +1,5 @@
+@import "../colors";
+
 .greyscale-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
@@ -76,6 +78,10 @@
   color: $black;
 }
 
+.text-white {
+    color: $white;
+}
+
 .hover-black {
   &:hover {
     color: $black !important;
@@ -92,4 +98,47 @@
 
 .disabled-link {
   pointer-events: none;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: #F3F4F4;
+    overflow: hidden;
+
+    &.dark {
+        background-color: $gray-600;
+    }
+}
+
+.border-0{
+    border: 0 !important;
+}
+
+.ellipse-new {
+    background-color: $primary;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    float: left;
+    margin: 4px !important;
+    margin-top: 6px !important;
+}
+
+.ellipse-notifications {
+    background-color: $danger;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+}
+
+.icon-theme {
+    stroke: $gray-600;
+
+    &.dark {
+        stroke: $gray-100;
+    }
 }

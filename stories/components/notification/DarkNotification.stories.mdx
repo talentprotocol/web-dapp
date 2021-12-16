@@ -1,0 +1,79 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Notification from 'src/components/design_system/notification';
+
+<Meta title="Design System/Notification Templates/Dark Mode" component={Notification} />
+
+# Notifications
+
+Multiple type of notificatinos: wallet, rocket
+
+export const Template = (args) => <Notification {...args} />
+
+<Canvas>
+  <Story
+    name="Notification template #1 (New true)" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      type: "wallet",
+      mode: "dark",
+      title: "Sponsor Bought $Token",
+      description: "Bryan Rusty bought 2.214 JEN",
+      time_information: "2 hours ago",
+      is_new: true
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Notification template #2 (New false)" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+        type: "rocket",
+      mode: "dark",
+      title: "Notif title X",
+      description: "Description lorem impsus",
+      time_information: "2 days ago",
+      is_new: false
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Notification template #3" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+        type: "star",
+      mode: "dark",
+      title: "Notif title X",
+      description: "Description lorem impsus",
+      time_information: "2 days ago",
+      is_new: false
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Notification template #4" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+        type: "talent",
+      mode: "dark",
+      title: "Notif title X",
+      description: "Description lorem impsus",
+      time_information: "2 days ago",
+      is_new: false
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Notification template #5" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+        type: "globe",
+      mode: "dark",
+      title: "Notif title X",
+      description: "Description lorem impsus",
+      time_information: "2 days ago",
+      is_new: false
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

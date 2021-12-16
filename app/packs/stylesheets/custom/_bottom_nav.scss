@@ -1,0 +1,21 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.navbar-bottom-mobile {
+    background-color: $white;
+    height: 50px;
+
+    &.dark {
+        background-color: $bg-01;
+    }
+}
+
+.navbar-bottom-menu {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    .navbar-bottom-menu-option {
+        padding: 10px;
+    }
+}
