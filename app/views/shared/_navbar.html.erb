@@ -1,15 +1,13 @@
-<div class="w-100 lg-width-reset lg-navbar-min-width px-0 lg-h-100">
-  <header class="w-100 px-0 lg-h-100">
-    <%=
-      react_component("Navbar",
-      props: {
-        feedPath: root_path,
-        talentPath: talent_index_path,
-        portfolioPath: portfolio_path,
-        messagesPath: messages_path,
-        admin: current_user&.admin?,
-        adminPath: current_user.present? && admin_path,
-      },
-      prerender: false, html_options: { class: "d-flex flex-column align-self-lg-stretch lg-h-100" }) %>
-  </header>
-</div>
+<%= react_component("SideBar", props: {
+  mode: current_user&.theme_preference || "light",
+  talentPath: talent_index_path,
+  portfolioPath: portfolio_path,
+  messagesPath: messages_path,
+}, prerender: false) %>
+
+<%= react_component("BottomNav", props: {
+  mode: current_user&.theme_preference || "light",
+  talentPath: talent_index_path,
+  portfolioPath: portfolio_path,
+  messagesPath: messages_path,
+}, prerender: false) %>

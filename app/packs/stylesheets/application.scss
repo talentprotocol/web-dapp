@@ -105,8 +105,14 @@ body {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   body {
     padding-left: 220px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  body {
+    padding-bottom: 56px !important;
   }
 }

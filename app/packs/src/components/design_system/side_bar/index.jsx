@@ -7,7 +7,15 @@ import Chat from "src/components/icons/Chat";
 
 import SideBarItem from "./SideBarItem";
 
+import { useWindowDimensionsHook } from "src/utils/window";
+
 const SideBar = ({ mode, talentPath, portfolioPath, messagesPath }) => {
+  const { height, width } = useWindowDimensionsHook();
+
+  if (width < 992) {
+    return null;
+  }
+
   return (
     <div className={`side-nav position-fixed ${mode}`}>
       {mode === "light" ? (

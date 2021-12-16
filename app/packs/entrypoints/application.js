@@ -37,6 +37,7 @@ import InviteUsers from "src/components/admin/InviteUsers";
 // New Layout components - @TODO: we need to check which of the above components we'll still be using or not
 
 import SideBar from "src/components/design_system/side_bar";
+import BottomNav from "src/components/design_system/bottom_nav";
 
 import "stylesheets/application.scss";
 
@@ -66,6 +67,7 @@ ReactOnRails.register({
   WelcomePopup,
   InviteUsers,
   SideBar,
+  BottomNav,
 });
 
 Rails.start();

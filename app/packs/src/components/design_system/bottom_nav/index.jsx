@@ -1,40 +1,50 @@
 import React from "react";
-import Star from "src/components/icons/Star";
 import Talent from "src/components/icons/Talent";
 import Chat from "src/components/icons/Chat";
 import Wallet from "src/components/icons/Wallet";
 
-const NavBottom = ({ mode }) => {
+import { useWindowDimensionsHook } from "src/utils/window";
+
+import BottomNavItem from "./BottomNavItem";
+
+const BottomNav = ({ mode, talentPath, portfolioPath, messagesPath }) => {
+  const { height, width } = useWindowDimensionsHook();
+
+  if (width >= 992) {
+    return null;
+  }
+
   return (
-    <>
-      <div className="col-lg-3">
-        <nav className={`navbar-bottom-mobile ${mode}`}>
-          <div className="navbar-bottom-menu">
-            <div className="navbar-bottom-menu-option">
-              {" "}
-              <Star color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />{" "}
-            </div>
-            <div className="navbar-bottom-menu-option">
-              {" "}
-              <Talent
-                color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`}
-              />{" "}
-            </div>
-            <div className="navbar-bottom-menu-option">
-              {" "}
-              <Chat color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />{" "}
-            </div>
-            <div className="navbar-bottom-menu-option">
-              {" "}
-              <Wallet
-                color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`}
-              />{" "}
-            </div>
-          </div>
-        </nav>
+    <nav className={`navbar-bottom-mobile ${mode}`}>
+      <div className="navbar-bottom-menu">
+        <div className="navbar-bottom-menu-option">
+          <BottomNavItem
+            mode={mode}
+            url={talentPath}
+            secondaryUrl={"/"}
+            routeName="Talent"
+            Icon={Talent}
+          />
+        </div>
+        <div className="navbar-bottom-menu-option">
+          <BottomNavItem
+            mode={mode}
+            url={portfolioPath}
+            routeName="Portfolio"
+            Icon={Wallet}
+          />
+        </div>
+        <div className="navbar-bottom-menu-option">
+          <BottomNavItem
+            mode={mode}
+            url={messagesPath}
+            routeName="Messages"
+            Icon={Chat}
+          />
+        </div>
       </div>
-    </>
+    </nav>
   );
 };
 
-export default NavBottom;
+export default BottomNav;
