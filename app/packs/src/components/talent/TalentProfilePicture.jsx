@@ -1,4 +1,5 @@
 import React from "react";
+import { string, number, oneOfType } from "prop-types";
 import DefaultProfilePicture from "images/default-profile-icon.jpg";
 
 const TalentProfilePicture = ({
@@ -26,6 +27,26 @@ const TalentProfilePicture = ({
       alt="Profile Picture"
     />
   );
+};
+
+TalentProfilePicture.defaultProps = {
+  src: null,
+  height: 24,
+  greyscale: null,
+  className: null,
+  straight: null,
+  blur: null,
+  border: null,
+};
+
+TalentProfilePicture.propTypes = {
+  src: string,
+  height: oneOfType([number, string]),
+  greyscale: string,
+  className: string,
+  straight: string,
+  blur: string,
+  border: string,
 };
 
 export default TalentProfilePicture;

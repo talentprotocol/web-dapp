@@ -1,0 +1,93 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import CardList from "src/components/design_system/card_list";
+
+<Meta title="Design System/CardList" component={CardList} />
+
+export const Template = (args) => <CardList {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      talents: [
+        {
+          id: 1,
+          username: "@codyfisher",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          ticker: "COD",
+          occupation: "Software Engineer",
+          sponsorCount: 10,
+          circulatingSupply: 100000,
+          progress: 10,
+        },
+        {
+          id: 2,
+          username: "@darrelsteward",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          ticker: "DAR",
+          occupation: "Designer",
+          sponsorCount: 20,
+          circulatingSupply: 200000,
+          progress: 20,
+        },
+        {
+          id: 3,
+          username: "@jacobjones",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          ticker: "JAC",
+          occupation: "Product Manager",
+          sponsorCount: 30,
+          circulatingSupply: 300000,
+          progress: 30,
+        },
+      ],
+      followerIds: [1, 2],
+      mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      talents: [
+        {
+          id: 1,
+          username: "@codyfisher",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          ticker: "COD",
+          occupation: "Software Engineer",
+          sponsorCount: 10,
+          circulatingSupply: 100000,
+          progress: 10,
+        },
+        {
+          id: 2,
+          username: "@darrelsteward",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          ticker: "DAR",
+          occupation: "Designer",
+          sponsorCount: 20,
+          circulatingSupply: 200000,
+          progress: 20,
+        },
+        {
+          id: 3,
+          username: "@jacobjones",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          ticker: "JAC",
+          occupation: "Product Manager",
+          sponsorCount: 30,
+          circulatingSupply: 300000,
+          progress: 30,
+        },
+      ],
+      followerIds: [1, 2],
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
