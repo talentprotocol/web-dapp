@@ -19,18 +19,20 @@ const ThemeContainer = ({ user, children }) => {
   });
 
   const toggleTheme = async () => {
-    const newTheme = currentTheme == "light" ? "dark" : "light";
+    const newTheme = currentTheme == "light-body" ? "dark" : "light";
 
     await patch(`/api/v1/users/${user.id}`, {
       theme_preference: newTheme,
     });
 
-    document.body.className = newTheme;
+    document.body.className = `${newTheme}-body`;
 
-    const event = new CustomEvent("themeChanged", { detail: newTheme });
+    const event = new CustomEvent("themeChanged", {
+      detail: `${newTheme}-body`,
+    });
     document.dispatchEvent(event);
 
-    setCurrentTheme(newTheme);
+    setCurrentTheme(`${newTheme}-body`);
   };
 
   return (

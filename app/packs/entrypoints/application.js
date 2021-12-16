@@ -34,6 +34,10 @@ import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
 import InviteUsers from "src/components/admin/InviteUsers";
 
+// New Layout components - @TODO: we need to check which of the above components we'll still be using or not
+
+import SideBar from "src/components/design_system/side_bar";
+
 import "stylesheets/application.scss";
 
 require.context("../images", true);
@@ -61,6 +65,7 @@ ReactOnRails.register({
   Notifications,
   WelcomePopup,
   InviteUsers,
+  SideBar,
 });
 
 Rails.start();

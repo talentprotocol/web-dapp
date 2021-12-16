@@ -47,13 +47,13 @@ body {
 }
 
 
-.dark {
-  background-color: $dark-bg-01 !important;
+.dark-body {
+  background-color: $dark-bg-01;
   color: $white;
 }
 
-.light {
-  background-color: $light-bg-01 !important;
+.light-body {
+  background-color: $light-bg-01;
   color: $gray-900;
 }
 
