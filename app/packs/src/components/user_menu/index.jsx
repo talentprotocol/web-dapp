@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { Dropdown } from "react-bootstrap";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
@@ -19,6 +19,8 @@ import { parseAndCommify } from "src/onchain/utils";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 import { SUPPORTER_GUIDE, TALENT_GUIDE } from "src/utils/constants";
+
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -62,6 +64,7 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   const { height, width } = useWindowDimensionsHook();
   const [transakDone, setTransakDone] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(user.currentTheme);
+  const theme = useContext(ThemeContext);
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
@@ -153,16 +156,8 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     }
   };
 
-  const toggleTheme = async () => {
-    const newTheme = currentTheme == "light" ? "dark" : "light";
-
-    await patch(`/api/v1/users/${user.id}`, {
-      theme_preference: newTheme,
-    });
-
-    document.body.className = newTheme;
-
-    setCurrentTheme(newTheme);
+  const toggleTheme = () => {
+    theme.toggleTheme();
   };
 
   return (
@@ -284,5 +279,9 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
 };
 
 export default (props, railsContext) => {
-  return () => <UserMenuUnconnected {...props} railsContext={railsContext} />;
+  return () => (
+    <ThemeContainer {...props}>
+      <UserMenuUnconnected {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
 };

@@ -1,13 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import {
   faCommentAlt,
   faStar as faStarOutline,
 } from "@fortawesome/free-regular-svg-icons";
-import {
-  faChevronRight,
-  faStar,
-  faEllipsisV,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { post, destroy } from "src/utils/requests";
@@ -26,6 +22,8 @@ import Timeline from "./Show/Timeline";
 import TokenDetails from "./Show/TokenDetails";
 
 import { completeProfile } from "./utils/talent";
+
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
 const TalentShow = ({
   talent,
@@ -125,6 +123,14 @@ const TalentShow = ({
   const profileIsComplete = useMemo(() => {
     return completeProfile(sharedState);
   }, [sharedState]);
+
+  // remove
+
+  const theme = useContext(ThemeContext);
+  console.log("HEHRHEHEHREH");
+  console.log(theme);
+
+  // remove
 
   return (
     <div className="d-flex flex-column border-left lg-h-100">
@@ -298,5 +304,9 @@ const TalentShow = ({
 };
 
 export default (props, railsContext) => {
-  return () => <TalentShow {...props} railsContext={railsContext} />;
+  return () => (
+    <ThemeContainer>
+      <TalentShow {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
 };
