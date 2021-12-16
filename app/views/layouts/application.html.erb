@@ -12,7 +12,7 @@
     <%= render partial: "services/hotjar" %>
   </head>
 
-  <body>
+  <body class=<%= current_user&.theme_preference || "light" %>>
     <% if current_user.present? %>
       <% if !current_user.welcome_pop_up %>
         <%=

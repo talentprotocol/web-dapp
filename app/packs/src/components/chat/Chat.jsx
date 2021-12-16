@@ -132,7 +132,7 @@ const Chat = ({ users, userId }) => {
             </section>
           )}
           {(width > 992 || activeUserId > 0) && (
-            <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
+            <section className="col-lg-7 px-0 border-right lg-overflow-y-hidden">
               <MessageExchange
                 smallScreen={width <= 992}
                 clearActiveUserId={() => clearActiveUser()}

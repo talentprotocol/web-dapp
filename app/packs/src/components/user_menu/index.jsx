@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
-import { destroy } from "../../utils/requests";
+import { patch, destroy } from "../../utils/requests";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
@@ -61,6 +61,7 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   const [account, setAccount] = useState("");
   const { height, width } = useWindowDimensionsHook();
   const [transakDone, setTransakDone] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(user.currentTheme);
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
@@ -152,6 +153,18 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
     }
   };
 
+  const toggleTheme = async () => {
+    const newTheme = currentTheme == "light" ? "dark" : "light";
+
+    await patch(`/api/v1/users/${user.id}`, {
+      theme_preference: newTheme,
+    });
+
+    document.body.className = newTheme;
+
+    setCurrentTheme(newTheme);
+  };
+
   return (
     <>
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
@@ -232,6 +245,13 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             </Dropdown.Item>
           )}
           <Dropdown.Divider />
+          <Dropdown.Item
+            key="tab-dropdown-theme"
+            className="text-black d-flex flex-row justify-content-between"
+            onClick={toggleTheme}
+          >
+            <small>{user.currentTheme} Theme</small>
+          </Dropdown.Item>
           <Dropdown.Item
             key="tab-dropdown-user-guide"
             className="text-black d-flex flex-row justify-content-between"

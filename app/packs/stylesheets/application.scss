@@ -46,6 +46,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+
+.dark {
+  background-color: $dark-bg-01 !important;
+  color: $white;
+}
+
+.light {
+  background-color: $light-bg-01 !important;
+  color: $gray-900;
+}
+
 @media (min-width: 992px) {
   html,
   body {
