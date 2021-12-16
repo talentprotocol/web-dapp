@@ -27,23 +27,21 @@ const Modal = ({ mode }) => {
               mode={`${mode}`}
               text="Supporting"
             ></Caption>
-            <div className="mt-1">
-              <Avatar
-                name="John Travolta"
-                imgUrl="https://i.pravatar.cc/150?img=1"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="John Travolta"
+              imgUrl="https://i.pravatar.cc/150?img=1"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
 
-            <div className="mt-1">
-              <Avatar
-                name="Mary Johnsson"
-                imgUrl="https://i.pravatar.cc/150?img=11"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="Mary Johnsson"
+              imgUrl="https://i.pravatar.cc/150?img=11"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
           </div>
 
           <div className="mt-1">
@@ -52,23 +50,21 @@ const Modal = ({ mode }) => {
               mode={`${mode}`}
               text="Supporters"
             ></Caption>
-            <div className="mt-1">
-              <Avatar
-                name="Juan Fernandez"
-                imgUrl="https://i.pravatar.cc/150?img=24"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="Juan Fernandez"
+              imgUrl="https://i.pravatar.cc/150?img=24"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
 
-            <div className="mt-1">
-              <Avatar
-                name="John Deep"
-                imgUrl="https://i.pravatar.cc/150?img=15"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="John Deep"
+              imgUrl="https://i.pravatar.cc/150?img=15"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
           </div>
 
           <div className="mt-1">
@@ -77,23 +73,21 @@ const Modal = ({ mode }) => {
               mode={`${mode}`}
               text="Watchlist"
             ></Caption>
-            <div className="mt-1">
-              <Avatar
-                name="Andrew Lily"
-                imgUrl="https://i.pravatar.cc/150?img=3"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="Andrew Lily"
+              imgUrl="https://i.pravatar.cc/150?img=3"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
 
-            <div className="mt-1">
-              <Avatar
-                name="Mary Johnsson"
-                imgUrl="https://i.pravatar.cc/150?img=9"
-                size="big"
-                mode={`${mode}`}
-              />
-            </div>
+            <Avatar
+              name="Mary Johnsson"
+              imgUrl="https://i.pravatar.cc/150?img=9"
+              size="big"
+              mode={`${mode}`}
+              className="mt-1"
+            />
           </div>
         </div>
       </div>

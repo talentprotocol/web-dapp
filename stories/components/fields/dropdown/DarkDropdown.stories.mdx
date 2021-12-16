@@ -10,6 +10,7 @@ export const Template = (args) => <Dropdown {...args} />
   <Story
     name="Title"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
+        onChange: () => null,
       title: "Title here",
       placeholder: "Placeholder goes here",
       mode: "dark",
@@ -35,6 +36,7 @@ export const Template = (args) => <Dropdown {...args} />
   <Story
     name="No title"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
+        onChange: () => null,
       placeholder: "Placeholder goes here",
       mode: "dark",
       disabled: false,
@@ -59,6 +61,7 @@ export const Template = (args) => <Dropdown {...args} />
   <Story
     name="With short caption"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
+        onChange: () => null,
       shortCaption: "Short caption",
       placeholder: "Placeholder goes here",
       mode: "dark",
@@ -84,6 +87,7 @@ export const Template = (args) => <Dropdown {...args} />
   <Story
     name="Disabled"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
+        onChange: () => null,
       placeholder: "Placeholder goes here",
       mode: "dark",
       disabled: true,
