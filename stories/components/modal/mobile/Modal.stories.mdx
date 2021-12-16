@@ -34,7 +34,7 @@ export const Template = (args) => <Modal {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Simple modal dark"
+    name="Simple modal dark"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
       mode: "dark",
       title: "Modal title",
@@ -44,7 +44,7 @@ export const Template = (args) => <Modal {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Modal with button dark"
+    name="Modal with button dark"  parameters={{backgrounds: { default: 'dark' }}}
     args={{
       mode: "dark",
       title: "Modal title",

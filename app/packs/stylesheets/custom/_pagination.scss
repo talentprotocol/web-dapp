@@ -1,0 +1,38 @@
+@import "../colors";
+
+
+.pagination-button {
+    color: $black;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+
+    &.dark {
+        color: $white;
+    }
+
+
+    &:hover {
+        background-color: $surface-hover;
+
+        &.dark {
+            background-color: $gray-600;
+        }
+    }
+
+    &:active {
+        background-color: $primary;
+        color: $white;
+        border: 0;
+
+        &.dark {
+            color: $white;
+        }
+    }
+
+
+    &.active {
+        background-color: $primary;
+        color: $white;
+    }
+}
