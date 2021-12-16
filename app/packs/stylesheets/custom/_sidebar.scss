@@ -2,12 +2,19 @@
 @import "../bootstrap/overrides";
 
 .side-nav {
-    background-color: $white;
-    padding: 24px;
+    padding: 8px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 220px !important;
+}
 
-    &.dark {
-        background-color: $gray-900;
-    }
+body.dark-body .side-nav {
+    background-color: $gray-900;
+}
+
+body.light-body .side-nav {
+    background-color: $white;
 }
 
 .side-nav .menu {

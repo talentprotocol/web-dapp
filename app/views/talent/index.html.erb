@@ -1,3 +1,10 @@
-<%= react_component("SideBar", props: { mode: current_user&.theme_preference || "light" }, prerender: false) %>
+<%= react_component("SideBar", props: {
+  mode: current_user&.theme_preference || "light",
+  talentPath: talent_index_path,
+  portfolioPath: portfolio_path,
+  messagesPath: messages_path,
+}, prerender: false) %>
+
 <main class="w-100 h-100 bg-danger">
+  <h1>Talent</h1>
 </main>
