@@ -40,7 +40,9 @@ const Notification = ({
             {title ? <strong>{title}</strong> : null}
           </div>
           <div className="col-lg-12">
-            {description ? <p>{description}</p> : null}
+            {description ? (
+              <p className="notification-description">{description}</p>
+            ) : null}
             {time_information ? <p>{time_information}</p> : null}
           </div>
         </div>

@@ -20,7 +20,7 @@ const Modal = ({ mode }) => {
           </button>
         </div>
         <div className={`modal-body ${mode}`}>
-          <TextInput placeholder="Search people" />
+          <TextInput placeholder="Search people" mode={`${mode}`} />
           <div className="mt-1">
             <Caption
               className="text-muted"

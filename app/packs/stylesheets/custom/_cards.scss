@@ -111,7 +111,7 @@
     font-size: 0.8rem !important;
 
     &.dark {
-        background-color: $gray-500;
+        background-color: $gray-600;
         color: $white;
     }
 }
@@ -134,6 +134,7 @@
 
     &.dark {
         background-color: $primary-shade-01;
+        color: $primary-dark;
     }
 }
 
@@ -181,13 +182,16 @@
 .project-image{
     width: 100%;
     height: auto;
+    margin-top: 0.5rem;
 }
 
 .roadmap-date {
-    font-weight: 700;
     color: $warning;
     margin-bottom: 0.5rem !important;
-    font-size: 0.8rem !important;
+    font-size: 11px !important;
+    line-height: 185% !important;
+    font-weight: bold !important;
+    letter-spacing: 2px !important;
 
     &.dark {
         color: $yellow;
@@ -220,7 +224,10 @@
     font-weight: 700;
     color: $warning;
     margin-bottom: 0.5rem !important;
-    font-size: 0.9rem !important;
+    font-size: 11px !important;
+    line-height: 185% !important;
+    font-weight: bold !important;
+    letter-spacing: 2px !important;
 
     &.dark {
         color: $yellow;
@@ -251,6 +258,7 @@
 .token-title {
     margin-top: 1.5rem !important;
     color: $gray-primary;
+    font-weight: normal !important;
 
     &.dark {
         color: $gray-400;
