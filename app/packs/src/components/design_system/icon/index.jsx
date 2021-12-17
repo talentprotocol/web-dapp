@@ -1,5 +1,5 @@
 import React from "react";
-import { number, string, shape, object } from "prop-types";
+import { number, string } from "prop-types";
 
 const Icon = ({
   path,
@@ -13,7 +13,6 @@ const Icon = ({
 }) => (
   <svg
     className={className}
-    style={style}
     viewBox={viewBox}
     width={`${size}px`}
     height={`${size}px`}
@@ -36,7 +35,6 @@ Icon.defaultProps = {
   color: "#000000",
   fill: "none",
   viewBox: "0 0 16 16",
-  style: {},
   className: "",
   pathClassName: "",
 };
@@ -47,7 +45,6 @@ Icon.propTypes = {
   color: string,
   fill: string,
   viewBox: string,
-  style: shape(object),
   className: string,
   pathClassName: string,
 };
