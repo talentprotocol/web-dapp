@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import TagInput from "src/components/design_system/tag_input";
+
+<Meta title="Design System/Tag Input" component={TagInput} />
+
+# Tag Inputs
+
+Custom Tag Inputs.
+
+## Examples
+
+export const Template = (args) => <TagInput {...args} />;
+
+<Canvas>
+  <Story name="Light mode" args={{ label: "Label", caption: "Short caption" }}>
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{ label: "Label", caption: "Short caption", mode: "dark" }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
