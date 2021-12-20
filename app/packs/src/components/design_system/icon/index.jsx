@@ -8,12 +8,10 @@ const Icon = ({
   fill,
   className,
   pathClassName,
-  style,
   viewBox,
 }) => (
   <svg
     className={className}
-    style={style}
     viewBox={viewBox}
     width={`${size}px`}
     height={`${size}px`}
@@ -36,7 +34,6 @@ Icon.defaultProps = {
   color: "#000000",
   fill: "none",
   viewBox: "0 0 16 16",
-  style: {},
   className: "",
   pathClassName: "",
 };
@@ -47,7 +44,6 @@ Icon.propTypes = {
   color: string,
   fill: string,
   viewBox: string,
-  style: shape(object),
   className: string,
   pathClassName: string,
 };

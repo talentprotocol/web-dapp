@@ -17,20 +17,8 @@ const TopBar = ({
 }) => {
   return (
     <>
-      <nav className={`navbar ${mode}`}>
-        <div className="col-lg-6">
-          <button className={`button-topbar button-square ${mode}`}>
-            <ArrowBack pathClassName={cx("icon-theme", mode)} />
-          </button>
-
-          <button
-            className={`button-topbar button-square ml-1 ${mode}`}
-            disabled
-          >
-            <ArrowForward pathClassName={cx("icon-theme", mode)} />
-          </button>
-        </div>
-        <div className="col-lg-6 text-right">
+      <nav className={`navbar ${mode} justify-content-end`}>
+        <div className="text-right">
           {is_connected == false ? (
             <button className={`button-topbar mr-1 ${mode}`}>
               <Metamask />
@@ -59,7 +47,9 @@ const TopBar = ({
               alt="Profile picture"
             ></img>
 
-            <strong className="ml-1 mr-1">{name}</strong>
+            <strong className={`ml-1 mr-1 wallet_balance ${mode}`}>
+              {name}
+            </strong>
             <ArrowDown pathClassName={cx("icon-theme", mode)} />
           </button>
 

@@ -11,3 +11,13 @@
   portfolioPath: portfolio_path,
   messagesPath: messages_path,
 }, prerender: false) %>
+
+<%= react_component("TopBar", props: {
+  mode: current_user&.theme_preference || "light",
+  name: current_user.display_name || current_user.username,
+  photo_url: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+  count_notifications: 0,
+  is_connected: true,
+  wallet_balance: 100,
+  wallet_address: current_user.wallet_id,
+}, prerender: false) %>

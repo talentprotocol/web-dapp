@@ -2,6 +2,11 @@
 @import "../bootstrap/overrides";
 
 .navbar {
+    height: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 220px;
     background-color: $white;
 
     &.dark {
