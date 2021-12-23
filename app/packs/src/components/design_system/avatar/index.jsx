@@ -5,7 +5,7 @@ import cx from "classnames";
 import P3 from "../typography/p3";
 import P2 from "../typography/p2";
 
-const Avatar = ({ imgUrl, name, token, mode, size }) => {
+const Avatar = ({ imgUrl, name, token, mode, size, className }) => {
   const avatarSize = () => {
     if (size === "small" || size === "normal") {
       return 24;
@@ -15,7 +15,7 @@ const Avatar = ({ imgUrl, name, token, mode, size }) => {
   };
 
   return (
-    <div className="container-avatar">
+    <div className={cx("container-avatar", className)}>
       <TalentProfilePicture src={imgUrl} height={avatarSize()} />
       {size === "small" && (
         <>
@@ -44,6 +44,7 @@ Avatar.defaultProps = {
   label: null,
   mode: "light",
   size: "normal",
+  className: "",
 };
 
 Avatar.propTypes = {
@@ -52,6 +53,7 @@ Avatar.propTypes = {
   token: string,
   mode: oneOf(["light", "dark"]),
   size: oneOf(["small", "normal", "big"]),
+  className: string,
 };
 
 export default Avatar;

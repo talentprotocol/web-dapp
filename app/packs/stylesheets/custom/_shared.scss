@@ -150,3 +150,11 @@
 .dark-body .text-secondary {
   color: $gray-300 !important;
 }
+
+.icon-bar {
+    stroke: $gray-400;
+
+    &.dark {
+        stroke: $gray-300;
+    }
+}

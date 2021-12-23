@@ -1,6 +1,7 @@
 .tag-container {
   cursor: default;
   display: flex;
+  white-space: nowrap;
   align-items: center;
   width: fit-content;
   padding: 2px 8px;
@@ -18,6 +19,7 @@
 .optional-tag-container {
   cursor: default;
   display: flex;
+  white-space: nowrap;
   align-items: center;
   width: fit-content;
   padding: 0px 8px;

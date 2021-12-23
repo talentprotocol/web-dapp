@@ -4,6 +4,7 @@ import LogoDark from "src/components/icons/Logo-Dark";
 import Talent from "src/components/icons/Talent";
 import Wallet from "src/components/icons/Wallet";
 import Chat from "src/components/icons/Chat";
+import cx from "classnames";
 
 import SideBarItem from "./SideBarItem";
 

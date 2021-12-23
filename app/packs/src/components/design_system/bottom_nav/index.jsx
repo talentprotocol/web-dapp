@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Talent from "src/components/icons/Talent";
 import Chat from "src/components/icons/Chat";
 import Wallet from "src/components/icons/Wallet";
+import cx from "classnames";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";

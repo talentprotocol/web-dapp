@@ -2,89 +2,124 @@
 @import "../bootstrap/overrides";
 
 .title-field {
-    font-weight: 700;
-    font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.9rem;
 
-    &.dark {
-        color: $white;
-    }
+  &.dark {
+    color: $white;
+  }
 }
 
 .short-caption {
-    margin-top: 0.6rem;
-    font-size: 0.8rem;
-    color: $gray-primary;
-    font-weight: 400;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: $gray-primary;
+  font-weight: 400;
 
-    &.dark {
-        color: $gray-400;
-    }
+  &.dark {
+    color: $gray-400;
+  }
 }
 
 .form-control {
+  background: $surface-hover;
+  color: $gray-800;
+  border: 0;
+
+  &:hover {
     background: $surface-hover;
-    color: #202122;
+    border: 1px solid $primary-400;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+
+  &:active {
+    background-color: $surface-hover;
+  }
+
+  &:focus {
+    background-color: $surface-hover;
+  }
+
+  &:disabled {
+    color: $primary-outline-disabled;
+    background: $surface-hover;
+    border: 0px;
+    color: $gray-800;
+  }
+
+  &.dark {
+    background: $gray-600;
+    color: $white;
+    border: 0;
+
+    ::placeholder {
+      color: $gray-400 !important;
+    }
 
     &:hover {
-        background: $surface-hover;
-        border: 1px solid $primary-400;
-        box-sizing: border-box;
-        border-radius: 4px;
+      background: $gray-600;
+      border: 1px solid $primary;
+      box-sizing: border-box;
+      border-radius: 4px;
     }
 
     &:active {
-        background-color: $surface-hover;
+      background: $gray-600;
     }
 
     &:focus {
-        background-color: $surface-hover;
+      background: $gray-600;
     }
 
     &:disabled {
-        color: $primary-outline-disabled;
-        background: $surface-hover;
-        border: 0px;
-        color: $gray-800;
+      color: $primary-outline-disabled;
+      background: $gray-600;
+      border: 0px;
+      color: $gray-800;
     }
-
-    &.dark {
-        background: $gray-600;
-        color: $white;
-        border: 0;
-
-        ::placeholder {
-            color: $gray-400 !important;
-        }
-
-
-        &:hover {
-            background: $gray-600;
-            border: 1px solid $primary;
-            box-sizing: border-box;
-            border-radius: 4px;
-        }
-
-        &:active {
-            background: $gray-600;
-        }
-
-        &:focus {
-            background: $gray-600;
-        }
-
-        &:disabled {
-            color: $primary-outline-disabled;
-            background: $gray-600;
-            border: 0px;
-            color: $gray-800;
-        }
-    }
+  }
 }
 
+::placeholder {
+  color: $gray-primary !important;
+  font-size: 0.9rem;
+}
 
+.tag-input {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  overflow: overlay;
 
+  input {
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    width: 100%;
+    outline: none;
+  }
+
+  .tags {
+    display: flex;
+  }
+
+  .optional-tag-container {
+    margin-right: 10px;
+  }
+}
+
+.tag-input-caption {
+  &.light {
+    color: $gray-primary;
+  }
+
+  &.dark {
+    color: $gray-400;
+  }
+}
 
 ::placeholder {
-    color: $gray-primary !important;
-    font-size: 0.9rem;
+  color: $gray-400 !important;
+  font-size: 0.9rem;
 }
