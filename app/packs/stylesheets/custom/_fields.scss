@@ -22,9 +22,9 @@
 }
 
 .form-control {
-    background: $surface-hover;
-    color: #202122;
-    border: 0;
+  background: $surface-hover;
+  color: $gray-800;
+  border: 0;
 
   &:hover {
     background: $surface-hover;
@@ -117,7 +117,9 @@
   &.dark {
     color: $gray-400;
   }
+}
+
 ::placeholder {
-    color: $gray-400 !important;
-    font-size: 0.9rem;
+  color: $gray-400 !important;
+  font-size: 0.9rem;
 }
