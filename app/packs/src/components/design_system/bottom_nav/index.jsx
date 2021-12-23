@@ -3,6 +3,7 @@ import Star from "src/components/icons/Star";
 import Talent from "src/components/icons/Talent";
 import Chat from "src/components/icons/Chat";
 import Wallet from "src/components/icons/Wallet";
+import cx from "classnames";
 
 const NavBottom = ({ mode }) => {
   return (
@@ -12,23 +13,19 @@ const NavBottom = ({ mode }) => {
           <div className="navbar-bottom-menu">
             <div className="navbar-bottom-menu-option">
               {" "}
-              <Star color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />{" "}
+              <Star pathClassName={cx("icon-bar", mode)} />{" "}
             </div>
             <div className="navbar-bottom-menu-option">
               {" "}
-              <Talent
-                color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`}
-              />{" "}
+              <Talent pathClassName={cx("icon-bar", mode)} />{" "}
             </div>
             <div className="navbar-bottom-menu-option">
               {" "}
-              <Chat color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />{" "}
+              <Chat pathClassName={cx("icon-bar", mode)} />{" "}
             </div>
             <div className="navbar-bottom-menu-option">
               {" "}
-              <Wallet
-                color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`}
-              />{" "}
+              <Wallet pathClassName={cx("icon-bar", mode)} />{" "}
             </div>
           </div>
         </nav>

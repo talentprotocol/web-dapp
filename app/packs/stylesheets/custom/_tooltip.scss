@@ -1,74 +1,80 @@
 @import "../colors";
 
 .talent-tooltip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 12px;
-  border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 4px;
 
-  &.light {
-    background-color: $gray-600;
+    &.light {
+        background-color: $gray-600;
 
-    &[x-placement=bottom] > .arrow::after {
-      border-bottom-color: $gray-600;
-    }
-  
-    &[x-placement=top] > .arrow::after {
-      border-top-color: $gray-600;
-    }
-  
-    &[x-placement=left] > .arrow::after {
-      border-left-color: $gray-600;
-    }
-  
-    &[x-placement=right] > .arrow::after {
-      border-right-color: $gray-600;
-    }
+        &[x-placement=bottom] > .arrow::after {
+            border-bottom-color: $gray-600;
+        }
 
-    .tooltip-title {
-      color: $gray-primary;
-      text-align: center;
-      margin-bottom: 2px;
-    }
-    
-    .tooltip-body {
-      color: $white;
-      text-align: center;
-      margin-bottom: 0px;
-    }
-  }
+        &[x-placement=top] > .arrow::after {
+            border-top-color: $gray-600;
+        }
 
-  &.dark {
-    background-color: $white;
+        &[x-placement=left] > .arrow::after {
+            border-left-color: $gray-600;
+        }
 
-    &[x-placement=bottom] > .arrow::after {
-      border-bottom-color: $white;
-    }
-  
-    &[x-placement=top] > .arrow::after {
-      border-top-color: $white;
-    }
-  
-    &[x-placement=left] > .arrow::after {
-      border-left-color: $white;
-    }
-  
-    &[x-placement=right] > .arrow::after {
-      border-right-color: $white;
+        &[x-placement=right] > .arrow::after {
+            border-right-color: $gray-600;
+        }
+
+        .tooltip-title {
+            color: $gray-primary;
+            text-align: center;
+            margin-bottom: 2px;
+            margin-top: 4px !important;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+
+        .tooltip-body {
+            color: $white;
+            text-align: center;
+            margin-bottom: 0px;
+        }
     }
 
-    .tooltip-title {
-      color: $gray-300;
-      text-align: center;
-      margin-bottom: 2px;
+    &.dark {
+        background-color: $white;
+
+        &[x-placement=bottom] > .arrow::after {
+            border-bottom-color: $white;
+        }
+
+        &[x-placement=top] > .arrow::after {
+            border-top-color: $white;
+        }
+
+        &[x-placement=left] > .arrow::after {
+            border-left-color: $white;
+        }
+
+        &[x-placement=right] > .arrow::after {
+            border-right-color: $white;
+        }
+
+        .tooltip-title {
+            color: $gray-300;
+            text-align: center;
+            margin-bottom: 2px;
+            margin-top: 4px !important;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+
+        .tooltip-body {
+            color: $gray-900;
+            text-align: center;
+            margin-bottom: 0px;
+        }
     }
-    
-    .tooltip-body {
-      color: $gray-900;
-      text-align: center;
-      margin-bottom: 0px;
-    }
-  }
 }

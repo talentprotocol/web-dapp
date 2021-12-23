@@ -5,6 +5,7 @@ import Home from "src/components/icons/Home";
 import Talent from "src/components/icons/Talent";
 import Wallet from "src/components/icons/Wallet";
 import Chat from "src/components/icons/Chat";
+import cx from "classnames";
 
 const SideBar = ({ mode }) => {
   return (
@@ -16,7 +17,7 @@ const SideBar = ({ mode }) => {
           <li>
             <a href="#" className={`d-flex ${mode} active`}>
               <div className="menu-icon">
-                <Home color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />
+                <Home pathClassName={cx("icon-bar", mode)} />
               </div>
               <span>Home</span>
             </a>
@@ -25,7 +26,7 @@ const SideBar = ({ mode }) => {
           <li>
             <a href="#" className={`d-flex ${mode}`}>
               <div className="menu-icon">
-                <Talent color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />
+                <Talent pathClassName={cx("icon-bar", mode)} />
               </div>
               <span>Talent</span>
             </a>
@@ -34,7 +35,7 @@ const SideBar = ({ mode }) => {
           <li>
             <a href="#" className={`d-flex ${mode}`}>
               <div className="menu-icon">
-                <Wallet color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />
+                <Wallet pathClassName={cx("icon-bar", mode)} />
               </div>
               <span>Portfolio</span>
             </a>
@@ -43,7 +44,7 @@ const SideBar = ({ mode }) => {
           <li>
             <a href="#" className={`d-flex ${mode}`}>
               <div className="menu-icon">
-                <Chat color={`${mode === "dark" ? "#AAADB3" : "#686C74"}`} />
+                <Chat pathClassName={cx("icon-bar", mode)} />
               </div>
               <span>Messages</span>
             </a>

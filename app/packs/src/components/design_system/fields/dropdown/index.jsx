@@ -1,16 +1,26 @@
 import React from "react";
 
-const TextInput = ({ title, shortCaption, placeholder, mode, disabled }) => {
+const DropdownInput = ({
+  onChange,
+  title,
+  shortCaption,
+  mode,
+  disabled,
+  options,
+}) => {
   return (
     <>
       {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
 
-      <input
-        type="text"
+      <select
         className={`form-control ${mode}`}
-        placeholder={placeholder}
         disabled={disabled}
-      />
+        onChange={onChange}
+      >
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
 
       {shortCaption ? (
         <p className={`short-caption ${mode}`}>{shortCaption}</p>
@@ -19,4 +29,4 @@ const TextInput = ({ title, shortCaption, placeholder, mode, disabled }) => {
   );
 };
 
-export default TextInput;
+export default DropdownInput;

@@ -2,6 +2,7 @@ import React from "react";
 import Divider from "../other/divider";
 import Caption from "src/components/design_system/typography/caption";
 import P1 from "src/components/design_system/typography/p1";
+import P2 from "src/components/design_system/typography/p2";
 
 const TokenPrice = ({
   mode,
@@ -30,12 +31,12 @@ const TokenPrice = ({
         <small>{token_address || "Coming soon"}</small>
       </div>
 
-      <P1
+      <P2
         className={`token-title`}
         text={`${display_name} Price today`}
         mode={`${mode}`}
         bold="true"
-      ></P1>
+      ></P2>
 
       <Divider mode={`${mode}`} />
 
@@ -56,12 +57,12 @@ const TokenPrice = ({
         </div>
       </div>
 
-      <P1
+      <P2
         className={`token-title`}
         text={`${display_name} Token`}
         mode={`${mode}`}
         bold="true"
-      ></P1>
+      ></P2>
 
       <Divider mode={`${mode}`} />
 

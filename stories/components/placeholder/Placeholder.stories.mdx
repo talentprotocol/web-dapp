@@ -1,0 +1,50 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import Placeholder from "src/components/design_system/placeholder";
+
+<Meta title="Design System/Placeholder" component={Placeholder} />
+
+# Placeholders
+
+Supporting 2 types: photo or banner
+
+## Examples
+
+export const Template = (args) => <Placeholder {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode photo default"
+    args={{
+      type: "photo",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode photo url"
+    args={{
+      imgUrl: "https://i.pravatar.cc/150?img=1",
+      type: "photo",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode banner default"
+    args={{
+      type: "banner",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode banner url"
+    args={{
+      imgUrl: "https://www.snapfi.com/wp-content/uploads/2018/04/Website-Banner-1920-x-600-Images-5.jpg",
+      type: "banner",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

@@ -6,7 +6,7 @@ const TextInput = ({ title, shortCaption, placeholder, mode, disabled }) => {
       {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
 
       <input
-        type="text"
+        type="number"
         className={`form-control ${mode}`}
         placeholder={placeholder}
         disabled={disabled}

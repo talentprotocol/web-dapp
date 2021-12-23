@@ -175,3 +175,11 @@
         stroke: $gray-100;
     }
 }
+
+.icon-bar {
+    stroke: $gray-400;
+
+    &.dark {
+        stroke: $gray-300;
+    }
+}

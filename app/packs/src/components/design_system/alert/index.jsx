@@ -16,7 +16,7 @@ const Alert = ({ type, mode, title, message, link, link_text }) => {
         </div>
         <div className="alertRightArea">
           {title ? <strong>{title}</strong> : null}
-          {message ? <p>{message}</p> : null}
+          {message ? <p className={`${mode}`}>{message}</p> : null}
 
           {link ? (
             <a href={`${link}`} target="_blank">
