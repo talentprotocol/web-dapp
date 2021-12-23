@@ -2,7 +2,7 @@ import React from "react";
 import { string, func, oneOf } from "prop-types";
 import cx from "classnames";
 
-const Button = ({ text, onClick, type, mode, size, className }) => {
+const Button = ({ text, onClick, type, mode, size, className, children }) => {
   const typeClassName = `${type}-button`;
 
   return (

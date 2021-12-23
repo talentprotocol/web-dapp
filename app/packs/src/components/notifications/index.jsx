@@ -55,7 +55,7 @@ const Notification = ({ notification }) => {
   );
 };
 
-const Notifications = ({ notifications }) => {
+const Notifications = ({ notifications, mode }) => {
   const { height, width } = useWindowDimensionsHook();
   const [currentNotifications, setCurrentNotifications] =
     useState(notifications);
@@ -92,10 +92,10 @@ const Notifications = ({ notifications }) => {
     <>
       <Dropdown drop="bottom">
         <Dropdown.Toggle
-          className="user-menu-dropdown-btn no-caret"
+          className={`user-menu-dropdown-btn no-caret ${mode}`}
           id="notifications-dropdown"
         >
-          <Bell />
+          <Bell color="currentColor" />
           {notificationsUnread && (
             <span className="notifications-unread-icon"></span>
           )}

@@ -6,6 +6,8 @@ import { patch } from "src/utils/requests";
 const ThemeContext = createContext({
   theme: "light",
   toggleTheme: () => {},
+  themeName: () => {},
+  mode: () => {},
 });
 ThemeContext.displayName = "ThemeContext";
 
@@ -35,8 +37,26 @@ const ThemeContainer = ({ user, children }) => {
     setCurrentTheme(`${newTheme}-body`);
   };
 
+  const themeName = () => {
+    if (currentTheme == "light-body") {
+      return "Light";
+    } else if (currentTheme == "dark-body") {
+      return "Dark";
+    }
+  };
+
+  const mode = () => {
+    if (currentTheme == "light-body") {
+      return "light";
+    } else if (currentTheme == "dark-body") {
+      return "dark";
+    }
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme: currentTheme, toggleTheme, themeName, mode }}
+    >
       {children}
     </ThemeContext.Provider>
   );

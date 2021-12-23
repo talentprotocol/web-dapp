@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import Talent from "src/components/icons/Talent";
 import Chat from "src/components/icons/Chat";
 import Wallet from "src/components/icons/Wallet";
 
 import { useWindowDimensionsHook } from "src/utils/window";
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
 import BottomNavItem from "./BottomNavItem";
 
-const BottomNav = ({ mode, talentPath, portfolioPath, messagesPath }) => {
+export const BottomNav = ({ talentPath, portfolioPath, messagesPath }) => {
   const { height, width } = useWindowDimensionsHook();
+  const theme = useContext(ThemeContext);
 
   if (width >= 992) {
     return null;
   }
 
   return (
-    <nav className={`navbar-bottom-mobile ${mode}`}>
+    <nav className={`navbar-bottom-mobile ${theme.mode()}`}>
       <div className="navbar-bottom-menu">
         <div className="navbar-bottom-menu-option">
           <BottomNavItem
-            mode={mode}
+            mode={theme.mode()}
             url={talentPath}
             secondaryUrl={"/"}
             routeName="Talent"
@@ -28,7 +30,7 @@ const BottomNav = ({ mode, talentPath, portfolioPath, messagesPath }) => {
         </div>
         <div className="navbar-bottom-menu-option">
           <BottomNavItem
-            mode={mode}
+            mode={theme.mode()}
             url={portfolioPath}
             routeName="Portfolio"
             Icon={Wallet}
@@ -36,7 +38,7 @@ const BottomNav = ({ mode, talentPath, portfolioPath, messagesPath }) => {
         </div>
         <div className="navbar-bottom-menu-option">
           <BottomNavItem
-            mode={mode}
+            mode={theme.mode()}
             url={messagesPath}
             routeName="Messages"
             Icon={Chat}
@@ -47,4 +49,10 @@ const BottomNav = ({ mode, talentPath, portfolioPath, messagesPath }) => {
   );
 };
 
-export default BottomNav;
+export default (props, railsContext) => {
+  return () => (
+    <ThemeContainer {...props}>
+      <BottomNav {...props} />
+    </ThemeContainer>
+  );
+};

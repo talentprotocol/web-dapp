@@ -142,3 +142,11 @@
         stroke: $gray-100;
     }
 }
+
+.dark-body .text-black {
+  color: $white !important;
+}
+
+.dark-body .text-secondary {
+  color: $gray-300 !important;
+}

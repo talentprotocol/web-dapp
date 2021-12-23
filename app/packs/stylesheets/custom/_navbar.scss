@@ -37,10 +37,8 @@
   border-top: 0px !important;
   border-right: 0px !important;
   border-left: 0px !important;
-  border-bottom: 2px solid transparent !important;
 
   &:hover {
-    border-bottom: 2px solid $primary !important;
     color: $primary !important;
     border-top: 0px !important;
     border-right: 0px !important;
@@ -54,12 +52,10 @@
   border-top: 0px;
   border-right: 0px;
   border-left: 0px;
-  border-bottom: 2px solid transparent !important;
   border-radius: 0px;
   padding: 0px;
   height: 100%;
   &:hover {
-    border-bottom: 2px solid $primary !important;
     color: $primary;
     border-top: 0px;
     border-right: 0px;
@@ -75,7 +71,6 @@
   &:active {
     background-color: transparent !important;
     color: $primary !important;
-    border-bottom: 2px solid $primary !important;
   }
 }
 

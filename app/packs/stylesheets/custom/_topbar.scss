@@ -14,6 +14,18 @@
     }
 }
 
+@media (min-width: 992px) {
+    .navbar {
+        left: 220px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        left: 0px;
+    }
+}
+
 .button-topbar {
     display: inline;
     flex-direction: row;
