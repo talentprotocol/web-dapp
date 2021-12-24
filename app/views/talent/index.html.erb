@@ -1,4 +1,4 @@
-<main class="main-content">    
+<main class="main-content"> 
   <%= react_component("ActiveTalents",
     props: {
       talents: @active_talents.order("token.updated_at desc").map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contract_id: talent.token.contract_id, occupation: talent.occupation, ticker: talent.token.ticker, username: talent.user.username, name: talent.user.display_name.present? ? talent.user.display_name : talent.user.username }}
@@ -13,5 +13,5 @@
     props: {
       talents: @active_talents.order(username: :desc).map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contract_id: talent.token.contract_id, occupation: talent.occupation, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, user_id: talent.user_id }}
     },
-    prerender: false, html_options: { class: "px-3" }) %>
+    prerender: false) %>
 </main>

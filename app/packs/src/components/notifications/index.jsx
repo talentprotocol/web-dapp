@@ -43,7 +43,7 @@ const Notification = ({ notification, mode }) => {
   );
 };
 
-const Notifications = ({ notifications, mode }) => {
+const Notifications = ({ notifications, mode, hideBackground = false }) => {
   const { height, width } = useWindowDimensionsHook();
   const [currentNotifications, setCurrentNotifications] =
     useState(notifications);
@@ -80,7 +80,9 @@ const Notifications = ({ notifications, mode }) => {
     <>
       <Dropdown drop="bottom" className="ml-1">
         <Dropdown.Toggle
-          className={`user-menu-dropdown-btn no-caret ${mode}`}
+          className={`user-menu-dropdown-btn no-caret ${mode}${
+            hideBackground ? " remove-background" : ""
+          }`}
           id="notifications-dropdown"
         >
           <Bell color="currentColor" style={{ marginRight: -10 }} />

@@ -421,7 +421,7 @@
 
 .white-ghost-button {
     color: $gray-900;
-    background-color: $white;
+    background: none;
     border: none;
     line-height: 18px;
     font-size: 14px;
@@ -434,17 +434,16 @@
 
     &:disabled {
         color: $gray-200;
-        background-color: $white;
+        background: none;
     }
 
     &:active {
         color: $gray-900;
-        background-color: $white;
+        background-color: none;
     }
 
     &.dark {
         color: $white;
-        background-color: $gray-900;
         border: none;
 
         &:hover {
@@ -453,7 +452,6 @@
 
         &:disabled {
             color: $gray-600;
-            background-color: $gray-900;
         }
 
         &:active {

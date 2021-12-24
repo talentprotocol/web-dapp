@@ -173,15 +173,19 @@
 
 
 .talent-table-tabs {
-  border-bottom: 2px solid $gray-600;
+  border-bottom: 2px solid $light;
 }
 
-.talent-table-tab{
+.talent-table-tab {
   cursor: pointer;
   margin-bottom: -2px;
   &:hover {
     background-color: $light;
   }
+}
+
+.dark-body .talent-table-tabs {
+  border-bottom: 2px solid $gray-600;
 }
 
 .dark-body .talent-table-tab {

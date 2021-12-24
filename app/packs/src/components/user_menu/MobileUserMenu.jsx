@@ -141,9 +141,9 @@ const MobileUserMenu = ({
       {mode == "light" ? <LogoLight width={128} /> : <LogoDark width={128} />}
       <div className="d-flex flex-row">
         <Notifications
-          fullscreen={true}
           notifications={notifications}
           mode={mode}
+          hideBackground={true}
         />
         <Button
           onClick={() => setShowMenu(true)}

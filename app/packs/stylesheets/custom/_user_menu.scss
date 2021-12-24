@@ -3,29 +3,29 @@
 
 
 .user-menu-dropdown-btn {
-  background-color: $light !important;
+  background-color: $light;
   border: 0px;
-  color: $black !important;
+  color: $black;
 
   &:hover {
-    background-color: $light !important;
-    color: $black !important;
+    background-color: $light ;
+    color: $black ;
   }
 
   &:focus {
-    background-color: $light !important;
-    color: $black !important;
-    box-shadow: none !important;
+    background-color: $light ;
+    color: $black ;
+    box-shadow: none ;
   }
 
   &:active {
-    background-color: $light !important;
-    color: $black !important;
+    background-color: $light ;
+    color: $black ;
   }
 
   &.dark {
-    color: $white !important;
-    background-color: $gray-600 !important;
+    color: $white ;
+    background-color: $gray-600 ;
   }
 }
 

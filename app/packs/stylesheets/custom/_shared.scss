@@ -179,3 +179,11 @@
   flex-direction: column;
   overflow-y: auto;
 }
+
+.remove-background {
+  background: none !important;
+}
+
+.rotate-svg {
+  transform: rotate(180deg);
+}
