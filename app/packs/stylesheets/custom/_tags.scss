@@ -14,6 +14,10 @@
   &.dark {
     background-color: $gray-600;
   }
+
+  &.primary {
+    background-color: $primary-200;
+  }
 }
 
 .optional-tag-container {

@@ -19,7 +19,18 @@
             background-color: $gray-600;
         }
     }
+
+    &.mobile {
+        background: none;
+    }
 }
+
+@media (max-width: 992px) {
+    .card {
+        min-width: 175px;
+        max-width: 175px;
+    }
+  }
 
 
 .card-body {
@@ -270,4 +281,8 @@
     &.dark {
         color: $gray-300;
     }
+}
+
+.bg-coming-soon {
+    background: #7A55FF33;
 }

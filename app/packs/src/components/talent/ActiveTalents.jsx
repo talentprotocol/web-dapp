@@ -24,8 +24,16 @@ const ActiveTalents = ({ talents }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);
   const { height, width } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
+  const [mobile, setMobile] = useState(false);
 
   const itemsPerRow = useMemo(() => {
+    if (width < 992) {
+      setMobile(true);
+      return talents.length;
+    } else {
+      setMobile(false);
+    }
+
     const sidebar = 220;
     const card = 290;
 
@@ -80,9 +88,9 @@ const ActiveTalents = ({ talents }) => {
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4 px-3">
         <div className="d-flex flex-row align-items-center">
-          <h5 className="mb-0">
+          <h6 className="mb-0">
             <strong>New Talent</strong>
-          </h5>
+          </h6>
         </div>
         {talents.length > itemsPerRow && (
           <div className="d-flex flex-row">
@@ -109,6 +117,7 @@ const ActiveTalents = ({ talents }) => {
       <div className="d-flex flex-row mb-2 mt-3 px-3 horizontal-scroll">
         {sliceInDisplay.map((talent, index) => (
           <TalentCard
+            mobile={mobile}
             mode={theme.mode()}
             photo_url={talent.profilePictureUrl}
             name={talent.name}

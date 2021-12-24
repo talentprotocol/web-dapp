@@ -8,6 +8,7 @@
     right: 0px;
     left: 220px;
     background-color: $white;
+    z-index: 1;
 
     &.dark {
         background-color: $gray-900;
