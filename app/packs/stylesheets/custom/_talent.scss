@@ -171,11 +171,25 @@
   font-weight: 700;
 }
 
+
+.talent-table-tabs {
+  border-bottom: 2px solid $gray-600;
+}
+
 .talent-table-tab{
   cursor: pointer;
   margin-bottom: -2px;
   &:hover {
     background-color: $light;
-    border-bottom: 2px solid #dee2e6;
   }
+}
+
+.dark-body .talent-table-tab {
+  &:hover {
+    background-color: $gray-600;
+  }  
+}
+
+.table-hover {
+  cursor: pointer
 }

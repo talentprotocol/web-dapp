@@ -26,6 +26,7 @@
 
       &:hover {
         background-color: $surface-hover;
+        cursor: pointer;
       }
     }
   }
@@ -42,6 +43,7 @@
 
       &:hover {
         background-color: $gray-900;
+        cursor: pointer;
       }
     }
   }
@@ -54,8 +56,8 @@
   th {
     letter-spacing: 0.2rem;
     text-transform: uppercase;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
 
@@ -64,20 +66,18 @@
 }
 
 .progress {
-  &.light {
-    background-color: $gray-surface-2;
+  background-color: $gray-surface-2;
 
-    .bg-secondary {
-      background-color: $gray !important;
-    }
+  .bg-secondary {
+    background-color: $gray !important;
   }
+}
 
-  &.dark {
-    background-color: $gray-600;
+.dark-body .progress {
+  background-color: $gray-600;
 
-    .bg-secondary {
-      background-color: $gray-400 !important;
-    }
+  .bg-secondary {
+    background-color: $gray-400 !important;
   }
 }
 

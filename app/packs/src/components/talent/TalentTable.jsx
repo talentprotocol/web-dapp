@@ -13,11 +13,15 @@ import {
 import { post, destroy } from "src/utils/requests";
 
 import TalentProfilePicture from "./TalentProfilePicture";
+import Table from "src/components/design_system/table";
+import P2 from "src/components/design_system/typography/p2";
+import Caption from "src/components/design_system/typography/caption";
 
 const TalentTable = ({ talents }) => {
   const [changingFollow, setChangingFollow] = useState(false);
   const [watchlistOnly, setWatchlistOnly] = useState(false);
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);
+  const [sortDirection, setSortDirection] = useState("asc");
   const getInitialFollows = () => {
     const allFollows = {};
 
@@ -108,19 +112,41 @@ const TalentTable = ({ talents }) => {
     return 0;
   };
 
-  const filteredTalents = () => {
-    if (watchlistOnly) {
-      return talents.filter((talent) => {
-        return !!follows[talent.id];
-      });
+  const compareUsername = (talent1, talent2) => {
+    if (talent1.username > talent2.username) {
+      return 1;
+    } else if (talent1.username < talent2.username) {
+      return -1;
     } else {
-      return talents;
+      return 0;
+    }
+  };
+
+  const filteredTalents = () => {
+    let desiredTalent = talents;
+    if (watchlistOnly) {
+      desiredTalent = talents.filter((talent) => !!follows[talent.id]);
+    }
+    if (sortDirection == "asc") {
+      desiredTalent.sort(compareUsername);
+    } else {
+      desiredTalent.reverse();
+    }
+
+    return desiredTalent;
+  };
+
+  const toggleDirection = () => {
+    if (sortDirection == "asc") {
+      setSortDirection("desc");
+    } else {
+      setSortDirection("asc");
     }
   };
 
   return (
     <>
-      <div className="w-100 border-bottom mt-3 d-flex flex-row">
+      <div className="w-100 talent-table-tabs mt-3 d-flex flex-row">
         <div
           onClick={() => setWatchlistOnly(false)}
           className={`py-2 px-2 talent-table-tab${
@@ -138,95 +164,86 @@ const TalentTable = ({ talents }) => {
           Watchlist
         </div>
       </div>
-      <div className="table-responsive">
-        <table className="table table-hover mb-3">
-          <thead>
-            <tr>
-              <th
-                className="tal-th py-1 text-muted border-bottom-0"
-                scope="col"
-              ></th>
-              <th
-                className="tal-th py-1 text-muted border-bottom-0"
-                scope="col"
-              >
-                <small>TALENT</small>
-              </th>
-              <th
-                className="tal-th py-1 text-muted border-bottom-0"
-                scope="col"
-              >
-                <small>OCCUPATION</small>
-              </th>
-              <th
-                className="tal-th py-1 text-muted border-bottom-0"
-                scope="col"
-              >
-                <small>SUPPORTERS</small>
-              </th>
-              <th
-                className="tal-th py-1 text-muted border-bottom-0"
-                scope="col"
-              >
-                <small>CIRCULATING SUPPLY</small>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTalents().map((talent) => (
-              <tr key={`talent-${talent.contract_id}`} className="tal-tr-item">
-                <th className="text-muted align-middle">
-                  <button
-                    className="btn border-0 text-warning"
-                    onClick={() => toggleWatchlist(talent)}
-                    disabled={changingFollow}
-                  >
-                    {follows[talent.id] ? (
-                      <FontAwesomeIcon icon={faStar} />
-                    ) : (
-                      <FontAwesomeIcon icon={faStarOutline} />
-                    )}
-                  </button>
-                </th>
-                <th className="text-muted align-middle">
+      <Table mode={"dark"} className="px-3">
+        <Table.Head>
+          <Table.Th>
+            <Caption bold text="" />
+          </Table.Th>
+          <Table.Th>
+            <Caption
+              onClick={toggleDirection}
+              bold
+              text={`TALENT ${sortDirection == "asc" ? "▼" : "▲"}`}
+              className="cursor-pointer"
+            />
+          </Table.Th>
+          <Table.Th>
+            <Caption bold text="OCCUPATION" />
+          </Table.Th>
+          <Table.Th>
+            <Caption bold text="SUPPORTERS" />
+          </Table.Th>
+          <Table.Th>
+            <Caption bold text="CIRCULATING SUPPLY" />
+          </Table.Th>
+        </Table.Head>
+        <Table.Body>
+          {filteredTalents().map((talent) => (
+            <Table.Tr
+              key={`talent-${talent.contract_id}`}
+              onClick={() =>
+                (window.location.href = `/talent/${talent.username}`)
+              }
+            >
+              <Table.Td>
+                <button
+                  className="btn border-0 text-warning"
+                  onClick={() => toggleWatchlist(talent)}
+                  disabled={changingFollow}
+                >
+                  {follows[talent.id] ? (
+                    <FontAwesomeIcon icon={faStar} />
+                  ) : (
+                    <FontAwesomeIcon icon={faStarOutline} />
+                  )}
+                </button>
+              </Table.Td>
+              <Table.Td>
+                <div className="d-flex">
                   <TalentProfilePicture
                     src={talent.profilePictureUrl}
-                    height={24}
+                    height="24"
                   />
-                  <a
-                    href={`/talent/${talent.username}`}
-                    className="ml-2 text-reset"
-                  >
-                    {talent.username}
-                  </a>{" "}
-                  <small className="text-warning">{talent.ticker}</small>
-                </th>
-                <th className="align-middle pr-0" scope="row">
-                  {talent.occupation}
-                </th>
-                <th className="align-middle pr-0" scope="row">
-                  {getSponsorCount(talent.contract_id)}
-                </th>
-                <td className="align-middle d-flex flex-column">
-                  <small>
-                    {getCirculatingSupply(talent.contract_id)} {talent.ticker}
-                  </small>
-                  <div className="progress" style={{ height: 6 }}>
-                    <div
-                      className="progress-bar bg-secondary"
-                      role="progressbar"
-                      aria-valuenow={getProgress(talent.contract_id)}
-                      style={{ width: `${getProgress(talent.contract_id)}%` }}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  <P2 text={talent.username} bold className="ml-2" />
+                </div>
+              </Table.Td>
+              <Table.Td>
+                <P2 text={talent.occupation} />
+              </Table.Td>
+              <Table.Td>
+                <P2 text={`${getSponsorCount(talent.contract_id)}`} />
+              </Table.Td>
+              <Table.Td className="pr-3">
+                <P2
+                  text={`${getCirculatingSupply(talent.contract_id)} ${
+                    talent.ticker
+                  }`}
+                />
+                <div className="progress" style={{ height: 6 }}>
+                  <div
+                    className="progress-bar bg-secondary"
+                    role="progressbar"
+                    aria-valuenow={getProgress(talent.contract_id)}
+                    style={{ width: `${getProgress(talent.contract_id)}%` }}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Body>
+      </Table>
     </>
   );
 };

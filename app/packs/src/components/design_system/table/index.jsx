@@ -2,8 +2,8 @@ import React from "react";
 import { node, string } from "prop-types";
 import cx from "classnames";
 
-const Table = ({ children, mode }) => (
-  <table className={cx("talent-table", mode)}>{children}</table>
+const Table = ({ children, mode, className }) => (
+  <table className={cx("talent-table", mode, className)}>{children}</table>
 );
 
 const Head = ({ children }) => (
@@ -14,7 +14,7 @@ const Head = ({ children }) => (
 
 const Body = ({ children }) => <tbody>{children}</tbody>;
 
-const Tr = ({ children }) => <tr>{children}</tr>;
+const Tr = ({ children, onClick }) => <tr onClick={onClick}>{children}</tr>;
 
 const Cell = ({ children, header, className }) => {
   return header ? (

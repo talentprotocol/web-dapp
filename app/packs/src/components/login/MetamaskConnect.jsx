@@ -86,7 +86,7 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
     }
   };
 
-  const allowConnect = () => requestingMetamask == "false";
+  const allowConnect = () => requestingMetamask == false;
 
   return (
     <>
