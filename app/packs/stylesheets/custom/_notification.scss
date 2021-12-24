@@ -1,7 +1,7 @@
 @import "../colors";
 @import "../bootstrap/overrides";
 
-.notificationContainer {
+.notification-container {
     border: 1px solid #EDEDEF;
     box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.06);
     border-radius: 4px;
@@ -14,44 +14,30 @@
 
 
 .notification {
-    background-color: $white;
     box-sizing: border-box;
     padding: 0.6rem;
-    border: 0;
-
-    &.dark {
-        background: $gray-600;
-        border: 0;
-        box-shadow: 0;
-    }
 }
 
 .notification-icon{
     margin: 2px;
 }
 
-.notificationRightArea {
+.notification-right-area {
     margin-left: 10px;
     margin-top: 2px;
 }
 
-.notificationRightArea strong {
+.notification-right-area strong {
     padding-top: 2px;
     font-weight: 700;
 }
 
-.notificationRightArea p {
+.notification-right-area p {
     font-size: 0.8rem;
     padding-right: 10px;
-    margin-bottom: 0!important;
-    color: $gray-400;
-
-    &.dark {
-        color: $gray-300;
-    }
+    margin-bottom: 0 !important;
 }
 
-.notification-description
-{
+.notification-description {
     margin-top: 4px;
 }

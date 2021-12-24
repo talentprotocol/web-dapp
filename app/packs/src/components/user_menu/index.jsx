@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
-import { patch, destroy } from "../../utils/requests";
+import { destroy } from "../../utils/requests";
 import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
@@ -24,6 +24,9 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import Notifications from "src/components/notifications";
 
 import Button from "src/components/design_system/button";
+import MobileUserMenu from "./MobileUserMenu";
+
+import { Copy } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -167,9 +170,53 @@ export const UserMenuUnconnected = ({
     theme.toggleTheme();
   };
 
+  const connectedButton = (extraClasses = "") => (
+    <Button
+      onClick={copyAddressToClipboard}
+      type="white-subtle"
+      mode={theme.mode()}
+      className={extraClasses}
+    >
+      <strong>
+        {parseAndCommify(stableBalance)} cUSD{" "}
+        <span className="text-secondary">{user.displayWalletId}</span>
+        <Copy color="currentColor" className="ml-2" />
+      </strong>
+    </Button>
+  );
+
+  const metamaskButton = () => (
+    <MetamaskConnect
+      user_id={user.id}
+      onConnect={onWalletConnect}
+      railsContext={railsContext}
+      mode={theme.mode()}
+    />
+  );
+
+  if (width < 992) {
+    return (
+      <MobileUserMenu
+        mode={theme.mode()}
+        notifications={notifications}
+        user={user}
+        toggleTheme={toggleTheme}
+        showConnectButton={showConnectButton}
+        connectedButton={connectedButton}
+        metamaskButton={metamaskButton}
+        onClickTransak={onClickTransak}
+        copyCodeToClipboard={copyCodeToClipboard}
+        inviteNumbers={inviteNumbers()}
+        signOut={signOut}
+      />
+    );
+  }
+
   return (
     <nav className={`navbar ${theme.mode()} justify-content-end`}>
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
+      {!showConnectButton() && connectedButton("mr-2")}
+      {showConnectButton() && metamaskButton()}
       <Dropdown>
         <Dropdown.Toggle
           className={`user-menu-dropdown-btn no-caret ${theme.mode()}`}

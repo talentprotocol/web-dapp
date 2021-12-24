@@ -1,8 +1,7 @@
 import React from "react";
 import { number, string } from "prop-types";
 
-const Icon = ({
-  path,
+const ArrowLeft = ({
   size,
   color,
   fill,
@@ -23,7 +22,14 @@ const Icon = ({
   >
     <path
       className={pathClassName}
-      d={path}
+      d="M15.5 8H0.5"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      className={pathClassName}
+      d="M7.5 1L0.5 8L7.5 15"
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -31,7 +37,7 @@ const Icon = ({
   </svg>
 );
 
-Icon.defaultProps = {
+ArrowLeft.defaultProps = {
   size: 16,
   color: "#000000",
   fill: "none",
@@ -40,8 +46,7 @@ Icon.defaultProps = {
   pathClassName: "",
 };
 
-Icon.propTypes = {
-  path: string.isRequired,
+ArrowLeft.propTypes = {
   size: number,
   color: string,
   fill: string,
@@ -50,4 +55,4 @@ Icon.propTypes = {
   pathClassName: string,
 };
 
-export default Icon;
+export default ArrowLeft;

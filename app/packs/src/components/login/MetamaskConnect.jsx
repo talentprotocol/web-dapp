@@ -5,6 +5,8 @@ import { OnChain } from "src/onchain";
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "../../utils/requests";
 
+import Button from "src/components/design_system/button";
+
 export const NoMetamask = ({ show, hide }) => {
   const openMetamaskDownload = () =>
     window.open("https://metamask.io/download", "_blank").focus();
@@ -56,7 +58,7 @@ export const UnableToConnect = ({ show, hide }) => (
   </Modal>
 );
 
-const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
+const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
   const [requestingMetamask, setRequestingMetamask] = useState(false);
   const [account, setAccount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -90,14 +92,21 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext }) => {
     <>
       <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
       <UnableToConnect show={error} hide={() => setError(false)} />
-      <small
+      <Button
         onClick={connectMetamask}
+        type="white-subtle"
+        mode={mode}
+        className="mr-2"
         disabled={!allowConnect()}
-        className={error ? "text-danger" : ""}
       >
+        <img
+          src={MetamaskFox}
+          height={16}
+          alt="Metamask Fox"
+          className="mr-2"
+        />
         {account == "" ? "Connect Wallet" : `${account.substring(0, 10)}...`}{" "}
-        <img src={MetamaskFox} height={16} alt="Metamask Fox" />
-      </small>
+      </Button>
     </>
   );
 };

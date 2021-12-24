@@ -34,14 +34,16 @@ const Notification = ({
           {type === "check" && <Check pathClassName={cx("icon-theme", mode)} />}
           {type === "globe" && <Globe pathClassName={cx("icon-theme", mode)} />}
         </div>
-        <div className="row notificationRightArea">
-          <div className="col-lg-12">
+        <div className={`d-flex flex-column notification-right-area ${mode}`}>
+          <div className="w-100">
             {is_new == true ? <div className="ellipse-new"></div> : null}
             {title ? <strong>{title}</strong> : null}
           </div>
-          <div className="col-lg-12">
+          <div className="w-100">
             {description ? (
-              <p className="notification-description">{description}</p>
+              <p className="notification-description text-wrap">
+                {description}
+              </p>
             ) : null}
             {time_information ? <p>{time_information}</p> : null}
           </div>

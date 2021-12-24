@@ -29,3 +29,7 @@ export { default as Wallet } from "src/components/icons/Wallet";
 export { default as Metamask } from "src/components/icons/Metamask";
 export { default as Bell } from "src/components/icons/Bell";
 export { default as Star } from "src/components/icons/Star";
+export { default as Sun } from "src/components/icons/Sun";
+export { default as Moon } from "src/components/icons/Moon";
+export { default as ArrowLeft } from "src/components/icons/ArrowLeft";
+export { default as ArrowRight } from "src/components/icons/ArrowRight";

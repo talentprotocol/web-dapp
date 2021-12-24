@@ -67,6 +67,7 @@ const TalentShow = ({
     goals,
     posts,
   });
+  const theme = useContext(ThemeContext);
 
   const ticker = () =>
     sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
@@ -123,14 +124,6 @@ const TalentShow = ({
   const profileIsComplete = useMemo(() => {
     return completeProfile(sharedState);
   }, [sharedState]);
-
-  // remove
-
-  const theme = useContext(ThemeContext);
-  console.log("HEHRHEHEHREH");
-  console.log(theme);
-
-  // remove
 
   return (
     <div className="d-flex flex-column border-left lg-h-100">

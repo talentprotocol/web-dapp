@@ -11,7 +11,7 @@ const Notification = ({
 }) => {
   return (
     <>
-      <div className={`notificationContainer ${mode} col-lg-4`}>
+      <div className={`notification-container ${mode} col-lg-4`}>
         <NotificationTemplate
           type="wallet"
           mode={mode}

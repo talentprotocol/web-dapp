@@ -32,7 +32,7 @@
 .user-menu-dropdown {
   background-color: $light !important;
   color: $black !important;
-  min-width: 200px;
+  min-width: 230px;
   padding: 8px 16px;
 
   &.dark {
@@ -62,4 +62,16 @@
 
 .user-menu-divider {
   border-top: 1px solid $gray-400;
+}
+
+.modal-content, .modal-dialog {
+  background-color: $white;
+}
+
+.dark-body .modal-dialog {
+  background-color: $gray-900;
+}
+
+.dark-body .modal-content {
+  background-color: $gray-900;
 }

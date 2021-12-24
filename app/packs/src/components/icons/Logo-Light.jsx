@@ -3,7 +3,7 @@ import React from "react";
 const Icon = (props) => {
   return (
     <svg
-      width="172"
+      width={props.width ? props.width : "172"}
       height="36"
       viewBox="0 0 123 24"
       fill="none"
