@@ -5,18 +5,19 @@
     background-color: $alert-primary;
     padding: 1.5rem;
     border: 0;
+    min-width: 290px;
+    max-width: 290px;
 
     img {
         border-radius: 4px;
     }
 
     &.dark {
-        background: $gray-900;
-        color: $white;
-    }
+        background-color: $gray-900;
 
-    &.mobile {
-        background: none;
+        &:hover {
+            background-color: $gray-600;
+        }
     }
 }
 
@@ -60,11 +61,8 @@
 }
 
 .ticker {
-    color: $warning;
-
-    &.dark {
-        color: $yellow;
-    }
+    color: $primary;
+    text-decoration: none;
 }
 
 .comingsoon {

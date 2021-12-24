@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import { useWindowDimensionsHook } from "../../utils/window";
 import {
   faChevronLeft,
@@ -14,32 +14,24 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import TalentProfilePicture from "./TalentProfilePicture";
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+
+import TalentCard from "src/components/design_system/cards/talent";
+import Button from "src/components/design_system/button";
 
 const ActiveTalents = ({ talents }) => {
   const [start, setStart] = useState(0);
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO);
   const { height, width } = useWindowDimensionsHook();
+  const theme = useContext(ThemeContext);
 
   const itemsPerRow = useMemo(() => {
-    if (width > 1200) {
-      return 4;
-    } else if (width > 768) {
-      return 3;
-    } else {
-      return 1;
-    }
-  }, [width]);
+    const sidebar = 220;
+    const card = 290;
 
-  const colStyling = useMemo(() => {
-    if (itemsPerRow === 4) {
-      return "col-3";
-    } else if (itemsPerRow === 3) {
-      return "col-4";
-    } else {
-      return "col-12 mx-auto";
-    }
-  }, [itemsPerRow]);
+    const numberOfCards = (width - sidebar) / card;
+    return Math.floor(numberOfCards);
+  }, [width]);
 
   const end =
     talents.length > itemsPerRow ? start + itemsPerRow : talents.length;
@@ -86,62 +78,46 @@ const ActiveTalents = ({ talents }) => {
 
   return (
     <>
-      <div className="d-flex flex-row justify-content-between align-items-center mt-4">
+      <div className="d-flex flex-row justify-content-between align-items-center mt-4 px-3">
         <div className="d-flex flex-row align-items-center">
           <h5 className="mb-0">
-            <strong>Talent</strong>
+            <strong>New Talent</strong>
           </h5>
         </div>
         {talents.length > itemsPerRow && (
           <div className="d-flex flex-row">
-            <button
-              className="btn btn-light"
+            <Button
               onClick={slideLeft}
               disabled={disableLeft}
+              type="white-subtle"
+              mode={theme.mode()}
+              className="mr-2"
             >
               <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-            </button>
-            <button
-              className="btn btn-light ml-2"
+            </Button>
+            <Button
               onClick={slideRight}
               disabled={disableRight}
+              type="white-subtle"
+              mode={theme.mode()}
             >
               <FontAwesomeIcon icon={faChevronRight} size="sm" />
-            </button>
+            </Button>
           </div>
         )}
       </div>
-      <div className="d-flex flex-row flex-wrap mb-2 mt-3">
+      <div className="d-flex flex-row mb-2 mt-3 px-3 horizontal-scroll">
         {sliceInDisplay.map((talent, index) => (
-          <div
-            key={`active_talent_list_${talent.id}`}
-            className={`mt-3 mh-100 ${colStyling}`}
-          >
-            <a
-              className={`h-100 w-100 bg-light rounded d-flex flex-column p-3 talent-link`}
-              href={`/talent/${talent.username}`}
-            >
-              <TalentProfilePicture
-                src={talent.profilePictureUrl}
-                height={"100%"}
-                straight
-                className={"rounded mx-auto"}
-              />
-              <h5 className="mt-3 talent-link w-100">{talent.name}</h5>
-              <h6 className="text-muted talent-link w-100">
-                {talent.occupation}
-              </h6>
-              <small className="text-muted mt-3 talent-link w-100">
-                CIRCULATING SUPPLY
-              </small>
-              <small className="text-warning mt-2 talent-link w-100">
-                <strong className="text-black mr-2">
-                  {getCirculatingSupply(talent.contract_id)}
-                </strong>{" "}
-                {talent.ticker ? `$${talent.ticker}` : ""}
-              </small>
-            </a>
-          </div>
+          <TalentCard
+            mode={theme.mode()}
+            photo_url={talent.profilePictureUrl}
+            name={talent.name}
+            title={talent.occupation}
+            circ_supply={getCirculatingSupply(talent.contract_id)}
+            ticker={talent.ticker}
+            key={`active_talent_list_${talent.id}_${index}`}
+            href={`/talent/${talent.username}`}
+          />
         ))}
       </div>
     </>
@@ -150,8 +126,10 @@ const ActiveTalents = ({ talents }) => {
 
 export default (props, railsContext) => {
   return () => (
-    <ApolloProvider client={client(railsContext.contractsEnv)}>
-      <ActiveTalents {...props} />
-    </ApolloProvider>
+    <ThemeContainer {...props}>
+      <ApolloProvider client={client(railsContext.contractsEnv)}>
+        <ActiveTalents {...props} />
+      </ApolloProvider>
+    </ThemeContainer>
   );
 };
