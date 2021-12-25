@@ -126,22 +126,7 @@ const TalentShow = ({
   }, [sharedState]);
 
   return (
-    <div className="d-flex flex-column border-left lg-h-100">
-      <section className="d-none d-md-flex my-4">
-        <div className="d-flex flex-row text-muted mx-3">
-          <span>
-            <a href="/talent" className="text-reset">
-              <small>TALENT</small>
-            </a>
-          </span>
-          <span className="mx-3">
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </span>
-          <span className="text-uppercase">
-            <small>{displayName({ withLink: false })}</small>
-          </span>
-        </div>
-      </section>
+    <div className="d-flex flex-column lg-h-100">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}

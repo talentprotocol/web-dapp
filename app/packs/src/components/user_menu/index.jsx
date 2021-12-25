@@ -26,7 +26,7 @@ import Notifications from "src/components/notifications";
 import Button from "src/components/design_system/button";
 import MobileUserMenu from "./MobileUserMenu";
 
-import { Copy } from "src/components/icons";
+import { Copy, Sun, Moon } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -273,8 +273,13 @@ export const UserMenuUnconnected = ({
             onClick={toggleTheme}
           >
             <small>
-              <strong>{theme.mode()} mode</strong>
+              <strong>{theme.themeName()} mode</strong>
             </small>
+            {theme.mode() == "light" ? (
+              <Sun color="currentColor" />
+            ) : (
+              <Moon color="currentColor" />
+            )}
           </Dropdown.Item>
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item

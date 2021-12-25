@@ -347,7 +347,7 @@ const TalentTable = ({ talents }) => {
             {selectedSort} <OrderBy black={true} />
           </Button>
         </div>
-        <Table mode={"dark"} className="horizontal-scroll">
+        <Table mode={theme.mode()} className="horizontal-scroll">
           <Table.Body>
             {filteredTalents().map((talent) => (
               <Table.Tr

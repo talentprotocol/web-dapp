@@ -7,15 +7,16 @@
     top: 0px;
     bottom: 0px;
     width: 220px !important;
-    border-right: 1px solid $gray-600;
 }
 
 body.dark-body .side-nav {
     background-color: $gray-900;
+    border-right: 1px solid $gray-600;
 }
 
 body.light-body .side-nav {
     background-color: $white;
+    border-right: 1px solid $gray-200;
 }
 
 .side-nav .menu {
