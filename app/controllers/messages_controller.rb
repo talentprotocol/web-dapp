@@ -10,14 +10,18 @@ class MessagesController < ApplicationController
       user_ids << @user.id
     end
     @users = User.where(id: user_ids.flatten).includes([talent: :token])
+    @unread_messages_counts = current_user.messagee.unread.where(sender: @users)
+                                          .group(:sender).count
   end
 
   def show
     # required for frontend show
     @sender = current_user
 
-    @messages = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
-      .or(Message.where(sender_id: @receiver.id, receiver_id: current_user.id))
+    sent = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
+    received = Message.where(sender_id: @receiver.id, receiver_id: current_user.id)
+    @messages = sent.or(received)
+    received.update_all(is_read: true)
 
     @chat_id = current_user.sender_chat_id(@receiver)
 

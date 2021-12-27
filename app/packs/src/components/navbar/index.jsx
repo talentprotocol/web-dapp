@@ -27,6 +27,7 @@ const TalNavbar = (props) => {
     admin,
     adminPath,
     watchList,
+    hasUnreadMessages,
   } = props;
 
   return (
@@ -52,7 +53,9 @@ const TalNavbar = (props) => {
               {icon(faHandHoldingUsd)} Portfolio
             </NavbarItem>
             <NavbarItem url={messagesPath}>
-              {icon(faEnvelope)} Messages
+              {icon(faEnvelope)}
+              {props.hasUnreadMessages && <UnreadMessagesIndicator />}
+              Messages
             </NavbarItem>
             {admin && (
               <NavbarItem url={adminPath}>{icon(faLock)} Admin</NavbarItem>
@@ -76,6 +79,19 @@ const TalNavbar = (props) => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+  );
+};
+
+const UnreadMessagesIndicator = () => {
+  return (
+    <div class="position-relative">
+      <span
+        class="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        style={{ height: 0, width: 0, bottom: 0, right: "0.125rem" }}
+      >
+        &nbsp;
+      </span>
+    </div>
   );
 };
 

@@ -48,13 +48,28 @@ const UserMessage = ({ user, activeUserId, onClick }) => {
               <small>{user.last_message_date}</small>
             </p>
           </div>
-          <p className="mb-0">
+
+          <div className="d-flex flex-row mb-0 justify-content-between">
             <small>{message}</small>
-          </p>
+            <UnreadMessagesCount count={user.unreadMessagesCount} />
+          </div>
         </div>
       </div>
     </a>
   );
+};
+
+const UnreadMessagesCount = ({ count }) => {
+  count ||= 0;
+
+  if (count > 0) {
+    const value = count > 99 ? "+99" : count.toString();
+    return (
+      <span class="chat-unread-count">{value}</span>
+    );
+  } else {
+    return null;
+  }
 };
 
 const filteredUsers = (users, search) =>

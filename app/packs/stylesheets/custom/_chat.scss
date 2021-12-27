@@ -75,6 +75,20 @@
   resize: none;
 }
 
+.chat-unread-count {
+  background-color: $primary;
+  border-radius: 50rem;
+  color: white;
+  display: inline-block;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: 0.25rem;
+  padding: 0.25em 0.4em;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
 
 .new-message-user-list {
   max-height: 200px;
