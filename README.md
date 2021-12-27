@@ -7,9 +7,16 @@ Talent Protocol is a decentralized platform where talent can create a personal t
 
 ## Installing / Getting started
 
-Talent Protocol web app is based on Ruby on Rails and React, you'll need to have ruby (2.7.3), node (16.4.2) and postgresql (v12) installed to run it or docker.
+Talent Protocol web app is based on Ruby on Rails and React. You'll need to have:
 
-Install the project dependencies:
+- Ruby 2.7.3
+- Node.js 16.4.2
+- PostgreSQL 12
+- ImageMagick +6
+
+Alternatively you can run it using Docker.
+
+Install the project dependencies and then:
 
 ```shell
 bundle install

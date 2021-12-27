@@ -1,6 +1,6 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
-  include ::ImageUploader::Attachment(:banner)
+  include ::TalentBannerUploader::Attachment(:banner)
 
   store :profile, accessors: %i[
     pronouns
@@ -60,6 +60,14 @@ class Talent < ApplicationRecord
   def to_param
     return nil unless persisted?
     user&.username || id
+  end
+
+  def banner_url
+    banner(:default)&.url || super
+  end
+
+  def profile_picture_url
+    profile_picture(:default)&.url || super
   end
 
   private

@@ -35,3 +35,5 @@ Shrine.plugin :determine_mime_type
 Shrine.plugin :activerecord # loads Active Record integration
 Shrine.plugin :cached_attachment_data # enables retaining cached file across form redisplays
 Shrine.plugin :restore_cached_data # extracts metadata for assigned cached files
+Shrine.plugin :derivatives # allows having different size classes for images
+Shrine.plugin :remove_invalid # remove uploads that failed validation

@@ -40,6 +40,7 @@ class API::UpdateTalent
 
     if params[:profile_picture_data]
       @talent.profile_picture = params[:profile_picture_data].as_json
+      @talent.profile_picture_derivatives! if @talent.profile_picture_changed?
     end
 
     if params[:profile]
@@ -76,6 +77,7 @@ class API::UpdateTalent
 
     if params[:banner_data]
       @talent.banner = params[:banner_data].as_json
+      @talent.banner_derivatives! if @talent.banner_changed?
     end
 
     @talent.save!
