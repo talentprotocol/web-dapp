@@ -41,11 +41,13 @@ const Notification = ({
           </div>
           <div className="w-100">
             {description ? (
-              <p className="notification-description text-wrap">
+              <p className={`notification-description text-wrap ${mode}`}>
                 {description}
               </p>
             ) : null}
-            {time_information ? <p>{time_information}</p> : null}
+            {time_information ? (
+              <p className={mode}>{time_information}</p>
+            ) : null}
           </div>
         </div>
       </div>
