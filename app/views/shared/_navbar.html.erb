@@ -9,6 +9,7 @@
         messagesPath: messages_path,
         admin: current_user&.admin?,
         adminPath: current_user.present? && admin_path,
+        hasUnreadMessages: current_user&.has_unread_messages?
       },
       prerender: false, html_options: { class: "d-flex flex-column align-self-lg-stretch lg-h-100" }) %>
   </header>
