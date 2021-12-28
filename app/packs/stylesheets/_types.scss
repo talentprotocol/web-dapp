@@ -1,3 +1,4 @@
+@import "./colors";
 // Typograpgy
 
 .h1 {
@@ -37,6 +38,14 @@
   margin: 0;
 }
 
+.light-body .p1 {
+  color: $gray-600;
+}
+
+.dark-body .p1 {
+  color: $gray-200;
+}
+
 .p2 {
   font-size: 14px;
   font-weight: 400;
@@ -44,11 +53,27 @@
   margin: 0;
 }
 
+.light-body .p2 {
+  color: $gray-600;
+}
+
+.dark-body .p2 {
+  color: $gray-200;
+}
+
 .p3 {
   font-size: 12px;
   font-weight: 400;
   line-height: 19.8px;
   margin: 0;
+}
+
+.light-body .p3 {
+  color: $gray-600;
+}
+
+.dark-body .p3 {
+  color: $gray-200;
 }
 
 .caption {

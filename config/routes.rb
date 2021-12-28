@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show] do
+      get :edit_profile
       resources :supporters, only: [:index], module: "talent"
     end
 
