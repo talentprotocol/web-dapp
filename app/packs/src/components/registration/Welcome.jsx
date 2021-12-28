@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import debounce from "lodash/debounce";
 import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { get } from "../../utils/requests";
 import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
@@ -14,6 +15,8 @@ const Welcome = ({
   username,
   changeUsername,
   changeCode,
+  setCaptcha,
+  captchaKey,
 }) => {
   const [localEmail, setEmail] = useState(email);
   const [localPassword, setLocalPassword] = useState("");
@@ -139,6 +142,10 @@ const Welcome = ({
       setValidPassword(true);
     }
   }, [localPassword, setValidPassword]);
+
+  const recaptchaSubmition = (value) => {
+    setCaptcha(value);
+  };
 
   return (
     <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
@@ -275,6 +282,9 @@ const Welcome = ({
             value={localCode}
             onChange={(e) => setCode(e.target.value)}
           />
+          <div className="d-flex flex-row justify-content-center w-100 mt-3">
+            <ReCAPTCHA sitekey={captchaKey} onChange={recaptchaSubmition} />
+          </div>
           <div className="form-group form-check mt-3">
             <input
               type="checkbox"

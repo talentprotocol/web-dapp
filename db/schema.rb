@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_223333) do
+ActiveRecord::Schema.define(version: 2021_12_28_132744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -286,10 +286,11 @@ ActiveRecord::Schema.define(version: 2021_12_08_223333) do
     t.datetime "email_confirmed_at"
     t.string "display_name"
     t.bigint "invite_id"
-    t.string "theme_preference"
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
+    t.string "theme_preference", default: "light"
+    t.boolean "disabled", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
