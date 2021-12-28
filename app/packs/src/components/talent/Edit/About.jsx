@@ -18,6 +18,7 @@ const About = ({ mode }) => {
         text="Let's start with the basics"
         bold
       />
+      <div className="d-flex flex-row"></div>
     </>
   );
 };

@@ -5,6 +5,9 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import Button from "src/components/design_system/button";
 import P3 from "src/components/design_system/typography/p3";
 
+import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
+import TalentProfileBanner from "src/components/talent/TalentProfileBanner";
+
 import About from "./About";
 
 const Profile = ({
@@ -39,8 +42,9 @@ const Profile = ({
           mode={theme.mode()}
           text="Complete your profile to appeal to more supporters and earn rewards."
           bold
+          className="text-primary"
         />
-        <P3 mode={theme.mode()}>
+        <P3 mode={theme.mode()} className="text-primary">
           <strong>{progress}</strong>/100%
         </P3>
       </div>
