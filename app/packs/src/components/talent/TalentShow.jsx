@@ -53,6 +53,7 @@ const TalentShow = ({
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
   const { height, width } = useWindowDimensionsHook();
+  const mobile = width < 992;
   const [sharedState, setSharedState] = useState({
     talent,
     token,
@@ -128,8 +129,64 @@ const TalentShow = ({
     return completeProfile(sharedState);
   }, [sharedState]);
 
+  const actionButtons = () => (
+    <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
+      <Button
+        onClick={() => setShow(true)}
+        disabled={!sharedState.token.contract_id}
+        type="primary-default"
+        mode={theme.mode()}
+        className="mr-2"
+      >
+        Buy {ticker() || "Token"}
+      </Button>
+      {sharedState.token.contract_id && (
+        <StakeModal
+          show={show}
+          setShow={setShow}
+          tokenAddress={sharedState.token.contract_id}
+          tokenId={sharedState.token.id}
+          userId={current_user_id}
+          ticker={ticker()}
+          railsContext={railsContext}
+        />
+      )}
+      <Button
+        onClick={() => (window.location.href = `/messages?user=${user.id}`)}
+        type="white-subtle"
+        mode={theme.mode()}
+        className="mr-2 align-items-center"
+      >
+        <Chat color="currentColor" className="mr-2" />
+        {!mobile && " Message"}
+      </Button>
+      <Button
+        onClick={toggleWatchlist}
+        type="white-subtle"
+        mode={theme.mode()}
+        disabled={changingFollow}
+        className="mr-2"
+      >
+        {sharedState.isFollowing ? (
+          <FontAwesomeIcon icon={faStar} className="text-warning" />
+        ) : (
+          <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
+        )}
+      </Button>
+      <EditProfile
+        {...sharedState}
+        updateSharedState={setSharedState}
+        inviteLink={sign_up_path}
+        allowEdit={talentIsFromCurrentUser}
+        profileIsComplete={profileIsComplete}
+        railsContext={railsContext}
+        mode={theme.mode()}
+      />
+    </div>
+  );
+
   return (
-    <div className="d-flex flex-column lg-h-100 px-4">
+    <div className="d-flex flex-column lg-h-100 p-0 px-lg-4">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -148,15 +205,16 @@ const TalentShow = ({
         />
       )}
       <section className="d-flex flex-row mt-3 ml-lg-3 align-items-start justify-content-between flex-wrap">
-        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center flex-wrap">
-          <TalentProfilePicture
-            src={sharedState.profilePictureUrl}
-            height={192}
-            className="mr-2"
-            border
-          />
+        <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
+          <div className="ml-3 ml-lg-0 mr-lg-2 d-flex flex-row">
+            <TalentProfilePicture
+              src={sharedState.profilePictureUrl}
+              height={mobile ? 120 : 192}
+            />
+            {mobile && actionButtons()}
+          </div>
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            <div className="d-flex flex-row align-items-center justify-content-start ml-3 ml-lg-0 mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
@@ -168,7 +226,7 @@ const TalentShow = ({
                 </Tag>
               )}
             </div>
-            <div className="d-flex flex-row pr-3">
+            <div className="d-flex flex-row pr-3 ml-3 ml-lg-0">
               <P2
                 mode={theme.mode()}
                 text={sharedState.talent.profile.occupation}
@@ -184,7 +242,7 @@ const TalentShow = ({
                 </a>
               )}
             </div>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between ml-3 ml-lg-0">
               <TalentBadges badges={badges} height={40} />
               <TalentTags
                 tags={allTags()}
@@ -194,58 +252,7 @@ const TalentShow = ({
             </div>
           </div>
         </div>
-        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center mt-5 w-100 lg-width-reset">
-          <Button
-            onClick={() => setShow(true)}
-            disabled={!sharedState.token.contract_id}
-            type="primary-default"
-            mode={theme.mode()}
-            className="mr-2"
-          >
-            Buy {ticker() || "Token"}
-          </Button>
-          {sharedState.token.contract_id && (
-            <StakeModal
-              show={show}
-              setShow={setShow}
-              tokenAddress={sharedState.token.contract_id}
-              tokenId={sharedState.token.id}
-              userId={current_user_id}
-              ticker={ticker()}
-              railsContext={railsContext}
-            />
-          )}
-          <Button
-            onClick={() => (window.location.href = `/messages?user=${user.id}`)}
-            type="white-subtle"
-            mode={theme.mode()}
-            className="mr-2 align-items-center"
-          >
-            <Chat color="currentColor" className="mr-2" /> Message
-          </Button>
-          <Button
-            onClick={toggleWatchlist}
-            type="white-subtle"
-            mode={theme.mode()}
-            disabled={changingFollow}
-            className="mr-2"
-          >
-            {sharedState.isFollowing ? (
-              <FontAwesomeIcon icon={faStar} className="text-warning" />
-            ) : (
-              <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
-            )}
-          </Button>
-          <EditProfile
-            {...sharedState}
-            updateSharedState={setSharedState}
-            inviteLink={sign_up_path}
-            allowEdit={talentIsFromCurrentUser}
-            profileIsComplete={profileIsComplete}
-            railsContext={railsContext}
-            mode={theme.mode()}
-          />
-        </div>
+        {!mobile && actionButtons()}
       </section>
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
         <div
@@ -281,11 +288,17 @@ const TalentShow = ({
             displayName={displayName({ withLink: false })}
             username={sharedState.user.username}
             railsContext={railsContext}
+            mobile={mobile}
           />
         </div>
       </div>
       <section className="d-flex flex-column mx-3 my-3">
-        <Roadmap goals={sharedState.goals} width={width} mode={theme.mode()} />
+        <Roadmap
+          goals={sharedState.goals}
+          width={width}
+          mode={theme.mode()}
+          mobile={mobile}
+        />
         <Perks
           perks={sharedState.perks}
           ticker={ticker()}

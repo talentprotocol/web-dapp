@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RoadmapCard from "src/components/design_system/cards/roadmap";
 import P1 from "src/components/design_system/typography/p1";
 
-const Roadmap = ({ goals, width, mode }) => {
+const Roadmap = ({ goals, width, mode, mobile }) => {
   const [start, setStart] = useState(0);
   const itemsPerRow = width < 768 ? 1 : 2;
 
@@ -76,7 +76,7 @@ const Roadmap = ({ goals, width, mode }) => {
             key={`goal_list_${goal.id}`}
             className={`${margins(index)} ${
               itemsPerRow == 1 ? "col-12" : "w-49"
-            }`}
+            } ${mobile ? "remove-background p-0" : ""}`}
             mode={mode}
             due_date={goal.due_date}
             title={goal.title}

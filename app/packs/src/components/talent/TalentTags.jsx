@@ -14,7 +14,7 @@ const TalentTags = ({ tags, talent_id, className, mode }) => {
         }`}
       >
         {validTags.map((tag) => (
-          <Tag mode={mode} className="mr-2" key={`${talent_id}_${tag}`}>
+          <Tag mode={mode} className="mr-2 mt-2" key={`${talent_id}_${tag}`}>
             <P2 mode={mode} text={tag} bold />
           </Tag>
         ))}

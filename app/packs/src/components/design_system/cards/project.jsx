@@ -11,13 +11,13 @@ const Project = ({
   location,
   website_link,
   image_url,
+  className,
 }) => {
   return (
-    <div className={`col-md-4 ${mode}`}>
-      <span className={`project-tag ${mode}`}>
+    <div className={`${mode} ${className}`}>
+      {/* <span className={`project-tag ${mode}`}>
         <strong>Project</strong>
-      </span>
-
+      </span> */}
       <p className={`project-title ${mode}`}>
         <strong>{title}</strong>
         {website_link ? (
@@ -30,32 +30,28 @@ const Project = ({
           </a>
         ) : null}
       </p>
-
-      {organization ? (
+      {organization && (
         <Caption
           className="project-organization"
           mode={`${mode}`}
           text={`${organization}`}
-        ></Caption>
-      ) : null}
-      {location ? (
+        />
+      )}
+      {location && (
         <Caption
           className="project-location"
           mode={`${mode}`}
           text={`${location}`}
-        ></Caption>
-      ) : null}
-      {description ? (
+        />
+      )}
+      {description && (
         <Caption
           className="project-description"
           mode={`${mode}`}
           text={`${description}`}
-        ></Caption>
-      ) : null}
-
-      {image_url ? (
-        <img className="project-image" src={`${image_url}`}></img>
-      ) : null}
+        />
+      )}
+      {image_url && <img className="project-image" src={`${image_url}`} />}
     </div>
   );
 };
