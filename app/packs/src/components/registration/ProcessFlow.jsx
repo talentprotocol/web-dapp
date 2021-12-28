@@ -31,14 +31,14 @@ const UserFailed = ({ error }) => (
   </div>
 );
 
-const ProcessFlow = ({ email, username, password, code }) => {
+const ProcessFlow = ({ email, username, password, code, captcha }) => {
   const [userCreated, setUserCreated] = useState(false);
   const [requesting, setRequesting] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setRequesting(true);
-    post("/users.json", { email, username, password, code })
+    post("/users.json", { email, username, password, code, captcha })
       .then((response) => {
         if (response.error) {
           setError(response.error);

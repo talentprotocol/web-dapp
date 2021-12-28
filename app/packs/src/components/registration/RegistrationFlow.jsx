@@ -25,6 +25,7 @@ const RegistrationFlow = (props) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [code, setCode] = useState("");
+  const [captcha, setCaptcha] = useState("");
 
   const Component = renderCurrentStep(currentStep);
 
@@ -44,6 +45,9 @@ const RegistrationFlow = (props) => {
           changeUsername={setUsername}
           code={code}
           changeCode={setCode}
+          captcha={captcha}
+          setCaptcha={setCaptcha}
+          captchaKey={props.captchaKey}
           {...props}
         />
       </div>

@@ -25,8 +25,9 @@ class CreateUser
       if invite.talent_invite?
         create_talent(user)
         create_token(user)
-        create_invite(user)
       end
+
+      create_invite(user)
 
       UserMailer.with(user: user).send_sign_up_email.deliver_later
 
