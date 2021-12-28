@@ -187,3 +187,7 @@
 .rotate-svg {
   transform: rotate(180deg);
 }
+
+.dark-body .bg-light {
+  background-color: $gray-900 !important;
+}

@@ -1,15 +1,37 @@
 import React from "react";
 import Caption from "src/components/design_system/typography/caption";
 
-const Perk = ({ mode, area, title, my_tokens, tokens, ticker }) => {
+const Perk = ({
+  mode,
+  area,
+  title,
+  my_tokens,
+  tokens,
+  ticker,
+  className = "",
+  href,
+  hideAction,
+}) => {
+  const goToRoute = () => {
+    if (hideAction) {
+      return;
+    }
+    window.location.href = href;
+  };
+
   return (
-    <div className={`col-md-3 card ${mode}`}>
+    <div
+      className={`card${
+        hideAction ? "" : " cursor-pointer"
+      } ${mode} ${className}`}
+      onClick={goToRoute}
+    >
       <div className="row mb-1">
         <Caption
           className={`col-lg-6 perk-area text-uppercase`}
           mode={`${mode}`}
           text={`${area}`}
-        ></Caption>
+        />
 
         <div className={`col-lg-6 text-right ${mode}`}>
           {my_tokens >= tokens ? (
@@ -26,12 +48,11 @@ const Perk = ({ mode, area, title, my_tokens, tokens, ticker }) => {
         </div>
       </div>
       <strong>{title}</strong>
-
       <Caption
-        className="mt-1 hold-info"
+        className="mt-3 hold-info text-primary"
         mode={`${mode}`}
         text={`Hold +${tokens} ${ticker}`}
-      ></Caption>
+      />
     </div>
   );
 };

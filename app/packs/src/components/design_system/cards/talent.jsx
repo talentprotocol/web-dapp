@@ -17,7 +17,7 @@ const Card = ({
 
   return (
     <a
-      className={`card ${mode} text-reset text-decoration-none mr-3${mobileClass}`}
+      className={`card ${mode} card-fixed-width text-reset text-decoration-none mr-3${mobileClass}`}
       href={href}
     >
       <img className="card-img-top" src={imgSrc} alt="Profile picture"></img>

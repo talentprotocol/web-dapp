@@ -4,9 +4,9 @@ import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
 import cx from "classnames";
 
-const Tag = ({ text, mode, size, children }) => {
+const Tag = ({ text, mode, size, children, className }) => {
   return (
-    <div className={cx("tag-container", mode)}>
+    <div className={cx("tag-container", mode, className)}>
       {text && (
         <>
           {size === "normal" && <P2 mode={mode} text={text} />}

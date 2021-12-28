@@ -1,6 +1,9 @@
 import React from "react";
 
-const TalentTags = ({ tags, talent_id, className }) => {
+import Tag from "src/components/design_system/tag";
+import P2 from "src/components/design_system/typography/p2";
+
+const TalentTags = ({ tags, talent_id, className, mode }) => {
   const validTags = tags.filter((item) => item != "");
 
   if (validTags && validTags.length > 0) {
@@ -11,14 +14,9 @@ const TalentTags = ({ tags, talent_id, className }) => {
         }`}
       >
         {validTags.map((tag) => (
-          <div
-            key={`${talent_id}_${tag}`}
-            className="text-regular p-1 mr-2 border border-light bg-light rounded"
-          >
-            <small>
-              <strong>{tag}</strong>
-            </small>
-          </div>
+          <Tag mode={mode} className="mr-2" key={`${talent_id}_${tag}`}>
+            <P2 mode={mode} text={tag} bold />
+          </Tag>
         ))}
       </div>
     );
