@@ -6,10 +6,7 @@ namespace :invites do
       if user.talent?
         next
       elsif user.invite.present?
-        user.update!(max_uses: 5)
-      else
-        service = CreateInvite.new(user_id: user.id)
-        service.call
+        user.invite.update!(max_uses: user.invite.uses)
       end
     end
   end
