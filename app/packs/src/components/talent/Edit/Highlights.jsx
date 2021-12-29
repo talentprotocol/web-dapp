@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import dayjs from "dayjs";
 
 import H5 from "src/components/design_system/typography/h5";
 import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
+import ProjectCard from "src/components/design_system/cards/project";
 
 const Highlights = ({ railsContext, mode, ...props }) => {
   const { milestones, mobile } = props;
@@ -20,6 +22,20 @@ const Highlights = ({ railsContext, mode, ...props }) => {
     description: "",
     link: "",
   });
+
+  const sortedTimeline = useMemo(() => {
+    return milestones.sort((first, second) => {
+      const firstDate = dayjs(first.start_date);
+      const secondDate = dayjs(second.start_date);
+
+      if (firstDate.isAfter(secondDate)) {
+        return -1;
+      } else if (firstDate.isBefore(secondDate)) {
+        return 1;
+      }
+      return 0;
+    });
+  }, [milestones]);
 
   const changeAttribute = (attribute, value) => {
     setHighlight((prevInfo) => ({ ...prevInfo, [attribute]: value }));
@@ -60,7 +76,7 @@ const Highlights = ({ railsContext, mode, ...props }) => {
           placeholder={"Project, award, position..."}
           onChange={(e) => changeAttribute("type", e.target.value)}
           value={highlight["type"]}
-          className={mobile ? "w-100 px-3" : "w-50 pr-2"}
+          className={mobile ? "w-100" : "w-50 pr-2"}
         />
         <TextInput
           title={"Location"}
@@ -68,7 +84,7 @@ const Highlights = ({ railsContext, mode, ...props }) => {
           placeholder={"City, country"}
           onChange={(e) => changeAttribute("location", e.target.value)}
           value={highlight["location"]}
-          className={mobile ? "w-100 px-3" : "w-50 pl-2"}
+          className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
@@ -103,11 +119,7 @@ const Highlights = ({ railsContext, mode, ...props }) => {
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
-        <div
-          className={`d-flex flex-column ${
-            mobile ? "w-100 px-3" : "w-50 pr-2"
-          }`}
-        >
+        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
           <h6 className={`title-field ${mode}`}>Start Date</h6>
           <input
             className={`form-control ${mode}`}
@@ -117,11 +129,7 @@ const Highlights = ({ railsContext, mode, ...props }) => {
             onChange={(e) => changeAttribute("start_date", e.target.value)}
           />
         </div>
-        <div
-          className={`d-flex flex-column ${
-            mobile ? "w-100 px-3" : "w-50 pl-2"
-          }`}
-        >
+        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pl-2"}`}>
           <h6 className={`title-field ${mode}`}>End Date</h6>
           <input
             className={`form-control ${mode}`}
@@ -136,10 +144,29 @@ const Highlights = ({ railsContext, mode, ...props }) => {
         onClick={() => console.log("saving")}
         type="white-ghost"
         mode={mode}
-        className="text-primary w-100 mt-3"
+        className="text-primary w-100 my-3"
       >
         + Add another Highlight
       </Button>
+      {sortedTimeline.map((milestone) => (
+        <div
+          key={`milestone_list_${milestone.id}`}
+          className="d-flex flex-row w-100 mb-3 bg-light pb-3"
+        >
+          <div className="col-3 d-flex flex-column justify-content-center">
+            <small>{milestone.start_date}</small>
+          </div>
+          <div className="col-9">
+            <ProjectCard
+              mode={mode}
+              organization={milestone.institution}
+              title={milestone.title}
+              description={milestone.description}
+              website_link={milestone.link}
+            />
+          </div>
+        </div>
+      ))}
     </>
   );
 };

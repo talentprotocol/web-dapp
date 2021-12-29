@@ -223,14 +223,14 @@ const About = ({ railsContext, mode, ...props }) => {
           shortCaption="The name that we will generally use"
           onChange={(e) => changeAttribute("display_name", e.target.value)}
           value={aboutInfo["display_name"]}
-          className={mobile ? "w-100 px-3" : "w-50 pr-2"}
+          className={mobile ? "w-100" : "w-50 pr-2"}
         />
         <TextInput
           title={"Location"}
           mode={mode}
           onChange={(e) => changeAttribute("location", e.target.value)}
           value={aboutInfo["location"]}
-          className={mobile ? "w-100 px-3" : "w-50 pl-2"}
+          className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
