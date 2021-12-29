@@ -19,7 +19,7 @@ const client = (env) => {
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList {
-    talentTokens {
+    talentTokens(first: 200) {
       id
       supporterCounter
       totalSupply
