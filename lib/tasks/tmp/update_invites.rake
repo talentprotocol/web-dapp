@@ -6,7 +6,7 @@ namespace :invites do
       if user.talent?
         next
       elsif user.invite.present?
-        user.invite.update!(max_uses: 0)
+        user.invite.update!(max_uses: user.invite.uses)
       end
     end
   end
