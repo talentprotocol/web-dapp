@@ -4,9 +4,11 @@ import H5 from "src/components/design_system/typography/h5";
 import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
+import Button from "src/components/design_system/button";
 
 const Highlights = ({ railsContext, mode, ...props }) => {
   const { milestones, mobile } = props;
+  const [selectedHighlightId, setSelectedHighlightId] = useState(null);
   const [highlight, setHighlight] = useState({
     id: "",
     title: "",
@@ -23,18 +25,33 @@ const Highlights = ({ railsContext, mode, ...props }) => {
     setHighlight((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
 
+  const changeHighlight = (id) => {
+    setSelectedHighlightId(id);
+
+    const selectedMilestone = milestones.find(
+      (milestone) => milestone.id == id
+    );
+
+    setHighlight({
+      id: selectedMilestone.id,
+      title: selectedMilestone.title,
+      type: selectedMilestone.type,
+      start_date: selectedMilestone.start_date,
+      end_date: selectedMilestone.end_date,
+      institution: selectedMilestone.institution,
+      location: selectedMilestone.location,
+      description: selectedMilestone.description,
+      link: selectedMilestone.link,
+    });
+  };
+
   return (
     <>
-      <H5
-        className="w-100 text-left"
-        mode={mode}
-        text="Personal Information"
-        bold
-      />
+      <H5 className="w-100 text-left" mode={mode} text="Highlights" bold />
       <P2
         className="w-100 text-left"
         mode={mode}
-        text="Let's start with the basics"
+        text="Highlight what you've done in the past."
       />
       <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
@@ -58,7 +75,7 @@ const Highlights = ({ railsContext, mode, ...props }) => {
         <TextInput
           title={"Title"}
           mode={mode}
-          shortCaption="Your position or achievment"
+          shortCaption="Your position or achievement"
           onChange={(e) => changeAttribute("title", e.target.value)}
           value={highlight["title"]}
           className="w-100"
@@ -86,23 +103,43 @@ const Highlights = ({ railsContext, mode, ...props }) => {
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
-        <TextInput
-          title={"Start Date"}
-          mode={mode}
-          placeholder={"Select date"}
-          onChange={(e) => changeAttribute("start_date", e.target.value)}
-          value={highlight["start_date"]}
-          className={mobile ? "w-100 px-3" : "w-50 pl-2"}
-        />
-        <TextInput
-          title={"End Date"}
-          mode={mode}
-          placeholder={"Select date"}
-          onChange={(e) => changeAttribute("end_date", e.target.value)}
-          value={highlight["end_date"]}
-          className={mobile ? "w-100 px-3" : "w-50 pl-2"}
-        />
+        <div
+          className={`d-flex flex-column ${
+            mobile ? "w-100 px-3" : "w-50 pr-2"
+          }`}
+        >
+          <h6 className={`title-field ${mode}`}>Start Date</h6>
+          <input
+            className={`form-control ${mode}`}
+            placeholder={"Select date"}
+            type="date"
+            value={highlight["start_date"]}
+            onChange={(e) => changeAttribute("start_date", e.target.value)}
+          />
+        </div>
+        <div
+          className={`d-flex flex-column ${
+            mobile ? "w-100 px-3" : "w-50 pl-2"
+          }`}
+        >
+          <h6 className={`title-field ${mode}`}>End Date</h6>
+          <input
+            className={`form-control ${mode}`}
+            placeholder={"Select date"}
+            type="date"
+            value={highlight["end_date"]}
+            onChange={(e) => changeAttribute("end_date", e.target.value)}
+          />
+        </div>
       </div>
+      <Button
+        onClick={() => console.log("saving")}
+        type="white-ghost"
+        mode={mode}
+        className="text-primary w-100 mt-3"
+      >
+        + Add another Highlight
+      </Button>
     </>
   );
 };
