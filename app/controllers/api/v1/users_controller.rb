@@ -26,10 +26,8 @@ class API::V1::UsersController < ApplicationController
     if @user
       if params[:wallet_id]
         @user.update!(wallet_id: params[:wallet_id]&.downcase)
-        if @user.talent.present?
-          service = Web3::TransferCelo.new
-          service.call(user: @user)
-        end
+        service = Web3::TransferCelo.new
+        service.call(user: @user)
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
       end
