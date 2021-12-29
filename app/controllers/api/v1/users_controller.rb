@@ -38,6 +38,8 @@ class API::V1::UsersController < ApplicationController
     else
       render json: {error: "Not found."}, status: :not_found
     end
+  rescue ActiveRecord::RecordNotUnique
+    render json: {error: "Wallet already exists in the system"}, status: :conflict
   end
 
   private

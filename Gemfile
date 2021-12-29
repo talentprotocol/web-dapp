@@ -49,8 +49,6 @@ gem "faker"
 
 # Error tracking
 gem "rollbar"
-gem "newrelic_rpm"
-gem "newrelic-infinite_tracing"
 
 # Async jobs
 gem "sidekiq"
