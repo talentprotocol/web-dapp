@@ -205,3 +205,22 @@
 .edit-profile-content {
   max-width: 615px;
 }
+
+.dark-body .uppy-FileInput-input {
+  color: $white;
+}
+
+.light-body .uppy-FileInput-input {
+  color: $black;
+}
+
+.uppy-FileInput-btn {
+  background-color: $primary;
+  color: $white;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  font-weight: 700;
+  &:hover {
+    background: rgba($primary, 0.8);
+  }
+}

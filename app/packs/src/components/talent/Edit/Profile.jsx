@@ -1,38 +1,20 @@
 import React, { useState, useContext } from "react";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import { useWindowDimensionsHook } from "src/utils/window";
 
 import Button from "src/components/design_system/button";
 import P3 from "src/components/design_system/typography/p3";
 
-import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
-import TalentProfileBanner from "src/components/talent/TalentProfileBanner";
-
 import About from "./About";
+import Highlights from "./Highlights";
 
-const Profile = ({
-  talent,
-  token,
-  perks,
-  milestones,
-  current_user_id,
-  token_live,
-  user,
-  profilePictureUrl,
-  bannerUrl,
-  primary_tag,
-  secondary_tags,
-  career_goal,
-  goals,
-  posts,
-  isFollowing,
-  badges,
-  sign_up_path,
-  railsContext,
-}) => {
+const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const [activeTab, setActiveTab] = useState("About");
   const [progress, setProgress] = useState(0);
+  const { height, width } = useWindowDimensionsHook();
+  const mobile = width < 992;
 
   return (
     <div className="d-flex flex-column align-items-center">
@@ -106,7 +88,7 @@ const Profile = ({
           Save profile
         </Button>
         <Button
-          onClick={() => console.log("saving")}
+          onClick={() => console.log("public")}
           type="white-subtle"
           mode={theme.mode()}
           className="ml-1 mr-3"
@@ -115,7 +97,12 @@ const Profile = ({
         </Button>
       </div>
       <div className="d-flex flex-column align-items-center p-3 edit-profile-content w-100">
-        <About mode={theme.mode()} />
+        {activeTab == "About" && (
+          <About {...props} mode={theme.mode()} mobile={mobile} />
+        )}
+        {activeTab == "Highlights" && (
+          <Highlights {...props} mode={theme.mode()} mobile={mobile} />
+        )}
       </div>
     </div>
   );

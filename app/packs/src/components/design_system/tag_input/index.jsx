@@ -3,9 +3,8 @@ import { bool, string, arrayOf } from "prop-types";
 import P2 from "../typography/p2";
 import OptionalTag from "../optional_tag";
 import cx from "classnames";
-import { array } from "prop-types";
 
-const TagInput = ({ tags, label, caption, mode, disabled }) => {
+const TagInput = ({ tags, label, caption, mode, disabled, onTagChange }) => {
   const [input, setInput] = useState("");
   const [localTags, setLocalTags] = useState(tags);
 
@@ -28,6 +27,7 @@ const TagInput = ({ tags, label, caption, mode, disabled }) => {
       const poppedTag = tagsCopy.pop();
       e.preventDefault();
       setLocalTags(tagsCopy);
+      onTagChange(tagsCopy);
       setInput(poppedTag);
     }
   };
@@ -37,8 +37,8 @@ const TagInput = ({ tags, label, caption, mode, disabled }) => {
   };
 
   return (
-    <>
-      {label && <P2 bold text={label} mode={mode} />}
+    <div className="d-flex flex-column">
+      {label && <P2 bold text={label} mode={mode} className="mb-2" />}
       <label
         disabled={disabled}
         className={cx("tag-input", "form-control", mode)}
@@ -66,7 +66,7 @@ const TagInput = ({ tags, label, caption, mode, disabled }) => {
       {caption && (
         <P2 className="tag-input-caption" mode={mode} text={caption} />
       )}
-    </>
+    </div>
   );
 };
 
