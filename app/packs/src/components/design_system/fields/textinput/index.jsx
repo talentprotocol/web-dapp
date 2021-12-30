@@ -1,5 +1,7 @@
 import React from "react";
 
+import P2 from "src/components/design_system/typography/p2";
+
 const TextInput = ({
   title,
   shortCaption,
@@ -9,18 +11,26 @@ const TextInput = ({
   value,
   onChange,
   className,
+  maxLength,
+  type = "text",
 }) => {
   return (
     <div className={`d-flex flex-column ${className}`}>
-      {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
+      <div className="d-flex flex-row justify-content-between">
+        {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
+        {maxLength ? (
+          <P2 mode={mode} text={`${value.length}/${maxLength}`} />
+        ) : null}
+      </div>
 
       <input
-        type="text"
+        type={type}
         className={`form-control ${mode}`}
         placeholder={placeholder}
         disabled={disabled}
         value={value}
         onChange={onChange}
+        maxLength={maxLength}
       />
 
       {shortCaption ? (

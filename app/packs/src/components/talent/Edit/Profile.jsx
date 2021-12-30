@@ -9,6 +9,9 @@ import P3 from "src/components/design_system/typography/p3";
 import About from "./About";
 import Highlights from "./Highlights";
 import Goal from "./Goal";
+import Token from "./Token";
+import Perks from "./Perks";
+import Settings from "./Settings";
 
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
@@ -106,6 +109,15 @@ const Profile = (props) => {
         )}
         {activeTab == "Goal" && (
           <Goal {...props} mode={theme.mode()} mobile={mobile} />
+        )}
+        {activeTab == "Token" && (
+          <Token {...props} mode={theme.mode()} mobile={mobile} />
+        )}
+        {activeTab == "Perks" && (
+          <Perks {...props} mode={theme.mode()} mobile={mobile} />
+        )}
+        {activeTab == "Settings" && (
+          <Settings {...props} mode={theme.mode()} mobile={mobile} />
         )}
       </div>
     </div>

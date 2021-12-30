@@ -82,7 +82,7 @@ const Goal = ({ railsContext, mode, ...props }) => {
           shortCaption={
             "What are your challenges? This is where sponsors can help you!"
           }
-          maxLength="400"
+          maxLength="175"
         />
       </div>
       <div className={`divider ${mode} my-3`}></div>

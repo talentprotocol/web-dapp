@@ -1,4 +1,6 @@
 import React from "react";
+import { ethers } from "ethers";
+
 import Caption from "src/components/design_system/typography/caption";
 
 const Perk = ({
@@ -41,7 +43,7 @@ const Perk = ({
           ) : (
             <span className={`tag-unavailable ${mode}`}>
               <strong>
-                Hold more {tokens - my_tokens} {ticker}
+                Hold more {ethers.utils.commify(tokens - my_tokens)} {ticker}
               </strong>
             </span>
           )}
@@ -51,7 +53,7 @@ const Perk = ({
       <Caption
         className="mt-3 hold-info text-primary"
         mode={`${mode}`}
-        text={`Hold +${tokens} ${ticker}`}
+        text={`Hold +${ethers.utils.commify(tokens)} ${ticker}`}
       />
     </div>
   );
