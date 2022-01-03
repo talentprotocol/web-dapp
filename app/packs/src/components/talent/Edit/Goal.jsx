@@ -131,7 +131,7 @@ const Goal = ({ railsContext, mode, ...props }) => {
         mode={mode}
         className="text-primary w-100 mt-3"
       >
-        + Add another Highlight
+        + Add another Goal
       </Button>
       {goals.map((goal, index) => (
         <RoadmapCard
