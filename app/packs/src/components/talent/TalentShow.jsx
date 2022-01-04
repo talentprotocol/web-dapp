@@ -1,5 +1,8 @@
 import React, { useState, useMemo, useContext } from "react";
-import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import {
+  faStar as faStarOutline,
+  faEdit,
+} from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -173,15 +176,16 @@ const TalentShow = ({
           <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
         )}
       </Button>
-      <EditProfile
-        {...sharedState}
-        updateSharedState={setSharedState}
-        inviteLink={sign_up_path}
-        allowEdit={talentIsFromCurrentUser}
-        profileIsComplete={profileIsComplete}
-        railsContext={railsContext}
+      <Button
+        onClick={() =>
+          (window.location.href = `/talent/${user.username}/edit_profile`)
+        }
+        type="white-subtle"
         mode={theme.mode()}
-      />
+        className="mr-2"
+      >
+        <FontAwesomeIcon icon={faEdit} />
+      </Button>
     </div>
   );
 
