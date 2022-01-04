@@ -15,6 +15,7 @@ class MessagesController < ApplicationController
   def show
     # required for frontend show
     @sender = current_user
+    @all_users = User.al
 
     @messages = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
       .or(Message.where(sender_id: @receiver.id, receiver_id: current_user.id))
@@ -34,10 +35,10 @@ class MessagesController < ApplicationController
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
     service = CreateNotification.new
     service.call(
-      title: 'New message',
-      body: 'You have a new message',
+      title: "New message",
+      body: "You have a new message",
       user_id: @receiver.id,
-      type: 'Notifications::MessageReceived'
+      type: "Notifications::MessageReceived"
     )
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)

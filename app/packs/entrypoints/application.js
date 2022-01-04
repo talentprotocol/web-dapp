@@ -43,6 +43,8 @@ import TopNav from "src/components/design_system/top_nav"; // this is the mobile
 
 import Profile from "src/components/talent/Edit/Profile";
 
+import NewPortfolio from "src/components/portfolio/NewPortfolio";
+
 import "stylesheets/application.scss";
 
 require.context("../images", true);
@@ -75,6 +77,7 @@ ReactOnRails.register({
   TopBar,
   TopNav,
   Profile,
+  NewPortfolio,
 });
 
 Rails.start();
