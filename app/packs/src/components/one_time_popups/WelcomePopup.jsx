@@ -87,6 +87,7 @@ const WelcomePopup = ({ talent, user_id }) => {
       show={show}
       centered
       onHide={onClose}
+      dialogClassName="remove-background"
     >
       {talent ? <TalentContent /> : <SupporterContent />}
     </Modal>

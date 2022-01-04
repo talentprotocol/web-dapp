@@ -17,7 +17,6 @@ class MessagesController < ApplicationController
   def show
     # required for frontend show
     @sender = current_user
-    @all_users = User.al
 
     sent = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
     received = Message.where(sender_id: @receiver.id, receiver_id: current_user.id)

@@ -25,6 +25,10 @@
   cursor: pointer;
 }
 
+.reset-cursor {
+  cursor: default !important;
+}
+
 .animated-background {
   animation-duration: 6s;
   animation-fill-mode: forwards;
