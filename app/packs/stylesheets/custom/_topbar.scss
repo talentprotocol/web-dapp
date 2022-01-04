@@ -1,0 +1,72 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.navbar {
+    height: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 220px;
+    background-color: $white;
+    z-index: 1;
+
+    &.dark {
+        background-color: $gray-900;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar {
+        left: 220px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        left: 0px;
+    }
+}
+
+.button-topbar {
+    display: inline;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    padding: 9px;
+    position: static;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    background: $surface-hover;
+    border-radius: 4px;
+    height: 40px !important;
+
+    &:disabled {
+        opacity: 0.4;
+    }
+
+    &.dark {
+        background: $gray-600;
+    }
+}
+
+.button-square {
+    width: 40px !important;
+}
+
+.wallet_balance{
+    color: $black;
+
+    &.dark{
+        color: $white;
+    }
+}
+
+.wallet_address {
+    color: $gray-400;
+
+    &.dark {
+        color: $gray-300;
+    }
+}

@@ -12,7 +12,7 @@
     <%= render partial: "services/hotjar" %>
   </head>
 
-  <body>
+  <body class=<%= current_user&.active_theme || "light-body" %>>
     <% if current_user.present? %>
       <% if !current_user.welcome_pop_up %>
         <%=
@@ -23,12 +23,8 @@
           },
           prerender: false)%>
       <% end %>
-      <div class="h-100 d-flex flex-column lg-overflow-y-hidden align-items-center">
-        <div class="lg-overflow-y-hidden d-flex flex-row flex-wrap flex-lg-nowrap w-100 h-100">
-          <%= render "shared/navbar" %>
-          <%= yield %>
-        </div>
-      </div>
+      <%= render "shared/navbar" %>
+      <%= yield %>
     <% else %>
       <%= yield %>
     <% end %>

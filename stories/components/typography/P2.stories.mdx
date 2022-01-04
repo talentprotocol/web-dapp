@@ -1,0 +1,56 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import P2 from "src/components/design_system/typography/p2";
+
+<Meta title="Design System/Typography/P2" component={P2} />
+
+# P2s
+
+Custom P2s to show titles.
+
+## Examples
+
+export const Template = (args) => <P2 {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      mode: "light",
+      text: "Example of a paragraph",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Light mode with bold"
+    args={{
+      mode: "light",
+      bold: true,
+      text: "Example of a paragraph with bold",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      mode: "dark",
+      text: "Example of a paragraph",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode with bold"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      mode: "dark",
+      bold: true,
+      text: "Example of a paragraph with bold",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

@@ -1,0 +1,79 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import ReferenceList from "src/components/design_system/reference_list";
+
+<Meta title="Design System/ReferenceList" component={ReferenceList} />
+
+export const Template = (args) => <ReferenceList {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      users: [
+        {
+          id: 1,
+          username: "@codyfisher",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          display_wallet_id: "0x34...163",
+          amount: "5,000.00",
+          last_buy_date: "24 May, 2021",
+        },
+        {
+          id: 2,
+          username: "@darrelsteward",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          display_wallet_id: "0x12...657",
+          amount: "17,500.00",
+          last_buy_date: "3 Jan, 2020",
+        },
+        {
+          id: 3,
+          username: "@jacobjones",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          display_wallet_id: "0x76...453",
+          amount: "200,000.00",
+          last_buy_date: "14 June, 2021",
+        },
+      ],
+      mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      users: [
+        {
+          id: 1,
+          username: "@codyfisher",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          display_wallet_id: "0x34...163",
+          amount: "5,000.00",
+          last_buy_date: "24 May, 2021",
+        },
+        {
+          id: 2,
+          username: "@darrelsteward",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          display_wallet_id: "0x12...657",
+          amount: "17,500.00",
+          last_buy_date: "3 Jan, 2020",
+        },
+        {
+          id: 3,
+          username: "@jacobjones",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          display_wallet_id: "0x76...453",
+          amount: "200,000.00",
+          last_buy_date: "14 June, 2021",
+        },
+      ],
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

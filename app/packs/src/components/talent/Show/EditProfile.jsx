@@ -10,6 +10,8 @@ import CareerGoal from "./edit_profile/CareerGoal";
 import Contacts from "./edit_profile/Contacts";
 import Timeline from "./edit_profile/Timeline";
 
+import Button from "src/components/design_system/button";
+
 const TokenLaunched = ({ show, setShow, inviteLink }) => {
   const url = `${window.location.origin}${inviteLink}`;
 
@@ -46,7 +48,7 @@ const TokenLaunched = ({ show, setShow, inviteLink }) => {
   );
 };
 
-const EditProfile = ({ railsContext, ...props }) => {
+const EditProfile = ({ railsContext, mode, ...props }) => {
   const [show, setShow] = useState(false);
   const [tokenLaunched, setTokenLaunched] = useState(false);
   const [activeSection, setActiveSection] = useState("About");
@@ -60,12 +62,14 @@ const EditProfile = ({ railsContext, ...props }) => {
   return (
     <>
       {allowEdit && (
-        <button
+        <Button
           onClick={() => setShow((prev) => !prev)}
-          className="btn btn-light talent-button border-0"
+          type="white-subtle"
+          mode={mode}
+          className="mr-2"
         >
-          <FontAwesomeIcon icon={faEdit} /> Edit Profile
-        </button>
+          <FontAwesomeIcon icon={faEdit} />
+        </Button>
       )}
       <TokenLaunched
         show={tokenLaunched}

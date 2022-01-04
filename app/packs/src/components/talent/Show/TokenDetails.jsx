@@ -9,7 +9,14 @@ import {
   client,
 } from "src/utils/thegraph";
 
-const TokenDetails = ({ token, ticker, displayName, username }) => {
+const TokenDetails = ({
+  token,
+  ticker,
+  displayName,
+  username,
+  mobile,
+  className,
+}) => {
   const { loading, error, data } = useQuery(
     GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
     {
@@ -37,7 +44,9 @@ const TokenDetails = ({ token, ticker, displayName, username }) => {
 
   return (
     <div
-      className="card bg-light mt-3 sticky-top"
+      className={`card ${
+        mobile ? "p-0 remove-background" : "bg-light"
+      } mt-3 sticky-top ${className}`}
       style={{ top: 20, zIndex: 1 }}
     >
       <div className="card-body">

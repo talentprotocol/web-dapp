@@ -40,7 +40,7 @@ const SupporterOverview = ({
   return (
     <div className="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center mt-3">
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
+        <div className="d-flex flex-column align-items-center border">
           <div className="text-muted">
             <small>$TAL staked</small>
           </div>
@@ -56,7 +56,7 @@ const SupporterOverview = ({
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
+        <div className="d-flex flex-column align-items-center border">
           <div className="text-muted">
             <small>Rewards $TAL</small>
           </div>
@@ -74,7 +74,7 @@ const SupporterOverview = ({
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
+        <div className="d-flex flex-column align-items-center border">
           <div className="text-muted">
             <small>Market Cap</small>
           </div>
@@ -90,7 +90,7 @@ const SupporterOverview = ({
         </div>
       </div>
       <div className="col-12 col-sm-6 col-md-3 mt-2 pr-1 pl-0">
-        <div className="d-flex flex-column align-items-center border bg-white">
+        <div className="d-flex flex-column align-items-center border">
           <div className="text-muted">
             <small>Supporters</small>
           </div>

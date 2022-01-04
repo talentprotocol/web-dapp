@@ -76,6 +76,14 @@ class User < ApplicationRecord
     save
   end
 
+  def active_theme
+    if theme_preference == "light"
+      "light-body"
+    else
+      "dark-body"
+    end
+  end
+
   def has_unread_messages?
     messagee.unread.any?
   end

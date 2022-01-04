@@ -1,0 +1,22 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Divider from 'src/components/design_system/other/divider';
+
+<Meta title="Design System/Other/Dark Mode" component={Divider} />
+
+# Modal
+
+Multiple type of modals
+
+export const Template = (args) => <Divider {...args} />
+
+<Canvas>
+  <Story
+    name="Divider"  parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "dark",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

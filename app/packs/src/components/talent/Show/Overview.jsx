@@ -10,7 +10,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Overview = ({ sharedState }) => {
+import { Rocket } from "src/components/icons";
+import P1 from "src/components/design_system/typography/p1";
+import P2 from "src/components/design_system/typography/p2";
+
+const Overview = ({ sharedState, mode }) => {
   return (
     <>
       <section className="d-flex flex-row mt-4">
@@ -87,11 +91,9 @@ const Overview = ({ sharedState }) => {
           )}
         </div>
         <div className="dropdown-divider"></div>
-        <h5>
-          <strong>Pitch</strong>
-        </h5>
+        <P1 mode={mode} text="Pitch" bold className="mb-3" />
         {sharedState.career_goal?.pitch && (
-          <p>{sharedState.career_goal?.pitch}</p>
+          <P2 mode={mode} text={sharedState.career_goal?.pitch} />
         )}
         {sharedState.talent.profile.video && (
           <ReactPlayer
@@ -101,11 +103,12 @@ const Overview = ({ sharedState }) => {
           />
         )}
         <div className="dropdown-divider mb-4"></div>
-        <h5>
-          <strong>Challenges</strong>
-        </h5>
+        <P1 mode={mode} text="Challenges" bold className="mb-3" />
         {sharedState.career_goal?.challenges && (
-          <p>{sharedState.career_goal?.challenges}</p>
+          <div className="d-flex flex-row w-100 align-items-center">
+            <Rocket color="currentColor" className="mr-2" size={80} />
+            <P2 mode={mode} text={sharedState.career_goal?.challenges} />
+          </div>
         )}
       </section>
     </>

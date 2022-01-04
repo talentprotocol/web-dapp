@@ -290,7 +290,10 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
     t.string "theme_preference", default: "light"
+<<<<<<< HEAD
+=======
     t.boolean "disabled", default: false
+>>>>>>> dev
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"

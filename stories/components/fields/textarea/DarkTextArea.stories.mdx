@@ -1,0 +1,52 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import TextArea from 'src/components/design_system/fields/textarea';
+
+<Meta title="Design System/Fields/TextArea/Dark Mode" component={TextArea} />
+
+export const Template = (args) => <TextArea {...args} />
+
+<Canvas>
+  <Story
+    name="Title" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      title: "Title here",
+      placeholder: "Placeholder goes here",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="No title" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      placeholder: "Placeholder goes here",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="With short caption" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      shortCaption: "Short caption",
+      placeholder: "Placeholder goes here",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+  <Story
+    name="Disabled" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      placeholder: "Placeholder goes here", 
+      mode: "dark",
+      disabled: true,
+    }}
+  >
+  {Template.bind({})}
+  </Story>
+</Canvas>

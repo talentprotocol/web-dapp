@@ -1,64 +1,52 @@
 import React, { useState } from "react";
 
 import { Dropdown } from "react-bootstrap";
-import Rocket from "../icons/Rocket";
+import Modal from "react-bootstrap/Modal";
+
 import Bell from "../icons/Bell";
-import Chat from "../icons/Chat";
-import Talent from "../icons/Talent";
-import Star from "../icons/Star";
 import { formatDistance } from "date-fns";
 import { patch } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
+import NotificationTemplate from "src/components/design_system/notification";
+import Button from "src/components/design_system/button";
 
-const Notification = ({ notification }) => {
+const Notification = ({ notification, mode }) => {
   const presentDay = new Date();
   const createdAt = new Date(notification.created_at);
 
-  const icon = () => {
+  const type = () => {
     switch (notification.type) {
       case "Notifications::TokenAcquired":
-        return <Rocket />;
+        return "wallet";
       case "Notifications::MessageReceived":
-        return <Chat />;
+        return "chat";
       case "Notifications::TalentListed":
-        return <Talent />;
+        return "talent";
       case "Notifications::TalentChanged":
-        return <Star />;
+        return "star";
       default:
-        return <Rocket />;
+        return "globe";
     }
   };
 
   return (
-    <div className="d-flex flex-row w-100 py-2 text-wrap">
-      <section className="d-flex flex-column ml-2">{icon()}</section>
-      <section className="d-flex flex-column mx-2 w-100">
-        <div>
-          <small className="text-black mb-2 d-block">
-            {notification.title}
-          </small>
-          <small className="text-secondary mb-2 d-block">
-            {notification.body}
-          </small>
-          <small className="text-secondary d-block">
-            {formatDistance(presentDay, createdAt)}
-          </small>
-        </div>
-      </section>
-      {!notification.read && (
-        <div className="d-flex flex-column mr-2">
-          <span className="notification-unread-icon"></span>
-        </div>
-      )}
-    </div>
+    <NotificationTemplate
+      type={type()}
+      mode={mode}
+      title={notification.title}
+      description={notification.body}
+      time_information={formatDistance(presentDay, createdAt)}
+      is_new={!notification.read}
+    />
   );
 };
 
-const Notifications = ({ notifications }) => {
+const Notifications = ({ notifications, mode, hideBackground = false }) => {
   const { height, width } = useWindowDimensionsHook();
   const [currentNotifications, setCurrentNotifications] =
     useState(notifications);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const notificationHref = (type, notification) => {
     switch (type) {
@@ -88,14 +76,58 @@ const Notifications = ({ notifications }) => {
     window.location.href = notificationHref(notification.type, notification);
   };
 
+  if (width < 992) {
+    return (
+      <>
+        <Button
+          onClick={() => setShowNotifications(true)}
+          type="white-ghost"
+          mode={mode}
+          className="ml-2"
+        >
+          <Bell color="currentColor" />
+        </Button>
+        <Modal
+          show={showNotifications}
+          fullscreen="true"
+          onHide={() => setShowNotifications(false)}
+          dialogClassName={"m-0 mh-100 mw-100"}
+          backdrop={false}
+          className="p-0"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Notifications</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="d-flex flex-column">
+            {currentNotifications.length == 0 && (
+              <small className="w-100 text-center">No notifications</small>
+            )}
+            {currentNotifications.map((notification) => (
+              <Button
+                onClick={() => notificationRead(notification)}
+                type="white-ghost"
+                mode={mode}
+                className="text-left text-black"
+              >
+                <Notification notification={notification} mode={mode} />
+              </Button>
+            ))}
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
+
   return (
     <>
-      <Dropdown drop="bottom">
+      <Dropdown drop="bottom" className="ml-1">
         <Dropdown.Toggle
-          className="user-menu-dropdown-btn no-caret"
+          className={`user-menu-dropdown-btn no-caret ${mode}${
+            hideBackground ? " remove-background" : ""
+          }`}
           id="notifications-dropdown"
         >
-          <Bell />
+          <Bell color="currentColor" style={{ marginRight: -10 }} />
           {notificationsUnread && (
             <span className="notifications-unread-icon"></span>
           )}
@@ -113,10 +145,10 @@ const Notifications = ({ notifications }) => {
           {currentNotifications.map((notification) => (
             <Dropdown.Item
               key={`${notification.id}-notification`}
-              className="p-0"
+              className="p-0 notifications-menu-dropdown-item"
               onClick={() => notificationRead(notification)}
             >
-              <Notification notification={notification} />
+              <Notification notification={notification} mode={mode} />
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>

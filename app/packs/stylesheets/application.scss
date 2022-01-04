@@ -2,18 +2,38 @@
 @import "bootstrap/overrides";
 @import "libs";
 @import "custom/button";
+@import "custom/slider";
+@import "custom/tooltip";
+@import "custom/checkbox";
+@import "custom/fields";
+@import "custom/avatar";
 @import "custom/chat";
 @import "custom/navbar";
 @import "custom/talent";
 @import "custom/alerts";
+@import "custom/modal";
+@import "custom/notification";
+@import "custom/cards";
+@import "custom/topbar";
+@import "custom/sidebar";
+@import "custom/list";
 @import "custom/feed";
 @import "custom/leaderboards";
 @import "custom/table";
+@import "custom/tags";
+@import "custom/link";
 @import "custom/registration";
 @import "custom/user_menu";
 @import "custom/notifications_menu";
 @import "custom/admin";
 @import "custom/shared";
+@import "custom/top_nav";
+@import "custom/bottom_nav";
+@import "custom/placeholder";
+@import "custom/pagination";
+@import "custom/portfolio";
+@import "colors";
+@import "types";
 
 ::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -25,20 +45,27 @@
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
+html {
+  height: 100%;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
+  margin: 0;
+  height: 100%;
+}
+
+.dark-body {
+  background-color: $black;
+  color: $white;
+}
+
+.light-body {
+  background-color: $light-bg-01;
+  color: $gray-900;
 }
 
 @media (min-width: 992px) {
-  html,
-  body {
-    height: 100%;
-  }
-
-  body {
-    margin: 0;
-  }
-
   .lg-h-100 {
     height: 100%;
   }
@@ -78,5 +105,19 @@ body {
 
   .md-w-100 {
     width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-left: 220px !important;
+    padding-top: 70px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  body {
+    padding-bottom: 56px !important;
+    padding-top: 70px !important;
   }
 }

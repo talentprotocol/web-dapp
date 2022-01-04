@@ -1,0 +1,50 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import TopBar from 'src/components/design_system/top_bar';
+
+<Meta title="Design System/TopBar/Light Mode" component={TopBar} />
+
+#TopBar
+
+Multiple type of notificatinos: wallet, rocket
+
+export const Template = (args) => <TopBar {...args} />
+
+<Canvas>
+  <Story
+    name="Top Bar" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "light",
+      name: "Mary Lee",
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      count_notifications: "0"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Top Bar w/ Notifications" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "light",
+      name: "Mary Lee",
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      count_notifications: "4"
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Top Bar w/ Notifications (incl. connect wallet)" parameters={{backgrounds: { default: 'dark' }}}
+    args={{
+      mode: "light",
+      name: "Mary Lee",
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      count_notifications: "4",
+      is_connected: "true",
+      wallet_balance: "255 cUSD",
+      wallet_address: "0x678...469",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

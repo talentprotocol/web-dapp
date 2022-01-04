@@ -1,0 +1,161 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Card from 'src/components/design_system/cards/talent';
+import CardSupporter from 'src/components/design_system/cards/supporter';
+import Perk from 'src/components/design_system/cards/perk';
+import Project from 'src/components/design_system/cards/project';
+import Roadmap from 'src/components/design_system/cards/roadmap';
+import PortfolioCard from 'src/components/design_system/cards/portfolio_card';
+import TokenPrice from 'src/components/design_system/cards/token_price';
+
+<Meta title="Design System/Cards/Light Mode" />
+
+# Cards
+
+export const Template = (args) => <Card {...args} />
+export const TemplateSupporter = (args) => <CardSupporter {...args} />
+export const TemplatePerk = (args) => <Perk {...args} />
+export const TemplateProject = (args) => <Project {...args} />
+export const TemplateRoadmap = (args) => <Roadmap {...args} />
+export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />
+export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
+
+<Canvas>
+  <Story
+    name="Card Talent #1"
+    args={{
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      name: "Cameroon",
+      title: "Product Designer",
+      circ_supply: "415,300",
+      ticker: "$CAM",
+      mode: "light",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Card Supporter #1"
+    args={{
+      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      name: "Carla Ferreira",
+      address_wallet: "0x71...9d81",
+      mode: "light",
+    }}
+  >
+    {TemplateSupporter.bind({})}
+  </Story>
+  
+  <Story
+    name="Perk Unavailable #1"
+    args={{
+      mode: "light",
+      area: "Social media",
+      title: "Be part of my Telgeram group where I post daily news",
+      my_tokens: "152",
+      tokens: "200",
+      ticker: "$GYB"
+    }}
+  >
+    {TemplatePerk.bind({})}
+  </Story>
+  <Story
+    name="Perk Available #2"
+    args={{
+      mode: "light",
+      area: "Social media",
+      title: "Be part of my Telgeram group where I post daily news",
+      my_tokens: "240",
+      tokens: "200",
+      ticker: "$GYB"
+    }}
+  >
+    {TemplatePerk.bind({})}
+  </Story>
+  <Story
+    name="Project simple #1"
+    args={{
+      mode: "light",
+      organization: "Talent Protocol",
+      title: "Software developer",
+      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+    }}
+  >
+    {TemplateProject.bind({})}
+  </Story>
+  <Story
+    name="Project complete #2"
+    args={{
+      mode: "light",
+      organization: "Talent Protocol",
+      title: "Software developer",
+      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+      location: "Lisbon, Portugal",
+      website_link: "https://www.google.com/",
+      image_url: "https://thumbs.dreamstime.com/b/projects-concept-black-chalkboard-d-rendering-handwritten-top-view-office-desk-lot-business-office-supplies-79906734.jpg",
+    }}
+  >
+    {TemplateProject.bind({})}
+  </Story>
+  <Story
+    name="Roadmap #1"
+    args={{
+      mode: "light",
+      due_date: "Q1 2022 - Jan to Mar",
+      title: "Software developer",
+      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. ",
+    }}
+  >
+    {TemplateRoadmap.bind({})}
+  </Story>
+  <Story
+    name="Roadmap #2"
+    args={{
+      mode: "light",
+      due_date: "Q1 2022 - Jan to Mar",
+      title: "General Manager + Community",
+      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. Ethical bushwick chartreuse chia scenester. Kickstarter hashtag selvage, iPhone pop-up photo booth distillery dreamcatcher vape lyft portland. ",
+    }}
+  >
+    {TemplateRoadmap.bind({})}
+  </Story>
+  <Story
+    name="Portfolio Card #1"
+    args={{
+      mode: "light",
+      title: "WALLET BALLANCE",
+      subtitle: "$20,781.35",
+      description: "1.34 $TAL"
+    }}
+  >
+    {TemplatePortfolioCard.bind({})}
+  </Story>
+  <Story
+    name="Portfolio Card #2"
+    args={{
+      mode: "light",
+      title: "TOTAL REWARDS CLAIMED",
+      subtitle: "$210,126.59",
+      description: "123.45 $TAL"
+    }}
+  >
+    {TemplatePortfolioCard.bind({})}
+  </Story>
+  <Story
+    name="Token price #1"
+    args={{
+      mode: "light",
+      ticker: "$GIO",
+      token_address: "0x07829467f103d023bd5b5196c46713a9ce52238e",
+      display_name: "GIORGIO ANTINO",
+      price: "0.01",
+      market_value: "1,000",
+      circ_supply: "300",
+      max_supply: "1,000,000",
+      supporters_url: "https://www.google.pt",
+      supporters_count: "5"
+    }}
+  >
+    {TemplateTokenPrice.bind({})}
+  </Story>
+</Canvas>

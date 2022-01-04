@@ -1,0 +1,83 @@
+.tag-container {
+  cursor: default;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  &.light {
+    background-color: $surface-hover;
+  }
+
+  &.dark {
+    background-color: $gray-600;
+  }
+
+  &.primary {
+    background-color: $primary-200;
+  }
+}
+
+.optional-tag-container {
+  cursor: default;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: fit-content;
+  padding: 0px 8px;
+  border-radius: 4px;
+
+  &.light {
+    background-color: $gray;
+
+    &:hover {
+      background-color: $gray-surface-2;
+    }
+  }
+
+  &.dark {
+    background-color: $gray-400;
+
+    &:hover {
+      background-color: $gray-300;
+    }
+  }
+
+  .close-tag {
+    margin-left: 8px;
+    padding-bottom: 2px;
+    cursor: pointer;
+
+    &.light {
+      &:hover::after {
+        color: $gray-800;
+      }
+
+      &:active::after {
+        color: $gray-primary;
+      }
+
+      &:after {
+        content: "\00d7";
+        color: $gray-primary;
+      }
+    }
+
+    &.dark {
+      &:hover::after {
+        color: $white;
+      }
+
+      &:active::after {
+        color: $gray-200;
+      }
+
+      &:after {
+        content: "\00d7";
+        color: $gray-200;
+      }
+    }
+  }
+}

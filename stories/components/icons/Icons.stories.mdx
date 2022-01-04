@@ -1,0 +1,112 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import {
+  Bookmarks,
+  Calendar,
+  Chat,
+  Check,
+  Copy,
+  Delete,
+  Expand,
+  ExternalLink,
+  Gif,
+  Globe,
+  Help,
+  Home,
+  Img,
+  Monitor,
+  Navigation,
+  NewChat,
+  Padlock,
+  Pause,
+  Rocket,
+  Search,
+  Send,
+  Share,
+  Smile,
+  Support,
+  Swap,
+  Talent,
+  Typing,
+  Wallet,
+  Metamask,
+  Bell,
+  Star,
+} from "src/components/icons";
+
+<Meta title="Design System/Icons" component={Icons} />
+
+export const Template = (args) => <Icons {...args} />;
+
+<Canvas>
+  <Story name="Light Mode">
+    <div className="d-flex align-items-center justify-content-around">
+      <Bookmarks />
+      <Calendar />
+      <Chat />
+      <Check />
+      <Copy />
+      <Delete />
+      <Expand />
+      <ExternalLink />
+      <Gif />
+      <Globe />
+      <Help />
+      <Home />
+      <Img />
+      <Monitor />
+      <Navigation />
+      <NewChat />
+      <Padlock />
+      <Pause />
+      <Rocket />
+      <Search />
+      <Send />
+      <Share />
+      <Smile />
+      <Support />
+      <Swap />
+      <Talent />
+      <Typing />
+      <Wallet />
+      <Bell />
+      <Star />
+      <Metamask />
+    </div>
+  </Story>
+  <Story name="Dark Mode" parameters={{ backgrounds: { default: "dark" } }}>
+    <div className="d-flex align-items-center justify-content-around">
+      <Bookmarks color="#ffffff" />
+      <Calendar color="#ffffff" />
+      <Chat color="#ffffff" />
+      <Check color="#ffffff" />
+      <Copy color="#ffffff" />
+      <Delete color="#ffffff" />
+      <Expand color="#ffffff" />
+      <ExternalLink color="#ffffff" />
+      <Gif color="#ffffff" />
+      <Globe color="#ffffff" />
+      <Help color="#ffffff" />
+      <Home color="#ffffff" />
+      <Img color="#ffffff" />
+      <Monitor color="#ffffff" />
+      <Navigation color="#ffffff" />
+      <NewChat color="#ffffff" />
+      <Padlock color="#ffffff" />
+      <Pause color="#ffffff" />
+      <Rocket color="#ffffff" />
+      <Search color="#ffffff" />
+      <Send color="#ffffff" />
+      <Share color="#ffffff" />
+      <Smile color="#ffffff" />
+      <Support color="#ffffff" />
+      <Swap color="#ffffff" />
+      <Talent color="#ffffff" />
+      <Typing color="#ffffff" />
+      <Wallet color="#ffffff" />
+      <Bell color="#ffffff" />
+      <Star color="#ffffff" />
+      <Metamask color="#ffffff" />
+    </div>
+  </Story>
+</Canvas>

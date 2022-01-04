@@ -30,6 +30,8 @@ class API::V1::UsersController < ApplicationController
         service.call(user: @user)
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
+      else
+        current_user.update!(user_params)
       end
 
       render json: @user, status: :ok
@@ -48,5 +50,9 @@ class API::V1::UsersController < ApplicationController
 
   def search_params
     params.permit(:name)
+  end
+
+  def user_params
+    params.permit(:theme_preference)
   end
 end

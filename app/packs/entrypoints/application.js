@@ -34,6 +34,17 @@ import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
 import InviteUsers from "src/components/admin/InviteUsers";
 
+// New Layout components - @TODO: we need to check which of the above components we'll still be using or not
+
+import SideBar from "src/components/design_system/side_bar";
+import BottomNav from "src/components/design_system/bottom_nav";
+import TopBar from "src/components/design_system/top_bar";
+import TopNav from "src/components/design_system/top_nav"; // this is the mobile one
+
+import Profile from "src/components/talent/Edit/Profile";
+
+import NewPortfolio from "src/components/portfolio/NewPortfolio";
+
 import "stylesheets/application.scss";
 
 require.context("../images", true);
@@ -61,6 +72,12 @@ ReactOnRails.register({
   Notifications,
   WelcomePopup,
   InviteUsers,
+  SideBar,
+  BottomNav,
+  TopBar,
+  TopNav,
+  Profile,
+  NewPortfolio,
 });
 
 Rails.start();

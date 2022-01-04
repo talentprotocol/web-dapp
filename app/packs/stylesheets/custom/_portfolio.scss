@@ -1,0 +1,21 @@
+@import "../bootstrap/overrides";
+
+.portfolio-amounts-overview {
+  border-radius: 4px;
+}
+
+.dark-body .portfolio-amounts-overview {
+  background-color: $gray-900;
+}
+
+.light-body .portfolio-amounts-overview {
+  background-color: $alert-primary;
+}
+
+.dark-body .portfolio-unclaimed-rewards {
+  color: $yellow-500;
+}
+
+.light-body .portfolio-unclaimed-rewards {
+  color: $yellow-500;
+}

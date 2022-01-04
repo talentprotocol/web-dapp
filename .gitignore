@@ -36,10 +36,22 @@ yarn-debug.log*
 .yarn-integrity
 .DS_Store
 
+
 /spec/examples.txt
 /public/uploads/
 .env.development
 .env.test
 .env.production
+/.vs/
+/vs/
+/v16/
 .vscode/
 *.dump
+*.sqlite
+*.vspscc
+*.vssscc
+*.pidb
+*.log
+*.scc
+*.vsp
+*.vspx

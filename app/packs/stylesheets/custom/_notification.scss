@@ -1,0 +1,43 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.notification-container {
+    border: 1px solid #EDEDEF;
+    box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    background-color: $white;
+
+    &.dark {
+        background: $gray-600;
+    }
+}
+
+
+.notification {
+    box-sizing: border-box;
+    padding: 0.6rem;
+}
+
+.notification-icon{
+    margin: 2px;
+}
+
+.notification-right-area {
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.notification-right-area strong {
+    padding-top: 2px;
+    font-weight: 700;
+}
+
+.notification-right-area p {
+    font-size: 0.8rem;
+    padding-right: 10px;
+    margin-bottom: 0 !important;
+}
+
+.notification-description {
+    margin-top: 4px;
+}

@@ -171,11 +171,56 @@
   font-weight: 700;
 }
 
-.talent-table-tab{
+
+.talent-table-tabs {
+  border-bottom: 2px solid $light;
+}
+
+.talent-table-tab {
   cursor: pointer;
   margin-bottom: -2px;
   &:hover {
     background-color: $light;
-    border-bottom: 2px solid #dee2e6;
+  }
+}
+
+.dark-body .talent-table-tabs {
+  border-bottom: 2px solid $gray-600;
+}
+
+.dark-body .talent-table-tab {
+  &:hover {
+    background-color: $gray-600;
+  }  
+}
+
+.table-hover {
+  cursor: pointer
+}
+
+.edit-profile-talent-progress {
+  background: rgba($primary, 0.2)
+}
+
+.edit-profile-content {
+  max-width: 615px;
+}
+
+.dark-body .uppy-FileInput-input {
+  color: $white;
+}
+
+.light-body .uppy-FileInput-input {
+  color: $black;
+}
+
+.uppy-FileInput-btn {
+  background-color: $primary;
+  color: $white;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  font-weight: 700;
+  &:hover {
+    background: rgba($primary, 0.8);
   }
 }

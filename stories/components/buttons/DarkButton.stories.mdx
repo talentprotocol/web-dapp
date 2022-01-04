@@ -1,0 +1,174 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import Button from "src/components/design_system/button";
+
+<Meta title="Design System/Button/Dark Mode" component={Button} />
+
+# Buttons
+
+Custom button styles for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
+
+## Examples
+
+There are 6 currently supported types, `primary`, `info`, `success`, `warning`, `danger` and `secondary`. We use react-bootstrap button underneath so we accept any prop they use.
+
+export const Template = (args) => <Button {...args} />;
+
+<Canvas>
+  <Story
+    name="Primary default"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Primary default!",
+      onClick: () => null,
+      type: "primary-default",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary outline"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Primary outline!",
+      onClick: () => null,
+      type: "primary-outline",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary ghost"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Primary ghost!",
+      onClick: () => null,
+      type: "primary-ghost",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Primary subtle"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Primary subtle!",
+      onClick: () => null,
+      type: "primary-subtle",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Danger default"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Danger default!",
+      onClick: () => null,
+      type: "danger-default",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Danger outline"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Danger outline!",
+      onClick: () => null,
+      type: "danger-outline",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Danger ghost"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Danger ghost!",
+      onClick: () => null,
+      type: "danger-ghost",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Danger subtle"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "Danger subtle!",
+      onClick: () => null,
+      type: "danger-subtle",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="White default"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "White default!",
+      onClick: () => null,
+      type: "white-default",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="White outline"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "White outline!",
+      onClick: () => null,
+      type: "white-outline",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="White ghost"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "White ghost!",
+      onClick: () => null,
+      type: "white-ghost",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="White subtle"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      text: "White subtle!",
+      onClick: () => null,
+      type: "white-subtle",
+      mode: "dark",
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

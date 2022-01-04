@@ -7,6 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ethers } from "ethers";
 
+import Perk from "src/components/design_system/cards/perk";
+import P1 from "src/components/design_system/typography/p1";
+
 const Perks = ({
   perks,
   ticker,
@@ -15,6 +18,7 @@ const Perks = ({
   talentUserId,
   hideAction,
   railsContext,
+  mode,
 }) => {
   const [start, setStart] = useState(0);
   const [availableBalance, setAvailableBalance] = useState(0);
@@ -108,9 +112,7 @@ const Perks = ({
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
-        <h5>
-          <strong>Perks</strong>
-        </h5>
+        <P1 mode={mode} text="Perks" bold className="mb-3" />
         {sortedPerks.length > itemsPerRow && (
           <div className="d-flex flex-row">
             <button
@@ -132,31 +134,20 @@ const Perks = ({
       </div>
       <div className="d-flex justify-content-start mt-3 mb-2">
         {sliceInDisplay.map((perk, index) => (
-          <a
+          <Perk
             key={`perk_list_${perk.id}`}
-            className={`bg-light text-reset talent-link rounded p-3 d-flex flex-column justify-content-between ${margins(
-              index
-            )} ${itemsPerRow == 1 ? "col-12" : "w-32"}${
-              hideAction && calculateAmount(perk.price) === 0
-                ? ""
-                : " disabled-link"
-            }`}
+            mode={mode}
+            area={"General"}
+            title={perk.title}
+            my_tokens={parseFloat(availableBalance)}
+            tokens={parseFloat(perk.price)}
+            ticker={ticker}
             href={`/messages?user=${talentUserId}&perk=${perk.id}`}
-          >
-            <p>{perk.title}</p>
-            {calculateAmount(perk.price) === 0 && (
-              <small className="text-success">
-                <strong>AVAILABLE</strong>
-              </small>
-            )}
-            {calculateAmount(perk.price) !== 0 && (
-              <small className="text-warning">
-                <strong>
-                  HOLD +{calculateAmount(perk.price)} {ticker}
-                </strong>
-              </small>
-            )}
-          </a>
+            hideAction={hideAction}
+            className={`${margins(index)} ${
+              itemsPerRow == 1 ? "col-12" : "w-32"
+            }`}
+          />
         ))}
       </div>
     </>
