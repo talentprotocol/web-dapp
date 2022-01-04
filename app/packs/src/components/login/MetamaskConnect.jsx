@@ -75,11 +75,15 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
         wallet_id: _account.toLowerCase(),
       }).catch(() => setError(true));
 
-      if (result) {
-        setAccount(_account);
+      if (result.error) {
+        setError(true);
+      } else {
+        if (result) {
+          setAccount(_account);
+        }
+        onConnect(_account);
+        setRequestingMetamask(false);
       }
-      onConnect(_account);
-      setRequestingMetamask(false);
     } else {
       setRequestingMetamask(false);
       setShowNoMetamask(true);

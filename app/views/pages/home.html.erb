@@ -5,7 +5,8 @@
   %>
   <%= react_component("RegistrationFlow",
     props: {
-      step: 1
+      step: 1,
+      captchaKey: ENV["RECAPTCHA_SITE_KEY"]
     },
     prerender: false, html_options: { class: "px-3 pb-3"})
   %>

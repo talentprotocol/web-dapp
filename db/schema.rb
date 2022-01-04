@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_15_231451) do
+ActiveRecord::Schema.define(version: 2021_12_28_132744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_12_15_231451) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "text_ciphertext"
+    t.boolean "is_read", default: false, null: false
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -289,6 +290,10 @@ ActiveRecord::Schema.define(version: 2021_12_15_231451) do
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
     t.string "theme_preference", default: "light"
+<<<<<<< HEAD
+=======
+    t.boolean "disabled", default: false
+>>>>>>> dev
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
