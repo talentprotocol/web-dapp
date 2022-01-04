@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
     end
     @users = User.where(id: user_ids.flatten).includes([talent: :token])
     @unread_messages_counts = current_user.messagee.unread.where(sender: @users)
-                                          .group(:sender).count
+      .group(:sender).count
   end
 
   def show
@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
 
     sent = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
     received = Message.where(sender_id: @receiver.id, receiver_id: current_user.id)
-    @messages = sent.or(received)
+    @messages = sent.or(received).order(:created_at)
     received.update_all(is_read: true)
 
     @chat_id = current_user.sender_chat_id(@receiver)
@@ -38,10 +38,10 @@ class MessagesController < ApplicationController
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
     service = CreateNotification.new
     service.call(
-      title: 'New message',
-      body: 'You have a new message',
+      title: "New message",
+      body: "You have a new message",
       user_id: @receiver.id,
-      type: 'Notifications::MessageReceived'
+      type: "Notifications::MessageReceived"
     )
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)
