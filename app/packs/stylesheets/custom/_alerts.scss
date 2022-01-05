@@ -1,89 +1,89 @@
 @import "../bootstrap/overrides";
 
 .alert {
-    background-color: $alert-primary;
-    border: 1px solid $gray;
-    box-sizing: border-box;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
-    padding: 0.6rem;
+  background-color: $alert-primary;
+  border: 1px solid $gray;
+  box-sizing: border-box;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  padding: 0.6rem;
 
-    &.dark {
-        background: $gray-600;
-        border: 0;
-        box-shadow: 0;
-    }
+  &.dark {
+    background: $gray-600;
+    border: 0;
+    box-shadow: 0;
+  }
 }
 
 .alert-success {
-    color: $success;
+  color: $positive;
 
-    &.dark {
-        color: $green-500;
-    }
+  &.dark {
+    color: $green-500;
+  }
 }
 
 .alert-warning {
-    color: $warning;
+  color: $warning;
 
-    &.dark {
-        color: $yellow-500;
-    }
+  &.dark {
+    color: $yellow-500;
+  }
 }
 
 .alert-info {
-    color: $gray-800;
+  color: $gray-800;
 
-    &.dark {
-        color: $white;
-    }
+  &.dark {
+    color: $white;
+  }
 }
 
 .alert-critical {
-    color: $danger;
+  color: $danger;
 
-    &.dark {
-        color: $danger-tint-01;
-    }
+  &.dark {
+    color: $danger-tint-01;
+  }
 }
 
 .alert-dismissable .close,
 .alert-dismissible .close {
-    color: $gray-400;
-    font-weight: 200;
-    font-size: 1.5rem;
-    text-shadow: none;
+  color: $gray-400;
+  font-weight: 200;
+  font-size: 1.5rem;
+  text-shadow: none;
 
-    &.dark {
-        color: $gray-300;
-    }
+  &.dark {
+    color: $gray-300;
+  }
 }
 
 .alertRightArea {
-    margin-left: 10px;
-    margin-top: 2px;
+  margin-left: 10px;
+  margin-top: 2px;
 }
 
 .alertRightArea strong {
-    padding-top: 2px;
-    font-weight: 700;
+  padding-top: 2px;
+  font-weight: 700;
 }
 
 .alertRightArea p {
-    padding-top: 10px;
-    font-size: 0.8rem;
-    padding-right: 10px;
-    margin-bottom: 0.5rem;
-    color: $gray-400;
+  padding-top: 10px;
+  font-size: 0.8rem;
+  padding-right: 10px;
+  margin-bottom: 0.5rem;
+  color: $gray-400;
 
-    &.dark {
-        color: $gray-300;
-    }
+  &.dark {
+    color: $gray-300;
+  }
 }
 
 .alertRightArea a {
-    padding-top: 4px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: $primary;
+  padding-top: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: $primary;
 }

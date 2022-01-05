@@ -7,20 +7,25 @@ import { patch } from "../../utils/requests";
 
 import Button from "src/components/design_system/button";
 
-export const NoMetamask = ({ show, hide }) => {
+export const NoMetamask = ({ show, hide, mode }) => {
   const openMetamaskDownload = () =>
     window.open("https://metamask.io/download", "_blank").focus();
   const openDiscordLink = () =>
     window.open("https://discord.gg/DMgt9bhawK", "_blank").focus();
   return (
-    <Modal show={show} onHide={hide} centered>
+    <Modal
+      show={show}
+      onHide={hide}
+      centered
+      dialogClassName="remove-background"
+    >
       <Modal.Header closeButton>
         <Modal.Title>
           Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
+        <p className={mode}>
           We couldn't find metamask installed on your browser. You can install
           it{" "}
           <a href="https://metamask.io/download" onClick={openMetamaskDownload}>
@@ -28,7 +33,7 @@ export const NoMetamask = ({ show, hide }) => {
           </a>
           .
         </p>
-        <p>
+        <p className={mode}>
           If you think this is a mistake and you have metamask installed, reach
           out to us on{" "}
           <a href="https://discord.gg/DMgt9bhawK" onClick={openDiscordLink}>
@@ -94,7 +99,11 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
 
   return (
     <>
-      <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
+      <NoMetamask
+        show={showNoMetamask}
+        hide={() => setShowNoMetamask(false)}
+        mode={mode}
+      />
       <UnableToConnect show={error} hide={() => setError(false)} />
       <Button
         onClick={connectMetamask}
