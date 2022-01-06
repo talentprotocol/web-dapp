@@ -6,9 +6,11 @@ import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
 import RoadmapCard from "src/components/design_system/cards/roadmap";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight, ArrowLeft } from "src/components/icons";
 
 const Goal = ({ railsContext, mode, ...props }) => {
-  const { career_goal, talent, mobile, goals } = props;
+  const { career_goal, talent, mobile, goals, changeTab } = props;
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const [goalInfo, setGoalInfo] = useState({
     id: "",
@@ -144,6 +146,28 @@ const Goal = ({ railsContext, mode, ...props }) => {
           onClick={() => changeGoal(goal.id)}
         />
       ))}
+      {mobile && (
+        <div className="d-flex flex-row justify-content-between w-100 my-3">
+          <div className="d-flex flex-column">
+            <Caption text="PREVIOUS" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Highlights")}
+            >
+              <ArrowLeft color="currentColor" /> Highlights
+            </div>
+          </div>
+          <div className="d-flex flex-column">
+            <Caption text="NEXT" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Token")}
+            >
+              Token <ArrowRight color="currentColor" />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -4,9 +4,11 @@ import H5 from "src/components/design_system/typography/h5";
 import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight, ArrowLeft } from "src/components/icons";
 
 const Settings = ({ railsContext, mode, ...props }) => {
-  const { user, mobile } = props;
+  const { user, mobile, changeTab } = props;
   const [settings, setSettings] = useState({
     username: user.username || "",
     email: user.email || "",
@@ -95,6 +97,19 @@ const Settings = ({ railsContext, mode, ...props }) => {
           </Button>
         </div>
       </div>
+      {mobile && (
+        <div className="d-flex flex-row justify-content-between w-100 my-3">
+          <div className="d-flex flex-column">
+            <Caption text="PREVIOUS" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Perks")}
+            >
+              <ArrowLeft color="currentColor" /> Perks
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

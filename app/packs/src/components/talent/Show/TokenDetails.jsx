@@ -16,6 +16,7 @@ const TokenDetails = ({
   username,
   mobile,
   className,
+  removeFixedPosition,
 }) => {
   const { loading, error, data } = useQuery(
     GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
@@ -44,9 +45,9 @@ const TokenDetails = ({
 
   return (
     <div
-      className={`card ${
-        mobile ? "p-0 remove-background" : "bg-light"
-      } mt-3 sticky-top ${className}`}
+      className={`card ${mobile ? "p-0 remove-background" : "bg-light"} mt-3 ${
+        removeFixedPosition ? "" : "sticky-top"
+      } ${className}`}
       style={{ top: 20, zIndex: 1 }}
     >
       <div className="card-body">

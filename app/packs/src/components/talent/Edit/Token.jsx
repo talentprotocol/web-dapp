@@ -5,9 +5,11 @@ import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import TokenDetails from "src/components/talent/Show/TokenDetails";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight, ArrowLeft } from "src/components/icons";
 
 const Token = (props) => {
-  const { mode, token, user, railsContext, mobile } = props;
+  const { mode, token, user, railsContext, mobile, changeTab } = props;
   const [ticker, setTicker] = useState(token.ticker);
 
   if (token.contract_id) {
@@ -27,8 +29,31 @@ const Token = (props) => {
           username={user.username}
           railsContext={railsContext}
           mobile={mobile}
-          className="w-100"
+          className="w-100 mb-4"
+          removeFixedPosition
         />
+        {mobile && (
+          <div className="d-flex flex-row justify-content-between w-100 mt-4 mb-3">
+            <div className="d-flex flex-column">
+              <Caption text="PREVIOUS" />
+              <div
+                className="text-grey cursor-pointer"
+                onClick={() => changeTab("Goal")}
+              >
+                <ArrowLeft color="currentColor" /> Goal
+              </div>
+            </div>
+            <div className="d-flex flex-column">
+              <Caption text="NEXT" />
+              <div
+                className="text-grey cursor-pointer"
+                onClick={() => changeTab("Perks")}
+              >
+                Perks <ArrowRight color="currentColor" />
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   }
@@ -70,6 +95,28 @@ const Token = (props) => {
         className="w-100 mt-3"
         maxLength={8}
       />
+      {mobile && (
+        <div className="d-flex flex-row justify-content-between w-100 my-3">
+          <div className="d-flex flex-column">
+            <Caption text="PREVIOUS" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Goal")}
+            >
+              <ArrowLeft color="currentColor" /> Goal
+            </div>
+          </div>
+          <div className="d-flex flex-column">
+            <Caption text="NEXT" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Perks")}
+            >
+              Perks <ArrowRight color="currentColor" />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

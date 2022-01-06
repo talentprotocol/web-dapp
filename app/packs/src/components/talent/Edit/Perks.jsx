@@ -6,9 +6,11 @@ import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import Perk from "src/components/design_system/cards/perk";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight, ArrowLeft } from "src/components/icons";
 
 const Perks = ({ railsContext, mode, ...props }) => {
-  const { perks, token, mobile } = props;
+  const { perks, token, mobile, changeTab } = props;
   const [selectedPerkId, setSelectedPerkId] = useState(null);
   const [perk, setPerk] = useState({
     id: "",
@@ -98,6 +100,28 @@ const Perks = ({ railsContext, mode, ...props }) => {
           className={"w-100 mb-3"}
         />
       ))}
+      {mobile && (
+        <div className="d-flex flex-row justify-content-between w-100 my-3">
+          <div className="d-flex flex-column">
+            <Caption text="PREVIOUS" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Token")}
+            >
+              <ArrowLeft color="currentColor" /> Token
+            </div>
+          </div>
+          <div className="d-flex flex-column">
+            <Caption text="NEXT" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Settings")}
+            >
+              Settings <ArrowRight color="currentColor" />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

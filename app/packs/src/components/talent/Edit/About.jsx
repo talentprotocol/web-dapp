@@ -14,6 +14,8 @@ import TalentProfilePicture from "../TalentProfilePicture";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight } from "src/components/icons";
 
 const setupUppy = () => {
   const uppyProfile = new Uppy({
@@ -47,7 +49,7 @@ const setupUppy = () => {
   return { uppyBanner, uppyProfile };
 };
 
-const About = ({ railsContext, mode, ...props }) => {
+const About = ({ railsContext, mode, changeTab, ...props }) => {
   const { profilePictureUrl, bannerUrl, mobile, user, talent, secondary_tags } =
     props;
   const [aboutInfo, setAboutInfo] = useState({
@@ -331,6 +333,14 @@ const About = ({ railsContext, mode, ...props }) => {
           className="w-100"
         />
       </div>
+      {mobile && (
+        <div className="d-flex flex-column align-items-end w-100 my-3">
+          <Caption text="NEXT" />
+          <div className="text-grey cursor-pointer" onClick={changeTab}>
+            Highlights <ArrowRight color="currentColor" />
+          </div>
+        </div>
+      )}
     </>
   );
 };

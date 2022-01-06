@@ -34,7 +34,7 @@ const Profile = (props) => {
           <strong>{progress}</strong>/100%
         </P3>
       </div>
-      <div className="talent-table-tabs w-100 mt-3 d-flex flex-row align-items-center">
+      <div className="talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => setActiveTab("About")}
           className={`py-2 px-2 ml-3 talent-table-tab${
@@ -83,41 +83,97 @@ const Profile = (props) => {
         >
           Settings
         </div>
-        <Button
-          onClick={() => console.log("saving")}
-          type="white-subtle"
-          mode={theme.mode()}
-          className="ml-auto mr-3"
-        >
-          Save profile
-        </Button>
-        <Button
-          onClick={() => console.log("public")}
-          type="white-subtle"
-          mode={theme.mode()}
-          className="ml-1 mr-3"
-        >
-          Public profile
-        </Button>
+        {!mobile && (
+          <>
+            <Button
+              onClick={() => console.log("saving")}
+              type="white-subtle"
+              mode={theme.mode()}
+              className="ml-auto mr-3"
+            >
+              Save profile
+            </Button>
+            <Button
+              onClick={() => console.log("public")}
+              type="white-subtle"
+              mode={theme.mode()}
+              className="ml-1 mr-3"
+            >
+              Public profile
+            </Button>
+          </>
+        )}
       </div>
       <div className="d-flex flex-column align-items-center p-3 edit-profile-content w-100">
         {activeTab == "About" && (
-          <About {...props} mode={theme.mode()} mobile={mobile} />
+          <About
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={() => setActiveTab("Highlights")}
+          />
         )}
         {activeTab == "Highlights" && (
-          <Highlights {...props} mode={theme.mode()} mobile={mobile} />
+          <Highlights
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={(tab) => setActiveTab(tab)}
+          />
         )}
         {activeTab == "Goal" && (
-          <Goal {...props} mode={theme.mode()} mobile={mobile} />
+          <Goal
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={(tab) => setActiveTab(tab)}
+          />
         )}
         {activeTab == "Token" && (
-          <Token {...props} mode={theme.mode()} mobile={mobile} />
+          <Token
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={(tab) => setActiveTab(tab)}
+          />
         )}
         {activeTab == "Perks" && (
-          <Perks {...props} mode={theme.mode()} mobile={mobile} />
+          <Perks
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={(tab) => setActiveTab(tab)}
+          />
         )}
         {activeTab == "Settings" && (
-          <Settings {...props} mode={theme.mode()} mobile={mobile} />
+          <Settings
+            {...props}
+            mode={theme.mode()}
+            mobile={mobile}
+            changeTab={(tab) => setActiveTab(tab)}
+          />
+        )}
+        {mobile && (
+          <>
+            <div className={`divider ${theme.mode()} my-3`}></div>
+            <div className="d-flex flex-row justify-content-between w-100">
+              <Button
+                onClick={() => console.log("publish")}
+                type="white-subtle"
+                disabled={true}
+                mode={theme.mode()}
+              >
+                Publish Profile
+              </Button>
+              <Button
+                onClick={() => console.log("save")}
+                type="white-subtle"
+                mode={theme.mode()}
+              >
+                Save Profile
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </div>

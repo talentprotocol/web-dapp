@@ -7,9 +7,11 @@ import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
 import ProjectCard from "src/components/design_system/cards/project";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight, ArrowLeft } from "src/components/icons";
 
-const Highlights = ({ railsContext, mode, ...props }) => {
-  const { milestones, mobile } = props;
+const Highlights = ({ railsContext, ...props }) => {
+  const { milestones, mobile, changeTab, mode } = props;
   const [selectedHighlightId, setSelectedHighlightId] = useState(null);
   const [highlight, setHighlight] = useState({
     id: "",
@@ -167,6 +169,28 @@ const Highlights = ({ railsContext, mode, ...props }) => {
           </div>
         </div>
       ))}
+      {mobile && (
+        <div className="d-flex flex-row justify-content-between w-100 my-3">
+          <div className="d-flex flex-column">
+            <Caption text="PREVIOUS" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("About")}
+            >
+              <ArrowLeft color="currentColor" /> About
+            </div>
+          </div>
+          <div className="d-flex flex-column">
+            <Caption text="NEXT" />
+            <div
+              className="text-grey cursor-pointer"
+              onClick={() => changeTab("Goal")}
+            >
+              Goal <ArrowRight color="currentColor" />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
