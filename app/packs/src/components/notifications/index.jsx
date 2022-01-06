@@ -127,7 +127,10 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           }`}
           id="notifications-dropdown"
         >
-          <Bell color="currentColor" style={{ marginRight: -10 }} />
+          <Bell
+            color="currentColor"
+            style={{ marginRight: notificationsUnread ? -10 : -3 }}
+          />
           {notificationsUnread && (
             <span className="notifications-unread-icon"></span>
           )}
@@ -139,7 +142,9 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
         >
           {currentNotifications.length == 0 && (
             <Dropdown.ItemText key="no-notifications">
-              <small className="w-100 text-center">No notifications</small>
+              <small className="w-100 text-center no-notifications-item">
+                No notifications
+              </small>
             </Dropdown.ItemText>
           )}
           {currentNotifications.map((notification) => (

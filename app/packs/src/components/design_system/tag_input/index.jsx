@@ -4,7 +4,15 @@ import P2 from "../typography/p2";
 import OptionalTag from "../optional_tag";
 import cx from "classnames";
 
-const TagInput = ({ tags, label, caption, mode, disabled, onTagChange }) => {
+const TagInput = ({
+  className,
+  tags,
+  label,
+  caption,
+  mode,
+  disabled,
+  onTagChange,
+}) => {
   const [input, setInput] = useState("");
   const [localTags, setLocalTags] = useState(tags);
 
@@ -37,7 +45,7 @@ const TagInput = ({ tags, label, caption, mode, disabled, onTagChange }) => {
   };
 
   return (
-    <div className="d-flex flex-column">
+    <div className={cx("d-flex", "flex-column", className)}>
       {label && <P2 bold text={label} mode={mode} className="mb-2" />}
       <label
         disabled={disabled}
@@ -71,6 +79,7 @@ const TagInput = ({ tags, label, caption, mode, disabled, onTagChange }) => {
 };
 
 TagInput.defaultProps = {
+  className: "",
   tags: [],
   mode: "light",
   disabled: false,
@@ -79,6 +88,7 @@ TagInput.defaultProps = {
 };
 
 TagInput.propTypes = {
+  className: string,
   tags: arrayOf(string),
   mode: string,
   disabled: bool,
