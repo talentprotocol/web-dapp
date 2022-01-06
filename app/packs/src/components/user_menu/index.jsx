@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { Dropdown } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -227,10 +227,10 @@ export const UserMenuUnconnected = ({
             height={20}
             className="mr-2"
           />
-          <small className="mr-2">
+          <small className="mr-2 align-middle">
             <strong>{user.username}</strong>
           </small>
-          <FontAwesomeIcon icon={faAngleDown} />
+          <FontAwesomeIcon icon={faAngleDown} className="align-middle" />
         </Dropdown.Toggle>
 
         <Dropdown.Menu className={`user-menu-dropdown ${theme.mode()}`}>
