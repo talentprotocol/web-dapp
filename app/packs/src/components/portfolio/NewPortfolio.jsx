@@ -7,9 +7,9 @@ import React, {
 } from "react";
 
 import { ethers } from "ethers";
-import { OnChain } from "src/onchain";
 import currency from "currency.js";
-import { parseAndCommify } from "src/onchain/utils";
+import Modal from "react-bootstrap/Modal";
+import transakSDK from "@transak/transak-sdk";
 
 import {
   ApolloProvider,
@@ -17,243 +17,110 @@ import {
   GET_SUPPORTER_PORTFOLIO,
   client,
 } from "src/utils/thegraph";
-
-import { get } from "src/utils/requests";
+import { OnChain } from "src/onchain";
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+
+import RewardsModal from "./components/RewardsModal";
+import Supporting from "./components/Supporting";
+import Supporters from "./components/Supporters";
 
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
 import H4 from "src/components/design_system/typography/h4";
+import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
-import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
-import Table from "src/components/design_system/table";
-import Caption from "src/components/design_system/typography/caption";
-import { parse } from "url";
+import { Spinner } from "src/components/icons";
 
-const Supporting = ({
-  mode,
-  talentTokensInCUSD,
-  talentTokensInTAL,
-  totalRewardsInCUSD,
-  rewardsClaimed,
-  talents,
-  returnValues,
-  onClaim,
-}) => {
-  const [talentProfilePictures, setTalentProfilePictures] = useState({});
-  const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
-  const [sortDirection, setSortDirection] = useState("asc");
+const TransakDone = ({ show, hide }) => (
+  <Modal show={show} onHide={hide} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>Thank you for your support</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>
+        You have successfully acquired cUSD on the CELO network. It usually
+        takes a couple minutes to finish processing and for you to receive your
+        funds, you'll get a confirmation email from transak once you do. After
+        that you're ready to start supporting talent!
+      </p>
+    </Modal.Body>
+  </Modal>
+);
 
-  const toggleDirection = () => {
-    if (sortDirection == "asc") {
-      setSortDirection("desc");
-    } else {
-      setSortDirection("asc");
-    }
-  };
-
-  const onOptionClick = (option) => {
-    if (option == selectedSort) {
-      toggleDirection();
-    } else {
-      setSortDirection("asc");
-      setSelectedSort(option);
-    }
-    setShowDropdown(false);
-  };
-
-  useEffect(() => {
-    talents.forEach((talent) => {
-      get(`api/v1/talent/${talent.contract_id.toLowerCase()}`).then(
-        (response) => {
-          setTalentProfilePictures((prev) => ({
-            ...prev,
-            [talent.contract_id]: response.profilePictureUrl,
-          }));
-        }
-      );
-    });
-  }, [talents]);
-
-  const talToUSD = (amount) => {
-    return parseFloat(amount) * 0.02;
-  };
-
-  const sortIcon = (option) => {
-    if (option == selectedSort) {
-      return sortDirection == "asc" ? " ▼" : " ▲";
-    } else {
-      return "";
-    }
-  };
-
-  const returns = (contract_id) => {
-    if (returnValues[contract_id]) {
-      return parseAndCommify(talToUSD(returnValues[contract_id].toString()));
-    }
-
-    return "0.0";
-  };
-
+const LoadingPortfolio = ({ mode }) => {
   return (
-    <>
-      {/* <div className="d-flex flex-row justify-content-between flex-wrap w-100 mt-4">
-        <div className="d-flex flex-column portfolio-amounts-overview mr-3 p-3">
-          <P3 mode={mode} text={"Total Talent Tokens"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={mode}
-              text={currency(talentTokensInCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={mode}
-              text={`${currency(talentTokensInTAL).format().substring(1)} $TAL`}
-              bold
-            />
-          </div>
-        </div>
-        <div className="d-flex flex-column portfolio-amounts-overview mr-3 p-3">
-          <P3 mode={mode} text={"Rewards Claimed"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={mode}
-              text={currency(totalRewardsInCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={mode}
-              text={`${currency(parseFloat(rewardsClaimed))
-                .format()
-                .substring(1)} $TAL`}
-              bold
-            />
-          </div>
-        </div>
-        <div className="d-flex flex-column portfolio-amounts-overview p-3">
-          <P3
-            mode={mode}
-            text={"Unclaimed Rewards"}
-            className="text-warning portfolio-unclaimed-rewards"
-          />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={mode}
-              text={currency(allUnclaimedRewards()).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={mode}
-              text={`${currency(allUnclaimedRewards() * 5)
-                .format()
-                .substring(1)} $TAL`}
-              bold
-            />
-          </div>
-        </div>
-      </div> */}
-      <Table mode={mode} className="px-3 horizontal-scroll mt-4">
-        <Table.Head>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Alphabetical Order")}
-              bold
-              text={`TALENT${sortIcon("Alphabetical Order")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Amount")}
-              bold
-              text={`AMOUNT${sortIcon("Amount")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("TAL")}
-              bold
-              text={`TAL LOCKED${sortIcon("TAL")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Rewards")}
-              bold
-              text={`REWARDS${sortIcon("Rewards")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption bold text="Action" />
-          </Table.Th>
-        </Table.Head>
-        <Table.Body>
-          {talents.map((talent) => (
-            <Table.Tr
-              key={`talent-${talent.contract_id}`}
-              onClick={() => (window.location.href = `/talent/${talent.name}`)}
-            >
-              <Table.Td>
-                <div className="d-flex">
-                  <TalentProfilePicture
-                    src={talentProfilePictures[talent.contract_id]}
-                    height="24"
-                  />
-                  <P2 text={`${talent.name}`} bold className="ml-2" />
-                  <P2 text={`${talent.symbol}`} className="ml-2" />
-                </div>
-              </Table.Td>
-              <Table.Td>
-                <P2 text={parseAndCommify(talent.amount)} />
-              </Table.Td>
-              <Table.Td>
-                <P2 text={parseAndCommify(talent.amount * 5)} />
-              </Table.Td>
-              <Table.Td className="pr-3">
-                <P2 text={returns(talent.contract_id)} />
-              </Table.Td>
-              <Table.Td className="pr-3">
-                <Button
-                  onClick={() => onClaim(talent.contract_id)}
-                  disabled={true}
-                  type="primary-ghost"
-                  mode={mode}
-                  className="mr-2"
-                >
-                  Claim rewards
-                </Button>
-              </Table.Td>
-            </Table.Tr>
-          ))}
-        </Table.Body>
-      </Table>
-    </>
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <Spinner />
+    </div>
   );
 };
 
-const NewPortfolioTable = (props) => {
-  return <></>;
+const ChangeNetwork = ({ mode, networkChange }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <H5 mode={mode} text="Please change your network" bold />
+      <P2
+        mode={mode}
+        text="To see your portfolio you need to change network to CELO."
+        bold
+      />
+      <Button
+        onClick={networkChange}
+        type="primary-default"
+        mode={mode}
+        className="mt-3"
+      >
+        Change Network
+      </Button>
+    </div>
+  );
 };
 
-const NewPortfolio = ({ address, railsContext }) => {
+const Error = ({ mode }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <H5 mode={mode} text="We're having trouble loading your portfolio" bold />
+      <P2
+        mode={mode}
+        text="We're sorry for the inconvenience and we're working hard to get things back up"
+        bold
+      />
+    </div>
+  );
+};
+
+const newTransak = (width, height, env, apiKey) => {
+  const envName = env ? env.toUpperCase() : "STAGING";
+
+  return new transakSDK({
+    apiKey: apiKey, // Your API Key
+    environment: envName, // STAGING/PRODUCTION
+    defaultCryptoCurrency: "CUSD",
+    fiatCurrency: "EUR",
+    defaultPaymentMethod: "credit_debit_card",
+    themeColor: "000000",
+    hostURL: window.location.origin,
+    widgetHeight: `${height}px`,
+    widgetWidth: `${width}px`,
+    network: "CELO",
+    cryptoCurrencyList: "CUSD",
+  });
+};
+
+const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState(address || "");
   const { loading, error, data, refetch } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: { id: localAccount.toLowerCase() },
   });
+
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
   const [returnValues, setReturnValues] = useState({});
   const [activeContract, setActiveContract] = useState(null);
-  const [show, setShow] = useState(false);
   const [loadingRewards, setLoadingRewards] = useState(false);
+  const [wrongChain, setWrongChain] = useState(false);
 
   // --- Interface variables ---
   const { height, width } = useWindowDimensionsHook();
@@ -262,6 +129,36 @@ const NewPortfolio = ({ address, railsContext }) => {
   const [activeTab, setActiveTab] = useState(
     mobile ? "Overview" : "Supporting"
   );
+  const [show, setShow] = useState(false);
+
+  // --- TRANSAK ---
+  const [transakDone, setTransakDone] = useState(false);
+
+  const onClickTransak = (e) => {
+    e.preventDefault();
+
+    const _width = width > 450 ? 450 : width;
+    const _height = height > 700 ? 700 : height;
+
+    const transak = newTransak(
+      _width,
+      _height,
+      railsContext.contractsEnv,
+      railsContext.transakApiKey
+    );
+    transak.init();
+
+    // To get all the events
+    transak.on(transak.ALL_EVENTS, (data) => {
+      console.log(data);
+    });
+
+    // This will trigger when the user marks payment is made.
+    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+      transak.close();
+      setTransakDone(true);
+    });
+  };
 
   // --- On chain functions ---
 
@@ -308,6 +205,8 @@ const NewPortfolio = ({ address, railsContext }) => {
     }
 
     if (newOnChain) {
+      const chainAvailable = await newOnChain.recognizedChain();
+      setWrongChain(!chainAvailable);
       setChainAPI(newOnChain);
     }
   });
@@ -377,6 +276,12 @@ const NewPortfolio = ({ address, railsContext }) => {
     setShow(true);
   };
 
+  const networkChange = async () => {
+    if (chainAPI) {
+      await chainAPI.switchChain();
+    }
+  };
+
   // --- Overview calculations ---
   const cUSDBalance = parseFloat(stableBalance);
   const talentTokensTotal = parseFloat(talentTokensSum);
@@ -388,10 +293,33 @@ const NewPortfolio = ({ address, railsContext }) => {
   const overallCUSD = cUSDBalance + talentTokensInCUSD;
   const overallTAL = cUSDBalanceInTAL + talentTokensInTAL;
 
+  if (loading || chainAPI === null) {
+    return <LoadingPortfolio />;
+  }
+
+  if (error !== undefined) {
+    return <Error mode={theme.mode()} />;
+  }
+
+  if (wrongChain) {
+    return <ChangeNetwork mode={theme.mode()} networkChange={networkChange} />;
+  }
+
   return (
     <div className={`d-flex flex-column ${mobile ? "" : "px-3"}`}>
+      <RewardsModal
+        show={show}
+        setShow={setShow}
+        claim={claimRewards}
+        loadingRewards={loadingRewards}
+        activeContract={activeContract}
+        rewardValues={returnValues}
+        rewards={returnValues[activeContract] || "0"}
+        supportedTalents={supportedTalents}
+      />
+      <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
       <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview mt-4 p-4">
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Balance"} />
           <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
             <H4
@@ -407,7 +335,7 @@ const NewPortfolio = ({ address, railsContext }) => {
             />
           </div>
         </div>
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Rewards Claimed"} />
           <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
             <H4
@@ -425,7 +353,7 @@ const NewPortfolio = ({ address, railsContext }) => {
             />
           </div>
         </div>
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Wallet Balance"} />
           <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
             <H4
@@ -444,10 +372,10 @@ const NewPortfolio = ({ address, railsContext }) => {
         <div className="d-flex flex-row align-items-end">
           <div className="d-flex flex-row">
             <Button
-              onClick={() => console.log("Get Funds")}
+              onClick={onClickTransak}
               type="primary-default"
               mode={theme.mode()}
-              className="mr-2"
+              className="mr-2 mt-2"
             >
               Get Funds
             </Button>
@@ -456,7 +384,7 @@ const NewPortfolio = ({ address, railsContext }) => {
               disabled={true}
               type="white-subtle"
               mode={theme.mode()}
-              className="mr-2"
+              className="mr-2 mt-2"
             >
               Withdraw
             </Button>
@@ -482,25 +410,31 @@ const NewPortfolio = ({ address, railsContext }) => {
         >
           Supporting
         </div>
-        <div
-          onClick={() => setActiveTab("Supporters")}
-          className={`py-2 px-2 talent-table-tab${
-            activeTab == "Timeline" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Supporters
-        </div>
+        {tokenAddress && (
+          <div
+            onClick={() => setActiveTab("Supporters")}
+            className={`py-2 px-2 talent-table-tab${
+              activeTab == "Supporters" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            Supporters
+          </div>
+        )}
       </div>
       {activeTab == "Supporting" && (
         <Supporting
           mode={theme.mode()}
-          talentTokensInCUSD={talentTokensInCUSD}
-          talentTokensInTAL={talentTokensInTAL}
-          totalRewardsInCUSD={totalRewardsInCUSD}
-          rewardsClaimed={rewardsClaimed()}
           talents={supportedTalents}
           returnValues={returnValues}
           onClaim={onClaim}
+        />
+      )}
+      {activeTab == "Supporters" && (
+        <Supporters
+          mode={theme.mode()}
+          tokenAddress={tokenAddress}
+          onClaim={onClaim}
+          chainAPI={chainAPI}
         />
       )}
     </div>

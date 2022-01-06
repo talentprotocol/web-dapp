@@ -25,6 +25,10 @@
   cursor: pointer;
 }
 
+.reset-cursor {
+  cursor: default !important;
+}
+
 .animated-background {
   animation-duration: 6s;
   animation-fill-mode: forwards;
@@ -190,4 +194,18 @@
 
 .dark-body .bg-light {
   background-color: $gray-900 !important;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotateZ(0deg)
+  }
+
+  to {
+    transform: rotateZ(360deg)
+  }
+}
+
+#loading {
+  animation: rotate 1s infinite linear;
 }

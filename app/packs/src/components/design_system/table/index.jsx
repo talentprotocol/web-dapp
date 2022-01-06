@@ -14,7 +14,11 @@ const Head = ({ children }) => (
 
 const Body = ({ children }) => <tbody>{children}</tbody>;
 
-const Tr = ({ children, onClick }) => <tr onClick={onClick}>{children}</tr>;
+const Tr = ({ children, onClick, className }) => (
+  <tr className={className} onClick={onClick}>
+    {children}
+  </tr>
+);
 
 const Cell = ({ children, header, className }) => {
   return header ? (
