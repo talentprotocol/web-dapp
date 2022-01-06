@@ -10,19 +10,14 @@ import { get } from "src/utils/requests";
 import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
 import H4 from "src/components/design_system/typography/h4";
+import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
+import { Spinner } from "src/components/icons";
 
-const SupporterOverview = ({
-  loading,
-  reserve,
-  supporterCount,
-  talentRewards,
-  marketCap,
-  mode,
-}) => {
+const SupporterOverview = ({ loading, talentRewards, marketCap, mode }) => {
   const marketCapCUSD = loading ? 0.0 : Number.parseFloat(marketCap) * 0.02;
   const pendingRewardsCUSD = loading
     ? 0.0
@@ -251,6 +246,23 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
       return "";
     }
   };
+
+  if (loading) {
+    return (
+      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!loading && sortedSupporters().length == 0) {
+    return (
+      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+        <H5 mode={mode} text="You don't have any Supporter" bold />
+        <P2 mode={mode} text="All your supporters will be listed here" bold />
+      </div>
+    );
+  }
 
   return (
     <>

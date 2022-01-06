@@ -5,6 +5,7 @@ import { parseAndCommify } from "src/onchain/utils";
 import { get } from "src/utils/requests";
 
 import P2 from "src/components/design_system/typography/p2";
+import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
@@ -131,6 +132,27 @@ const Supporting = ({ mode, talents, returnValues, onClaim }) => {
 
     return "0.0";
   };
+
+  if (sortedTalents().length == 0) {
+    return (
+      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+        <H5 mode={mode} text="You are not supporting any Talent" bold />
+        <P2
+          mode={mode}
+          text="All your talent tokens will be listed here"
+          bold
+        />
+        <Button
+          onClick={() => (window.location.href = "/talent")}
+          type="primary-default"
+          mode={mode}
+          className="mt-3"
+        >
+          See talent
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <>

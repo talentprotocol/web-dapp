@@ -28,7 +28,9 @@ import Supporters from "./components/Supporters";
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
 import H4 from "src/components/design_system/typography/h4";
+import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
+import { Spinner } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
@@ -45,6 +47,48 @@ const TransakDone = ({ show, hide }) => (
     </Modal.Body>
   </Modal>
 );
+
+const LoadingPortfolio = ({ mode }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <Spinner />
+    </div>
+  );
+};
+
+const ChangeNetwork = ({ mode, networkChange }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <H5 mode={mode} text="Please change your network" bold />
+      <P2
+        mode={mode}
+        text="To see your portfolio you need to change network to CELO."
+        bold
+      />
+      <Button
+        onClick={networkChange}
+        type="primary-default"
+        mode={mode}
+        className="mt-3"
+      >
+        Change Network
+      </Button>
+    </div>
+  );
+};
+
+const Error = ({ mode }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <H5 mode={mode} text="We're having trouble loading your portfolio" bold />
+      <P2
+        mode={mode}
+        text="We're sorry for the inconvenience and we're working hard to get things back up"
+        bold
+      />
+    </div>
+  );
+};
 
 const newTransak = (width, height, env, apiKey) => {
   const envName = env ? env.toUpperCase() : "STAGING";
@@ -76,6 +120,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
   const [returnValues, setReturnValues] = useState({});
   const [activeContract, setActiveContract] = useState(null);
   const [loadingRewards, setLoadingRewards] = useState(false);
+  const [wrongChain, setWrongChain] = useState(false);
 
   // --- Interface variables ---
   const { height, width } = useWindowDimensionsHook();
@@ -160,6 +205,8 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
     }
 
     if (newOnChain) {
+      const chainAvailable = await newOnChain.recognizedChain();
+      setWrongChain(!chainAvailable);
       setChainAPI(newOnChain);
     }
   });
@@ -229,6 +276,12 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
     setShow(true);
   };
 
+  const networkChange = async () => {
+    if (chainAPI) {
+      await chainAPI.switchChain();
+    }
+  };
+
   // --- Overview calculations ---
   const cUSDBalance = parseFloat(stableBalance);
   const talentTokensTotal = parseFloat(talentTokensSum);
@@ -239,6 +292,18 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
 
   const overallCUSD = cUSDBalance + talentTokensInCUSD;
   const overallTAL = cUSDBalanceInTAL + talentTokensInTAL;
+
+  if (loading || chainAPI === null) {
+    return <LoadingPortfolio />;
+  }
+
+  if (error !== undefined) {
+    return <Error mode={theme.mode()} />;
+  }
+
+  if (wrongChain) {
+    return <ChangeNetwork mode={theme.mode()} networkChange={networkChange} />;
+  }
 
   return (
     <div className={`d-flex flex-column ${mobile ? "" : "px-3"}`}>
