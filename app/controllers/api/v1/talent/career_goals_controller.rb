@@ -6,7 +6,11 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
-    if career_goal.update(career_goal_params)
+    if talent_params.present?
+      talent.profile["video"] = talent_params[:video]
+    end
+
+    if career_goal.update(career_goal_params) && talent.save
       render json: career_goal, status: :ok
     else
       render json: {error: "Unable to update Career goal"}, status: :unprocessable_entity
@@ -49,5 +53,9 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
       :pitch,
       :challenges
     )
+  end
+
+  def talent_params
+    params.require(:talent).permit(:video)
   end
 end

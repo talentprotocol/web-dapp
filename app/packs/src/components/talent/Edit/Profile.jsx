@@ -231,7 +231,6 @@ const Profile = (props) => {
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
             changeSharedState={setSharedState}
-            saveProfile={() => saveHightlights()}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}

@@ -221,7 +221,7 @@ const Highlights = (props) => {
       // add new highlight and reset
 
       let requestType, url;
-      if (allMilestones[id] != "new") {
+      if (id != "new") {
         requestType = patch;
         url = `/api/v1/talent/${props.talent.id}/milestones/${id}`;
       } else {
