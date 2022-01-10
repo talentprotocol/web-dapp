@@ -36,6 +36,7 @@ gem "bcrypt"
 
 # File Attachment toolkit
 gem "shrine", "~> 3.0"
+gem "aws-sdk-cloudfront", require: false
 gem "aws-sdk-s3"
 gem "uppy-s3_multipart", "~> 1.0"
 gem "image_processing", "~> 1.12", require: false
