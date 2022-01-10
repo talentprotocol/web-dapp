@@ -1,10 +1,17 @@
 import React, { useState, useContext } from "react";
+import Modal from "react-bootstrap/Modal";
 
+import { patch } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import { useWindowDimensionsHook } from "src/utils/window";
+import {
+  profileProgress,
+  missingFields,
+} from "src/components/talent/utils/talent";
 
 import Button from "src/components/design_system/button";
 import P3 from "src/components/design_system/typography/p3";
+import { Spinner, GreenCheck } from "src/components/icons";
 
 import About from "./About";
 import Highlights from "./Highlights";
@@ -13,20 +20,126 @@ import Token from "./Token";
 import Perks from "./Perks";
 import Settings from "./Settings";
 
+const LoadingProfile = ({ show, setShow, mode, done }) => {
+  return (
+    <Modal
+      show={show}
+      centered
+      onHide={() => setShow(false)}
+      dialogClassName={"remove-background"}
+      backdrop={false}
+    >
+      <Modal.Body className="d-flex flex-column justify-content-center align-items-center py-4">
+        {done && (
+          <div className="d-flex flex-column justify-conter-center align-items-center my-4">
+            <P3 mode={mode} text="Profile updated" bold className="mb-3" />
+            <GreenCheck />
+          </div>
+        )}
+        {!done && (
+          <div className="d-flex flex-column justify-conter-center align-items-center my-4">
+            <P3
+              mode={mode}
+              text="We're updating your profile"
+              bold
+              className="mb-3"
+            />
+            <Spinner />
+          </div>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const [activeTab, setActiveTab] = useState("About");
-  const [progress, setProgress] = useState(0);
   const { height, width } = useWindowDimensionsHook();
+  const [updatingProfile, setUpdatingProfile] = useState(false);
+  const [finishedUpdating, setFinishedUpdating] = useState(true);
   const mobile = width < 992;
+  const progress = profileProgress(props);
+  const requiredFields = missingFields(props);
+  const [sharedState, setSharedState] = useState({ ...props });
+
+  console.log("--- ALL PROPS ---");
+  console.log(props);
+
+  const buttonType = () => {
+    if (requiredFields.length == 0) {
+      if (sharedState.talent.public) {
+        return "positive-outline";
+      } else {
+        return "positive-default";
+      }
+    } else {
+      return "white-subtle";
+    }
+  };
+
+  const togglePublicProfile = async () => {
+    setFinishedUpdating(false);
+    setUpdatingProfile(true);
+
+    const response = await patch(`/api/v1/talent/${props.talent.id}`, {
+      talent: {
+        public: !props.talent.public,
+      },
+    }).catch(() => {
+      setFinishedUpdating(true);
+      setUpdatingProfile(false);
+    });
+
+    if (response && response.error) {
+      // setFinishedUpdating(true);
+      setTimeout(() => setFinishedUpdating(true), 1000);
+      setTimeout(() => setUpdatingProfile(false), 2000);
+    }
+
+    if (response && !response.error) {
+      // setFinishedUpdating(true);
+      setSharedState((prev) => ({
+        ...prev,
+        talent: { ...prev.talent, public: !props.talent.public },
+      }));
+
+      setTimeout(() => setFinishedUpdating(true), 1000);
+      setTimeout(() => setUpdatingProfile(false), 2000);
+    }
+  };
+
+  const saveAbout = async () => {
+    setFinishedUpdating(false);
+    setUpdatingProfile(true);
+    const response = await patch(`/api/v1/talent/${props.talent.id}`, {
+      ...sharedState,
+    }).catch(() => {
+      setError(true);
+      setSaving(false);
+    });
+
+    setFinishedUpdating(true);
+    setTimeout(() => setUpdatingProfile(false), 1000);
+  };
 
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
+        {/* below is required so the justify-content-between aligns properly */}
+        <LoadingProfile
+          show={updatingProfile}
+          setShow={setUpdatingProfile}
+          done={finishedUpdating}
+        />
         <P3 text="" />
         <P3
           mode={theme.mode()}
-          text="Complete your profile to appeal to more supporters and earn rewards."
+          text={
+            progress == 100
+              ? "Your profile is complete!"
+              : "Complete your profile to appeal to more supporters and earn rewards."
+          }
           bold
           className="text-primary"
         />
@@ -86,20 +199,13 @@ const Profile = (props) => {
         {!mobile && (
           <>
             <Button
-              onClick={() => console.log("saving")}
-              type="white-subtle"
+              onClick={() => togglePublicProfile()}
+              type={buttonType()}
+              disabled={requiredFields.length > 0}
               mode={theme.mode()}
               className="ml-auto mr-3"
             >
-              Save profile
-            </Button>
-            <Button
-              onClick={() => console.log("public")}
-              type="white-subtle"
-              mode={theme.mode()}
-              className="ml-1 mr-3"
-            >
-              Public profile
+              {sharedState.talent.public ? "Public" : "Publish Profile"}
             </Button>
           </>
         )}
@@ -107,73 +213,65 @@ const Profile = (props) => {
       <div className="d-flex flex-column align-items-center p-3 edit-profile-content w-100">
         {activeTab == "About" && (
           <About
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={() => setActiveTab("Highlights")}
+            changeSharedState={setSharedState}
+            saveProfile={() => saveAbout()}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
         {activeTab == "Highlights" && (
           <Highlights
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
+            changeSharedState={setSharedState}
+            saveProfile={() => saveHightlights()}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
         {activeTab == "Goal" && (
           <Goal
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
+            changeSharedState={setSharedState}
           />
         )}
         {activeTab == "Token" && (
           <Token
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
+            changeSharedState={setSharedState}
           />
         )}
         {activeTab == "Perks" && (
           <Perks
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
+            changeSharedState={setSharedState}
           />
         )}
         {activeTab == "Settings" && (
           <Settings
-            {...props}
+            {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
+            changeSharedState={setSharedState}
           />
-        )}
-        {mobile && (
-          <>
-            <div className={`divider ${theme.mode()} my-3`}></div>
-            <div className="d-flex flex-row justify-content-between w-100">
-              <Button
-                onClick={() => console.log("publish")}
-                type="white-subtle"
-                disabled={true}
-                mode={theme.mode()}
-              >
-                Publish Profile
-              </Button>
-              <Button
-                onClick={() => console.log("save")}
-                type="white-subtle"
-                mode={theme.mode()}
-              >
-                Save Profile
-              </Button>
-            </div>
-          </>
         )}
       </div>
     </div>

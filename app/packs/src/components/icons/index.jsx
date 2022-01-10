@@ -35,3 +35,4 @@ export { default as ArrowLeft } from "src/components/icons/ArrowLeft";
 export { default as ArrowRight } from "src/components/icons/ArrowRight";
 export { default as OrderBy } from "src/components/icons/OrderBy";
 export { default as Spinner } from "src/components/icons/Spinner";
+export { default as GreenCheck } from "src/components/icons/GreenCheck";

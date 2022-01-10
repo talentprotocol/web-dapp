@@ -228,7 +228,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
           </div>
         </div>
         <SupporterOverview
-          supporterCount={supporters.length}
+          supporterCount={talentData.supporterCounter}
           loading={loading}
           reserve={talentData.totalValueLocked}
           talentRewards={talentData.rewardsReady}

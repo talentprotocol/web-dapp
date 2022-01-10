@@ -12,12 +12,18 @@ const TextInput = ({
   onChange,
   className,
   maxLength,
+  required,
+  error,
   type = "text",
 }) => {
   return (
     <div className={`d-flex flex-column ${className}`}>
       <div className="d-flex flex-row justify-content-between">
-        {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
+        {title ? (
+          <h6 className={`title-field ${mode}`}>
+            {title} {required && <span className="text-danger">*</span>}
+          </h6>
+        ) : null}
         {maxLength ? (
           <P2 mode={mode} text={`${value.length}/${maxLength}`} />
         ) : null}
@@ -25,7 +31,7 @@ const TextInput = ({
 
       <input
         type={type}
-        className={`form-control ${mode}`}
+        className={`form-control ${mode} ${error ? "border-danger" : ""}`}
         placeholder={placeholder}
         disabled={disabled}
         value={value}

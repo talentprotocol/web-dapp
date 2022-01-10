@@ -26,6 +26,7 @@ const TagInput = ({
 
     if (key === "Enter" && !localTags.includes(input)) {
       e.preventDefault();
+      onTagChange([...localTags, input]);
       setLocalTags((prevState) => [...prevState, input]);
       setInput("");
     }
@@ -41,7 +42,9 @@ const TagInput = ({
   };
 
   const deleteTag = (index) => {
-    setLocalTags((prevState) => prevState.filter((_tag, i) => i !== index));
+    const newTags = localTags.filter((_tag, i) => i !== index);
+    onTagChange(newTags);
+    setLocalTags(newTags);
   };
 
   return (

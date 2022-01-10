@@ -11,18 +11,24 @@ const TextArea = ({
   value,
   onChange,
   className,
+  required,
+  error,
   maxLength,
 }) => {
   return (
     <div className={`d-flex flex-column ${className}`}>
       <div className="d-flex flex-row justify-content-between">
-        {title ? <h6 className={`title-field ${mode}`}>{title}</h6> : null}
+        {title ? (
+          <h6 className={`title-field ${mode}`}>
+            {title} {required && <span className="text-danger">*</span>}
+          </h6>
+        ) : null}
         {maxLength ? (
           <P2 mode={mode} text={`${value.length}/${maxLength}`} />
         ) : null}
       </div>
       <textarea
-        className={`form-control ${mode}`}
+        className={`form-control ${mode} ${error ? "border-danger" : ""}`}
         rows="3"
         placeholder={placeholder}
         disabled={disabled}
