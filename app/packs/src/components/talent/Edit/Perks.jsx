@@ -58,7 +58,7 @@ const PerkForm = ({
       <div className="d-flex flex-row w-100 justify-content-between mt-3">
         <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
           <TextInput
-            title={`Amount ${token.ticker}`}
+            title={`Amount ${token.ticker || ""}`}
             type="number"
             mode={mode}
             placeholder={"0,000.00"}
@@ -321,7 +321,11 @@ const Perks = (props) => {
             {props.talent.public ? "Public" : "Publish Profile"}
           </Button>
         )}
-        <Button onClick={() => updatePerks()} type="white-subtle" mode={mode}>
+        <Button
+          onClick={() => updatePerks()}
+          type="primary-default"
+          mode={mode}
+        >
           Save Profile
         </Button>
       </div>

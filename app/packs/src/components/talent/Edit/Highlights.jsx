@@ -375,7 +375,7 @@ const Highlights = (props) => {
         )}
         <Button
           onClick={() => updateHighlights()}
-          type="white-subtle"
+          type="primary-default"
           mode={mode}
         >
           Save Profile

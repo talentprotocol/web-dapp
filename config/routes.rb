@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
-        resources :users, only: [:index, :show, :update]
+        resources :users, only: [:index, :show, :update, :destroy]
         resources :follows, only: [:index, :create]
         delete "follows", to: "follows#destroy"
         resources :notifications, only: [:update]

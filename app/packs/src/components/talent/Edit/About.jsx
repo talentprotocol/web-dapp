@@ -237,14 +237,14 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           shortCaption="The name that we will generally use"
           onChange={(e) => changeUserAttribute("display_name", e.target.value)}
-          value={props.user.display_name}
+          value={props.user.display_name || ""}
           className={mobile ? "w-100" : "w-50 pr-2"}
         />
         <TextInput
           title={"Location"}
           mode={mode}
           onChange={(e) => changeTalentAttribute("location", e.target.value)}
-          value={props.talent.profile.location}
+          value={props.talent.profile.location || ""}
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
@@ -254,7 +254,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           shortCaption="We know you are a lot of things, but let us know your main occupation"
           onChange={(e) => changeTalentAttribute("occupation", e.target.value)}
-          value={props.talent.profile.occupation}
+          value={props.talent.profile.occupation || ""}
           className="w-100"
           required={true}
         />
@@ -275,7 +275,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           shortCaption="Brief description for your profile"
           onChange={(e) => changeTalentAttribute("headline", e.target.value)}
-          value={props.talent.profile.headline}
+          value={props.talent.profile.headline || ""}
           className="w-100"
           maxLength="240"
           required={true}
@@ -294,7 +294,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"https://"}
           onChange={(e) => changeTalentAttribute("website", e.target.value)}
-          value={props.talent.profile.website}
+          value={props.talent.profile.website || ""}
           className="w-100"
         />
         {errorTracking["website"] && (
@@ -310,7 +310,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"https://"}
           onChange={(e) => changeTalentAttribute("linkedin", e.target.value)}
-          value={props.talent.profile.linkedin}
+          value={props.talent.profile.linkedin || ""}
           className="w-100"
         />
       </div>
@@ -320,7 +320,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"https://"}
           onChange={(e) => changeTalentAttribute("twitter", e.target.value)}
-          value={props.talent.profile.twitter}
+          value={props.talent.profile.twitter || ""}
           className="w-100"
         />
       </div>
@@ -330,7 +330,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"@"}
           onChange={(e) => changeTalentAttribute("telegram", e.target.value)}
-          value={props.talent.profile.telegram}
+          value={props.talent.profile.telegram || ""}
           className="w-100"
         />
       </div>
@@ -340,7 +340,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"#"}
           onChange={(e) => changeTalentAttribute("discord", e.target.value)}
-          value={props.talent.profile.discord}
+          value={props.talent.profile.discord || ""}
           className="w-100"
         />
       </div>
@@ -350,7 +350,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
           mode={mode}
           placeholder={"https://"}
           onChange={(e) => changeTalentAttribute("github", e.target.value)}
-          value={props.talent.profile.github}
+          value={props.talent.profile.github || ""}
           className="w-100"
         />
       </div>
@@ -379,7 +379,11 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
             {props.talent.public ? "Public" : "Publish Profile"}
           </Button>
         )}
-        <Button onClick={() => saveProfile()} type="white-subtle" mode={mode}>
+        <Button
+          onClick={() => saveProfile()}
+          type="primary-default"
+          mode={mode}
+        >
           Save Profile
         </Button>
       </div>

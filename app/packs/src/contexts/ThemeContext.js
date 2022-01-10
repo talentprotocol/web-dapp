@@ -24,7 +24,7 @@ const ThemeContainer = ({ user, children }) => {
     const newTheme = currentTheme == "light-body" ? "dark" : "light";
 
     await patch(`/api/v1/users/${user.id}`, {
-      theme_preference: newTheme,
+      user: { theme_preference: newTheme },
     });
 
     document.body.className = `${newTheme}-body`;

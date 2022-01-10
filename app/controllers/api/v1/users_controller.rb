@@ -1,5 +1,5 @@
 class API::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:update]
+  before_action :set_user, only: [:update, :destroy]
 
   def index
     @users =
@@ -38,8 +38,25 @@ class API::V1::UsersController < ApplicationController
     else
       render json: {error: "Not found."}, status: :not_found
     end
-  rescue ActiveRecord::RecordNotUnique
-    render json: {error: "Wallet already exists in the system"}, status: :conflict
+  rescue ActiveRecord::RecordNotUnique => e
+    if e.to_s.include?("username")
+      render json: {errors: {username: "Username is taken"}}, status: :conflict
+    elsif e.to_s.include?("email")
+      render json: {errors: {email: "Email is taken"}}, status: :conflict
+    else
+      render json: {errors: "Wallet already exists in the system"}, status: :conflict
+    end
+  end
+
+  def destroy
+    service = DestroyUser.new(user_id: @user.id)
+    result = service.call
+
+    if result
+      render json: {success: "User destroyed."}, status: :ok
+    else
+      render json: {errors: "Unabled to destroy user"}, status: :conflict
+    end
   end
 
   private
@@ -53,6 +70,6 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:theme_preference)
+    params.require(:user).permit(:theme_preference, :username, :email, :password)
   end
 end

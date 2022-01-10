@@ -442,7 +442,11 @@ const Goal = (props) => {
             {props.talent.public ? "Public" : "Publish Profile"}
           </Button>
         )}
-        <Button onClick={() => updateGoals()} type="white-subtle" mode={mode}>
+        <Button
+          onClick={() => updateGoals()}
+          type="primary-default"
+          mode={mode}
+        >
           Save Profile
         </Button>
       </div>

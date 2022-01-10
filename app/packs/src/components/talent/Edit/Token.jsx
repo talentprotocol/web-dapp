@@ -91,7 +91,7 @@ const Token = (props) => {
           "Your ticker name will be visible next to your display name. You need to launch your talent token to enable buying your token."
         }
         onChange={(e) => setTicker(e.target.value)}
-        value={ticker}
+        value={ticker || ""}
         className="w-100 mt-3"
         maxLength={8}
       />
