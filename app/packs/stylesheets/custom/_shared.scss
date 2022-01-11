@@ -94,6 +94,22 @@
   color: $white;
 }
 
+.text-gray-300 {
+  color: $gray-300 !important;
+}
+
+.text-gray-600 {
+  color: $gray-600 !important;
+}
+
+.text-description {
+  color: $gray-primary !important;
+}
+
+.dark-body .text-description {
+  color: $gray-400 !important;
+}
+
 .hover-black {
   &:hover {
     color: $black !important;
@@ -188,6 +204,10 @@
   background: none !important;
 }
 
+.remove-border {
+  border: none !important;
+}
+
 .rotate-svg {
   transform: rotate(180deg);
 }
@@ -198,11 +218,11 @@
 
 @keyframes rotate {
   from {
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 
   to {
-    transform: rotateZ(360deg)
+    transform: rotateZ(360deg);
   }
 }
 

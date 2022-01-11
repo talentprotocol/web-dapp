@@ -316,6 +316,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         rewardValues={returnValues}
         rewards={returnValues[activeContract] || "0"}
         supportedTalents={supportedTalents}
+        mode={theme.mode()}
       />
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
       <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview mt-4 p-4">
