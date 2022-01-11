@@ -50,16 +50,21 @@ const setupUppy = () => {
   return { uppyBanner, uppyProfile };
 };
 
-const About = ({ mode, changeTab, changeSharedState, ...props }) => {
+const About = (props) => {
   const {
+    mode,
+    changeTab,
+    changeSharedState,
     mobile,
     saveProfile,
     publicButtonType,
     disablePublicButton,
     togglePublicProfile,
+    trackChanges,
   } = props;
   const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
+  const [uploaded, setUploaded] = useState({ banner: false, profile: false });
   const [saving, setSaving] = useState({
     loading: false,
     profile: false,
@@ -87,10 +92,12 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
         },
       }));
 
+      setUploaded((prev) => ({ ...prev, profile: true }));
       setUploadingFileS3("");
     });
     uppyProfile.on("upload", () => {
       setUploadingFileS3("profile");
+      trackChanges(true);
     });
     uppyBanner.on("upload-success", (file, response) => {
       changeSharedState((prev) => ({
@@ -110,10 +117,12 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
         },
       }));
 
+      setUploaded((prev) => ({ ...prev, banner: true }));
       setUploadingFileS3("");
     });
     uppyBanner.on("upload", () => {
       setUploadingFileS3("banner");
+      trackChanges(true);
     });
   }, []);
 
@@ -134,6 +143,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
   };
 
   const changeTalentAttribute = (attribute, value) => {
+    trackChanges(true);
     validateWebsite(attribute, value);
 
     changeSharedState((prev) => ({
@@ -149,6 +159,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
   };
 
   const changeUserAttribute = (attribute, value) => {
+    trackChanges(true);
     changeSharedState((prev) => ({
       ...prev,
       user: {
@@ -159,6 +170,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
   };
 
   const changeTags = (tags) => {
+    trackChanges(true);
     changeSharedState((prev) => ({
       ...prev,
       secondary_tags: tags,
@@ -169,6 +181,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
     setSaving((prev) => ({ ...prev, loading: true }));
     await saveProfile();
     setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+    trackChanges(false);
   };
 
   const onTogglePublic = async () => {
@@ -208,14 +221,13 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
         {uploadingFileS3 == "profile" && (
           <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
         )}
-        {uploadingFileS3 != "profile" &&
-          props.talent.profile_picture_data !== null && (
-            <P2
-              text="Uploaded File"
-              mode={mode}
-              className="ml-2 align-self-start"
-            />
-          )}
+        {uploadingFileS3 != "profile" && uploaded["profile"] && (
+          <P2
+            text="Uploaded File"
+            mode={mode}
+            className="ml-2 align-self-start"
+          />
+        )}
       </div>
       <div className="d-flex flex-row w-100 align-items-center mt-4">
         <TalentProfilePicture
@@ -240,7 +252,7 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
         {uploadingFileS3 == "banner" && (
           <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
         )}
-        {uploadingFileS3 != "banner" && props.talent.banner_data !== null && (
+        {uploadingFileS3 != "banner" && uploaded["banner"] && (
           <P2
             text="Uploaded File"
             mode={mode}

@@ -9,6 +9,8 @@ import {
   missingFields,
 } from "src/components/talent/utils/talent";
 
+import Button from "src/components/design_system/button";
+import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
 import LoadingButton from "src/components/button/LoadingButton";
 
@@ -27,6 +29,9 @@ const Profile = (props) => {
     loading: false,
     public: false,
   });
+  const [tabHasChanges, setTabHasChanges] = useState(false);
+  const [show, setShow] = useState(false);
+  const [nextTab, setNextTab] = useState(null);
   const mobile = width < 992;
   const progress = profileProgress(props);
   const requiredFields = missingFields(props);
@@ -77,8 +82,52 @@ const Profile = (props) => {
     return response;
   };
 
+  const changeTab = (tab) => {
+    if (tabHasChanges) {
+      setNextTab(tab);
+      setShow(true);
+    } else {
+      setActiveTab(tab);
+    }
+  };
+
   return (
     <div className="d-flex flex-column align-items-center">
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        centered
+        dialogClassName="remove-background"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>You have unsaved changes</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex flex-column">
+            <P2
+              mode={theme.mode()}
+              text="You still have unsaved changes, are you sure you want to dismiss them?"
+            />
+            <div className="d-flex flex-row justify-content-end">
+              <Button
+                onClick={() => setShow(false)}
+                type="white-subtle"
+                mode={theme.mode()}
+                className="mr-2"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => setActiveTab(nextTab)}
+                type="primary-default"
+                mode={theme.mode()}
+              >
+                Go to {nextTab}
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
         {/* below is required so the justify-content-between aligns properly */}
         <P3 text="" />
@@ -98,7 +147,7 @@ const Profile = (props) => {
       </div>
       <div className="talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center">
         <div
-          onClick={() => setActiveTab("About")}
+          onClick={() => changeTab("About")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "About" ? " active-talent-table-tab" : ""
           }`}
@@ -106,7 +155,7 @@ const Profile = (props) => {
           About
         </div>
         <div
-          onClick={() => setActiveTab("Highlights")}
+          onClick={() => changeTab("Highlights")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "Highlights" ? " active-talent-table-tab" : ""
           }`}
@@ -114,7 +163,7 @@ const Profile = (props) => {
           Highlights
         </div>
         <div
-          onClick={() => setActiveTab("Goal")}
+          onClick={() => changeTab("Goal")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "Goal" ? " active-talent-table-tab" : ""
           }`}
@@ -122,7 +171,7 @@ const Profile = (props) => {
           Goal
         </div>
         <div
-          onClick={() => setActiveTab("Token")}
+          onClick={() => changeTab("Token")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "Token" ? " active-talent-table-tab" : ""
           }`}
@@ -130,7 +179,7 @@ const Profile = (props) => {
           Token
         </div>
         <div
-          onClick={() => setActiveTab("Perks")}
+          onClick={() => changeTab("Perks")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "Perks" ? " active-talent-table-tab" : ""
           }`}
@@ -138,7 +187,7 @@ const Profile = (props) => {
           Perks
         </div>
         <div
-          onClick={() => setActiveTab("Settings")}
+          onClick={() => changeTab("Settings")}
           className={`py-2 px-2 ml-3 talent-table-tab${
             activeTab == "Settings" ? " active-talent-table-tab" : ""
           }`}
@@ -168,12 +217,13 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={() => setActiveTab("Highlights")}
+            changeTab={() => changeTab("Highlights")}
             changeSharedState={setSharedState}
             saveProfile={() => saveAbout()}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
         {activeTab == "Highlights" && (
@@ -181,11 +231,12 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={(tab) => setActiveTab(tab)}
+            changeTab={(tab) => changeTab(tab)}
             changeSharedState={setSharedState}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
         {activeTab == "Goal" && (
@@ -193,11 +244,12 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={(tab) => setActiveTab(tab)}
+            changeTab={(tab) => changeTab(tab)}
             changeSharedState={setSharedState}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
         {activeTab == "Token" && (
@@ -205,11 +257,12 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={(tab) => setActiveTab(tab)}
+            changeTab={(tab) => changeTab(tab)}
             changeSharedState={setSharedState}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
         {activeTab == "Perks" && (
@@ -217,11 +270,12 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={(tab) => setActiveTab(tab)}
+            changeTab={(tab) => changeTab(tab)}
             changeSharedState={setSharedState}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
         {activeTab == "Settings" && (
@@ -229,11 +283,12 @@ const Profile = (props) => {
             {...sharedState}
             mode={theme.mode()}
             mobile={mobile}
-            changeTab={(tab) => setActiveTab(tab)}
+            changeTab={(tab) => changeTab(tab)}
             changeSharedState={setSharedState}
             publicButtonType={buttonType()}
             disablePublicButton={requiredFields.length > 0}
             togglePublicProfile={() => togglePublicProfile()}
+            trackChanges={setTabHasChanges}
           />
         )}
       </div>
