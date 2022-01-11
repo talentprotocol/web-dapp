@@ -286,7 +286,7 @@ const Supporting = ({
             {sortedTalents().map((talent) => (
               <Table.Tr
                 key={`talent-${talent.contract_id}`}
-                onClick={() => console.log("SHOW TALENT DETAILS")}
+                onClick={() => onClaim(talent.contract_id)}
                 className="px-2"
               >
                 <Table.Td>

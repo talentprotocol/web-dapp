@@ -311,6 +311,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
       <>
         <RewardsModal
           show={show}
+          mode={theme.mode()}
           setShow={setShow}
           claim={claimRewards}
           loadingRewards={loadingRewards}

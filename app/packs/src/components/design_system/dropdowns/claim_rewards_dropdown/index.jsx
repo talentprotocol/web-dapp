@@ -25,7 +25,7 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
         )}
         id="claim-methods-dropdown"
       >
-        <P2 className="text-black" text={selectedItem} />
+        <P2 className="text-black" mode={mode} text={selectedItem} />
         <OrderBy
           black
           className="align-self-center"
@@ -42,6 +42,7 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
           <P3
             className="text-black"
             bold
+            mode={mode}
             text={`Use my rewards to buy more $${talentSymbol}`}
           />
         </Dropdown.Item>
@@ -53,6 +54,7 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
           <P3
             className="text-description"
             bold
+            mode={mode}
             text="Claim Rewards to my wallet"
           />
           <Tag
