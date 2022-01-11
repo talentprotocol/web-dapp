@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { OrderBy } from "src/components/icons";
+import currency from "currency.js";
 
 import { parseAndCommify } from "src/onchain/utils";
 
 import { get } from "src/utils/requests";
 
 import P2 from "src/components/design_system/typography/p2";
+import P3 from "src/components/design_system/typography/p3";
+import H4 from "src/components/design_system/typography/h4";
 import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
+import { OrderBy } from "src/components/icons";
 
 const MobileSupportingDropdown = ({
   show,
@@ -77,7 +80,15 @@ const MobileSupportingDropdown = ({
   );
 };
 
-const Supporting = ({ mode, talents, mobile, returnValues, onClaim }) => {
+const Supporting = ({
+  mode,
+  talents,
+  mobile,
+  returnValues,
+  onClaim,
+  talentTokensInCUSD,
+  talentTokensInTAL,
+}) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const [sortDirection, setSortDirection] = useState("asc");
@@ -153,26 +164,25 @@ const Supporting = ({ mode, talents, mobile, returnValues, onClaim }) => {
 
   const sortedTalents = () => {
     let desiredTalent = talents;
-    if (sortDirection == "asc") {
-      let comparisonFunction;
+    let comparisonFunction;
 
-      switch (selectedSort) {
-        case "Amount":
-          comparisonFunction = compareAmount;
-          break;
-        case "TAL":
-          comparisonFunction = compareAmount;
-          break;
-        case "Rewards":
-          comparisonFunction = compareRewards;
-          break;
-        case "Alphabetical Order":
-          comparisonFunction = compareName;
-          break;
-      }
+    switch (selectedSort) {
+      case "Amount":
+        comparisonFunction = compareAmount;
+        break;
+      case "TAL":
+        comparisonFunction = compareAmount;
+        break;
+      case "Rewards":
+        comparisonFunction = compareRewards;
+        break;
+      case "Alphabetical Order":
+        comparisonFunction = compareName;
+        break;
+    }
+    desiredTalent.sort(comparisonFunction);
 
-      desiredTalent.sort(comparisonFunction);
-    } else {
+    if (sortDirection != "asc") {
       desiredTalent.reverse();
     }
 
@@ -202,11 +212,11 @@ const Supporting = ({ mode, talents, mobile, returnValues, onClaim }) => {
   const getSelectedOptionValue = (talent) => {
     switch (selectedSort) {
       case "Amount":
-        return parseAndCommify(talent.amount);
+        return `${parseAndCommify(talent.amount)} ${talent.symbol}`;
       case "Rewards":
         return returns(talent.contract_id);
       case "Alphabetical Order":
-        return parseAndCommify(talent.amount);
+        return `${parseAndCommify(talent.amount)} ${talent.symbol}`;
     }
   };
 
@@ -237,25 +247,50 @@ const Supporting = ({ mode, talents, mobile, returnValues, onClaim }) => {
         <MobileSupportingDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
-          mode={theme.mode()}
+          mode={mode}
           selectedOption={selectedSort}
           order={sortDirection}
           onOptionClick={onOptionClick}
         />
-        <Table mode={theme.mode()} className="horizontal-scroll">
+        <div className="d-flex flex-column w-100 mt-3 px-4">
+          <P3 bold mode={mode} text="Talent Tokens Balance" />
+          <div className="d-flex flex-row w-100 align-items-end mt-3">
+            <H4
+              mode={mode}
+              text={currency(talentTokensInCUSD).format()}
+              bold
+              className="mb-0"
+            />
+            <P2
+              mode={mode}
+              text={`${currency(talentTokensInTAL).format().substring(1)} $TAL`}
+              className="ml-2"
+            />
+          </div>
+        </div>
+        <div className="d-flex flex-row w-100 justify-content-between align-items-middle mt-3 px-2">
+          <Button onClick={() => null} type="white-ghost" mode={mode}>
+            Talent
+          </Button>
+          <Button
+            onClick={() => setShowDropdown(true)}
+            type="white-ghost"
+            mode={mode}
+          >
+            {selectedSort} <OrderBy black={true} />
+          </Button>
+        </div>
+        <div className={`divider ${mode} my-2`}></div>
+        <Table mode={mode} className="horizontal-scroll">
           <Table.Body>
             {sortedTalents().map((talent) => (
               <Table.Tr
                 key={`talent-${talent.contract_id}`}
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
+                onClick={() => console.log("SHOW TALENT DETAILS")}
+                className="px-2"
               >
                 <Table.Td>
-                  <div
-                    className="d-flex cursor-pointer"
-                    onClick={() => console.log("SHOW TALENT DETAILS")}
-                  >
+                  <div className="d-flex cursor-pointer pl-4 py-2">
                     <TalentProfilePicture
                       src={talentProfilePictures[talent.contract_id]}
                       height="24"
@@ -263,7 +298,7 @@ const Supporting = ({ mode, talents, mobile, returnValues, onClaim }) => {
                     <P2 text={`${talent.name}`} bold className="ml-2" />
                   </div>
                 </Table.Td>
-                <Table.Td className="text-right pr-3">
+                <Table.Td className="text-right pr-4 py-2">
                   <P2 text={getSelectedOptionValue(talent)} />
                 </Table.Td>
               </Table.Tr>

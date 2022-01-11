@@ -1,6 +1,7 @@
 import React from "react";
 
 import Supporting from "./Supporting";
+import Supporters from "./Supporters";
 
 import currency from "currency.js";
 
@@ -27,6 +28,7 @@ const MobilePortfolio = ({
   onClaim,
   tokenAddress,
   chainAPI,
+  onClickTransak,
 }) => {
   return (
     <div className={`d-flex flex-column`}>
@@ -59,7 +61,7 @@ const MobilePortfolio = ({
         )}
       </div>
       {activeTab == "Overview" && (
-        <div className="d-flex flex-row justify-content-between flex-wrap w-100py-3">
+        <div className="d-flex flex-row justify-content-between flex-wrap w-100 py-3">
           <div className="d-flex flex-column mt-3 px-4 ">
             <P3 mode={mode} text={"Total Balance"} />
             <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
@@ -88,7 +90,7 @@ const MobilePortfolio = ({
                 Withdraw
               </Button>
               <Button
-                onClick={() => console.log("Get Funds")}
+                onClick={onClickTransak}
                 type="primary-default"
                 mode={mode}
                 className="mt-2 w-100"
@@ -98,7 +100,7 @@ const MobilePortfolio = ({
             </div>
           </div>
           <div className={`divider ${mode} my-3`}></div>
-          <div className="d-flex flex-column pt-3 px-4">
+          <div className="d-flex flex-column pt-3 px-4 w-100">
             <P1 mode={mode} text={"Portfolio"} bold className="w-100" />
             <div className="d-flex flex-row w-100 justify-content-between align-items-center">
               <P2 mode={mode} text="Wallet Balance" className="mr-2" />
@@ -174,6 +176,7 @@ const MobilePortfolio = ({
           tokenAddress={tokenAddress}
           onClaim={onClaim}
           chainAPI={chainAPI}
+          mobile={true}
         />
       )}
     </div>

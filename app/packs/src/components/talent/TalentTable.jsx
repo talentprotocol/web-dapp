@@ -244,27 +244,25 @@ const TalentTable = ({ talents }) => {
     if (watchlistOnly) {
       desiredTalent = talents.filter((talent) => !!follows[talent.id]);
     }
+    let comparisonFunction;
 
-    if (sortDirection == "asc") {
-      let comparisonFunction;
+    switch (selectedSort) {
+      case "Supporters":
+        comparisonFunction = compareSupporters;
+        break;
+      case "Occupation":
+        comparisonFunction = compareOccupation;
+        break;
+      case "Circulating Supply":
+        comparisonFunction = compareCirculatingSupply;
+        break;
+      case "Alphabetical Order":
+        comparisonFunction = compareUsername;
+        break;
+    }
+    desiredTalent.sort(comparisonFunction);
 
-      switch (selectedSort) {
-        case "Supporters":
-          comparisonFunction = compareSupporters;
-          break;
-        case "Occupation":
-          comparisonFunction = compareOccupation;
-          break;
-        case "Circulating Supply":
-          comparisonFunction = compareCirculatingSupply;
-          break;
-        case "Alphabetical Order":
-          comparisonFunction = compareUsername;
-          break;
-      }
-
-      desiredTalent.sort(comparisonFunction);
-    } else {
+    if (sortDirection != "asc") {
       desiredTalent.reverse();
     }
 

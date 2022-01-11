@@ -308,24 +308,38 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
 
   if (mobile) {
     return (
-      <MobilePortfolio
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        mode={theme.mode()}
-        overallCUSD={overallCUSD}
-        overallTAL={overallTAL}
-        totalRewardsInCUSD={totalRewardsInCUSD}
-        rewardsClaimed={rewardsClaimed}
-        cUSDBalance={cUSDBalance}
-        cUSDBalanceInTAL={cUSDBalanceInTAL}
-        supportedTalents={supportedTalents}
-        talentTokensInTAL={talentTokensInTAL}
-        talentTokensInCUSD={talentTokensInCUSD}
-        returnValues={returnValues}
-        onClaim={onClaim}
-        tokenAddress={tokenAddress}
-        chainAPI={chainAPI}
-      />
+      <>
+        <RewardsModal
+          show={show}
+          setShow={setShow}
+          claim={claimRewards}
+          loadingRewards={loadingRewards}
+          activeContract={activeContract}
+          rewardValues={returnValues}
+          rewards={returnValues[activeContract] || "0"}
+          supportedTalents={supportedTalents}
+        />
+        <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
+        <MobilePortfolio
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          mode={theme.mode()}
+          overallCUSD={overallCUSD}
+          overallTAL={overallTAL}
+          totalRewardsInCUSD={totalRewardsInCUSD}
+          rewardsClaimed={rewardsClaimed}
+          cUSDBalance={cUSDBalance}
+          cUSDBalanceInTAL={cUSDBalanceInTAL}
+          supportedTalents={supportedTalents}
+          talentTokensInTAL={talentTokensInTAL}
+          talentTokensInCUSD={talentTokensInCUSD}
+          returnValues={returnValues}
+          onClaim={onClaim}
+          tokenAddress={tokenAddress}
+          chainAPI={chainAPI}
+          onClickTransak={onClickTransak}
+        />
+      </>
     );
   }
 
