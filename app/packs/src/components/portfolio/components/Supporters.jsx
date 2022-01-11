@@ -172,7 +172,7 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
       ),
       supporterCounter: data.talentToken.supporterCounter,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
-      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap) * 0.1,
+      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
       rewardsReady: ethers.utils.formatUnits(data.talentToken.rewardsReady),
     };
   }, [data]);
