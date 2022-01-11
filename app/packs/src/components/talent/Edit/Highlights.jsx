@@ -9,6 +9,7 @@ import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
+import LoadingButton from "src/components/button/LoadingButton";
 
 const emptyHighlight = (id) => ({
   id: id,
@@ -164,6 +165,11 @@ const Highlights = (props) => {
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [hasChanges, setHasChanges] = useState({});
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const changeAttribute = (key, attribute, value) => {
     if (Object.keys(validationErrors).length > 0) {
@@ -300,9 +306,17 @@ const Highlights = (props) => {
   };
 
   const updateHighlights = () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
     const ids = Object.keys(hasChanges).filter((id) => hasChanges[id]);
 
     ids.forEach((id) => addHighlight(id));
+    setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+  };
+
+  const onTogglePublic = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await togglePublicProfile();
+    setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
   return (
@@ -363,23 +377,30 @@ const Highlights = (props) => {
         } w-100`}
       >
         {mobile && (
-          <Button
-            onClick={togglePublicProfile}
+          <LoadingButton
+            onClick={() => onTogglePublic()}
             type={publicButtonType}
             disabled={disablePublicButton}
             mode={mode}
+            disabled={saving["loading"]}
+            loading={saving["loading"]}
+            success={saving["public"]}
             className="ml-auto mr-3"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
-          </Button>
+          </LoadingButton>
         )}
-        <Button
+        <LoadingButton
           onClick={() => updateHighlights()}
-          type="primary-default"
+          type="white-subtle"
           mode={mode}
+          disabled={saving["loading"]}
+          loading={saving["loading"]}
+          success={saving["profile"]}
+          className="text-black"
         >
           Save Profile
-        </Button>
+        </LoadingButton>
       </div>
     </>
   );

@@ -114,7 +114,7 @@ const WaitingForConfirmation = ({ mode }) => (
 const SuccessConfirmation = ({ mode, setShow }) => (
   <>
     <Modal.Header closeButton>
-      <Modal.Title className="px-3">Launch your Talent Token</Modal.Title>
+      <Modal.Title className="px-3"></Modal.Title>
     </Modal.Header>
     <Modal.Body>
       <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">

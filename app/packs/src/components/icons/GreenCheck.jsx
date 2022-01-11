@@ -1,12 +1,12 @@
 import React from "react";
-import { string } from "prop-types";
+import { string, number } from "prop-types";
 
-const GreenCheck = ({ className, pathClassName, style }) => (
+const GreenCheck = ({ className, pathClassName, style, width }) => (
   <svg
     className={className}
     viewBox={"0 0 64 64"}
-    width={"64px"}
-    height={"64px"}
+    width={`${width}px`}
+    height={`${width}px`}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     style={style}
@@ -30,11 +30,13 @@ const GreenCheck = ({ className, pathClassName, style }) => (
 GreenCheck.defaultProps = {
   className: "",
   pathClassName: "",
+  width: 64,
 };
 
 GreenCheck.propTypes = {
   className: string,
   pathClassName: string,
+  width: number,
 };
 
 export default GreenCheck;

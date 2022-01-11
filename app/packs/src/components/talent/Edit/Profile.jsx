@@ -9,9 +9,8 @@ import {
   missingFields,
 } from "src/components/talent/utils/talent";
 
-import Button from "src/components/design_system/button";
 import P3 from "src/components/design_system/typography/p3";
-import { Spinner, GreenCheck } from "src/components/icons";
+import LoadingButton from "src/components/button/LoadingButton";
 
 import About from "./About";
 import Highlights from "./Highlights";
@@ -20,51 +19,18 @@ import Token from "./Token";
 import Perks from "./Perks";
 import Settings from "./Settings";
 
-const LoadingProfile = ({ show, setShow, mode, done }) => {
-  return (
-    <Modal
-      show={show}
-      centered
-      onHide={() => setShow(false)}
-      dialogClassName={"remove-background"}
-      backdrop={false}
-    >
-      <Modal.Body className="d-flex flex-column justify-content-center align-items-center py-4">
-        {done && (
-          <div className="d-flex flex-column justify-conter-center align-items-center my-4">
-            <P3 mode={mode} text="Profile updated" bold className="mb-3" />
-            <GreenCheck />
-          </div>
-        )}
-        {!done && (
-          <div className="d-flex flex-column justify-conter-center align-items-center my-4">
-            <P3
-              mode={mode}
-              text="We're updating your profile"
-              bold
-              className="mb-3"
-            />
-            <Spinner />
-          </div>
-        )}
-      </Modal.Body>
-    </Modal>
-  );
-};
-
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const [activeTab, setActiveTab] = useState("About");
   const { height, width } = useWindowDimensionsHook();
-  const [updatingProfile, setUpdatingProfile] = useState(false);
-  const [finishedUpdating, setFinishedUpdating] = useState(true);
+  const [saving, setSaving] = useState({
+    loading: false,
+    public: false,
+  });
   const mobile = width < 992;
   const progress = profileProgress(props);
   const requiredFields = missingFields(props);
   const [sharedState, setSharedState] = useState({ ...props });
-
-  console.log("--- ALL PROPS ---");
-  console.log(props);
 
   const buttonType = () => {
     if (requiredFields.length == 0) {
@@ -79,59 +45,42 @@ const Profile = (props) => {
   };
 
   const togglePublicProfile = async () => {
-    setFinishedUpdating(false);
-    setUpdatingProfile(true);
-
+    setSaving((prev) => ({ ...prev, loading: true }));
     const response = await patch(`/api/v1/talent/${props.talent.id}`, {
       talent: {
-        public: !props.talent.public,
+        public: !sharedState.talent.public,
       },
+      user: { id: props.user.id },
     }).catch(() => {
-      setFinishedUpdating(true);
-      setUpdatingProfile(false);
+      return false;
     });
 
-    if (response && response.error) {
-      // setFinishedUpdating(true);
-      setTimeout(() => setFinishedUpdating(true), 1000);
-      setTimeout(() => setUpdatingProfile(false), 2000);
-    }
-
     if (response && !response.error) {
-      // setFinishedUpdating(true);
       setSharedState((prev) => ({
         ...prev,
-        talent: { ...prev.talent, public: !props.talent.public },
+        talent: { ...prev.talent, public: !prev.talent.public },
       }));
+      setSaving((prev) => ({ ...prev, loading: false, public: true }));
 
-      setTimeout(() => setFinishedUpdating(true), 1000);
-      setTimeout(() => setUpdatingProfile(false), 2000);
+      return true;
     }
+    setSaving((prev) => ({ ...prev, loading: false }));
   };
 
   const saveAbout = async () => {
-    setFinishedUpdating(false);
-    setUpdatingProfile(true);
     const response = await patch(`/api/v1/talent/${props.talent.id}`, {
       ...sharedState,
     }).catch(() => {
-      setError(true);
-      setSaving(false);
+      return false;
     });
 
-    setFinishedUpdating(true);
-    setTimeout(() => setUpdatingProfile(false), 1000);
+    return response;
   };
 
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
         {/* below is required so the justify-content-between aligns properly */}
-        <LoadingProfile
-          show={updatingProfile}
-          setShow={setUpdatingProfile}
-          done={finishedUpdating}
-        />
         <P3 text="" />
         <P3
           mode={theme.mode()}
@@ -198,15 +147,18 @@ const Profile = (props) => {
         </div>
         {!mobile && (
           <>
-            <Button
+            <LoadingButton
               onClick={() => togglePublicProfile()}
               type={buttonType()}
               disabled={requiredFields.length > 0}
               mode={theme.mode()}
               className="ml-auto mr-3"
+              disabled={saving["loading"]}
+              loading={saving["loading"]}
+              success={saving["public"]}
             >
               {sharedState.talent.public ? "Public" : "Publish Profile"}
-            </Button>
+            </LoadingButton>
           </>
         )}
       </div>
@@ -243,6 +195,9 @@ const Profile = (props) => {
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
             changeSharedState={setSharedState}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
         {activeTab == "Token" && (
@@ -252,6 +207,9 @@ const Profile = (props) => {
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
             changeSharedState={setSharedState}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
         {activeTab == "Perks" && (
@@ -261,6 +219,9 @@ const Profile = (props) => {
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
             changeSharedState={setSharedState}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
         {activeTab == "Settings" && (
@@ -270,6 +231,9 @@ const Profile = (props) => {
             mobile={mobile}
             changeTab={(tab) => setActiveTab(tab)}
             changeSharedState={setSharedState}
+            publicButtonType={buttonType()}
+            disablePublicButton={requiredFields.length > 0}
+            togglePublicProfile={() => togglePublicProfile()}
           />
         )}
       </div>

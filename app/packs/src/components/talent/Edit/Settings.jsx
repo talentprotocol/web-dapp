@@ -8,6 +8,7 @@ import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowLeft } from "src/components/icons";
+import LoadingButton from "src/components/button/LoadingButton";
 
 const Settings = (props) => {
   const {
@@ -15,6 +16,7 @@ const Settings = (props) => {
     mobile,
     changeTab,
     mode,
+    changeSharedState,
     togglePublicProfile,
     publicButtonType,
     disablePublicButton,
@@ -25,18 +27,25 @@ const Settings = (props) => {
     password: "",
   });
   const [validationErrors, setValidationErrors] = useState({});
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const changeAttribute = (attribute, value) => {
     setSettings((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
 
   const updateUser = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+
     const response = await patch(`/api/v1/users/${user.id}`, {
       user: { ...settings },
     }).catch(() => setValidationErrors((prev) => ({ ...prev, saving: true })));
 
     if (response) {
-      if (response.status == 200) {
+      if (!response.errors) {
         changeSharedState((prev) => ({
           ...prev,
           user: {
@@ -44,10 +53,13 @@ const Settings = (props) => {
             ...response.user,
           },
         }));
+        setSaving((prev) => ({ ...prev, loading: false, profile: true }));
       } else {
         setValidationErrors((prev) => ({ ...prev, ...response.errors }));
       }
     }
+
+    setSaving((prev) => ({ ...prev, loading: false }));
   };
 
   const deleteUser = async () => {
@@ -60,6 +72,12 @@ const Settings = (props) => {
     } else {
       setValidationErrors((prev) => ({ ...prev, deleting: true }));
     }
+  };
+
+  const onTogglePublic = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await togglePublicProfile();
+    setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
   return (
@@ -170,19 +188,30 @@ const Settings = (props) => {
         } w-100`}
       >
         {mobile && (
-          <Button
-            onClick={togglePublicProfile}
+          <LoadingButton
+            onClick={() => onTogglePublic()}
             type={publicButtonType}
             disabled={disablePublicButton}
             mode={mode}
+            disabled={saving["loading"]}
+            loading={saving["loading"]}
+            success={saving["public"]}
             className="ml-auto mr-3"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
-          </Button>
+          </LoadingButton>
         )}
-        <Button onClick={() => updateUser()} type="primary-default" mode={mode}>
+        <LoadingButton
+          onClick={() => updateUser()}
+          type="white-subtle"
+          mode={mode}
+          disabled={saving["loading"]}
+          loading={saving["loading"]}
+          success={saving["profile"]}
+          className="text-black"
+        >
           Save Profile
-        </Button>
+        </LoadingButton>
       </div>
     </>
   );

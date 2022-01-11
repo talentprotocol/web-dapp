@@ -7,9 +7,9 @@ import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
-import RoadmapCard from "src/components/design_system/cards/roadmap";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
+import LoadingButton from "src/components/button/LoadingButton";
 
 const emptyGoal = (id) => ({
   id: id,
@@ -122,6 +122,11 @@ const Goal = (props) => {
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [hasChanges, setHasChanges] = useState({});
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const [careerInfo, setCareerInfo] = useState({
     id: career_goal?.id || "",
@@ -284,6 +289,8 @@ const Goal = (props) => {
   };
 
   const updateGoals = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+
     if (hasChanges["career"]) {
       const errors = careerValid();
 
@@ -335,6 +342,14 @@ const Goal = (props) => {
     );
 
     ids.forEach((id) => addGoal(id));
+
+    setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+  };
+
+  const onTogglePublic = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await togglePublicProfile();
+    setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
   return (
@@ -432,23 +447,30 @@ const Goal = (props) => {
         } w-100`}
       >
         {mobile && (
-          <Button
-            onClick={togglePublicProfile}
+          <LoadingButton
+            onClick={() => onTogglePublic()}
             type={publicButtonType}
             disabled={disablePublicButton}
             mode={mode}
+            disabled={saving["loading"]}
+            loading={saving["loading"]}
+            success={saving["public"]}
             className="ml-auto mr-3"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
-          </Button>
+          </LoadingButton>
         )}
-        <Button
+        <LoadingButton
           onClick={() => updateGoals()}
-          type="primary-default"
+          type="white-subtle"
           mode={mode}
+          disabled={saving["loading"]}
+          loading={saving["loading"]}
+          success={saving["profile"]}
+          className="text-black"
         >
           Save Profile
-        </Button>
+        </LoadingButton>
       </div>
     </>
   );

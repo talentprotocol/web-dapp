@@ -16,7 +16,7 @@ import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight } from "src/components/icons";
-import Button from "src/components/design_system/button";
+import LoadingButton from "src/components/button/LoadingButton";
 
 const setupUppy = () => {
   const uppyProfile = new Uppy({
@@ -60,6 +60,11 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
   } = props;
   const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const { uppyProfile, uppyBanner } = setupUppy();
 
@@ -158,6 +163,18 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
       ...prev,
       secondary_tags: tags,
     }));
+  };
+
+  const onProfileSave = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await saveProfile();
+    setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+  };
+
+  const onTogglePublic = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await togglePublicProfile();
+    setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
   return (
@@ -369,23 +386,30 @@ const About = ({ mode, changeTab, changeSharedState, ...props }) => {
         } w-100`}
       >
         {mobile && (
-          <Button
-            onClick={togglePublicProfile}
+          <LoadingButton
+            onClick={() => onTogglePublic()}
             type={publicButtonType}
             disabled={disablePublicButton}
             mode={mode}
+            disabled={saving["loading"]}
+            loading={saving["loading"]}
+            success={saving["public"]}
             className="ml-auto mr-3"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
-          </Button>
+          </LoadingButton>
         )}
-        <Button
-          onClick={() => saveProfile()}
-          type="primary-default"
+        <LoadingButton
+          onClick={() => onProfileSave()}
+          type="white-subtle"
           mode={mode}
+          disabled={saving["loading"]}
+          loading={saving["loading"]}
+          success={saving["profile"]}
+          className="text-black"
         >
           Save Profile
-        </Button>
+        </LoadingButton>
       </div>
     </>
   );

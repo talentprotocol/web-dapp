@@ -1,12 +1,12 @@
 import React from "react";
-import { string } from "prop-types";
+import { number, string } from "prop-types";
 
-const Spinner = ({ className, pathClassName, style }) => (
+const Spinner = ({ className, pathClassName, style, width }) => (
   <svg
     className={className}
     viewBox={"0 0 65 64"}
-    width={"65px"}
-    height={"64px"}
+    width={`${width}px`}
+    height={`${width}px`}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     style={style}
@@ -33,11 +33,13 @@ const Spinner = ({ className, pathClassName, style }) => (
 Spinner.defaultProps = {
   className: "",
   pathClassName: "",
+  width: 64,
 };
 
 Spinner.propTypes = {
   className: string,
   pathClassName: string,
+  width: number,
 };
 
 export default Spinner;
