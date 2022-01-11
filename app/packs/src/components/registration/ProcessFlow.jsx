@@ -1,23 +1,49 @@
 import React, { useEffect, useState } from "react";
-
-import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-bootstrap/Modal";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spinner, Check } from "../icons";
+import { H5, P2 } from "../design_system/typography";
 
 import { post } from "../../utils/requests";
+import Button from "../design_system/button";
 
-const ProcessingUser = () => (
-  <div className="d-flex flex-row text-muted align-items-center">
-    <FontAwesomeIcon icon={faSpinner} spin />
-    <p className="ml-2 mb-0">Setting up your user profile...</p>
-  </div>
+const ProcessingUser = ({ themePreference }) => (
+  <>
+    <H5
+      className="mb-1"
+      text="Setting up your account"
+      bold
+      mode={themePreference}
+    />
+    <P2
+      className="mb-5"
+      text="We're checking the guest list"
+      mode={themePreference}
+    />
+    <Spinner />
+  </>
 );
 
-const UserCreated = () => (
+const UserCreated = ({ themePreference, sendConfirmationEmail }) => (
   <>
-    <div className="d-flex flex-row text-success align-items-center">
-      <FontAwesomeIcon icon={faCheck} />
-      <p className="ml-2 mb-0">We just sent you a confirmation email</p>
-    </div>
+    <H5
+      className="mb-1"
+      text="Confirm your email"
+      bold
+      mode={themePreference}
+    />
+    <P2 className="mb-5" text="We've just sent you a confirmation email" />
+    <Check color="#1DB954" size={64} />
+    <p className="p2 text-black mt-5">
+      Didn't received an email?{" "}
+      <button
+        className="button-link text-primary"
+        onClick={sendConfirmationEmail}
+      >
+        Resend
+      </button>
+    </p>
   </>
 );
 
@@ -31,14 +57,63 @@ const UserFailed = ({ error }) => (
   </div>
 );
 
-const ProcessFlow = ({ email, username, password, code, captcha }) => {
+const ConfirmationEmailModal = ({ show, setShow, themePreference }) => (
+  <Modal
+    show={show}
+    centered
+    onHide={() => setShow(false)}
+    dialogClassName="remove-background"
+  >
+    <Modal.Body className="show-grid p-4">
+      <H5
+        className="mb-2"
+        text="Email Verification"
+        bold
+        mode={themePreference}
+      />
+      <P2 text="We’ve just sent you another confirmation email" />
+      <Button
+        type="primary-default"
+        size="extra-big"
+        className="w-100 mt-5"
+        text="I Understand"
+        onClick={() => setShow(false)}
+      />
+    </Modal.Body>
+  </Modal>
+);
+
+const ProcessFlow = ({
+  email,
+  username,
+  password,
+  code,
+  captcha,
+  themePreference,
+}) => {
   const [userCreated, setUserCreated] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [requesting, setRequesting] = useState(false);
   const [error, setError] = useState("");
+  const [showConfirmationEmailModal, setShowConfirmationEmailModal] =
+    useState(false);
+
+  const sendConfirmationEmail = () => {
+    post(`users/${userId}/send_confirmation_email.json`).then(() => {
+      setShowConfirmationEmailModal(true);
+    });
+  };
 
   useEffect(() => {
     setRequesting(true);
-    post("/users.json", { email, username, password, code, captcha })
+    post("/users.json", {
+      email,
+      username,
+      password,
+      code,
+      captcha,
+      theme_preference: themePreference,
+    })
       .then((response) => {
         if (response.error) {
           setError(response.error);
@@ -46,6 +121,7 @@ const ProcessFlow = ({ email, username, password, code, captcha }) => {
         } else {
           setUserCreated(true);
           setRequesting(false);
+          setUserId(response.id);
         }
       })
       .catch(() => {
@@ -55,11 +131,22 @@ const ProcessFlow = ({ email, username, password, code, captcha }) => {
   }, [email]);
 
   return (
-    <div className="d-flex flex-column" style={{ maxWidth: 400 }}>
-      <h1>Setting up your account</h1>
+    <div className="d-flex flex-column align-items-center">
       {error != "" && <UserFailed error={error} />}
-      {!userCreated && requesting && <ProcessingUser />}
-      {userCreated && <UserCreated />}
+      {!userCreated && requesting && (
+        <ProcessingUser themePreference={themePreference} />
+      )}
+      {userCreated && (
+        <UserCreated
+          themePreference={themePreference}
+          sendConfirmationEmail={sendConfirmationEmail}
+        />
+      )}
+      <ConfirmationEmailModal
+        show={showConfirmationEmailModal}
+        setShow={setShowConfirmationEmailModal}
+        themePreference={themePreference}
+      />
     </div>
   );
 };

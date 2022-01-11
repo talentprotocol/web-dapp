@@ -1,10 +1,41 @@
 @import "../bootstrap/overrides";
 
-.registration-box {
-  box-shadow: 8px 8px 0px $primary;
-  border: 1px solid $light;
-}
-
 .registration_step_subtitle {
   color: $light-grey;
+}
+
+.registration-left-screen {
+  width: 550px;
+  background-color: $primary;
+}
+
+.registration-box {
+  margin-right: 125px;
+  margin-left: 125px;
+}
+
+.registration-logo {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+
+  svg {
+    width: 147.93px;
+    height: 20px;
+  }
+}
+
+.registration-talent-text {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  width: 380px;
+}
+
+.registration-theme {
+  background: none !important;
+  border: none;
+  position: absolute;
+  top: 48px;
+  right: 48px;
 }

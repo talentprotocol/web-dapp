@@ -22,7 +22,8 @@ class UsersController < ApplicationController
         email: user_params[:email],
         username: user_params[:username],
         password: user_params[:password],
-        invite_code: user_params[:code]
+        invite_code: user_params[:code],
+        theme_preference: user_params[:theme_preference]
       )
 
       if @result[:success]
@@ -35,10 +36,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_confirmation_email
+    UserMailer.with(user: User.find(params[:user_id])).send_sign_up_email.deliver_later
+
+    render json: {id: params[:user_id]}, status: :ok
+  end
+
   private
 
   def user_params
-    params.permit(:email, :username, :password, :code, :captcha)
+    params.permit(:email, :username, :password, :code, :captcha, :mode, :theme_preference)
   end
 
   def verify_captcha

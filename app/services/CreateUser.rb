@@ -5,7 +5,7 @@ class CreateUser
     @result = {}
   end
 
-  def call(email:, username:, password:, invite_code:)
+  def call(email:, username:, password:, invite_code:, theme_preference:)
     ActiveRecord::Base.transaction do
       invite = Invite.find_by(code: invite_code)
 
@@ -17,7 +17,7 @@ class CreateUser
       end
 
       invite.update(uses: invite.uses + 1)
-      user = create_user(email, username, password, invite)
+      user = create_user(email, username, password, invite, theme_preference)
 
       create_investor(user)
       create_feed(user)
@@ -60,13 +60,14 @@ class CreateUser
 
   private
 
-  def create_user(email, username, password, invite)
+  def create_user(email, username, password, invite, theme_preference)
     user = User.new
     user.email = email.downcase
     user.password = password
     user.username = username.downcase.delete(" ", "")
     user.email_confirmation_token = Clearance::Token.new
     user.invited = invite
+    user.theme_preference = theme_preference
     user.save!
     user
   end

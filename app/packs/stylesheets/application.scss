@@ -109,14 +109,14 @@ body {
 }
 
 @media (min-width: 992px) {
-  body {
+  body#user-logged {
     padding-left: 220px !important;
     padding-top: 70px !important;
   }
 }
 
 @media (max-width: 992px) {
-  body {
+  body#user-logged {
     padding-bottom: 56px !important;
     padding-top: 70px !important;
   }

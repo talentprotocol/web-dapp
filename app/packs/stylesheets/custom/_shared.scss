@@ -94,6 +94,14 @@
   color: $white;
 }
 
+.text-primary {
+  color: $primary;
+}
+
+.text-yellow {
+  color: $yellow;
+}
+
 .text-gray-300 {
   color: $gray-300 !important;
 }
@@ -264,4 +272,13 @@
 
 #loading {
   animation: rotate 1s infinite linear;
+}
+
+.button-link {
+  background: none !important;
+  border: none !important;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
