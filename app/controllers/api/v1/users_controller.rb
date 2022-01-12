@@ -32,6 +32,11 @@ class API::V1::UsersController < ApplicationController
         current_user.update!(welcome_pop_up: true)
       else
         current_user.update!(user_params)
+
+        unless investor_params.empty?
+          current_user.investor.profile_picture = investor_params[:profile_picture_data].as_json
+          current_user.investor.save!
+        end
       end
 
       render json: @user, status: :ok
@@ -71,5 +76,13 @@ class API::V1::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:theme_preference, :username, :email, :password)
+  end
+
+  def investor_params
+    if params[:investor].present?
+      params.require(:investor).permit(profile_picture_data: {})
+    else
+      {}
+    end
   end
 end

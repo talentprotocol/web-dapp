@@ -40,10 +40,9 @@ import SideBar from "src/components/design_system/side_bar";
 import BottomNav from "src/components/design_system/bottom_nav";
 import TopBar from "src/components/design_system/top_bar";
 import TopNav from "src/components/design_system/top_nav"; // this is the mobile one
-
 import Profile from "src/components/talent/Edit/Profile";
-
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
+import EditSupporter from "src/components/supporters/EditSupporter";
 
 import "stylesheets/application.scss";
 
@@ -78,6 +77,7 @@ ReactOnRails.register({
   TopNav,
   Profile,
   NewPortfolio,
+  EditSupporter,
 });
 
 Rails.start();

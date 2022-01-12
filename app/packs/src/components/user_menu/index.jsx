@@ -248,24 +248,28 @@ export const UserMenuUnconnected = ({
             <Dropdown.Item
               key="tab-dropdown-change-investor-image"
               className="text-black user-menu-dropdown-item"
-              onClick={() => setShow(true)}
+              href="/settings"
             >
               <small>
-                <strong>Change profile picture</strong>
+                <strong>My profile</strong>
               </small>
             </Dropdown.Item>
           )}
-          <Dropdown.Divider className="user-menu-divider m-0" />
-          <Dropdown.Item
-            key="tab-dropdown-invite-code"
-            onClick={copyCodeToClipboard}
-            className="d-flex flex-row justify-content-between user-menu-dropdown-item"
-          >
-            <small className="text-black">
-              <strong>Invite link{inviteNumbers()}</strong>
-            </small>
-            <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
-          </Dropdown.Item>
+          {user.invitesLeft && (
+            <>
+              <Dropdown.Divider className="user-menu-divider m-0" />
+              <Dropdown.Item
+                key="tab-dropdown-invite-code"
+                onClick={copyCodeToClipboard}
+                className="d-flex flex-row justify-content-between user-menu-dropdown-item"
+              >
+                <small className="text-black">
+                  <strong>Invite link{inviteNumbers()}</strong>
+                </small>
+                <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
+              </Dropdown.Item>
+            </>
+          )}
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-theme"
