@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import debounce from "lodash/debounce";
 
 import { post, get } from "src/utils/requests";
 import { setupChannel, removeChannel } from "channels/message_channel";
 
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+
 import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
 
-const Chat = ({ users, userId }) => {
+const Chat = ({ users, userId, user }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
@@ -21,7 +23,9 @@ const Chat = ({ users, userId }) => {
   const [chatId, setChatId] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
+  const [messengerUsername, setMessengerUsername] = useState();
   const { height, width } = useWindowDimensionsHook();
+  const theme = useContext(ThemeContext);
 
   // Get user from URL
   useEffect(() => {
@@ -29,7 +33,7 @@ const Chat = ({ users, userId }) => {
       return;
     }
 
-    if (activeUserId == userId) {
+    if (activeUserId == user.id) {
       window.location.replace("/messages");
     }
 
@@ -41,6 +45,7 @@ const Chat = ({ users, userId }) => {
       setLastMessageId(response.messages[response.messages.length - 1]?.id);
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
+      setMessengerUsername(response.username);
     });
   }, [activeUserId]);
 
@@ -118,21 +123,19 @@ const Chat = ({ users, userId }) => {
   return (
     <>
       <div className="d-flex flex-column w-100 h-100">
-        <h1 className="h6 px-3 py-4 mb-0">
-          <strong>Messages</strong>
-        </h1>
-        <main className="d-flex flex-row w-100 h-100">
+        <main className="d-flex flex-row w-100 h-100 themed-border-top">
           {(width > 992 || activeUserId == 0) && (
-            <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll border-right">
+            <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll themed-border-right">
               <MessageUserList
                 onClick={(user_id) => setActiveUserId(user_id)}
                 activeUserId={activeUserId}
                 users={users}
+                mode={theme.mode()}
               />
             </section>
           )}
           {(width > 992 || activeUserId > 0) && (
-            <section className="col-lg-7 px-0 border-right lg-overflow-y-hidden">
+            <section className="col-lg-7 px-0 lg-overflow-y-hidden">
               <MessageExchange
                 smallScreen={width <= 992}
                 clearActiveUserId={() => clearActiveUser()}
@@ -141,8 +144,10 @@ const Chat = ({ users, userId }) => {
                 onSubmit={ignoreAndCallDebounce}
                 messages={messages}
                 sendingMessage={sendingMessage}
-                userId={userId}
+                user={user}
                 profilePictureUrl={messengerProfilePicture}
+                username={messengerUsername}
+                mode={theme.mode()}
               />
             </section>
           )}
@@ -152,4 +157,10 @@ const Chat = ({ users, userId }) => {
   );
 };
 
-export default Chat;
+export default (props, railsContext) => {
+  return () => (
+    <ThemeContainer>
+      <Chat {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
+};

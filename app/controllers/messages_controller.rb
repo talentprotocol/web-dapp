@@ -25,7 +25,13 @@ class MessagesController < ApplicationController
 
     @chat_id = current_user.sender_chat_id(@receiver)
 
-    render json: {messages: @messages.map(&:to_json), chat_id: @chat_id, current_user_id: @sender.id, profilePictureUrl: @receiver.talent&.profile_picture_url || @receiver.investor&.profile_picture_url}
+    render json: {
+      messages: @messages.map(&:to_json),
+      chat_id: @chat_id,
+      current_user_id: @sender.id,
+      profilePictureUrl: @receiver.talent&.profile_picture_url || @receiver.investor&.profile_picture_url,
+      username: @receiver.username,
+    }
   end
 
   def create

@@ -1,8 +1,8 @@
 @import "../bootstrap/overrides";
 
 .chat-search-icon {
-  top: 20px;
-  left: 20px;
+  top: 25px;
+  left: 25px;
   color: #a9acb7;
 }
 
@@ -14,15 +14,20 @@
   height: 80px;
 }
 
-.messages-background {
-  background-color: $primary-light;
-}
-
 .chat-user {
   cursor: pointer;
 
   &:hover {
-    background-color: $primary-light;
+    background-color: $surface-hover;
+    text-decoration: none;
+  }
+}
+
+.dark-body .chat-user {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray-600;
     text-decoration: none;
   }
 }
@@ -33,11 +38,11 @@
 }
 
 .chat-user.active {
-  background-color: $primary-light;
+  background-color: $surface-hover;
 }
 
-.chat-messages {
-  background-color: #f8f2fe;
+.dark-body .chat-user.active {
+  background-color: $gray-600;
 }
 
 .chat-message {
@@ -49,24 +54,19 @@
 
 .chat-my-message {
   align-self: flex-end;
-  background-color: #7045f0;
-  color: white;
   border-bottom-right-radius: 0px;
 }
 
 .chat-their-message {
   align-self: flex-start;
-  background-color: white;
   border-bottom-left-radius: 0px;
 }
 
 .chat-message-date {
   font-size: 0.9rem;
-  color: grey;
 }
 
 .chat-send-area {
-  background-color: #fbfbfb;
   padding: 20px;
 }
 
@@ -77,14 +77,14 @@
 
 .chat-unread-count {
   background-color: $primary;
-  border-radius: 50rem;
+  border-radius: 50%;
   color: white;
   display: inline-block;
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
   margin-left: 0.25rem;
-  padding: 0.25em 0.4em;
+  padding: 0.4em 0.6em;
   text-align: center;
   vertical-align: baseline;
   white-space: nowrap;
@@ -93,6 +93,10 @@
 .new-message-user-list {
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.messages-from-same-user {
+  margin-left: 65px !important;
 }
 
 @media (min-width: 992px) {
