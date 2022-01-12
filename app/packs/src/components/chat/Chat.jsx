@@ -26,6 +26,7 @@ const Chat = ({ users, userId, user }) => {
   const [messengerUsername, setMessengerUsername] = useState();
   const { height, width } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
+  const mobile = width < 992;
 
   // Get user from URL
   useEffect(() => {
@@ -124,20 +125,21 @@ const Chat = ({ users, userId, user }) => {
     <>
       <div className="d-flex flex-column w-100 h-100">
         <main className="d-flex flex-row w-100 h-100 themed-border-top">
-          {(width > 992 || activeUserId == 0) && (
+          {(!mobile || activeUserId == 0) && (
             <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll themed-border-right">
               <MessageUserList
                 onClick={(user_id) => setActiveUserId(user_id)}
                 activeUserId={activeUserId}
                 users={users}
                 mode={theme.mode()}
+                mobile={mobile}
               />
             </section>
           )}
-          {(width > 992 || activeUserId > 0) && (
+          {(!mobile || activeUserId > 0) && (
             <section className="col-lg-7 px-0 lg-overflow-y-hidden">
               <MessageExchange
-                smallScreen={width <= 992}
+                smallScreen={mobile}
                 clearActiveUserId={() => clearActiveUser()}
                 value={message}
                 onChange={setMessage}

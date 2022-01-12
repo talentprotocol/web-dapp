@@ -240,6 +240,18 @@
   border-left: 1px solid $gray-200;
 }
 
+.dark-body .themed-border-bottom {
+  border-bottom: 1px solid $gray-600;
+}
+
+.light-body .themed-border-bottom {
+  border-bottom: 1px solid $gray-200;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 @keyframes rotate {
   from {
     transform: rotateZ(0deg);

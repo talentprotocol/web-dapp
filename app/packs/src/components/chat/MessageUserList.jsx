@@ -9,8 +9,8 @@ import NewMessageModal from "./NewMessageModal";
 import ThemedButton from "src/components/design_system/button";
 import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
-
 import TextInput from "src/components/design_system/fields/textinput";
+import { NewChat } from "src/components/icons";
 
 const lastMessageText = (lastMessage) => {
   if (lastMessage) {
@@ -28,7 +28,7 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
 
   return (
     <a
-      className={`w-100 p-3 themed-border-top chat-user${active} text-reset`}
+      className={`w-100 p-3 themed-border-bottom chat-user${active} text-reset`}
       onClick={() => onClick(user.id)}
     >
       <div className="d-flex flex-row justify-content-between align-items-center">
@@ -59,7 +59,7 @@ const UnreadMessagesCount = ({ count }) => {
 
   if (count > 0) {
     const value = count > 99 ? "+99" : count.toString();
-    return <span class="chat-unread-count">{value}</span>;
+    return <span className="chat-unread-count">{value}</span>;
   } else {
     return null;
   }
@@ -77,7 +77,7 @@ const EmptyUsers = () => (
   </div>
 );
 
-const MessageUserList = ({ users, activeUserId, onClick, mode }) => {
+const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
   const [allUsers, setAllUsers] = useState(users);
@@ -97,9 +97,11 @@ const MessageUserList = ({ users, activeUserId, onClick, mode }) => {
         show={show}
         setShow={setShow}
         onUserChosen={onNewMessageUser}
+        mobile={mobile}
+        mobe={mode}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
-        <div className="w-100 d-flex flex-row p-2 position-relative align-items-center">
+        <div className="w-100 d-flex flex-row p-2 position-relative themed-border-bottom align-items-center">
           <TextInput
             mode={`${mode} pl-5`}
             disabled={allUsers.length == 0}
@@ -119,7 +121,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode }) => {
             mode={mode}
             className="ml-2 p-2"
           >
-            <FontAwesomeIcon icon={faComment} size="lg" />
+            <NewChat color="currentColor" />
           </ThemedButton>
         </div>
         {allUsers.length == 0 && <EmptyUsers />}
