@@ -13,6 +13,7 @@ import Button from "src/components/design_system/button";
 import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
 import LoadingButton from "src/components/button/LoadingButton";
+import Tooltip from "src/components/design_system/tooltip";
 
 import About from "./About";
 import Highlights from "./Highlights";
@@ -128,23 +129,33 @@ const Profile = (props) => {
           </div>
         </Modal.Body>
       </Modal>
-      <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
-        {/* below is required so the justify-content-between aligns properly */}
-        <P3 text="" />
-        <P3
-          mode={theme.mode()}
-          text={
-            progress == 100
-              ? "Your profile is complete!"
-              : "Complete your profile to appeal to more supporters and earn rewards."
-          }
-          bold
-          className="text-primary"
-        />
-        <P3 mode={theme.mode()} className="text-primary">
-          <strong>{progress}</strong>/100%
-        </P3>
-      </div>
+
+      <Tooltip
+        body={`You are missing the following fields: ${requiredFields.join(
+          ", "
+        )}`}
+        popOverAccessibilityId={"progressStats"}
+        mode={theme.mode()}
+        hide={requiredFields.length == 0}
+      >
+        <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
+          {/* below is required so the justify-content-between aligns properly */}
+          <P3 text="" />
+          <P3
+            mode={theme.mode()}
+            text={
+              progress == 100
+                ? "Your profile is complete!"
+                : "Complete your profile to appeal to more supporters and earn rewards."
+            }
+            bold
+            className="text-primary"
+          />
+          <P3 mode={theme.mode()} className="text-primary">
+            <strong>{progress}</strong>/100%
+          </P3>
+        </div>
+      </Tooltip>
       <div className="talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => changeTab("About")}
@@ -199,10 +210,9 @@ const Profile = (props) => {
             <LoadingButton
               onClick={() => togglePublicProfile()}
               type={buttonType()}
-              disabled={requiredFields.length > 0}
+              disabled={requiredFields.length > 0 || saving["loading"]}
               mode={theme.mode()}
               className="ml-auto mr-3"
-              disabled={saving["loading"]}
               loading={saving["loading"]}
               success={saving["public"]}
             >

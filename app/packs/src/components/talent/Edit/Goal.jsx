@@ -450,9 +450,8 @@ const Goal = (props) => {
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}
-            disabled={disablePublicButton}
             mode={mode}
-            disabled={saving["loading"]}
+            disabled={disablePublicButton || saving["loading"]}
             loading={saving["loading"]}
             success={saving["public"]}
             className="ml-auto mr-3"

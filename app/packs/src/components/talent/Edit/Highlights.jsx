@@ -380,9 +380,8 @@ const Highlights = (props) => {
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}
-            disabled={disablePublicButton}
+            disabled={disablePublicButton || saving["loading"]}
             mode={mode}
-            disabled={saving["loading"]}
             loading={saving["loading"]}
             success={saving["public"]}
             className="ml-auto mr-3"

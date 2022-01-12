@@ -159,6 +159,9 @@ export const UserMenuUnconnected = ({
   };
 
   const inviteNumbers = () => {
+    if (!user.invitesLeft) {
+      return "";
+    }
     if (!user.totalInvites) {
       return ` ${user.invitesLeft}/*`;
     } else {
@@ -255,21 +258,18 @@ export const UserMenuUnconnected = ({
               </small>
             </Dropdown.Item>
           )}
-          {user.invitesLeft && (
-            <>
-              <Dropdown.Divider className="user-menu-divider m-0" />
-              <Dropdown.Item
-                key="tab-dropdown-invite-code"
-                onClick={copyCodeToClipboard}
-                className="d-flex flex-row justify-content-between user-menu-dropdown-item"
-              >
-                <small className="text-black">
-                  <strong>Invite link{inviteNumbers()}</strong>
-                </small>
-                <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
-              </Dropdown.Item>
-            </>
-          )}
+          <Dropdown.Divider className="user-menu-divider m-0" />
+          <Dropdown.Item
+            key="tab-dropdown-invite-code"
+            onClick={copyCodeToClipboard}
+            className="d-flex flex-row justify-content-between user-menu-dropdown-item"
+            disabled={!user.invitesLeft}
+          >
+            <small className="text-black">
+              <strong>Invite link{inviteNumbers()}</strong>
+            </small>
+            <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
+          </Dropdown.Item>
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-theme"
