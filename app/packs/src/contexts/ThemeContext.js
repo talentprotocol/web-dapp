@@ -7,7 +7,6 @@ const ThemeContext = createContext({
   theme: "light",
   toggleTheme: () => {},
   simpleToggleTheme: () => {},
-  themeName: () => {},
   mode: () => {},
 });
 ThemeContext.displayName = "ThemeContext";
@@ -45,14 +44,6 @@ const ThemeContainer = ({ user, children }) => {
     setCurrentTheme(`${newTheme}-body`);
   };
 
-  const themeName = () => {
-    if (currentTheme == "light-body") {
-      return "Light";
-    } else if (currentTheme == "dark-body") {
-      return "Dark";
-    }
-  };
-
   const mode = () => {
     if (currentTheme == "light-body") {
       return "light";
@@ -67,7 +58,6 @@ const ThemeContainer = ({ user, children }) => {
         theme: currentTheme,
         toggleTheme,
         simpleToggleTheme,
-        themeName,
         mode,
       }}
     >

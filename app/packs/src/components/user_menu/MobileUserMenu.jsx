@@ -38,9 +38,9 @@ const UserMenuFullScreen = ({
         </Button>
         <Button onClick={() => toggleTheme()} type="white-ghost" mode={mode}>
           {mode == "light" ? (
-            <Sun color="currentColor" />
-          ) : (
             <Moon color="currentColor" />
+          ) : (
+            <Sun color="currentColor" />
           )}
         </Button>
       </div>

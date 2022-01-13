@@ -14,22 +14,16 @@ const RegistrationContainer = ({ children }) => {
     <div className="h-100">
       {!mobile && (
         <>
-          {theme === "light-body" && (
-            <button
-              onClick={simpleToggleTheme}
-              className="registration-theme z-index-1 text-black"
-            >
-              <Sun color="currentColor" />
-            </button>
-          )}
-          {theme === "dark-body" && (
-            <button
-              onClick={simpleToggleTheme}
-              className="registration-theme z-index-1 text-black"
-            >
+          <button
+            onClick={simpleToggleTheme}
+            className="registration-theme z-index-1 text-black"
+          >
+            {theme === "light-body" ? (
               <Moon color="currentColor" />
-            </button>
-          )}
+            ) : (
+              <Sun color="currentColor" />
+            )}
+          </button>
         </>
       )}
       {mobile && (
@@ -45,7 +39,7 @@ const RegistrationContainer = ({ children }) => {
                 onClick={simpleToggleTheme}
                 className="remove-border remove-background text-black"
               >
-                <Sun color="currentColor" />
+                <Moon color="currentColor" />
               </button>
             )}
             {theme === "dark-body" && (
@@ -53,7 +47,7 @@ const RegistrationContainer = ({ children }) => {
                 onClick={simpleToggleTheme}
                 className="remove-border remove-background text-black"
               >
-                <Moon color="currentColor" />
+                <Sun color="currentColor" />
               </button>
             )}
           </div>
