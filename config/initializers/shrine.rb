@@ -10,12 +10,12 @@ if Rails.env.test?
   }
 else
   bucket = if ENV["S3_BUCKET"].present?
-             ENV["S3_BUCKET"]
-           elsif Rails.env.development?
-             "talentprotocol-development"
-           else
-             "talentprotocol-mvp"
-           end
+    ENV["S3_BUCKET"]
+  elsif Rails.env.development?
+    "talentprotocol-development"
+  else
+    "talentprotocol-mvp"
+  end
 
   s3_options = {
     bucket: bucket,
@@ -24,14 +24,14 @@ else
     secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY")
   }
 
-  if ENV["CLOUDFROUNT_KEY"].present?
+  if ENV["CLOUDFRONT_KEY"].present?
     signer = Aws::CloudFront::UrlSigner.new(
-      key_pair_id: ENV["CLOUDFROUNT_KEY_ID"],
-      private_key: ENV["CLOUDFROUNT_KEY"]
+      key_pair_id: ENV["CLOUDFRONT_KEY_ID"],
+      private_key: ENV["CLOUDFRONT_KEY"]
     )
-    s3_options[:signer] = -> (url, **options) do
+    s3_options[:signer] = ->(url, **options) do
       expires = Time.zone.now + 15.minutes
-      options = { expires: expires }.merge(options)
+      options = {expires: expires}.merge(options)
       signer.signed_url(url, **options)
     end
   end
@@ -55,7 +55,7 @@ Shrine.plugin :restore_cached_data # extracts metadata for assigned cached files
 Shrine.plugin :derivatives # allows having different size classes for images
 Shrine.plugin :remove_invalid # remove uploads that failed validation
 
-if ENV['PRIVATE_ASSETS_CDN_HOST'].present?
-  url = "https://#{ENV['PRIVATE_ASSETS_CDN_HOST']}"
-  Shrine.plugin :url_options, store: { host: url }
+if ENV["PRIVATE_ASSETS_CDN_HOST"].present?
+  url = "https://#{ENV["PRIVATE_ASSETS_CDN_HOST"]}"
+  Shrine.plugin :url_options, store: {host: url}
 end
