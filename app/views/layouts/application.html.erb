@@ -12,8 +12,8 @@
     <%= render partial: "services/hotjar" %>
   </head>
 
-  <body class=<%= current_user&.active_theme || "light-body" %>>
-    <% if current_user.present? %>
+  <% if current_user.present? %>
+    <body class=<%= current_user&.active_theme || "light-body" %> id="user-logged">
       <% if !current_user.welcome_pop_up %>
         <%=
           react_component("WelcomePopup",
@@ -25,10 +25,12 @@
       <% end %>
       <%= render "shared/navbar" %>
       <%= yield %>
-    <% else %>
+    </body>
+  <% else %>
+    <body class="light-body" id="user-not-logged">
       <%= yield %>
-    <% end %>
-  </body>
+    </body>
+  <% end %>
   <% unless Rails.env.development? || Rails.env.test? %>
     <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>

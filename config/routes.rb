@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   resource :session, controller: "sessions", only: [:create]
 
   resources :users, only: [:create, :index] do
+    post :send_confirmation_email
     resource :password,
       controller: "passwords",
       only: [:edit, :update]

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import LogoLight from "src/components/icons/Logo-Light";
-import LogoDark from "src/components/icons/Logo-Dark";
+import LogoLight from "src/components/icons/LogoLight";
+import LogoDark from "src/components/icons/LogoDark";
 import Talent from "src/components/icons/Talent";
 import Wallet from "src/components/icons/Wallet";
 import Chat from "src/components/icons/Chat";

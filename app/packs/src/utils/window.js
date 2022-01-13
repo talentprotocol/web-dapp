@@ -13,6 +13,8 @@ const useWindowDimensionsHook = () => {
     getWindowDimensions()
   );
 
+  const mobile = windowDimensions.width < 992;
+
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -22,7 +24,7 @@ const useWindowDimensionsHook = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return windowDimensions;
+  return { ...windowDimensions, mobile };
 };
 
 export { useWindowDimensionsHook };

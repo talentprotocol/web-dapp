@@ -1,11 +1,12 @@
 import { Binding } from "@babel/traverse";
-import React, { createContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 import { patch } from "src/utils/requests";
 
 const ThemeContext = createContext({
   theme: "light",
   toggleTheme: () => {},
+  simpleToggleTheme: () => {},
   themeName: () => {},
   mode: () => {},
 });
@@ -37,6 +38,13 @@ const ThemeContainer = ({ user, children }) => {
     setCurrentTheme(`${newTheme}-body`);
   };
 
+  const simpleToggleTheme = () => {
+    const newTheme = currentTheme == "light-body" ? "dark" : "light";
+
+    document.body.className = `${newTheme}-body`;
+    setCurrentTheme(`${newTheme}-body`);
+  };
+
   const themeName = () => {
     if (currentTheme == "light-body") {
       return "Light";
@@ -55,12 +63,21 @@ const ThemeContainer = ({ user, children }) => {
 
   return (
     <ThemeContext.Provider
-      value={{ theme: currentTheme, toggleTheme, themeName, mode }}
+      value={{
+        theme: currentTheme,
+        toggleTheme,
+        simpleToggleTheme,
+        themeName,
+        mode,
+      }}
     >
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export { ThemeContext };
+const useTheme = () => useContext(ThemeContext);
+
+export { ThemeContext, useTheme };
+
 export default ThemeContainer;

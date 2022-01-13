@@ -1,12 +1,6 @@
-<main id="clearance" class="mx-auto d-flex px-4 flex-column justify-content-center align-items-center sign-in h-100">
-  <%= react_component("Logo",
-    props: { width: 34, height: 34, bigName: true },
-    prerender: false, html_options: { class: "my-3" })
+<main class="h-100">
+  <%= react_component("Login",
+    props: { loginSession: session_path },
+    prerender: false, html_options: { class: "h-100"})
   %>
-
-  <div class="border p-5 registration-box bg-white">
-    <h1 class="h2 mb-3"><%= t(".title") %></h1>
-    <%= render partial: '/shared/flashes' %>
-    <%= render partial: '/sessions/form' %>
-  </div>
 </main>

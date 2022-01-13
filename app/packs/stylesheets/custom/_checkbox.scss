@@ -20,7 +20,7 @@
 
   .checkmark {
     position: absolute;
-    top: 0;
+    top: 3px;
     left: 0;
     height: 16px;
     width: 16px;
@@ -120,10 +120,10 @@
   }
 }
 
-.label-checkbox{
-    font-weight: normal;
-    line-height: 165%;
-    font-size: 14px !important;
-    letter-spacing: 1px;
-    margin-left: 8px !important;
+.label-checkbox {
+  font-weight: normal;
+  line-height: 165%;
+  font-size: 14px !important;
+  letter-spacing: 1px;
+  margin-left: 8px !important;
 }

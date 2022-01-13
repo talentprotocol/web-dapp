@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import LogoLight from "src/components/icons/Logo-Light";
-import LogoDark from "src/components/icons/Logo-Dark";
+import LogoLight from "src/components/icons/LogoLight";
+import LogoDark from "src/components/icons/LogoDark";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Notifications from "src/components/notifications";
 import Button from "src/components/design_system/button";

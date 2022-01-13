@@ -14,6 +14,8 @@ const TextInput = ({
   maxLength,
   required,
   error,
+  id,
+  ariaDescribedBy,
   type = "text",
 }) => {
   return (
@@ -30,8 +32,10 @@ const TextInput = ({
       </div>
 
       <input
+        id={id}
         type={type}
         className={`form-control ${mode} ${error ? "border-danger" : ""}`}
+        aria-describedby={ariaDescribedBy}
         placeholder={placeholder}
         disabled={disabled}
         value={value}
