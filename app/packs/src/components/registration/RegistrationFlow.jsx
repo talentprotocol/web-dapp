@@ -67,8 +67,10 @@ const RegistrationFlow = (props) => {
   );
 };
 
-export default (props, _railsContext) => (
-  <RegistrationContainer {...props}>
-    <RegistrationFlow {...props} />
-  </RegistrationContainer>
-);
+export default (props, _railsContext) => {
+  return () => (
+    <RegistrationContainer {...props}>
+      <RegistrationFlow {...props} />
+    </RegistrationContainer>
+  );
+};

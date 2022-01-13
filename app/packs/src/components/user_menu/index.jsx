@@ -277,12 +277,14 @@ export const UserMenuUnconnected = ({
             onClick={toggleTheme}
           >
             <small>
-              <strong>{theme.themeName()} mode</strong>
+              <strong>
+                {theme.mode() === "light" ? "Dark" : "Light"} mode
+              </strong>
             </small>
             {theme.mode() == "light" ? (
-              <Sun color="currentColor" />
-            ) : (
               <Moon color="currentColor" />
+            ) : (
+              <Sun color="currentColor" />
             )}
           </Dropdown.Item>
           <Dropdown.Divider className="user-menu-divider m-0" />

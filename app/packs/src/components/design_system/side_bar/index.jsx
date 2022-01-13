@@ -20,11 +20,13 @@ export const SideBar = ({ talentPath, portfolioPath, messagesPath }) => {
 
   return (
     <div className={`side-nav position-fixed ${theme.mode()}`}>
-      {theme.mode() === "light" ? (
-        <LogoLight className="mt-3 ml-2" />
-      ) : (
-        <LogoDark className="mt-3 ml-2" />
-      )}
+      <a href="/">
+        {theme.mode() === "light" ? (
+          <LogoLight className="mt-3 ml-2" />
+        ) : (
+          <LogoDark className="mt-3 ml-2" />
+        )}
+      </a>
       <ul className={`menu ${theme.mode()} d-flex flex-column`}>
         <SideBarItem
           mode={theme.mode()}
