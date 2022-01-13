@@ -1,27 +1,10 @@
-<div class="col-12 col-lg-9 flex-grow-0 flex-shrink-0 lg-overflow-y-scroll d-flex px-0">
-  <main class="col-12 px-2 d-flex flex-column justify-content-between">
-    <% if current_user.present? %>
-      <div class="d-flex flex-column mt-3">
-        <%= render "shared/flashes" %>
-        <h1>Settings</h1>
-        <p>Hello <%= current_user.username %></p>
-        <p>Your connected wallet: <%= current_user.wallet_id %></p>
-        <div class="d-flex flex-row align-items-center">
-          <%= react_component("MetamaskConnect", props: { user_id: current_user.id }, prerender: false, html_options: { class: "mr-2 mb-2" }) %>
-          <%= button_to "Sign out", sign_out_path, method: :delete, class: "btn btn-primary talent-button" %>
-        </div>
-        <% if current_user.investor.present? && current_user.talent.nil? %>
-          <p class="mt-4 mb-2">Change your profile picture: </p>
-
-          <% if current_user.investor.profile_picture.present? %>
-            <%= image_tag current_user.investor.profile_picture_url, width: 128, height: 128 %>
-          <% end %>
-
-          <%= render "investors/investor_form", investor: current_user.investor %>
-        <% end %>
-      </div>
-    <% else %>
-      <%= link_to "Sign in", sign_in_path %>
-    <% end %>
-  </main>
-</div>
+<main class="main-content themed-border-top"> 
+  <%= react_component("EditSupporter", props:
+    {
+      id: current_user.id,
+      username: current_user.username,
+      email: current_user.email,
+      profilePictureUrl: current_user.investor.profile_picture_url,
+    }, prerender: false)
+  %>
+</main>

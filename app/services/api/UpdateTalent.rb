@@ -6,24 +6,12 @@ class API::UpdateTalent
     @success = false
   end
 
-  def call(params)
-    update_talent(params)
+  def call(talent_params, user_params, tag_params)
+    update_talent(talent_params)
+    update_user(user_params)
 
-    if params[:username]
-      @talent.user.update(username: params[:username], display_name: params[:display_name])
-    end
-
-    if params[:primary_tag]
-      if @talent.primary_tag.present?
-        @talent.primary_tag.description = params[:primary_tag]
-        @talent.primary_tag.save
-      else
-        Tag.create!(primary: true, description: params[:primary_tag], talent: @talent)
-      end
-    end
-
-    if params[:secondary_tags]
-      all_tags = params[:secondary_tags].split(",").map(&:strip)
+    if tag_params[:secondary_tags]
+      all_tags = tag_params[:secondary_tags]
 
       @talent.tags.where(primary: false).where.not(description: all_tags).delete_all
 
@@ -39,50 +27,55 @@ class API::UpdateTalent
 
   private
 
+  def update_user(params)
+    @talent.user.update!(params)
+  end
+
   def update_talent(params)
     if @talent[:public] != params[:public]
       # Notify mailerlite that profile was set public
+      @talent[:public] = params[:public] || false
       AddUsersToMailerliteJob.perform_later(@talent.user.id)
     end
 
-    if params[:profile][:headline]
-      @talent[:public] = params[:public] || false
-      @talent[:disable_messages] = params[:disable_messages] || false
-      @talent.pronouns = params[:profile][:pronouns]
-      @talent.occupation = params[:profile][:occupation]
-      @talent.location = params[:profile][:location]
-      @talent.headline = params[:profile][:headline]
-      @talent.website = params[:profile][:website]
-      @talent.video = params[:profile][:video]
-      @talent.wallet_address = params[:profile][:wallet_address]
+    if params[:profile_picture_data]
+      @talent.profile_picture = params[:profile_picture_data].as_json
     end
 
-    if params[:profile_picture]
-      @talent.profile_picture = params[:profile_picture].as_json
+    if params[:profile]
+      if params[:profile][:headline]
+        @talent[:disable_messages] = params[:disable_messages] || false
+        @talent.pronouns = params[:profile][:pronouns]
+        @talent.occupation = params[:profile][:occupation]
+        @talent.location = params[:profile][:location]
+        @talent.headline = params[:profile][:headline]
+        @talent.website = params[:profile][:website]
+        @talent.video = params[:profile][:video]
+        @talent.wallet_address = params[:profile][:wallet_address]
+      end
+
+      if params[:profile][:discord]
+        @talent.discord = params[:profile][:discord]
+      end
+      if params[:profile][:linkedin]
+        @talent.linkedin = params[:profile][:linkedin]
+      end
+
+      if params[:profile][:telegram]
+        @talent.telegram = params[:profile][:telegram]
+      end
+
+      if params[:profile][:github]
+        @talent.github = params[:profile][:github]
+      end
+
+      if params[:profile][:twitter]
+        @talent.twitter = params[:profile][:twitter]
+      end
     end
 
-    if params[:banner]
-      @talent.banner = params[:banner].as_json
-    end
-
-    if params[:profile][:discord]
-      @talent.discord = params[:profile][:discord]
-    end
-
-    if params[:profile][:linkedin]
-      @talent.linkedin = params[:profile][:linkedin]
-    end
-
-    if params[:profile][:telegram]
-      @talent.telegram = params[:profile][:telegram]
-    end
-
-    if params[:profile][:github]
-      @talent.github = params[:profile][:github]
-    end
-
-    if params[:profile][:twitter]
-      @talent.twitter = params[:profile][:twitter]
+    if params[:banner_data]
+      @talent.banner = params[:banner_data].as_json
     end
 
     @talent.save!

@@ -145,6 +145,7 @@ const About = ({
           video: aboutInfo["video"],
         },
       },
+      user: { id: user.id },
     }).catch(() => {
       setError(true);
       setSaving(false);

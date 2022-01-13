@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
 import NewMessageModal from "./NewMessageModal";
+import ThemedButton from "src/components/design_system/button";
+import P2 from "src/components/design_system/typography/p2";
+import P3 from "src/components/design_system/typography/p3";
+import TextInput from "src/components/design_system/fields/textinput";
+import { NewChat } from "src/components/icons";
 
 const lastMessageText = (lastMessage) => {
   if (lastMessage) {
@@ -17,40 +22,30 @@ const lastMessageText = (lastMessage) => {
   }
 };
 
-const UserMessage = ({ user, activeUserId, onClick }) => {
+const UserMessage = ({ user, activeUserId, onClick, mode }) => {
   const message = lastMessageText(user.last_message);
   const active = user.id == activeUserId ? " active" : "";
 
   return (
     <a
-      className={`w-100 p-3 border-top chat-user${active} text-reset`}
+      className={`w-100 p-3 themed-border-bottom chat-user${active} text-reset`}
       onClick={() => onClick(user.id)}
     >
       <div className="d-flex flex-row justify-content-between align-items-center">
         <TalentProfilePicture
           src={user.profilePictureUrl}
-          height={40}
+          height={48}
           greyscale={!active}
         />
-        <div className="d-flex flex-column w-100 pl-2">
+        <div className="d-flex flex-column w-100 pl-2 ml-2">
           <div className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row">
-              <p className={`mb-0 mr-2${active ? " text-primary" : ""}`}>
-                <small>
-                  <strong>{user.username}</strong>
-                </small>
-              </p>
-              <p className="text-muted mb-0">
-                <small>{user.ticker ? `$${user.ticker}` : ""}</small>
-              </p>
+              <P2 mode={mode} text={user.username} bold className="mr-2" />
             </div>
-            <p className="text-muted mb-0">
-              <small>{user.last_message_date}</small>
-            </p>
+            <P3 mode={mode} text={user.last_message_date} />
           </div>
-
           <div className="d-flex flex-row mb-0 justify-content-between">
-            <small>{message}</small>
+            <P2 mode={mode} text={message} className="mr-2" />
             <UnreadMessagesCount count={user.unreadMessagesCount} />
           </div>
         </div>
@@ -64,9 +59,7 @@ const UnreadMessagesCount = ({ count }) => {
 
   if (count > 0) {
     const value = count > 99 ? "+99" : count.toString();
-    return (
-      <span class="chat-unread-count">{value}</span>
-    );
+    return <span className="chat-unread-count">{value}</span>;
   } else {
     return null;
   }
@@ -76,7 +69,7 @@ const filteredUsers = (users, search) =>
   users.filter((user) => user.username.includes(search));
 
 const EmptyUsers = () => (
-  <div className="w-100 p-3 border-top d-flex flex-column align-items-center">
+  <div className="w-100 p-3 themed-border-top d-flex flex-column align-items-center">
     <p className="text-muted mb-0">
       <small>You need to start a chat with someone!</small>
     </p>
@@ -84,7 +77,7 @@ const EmptyUsers = () => (
   </div>
 );
 
-const MessageUserList = ({ users, activeUserId, onClick }) => {
+const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
   const [allUsers, setAllUsers] = useState(users);
@@ -104,31 +97,32 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
         show={show}
         setShow={setShow}
         onUserChosen={onNewMessageUser}
+        mobile={mobile}
+        mobe={mode}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
-        <div className="w-100 d-flex flex-row p-2 border-top position-relative align-items-center">
-          <input
-            type="text"
-            name="searchChat"
-            id="searchChat"
-            value={search}
+        <div className="w-100 d-flex flex-row p-2 position-relative themed-border-bottom align-items-center">
+          <TextInput
+            mode={`${mode} pl-5`}
             disabled={allUsers.length == 0}
             onChange={(e) => setSearch(e.target.value)}
+            value={search}
             placeholder="Search for people..."
-            className="chat-input-area border w-100 p-2 pl-5"
+            className="w-100 p-2"
           />
           <FontAwesomeIcon
             icon={faSearch}
             className="position-absolute chat-search-icon"
             size="lg"
           />
-          <div className="ml-2 bg-light p-2" onClick={() => setShow(true)}>
-            <FontAwesomeIcon
-              icon={faComment}
-              size="lg"
-              className="text-muted hover-black"
-            />
-          </div>
+          <ThemedButton
+            onClick={() => setShow(true)}
+            type="white-subtle"
+            mode={mode}
+            className="ml-2 p-2"
+          >
+            <NewChat color="currentColor" />
+          </ThemedButton>
         </div>
         {allUsers.length == 0 && <EmptyUsers />}
         {filteredUsers(allUsers, search).map((user) => (
@@ -137,6 +131,7 @@ const MessageUserList = ({ users, activeUserId, onClick }) => {
             key={`user-message-list-${user.id}`}
             user={user}
             activeUserId={activeUserId}
+            mode={mode}
           />
         ))}
       </div>

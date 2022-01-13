@@ -1,3 +1,4 @@
+<main class="main-content">
 <%= react_component("Chat",
   props: {
     users: @users.map { |user|
@@ -11,36 +12,8 @@
         unreadMessagesCount: @unread_messages_counts[user]
       }
     },
-    userId: current_user.id
-  }, prerender: false, html_options: { class: "lg-overflow-y-scroll px-0 d-flex flex-column flex-lg-row w-100 border-left lg-h-100" })
+    userId: current_user.id,
+    user: { id: current_user.id, username: current_user.username, profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url}
+  }, prerender: false, html_options: { class: "h-100" })
 %>
-<div class="d-flex absolute-menu">
-  <%= react_component("UserMenu",
-    props: {
-      user: {
-        id: current_user.id,
-        profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-        talentId: current_user.talent&.id,
-        investorId: current_user.investor&.id,
-        isTalent: current_user.talent.present?,
-        displayWalletId: current_user.display_wallet_id,
-        walletId: current_user.wallet_id,
-        username: current_user.username,
-        tokenLive: current_user.talent&.token&.contract_id.present?,
-        code: current_user.invite&.code,
-        invitesLeft: current_user.invite&.invites_left,
-        totalInvites: current_user.invite&.max_uses,
-        currentTheme: current_user.theme_preference,
-        sign_up_path: sign_up_path(code: current_user.invite&.code)
-      },
-      signOutPath: sign_out_path
-    },
-    prerender: false)
-  %>
-  <%= react_component("Notifications",
-    props: {
-      notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_username: notif.source&.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
-    },
-    prerender: false, html_options: { class: "ml-2"})
-  %>
-</div>
+</main>

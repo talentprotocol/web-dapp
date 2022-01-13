@@ -1,6 +1,12 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Message from "./Message";
 import Button from "../button";
+import ThemedButton from "src/components/design_system/button";
+
+import TalentProfilePicture from "../talent/TalentProfilePicture";
+import P2 from "src/components/design_system/typography/p2";
+import TextArea from "src/components/design_system/fields/textarea";
+import { Send, ArrowLeft } from "src/components/icons";
 
 const EmptyMessages = () => {
   return (
@@ -15,15 +21,9 @@ const CommunicateFirst = () => {
 };
 
 const MessageExchange = (props) => {
-  const inputElement = useRef(null);
-  const [height, setHeight] = useState(38);
+  const { mode } = props;
 
   useEffect(() => {
-    if (!inputElement) {
-      return;
-    }
-
-    setHeight(inputElement.current.scrollHeight + 2);
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     if (params.has("perk")) {
@@ -36,60 +36,91 @@ const MessageExchange = (props) => {
     }
   }, [props.value]);
 
+  useEffect(() => {
+    var messagesDiv = document.getElementById("messages");
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }, [props.messages]);
+
+  const isPreviousMessageFromSameSender = (index) => {
+    if (index == 0) {
+      return false;
+    }
+
+    return (
+      props.messages[index - 1].sender_id === props.messages[index].sender_id
+    );
+  };
+
   return (
-    <div className="messages-background lg-h-100 d-flex flex-column">
+    <div className="h-100 d-flex flex-column">
       {props.smallScreen && (
-        <Button
-          type="primary"
-          text="<- Go back"
-          className="talent-button w-100 text-left"
-          onClick={() => props.clearActiveUserId()}
-        />
+        <>
+          <div className="d-flex flex-row align-items-center w-100 py-2">
+            <ThemedButton
+              onClick={() => props.clearActiveUserId()}
+              type="white-ghost"
+              mode={mode}
+              className="mx-2 p-2"
+            >
+              <ArrowLeft color="currentColor" />
+            </ThemedButton>
+            <TalentProfilePicture
+              src={props.profilePictureUrl}
+              height={48}
+              className="mr-2"
+            />
+            <P2 mode={mode} bold text={props.username} />
+          </div>
+          <div className={`divider ${mode}`}></div>
+        </>
       )}
       <div
         id="messages"
-        className="px-3 lg-overflow-y-scroll display-messages d-flex flex-column pb-3"
+        className="px-3 overflow-y-scroll display-messages d-flex flex-column pb-3"
       >
-        {props.messages.length == 0 && props.userId == 0 && (
+        {props.messages.length == 0 && props.user.id == 0 && (
           <CommunicateFirst />
         )}
-        {props.messages.length == 0 && props.userId != 0 && <EmptyMessages />}
-        {props.messages.map((message) => (
+        {props.messages.length == 0 && props.user.id != 0 && <EmptyMessages />}
+        {props.messages.map((message, index) => (
           <Message
             key={`message_${message.id}`}
             message={message}
-            mine={message.sender_id === props.userId}
+            previousMessageSameUser={isPreviousMessageFromSameSender(index)}
+            mine={message.sender_id === props.user.id}
             profilePictureUrl={props.profilePictureUrl}
+            username={props.username}
+            user={props.user}
+            mode={mode}
           />
         ))}
       </div>
-      <form action="/messages" method="post" onSubmit={props.onSubmit}>
-        <div className="d-flex flex-row justify-content-center align-items-center chat-send-area">
-          <textarea
-            ref={inputElement}
-            type="text"
-            disabled={props.messages.length == 0 && props.userId == 0}
-            name="message"
-            id="message"
-            value={props.value}
-            onChange={(e) => props.onChange(e.target.value)}
-            placeholder="Start a new message"
-            className="form-control w-100 mr-2 chat-input-area"
-            style={{ height }}
-          />
-          <button
-            type="submit"
-            disabled={
-              props.value == "" ||
-              props.sendingMessage == true ||
-              (props.messages.length == 0 && props.userId == 0)
-            }
-            className="btn btn-primary btn-small"
-          >
-            Send
-          </button>
-        </div>
-      </form>
+      <div className="d-flex flex-row w-100 p-2">
+        <TextArea
+          mode={mode}
+          disabled={
+            props.username == undefined ||
+            (props.messages.length == 0 && props.user.id == 0)
+          }
+          onChange={(e) => props.onChange(e.target.value)}
+          value={props.value}
+          placeholder="Start a new message"
+          className="w-100 mr-2"
+        />
+        <ThemedButton
+          onClick={props.onSubmit}
+          disabled={
+            props.value == "" ||
+            props.sendingMessage == true ||
+            (props.messages.length == 0 && props.user.id == 0)
+          }
+          type="primary-ghost"
+          mode={mode}
+          className="ml-2 p-2"
+        >
+          <Send color="currentColor" />
+        </ThemedButton>
+      </div>
     </div>
   );
 };

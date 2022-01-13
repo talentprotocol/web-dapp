@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-
+import Modal from "react-bootstrap/Modal";
 import { ethers } from "ethers";
 import currency from "currency.js";
 
@@ -15,13 +15,135 @@ import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
-import { Spinner } from "src/components/icons";
+import { Spinner, OrderBy } from "src/components/icons";
 
-const SupporterOverview = ({ loading, talentRewards, marketCap, mode }) => {
+const MobileSupportersDropdown = ({
+  show,
+  hide,
+  mode,
+  selectedOption,
+  order,
+  onOptionClick,
+}) => {
+  const selectedClass = (option) =>
+    option == selectedOption ? " text-primary" : "";
+  return (
+    <Modal
+      show={show}
+      fullscreen="true"
+      onHide={hide}
+      dialogClassName={"m-0 mw-100 table-options-dropdown"}
+    >
+      <Modal.Body className="d-flex flex-column p-0">
+        <small className="text-muted p-3">View</small>
+        <div className={`divider ${mode}`}></div>
+        <Button
+          onClick={() => onOptionClick("Amount")}
+          type="white-ghost"
+          mode={mode}
+          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
+            "Supporters"
+          )}`}
+        >
+          Amount{" "}
+          {selectedOption == "Amount" && (
+            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+          )}
+        </Button>
+        <Button
+          onClick={() => onOptionClick("Rewards")}
+          type="white-ghost"
+          mode={mode}
+          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
+            "Occupation"
+          )}`}
+        >
+          Unclaimed Rewards{" "}
+          {selectedOption == "Rewards" && (
+            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+          )}
+        </Button>
+        <Button
+          onClick={() => onOptionClick("Alphabetical Order")}
+          type="white-ghost"
+          mode={mode}
+          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
+            "Alphabetical Order"
+          )}`}
+        >
+          Alphabetical Order
+          {selectedOption == "Alphabetical Order" && (
+            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+          )}
+        </Button>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+const SupporterOverview = ({
+  loading,
+  talentRewards,
+  marketCap,
+  mode,
+  mobile,
+}) => {
   const marketCapCUSD = loading ? 0.0 : Number.parseFloat(marketCap) * 0.02;
   const pendingRewardsCUSD = loading
     ? 0.0
     : Number.parseFloat(talentRewards) * 0.02;
+
+  if (mobile) {
+    return (
+      <div className="d-flex flex-column w-100 px-4">
+        <div className="d-flex flex-column mt-3">
+          <P3 mode={mode} text={"Market Cap"} />
+          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+            <H4
+              mode={mode}
+              text={currency(marketCapCUSD).format()}
+              bold
+              className="mb-0 mr-2"
+            />
+            <P2
+              mode={mode}
+              text={`${ethers.utils.commify(
+                Number.parseFloat(marketCap).toFixed(2)
+              )} $TAL`}
+              bold
+            />
+          </div>
+        </div>
+        <div className="d-flex flex-column mt-3">
+          <P3 mode={mode} text={"Unclaimed Rewards"} />
+          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+            <H4
+              mode={mode}
+              text={currency(pendingRewardsCUSD).format()}
+              bold
+              className="mb-0 mr-2"
+            />
+            <P2
+              mode={mode}
+              text={`${ethers.utils.commify(
+                Number.parseFloat(talentRewards).toFixed(2)
+              )} $TAL`}
+              bold
+            />
+          </div>
+        </div>
+        <Button
+          onClick={() => null}
+          type="primary-default"
+          mode={mode}
+          disabled={true}
+          className="my-3 w-100"
+        >
+          Claim Rewards
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="d-flex flex-row justify-content-between flex-wrap w-100 mt-4">
@@ -72,7 +194,7 @@ const SupporterOverview = ({ loading, talentRewards, marketCap, mode }) => {
   );
 };
 
-const Supporters = ({ mode, tokenAddress, chainAPI }) => {
+const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: tokenAddress?.toLowerCase() },
   });
@@ -172,7 +294,7 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
       ),
       supporterCounter: data.talentToken.supporterCounter,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
-      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap) * 0.1,
+      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
       rewardsReady: ethers.utils.formatUnits(data.talentToken.rewardsReady),
     };
   }, [data]);
@@ -212,23 +334,23 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
 
   const sortedSupporters = () => {
     let desiredSupporters = supporters;
-    if (sortDirection == "asc") {
-      let comparisonFunction;
 
-      switch (selectedSort) {
-        case "Amount":
-          comparisonFunction = compareAmount;
-          break;
-        case "Rewards":
-          comparisonFunction = compareRewards;
-          break;
-        case "Alphabetical Order":
-          comparisonFunction = compareName;
-          break;
-      }
+    let comparisonFunction;
 
-      desiredSupporters.sort(comparisonFunction);
-    } else {
+    switch (selectedSort) {
+      case "Amount":
+        comparisonFunction = compareAmount;
+        break;
+      case "Rewards":
+        comparisonFunction = compareRewards;
+        break;
+      case "Alphabetical Order":
+        comparisonFunction = compareName;
+        break;
+    }
+
+    desiredSupporters.sort(comparisonFunction);
+    if (sortDirection != "asc") {
       desiredSupporters.reverse();
     }
 
@@ -264,6 +386,86 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
     );
   }
 
+  const getSelectedOptionValue = (supporter) => {
+    switch (selectedSort) {
+      case "Amount":
+        return parseAndCommify(supporter.amount);
+      case "Rewards":
+        return parseAndCommify(returnValues[supporter.id] || "0");
+      case "Alphabetical Order":
+        return parseAndCommify(supporter.amount);
+    }
+  };
+
+  const supporterName = (supporter) => {
+    if (supporterInfo[supporter.id]?.username) {
+      return supporterInfo[supporter.id]?.username;
+    } else {
+      return `(${supporter.id.substring(0, 10)}...)`;
+    }
+  };
+
+  if (mobile) {
+    return (
+      <>
+        <MobileSupportersDropdown
+          show={showDropdown}
+          hide={() => setShowDropdown(false)}
+          mode={mode}
+          selectedOption={selectedSort}
+          order={sortDirection}
+          onOptionClick={onOptionClick}
+        />
+        <SupporterOverview
+          supporterCount={supporters.length}
+          loading={loading}
+          reserve={talentData.totalValueLocked}
+          talentRewards={talentData.rewardsReady}
+          marketCap={talentData.marketCap}
+          mode={mode}
+          mobile={mobile}
+        />
+        <div className="d-flex flex-row w-100 justify-content-between align-items-middle mt-3 px-2">
+          <Button onClick={() => null} type="white-ghost" mode={mode}>
+            Supporter
+          </Button>
+          <Button
+            onClick={() => setShowDropdown(true)}
+            type="white-ghost"
+            mode={mode}
+          >
+            {selectedSort} <OrderBy black={true} />
+          </Button>
+        </div>
+        <div className={`divider ${mode} my-2`}></div>
+        <Table mode={mode} className="horizontal-scroll">
+          <Table.Body>
+            {sortedSupporters().map((supporter) => (
+              <Table.Tr
+                key={`supporter-${supporter.id}`}
+                className="px-2"
+                onClick={() => console.log("SHOW SUPPORTER DETAILS")}
+              >
+                <Table.Td>
+                  <div className="d-flex cursor-pointer pl-4 py-2">
+                    <TalentProfilePicture
+                      src={supporterInfo[supporter.id]?.profilePictureUrl}
+                      height="24"
+                    />
+                    <P2 text={supporterName(supporter)} bold className="ml-2" />
+                  </div>
+                </Table.Td>
+                <Table.Td className="text-right pr-4 py-2">
+                  <P2 text={getSelectedOptionValue(supporter)} />
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Body>
+        </Table>
+      </>
+    );
+  }
+
   return (
     <>
       <SupporterOverview
@@ -273,6 +475,7 @@ const Supporters = ({ mode, tokenAddress, chainAPI }) => {
         talentRewards={talentData.rewardsReady}
         marketCap={talentData.marketCap}
         mode={mode}
+        mobile={mobile}
       />
       <Table mode={mode} className="px-3 horizontal-scroll mt-4">
         <Table.Head>

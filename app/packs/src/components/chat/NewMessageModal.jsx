@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { get } from "src/utils/requests";
 import debounce from "lodash/debounce";
 
+import { get } from "src/utils/requests";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
-const NewMessageModal = ({ show, setShow, onUserChosen }) => {
+import { Spinner } from "src/components/icons";
+import P1 from "src/components/design_system/typography/p1";
+import P2 from "src/components/design_system/typography/p2";
+import TextInput from "src/components/design_system/fields/textinput";
+
+const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
   if (!show) {
     return null;
   }
@@ -38,20 +43,23 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
   const showLoadingState = () => loading == true && users.length == 0;
 
   return (
-    <Modal scrollable={true} show={show} centered onHide={() => setShow(false)}>
-      <Modal.Body className="show-grid p-4 bg-light">
-        <p>
-          <strong>New message</strong>
-        </p>
+    <Modal
+      scrollable={true}
+      show={show}
+      centered
+      onHide={() => setShow(false)}
+      dialogClassName={mobile ? "mw-100 mh-100 m-0" : "remove-background"}
+      fullscreen={"md-down"}
+    >
+      <Modal.Body className="show-grid p-4">
+        <P1 text={"New message"} bold mode={mode} />
         <div className="w-100 d-flex flex-row py-2 position-relative align-items-center">
-          <input
-            type="text"
-            name="searchChat"
-            id="searchChat"
-            value={search}
+          <TextInput
+            mode={`${mode} pl-5`}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search people"
-            className="chat-input-area border w-100 p-2 pl-5"
+            value={search}
+            placeholder="Search for people..."
+            className="w-100 p-2"
           />
           <FontAwesomeIcon
             icon={faSearch}
@@ -62,7 +70,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
         <div className="w-100 d-flex flex-column new-message-user-list">
           {showLoadingState() && (
             <div className="w-100 d-flex flex-row my-2 justify-content-center">
-              <FontAwesomeIcon icon={faSpinner} spin className="mr-2" /> Loading
+              <Spinner />
             </div>
           )}
           {users.map((user) => (
@@ -72,7 +80,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
               onClick={() => onUserChosen(user)}
             >
               <TalentProfilePicture src={user.profilePictureUrl} height={40} />
-              <p className="mb-0 ml-3">{user.username}</p>
+              <P2 mode={mode} className="mb-0 ml-3" bold text={user.username} />
             </a>
           ))}
         </div>

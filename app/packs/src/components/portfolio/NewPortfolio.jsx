@@ -24,6 +24,7 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import RewardsModal from "./components/RewardsModal";
 import Supporting from "./components/Supporting";
 import Supporters from "./components/Supporters";
+import MobilePortfolio from "./components/MobilePortfolio";
 
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
@@ -305,6 +306,44 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
     return <ChangeNetwork mode={theme.mode()} networkChange={networkChange} />;
   }
 
+  if (mobile) {
+    return (
+      <>
+        <RewardsModal
+          show={show}
+          mode={theme.mode()}
+          setShow={setShow}
+          claim={claimRewards}
+          loadingRewards={loadingRewards}
+          activeContract={activeContract}
+          rewardValues={returnValues}
+          rewards={returnValues[activeContract] || "0"}
+          supportedTalents={supportedTalents}
+        />
+        <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
+        <MobilePortfolio
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          mode={theme.mode()}
+          overallCUSD={overallCUSD}
+          overallTAL={overallTAL}
+          totalRewardsInCUSD={totalRewardsInCUSD}
+          rewardsClaimed={rewardsClaimed}
+          cUSDBalance={cUSDBalance}
+          cUSDBalanceInTAL={cUSDBalanceInTAL}
+          supportedTalents={supportedTalents}
+          talentTokensInTAL={talentTokensInTAL}
+          talentTokensInCUSD={talentTokensInCUSD}
+          returnValues={returnValues}
+          onClaim={onClaim}
+          tokenAddress={tokenAddress}
+          chainAPI={chainAPI}
+          onClickTransak={onClickTransak}
+        />
+      </>
+    );
+  }
+
   return (
     <div className={`d-flex flex-column ${mobile ? "" : "px-3"}`}>
       <RewardsModal
@@ -393,16 +432,6 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         </div>
       </div>
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
-        {mobile && (
-          <div
-            onClick={() => setActiveTab("Overview")}
-            className={`py-2 px-2 ml-3 talent-table-tab${
-              activeTab == "Overview" ? " active-talent-table-tab" : ""
-            }`}
-          >
-            Overview
-          </div>
-        )}
         <div
           onClick={() => setActiveTab("Supporting")}
           className={`py-2 px-2 ml-3 talent-table-tab${

@@ -18,7 +18,7 @@ export const BottomNav = ({ talentPath, portfolioPath, messagesPath }) => {
   }
 
   return (
-    <nav className={`navbar-bottom-mobile ${theme.mode()}`}>
+    <nav className={`navbar-bottom-mobile themed-border-top ${theme.mode()}`}>
       <div className="navbar-bottom-menu">
         <div className="navbar-bottom-menu-option">
           <BottomNavItem

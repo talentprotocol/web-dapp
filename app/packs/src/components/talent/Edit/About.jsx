@@ -14,6 +14,9 @@ import TalentProfilePicture from "../TalentProfilePicture";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
+import Caption from "src/components/design_system/typography/caption";
+import { ArrowRight } from "src/components/icons";
+import LoadingButton from "src/components/button/LoadingButton";
 
 const setupUppy = () => {
   const uppyProfile = new Uppy({
@@ -47,73 +50,81 @@ const setupUppy = () => {
   return { uppyBanner, uppyProfile };
 };
 
-const About = ({ railsContext, mode, ...props }) => {
-  const { profilePictureUrl, bannerUrl, mobile, user, talent, secondary_tags } =
-    props;
-  const [aboutInfo, setAboutInfo] = useState({
-    display_name: user.display_name || "",
-    location: talent.profile.location || "",
-    occupation: talent.profile.occupation || "",
-    secondary_tags: secondary_tags,
-    headline: talent.profile.headline || "",
-    website: talent.profile.website || "",
-    uploadedFileData: null,
-    uploadedBannerData: null,
-    fileUrl: "",
-    bannerUrl: "",
-    github: talent.profile.github || "",
-    linkedin: talent.profile.linkedin || "",
-    twitter: talent.profile.twitter || "",
-    instagram: talent.profile.instagram || "",
-    telegram: talent.profile.telegram || "",
-    discord: talent.profile.discord || "",
-  });
+const About = (props) => {
+  const {
+    mode,
+    changeTab,
+    changeSharedState,
+    mobile,
+    saveProfile,
+    publicButtonType,
+    disablePublicButton,
+    togglePublicProfile,
+    trackChanges,
+  } = props;
+  const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
+  const [uploaded, setUploaded] = useState({ banner: false, profile: false });
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const { uppyProfile, uppyBanner } = setupUppy();
 
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
-      changeAttribute("fileUrl", response.uploadURL);
-
-      changeAttribute("uploadedFileData", {
-        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
-        storage: "cache",
-        metadata: {
-          size: file.size,
-          filename: file.name,
-          mime_type: file.type,
+      changeSharedState((prev) => ({
+        ...prev,
+        profilePictureUrl: response.uploadURL,
+        talent: {
+          ...prev.talent,
+          profile_picture_data: {
+            id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
+            storage: "cache",
+            metadata: {
+              size: file.size,
+              filename: file.name,
+              mime_type: file.type,
+            },
+          },
         },
-      });
+      }));
+
+      setUploaded((prev) => ({ ...prev, profile: true }));
       setUploadingFileS3("");
     });
     uppyProfile.on("upload", () => {
       setUploadingFileS3("profile");
+      trackChanges(true);
     });
     uppyBanner.on("upload-success", (file, response) => {
-      changeAttribute("bannerUrl", response.uploadURL);
-
-      changeAttribute("uploadedBannerData", {
-        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
-        storage: "cache",
-        metadata: {
-          size: file.size,
-          filename: file.name,
-          mime_type: file.type,
+      changeSharedState((prev) => ({
+        ...prev,
+        bannerUrl: response.uploadURL,
+        talent: {
+          ...prev.talent,
+          banner_data: {
+            id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
+            storage: "cache",
+            metadata: {
+              size: file.size,
+              filename: file.name,
+              mime_type: file.type,
+            },
+          },
         },
-      });
+      }));
+
+      setUploaded((prev) => ({ ...prev, banner: true }));
       setUploadingFileS3("");
     });
     uppyBanner.on("upload", () => {
       setUploadingFileS3("banner");
+      trackChanges(true);
     });
   }, []);
-
-  const changeAttribute = (attribute, value) => {
-    validateWebsite(attribute, value);
-
-    setAboutInfo((prevInfo) => ({ ...prevInfo, [attribute]: value }));
-  };
 
   const validateWebsite = (attribute, value) => {
     if (attribute != "website") {
@@ -131,6 +142,54 @@ const About = ({ railsContext, mode, ...props }) => {
     }
   };
 
+  const changeTalentAttribute = (attribute, value) => {
+    trackChanges(true);
+    validateWebsite(attribute, value);
+
+    changeSharedState((prev) => ({
+      ...prev,
+      talent: {
+        ...prev.talent,
+        profile: {
+          ...prev.talent.profile,
+          [attribute]: value,
+        },
+      },
+    }));
+  };
+
+  const changeUserAttribute = (attribute, value) => {
+    trackChanges(true);
+    changeSharedState((prev) => ({
+      ...prev,
+      user: {
+        ...prev.user,
+        [attribute]: value,
+      },
+    }));
+  };
+
+  const changeTags = (tags) => {
+    trackChanges(true);
+    changeSharedState((prev) => ({
+      ...prev,
+      secondary_tags: tags,
+    }));
+  };
+
+  const onProfileSave = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await saveProfile();
+    setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+    trackChanges(false);
+  };
+
+  const onTogglePublic = async () => {
+    setSaving((prev) => ({ ...prev, loading: true }));
+    await togglePublicProfile();
+    setSaving((prev) => ({ ...prev, loading: false, public: true }));
+  };
+
   return (
     <>
       <H5
@@ -145,16 +204,7 @@ const About = ({ railsContext, mode, ...props }) => {
         text="Let's start with the basics"
       />
       <div className="d-flex flex-row w-100 align-items-center mt-4">
-        {(aboutInfo["fileUrl"] != "" || profilePictureUrl) && (
-          <TalentProfilePicture
-            src={
-              aboutInfo["fileUrl"] != ""
-                ? aboutInfo["fileUrl"]
-                : profilePictureUrl
-            }
-            height={80}
-          />
-        )}
+        <TalentProfilePicture src={props.profilePictureUrl} height={80} />
         <div className="ml-3 d-flex flex-column">
           <FileInput
             uppy={uppyProfile}
@@ -171,26 +221,21 @@ const About = ({ railsContext, mode, ...props }) => {
         {uploadingFileS3 == "profile" && (
           <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
         )}
-        {uploadingFileS3 != "profile" &&
-          aboutInfo["uploadedFileData"] !== null && (
-            <P2
-              text="Uploaded File"
-              mode={mode}
-              className="ml-2 align-self-start"
-            />
-          )}
-      </div>
-      <div className="d-flex flex-row w-100 align-items-center mt-4">
-        {(aboutInfo["bannerUrl"] != "" || bannerUrl) && (
-          <TalentProfilePicture
-            src={
-              aboutInfo["bannerUrl"] != "" ? aboutInfo["bannerUrl"] : bannerUrl
-            }
-            straight
-            className={"w-50"}
-            height={80}
+        {uploadingFileS3 != "profile" && uploaded["profile"] && (
+          <P2
+            text="Uploaded File"
+            mode={mode}
+            className="ml-2 align-self-start"
           />
         )}
+      </div>
+      <div className="d-flex flex-row w-100 align-items-center mt-4">
+        <TalentProfilePicture
+          src={props.bannerUrl}
+          straight
+          className={"w-50"}
+          height={80}
+        />
         <div className="ml-3 d-flex flex-column">
           <FileInput
             uppy={uppyBanner}
@@ -207,29 +252,28 @@ const About = ({ railsContext, mode, ...props }) => {
         {uploadingFileS3 == "banner" && (
           <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
         )}
-        {uploadingFileS3 != "banner" &&
-          aboutInfo["uploadedBannerData"] !== null && (
-            <P2
-              text="Uploaded File"
-              mode={mode}
-              className="ml-2 align-self-start w-100"
-            />
-          )}
+        {uploadingFileS3 != "banner" && uploaded["banner"] && (
+          <P2
+            text="Uploaded File"
+            mode={mode}
+            className="ml-2 align-self-start w-100"
+          />
+        )}
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
           title={"Display Name"}
           mode={mode}
           shortCaption="The name that we will generally use"
-          onChange={(e) => changeAttribute("display_name", e.target.value)}
-          value={aboutInfo["display_name"]}
+          onChange={(e) => changeUserAttribute("display_name", e.target.value)}
+          value={props.user.display_name || ""}
           className={mobile ? "w-100" : "w-50 pr-2"}
         />
         <TextInput
           title={"Location"}
           mode={mode}
-          onChange={(e) => changeAttribute("location", e.target.value)}
-          value={aboutInfo["location"]}
+          onChange={(e) => changeTalentAttribute("location", e.target.value)}
+          value={props.talent.profile.location || ""}
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
@@ -238,9 +282,10 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Occupation"}
           mode={mode}
           shortCaption="We know you are a lot of things, but let us know your main occupation"
-          onChange={(e) => changeAttribute("occupation", e.target.value)}
-          value={aboutInfo["occupation"]}
+          onChange={(e) => changeTalentAttribute("occupation", e.target.value)}
+          value={props.talent.profile.occupation || ""}
           className="w-100"
+          required={true}
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3">
@@ -248,8 +293,8 @@ const About = ({ railsContext, mode, ...props }) => {
           label={"Tags"}
           mode={mode}
           caption="Press Enter to create a tag. Do not use commas or dots in the tags"
-          onTagChange={(newTags) => changeAttribute("secondary_tags", newTags)}
-          tags={aboutInfo["secondary_tags"]}
+          onTagChange={(newTags) => changeTags(newTags)}
+          tags={props.secondary_tags}
           className="w-100"
         />
       </div>
@@ -258,10 +303,11 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Bio"}
           mode={mode}
           shortCaption="Brief description for your profile"
-          onChange={(e) => changeAttribute("headline", e.target.value)}
-          value={aboutInfo["headline"]}
+          onChange={(e) => changeTalentAttribute("headline", e.target.value)}
+          value={props.talent.profile.headline || ""}
           className="w-100"
           maxLength="240"
+          required={true}
         />
       </div>
       <div className={`divider ${mode} my-3`}></div>
@@ -271,23 +317,29 @@ const About = ({ railsContext, mode, ...props }) => {
         mode={mode}
         text="Add links to where supporters can find out more about you"
       />
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-column w-100 justify-content-between mt-3">
         <TextInput
           title={"Website"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeAttribute("website", e.target.value)}
-          value={aboutInfo["website"]}
+          onChange={(e) => changeTalentAttribute("website", e.target.value)}
+          value={props.talent.profile.website || ""}
           className="w-100"
         />
+        {errorTracking["website"] && (
+          <P2
+            className="text-danger"
+            text="Please use a valid URL, it needs to include http:// or https://"
+          />
+        )}
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3">
         <TextInput
           title={"Linkedin"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeAttribute("linkedin", e.target.value)}
-          value={aboutInfo["linkedin"]}
+          onChange={(e) => changeTalentAttribute("linkedin", e.target.value)}
+          value={props.talent.profile.linkedin || ""}
           className="w-100"
         />
       </div>
@@ -296,8 +348,8 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Twitter"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeAttribute("twitter", e.target.value)}
-          value={aboutInfo["twitter"]}
+          onChange={(e) => changeTalentAttribute("twitter", e.target.value)}
+          value={props.talent.profile.twitter || ""}
           className="w-100"
         />
       </div>
@@ -306,8 +358,8 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Telegram"}
           mode={mode}
           placeholder={"@"}
-          onChange={(e) => changeAttribute("telegram", e.target.value)}
-          value={aboutInfo["telegram"]}
+          onChange={(e) => changeTalentAttribute("telegram", e.target.value)}
+          value={props.talent.profile.telegram || ""}
           className="w-100"
         />
       </div>
@@ -316,8 +368,8 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Discord"}
           mode={mode}
           placeholder={"#"}
-          onChange={(e) => changeAttribute("discord", e.target.value)}
-          value={aboutInfo["discord"]}
+          onChange={(e) => changeTalentAttribute("discord", e.target.value)}
+          value={props.talent.profile.discord || ""}
           className="w-100"
         />
       </div>
@@ -326,10 +378,49 @@ const About = ({ railsContext, mode, ...props }) => {
           title={"Github"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeAttribute("github", e.target.value)}
-          value={aboutInfo["github"]}
+          onChange={(e) => changeTalentAttribute("github", e.target.value)}
+          value={props.talent.profile.github || ""}
           className="w-100"
         />
+      </div>
+      {mobile && (
+        <div className="d-flex flex-column align-items-end w-100 my-3">
+          <Caption text="NEXT" />
+          <div className="text-grey cursor-pointer" onClick={changeTab}>
+            Highlights <ArrowRight color="currentColor" />
+          </div>
+        </div>
+      )}
+      <div className={`divider ${mode} my-3`}></div>
+      <div
+        className={`d-flex flex-row ${
+          mobile ? "justify-content-between" : "justify-content-end"
+        } w-100`}
+      >
+        {mobile && (
+          <LoadingButton
+            onClick={() => onTogglePublic()}
+            type={publicButtonType}
+            disabled={disablePublicButton || saving["loading"]}
+            mode={mode}
+            loading={saving["loading"]}
+            success={saving["public"]}
+            className="ml-auto mr-3"
+          >
+            {props.talent.public ? "Public" : "Publish Profile"}
+          </LoadingButton>
+        )}
+        <LoadingButton
+          onClick={() => onProfileSave()}
+          type="white-subtle"
+          mode={mode}
+          disabled={saving["loading"]}
+          loading={saving["loading"]}
+          success={saving["profile"]}
+          className="text-black"
+        >
+          Save Profile
+        </LoadingButton>
       </div>
     </>
   );

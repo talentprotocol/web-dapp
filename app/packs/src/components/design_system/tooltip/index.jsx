@@ -16,30 +16,37 @@ const Tooltip = ({
   popOverAccessibilityId,
   className,
   mode,
-}) => (
-  <OverlayTrigger
-    placement={placement}
-    trigger={trigger}
-    rootClose={rootClose}
-    overlay={
-      <Popover
-        id={popOverAccessibilityId}
-        className={cx(className, "talent-tooltip", mode)}
-      >
-        {popOverContent ? (
-          popOverContent
-        ) : (
-          <>
-            {title && <P3 text={title} bold className="tooltip-title" />}
-            {body && <P3 text={body} bold className="tooltip-body" />}
-          </>
-        )}
-      </Popover>
-    }
-  >
-    {children}
-  </OverlayTrigger>
-);
+  hide,
+}) => {
+  if (hide) {
+    return children;
+  }
+
+  return (
+    <OverlayTrigger
+      placement={placement}
+      trigger={trigger}
+      rootClose={rootClose}
+      overlay={
+        <Popover
+          id={popOverAccessibilityId}
+          className={cx(className, "talent-tooltip", mode)}
+        >
+          {popOverContent ? (
+            popOverContent
+          ) : (
+            <>
+              {title && <P3 text={title} bold className="tooltip-title" />}
+              {body && <P3 text={body} bold className="tooltip-body" />}
+            </>
+          )}
+        </Popover>
+      }
+    >
+      {children}
+    </OverlayTrigger>
+  );
+};
 
 Tooltip.propTypes = {
   popOverContent: node,
@@ -52,6 +59,7 @@ Tooltip.propTypes = {
   rootClose: bool,
   className: string,
   mode: string,
+  hide: bool,
 };
 
 Tooltip.defaultProps = {
@@ -59,10 +67,11 @@ Tooltip.defaultProps = {
   title: "",
   body: "",
   placement: "bottom",
-  trigger: ["hover", "focus"],
+  trigger: ["hover", "focus", "click"],
   rootClose: true,
   className: "",
   mode: "light",
+  hide: false,
 };
 
 export default Tooltip;

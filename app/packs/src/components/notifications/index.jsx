@@ -104,6 +104,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
             )}
             {currentNotifications.map((notification) => (
               <Button
+                key={`notifications-menu-${notification.id}`}
                 onClick={() => notificationRead(notification)}
                 type="white-ghost"
                 mode={mode}

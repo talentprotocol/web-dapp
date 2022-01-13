@@ -216,6 +216,42 @@
   background-color: $gray-900 !important;
 }
 
+.dark-body .themed-border-top {
+  border-top: 1px solid $gray-600;
+}
+
+.light-body .themed-border-top {
+  border-top: 1px solid $gray-200;
+}
+
+.dark-body .themed-border-right {
+  border-right: 1px solid $gray-600;
+}
+
+.light-body .themed-border-right {
+  border-right: 1px solid $gray-200;
+}
+
+.dark-body .themed-border-left {
+  border-left: 1px solid $gray-600;
+}
+
+.light-body .themed-border-left {
+  border-left: 1px solid $gray-200;
+}
+
+.dark-body .themed-border-bottom {
+  border-bottom: 1px solid $gray-600;
+}
+
+.light-body .themed-border-bottom {
+  border-bottom: 1px solid $gray-200;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 @keyframes rotate {
   from {
     transform: rotateZ(0deg);

@@ -159,6 +159,9 @@ export const UserMenuUnconnected = ({
   };
 
   const inviteNumbers = () => {
+    if (!user.invitesLeft) {
+      return "";
+    }
     if (!user.totalInvites) {
       return ` ${user.invitesLeft}/*`;
     } else {
@@ -248,10 +251,10 @@ export const UserMenuUnconnected = ({
             <Dropdown.Item
               key="tab-dropdown-change-investor-image"
               className="text-black user-menu-dropdown-item"
-              onClick={() => setShow(true)}
+              href="/settings"
             >
               <small>
-                <strong>Change profile picture</strong>
+                <strong>My profile</strong>
               </small>
             </Dropdown.Item>
           )}
@@ -260,6 +263,7 @@ export const UserMenuUnconnected = ({
             key="tab-dropdown-invite-code"
             onClick={copyCodeToClipboard}
             className="d-flex flex-row justify-content-between user-menu-dropdown-item"
+            disabled={!user.invitesLeft}
           >
             <small className="text-black">
               <strong>Invite link{inviteNumbers()}</strong>

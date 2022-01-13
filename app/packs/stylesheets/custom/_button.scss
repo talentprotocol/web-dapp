@@ -105,7 +105,7 @@
 
   &.dark {
     color: $primary;
-    background-color: $gray-800;
+    background-color: $black;
 
     &:hover {
       background-color: $primary-800;
@@ -113,7 +113,6 @@
 
     &:disabled {
       color: $primary-800;
-      background-color: $gray-800;
     }
 
     &:active {
