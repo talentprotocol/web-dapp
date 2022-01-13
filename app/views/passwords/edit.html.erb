@@ -1,24 +1,10 @@
-<main class="mx-auto d-flex px-4 flex-column justify-content-center align-items-center sign-in h-100">
-  <%= react_component("Logo",
-    props: { width: 34, height: 34, bigName: true },
-    prerender: false, html_options: { class: "my-3" })
+<main class="h-100">
+  <%= react_component("ChangePassword",
+    props: {
+      userId: @user.id,
+      token: @user.confirmation_token
+    },
+    prerender: false, html_options: { class: "h-100"})
   %>
-  <div id="clearance" class="border p-5 registration-box bg-white">
-    <h2><%= t(".title") %></h2>
-
-    <p><%= t(".description") %></p>
-
-    <%= form_for :password_reset,
-          url: [@user, :password, token: @user.confirmation_token],
-          html: { method: :put } do |form| %>
-      <div class="form-group">
-        <%= form.label :password %>
-        <%= form.password_field :password, class: "form-control" %>
-      </div>
-
-      <div class="submit-field">
-        <%= form.submit"Reset password", class: "btn btn-primary talent-button float-right mt-3" %>
-      </div>
-    <% end %>
-  </div>
 </main>
+

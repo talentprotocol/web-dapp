@@ -10,18 +10,14 @@ import Button from "../design_system/button";
 
 const ProcessingUser = ({ themePreference }) => (
   <>
+    <Spinner />
     <H5
-      className="mb-1"
+      className="mb-1 mt-5"
       text="Setting up your account"
       bold
       mode={themePreference}
     />
-    <P2
-      className="mb-5"
-      text="We're checking the guest list"
-      mode={themePreference}
-    />
-    <Spinner />
+    <P2 text="We're checking the guest list" mode={themePreference} />
   </>
 );
 

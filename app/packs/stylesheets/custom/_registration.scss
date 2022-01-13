@@ -9,6 +9,26 @@
   background-color: $primary;
 }
 
+.registration-mobile {
+  padding-top: 100px !important;
+}
+
+.registration-mobile-menu {
+  background-color: $white;
+}
+
+.dark-body .registration-mobile-menu {
+  background-color: $black;
+}
+
+.url-verification-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary;
+  height: 36px;
+}
+
 .registration-box {
   margin-right: 125px;
   margin-left: 125px;
@@ -18,11 +38,6 @@
   position: absolute;
   top: 48px;
   left: 48px;
-
-  svg {
-    width: 147.93px;
-    height: 20px;
-  }
 }
 
 .registration-talent-text {

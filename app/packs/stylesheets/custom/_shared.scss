@@ -114,6 +114,10 @@
   color: $gray-primary !important;
 }
 
+.text-green-500 {
+  color: $green-500 !important;
+}
+
 .dark-body .text-description {
   color: $gray-400 !important;
 }
@@ -281,4 +285,8 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.z-index-1 {
+  z-index: 1;
 }

@@ -20,6 +20,25 @@ const post = (url, content) => {
   });
 };
 
+const put = (url, content) => {
+  const headers = { "Content-Type": "application/json" };
+
+  if (getAuthToken) {
+    headers["X-CSRF-Token"] = getAuthToken();
+  }
+
+  const body = content instanceof FormData ? content : JSON.stringify(content);
+
+  return fetch(url, {
+    credentials: "include",
+    method: "PUT",
+    headers,
+    body,
+  }).then((response) => {
+    return response.json();
+  });
+};
+
 const patch = (url, content) => {
   const headers = { "Content-Type": "application/json" };
 
@@ -79,4 +98,4 @@ const destroy = (url) => {
   });
 };
 
-export { post, get, destroy, patch, getAuthToken };
+export { post, put, get, destroy, patch, getAuthToken };

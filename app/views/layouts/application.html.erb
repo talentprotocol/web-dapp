@@ -27,7 +27,7 @@
       <%= yield %>
     </body>
   <% else %>
-    <body class=<%= current_user&.active_theme || "light-body" %> id="user-not-logged">
+    <body class="light-body" id="user-not-logged">
       <%= yield %>
     </body>
   <% end %>

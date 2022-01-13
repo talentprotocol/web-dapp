@@ -186,7 +186,10 @@ const Welcome = ({
         </button>
       </form>
       <div
-        className={cx("d-flex w-100 mt-5", mobile && "justify-content-center")}
+        className={cx(
+          "d-flex w-100 mt-5",
+          mobile && "justify-content-center pb-4"
+        )}
       >
         <P2 text="Already have an account?" />
         <a className="ml-2" href="/">

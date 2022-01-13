@@ -4,6 +4,7 @@ export { default as Chat } from "src/components/icons/Chat";
 export { default as Check } from "src/components/icons/Check";
 export { default as Copy } from "src/components/icons/Copy";
 export { default as Delete } from "src/components/icons/Delete";
+export { default as Envelope } from "src/components/icons/Envelope";
 export { default as Expand } from "src/components/icons/Expand";
 export { default as ExternalLink } from "src/components/icons/ExternalLink";
 export { default as Gif } from "src/components/icons/Gif";

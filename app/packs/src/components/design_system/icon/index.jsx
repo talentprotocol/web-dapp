@@ -4,6 +4,8 @@ import { number, string } from "prop-types";
 const Icon = ({
   path,
   size,
+  width,
+  height,
   color,
   fill,
   className,
@@ -14,8 +16,8 @@ const Icon = ({
   <svg
     className={className}
     viewBox={viewBox}
-    width={`${size}px`}
-    height={`${size}px`}
+    width={width || size}
+    height={height || size}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     fill={fill}
@@ -33,6 +35,8 @@ const Icon = ({
 
 Icon.defaultProps = {
   size: 16,
+  width: null,
+  height: null,
   color: "#000000",
   fill: "none",
   viewBox: "0 0 16 16",
@@ -43,6 +47,8 @@ Icon.defaultProps = {
 Icon.propTypes = {
   path: string.isRequired,
   size: number,
+  width: string,
+  height: string,
   color: string,
   fill: string,
   viewBox: string,
