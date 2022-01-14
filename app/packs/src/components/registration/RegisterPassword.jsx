@@ -25,12 +25,49 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
   };
 
   useEffect(() => {
-    if (localPassword.length < 8) {
-      setValidPassword(false);
-    } else {
-      setValidPassword(true);
-    }
+    const { valid } = passwordMatchesRequirements();
+    setValidPassword(valid);
   }, [localPassword, setValidPassword]);
+
+  const passwordMatchesRequirements = () => {
+    const lengthRegex = new RegExp("^.{8,}$");
+    const lowercaseRegex = new RegExp("(?=.*[a-z])");
+    const uppercaseRegex = new RegExp("(?=.*[A-Z])");
+    const digitRegex = new RegExp("(?=.*[0-9])");
+    const errors = {};
+    let valid = true;
+
+    // the keys must match the tag names
+    if (!lengthRegex.test(localPassword)) {
+      errors["8 Characters"] = true;
+      valid = false;
+    } else {
+      errors["8 Characters"] = false;
+    }
+
+    if (!lowercaseRegex.test(localPassword)) {
+      errors["Lower Case"] = true;
+      valid = false;
+    } else {
+      errors["Lower Case"] = false;
+    }
+
+    if (!uppercaseRegex.test(localPassword)) {
+      errors["Upper Case"] = true;
+      valid = false;
+    } else {
+      errors["Upper Case"] = false;
+    }
+
+    if (!digitRegex.test(localPassword)) {
+      errors["Number"] = true;
+      valid = false;
+    } else {
+      errors["Number"] = false;
+    }
+
+    return { errors, valid };
+  };
 
   useEffect(() => {
     if (localPassword.length > 7 && passwordConfirmation.length > 7) {
@@ -43,6 +80,8 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
       setSamePassword(true);
     }
   }, [localPassword, passwordConfirmation]);
+
+  const { errors } = passwordMatchesRequirements();
 
   return (
     <>
@@ -65,8 +104,17 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
           />
           <div className="d-flex flex-wrap">
             {tags.map((tag) => (
-              <Tag mode={themePreference} className="mr-2 mt-2" key={tag}>
-                <P3 mode={themePreference} text={tag} bold />
+              <Tag
+                mode={themePreference}
+                className={`mr-2 mt-2${errors[tag] ? "" : " bg-success"}`}
+                key={tag}
+              >
+                <P3
+                  mode={themePreference}
+                  text={tag}
+                  bold
+                  className={errors[tag] ? "" : "text-white"}
+                />
               </Tag>
             ))}
           </div>
@@ -83,7 +131,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
           />
           {!samePassword && (
             <P3
-              className="mt-2"
+              className="mt-2 text-danger"
               mode={themePreference}
               text="The password does not match"
             />
