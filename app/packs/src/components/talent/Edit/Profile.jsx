@@ -33,9 +33,10 @@ const Profile = (props) => {
   const [tabHasChanges, setTabHasChanges] = useState(false);
   const [show, setShow] = useState(false);
   const [nextTab, setNextTab] = useState(null);
-  const progress = profileProgress(props);
-  const requiredFields = missingFields(props);
+  const mobile = width < 992;
   const [sharedState, setSharedState] = useState({ ...props });
+  const progress = profileProgress(sharedState);
+  const requiredFields = missingFields(sharedState);
 
   const buttonType = () => {
     if (requiredFields.length == 0) {
