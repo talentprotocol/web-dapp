@@ -106,7 +106,6 @@ const Overview = ({ sharedState, mode }) => {
         <P1 mode={mode} text="Challenges" bold className="mb-3" />
         {sharedState.career_goal?.challenges && (
           <div className="d-flex flex-row w-100 align-items-center">
-            <Rocket color="currentColor" className="mr-2" size={80} />
             <P2 mode={mode} text={sharedState.career_goal?.challenges} />
           </div>
         )}
