@@ -92,7 +92,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
       >
         <div className="form-group position-relative">
           <label htmlFor="inputPassword">
-            <P2 text="Choose Password" bold />
+            <P2 className="text-black" text="Choose Password" bold />
           </label>
           <TextInput
             mode={themePreference}
@@ -119,7 +119,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
             ))}
           </div>
           <label htmlFor="inputPasswordConfirmation" className="mt-4">
-            <P2 text="Confirm Password" bold />
+            <P2 className="text-black" text="Confirm Password" bold />
           </label>
           <TextInput
             mode={themePreference}
@@ -140,7 +140,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-5"
         >
           Create account
         </button>

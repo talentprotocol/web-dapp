@@ -11,7 +11,7 @@ const RegistrationStaticScreen = () => {
     <>
       {!mobile && (
         <>
-          <div className="p-0 w-100 registration-left-screen"></div>
+          <div className="p-0 registration-left-screen"></div>
           <div className="registration-logo">
             <LogoWord
               logoFill="white"

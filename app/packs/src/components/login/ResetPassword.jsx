@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RegistrationContainer from "../registration/RegistrationContainer";
 import TextInput from "../design_system/fields/textinput";
+import Link from "../design_system/link";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useWindowDimensionsHook } from "../../utils/window";
 import { Envelope } from "../icons";
@@ -28,7 +29,7 @@ const ResetPasswordForm = ({
         className="d-flex flex-column w-100"
       >
         <label htmlFor="inputEmail">
-          <P2 text="Email Address" bold />
+          <P2 className="text-black" text="Email Address" bold />
         </label>
         <TextInput
           mode={themePreference}
@@ -40,15 +41,18 @@ const ResetPasswordForm = ({
         />
         <button
           type="submit"
-          className="btn btn-primary talent-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-5"
         >
           Reset Password
         </button>
       </form>
     </div>
-    <p className={cx("p2 text-black mt-5 bold", mobile && "align-self-center")}>
-      <a href="/">Return to Login</a>
-    </p>
+    <Link
+      text="Return to Login"
+      href="/"
+      bold
+      className={cx("mt-5", mobile && "align-self-center")}
+    />
   </>
 );
 
@@ -60,14 +64,15 @@ const CheckEmail = ({ email, mobile }) => (
       className="mb-5 text-secondary"
       text={`We sent a password reset link to ${email}`}
     />
-    <p
+    <Link
+      text="Return to Login"
+      href="/"
+      bold
       className={cx(
-        "p2 text-black bold",
+        "text-black",
         mobile && "position-absolute pb-4 fixed-bottom"
       )}
-    >
-      <a href="/">Return to Login</a>
-    </p>
+    />
   </div>
 );
 

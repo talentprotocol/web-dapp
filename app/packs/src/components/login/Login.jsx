@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TextInput from "../design_system/fields/textinput";
 import RegistrationContainer from "../registration/RegistrationContainer";
+import Link from "../design_system/link";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useWindowDimensionsHook } from "../../utils/window";
 import { H5, P2, P3 } from "../design_system/typography";
@@ -38,7 +39,7 @@ const Login = () => {
         <H5 className="mb-5" text="Login" bold />
         <form onSubmit={submitLoginForm} className="d-flex flex-column w-100">
           <label htmlFor="inputEmail">
-            <P2 text="Email Address" bold />
+            <P2 className="text-black" text="Email Address" bold />
           </label>
           <TextInput
             mode={mode()}
@@ -50,11 +51,9 @@ const Login = () => {
           />
           <div className="d-flex justify-content-between mt-4">
             <label htmlFor="inputPassword">
-              <P2 text="Password" bold />
+              <P2 className="text-black" text="Password" bold />
             </label>
-            <p className="p3 text-black bold">
-              <a href="/passwords/new">Forgot Password?</a>
-            </p>
+            <Link text="Forgot Password?" href="/passwords/new" bold />
           </div>
           <TextInput
             mode={mode()}
@@ -66,25 +65,26 @@ const Login = () => {
           />
           <button
             type="submit"
-            className="btn btn-primary talent-button extra-big-size-button w-100 mt-5"
+            className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-5"
           >
             Login
           </button>
         </form>
       </div>
       <div className={cx("mt-5 pb-4", mobile && "align-self-center")}>
-        <p className="p2 text-black mb-2">
-          Don't have an invitation?{" "}
-          <a className="bold" target="_blank" href={TALENT_PROTOCOL_WEBSITE}>
-            Join the waitlist
-          </a>
-        </p>
-        <p className="p2 text-black">
-          Already have an invitation?{" "}
-          <a className="bold" href="/sign_up">
-            Register here
-          </a>
-        </p>
+        <div className="d-flex mb-2">
+          <P2 className="text-black mr-1" text="Don't have an invitation?" />
+          <Link
+            bold
+            target="_blank"
+            href={TALENT_PROTOCOL_WEBSITE}
+            text="Join the waitlist"
+          />
+        </div>
+        <div className="d-flex">
+          <P2 className="text-black mr-1" text="Already have an invitation?" />
+          <Link bold href="/sign_up" text="Register here" />
+        </div>
       </div>
     </div>
   );

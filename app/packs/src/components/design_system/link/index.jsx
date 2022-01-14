@@ -1,39 +1,56 @@
 import React from "react";
 import { string, oneOf, bool, func, node } from "prop-types";
-import P3 from "src/components/design_system/typography/p3";
+import P2 from "src/components/design_system/typography/p2";
 import cx from "classnames";
 
-const Link = ({ Icon, text, mode, active, onClick, href }) => {
+const Link = ({
+  Icon,
+  text,
+  type,
+  disabled,
+  bold,
+  href,
+  target,
+  className,
+}) => {
   return (
-    <div className="link-container" onClick={onClick} href={href}>
-      <Icon pathClassName={cx("link-icon", mode, active ? "active" : "")} />
+    <a
+      className={cx("link-container", disabled && "disabled", className)}
+      href={href}
+      target={target}
+    >
+      {Icon && <Icon pathClassName={cx("link-icon", bold && "bold")} />}
       {text && (
-        <P3
-          className={cx("link-text", mode, active ? "active" : "")}
+        <P2
+          className={cx("link-text", type, bold && "bold")}
           text={text}
-          bold={active}
+          bold={bold}
         />
       )}
-    </div>
+    </a>
   );
 };
 
 Link.defaultProps = {
   Icon: null,
   text: null,
-  mode: "light",
-  active: false,
-  onClick: null,
+  type: "primary",
+  disabled: false,
+  bold: false,
   href: null,
+  target: null,
+  className: "",
 };
 
 Link.propTypes = {
   Icon: node,
   text: string,
-  mode: oneOf(["light", "dark"]),
-  active: bool,
-  onClick: func,
+  type: oneOf(["primary", "white"]),
+  disabled: bool,
+  bold: bool,
   href: string,
+  target: string,
+  className: string,
 };
 
 export default Link;

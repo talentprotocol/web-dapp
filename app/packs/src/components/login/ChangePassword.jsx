@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TextInput from "../design_system/fields/textinput";
 import RegistrationContainer from "../registration/RegistrationContainer";
 import Tag from "../design_system/tag";
+import Link from "../design_system/link";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useWindowDimensionsHook } from "../../utils/window";
 import { Check } from "../icons";
@@ -71,19 +72,17 @@ const ChangePasswordForm = ({
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button bold extra-big-size-button w-100 mt-5"
         >
           Continue
         </button>
       </form>
-      <p
-        className={cx(
-          "p2 text-black mt-5 mb-2 bold",
-          mobile && "align-self-center"
-        )}
-      >
-        <a href="/">Return to Login</a>
-      </p>
+      <Link
+        text="Return to Login"
+        href="/"
+        bold
+        className={cx("mt-5", mobile && "align-self-center mb-2")}
+      />
     </>
   );
 };
@@ -94,7 +93,7 @@ const PasswordResetConfirmed = () => (
     <H5 className="mt-5" text="Password Reset" bold />
     <P2 className="mt-2" text="Your password has been succesfully reset." />
     <a
-      className="btn btn-primary talent-button big-size-button w-100 mt-5"
+      className="btn btn-primary talent-button primary-default-button bold big-size-button w-100 mt-5"
       href="/"
     >
       Return to Login

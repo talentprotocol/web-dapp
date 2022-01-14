@@ -24,13 +24,11 @@
   &:active {
     background-color: $primary;
   }
+}
 
-  &.dark {
-    &:disabled {
-      color: lighten($primary, 20%);
-      background-color: $primary;
-    }
-  }
+.dark-body .primary-default-button:disabled {
+  color: lighten($primary, 20%);
+  background-color: $primary;
 }
 
 .primary-outline-button {
@@ -58,27 +56,27 @@
     background-color: $white;
     border: 1px solid $primary;
   }
+}
 
-  &.dark {
+.dark-body .primary-outline-button {
+  color: $primary;
+  background-color: $gray-800;
+
+  &:hover {
+    color: $white;
+    background-color: $primary;
+    border: none;
+  }
+
+  &:disabled {
+    color: $primary-800;
+    background-color: $gray-800;
+    border: 1px solid $primary-800;
+  }
+
+  &:active {
     color: $primary;
     background-color: $gray-800;
-
-    &:hover {
-      color: $white;
-      background-color: $primary;
-      border: none;
-    }
-
-    &:disabled {
-      color: $primary-800;
-      background-color: $gray-800;
-      border: 1px solid $primary-800;
-    }
-
-    &:active {
-      color: $primary;
-      background-color: $gray-800;
-    }
   }
 }
 
@@ -102,23 +100,23 @@
   &:active {
     background-color: $white;
   }
+}
 
-  &.dark {
+.dark-body .primary-ghost-button {
+  color: $primary;
+  background-color: $black;
+
+  &:hover {
+    background-color: $primary-800;
+  }
+
+  &:disabled {
+    color: $primary-800;
+  }
+
+  &:active {
     color: $primary;
-    background-color: $black;
-
-    &:hover {
-      background-color: $primary-800;
-    }
-
-    &:disabled {
-      color: $primary-800;
-    }
-
-    &:active {
-      color: $primary;
-      background-color: $gray-800;
-    }
+    background-color: $gray-800;
   }
 }
 
@@ -143,25 +141,25 @@
     color: $primary;
     background-color: $info;
   }
+}
 
-  &.dark {
+.dark-body .primary-subtle-button {
+  color: $primary;
+  background-color: $primary-800;
+
+  &:hover {
+    color: $white;
+    background-color: $primary;
+  }
+
+  &:disabled {
+    color: lighten($primary, 20%);
+    background-color: $primary;
+  }
+
+  &:active {
     color: $primary;
     background-color: $primary-800;
-
-    &:hover {
-      color: $white;
-      background-color: $primary;
-    }
-
-    &:disabled {
-      color: lighten($primary, 20%);
-      background-color: $primary;
-    }
-
-    &:active {
-      color: $primary;
-      background-color: $primary-800;
-    }
   }
 }
 
@@ -185,20 +183,20 @@
   &:active {
     background-color: $danger-tint-01;
   }
+}
 
-  &.dark {
-    &:hover {
-      background-color: $danger;
-    }
+.dark-body .danger-default-button {
+  &:hover {
+    background-color: $danger;
+  }
 
-    &:disabled {
-      color: $danger-shade-1;
-      background-color: $danger-shade-01;
-    }
+  &:disabled {
+    color: $danger-shade-1;
+    background-color: $danger-shade-01;
+  }
 
-    &:active {
-      background-color: $danger-tint-01;
-    }
+  &:active {
+    background-color: $danger-tint-01;
   }
 }
 
@@ -224,27 +222,27 @@
     color: $danger-tint-01;
     background-color: $white;
   }
+}
 
-  &.dark {
+.dark-body .danger-outline-button {
+  color: $danger-tint-01;
+  background-color: $gray-800;
+  border: 1px solid $danger-tint-01;
+
+  &:hover {
+    color: $white;
+    background-color: $danger-tint-01;
+  }
+
+  &:disabled {
+    color: $danger-shade-01;
+    background-color: $gray-800;
+    border: 1px solid $danger-shade-01;
+  }
+
+  &:active {
     color: $danger-tint-01;
     background-color: $gray-800;
-    border: 1px solid $danger-tint-01;
-
-    &:hover {
-      color: $white;
-      background-color: $danger-tint-01;
-    }
-
-    &:disabled {
-      color: $danger-shade-01;
-      background-color: $gray-800;
-      border: 1px solid $danger-shade-01;
-    }
-
-    &:active {
-      color: $danger-tint-01;
-      background-color: $gray-800;
-    }
   }
 }
 
@@ -268,24 +266,24 @@
   &:active {
     background-color: $white;
   }
+}
 
-  &.dark {
+.dark-body .danger-ghost-button {
+  color: $danger-tint-01;
+  background-color: $gray-800;
+
+  &:hover {
+    color: $danger-tint-01;
+    background-color: $danger-shade-01;
+  }
+
+  &:disabled {
+    color: $danger-shade-01;
+  }
+
+  &:active {
     color: $danger-tint-01;
     background-color: $gray-800;
-
-    &:hover {
-      color: $danger-tint-01;
-      background-color: $danger-shade-01;
-    }
-
-    &:disabled {
-      color: $danger-shade-01;
-    }
-
-    &:active {
-      color: $danger-tint-01;
-      background-color: $gray-800;
-    }
   }
 }
 
@@ -309,24 +307,24 @@
   &:active {
     background-color: $danger-ghost;
   }
+}
 
-  &.dark {
-    color: $danger-tint-01;
+.dark-body .danger-subtle-button {
+  color: $danger-tint-01;
+  background-color: $danger-shade-01;
+  border: none;
+
+  &:hover {
+    background-color: $danger-shade-1;
+  }
+
+  &:disabled {
+    color: $danger-shade-1;
     background-color: $danger-shade-01;
-    border: none;
+  }
 
-    &:hover {
-      background-color: $danger-shade-1;
-    }
-
-    &:disabled {
-      color: $danger-shade-1;
-      background-color: $danger-shade-01;
-    }
-
-    &:active {
-      background-color: $danger-shade-01;
-    }
+  &:active {
+    background-color: $danger-shade-01;
   }
 }
 
@@ -351,22 +349,22 @@
     color: $white;
     background-color: $positive;
   }
+}
 
-  &.dark {
+.dark-body .positive-default-button {
+  background-color: $green-500;
+
+  &:hover {
+    background-color: $positive-shade-01;
+  }
+
+  &:disabled {
+    color: $positive-shade-02;
+    background-color: $positive-shade-02;
+  }
+
+  &:active {
     background-color: $green-500;
-
-    &:hover {
-      background-color: $positive-shade-01;
-    }
-
-    &:disabled {
-      color: $positive-shade-02;
-      background-color: $positive-shade-02;
-    }
-
-    &:active {
-      background-color: $green-500;
-    }
   }
 }
 
@@ -393,26 +391,26 @@
     color: $positive;
     background-color: transparent;
   }
+}
 
-  &.dark {
+.dark-body .positive-outline-button {
+  color: $positive;
+  border: 1px solid $green-500;
+
+  &:hover {
+    color: $white;
+    background-color: $green-500;
+  }
+
+  &:disabled {
+    color: $positive-shade-02;
+    background-color: transparent;
+    border: 1px solid $positive-shade-02;
+  }
+
+  &:active {
     color: $positive;
-    border: 1px solid $green-500;
-
-    &:hover {
-      color: $white;
-      background-color: $green-500;
-    }
-
-    &:disabled {
-      color: $positive-shade-02;
-      background-color: transparent;
-      border: 1px solid $positive-shade-02;
-    }
-
-    &:active {
-      color: $positive;
-      background-color: transparent;
-    }
+    background-color: transparent;
   }
 }
 
@@ -436,25 +434,25 @@
   &:active {
     background-color: transparent;
   }
+}
 
-  &.dark {
+.dark-body .positive-ghost-button {
+  color: $green-500;
+  background-color: transparent;
+
+  &:hover {
+    color: $green-500;
+    background-color: $green-900;
+  }
+
+  &:disabled {
+    color: $positive-shade-02;
+    background-color: transparent;
+  }
+
+  &:active {
     color: $green-500;
     background-color: transparent;
-
-    &:hover {
-      color: $green-500;
-      background-color: $green-900;
-    }
-
-    &:disabled {
-      color: $positive-shade-02;
-      background-color: transparent;
-    }
-
-    &:active {
-      color: $green-500;
-      background-color: transparent;
-    }
   }
 }
 
@@ -480,26 +478,26 @@
     color: $positive;
     background-color: $positive-tint-02;
   }
+}
 
-  &.dark {
+.dark-body .positive-subtle-button {
+  color: $green-500;
+  background-color: $green-900;
+  border: none;
+
+  &:hover {
+    color: $white;
+    background-color: $green-500;
+  }
+
+  &:disabled {
+    color: $positive-shade-02;
+    background-color: $positive-shade-02;
+  }
+
+  &:active {
     color: $green-500;
     background-color: $green-900;
-    border: none;
-
-    &:hover {
-      color: $white;
-      background-color: $green-500;
-    }
-
-    &:disabled {
-      color: $positive-shade-02;
-      background-color: $positive-shade-02;
-    }
-
-    &:active {
-      color: $green-500;
-      background-color: $green-900;
-    }
   }
 }
 
@@ -523,24 +521,24 @@
   &:active {
     background-color: $gray-800;
   }
+}
 
-  &.dark {
-    color: $gray-800;
+.dark-body .white-default-button {
+  color: $gray-800;
+  background-color: $white;
+  border: none;
+
+  &:hover {
+    background-color: $gray-200;
+  }
+
+  &:disabled {
+    color: $gray-600;
+    background-color: $gray-800;
+  }
+
+  &:active {
     background-color: $white;
-    border: none;
-
-    &:hover {
-      background-color: $gray-200;
-    }
-
-    &:disabled {
-      color: $gray-600;
-      background-color: $gray-800;
-    }
-
-    &:active {
-      background-color: $white;
-    }
   }
 }
 
@@ -567,27 +565,27 @@
     color: $gray-800;
     background-color: $white;
   }
+}
 
-  &.dark {
+.dark-body .white-outline-button {
+  color: $white;
+  background-color: $gray-800;
+  border: 1px solid $white;
+
+  &:hover {
+    color: $gray-800;
+    background-color: $white;
+  }
+
+  &:disabled {
+    color: $gray-600;
+    background-color: $gray-800;
+    border: 1px solid $gray-600;
+  }
+
+  &:active {
     color: $white;
     background-color: $gray-800;
-    border: 1px solid $white;
-
-    &:hover {
-      color: $gray-800;
-      background-color: $white;
-    }
-
-    &:disabled {
-      color: $gray-600;
-      background-color: $gray-800;
-      border: 1px solid $gray-600;
-    }
-
-    &:active {
-      color: $white;
-      background-color: $gray-800;
-    }
   }
 }
 
@@ -613,22 +611,22 @@
     color: $gray-900;
     background-color: none;
   }
+}
 
-  &.dark {
-    color: $white;
-    border: none;
+.dark-body .white-ghost-button {
+  color: $white;
+  border: none;
 
-    &:hover {
-      background-color: $gray-600;
-    }
+  &:hover {
+    background-color: $gray-600;
+  }
 
-    &:disabled {
-      color: $gray-600;
-    }
+  &:disabled {
+    color: $gray-600;
+  }
 
-    &:active {
-      background-color: $gray-900;
-    }
+  &:active {
+    background-color: $gray-900;
   }
 }
 
@@ -652,25 +650,25 @@
   &:active {
     background-color: $gray;
   }
+}
 
-  &.dark {
+.dark-body .white-subtle-button {
+  color: $white;
+  background-color: $gray-600;
+  border: none;
+
+  &:hover {
+    background-color: $surface-hover-02;
+  }
+
+  &:disabled {
+    color: $gray-600;
+    background-color: $gray-800;
+  }
+
+  &:active {
     color: $white;
     background-color: $gray-600;
-    border: none;
-
-    &:hover {
-      background-color: $gray-400;
-    }
-
-    &:disabled {
-      color: $gray-600;
-      background-color: $gray-800;
-    }
-
-    &:active {
-      color: $white;
-      background-color: $gray-600;
-    }
   }
 }
 
