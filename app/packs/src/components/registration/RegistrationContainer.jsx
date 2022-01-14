@@ -51,12 +51,12 @@ const RegistrationContainer = ({ children }) => {
               </button>
             )}
           </div>
-          <div className="url-verification-container">
+          {/* <div className="url-verification-container">
             <Padlock size={16} color="#1db954" />
             <P3 className="text-black mx-1" text="URL Verification:" bold />
             <P3 className="text-green-500" text="https://" />
             <P3 className="text-black" text="beta.talentprotocol.com" />
-          </div>
+          </div> */}
         </div>
       )}
       <div
