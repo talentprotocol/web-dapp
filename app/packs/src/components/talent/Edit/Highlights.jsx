@@ -132,7 +132,7 @@ const HighlightForm = ({
           mode={mode}
           className="text-primary w-100 my-3"
         >
-          + Add another Highlight
+          Add Highlight
         </Button>
       )}
       <div className={`divider ${mode} my-3`}></div>
@@ -176,7 +176,7 @@ const Highlights = (props) => {
       setValidationErrors({});
     }
 
-    if (key != "new" && hasChanges[key] != true) {
+    if (hasChanges[key] != true) {
       setHasChanges((prev) => ({ ...prev, [key]: true }));
     }
 
@@ -245,7 +245,7 @@ const Highlights = (props) => {
 
       if (response) {
         // update local state
-        const newMilestones = { ...allMilestones };
+        const newMilestones = { ...allMilestones, new: emptyHighlight("new") };
         newMilestones[response.id] = response;
         setAllMilestones(newMilestones);
         setHasChanges((prev) => ({ ...prev, id: false }));
@@ -268,7 +268,7 @@ const Highlights = (props) => {
         }));
       }
     } else {
-      setValidationErrors((prev) => ({ ...prev, ["new"]: errors }));
+      setValidationErrors((prev) => ({ ...prev, [id]: errors }));
     }
   };
 

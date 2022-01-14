@@ -87,7 +87,7 @@ const GoalForm = ({
           mode={mode}
           className="text-primary w-100 my-3"
         >
-          + Add another Goal
+          Add Goal
         </Button>
       )}
       <div className={`divider ${mode} my-3`}></div>
@@ -152,7 +152,7 @@ const Goal = (props) => {
       setValidationErrors({});
     }
 
-    if (key != "new" && hasChanges[key] != true) {
+    if (hasChanges[key] != true) {
       setHasChanges((prev) => ({ ...prev, [key]: true }));
     }
 
@@ -218,7 +218,7 @@ const Goal = (props) => {
 
       if (response) {
         // update local state
-        const newGoals = { ...allGoals };
+        const newGoals = { ...allGoals, new: emptyGoal("new") };
         newGoals[response.id] = response;
         setAllGoals(newGoals);
         setHasChanges((prev) => ({ ...prev, id: false }));
@@ -392,7 +392,6 @@ const Goal = (props) => {
             "What are your challenges? This is where sponsors can help you!"
           }
           maxLength="175"
-          required={true}
         />
       </div>
       <div className={`divider ${mode} my-3`}></div>

@@ -25,7 +25,7 @@ import Settings from "./Settings";
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const [activeTab, setActiveTab] = useState("About");
-  const { height, width } = useWindowDimensionsHook();
+  const { mobile } = useWindowDimensionsHook();
   const [saving, setSaving] = useState({
     loading: false,
     public: false,
@@ -33,7 +33,6 @@ const Profile = (props) => {
   const [tabHasChanges, setTabHasChanges] = useState(false);
   const [show, setShow] = useState(false);
   const [nextTab, setNextTab] = useState(null);
-  const mobile = width < 992;
   const progress = profileProgress(props);
   const requiredFields = missingFields(props);
   const [sharedState, setSharedState] = useState({ ...props });
