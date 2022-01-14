@@ -63,7 +63,7 @@ const ChangePasswordForm = ({
         />
         {!samePassword && (
           <P3
-            className="mt-2"
+            className="mt-2 text-danger"
             mode={themePreference}
             text="The password does not match"
           />
