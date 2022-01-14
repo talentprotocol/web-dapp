@@ -89,7 +89,7 @@ const PerkForm = ({
           mode={mode}
           className="text-primary w-100 my-3"
         >
-          + Add another Perk
+          Add Perk
         </Button>
       )}
       <div className={`divider ${mode} my-3`}></div>
@@ -134,7 +134,7 @@ const Perks = (props) => {
       setValidationErrors({});
     }
 
-    if (key != "new" && hasChanges[key] != true) {
+    if (hasChanges[key] != true) {
       setHasChanges((prev) => ({ ...prev, [key]: true }));
     }
 
@@ -200,7 +200,7 @@ const Perks = (props) => {
 
       if (response) {
         // update local state
-        const newPerks = { ...allPerks };
+        const newPerks = { ...allPerks, new: emptyPerk("new") };
         newPerks[response.id] = response;
         setAllPerks(newPerks);
         setHasChanges((prev) => ({ ...prev, id: false }));
@@ -221,7 +221,7 @@ const Perks = (props) => {
         }));
       }
     } else {
-      setValidationErrors((prev) => ({ ...prev, ["new"]: errors }));
+      setValidationErrors((prev) => ({ ...prev, [id]: errors }));
     }
   };
 

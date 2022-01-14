@@ -111,7 +111,7 @@ const WaitingForConfirmation = ({ mode }) => (
   </>
 );
 
-const SuccessConfirmation = ({ mode, setShow }) => (
+const SuccessConfirmation = ({ mode, hide }) => (
   <>
     <Modal.Header closeButton>
       <Modal.Title className="px-3"></Modal.Title>
@@ -123,7 +123,7 @@ const SuccessConfirmation = ({ mode, setShow }) => (
         </P2>
         <GreenCheck />
         <Button
-          onClick={() => setShow(false)}
+          onClick={hide}
           type="primary-default"
           mode={mode}
           className="w-100 mt-3"
