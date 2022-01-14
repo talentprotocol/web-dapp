@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { H5, P2 } from "../design_system/typography";
 import TextInput from "../design_system/fields/textinput";
 import Checkbox from "../design_system/checkbox";
+import Link from "../design_system/link";
 
 import { get } from "../../utils/requests";
 import { TERMS_HREF, PRIVACY_HREF } from "../../utils/constants";
@@ -105,7 +106,7 @@ const Welcome = ({
       <form onSubmit={submitWelcomeForm} className="d-flex flex-column w-100">
         <div className="form-group position-relative">
           <label htmlFor="inputEmail">
-            <P2 text="Email Address" bold />
+            <P2 className="text-black" text="Email Address" bold />
           </label>
           <TextInput
             mode={themePreference}
@@ -143,7 +144,7 @@ const Welcome = ({
             </small>
           )}
           <label htmlFor="inputCode" className="mt-4">
-            <P2 text="Invite Code" bold />
+            <P2 className="text-black" text="Invite Code" bold />
           </label>
           <TextInput
             mode={themePreference}
@@ -152,10 +153,10 @@ const Welcome = ({
             value={localCode}
             onChange={(e) => setCode(e.target.value)}
           />
-          <div className="d-flex flex-row justify-content-center w-100 mt-4">
+          <div className="d-flex flex-row w-100 mt-4">
             <ReCAPTCHA sitekey={captchaKey} onChange={recaptchaSubmition} />
           </div>
-          <div className="form-group form-check mt-4">
+          <div className="form-group mt-4">
             <Checkbox
               className="form-check-input"
               htmlFor="termsAndConditions"
@@ -163,24 +164,29 @@ const Welcome = ({
               checked={acceptedTerms}
               onChange={() => setAcceptedTerms((prev) => !prev)}
             >
-              <p className="p2 text-black ml-1">
-                I have read and agree to the{" "}
-                <a target="_blank" href={TERMS_HREF}>
-                  Talent Protocol Terms & Conditions
-                </a>{" "}
-                and the{" "}
-                <a target="_blank" href={PRIVACY_HREF}>
-                  Talent Protocol Privacy Policy
-                </a>
-                .
-              </p>
+              <div className="d-flex flex-wrap">
+                <P2 className="mr-1" text="I have read and agree to the" />
+                <Link
+                  className="mr-1"
+                  text="Talent Protocol Terms & Conditions"
+                  href={TERMS_HREF}
+                  target="_blank"
+                />
+                <P2 className="mr-1" text="and the" />
+                <Link
+                  text="Talent Protocol Privacy Policy"
+                  href={PRIVACY_HREF}
+                  target="_blank"
+                />
+                <P2 text="." />
+              </div>
             </Checkbox>
           </div>
         </div>
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button extra-big-size-button w-100"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100"
         >
           Continue
         </button>
@@ -191,10 +197,8 @@ const Welcome = ({
           mobile && "justify-content-center pb-4"
         )}
       >
-        <P2 text="Already have an account?" />
-        <a className="ml-2" href="/">
-          <P2 className="text-primary" text="Login" bold />
-        </a>
+        <P2 className="text-black mr-1" text="Already have an account?" />
+        <Link text="Login" href="/" bold />
       </div>
     </>
   );

@@ -5,8 +5,10 @@
 }
 
 .registration-left-screen {
-  width: 550px;
-  background-color: $primary;
+  min-width: 550px;
+  max-width: 550px;
+  background: linear-gradient(145.69deg, $primary -1.68%, $primary-700 100.36%);
+  opacity: 0.9;
 }
 
 .registration-mobile {
@@ -18,7 +20,7 @@
 }
 
 .dark-body .registration-mobile-menu {
-  background-color: $black;
+  background-color: $bg-01;
 }
 
 .url-verification-container {
@@ -48,7 +50,6 @@
 }
 
 .registration-theme {
-  background: none !important;
   border: none;
   position: absolute;
   top: 48px;

@@ -2,6 +2,7 @@ import React from "react";
 import { useWindowDimensionsHook } from "../../utils/window";
 import ThemeContainer, { useTheme } from "../../contexts/ThemeContext";
 import RegistrationStaticScreen from "./RegistrationStaticScreen";
+import Button from "../design_system/button";
 import { Sun, Moon, Padlock, LogoWord } from "../icons";
 import { P3 } from "../design_system/typography";
 import cx from "classnames";
@@ -14,7 +15,9 @@ const RegistrationContainer = ({ children }) => {
     <div className="h-100">
       {!mobile && (
         <>
-          <button
+          <Button
+            type="white-ghost"
+            mode={mode()}
             onClick={simpleToggleTheme}
             className="registration-theme z-index-1 text-black"
           >
@@ -23,7 +26,7 @@ const RegistrationContainer = ({ children }) => {
             ) : (
               <Sun color="currentColor" />
             )}
-          </button>
+          </Button>
         </>
       )}
       {mobile && (
@@ -35,20 +38,24 @@ const RegistrationContainer = ({ children }) => {
               viewBox="0 0 250 20"
             />
             {theme === "light-body" && (
-              <button
+              <Button
+                type="white-ghost"
+                mode={mode()}
                 onClick={simpleToggleTheme}
-                className="remove-border remove-background text-black"
+                className="text-black"
               >
                 <Moon color="currentColor" />
-              </button>
+              </Button>
             )}
             {theme === "dark-body" && (
-              <button
+              <Button
+                type="white-ghost"
+                mode={mode()}
                 onClick={simpleToggleTheme}
-                className="remove-border remove-background text-black"
+                className="text-black"
               >
                 <Sun color="currentColor" />
-              </button>
+              </Button>
             )}
           </div>
           {/* <div className="url-verification-container">

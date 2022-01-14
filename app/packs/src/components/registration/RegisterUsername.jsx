@@ -77,7 +77,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
       >
         <div className="form-group position-relative">
           <label htmlFor="inputUsername" className="mt-2">
-            <P2 text="Username" bold />
+            <P2 className="text-black" text="Username" bold />
           </label>
           <TextInput
             mode={themePreference}
@@ -121,7 +121,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-5"
         >
           Continue
         </button>
