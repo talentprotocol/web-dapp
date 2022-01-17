@@ -152,6 +152,7 @@ const TalentShow = ({
           userId={current_user_id}
           ticker={ticker()}
           railsContext={railsContext}
+          mode={theme.mode()}
         />
       )}
       <Button

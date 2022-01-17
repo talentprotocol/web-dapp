@@ -38,8 +38,18 @@ const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
           className="w-100 mt-3"
           maxLength={8}
           required={true}
-          error={error?.length}
+          error={error?.length || error?.characters}
         />
+        {error?.length && (
+          <P2 mode={mode} className="text-danger">
+            Your ticker needs to be between 3 and 8 characters.
+          </P2>
+        )}
+        {error?.characters && (
+          <P2 mode={mode} className="text-danger">
+            Your ticker can only have uppercase characters.
+          </P2>
+        )}
         <div className={`divider ${mode} my-3`}></div>
         <P2 mode={mode} className="mb-2">
           In order to deploy a Talent Token you'll need to have CELO in your
@@ -153,19 +163,23 @@ const Token = (props) => {
   const [walletConnected, setWalletConnected] = useState(true);
   const [error, setError] = useState({});
   const [factory, setFactory] = useState(null);
+  const [contractId, setContractId] = useState(token.contract_id || "");
 
   const changeTicker = (value) => {
     if (error["length"]) {
       setError((prev) => ({ ...prev, length: false }));
     }
+    if (error["characters"]) {
+      setError((prev) => ({ ...prev, characters: true }));
+    }
 
-    setTicker(value);
+    setTicker(value.toUpperCase());
   };
 
   const createToken = async () => {
     if (factory) {
       setDeploying(true);
-      const result = await factory.createTalent(user.username, token.ticker);
+      const result = await factory.createTalent(user.username, ticker);
 
       if (result) {
         const contractAddress = result.args.token;
@@ -183,6 +197,7 @@ const Token = (props) => {
         if (response) {
           setSuccess(true);
           setDeploying(false);
+          setContractId(contractAddress.toLowerCase());
           changeSharedState((prev) => ({
             ...prev,
             token: {
@@ -255,10 +270,17 @@ const Token = (props) => {
   };
 
   const handleDeploy = async () => {
+    const tickerValidator = new RegExp("[^A-Z]+");
+    if (tickerValidator.test(ticker)) {
+      setError((prev) => ({ ...prev, characters: true }));
+      return;
+    }
+
     if (ticker.length < 3 || ticker.length > 8) {
       setError((prev) => ({ ...prev, length: true }));
       return;
     }
+
     const result = saveTicker();
 
     if (result) {
@@ -274,7 +296,7 @@ const Token = (props) => {
 
   const onClose = () => setShow(false);
 
-  if (token.contract_id) {
+  if (contractId) {
     return (
       <>
         <H5 className="w-100 text-left" mode={mode} text={ticker} bold />
@@ -286,7 +308,7 @@ const Token = (props) => {
         </P2>
         <TokenDetails
           ticker={token.ticker}
-          token={token}
+          token={{ ...token, contract_id: contractId }}
           displayName={user.display_name || user.username}
           username={user.username}
           railsContext={railsContext}
@@ -360,6 +382,7 @@ const Token = (props) => {
           hide={onClose}
           error={error}
           backdrop={false}
+          setShow={setShow}
         />
       </Modal>
       <H5
@@ -392,7 +415,7 @@ const Token = (props) => {
         shortCaption={
           "Your ticker name will be visible next to your display name. You need to launch your talent token to enable buying your token."
         }
-        onChange={(e) => setTicker(e.target.value)}
+        onChange={(e) => changeTicker(e.target.value)}
         value={ticker || ""}
         className="w-100 mt-3"
         maxLength={8}
