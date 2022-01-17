@@ -1,14 +1,17 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
 
-import Notification from 'src/components/design_system/notification';
+import Notification from "src/components/design_system/notification";
 
-<Meta title="Design System/Notification Templates/Light Mode" component={Notification} />
+<Meta
+  title="Design System/Notification Templates/Light Mode"
+  component={Notification}
+/>
 
 # Notifications
 
 Multiple type of notificatinos: wallet, rocket
 
-export const Template = (args) => <Notification {...args} />
+export const Template = (args) => <Notification {...args} />;
 
 <Canvas>
   <Story
@@ -18,8 +21,8 @@ export const Template = (args) => <Notification {...args} />
       mode: "light",
       title: "Sponsor Bought $Token",
       description: "Bryan Rusty bought 2.214 JEN",
-      time_information: "2 hours ago",
-      is_new: true
+      timeInformation: "2 hours ago",
+      isNew: true,
     }}
   >
     {Template.bind({})}
@@ -27,12 +30,12 @@ export const Template = (args) => <Notification {...args} />
   <Story
     name="Notification template #2 (New false)"
     args={{
-        type: "rocket",
+      type: "rocket",
       mode: "light",
       title: "Notif title X",
       description: "Description lorem impsus",
-      time_information: "2 days ago",
-      is_new: false
+      timeInformation: "2 days ago",
+      isNew: false,
     }}
   >
     {Template.bind({})}
@@ -40,12 +43,12 @@ export const Template = (args) => <Notification {...args} />
   <Story
     name="Notification template #3"
     args={{
-        type: "star",
+      type: "star",
       mode: "light",
       title: "Notif title X",
       description: "Description lorem impsus",
-      time_information: "2 days ago",
-      is_new: false
+      timeInformation: "2 days ago",
+      isNew: false,
     }}
   >
     {Template.bind({})}
@@ -53,12 +56,12 @@ export const Template = (args) => <Notification {...args} />
   <Story
     name="Notification template #4"
     args={{
-        type: "talent",
+      type: "talent",
       mode: "light",
       title: "Notif title X",
       description: "Description lorem impsus",
-      time_information: "2 days ago",
-      is_new: false
+      timeInformation: "2 days ago",
+      isNew: false,
     }}
   >
     {Template.bind({})}
@@ -66,12 +69,12 @@ export const Template = (args) => <Notification {...args} />
   <Story
     name="Notification template #5"
     args={{
-        type: "globe",
+      type: "globe",
       mode: "light",
       title: "Notif title X",
       description: "Description lorem impsus",
-      time_information: "2 days ago",
-      is_new: false
+      timeInformation: "2 days ago",
+      isNew: false,
     }}
   >
     {Template.bind({})}

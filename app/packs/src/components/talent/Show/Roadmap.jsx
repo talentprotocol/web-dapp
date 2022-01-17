@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import RoadmapCard from "src/components/design_system/cards/roadmap";
 import P1 from "src/components/design_system/typography/p1";
+import Button from "src/components/design_system/button";
 
 const Roadmap = ({ goals, width, mode, mobile }) => {
   const [start, setStart] = useState(0);
@@ -53,20 +54,21 @@ const Roadmap = ({ goals, width, mode, mobile }) => {
         <P1 mode={mode} text="Roadmap" bold className="mb-3" />
         {goals.length > itemsPerRow && (
           <div className="d-flex flex-row">
-            <button
-              className="btn btn-secondary"
+            <Button
+              type="white-subtle"
               onClick={slideLeft}
               disabled={disableLeft}
             >
               <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-            </button>
-            <button
-              className="btn btn-secondary ml-2"
+            </Button>
+            <Button
+              type="white-subtle"
+              className="ml-2"
               onClick={slideRight}
               disabled={disableRight}
             >
               <FontAwesomeIcon icon={faChevronRight} size="sm" />
-            </button>
+            </Button>
           </div>
         )}
       </div>

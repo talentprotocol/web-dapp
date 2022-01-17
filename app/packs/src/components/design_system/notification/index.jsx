@@ -1,11 +1,14 @@
 import React from "react";
-import Wallet from "src/components/icons/Wallet";
-import Rocket from "src/components/icons/Rocket";
-import Chat from "src/components/icons/Chat";
-import Talent from "src/components/icons/Talent";
-import Star from "src/components/icons/Star";
-import Check from "src/components/icons/Check";
-import Globe from "src/components/icons/Globe";
+import {
+  Wallet,
+  Rocket,
+  Chat,
+  Talent,
+  Star,
+  Check,
+  Globe,
+} from "src/components/icons";
+import { P3 } from "src/components/design_system/typography";
 import cx from "classnames";
 
 const Notification = ({
@@ -13,8 +16,8 @@ const Notification = ({
   mode,
   title,
   description,
-  time_information,
-  is_new = false,
+  timeInformation,
+  isNew = false,
 }) => {
   return (
     <>
@@ -35,19 +38,18 @@ const Notification = ({
           {type === "globe" && <Globe pathClassName={cx("icon-theme", mode)} />}
         </div>
         <div className={`d-flex flex-column notification-right-area ${mode}`}>
-          <div className="w-100">
-            {is_new == true ? <div className="ellipse-new"></div> : null}
-            {title ? <strong>{title}</strong> : null}
+          <div className="w-100 d-flex align-items-center">
+            {isNew && <div className="ellipse-new"></div>}
+            {title && <P3 bold text={title} className="text-black" />}
           </div>
           <div className="w-100">
-            {description ? (
-              <p className={`notification-description text-wrap ${mode}`}>
-                {description}
-              </p>
-            ) : null}
-            {time_information ? (
-              <p className={mode}>{time_information}</p>
-            ) : null}
+            {description && (
+              <P3
+                className="notification-description text-wrap"
+                text={description}
+              />
+            )}
+            {timeInformation && <P3 text={timeInformation} />}
           </div>
         </div>
       </div>

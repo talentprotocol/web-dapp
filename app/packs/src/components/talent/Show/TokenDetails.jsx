@@ -48,7 +48,7 @@ const TokenDetails = ({
       className={`card ${mobile ? "p-0 remove-background" : "bg-light"} mt-3 ${
         removeFixedPosition ? "" : "sticky-top"
       } ${className}`}
-      style={{ top: 20, zIndex: 1 }}
+      style={{ top: 20, zIndex: 0 }}
     >
       <div className="card-body">
         <h6 className="card-title">{ticker} Price Statistics</h6>

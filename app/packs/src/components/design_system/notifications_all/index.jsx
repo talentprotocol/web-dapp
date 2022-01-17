@@ -6,8 +6,8 @@ const Notification = ({
   mode,
   title,
   description,
-  time_information,
-  is_new = false,
+  timeInformation,
+  isNew = false,
 }) => {
   return (
     <>
@@ -17,56 +17,56 @@ const Notification = ({
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="rocket"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="chat"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="talent"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="star"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="check"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
         <NotificationTemplate
           type="globe"
           mode={mode}
           title={title}
           description={description}
-          time_information={time_information}
-          is_new={is_new}
+          timeInformation={timeInformation}
+          isNew={isNew}
         />
       </div>
     </>

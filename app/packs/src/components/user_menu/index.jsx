@@ -25,7 +25,7 @@ import Notifications from "src/components/notifications";
 
 import Button from "src/components/design_system/button";
 import MobileUserMenu from "./MobileUserMenu";
-
+import { P2, P3 } from "src/components/design_system/typography";
 import { Copy, Sun, Moon } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
@@ -163,9 +163,9 @@ export const UserMenuUnconnected = ({
       return "";
     }
     if (!user.totalInvites) {
-      return ` ${user.invitesLeft}/*`;
+      return `${user.invitesLeft}/*`;
     } else {
-      return ` (${user.invitesLeft}/${user.totalInvites})`;
+      return `${user.invitesLeft}/${user.totalInvites}`;
     }
   };
 
@@ -222,30 +222,32 @@ export const UserMenuUnconnected = ({
       {showConnectButton() && metamaskButton()}
       <Dropdown>
         <Dropdown.Toggle
-          className={`user-menu-dropdown-btn no-caret ${theme.mode()}`}
+          className="talent-button white-subtle-button normal-size-button no-caret d-flex align-items-center"
           id="user-dropdown"
+          bsPrefix=""
+          as="div"
         >
           <TalentProfilePicture
             src={user.profilePictureUrl}
             height={20}
             className="mr-2"
           />
-          <small className="mr-2 align-middle">
-            <strong>{user.username}</strong>
-          </small>
+          <P2
+            bold
+            text={user.username}
+            className="mr-2 align-middle text-black"
+          />
           <FontAwesomeIcon icon={faAngleDown} className="align-middle" />
         </Dropdown.Toggle>
 
-        <Dropdown.Menu className={`user-menu-dropdown ${theme.mode()}`}>
+        <Dropdown.Menu className="user-menu-dropdown">
           {user.isTalent ? (
             <Dropdown.Item
               key="tab-dropdown-my-profile"
               className="text-black user-menu-dropdown-item"
               href={`/talent/${user.username}`}
             >
-              <small>
-                <strong>My profile</strong>
-              </small>
+              <P3 bold text="My profile" className="text-black" />
             </Dropdown.Item>
           ) : (
             <Dropdown.Item
@@ -253,34 +255,33 @@ export const UserMenuUnconnected = ({
               className="text-black user-menu-dropdown-item"
               href="/settings"
             >
-              <small>
-                <strong>My profile</strong>
-              </small>
+              <P3 bold text="My profile" className="text-black" />
             </Dropdown.Item>
           )}
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-invite-code"
             onClick={copyCodeToClipboard}
-            className="d-flex flex-row justify-content-between user-menu-dropdown-item"
+            className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
             disabled={!user.invitesLeft}
           >
-            <small className="text-black">
-              <strong>Invite link{inviteNumbers()}</strong>
-            </small>
+            <div className="d-flex">
+              <P3 bold text="Share invite link" className="text-black mr-1" />
+              <P3 bold text={inviteNumbers()} />
+            </div>
             <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
           </Dropdown.Item>
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-theme"
-            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            className="text-black d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
             onClick={toggleTheme}
           >
-            <small>
-              <strong>
-                {theme.mode() === "light" ? "Dark" : "Light"} mode
-              </strong>
-            </small>
+            <P3
+              bold
+              text={`${theme.mode() === "light" ? "Dark" : "Light"} mode`}
+              className="text-black"
+            />
             {theme.mode() == "light" ? (
               <Moon color="currentColor" />
             ) : (
@@ -294,9 +295,7 @@ export const UserMenuUnconnected = ({
             target="self"
             href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
           >
-            <small>
-              <strong>User guide</strong>
-            </small>
+            <P3 bold text="User guide" className="text-black" />
             <FontAwesomeIcon
               icon={faExternalLinkAlt}
               className="ml-2"
@@ -306,19 +305,16 @@ export const UserMenuUnconnected = ({
           <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
-            className="text-black user-menu-dropdown-item mt-2"
+            className="text-black user-menu-dropdown-item mt-0"
           >
-            <small>
-              <strong>Sign out</strong>
-            </small>
+            <P3 bold text="Sign out" className="text-black" />
           </Dropdown.Item>
           <Button
             onClick={onClickTransak}
             type="primary-default"
-            mode={theme.mode()}
             className="w-100 my-2"
           >
-            <strong>Get Funds</strong>
+            <P3 bold text="Get funds" className="text-white" />
           </Button>
         </Dropdown.Menu>
       </Dropdown>

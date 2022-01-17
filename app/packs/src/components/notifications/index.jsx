@@ -36,8 +36,8 @@ const Notification = ({ notification, mode }) => {
       mode={mode}
       title={notification.title}
       description={notification.body}
-      time_information={formatDistance(presentDay, createdAt)}
-      is_new={!notification.read}
+      timeInformation={formatDistance(presentDay, createdAt)}
+      isNew={!notification.read}
     />
   );
 };
@@ -123,14 +123,16 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
     <>
       <Dropdown drop="bottom" className="ml-1">
         <Dropdown.Toggle
-          className={`user-menu-dropdown-btn no-caret ${mode}${
-            hideBackground ? " remove-background" : ""
-          }`}
+          className="talent-button white-subtle-button normal-size-button no-caret"
           id="notifications-dropdown"
+          as="div"
         >
           <Bell
             color="currentColor"
-            style={{ marginRight: notificationsUnread ? -10 : -3 }}
+            style={{
+              marginRight: notificationsUnread ? -10 : -3,
+              marginTop: 3,
+            }}
           />
           {notificationsUnread && (
             <span className="notifications-unread-icon"></span>
