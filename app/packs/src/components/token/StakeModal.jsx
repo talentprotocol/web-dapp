@@ -10,6 +10,9 @@ import { post, patch } from "src/utils/requests";
 
 import { NoMetamask } from "../login/MetamaskConnect";
 
+import P1 from "src/components/design_system/typography/p1";
+import P2 from "src/components/design_system/typography/p2";
+
 const StakeModal = ({
   show,
   setShow,
@@ -18,6 +21,7 @@ const StakeModal = ({
   tokenId,
   railsContext,
   userId,
+  mode,
 }) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -240,12 +244,13 @@ const StakeModal = ({
         show={show}
         centered
         onHide={() => setShow(false)}
+        dialogClassName="remove-background"
       >
         <Modal.Body className="show-grid p-4">
           <div className="container-fluid">
             <div className="row d-flex flex-column">
-              <h2>BUY {ticker}</h2>
-              <p>
+              <P1 text={`BUY ${ticker}`} bold />
+              <P2>
                 Please insert the amount of cUSD (Celo's stablecoin) you wish to
                 use to buy Talent Tokens. You'll need to have cUSD in your
                 Metamask wallet to do this transaction. Check the{" "}
@@ -260,7 +265,7 @@ const StakeModal = ({
                   You'll be able to sell your Talent Tokens once we launch the
                   $TAL token next year (subject to flow controls).
                 </small>
-              </p>
+              </P2>
               <form onSubmit={onSubmit}>
                 <div className="form-group position-relative">
                   <small className="form-text text-muted">
