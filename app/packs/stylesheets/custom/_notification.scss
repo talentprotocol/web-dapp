@@ -2,42 +2,84 @@
 @import "../bootstrap/overrides";
 
 .notification-container {
-    border: 1px solid #EDEDEF;
-    box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
-    background-color: $white;
+  border: 1px solid #ededef;
+  box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  background-color: $white;
 
-    &.dark {
-        background: $gray-600;
-    }
+  &.dark {
+    background: $gray-600;
+  }
 }
-
 
 .notification {
-    box-sizing: border-box;
-    padding: 0.6rem;
+  box-sizing: border-box;
+  padding: 0.6rem;
 }
 
-.notification-icon{
-    margin: 2px;
+.notification-icon {
+  margin: 2px;
 }
 
 .notification-right-area {
-    margin-left: 10px;
-    margin-top: 2px;
-}
-
-.notification-right-area strong {
-    padding-top: 2px;
-    font-weight: 700;
-}
-
-.notification-right-area p {
-    font-size: 0.8rem;
-    padding-right: 10px;
-    margin-bottom: 0 !important;
+  margin-left: 10px;
+  margin-top: 2px;
 }
 
 .notification-description {
-    margin-top: 4px;
+  margin-top: 4px;
+}
+
+.notifications-menu {
+  width: 365px;
+  max-height: 425px;
+  overflow-y: auto;
+}
+
+.light-body .notifications-menu {
+  background-color: $white !important;
+  color: $gray-800 !important;
+}
+
+.dark-body .notifications-menu {
+  background-color: $gray-600 !important;
+  color: $white !important;
+}
+
+.notifications-unread-icon {
+  position: relative;
+  top: -9px;
+  right: 0px;
+  border: 4px solid $primary;
+  border-radius: 50%;
+  font-size: 0px;
+}
+
+.notification-unread-icon {
+  position: relative;
+  border: 4px solid $primary;
+  border-radius: 50%;
+  font-size: 0px;
+}
+
+.no-notifications-item {
+  color: $black;
+}
+
+.dark-body .no-notifications-item {
+  color: $white !important;
+}
+
+.notifications-menu-dropdown-item {
+  color: $gray-800 !important;
+  &:hover {
+    background: $surface-hover !important;
+  }
+}
+
+.dark-body .notifications-menu-dropdown-item {
+  color: $white !important;
+  &:hover {
+    background: $surface-hover-02 !important;
+  }
 }

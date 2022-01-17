@@ -1,46 +1,17 @@
-@import "../bootstrap/overrides";
-@import "~bootstrap/scss/variables";
-
-.user-menu-dropdown-btn {
-  background-color: $light !important;
-  border: 0px;
-  color: $black !important;
-
-  &:hover {
-    background-color: $gray-400 !important;
-    color: $black !important;
-  }
-
-  &:focus {
-    background-color: $light !important;
-    color: $black !important;
-    box-shadow: none !important;
-  }
-
-  &:active {
-    background-color: $light !important;
-    color: $black !important;
-  }
-
-  &.dark {
-    color: $white !important;
-    background-color: $gray-600 !important;
-    &:hover {
-      background-color: $gray-400 !important;
-    }
-  }
-}
-
 .user-menu-dropdown {
   background-color: $light !important;
   color: $black !important;
   min-width: 230px;
-  padding: 8px 16px;
+  padding: 0px 16px 16px 16px;
+}
 
-  &.dark {
-    color: $white !important;
-    background-color: $gray-600 !important;
-  }
+.dark-body .user-menu-dropdown {
+  color: $white !important;
+  background-color: $gray-600 !important;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
 }
 
 .dropdown-toggle.no-caret:after {
@@ -48,22 +19,25 @@
 }
 
 .user-menu-dropdown-item {
-  padding: 0.25rem 0;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  padding: 8px 0;
+  margin: 8px 0;
   &:hover {
-    background: $surface-hover !important;
+    background-color: $surface-hover !important;
   }
 }
 
 .dark-body .user-menu-dropdown-item {
   &:hover {
-    background: $gray-400 !important;
+    background-color: $surface-hover-02 !important;
   }
 }
 
 .user-menu-divider {
-  border-top: 1px solid $gray-400;
+  border-top: 1px solid $surface-hover;
+}
+
+.dark-body .user-menu-divider {
+  border-top: 1px solid $gray-500;
 }
 
 .modal-content,

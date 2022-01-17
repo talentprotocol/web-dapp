@@ -9,6 +9,7 @@ import { ethers } from "ethers";
 
 import Perk from "src/components/design_system/cards/perk";
 import P1 from "src/components/design_system/typography/p1";
+import Button from "src/components/design_system/button";
 
 const Perks = ({
   perks,
@@ -115,20 +116,21 @@ const Perks = ({
         <P1 mode={mode} text="Perks" bold className="mb-3" />
         {sortedPerks.length > itemsPerRow && (
           <div className="d-flex flex-row">
-            <button
-              className="btn btn-secondary"
+            <Button
+              type="white-subtle"
               onClick={slideLeft}
               disabled={disableLeft}
             >
               <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-            </button>
-            <button
-              className="btn btn-secondary ml-2"
+            </Button>
+            <Button
+              type="white-subtle"
+              className="ml-2"
               onClick={slideRight}
               disabled={disableRight}
             >
               <FontAwesomeIcon icon={faChevronRight} size="sm" />
-            </button>
+            </Button>
           </div>
         )}
       </div>

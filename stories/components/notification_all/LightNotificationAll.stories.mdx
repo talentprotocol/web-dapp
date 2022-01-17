@@ -1,14 +1,17 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
 
-import NotificationAll from 'src/components/design_system/notifications_all';
+import NotificationAll from "src/components/design_system/notifications_all";
 
-<Meta title="Design System/Notification Templates All/Light Mode" component={NotificationAll} />
+<Meta
+  title="Design System/Notification Templates All/Light Mode"
+  component={NotificationAll}
+/>
 
 # Notifications
 
 Multiple type of notificatinos: wallet, rocket
 
-export const Template = (args) => <NotificationAll {...args} />
+export const Template = (args) => <NotificationAll {...args} />;
 
 <Canvas>
   <Story
@@ -18,8 +21,8 @@ export const Template = (args) => <NotificationAll {...args} />
       mode: "light",
       title: "Title notification goes here",
       description: "Description notification goes here...",
-      time_information: "2 hours ago",
-      is_new: true
+      timeInformation: "2 hours ago",
+      isNew: true,
     }}
   >
     {Template.bind({})}

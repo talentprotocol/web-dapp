@@ -62,15 +62,15 @@
     border-left: 0px;
     background-color: transparent;
   }
-}
 
-.dropdown-toggle {
-  &:hover,
-  &:focus,
-  &:disabled,
-  &:active {
-    background-color: transparent !important;
-    color: $primary !important;
+  &.dropdown-toggle {
+    &:hover,
+    &:focus,
+    &:disabled,
+    &:active {
+      background-color: transparent !important;
+      color: $primary !important;
+    }
   }
 }
 
