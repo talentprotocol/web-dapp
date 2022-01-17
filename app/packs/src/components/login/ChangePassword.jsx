@@ -151,10 +151,12 @@ const ChangePassword = ({ userId, token }) => {
   return (
     <div
       className={cx(
-        "d-flex flex-column align-self-center w-100 h-100",
+        "d-flex flex-column align-self-center",
         !mobile && "justify-content-center p-0 registration-box",
-        mobile && step === 1 && "p-4 justify-content-between",
-        mobile && step === 2 && "p-4 text-center justify-content-center"
+        mobile && step === 1 && "p-4 justify-content-between w-100 h-100",
+        mobile &&
+          step === 2 &&
+          "p-4 text-center justify-content-center w-100 h-100"
       )}
     >
       {step === 1 && (

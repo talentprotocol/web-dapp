@@ -68,7 +68,7 @@ const RegistrationContainer = ({ children }) => {
       )}
       <div
         className={cx(
-          "d-flex col-12 w-100 h-100 p-0",
+          "d-flex w-100 h-100 p-0",
           mobile && "registration-mobile"
         )}
       >

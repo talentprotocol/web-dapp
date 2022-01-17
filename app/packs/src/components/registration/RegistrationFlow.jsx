@@ -40,9 +40,9 @@ const RegistrationFlow = (props) => {
   return (
     <div
       className={cx(
-        "d-flex flex-column align-self-center w-100 h-100",
+        "d-flex flex-column align-self-center",
         mobile
-          ? "p-4 justify-content-start"
+          ? "p-4 justify-content-start w-100 h-100"
           : "justify-content-center p-0 registration-box",
         currentStep === 4 && "justify-content-center"
       )}
