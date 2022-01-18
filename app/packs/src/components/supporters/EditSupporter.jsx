@@ -84,8 +84,8 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
       user: {
         email: localEmail,
         username: localUsername,
-        newPassword: localPassword,
-        currentPassword: currentPassword,
+        new_password: localPassword,
+        current_password: currentPassword,
       },
       investor: {
         profile_picture_data: { ...s3Data },

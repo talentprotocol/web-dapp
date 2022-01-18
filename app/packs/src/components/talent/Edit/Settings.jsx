@@ -45,7 +45,11 @@ const Settings = (props) => {
     setSaving((prev) => ({ ...prev, loading: true }));
 
     const response = await patch(`/api/v1/users/${user.id}`, {
-      user: { ...settings },
+      user: {
+        ...settings,
+        current_password: settings.currentPassword,
+        new_password: settings.newPassword,
+      },
     }).catch(() => setValidationErrors((prev) => ({ ...prev, saving: true })));
 
     if (response) {
