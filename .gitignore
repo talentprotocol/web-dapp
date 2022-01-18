@@ -55,3 +55,4 @@ yarn-debug.log*
 *.scc
 *.vsp
 *.vspx
+.env
