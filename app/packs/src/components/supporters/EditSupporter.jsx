@@ -40,6 +40,7 @@ const setupUppy = () => {
 const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
   const [localUsername, setLocalUsername] = useState(username);
   const [localPassword, setLocalPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [localEmail, setLocalEmail] = useState(email);
   const [localProfilePictureUrl, setLocalProfilePictureUrl] =
     useState(profilePictureUrl);
@@ -83,7 +84,8 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
       user: {
         email: localEmail,
         username: localUsername,
-        password: localPassword,
+        newPassword: localPassword,
+        currentPassword: currentPassword,
       },
       investor: {
         profile_picture_data: { ...s3Data },
@@ -93,6 +95,8 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
     if (response) {
       if (!response.errors) {
         setSaving((prev) => ({ ...prev, loading: false, profile: true }));
+        setLocalPassword("");
+        setCurrentPassword("");
       } else {
         setValidationErrors((prev) => ({ ...prev, ...response.errors }));
       }
@@ -187,7 +191,23 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3">
         <TextInput
-          title={"Password"}
+          title={"Current Password"}
+          type="password"
+          placeholder={"*********"}
+          mode={theme.mode()}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          value={currentPassword}
+          className="w-100"
+          required={true}
+          error={validationErrors?.currentPassword}
+        />
+        {validationErrors?.currentPassword && (
+          <Caption className="text-danger" text="Password doesn't match." />
+        )}
+      </div>
+      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+        <TextInput
+          title={"New Password"}
           type="password"
           placeholder={"*********"}
           mode={theme.mode()}
@@ -195,7 +215,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           value={localPassword}
           className="w-100"
           required={true}
-          error={validationErrors?.password}
+          error={validationErrors?.newPassword}
         />
       </div>
       <Button
