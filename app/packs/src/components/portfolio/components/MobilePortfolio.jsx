@@ -35,7 +35,7 @@ const MobilePortfolio = ({
       <div className="w-100 talent-table-tabs horizontal-scroll mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => setActiveTab("Overview")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Overview" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -43,7 +43,7 @@ const MobilePortfolio = ({
         </div>
         <div
           onClick={() => setActiveTab("Supporting")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Supporting" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -52,7 +52,7 @@ const MobilePortfolio = ({
         {tokenAddress && (
           <div
             onClick={() => setActiveTab("Supporters")}
-            className={`py-2 px-2 talent-table-tab${
+            className={`talent-table-tab${
               activeTab == "Supporters" ? " active-talent-table-tab" : ""
             }`}
           >

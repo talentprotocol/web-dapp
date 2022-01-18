@@ -262,7 +262,7 @@ const TalentShow = ({
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => setPageInDisplay("Overview")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Overview" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -270,7 +270,7 @@ const TalentShow = ({
         </div>
         <div
           onClick={() => setPageInDisplay("Timeline")}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Timeline" ? " active-talent-table-tab" : ""
           }`}
         >

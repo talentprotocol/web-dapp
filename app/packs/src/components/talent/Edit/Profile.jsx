@@ -161,10 +161,10 @@ const Profile = (props) => {
           </P3>
         </div>
       </Tooltip>
-      <div className="talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center">
+      <div className="talent-table-tabs w-100 horizontal-scroll mt-3 px-5 d-flex flex-row align-items-center">
         <div
           onClick={() => changeTab("About")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "About" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -172,7 +172,7 @@ const Profile = (props) => {
         </div>
         <div
           onClick={() => changeTab("Highlights")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Highlights" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -180,7 +180,7 @@ const Profile = (props) => {
         </div>
         <div
           onClick={() => changeTab("Goal")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Goal" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -188,7 +188,7 @@ const Profile = (props) => {
         </div>
         <div
           onClick={() => changeTab("Token")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Token" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -196,7 +196,7 @@ const Profile = (props) => {
         </div>
         <div
           onClick={() => changeTab("Perks")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Perks" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -204,7 +204,7 @@ const Profile = (props) => {
         </div>
         <div
           onClick={() => changeTab("Settings")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Settings" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -217,7 +217,7 @@ const Profile = (props) => {
               type={buttonType()}
               disabled={requiredFields.length > 0 || saving["loading"]}
               mode={theme.mode()}
-              className="ml-auto mr-3"
+              className="ml-auto"
               loading={saving["loading"]}
               success={saving["public"]}
             >

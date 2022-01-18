@@ -322,7 +322,7 @@ const TalentTable = ({ talents }) => {
         <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
           <div
             onClick={() => setWatchlistOnly(false)}
-            className={`py-2 px-2 ml-3 talent-table-tab${
+            className={`ml-3 talent-table-tab${
               !watchlistOnly ? " active-talent-table-tab" : ""
             }`}
           >
@@ -330,7 +330,7 @@ const TalentTable = ({ talents }) => {
           </div>
           <div
             onClick={() => setWatchlistOnly(true)}
-            className={`py-2 px-2 talent-table-tab${
+            className={`talent-table-tab${
               watchlistOnly ? " active-talent-table-tab" : ""
             }`}
           >
@@ -386,11 +386,11 @@ const TalentTable = ({ talents }) => {
   }
 
   return (
-    <div className="px-3">
+    <div className="mb-5">
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row">
         <div
           onClick={() => setWatchlistOnly(false)}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             !watchlistOnly ? " active-talent-table-tab" : ""
           }`}
         >
@@ -398,7 +398,7 @@ const TalentTable = ({ talents }) => {
         </div>
         <div
           onClick={() => setWatchlistOnly(true)}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             watchlistOnly ? " active-talent-table-tab" : ""
           }`}
         >

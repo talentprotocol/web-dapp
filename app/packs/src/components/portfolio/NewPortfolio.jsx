@@ -434,7 +434,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => setActiveTab("Supporting")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Supporting" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -443,7 +443,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         {tokenAddress && (
           <div
             onClick={() => setActiveTab("Supporters")}
-            className={`py-2 px-2 talent-table-tab${
+            className={`talent-table-tab${
               activeTab == "Supporters" ? " active-talent-table-tab" : ""
             }`}
           >
