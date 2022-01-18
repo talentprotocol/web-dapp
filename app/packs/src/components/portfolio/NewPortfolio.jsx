@@ -345,7 +345,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
   }
 
   return (
-    <div className={`d-flex flex-column ${mobile ? "" : "px-3"}`}>
+    <div className="d-flex flex-column">
       <RewardsModal
         show={show}
         setShow={setShow}
@@ -358,7 +358,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         mode={theme.mode()}
       />
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
-      <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview mt-4 p-4">
+      <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview p-4">
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Balance"} />
           <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
@@ -431,7 +431,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
           </div>
         </div>
       </div>
-      <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
+      <div className="w-100 talent-table-tabs mt-5 d-flex flex-row align-items-center">
         <div
           onClick={() => setActiveTab("Supporting")}
           className={`talent-table-tab${

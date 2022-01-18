@@ -22,6 +22,8 @@ import Token from "./Token";
 import Perks from "./Perks";
 import Settings from "./Settings";
 
+import cx from "classnames";
+
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const [activeTab, setActiveTab] = useState("About");
@@ -161,7 +163,12 @@ const Profile = (props) => {
           </P3>
         </div>
       </Tooltip>
-      <div className="talent-table-tabs w-100 horizontal-scroll mt-3 px-5 d-flex flex-row align-items-center">
+      <div
+        className={cx(
+          "talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center",
+          mobile ? "pl-4" : "px-5"
+        )}
+      >
         <div
           onClick={() => changeTab("About")}
           className={`talent-table-tab${
@@ -226,7 +233,7 @@ const Profile = (props) => {
           </>
         )}
       </div>
-      <div className="d-flex flex-column align-items-center p-3 edit-profile-content w-100">
+      <div className="d-flex flex-column align-items-center p-4 edit-profile-content w-100">
         {activeTab == "About" && (
           <About
             {...sharedState}

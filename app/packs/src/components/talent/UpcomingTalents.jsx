@@ -59,7 +59,7 @@ const UpcomingTalents = ({ talents }) => {
   }
 
   return (
-    <>
+    <div className={mobile && "pl-4"}>
       <div className="d-flex flex-row justify-content-between align-items-center">
         <div className="d-flex flex-row align-items-center">
           <h6 className="mb-0">
@@ -102,7 +102,7 @@ const UpcomingTalents = ({ talents }) => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

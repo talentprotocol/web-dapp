@@ -310,7 +310,7 @@ const TalentTable = ({ talents }) => {
 
   if (width < 992) {
     return (
-      <>
+      <div className="pl-4">
         <MobileTalentTableDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
@@ -322,7 +322,7 @@ const TalentTable = ({ talents }) => {
         <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
           <div
             onClick={() => setWatchlistOnly(false)}
-            className={`ml-3 talent-table-tab${
+            className={`talent-table-tab${
               !watchlistOnly ? " active-talent-table-tab" : ""
             }`}
           >
@@ -381,12 +381,12 @@ const TalentTable = ({ talents }) => {
             ))}
           </Table.Body>
         </Table>
-      </>
+      </div>
     );
   }
 
   return (
-    <div className="mb-5">
+    <>
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row">
         <div
           onClick={() => setWatchlistOnly(false)}
@@ -500,7 +500,7 @@ const TalentTable = ({ talents }) => {
           ))}
         </Table.Body>
       </Table>
-    </div>
+    </>
   );
 };
 
