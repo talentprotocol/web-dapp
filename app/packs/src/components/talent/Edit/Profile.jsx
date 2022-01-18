@@ -91,6 +91,12 @@ const Profile = (props) => {
     }
   };
 
+  const changeTabAndIgnoreChanges = (tab) => {
+    setShow(false);
+    setTabHasChanges(false);
+    setActiveTab(tab);
+  };
+
   return (
     <div className="d-flex flex-column align-items-center">
       <Modal
@@ -106,9 +112,9 @@ const Profile = (props) => {
           <div className="d-flex flex-column">
             <P2
               mode={theme.mode()}
-              text="You still have unsaved changes, are you sure you want to dismiss them?"
+              text="You still have unsaved changes, are you sure you want to go to a different tab without saving them?"
             />
-            <div className="d-flex flex-row justify-content-end">
+            <div className="d-flex flex-row justify-content-end mt-3">
               <Button
                 onClick={() => setShow(false)}
                 type="white-subtle"
@@ -118,7 +124,7 @@ const Profile = (props) => {
                 Cancel
               </Button>
               <Button
-                onClick={() => setActiveTab(nextTab)}
+                onClick={() => changeTabAndIgnoreChanges(nextTab)}
                 type="primary-default"
                 mode={theme.mode()}
               >
