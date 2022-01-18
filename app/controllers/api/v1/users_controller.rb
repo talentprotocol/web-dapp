@@ -31,6 +31,14 @@ class API::V1::UsersController < ApplicationController
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
       else
+        if password_params[:newPassword]
+          if current_user.authenticated?(password_params[:currentPassword])
+            current_user.update!(password: password_params[:newPassword])
+          else
+            return render json: {errors: {currentPassword: "Passwords don't match"}}, status: :conflict
+          end
+        end
+
         current_user.update!(user_params)
 
         unless investor_params.empty?
@@ -75,7 +83,11 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email, :password)
+    params.require(:user).permit(:theme_preference, :username, :email)
+  end
+
+  def password_params
+    params.require(:user).permit(:newPassword, :currentPassword)
   end
 
   def investor_params

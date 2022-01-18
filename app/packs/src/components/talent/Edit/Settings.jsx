@@ -24,7 +24,8 @@ const Settings = (props) => {
   const [settings, setSettings] = useState({
     username: user.username || "",
     email: user.email || "",
-    password: "",
+    currentPassword: "",
+    newPassword: "",
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [saving, setSaving] = useState({
@@ -34,6 +35,9 @@ const Settings = (props) => {
   });
 
   const changeAttribute = (attribute, value) => {
+    if (attribute == "currentPassword" && validationErrors?.currentPassword) {
+      setValidationErrors((prev) => ({ ...prev, currentPassword: false }));
+    }
     setSettings((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
 
@@ -52,6 +56,11 @@ const Settings = (props) => {
             ...prev.user,
             ...response.user,
           },
+        }));
+        setSettings((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
         }));
         setSaving((prev) => ({ ...prev, loading: false, profile: true }));
       } else {
@@ -123,17 +132,33 @@ const Settings = (props) => {
           <Caption className="text-danger" text="Email is already taken." />
         )}
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 flex-wrap mt-3">
         <TextInput
-          title={"Password"}
+          title={"Current Password"}
           type="password"
           placeholder={"*********"}
           mode={mode}
-          onChange={(e) => changeAttribute("password", e.target.value)}
-          value={settings["password"]}
+          onChange={(e) => changeAttribute("currentPassword", e.target.value)}
+          value={settings["currentPassword"]}
           className="w-100"
           required={true}
-          error={validationErrors?.password}
+          error={validationErrors?.currentPassword}
+        />
+        {validationErrors?.currentPassword && (
+          <Caption className="text-danger" text="Password doesn't match." />
+        )}
+      </div>
+      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+        <TextInput
+          title={"New Password"}
+          type="password"
+          placeholder={"*********"}
+          mode={mode}
+          onChange={(e) => changeAttribute("newPassword", e.target.value)}
+          value={settings["newPassword"]}
+          className="w-100"
+          required={true}
+          error={validationErrors?.newPassword}
         />
       </div>
       <Button
