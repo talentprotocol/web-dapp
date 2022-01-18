@@ -14,6 +14,7 @@ const TalentProfilePicture = ({
   straight,
   blur,
   border,
+  link,
 }) => {
   const [currentTheme, setCurrentTheme] = useState(document.body.className);
 
@@ -40,17 +41,26 @@ const TalentProfilePicture = ({
     setCurrentTheme(document.body.className);
   }, [document.body.className]);
 
-  return (
-    <img
-      className={`${roundPhoto}${grey}${blurPhoto}${borderPhoto} ${
-        className || ""
-      } image-fit`}
-      src={imgSrc()}
-      width={width || height}
-      height={height}
-      alt="Profile Picture"
-    />
+  const WithLink = ({ link, children }) => (link ?
+    <a href={link}>
+      {children}
+    </a>
+    : children
   );
+
+  return (
+    <WithLink link={link}>
+      <img
+        className={`${roundPhoto}${grey}${blurPhoto}${borderPhoto} ${
+          className || ""
+        } image-fit`}
+        src={imgSrc()}
+        width={width || height}
+        height={height}
+        alt="Profile Picture"
+      />
+    </WithLink>
+  )
 };
 
 TalentProfilePicture.defaultProps = {
@@ -62,6 +72,7 @@ TalentProfilePicture.defaultProps = {
   straight: null,
   blur: null,
   border: null,
+  link: null,
 };
 
 TalentProfilePicture.propTypes = {
@@ -73,6 +84,7 @@ TalentProfilePicture.propTypes = {
   straight: bool,
   blur: bool,
   border: bool,
+  link: string,
 };
 
 export default TalentProfilePicture;
