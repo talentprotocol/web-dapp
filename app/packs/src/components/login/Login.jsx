@@ -15,11 +15,16 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: false, password: false });
 
   const submitLoginForm = (e) => {
     e.preventDefault();
+    setErrors({ email: false, password: false });
     post("/session", { session: { email, password } }).then((res) => {
-      if (res.error) {
+      if (res.error === "email") {
+        setErrors((prev) => ({ ...prev, email: true }));
+      } else if (res.error === "password") {
+        setErrors((prev) => ({ ...prev, password: true }));
       } else {
         window.location.replace("/");
       }
@@ -29,9 +34,9 @@ const Login = () => {
   return (
     <div
       className={cx(
-        "d-flex flex-column align-self-center w-100 h-100",
+        "d-flex flex-column align-self-center",
         mobile
-          ? "p-4 justify-content-between"
+          ? "p-4 justify-content-between w-100 h-100"
           : "justify-content-center p-0 registration-box"
       )}
     >
@@ -48,7 +53,11 @@ const Login = () => {
             ariaDescribedBy="emailHelp"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={errors["email"]}
           />
+          {errors["email"] && (
+            <P3 className="mt-2 text-danger" text="Wrong email" />
+          )}
           <div className="d-flex justify-content-between mt-4">
             <label htmlFor="inputPassword">
               <P2 className="text-black" text="Password" bold />
@@ -62,7 +71,11 @@ const Login = () => {
             ariaDescribedBy="passwordHelp"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={errors["password"]}
           />
+          {errors["password"] && (
+            <P3 className="mt-2 text-danger" text="Wrong password" />
+          )}
           <button
             type="submit"
             className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-5"

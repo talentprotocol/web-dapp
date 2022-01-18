@@ -5,10 +5,9 @@
 }
 
 .registration-left-screen {
-  min-width: 550px;
-  max-width: 550px;
-  background: linear-gradient(145.69deg, $primary -1.68%, $primary-700 100.36%);
-  opacity: 0.9;
+  width: 550px;
+  background-image: url(tp-logo-opacity.png),
+    linear-gradient(145.69deg, $primary -1.68%, $primary-700 100.36%);
 }
 
 .registration-mobile {
@@ -32,8 +31,10 @@
 }
 
 .registration-box {
-  margin-right: 125px;
-  margin-left: 125px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 471px;
+  height: 454px;
 }
 
 .registration-logo {
