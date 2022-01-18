@@ -1,10 +1,12 @@
 import React from "react";
-import { string, bool, oneOf } from "prop-types";
+import { string, bool, oneOf, node } from "prop-types";
 import cx from "classnames";
 
-const P1 = ({ bold, mode, text, className }) => {
+const P1 = ({ bold, mode, text, children, className }) => {
   return (
-    <p className={cx("p1", bold ? "bold" : "", mode, className)}>{text}</p>
+    <p className={cx("p1", bold ? "bold" : "", mode, className)}>
+      {text || children}
+    </p>
   );
 };
 
@@ -17,7 +19,8 @@ P1.defaultProps = {
 P1.propTypes = {
   bold: bool,
   mode: oneOf(["light", "dark"]),
-  text: string.isRequired,
+  text: string,
+  children: node,
   className: string,
 };
 
