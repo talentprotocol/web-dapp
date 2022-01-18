@@ -10,28 +10,30 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Rocket } from "src/components/icons";
-import P1 from "src/components/design_system/typography/p1";
-import P2 from "src/components/design_system/typography/p2";
+import { P1, P2, H5, Caption } from "src/components/design_system/typography";
 
 const Overview = ({ sharedState, mode }) => {
   return (
     <>
       <section className="d-flex flex-row mt-4">
         {sharedState.user.username && (
-          <p className="text-uppercase text-secondary">
-            <small>@{sharedState.user.username}</small>
-          </p>
+          <Caption
+            text={`@${sharedState.user.username}`}
+            className="text-uppercase"
+          />
         )}
         {sharedState.talent.profile.location && (
-          <p className="text-uppercase text-secondary ml-2">
-            <small>{sharedState.talent.profile.location}</small>
-          </p>
+          <Caption
+            text={sharedState.talent.profile.location}
+            className="text-uppercase ml-2"
+          />
         )}
       </section>
       <section className="d-flex flex-column mt-3">
         {sharedState.talent.profile.headline && (
-          <p>{sharedState.talent.profile.headline}</p>
+          <H5 bold className="text-black">
+            {sharedState.talent.profile.headline}
+          </H5>
         )}
 
         <div className="d-flex flex-row my-3 text-secondary">
@@ -90,8 +92,8 @@ const Overview = ({ sharedState, mode }) => {
             </a>
           )}
         </div>
-        <div className="dropdown-divider"></div>
-        <P1 mode={mode} text="Pitch" bold className="mb-3" />
+        <div className={`divider ${mode} my-3`}></div>
+        <P1 mode={mode} text="Pitch" bold className="text-black" />
         {sharedState.career_goal?.pitch && (
           <P2 mode={mode} text={sharedState.career_goal?.pitch} />
         )}
@@ -102,8 +104,8 @@ const Overview = ({ sharedState, mode }) => {
             width={"100%"}
           />
         )}
-        <div className="dropdown-divider mb-4"></div>
-        <P1 mode={mode} text="Challenges" bold className="mb-3" />
+        <div className={`divider ${mode} my-3`}></div>
+        <P1 mode={mode} text="Challenges" bold className="mb-3 text-black" />
         {sharedState.career_goal?.challenges && (
           <div className="d-flex flex-row w-100 align-items-center">
             <P2 mode={mode} text={sharedState.career_goal?.challenges} />

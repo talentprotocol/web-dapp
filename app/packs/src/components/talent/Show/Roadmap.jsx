@@ -51,7 +51,7 @@ const Roadmap = ({ goals, width, mode, mobile }) => {
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
-        <P1 mode={mode} text="Roadmap" bold className="mb-3" />
+        <P1 mode={mode} text="Roadmap" bold className="mb-3 text-black" />
         {goals.length > itemsPerRow && (
           <div className="d-flex flex-row">
             <Button

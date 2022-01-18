@@ -263,7 +263,7 @@ export const UserMenuUnconnected = ({
             key="tab-dropdown-invite-code"
             onClick={copyCodeToClipboard}
             className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
-            disabled={!user.invitesLeft}
+            disabled={user.invitesLeft == null && user.totalInvites == null}
           >
             <div className="d-flex">
               <P3 bold text="Share invite link" className="text-black mr-1" />

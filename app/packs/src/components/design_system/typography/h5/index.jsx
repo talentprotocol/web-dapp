@@ -1,10 +1,12 @@
 import React from "react";
-import { string, bool, oneOf } from "prop-types";
+import { string, bool, oneOf, node } from "prop-types";
 import cx from "classnames";
 
-const H5 = ({ bold, mode, text, className }) => {
+const H5 = ({ bold, mode, text, children, className }) => {
   return (
-    <h5 className={cx("h5", bold ? "bold" : "", mode, className)}>{text}</h5>
+    <h5 className={cx("h5", bold ? "bold" : "", mode, className)}>
+      {text || children}
+    </h5>
   );
 };
 
@@ -17,7 +19,8 @@ H5.defaultProps = {
 H5.propTypes = {
   bold: bool,
   mode: oneOf(["light", "dark"]),
-  text: string.isRequired,
+  text: string,
+  children: node,
   className: string,
 };
 
