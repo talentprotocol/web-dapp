@@ -18,47 +18,39 @@ import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 
-const setupUppy = () => {
-  const uppyProfile = new Uppy({
-    meta: { type: "avatar" },
-    allowMultipleUploadBatches: true,
-    restrictions: {
-      maxNumberOfFiles: 1,
-      maxFileSize: 5120000,
-      allowedFileTypes: [".jpg", ".png", ".jpeg"],
-    },
-    autoProceed: true,
-  });
+const uppyProfile = new Uppy({
+  meta: { type: "avatar" },
+  restrictions: {
+    maxFileSize: 5120000,
+    allowedFileTypes: [".jpg", ".png", ".jpeg"],
+  },
+  autoProceed: true,
+});
 
-  const uppyBanner = new Uppy({
-    meta: { type: "avatar" },
-    allowMultipleUploadBatches: true,
-    restrictions: {
-      maxNumberOfFiles: 1,
-      maxFileSize: 5120000,
-      allowedFileTypes: [".jpg", ".png", ".jpeg"],
-    },
-    autoProceed: true,
-  });
+const uppyBanner = new Uppy({
+  meta: { type: "avatar" },
+  restrictions: {
+    maxFileSize: 5120000,
+    allowedFileTypes: [".jpg", ".png", ".jpeg"],
+  },
+  autoProceed: true,
+});
 
-  uppyProfile.use(AwsS3Multipart, {
-    limit: 4,
-    companionUrl: "/",
-    companionHeaders: {
-      "X-CSRF-Token": getAuthToken(),
-    },
-  });
+uppyProfile.use(AwsS3Multipart, {
+  limit: 4,
+  companionUrl: "/",
+  companionHeaders: {
+    "X-CSRF-Token": getAuthToken(),
+  },
+});
 
-  uppyBanner.use(AwsS3Multipart, {
-    limit: 4,
-    companionUrl: "/",
-    companionHeaders: {
-      "X-CSRF-Token": getAuthToken(),
-    },
-  });
-
-  return { uppyBanner, uppyProfile };
-};
+uppyBanner.use(AwsS3Multipart, {
+  limit: 4,
+  companionUrl: "/",
+  companionHeaders: {
+    "X-CSRF-Token": getAuthToken(),
+  },
+});
 
 const About = (props) => {
   const {
@@ -80,7 +72,6 @@ const About = (props) => {
     profile: false,
     public: false,
   });
-  const { uppyProfile, uppyBanner } = setupUppy();
 
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
