@@ -8,7 +8,12 @@ import Notifications from "src/components/notifications";
 import Button from "src/components/design_system/button";
 import { ArrowLeft, Sun, Moon, ArrowRight, Copy } from "src/components/icons";
 
-import { TERMS_HREF, PRIVACY_HREF } from "src/utils/constants";
+import {
+  SUPPORTER_GUIDE,
+  TALENT_GUIDE,
+  TERMS_HREF,
+  PRIVACY_HREF,
+} from "src/utils/constants";
 
 const UserMenuFullScreen = ({
   show,
@@ -108,6 +113,16 @@ const UserMenuFullScreen = ({
         className="d-flex flex-row justify-content-between mb-3 mt-1"
       >
         Privacy Policy <ArrowRight color="currentColor" />
+      </Button>
+      <Button
+        onClick={() =>
+          window.open(user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE, "_blank")
+        }
+        type="white-ghost"
+        mode={mode}
+        className="d-flex flex-row justify-content-between mb-3 mt-1"
+      >
+        User guide <ArrowRight color="currentColor" />
       </Button>
       <Button onClick={signOut} type="white-subtle" mode={mode}>
         Sign out

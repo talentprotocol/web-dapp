@@ -93,7 +93,9 @@ const TalentShow = ({
     }
   };
 
-  const toggleWatchlist = async () => {
+  const toggleWatchlist = async (e) => {
+    e.preventDefault();
+
     setChangingFollow(true);
     if (sharedState.isFollowing) {
       const response = await destroy(

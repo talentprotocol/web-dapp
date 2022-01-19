@@ -120,7 +120,8 @@ const TalentTable = ({ talents }) => {
 
   const [follows, setFollows] = useState(getInitialFollows());
 
-  const toggleWatchlist = async (talent) => {
+  const toggleWatchlist = async (e, talent) => {
+    e.preventDefault();
     setChangingFollow(true);
     if (talent.isFollowing) {
       const response = await destroy(
@@ -348,17 +349,12 @@ const TalentTable = ({ talents }) => {
         <Table mode={theme.mode()} className="horizontal-scroll">
           <Table.Body>
             {filteredTalents().map((talent) => (
-              <Table.Tr
-                key={`talent-${talent.contract_id}`}
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
-              >
+              <Table.Tr key={`talent-${talent.contract_id}`}>
                 <Table.Td>
                   <div className="d-flex flex-row align-items-center">
                     <button
                       className="btn border-0 text-warning"
-                      onClick={() => toggleWatchlist(talent)}
+                      onClick={(e) => toggleWatchlist(e, talent)}
                       disabled={changingFollow}
                     >
                       {follows[talent.id] ? (
@@ -367,14 +363,26 @@ const TalentTable = ({ talents }) => {
                         <FontAwesomeIcon icon={faStarOutline} />
                       )}
                     </button>
-                    <TalentProfilePicture
-                      src={talent.profilePictureUrl}
-                      height="24"
-                    />
-                    <P2 text={talent.username} bold className="ml-2" />
+                    <div
+                      className="d-flex flex-row align-items-center"
+                      onClick={() =>
+                        (window.location.href = `/talent/${talent.username}`)
+                      }
+                    >
+                      <TalentProfilePicture
+                        src={talent.profilePictureUrl}
+                        height="24"
+                      />
+                      <P2 text={talent.username} bold className="ml-2" />
+                    </div>
                   </div>
                 </Table.Td>
-                <Table.Td className="text-right pr-3">
+                <Table.Td
+                  className="text-right pr-3"
+                  onClick={() =>
+                    (window.location.href = `/talent/${talent.username}`)
+                  }
+                >
                   <P2 text={getSelectedOptionValue(talent)} />
                 </Table.Td>
               </Table.Tr>
@@ -445,16 +453,11 @@ const TalentTable = ({ talents }) => {
         </Table.Head>
         <Table.Body>
           {filteredTalents().map((talent) => (
-            <Table.Tr
-              key={`talent-${talent.contract_id}`}
-              onClick={() =>
-                (window.location.href = `/talent/${talent.username}`)
-              }
-            >
+            <Table.Tr key={`talent-${talent.contract_id}`}>
               <Table.Td>
                 <button
                   className="btn border-0 text-warning"
-                  onClick={() => toggleWatchlist(talent)}
+                  onClick={(e) => toggleWatchlist(e, talent)}
                   disabled={changingFollow}
                 >
                   {follows[talent.id] ? (
@@ -464,7 +467,11 @@ const TalentTable = ({ talents }) => {
                   )}
                 </button>
               </Table.Td>
-              <Table.Td>
+              <Table.Td
+                onClick={() =>
+                  (window.location.href = `/talent/${talent.username}`)
+                }
+              >
                 <div className="d-flex">
                   <TalentProfilePicture
                     src={talent.profilePictureUrl}
@@ -473,13 +480,26 @@ const TalentTable = ({ talents }) => {
                   <P2 text={talent.username} bold className="ml-2" />
                 </div>
               </Table.Td>
-              <Table.Td>
+              <Table.Td
+                onClick={() =>
+                  (window.location.href = `/talent/${talent.username}`)
+                }
+              >
                 <P2 text={talent.occupation} />
               </Table.Td>
-              <Table.Td>
+              <Table.Td
+                onClick={() =>
+                  (window.location.href = `/talent/${talent.username}`)
+                }
+              >
                 <P2 text={`${getSupporterCount(talent.contract_id)}`} />
               </Table.Td>
-              <Table.Td className="pr-3">
+              <Table.Td
+                className="pr-3"
+                onClick={() =>
+                  (window.location.href = `/talent/${talent.username}`)
+                }
+              >
                 <P2
                   text={`${getCirculatingSupply(talent.contract_id)} ${
                     talent.ticker

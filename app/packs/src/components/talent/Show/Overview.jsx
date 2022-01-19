@@ -9,6 +9,7 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Divider from "../../design_system/other/divider";
 import { P1, P2, H5, Caption } from "src/components/design_system/typography";
 

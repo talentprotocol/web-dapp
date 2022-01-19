@@ -32,7 +32,7 @@ const MobilePortfolio = ({
 }) => {
   return (
     <div className={`d-flex flex-column`}>
-      <div className="w-100 talent-table-tabs horizontal-scroll mt-3 d-flex flex-row justify-content-center align-items-center">
+      <div className="w-100 talent-table-tabs horizontal-scroll mt-3 hide-scrollbar d-flex flex-row justify-content-center align-items-center">
         <div
           onClick={() => setActiveTab("Overview")}
           className={`talent-table-tab${

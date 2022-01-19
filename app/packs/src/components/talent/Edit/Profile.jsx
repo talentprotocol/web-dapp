@@ -165,7 +165,7 @@ const Profile = (props) => {
       </Tooltip>
       <div
         className={cx(
-          "talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center",
+          "talent-table-tabs w-100 horizontal-scroll hide-scrollbar mt-3 d-flex flex-row align-items-center",
           mobile ? "pl-4" : "px-5"
         )}
       >
