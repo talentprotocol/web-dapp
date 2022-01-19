@@ -120,7 +120,8 @@ const TalentTable = ({ talents }) => {
 
   const [follows, setFollows] = useState(getInitialFollows());
 
-  const toggleWatchlist = async (talent) => {
+  const toggleWatchlist = async (e, talent) => {
+    e.preventDefault();
     setChangingFollow(true);
     if (talent.isFollowing) {
       const response = await destroy(
@@ -358,7 +359,7 @@ const TalentTable = ({ talents }) => {
                   <div className="d-flex flex-row align-items-center">
                     <button
                       className="btn border-0 text-warning"
-                      onClick={() => toggleWatchlist(talent)}
+                      onClick={(e) => toggleWatchlist(e, talent)}
                       disabled={changingFollow}
                     >
                       {follows[talent.id] ? (
@@ -454,7 +455,7 @@ const TalentTable = ({ talents }) => {
               <Table.Td>
                 <button
                   className="btn border-0 text-warning"
-                  onClick={() => toggleWatchlist(talent)}
+                  onClick={(e) => toggleWatchlist(e, talent)}
                   disabled={changingFollow}
                 >
                   {follows[talent.id] ? (
