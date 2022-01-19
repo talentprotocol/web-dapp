@@ -40,7 +40,6 @@ const TalentShow = ({
   user,
   profilePictureUrl,
   bannerUrl,
-  primaryTag,
   secondaryTags,
   careerGoal,
   goals,
@@ -64,7 +63,6 @@ const TalentShow = ({
     bannerUrl,
     user,
     profilePictureUrl,
-    primaryTag,
     secondaryTags,
     isFollowing,
     careerGoal,
@@ -75,10 +73,6 @@ const TalentShow = ({
 
   const ticker = () =>
     sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
-  const allTags = () =>
-    [sharedState.primaryTag]
-      .concat(sharedState.secondaryTags)
-      .filter((tag) => tag !== null && tag !== undefined);
   const displayName = ({ withLink }) => {
     if (sharedState.talent.profile.website && withLink) {
       return (
@@ -259,7 +253,7 @@ const TalentShow = ({
             <div className="d-flex justify-content-between ml-3 ml-lg-0">
               <TalentBadges badges={badges} height={40} />
               <TalentTags
-                tags={allTags()}
+                tags={sharedState.secondaryTags}
                 className="mr-2"
                 mode={theme.mode()}
               />

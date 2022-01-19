@@ -1,7 +1,7 @@
 {
   "development": {
-    "factory": "0x65551F75D8365AC2956481BF1a5642159e108AE4",
-    "staking": "0x863b3a1c02B479438180A26854Fb982DaC520aD8",
+    "factory": "0x709A9a5a920EaDec04Eaa75ACe3a19e6605c44E4",
+    "staking": "0xAdD7B6AB1d746a98EFB8C8d6f17158Db95081D65",
     "forno": "https://alfajores-forno.celo-testnet.org"
   },
   "staging": {
