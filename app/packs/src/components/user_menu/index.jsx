@@ -12,13 +12,17 @@ import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
-import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
 import { parseAndCommify } from "src/onchain/utils";
 
 import { useWindowDimensionsHook } from "src/utils/window";
-import { SUPPORTER_GUIDE, TALENT_GUIDE } from "src/utils/constants";
+import {
+  SUPPORTER_GUIDE,
+  TALENT_GUIDE,
+  TERMS_HREF,
+  PRIVACY_HREF,
+} from "src/utils/constants";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import Notifications from "src/components/notifications";
@@ -290,6 +294,30 @@ export const UserMenuUnconnected = ({
           </Dropdown.Item>
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
+            key="tab-dropdown-t-c"
+            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            onClick={() => window.open(TERMS_HREF, "_blank")}
+          >
+            <P3 bold text="Terms & Conditions" className="text-black" />
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="ml-2"
+              size="sm"
+            />
+          </Dropdown.Item>
+          <Dropdown.Item
+            key="tab-dropdown-p-h"
+            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            onClick={() => window.open(PRIVACY_HREF, "_blank")}
+          >
+            <P3 bold text="Privacy Policy" className="text-black" />
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="ml-2"
+              size="sm"
+            />
+          </Dropdown.Item>
+          <Dropdown.Item
             key="tab-dropdown-user-guide"
             className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
             target="self"
@@ -302,6 +330,7 @@ export const UserMenuUnconnected = ({
               size="sm"
             />
           </Dropdown.Item>
+          <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
@@ -318,11 +347,6 @@ export const UserMenuUnconnected = ({
           </Button>
         </Dropdown.Menu>
       </Dropdown>
-      <EditInvestorProfilePicture
-        show={show}
-        setShow={setShow}
-        investorId={user.investorId}
-      />
       <Notifications notifications={notifications} mode={theme.mode()} />
     </nav>
   );
