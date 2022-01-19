@@ -95,8 +95,8 @@ const Overview = ({ sharedState, mode }) => {
         </div>
         <Divider className="my-4" />
         <P1 mode={mode} text="Pitch" bold className="text-black" />
-        {sharedState.career_goal?.pitch && (
-          <P2 mode={mode} text={sharedState.career_goal?.pitch} />
+        {sharedState.careerGoal?.pitch && (
+          <P2 mode={mode} text={sharedState.careerGoal?.pitch} />
         )}
         {sharedState.talent.profile.video && (
           <ReactPlayer
@@ -107,9 +107,9 @@ const Overview = ({ sharedState, mode }) => {
         )}
         <Divider className="my-4" />
         <P1 mode={mode} text="Challenges" bold className="mb-3 text-black" />
-        {sharedState.career_goal?.challenges && (
+        {sharedState.careerGoal?.challenges && (
           <div className="d-flex flex-row w-100 align-items-center">
-            <P2 mode={mode} text={sharedState.career_goal?.challenges} />
+            <P2 mode={mode} text={sharedState.careerGoal?.challenges} />
           </div>
         )}
       </section>
