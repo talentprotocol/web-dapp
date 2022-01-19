@@ -26,7 +26,7 @@ const ChangePasswordForm = ({
     <>
       <H5 className="mb-2" text="Set new password" bold />
       <P2
-        className="mb-5 text-secondary"
+        className="mb-5 text-primary-03"
         text="Your password must satisfy the requests bellow"
       />
       <form

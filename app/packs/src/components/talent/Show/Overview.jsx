@@ -9,7 +9,7 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import Divider from "../../design_system/other/divider";
 import { P1, P2, H5, Caption } from "src/components/design_system/typography";
 
 const Overview = ({ sharedState, mode }) => {
@@ -19,24 +19,24 @@ const Overview = ({ sharedState, mode }) => {
         {sharedState.user.username && (
           <Caption
             text={`@${sharedState.user.username}`}
-            className="text-uppercase"
+            className="text-primary-03"
           />
         )}
         {sharedState.talent.profile.location && (
           <Caption
             text={sharedState.talent.profile.location}
-            className="text-uppercase ml-2"
+            className="text-primary-03 ml-2"
           />
         )}
       </section>
-      <section className="d-flex flex-column mt-3">
+      <section className="d-flex flex-column mt-3 mr-lg-5">
         {sharedState.talent.profile.headline && (
           <H5 bold className="text-black">
             {sharedState.talent.profile.headline}
           </H5>
         )}
 
-        <div className="d-flex flex-row my-3 text-secondary">
+        <div className="d-flex flex-row my-3 text-primary-03">
           {sharedState.talent.profile.github && (
             <a
               href={sharedState.talent.profile.github}
@@ -92,7 +92,7 @@ const Overview = ({ sharedState, mode }) => {
             </a>
           )}
         </div>
-        <div className={`divider ${mode} my-3`}></div>
+        <Divider className="my-4" />
         <P1 mode={mode} text="Pitch" bold className="text-black" />
         {sharedState.career_goal?.pitch && (
           <P2 mode={mode} text={sharedState.career_goal?.pitch} />
@@ -104,7 +104,7 @@ const Overview = ({ sharedState, mode }) => {
             width={"100%"}
           />
         )}
-        <div className={`divider ${mode} my-3`}></div>
+        <Divider className="my-4" />
         <P1 mode={mode} text="Challenges" bold className="mb-3 text-black" />
         {sharedState.career_goal?.challenges && (
           <div className="d-flex flex-row w-100 align-items-center">

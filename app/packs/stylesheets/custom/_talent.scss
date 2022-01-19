@@ -31,7 +31,11 @@
 }
 
 .border-photo {
-  border: 5px solid $white;
+  border: 8px solid $white;
+}
+
+.dark-body .border-photo {
+  border: 8px solid $bg-01;
 }
 
 .pull-bottom-content {

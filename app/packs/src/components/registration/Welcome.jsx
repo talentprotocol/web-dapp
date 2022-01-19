@@ -97,7 +97,7 @@ const Welcome = ({
       <div className="mb-5">
         <H5 text="Welcome to Talent Protocol!" bold />
         <P2
-          className="text-secondary"
+          className="text-primary-03"
           text="We're still still invite-only and in early beta, but already
             live on Celo mainnet. Enter the information requestes below to create
             your supporter account."

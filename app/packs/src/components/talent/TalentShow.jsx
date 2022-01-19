@@ -24,10 +24,8 @@ import TokenDetails from "./Show/TokenDetails";
 import { completeProfile } from "./utils/talent";
 
 import Button from "src/components/design_system/button";
-import Tag from "src/components/design_system/tag";
 import { Chat } from "src/components/icons";
-import P2 from "src/components/design_system/typography/p2";
-import H2 from "src/components/design_system/typography/h2";
+import { H2, P2 } from "src/components/design_system/typography";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
@@ -78,7 +76,9 @@ const TalentShow = ({
   const ticker = () =>
     sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
   const allTags = () =>
-    [sharedState.primaryTag].concat(sharedState.secondaryTags);
+    [sharedState.primaryTag]
+      .concat(sharedState.secondaryTags)
+      .filter((tag) => tag !== null && tag !== undefined);
   const displayName = ({ withLink }) => {
     if (sharedState.talent.profile.website && withLink) {
       return (
@@ -160,7 +160,7 @@ const TalentShow = ({
         mode={theme.mode()}
         className="mr-2 align-items-center"
       >
-        <Chat color="currentColor" className="mr-2" />
+        {mobile && <Chat color="currentColor" className="mr-2" />}
         {!mobile && " Message"}
       </Button>
       <Button
@@ -173,7 +173,7 @@ const TalentShow = ({
         {sharedState.isFollowing ? (
           <FontAwesomeIcon icon={faStar} className="text-warning" />
         ) : (
-          <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
+          <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
         )}
       </Button>
       {talentIsFromCurrentUser && (
@@ -192,13 +192,13 @@ const TalentShow = ({
   );
 
   return (
-    <div className={cx("d-flex flex-column lg-h-100 p-0", mobile && "px-4")}>
+    <div className="d-flex flex-column lg-h-100 p-0 lg-px-4">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
           height={192}
           className="w-100 pull-bottom-content"
-          straight={true}
+          straight
           blur
         />
       )}
@@ -206,30 +206,38 @@ const TalentShow = ({
         <TalentProfilePicture
           src={sharedState.bannerUrl}
           height={192}
-          className="w-100 pull-bottom-content"
+          className="w-100 pull-bottom-content banner-height"
           straight={true}
         />
       )}
-      <section className="d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap">
+      <section
+        className={cx(
+          "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
+          mobile ? "px-4" : "px-5"
+        )}
+      >
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
           <div className="d-flex flex-row">
             <TalentProfilePicture
               src={sharedState.profilePictureUrl}
               height={mobile ? 120 : 192}
+              border
             />
             {mobile && actionButtons()}
           </div>
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center justify-content-start mt-3 mt-lg-0">
+            <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
                 bold
               />
               {ticker() != "" && (
-                <Tag className="ml-2" mode={theme.mode()}>
-                  <P2 mode={theme.mode()} text={ticker()} bold />
-                </Tag>
+                <H2
+                  bold
+                  text={`$${ticker()}`}
+                  className="text-primary-04 ml-2"
+                />
               )}
             </div>
             <div className="d-flex flex-row pr-3 ml-3 ml-lg-0">
@@ -260,7 +268,12 @@ const TalentShow = ({
         </div>
         {!mobile && actionButtons()}
       </section>
-      <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
+      <div
+        className={cx(
+          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+          mobile ? "mx-4" : "mx-5"
+        )}
+      >
         <div
           onClick={() => setPageInDisplay("Overview")}
           className={`talent-table-tab${
@@ -278,8 +291,10 @@ const TalentShow = ({
           Timeline
         </div>
       </div>
-      <div className="d-flex flex-row flex-wrap">
-        <div className="col-12 col-lg-8">
+      <div
+        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-5")}
+      >
+        <div className="col-12 col-lg-8 p-0">
           {pageInDisplay == "Overview" && (
             <Overview sharedState={sharedState} mode={theme.mode()} />
           )}
@@ -298,7 +313,9 @@ const TalentShow = ({
           />
         </div>
       </div>
-      <section className="d-flex flex-column mx-3 my-3">
+      <section
+        className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-5")}
+      >
         <Roadmap
           goals={sharedState.goals}
           width={width}

@@ -92,7 +92,7 @@
 .perk-area {
   font-weight: 700;
   color: $gray-400;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 40px !important;
   font-size: 0.8rem !important;
 
   &.dark {
@@ -101,29 +101,35 @@
 }
 
 .tag-available {
-  background-color: $primary-disabled;
-  color: $primary;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 0.8rem !important;
+  background-color: $primary-disabled !important;
+}
 
-  &.dark {
-    background-color: $primary;
-    color: $white;
-  }
+.dark-body .tag-available {
+  background-color: $primary !important;
+}
+
+.tag-available-label {
+  color: $primary !important;
+}
+
+.dark-body .tag-available-label {
+  color: $white !important;
 }
 
 .tag-unavailable {
-  background-color: $gray-surface-2;
-  color: $gray-primary;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 0.8rem !important;
+  background-color: $surface-hover;
+}
 
-  &.dark {
-    background-color: $gray-600;
-    color: $white;
-  }
+.dark-body .tag-unavailable {
+  background-color: $gray-600;
+}
+
+.tag-unavailable-label {
+  color: $gray-primary !important;
+}
+
+.dark-body .tag-unavailable-label {
+  color: $white !important;
 }
 
 .hold-info {
@@ -148,25 +154,6 @@
   }
 }
 
-.project-title {
-  margin-top: 1rem !important;
-  margin-bottom: 0rem !important;
-  font-size: 1rem !important;
-
-  &.dark {
-    color: $white;
-  }
-}
-
-.project-organization {
-  font-size: 0.8rem !important;
-  margin-bottom: 0rem !important;
-
-  &.dark {
-    color: $white;
-  }
-}
-
 .project-location {
   font-size: 0.8rem !important;
   color: $gray-primary;
@@ -183,10 +170,6 @@
   &.dark {
     color: $gray-300;
   }
-}
-
-.project-websitelink {
-  margin: 2px;
 }
 
 .project-image {

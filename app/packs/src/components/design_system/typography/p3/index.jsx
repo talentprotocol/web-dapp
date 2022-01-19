@@ -5,8 +5,7 @@ import cx from "classnames";
 const P3 = ({ bold, mode, text, children, className }) => {
   return (
     <p className={cx("p3", bold ? "bold" : "", mode, className)}>
-      {text}
-      {children}
+      {text || children}
     </p>
   );
 };
