@@ -311,7 +311,7 @@ const TalentTable = ({ talents }) => {
 
   if (width < 992) {
     return (
-      <>
+      <div className="pl-4">
         <MobileTalentTableDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
@@ -323,7 +323,7 @@ const TalentTable = ({ talents }) => {
         <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
           <div
             onClick={() => setWatchlistOnly(false)}
-            className={`py-2 px-2 ml-3 talent-table-tab${
+            className={`talent-table-tab${
               !watchlistOnly ? " active-talent-table-tab" : ""
             }`}
           >
@@ -331,7 +331,7 @@ const TalentTable = ({ talents }) => {
           </div>
           <div
             onClick={() => setWatchlistOnly(true)}
-            className={`py-2 px-2 talent-table-tab${
+            className={`talent-table-tab${
               watchlistOnly ? " active-talent-table-tab" : ""
             }`}
           >
@@ -382,16 +382,16 @@ const TalentTable = ({ talents }) => {
             ))}
           </Table.Body>
         </Table>
-      </>
+      </div>
     );
   }
 
   return (
-    <div className="px-3">
+    <>
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row">
         <div
           onClick={() => setWatchlistOnly(false)}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             !watchlistOnly ? " active-talent-table-tab" : ""
           }`}
         >
@@ -399,7 +399,7 @@ const TalentTable = ({ talents }) => {
         </div>
         <div
           onClick={() => setWatchlistOnly(true)}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             watchlistOnly ? " active-talent-table-tab" : ""
           }`}
         >
@@ -501,7 +501,7 @@ const TalentTable = ({ talents }) => {
           ))}
         </Table.Body>
       </Table>
-    </div>
+    </>
   );
 };
 

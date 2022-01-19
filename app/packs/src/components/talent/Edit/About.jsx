@@ -312,15 +312,17 @@ const About = (props) => {
           required={true}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-column w-100 justify-content-between mt-3">
         <TagInput
           label={"Tags"}
           mode={mode}
-          caption="Press Enter to create a tag. Do not use commas or dots in the tags"
           onTagChange={(newTags) => changeTags(newTags)}
           tags={props.secondary_tags}
           className="w-100"
         />
+        <p className="short-caption">
+          Press Enter to create a tag. Do not use commas or dots in the tags
+        </p>
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-3">
         <TextArea

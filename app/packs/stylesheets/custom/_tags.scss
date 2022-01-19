@@ -6,18 +6,15 @@
   width: fit-content;
   padding: 2px 8px;
   border-radius: 4px;
-
-  &.light {
-    background-color: $surface-hover;
-  }
-
-  &.dark {
-    background-color: $gray-600;
-  }
+  background-color: $surface-hover;
 
   &.primary {
     background-color: $primary-200;
   }
+}
+
+.dark-body .tag-container {
+  background-color: $gray-600;
 }
 
 .optional-tag-container {

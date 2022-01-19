@@ -24,53 +24,48 @@ import TokenDetails from "./Show/TokenDetails";
 import { completeProfile } from "./utils/talent";
 
 import Button from "src/components/design_system/button";
-import Tag from "src/components/design_system/tag";
 import { Chat } from "src/components/icons";
-import P2 from "src/components/design_system/typography/p2";
-import H2 from "src/components/design_system/typography/h2";
+import { H2, P2 } from "src/components/design_system/typography";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import cx from "classnames";
 
 const TalentShow = ({
   talent,
   token,
   perks,
   milestones,
-  current_user_id,
-  token_live,
+  currentUserId,
+  tokenLive,
   user,
   profilePictureUrl,
   bannerUrl,
-  primary_tag,
-  secondary_tags,
-  career_goal,
+  secondaryTags,
+  careerGoal,
   goals,
   posts,
   isFollowing,
   badges,
-  sign_up_path,
   railsContext,
 }) => {
-  const talentIsFromCurrentUser = talent.user_id == current_user_id;
+  const talentIsFromCurrentUser = talent.user_id == currentUserId;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
-  const { height, width } = useWindowDimensionsHook();
-  const mobile = width < 992;
+  const { mobile, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
     token,
     perks,
     milestones,
-    current_user_id,
-    token_live,
+    currentUserId,
+    tokenLive,
     bannerUrl,
     user,
     profilePictureUrl,
-    primary_tag,
-    secondary_tags,
+    secondaryTags,
     isFollowing,
-    career_goal,
+    careerGoal,
     goals,
     posts,
   });
@@ -78,8 +73,6 @@ const TalentShow = ({
 
   const ticker = () =>
     sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
-  const allTags = () =>
-    [sharedState.primary_tag].concat(sharedState.secondary_tags);
   const displayName = ({ withLink }) => {
     if (sharedState.talent.profile.website && withLink) {
       return (
@@ -151,7 +144,7 @@ const TalentShow = ({
           setShow={setShow}
           tokenAddress={sharedState.token.contract_id}
           tokenId={sharedState.token.id}
-          userId={current_user_id}
+          userId={currentUserId}
           ticker={ticker()}
           railsContext={railsContext}
           mode={theme.mode()}
@@ -163,7 +156,7 @@ const TalentShow = ({
         mode={theme.mode()}
         className="mr-2 align-items-center"
       >
-        <Chat color="currentColor" className="mr-2" />
+        {mobile && <Chat color="currentColor" className="mr-2" />}
         {!mobile && " Message"}
       </Button>
       <Button
@@ -176,30 +169,32 @@ const TalentShow = ({
         {sharedState.isFollowing ? (
           <FontAwesomeIcon icon={faStar} className="text-warning" />
         ) : (
-          <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
+          <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
         )}
       </Button>
-      <Button
-        onClick={() =>
-          (window.location.href = `/talent/${user.username}/edit_profile`)
-        }
-        type="white-subtle"
-        mode={theme.mode()}
-        className="mr-2"
-      >
-        <FontAwesomeIcon icon={faEdit} />
-      </Button>
+      {talentIsFromCurrentUser && (
+        <Button
+          onClick={() =>
+            (window.location.href = `/talent/${user.username}/edit_profile`)
+          }
+          type="white-subtle"
+          mode={theme.mode()}
+          className="mr-2"
+        >
+          <FontAwesomeIcon icon={faEdit} />
+        </Button>
+      )}
     </div>
   );
 
   return (
-    <div className="d-flex flex-column lg-h-100 p-0 px-lg-4">
+    <div className="d-flex flex-column lg-h-100 p-0 lg-px-4">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
           height={192}
           className="w-100 pull-bottom-content"
-          straight={true}
+          straight
           blur
         />
       )}
@@ -207,30 +202,38 @@ const TalentShow = ({
         <TalentProfilePicture
           src={sharedState.bannerUrl}
           height={192}
-          className="w-100 pull-bottom-content"
+          className="w-100 pull-bottom-content banner-height"
           straight={true}
         />
       )}
-      <section className="d-flex flex-row mt-3 ml-lg-3 align-items-start justify-content-between flex-wrap">
+      <section
+        className={cx(
+          "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
+          mobile ? "px-4" : "px-5"
+        )}
+      >
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
-          <div className="ml-3 ml-lg-0 mr-lg-2 d-flex flex-row">
+          <div className="d-flex flex-row">
             <TalentProfilePicture
               src={sharedState.profilePictureUrl}
               height={mobile ? 120 : 192}
+              border
             />
             {mobile && actionButtons()}
           </div>
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center justify-content-start ml-3 ml-lg-0 mt-3 mt-lg-0">
+            <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
                 bold
               />
               {ticker() != "" && (
-                <Tag className="ml-2" mode={theme.mode()}>
-                  <P2 mode={theme.mode()} text={ticker()} bold />
-                </Tag>
+                <H2
+                  bold
+                  text={`$${ticker()}`}
+                  className="text-primary-04 ml-2"
+                />
               )}
             </div>
             <div className="d-flex flex-row pr-3 ml-3 ml-lg-0">
@@ -252,7 +255,7 @@ const TalentShow = ({
             <div className="d-flex justify-content-between ml-3 ml-lg-0">
               <TalentBadges badges={badges} height={40} />
               <TalentTags
-                tags={allTags()}
+                tags={sharedState.secondaryTags}
                 className="mr-2"
                 mode={theme.mode()}
               />
@@ -261,10 +264,15 @@ const TalentShow = ({
         </div>
         {!mobile && actionButtons()}
       </section>
-      <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
+      <div
+        className={cx(
+          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+          mobile ? "mx-4" : "mx-5"
+        )}
+      >
         <div
           onClick={() => setPageInDisplay("Overview")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Overview" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -272,15 +280,17 @@ const TalentShow = ({
         </div>
         <div
           onClick={() => setPageInDisplay("Timeline")}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Timeline" ? " active-talent-table-tab" : ""
           }`}
         >
           Timeline
         </div>
       </div>
-      <div className="d-flex flex-row flex-wrap">
-        <div className="col-12 col-lg-8">
+      <div
+        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-5")}
+      >
+        <div className="col-12 col-lg-8 p-0">
           {pageInDisplay == "Overview" && (
             <Overview sharedState={sharedState} mode={theme.mode()} />
           )}
@@ -288,7 +298,7 @@ const TalentShow = ({
             <Timeline sharedState={sharedState} mode={theme.mode()} />
           )}
         </div>
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-lg-4 p-0">
           <TokenDetails
             ticker={ticker()}
             token={token}
@@ -299,7 +309,9 @@ const TalentShow = ({
           />
         </div>
       </div>
-      <section className="d-flex flex-column mx-3 my-3">
+      <section
+        className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-5")}
+      >
         <Roadmap
           goals={sharedState.goals}
           width={width}

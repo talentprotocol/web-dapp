@@ -1,13 +1,14 @@
 import React from "react";
 import { ethers } from "ethers";
 
-import Caption from "src/components/design_system/typography/caption";
+import { P1, P2, P3, Caption } from "src/components/design_system/typography";
+import Tag from "src/components/design_system/tag";
 
 const Perk = ({
   mode,
   area,
   title,
-  my_tokens,
+  myTokens,
   tokens,
   ticker,
   className = "",
@@ -28,30 +29,26 @@ const Perk = ({
       } ${mode} ${className}`}
       onClick={goToRoute}
     >
-      <div className="row mb-1">
-        <Caption
-          className={`col-lg-6 perk-area text-uppercase`}
-          mode={`${mode}`}
-          text={`${area}`}
-        />
+      <div className="d-flex justify-content-between">
+        <Caption className={`perk-area`} text={area} />
 
-        <div className={`col-lg-6 text-right ${mode}`}>
-          {my_tokens >= tokens ? (
-            <span className={`tag-available ${mode}`}>
-              <strong>Available</strong>
-            </span>
+        <div className={`text-right ${mode}`}>
+          {myTokens >= tokens ? (
+            <Tag className="tag-available" mode={mode}>
+              <P3 bold text="Available" className="tag-available-label" />
+            </Tag>
           ) : (
-            <span className={`tag-unavailable ${mode}`}>
-              <strong>
-                Hold more {ethers.utils.commify(tokens - my_tokens)} {ticker}
-              </strong>
-            </span>
+            <Tag className="tag-unavailable" mode={mode}>
+              <P3 bold className="tag-unavailable-label">
+                Hold more {ethers.utils.commify(tokens - myTokens)} {ticker}
+              </P3>
+            </Tag>
           )}
         </div>
       </div>
-      <strong>{title}</strong>
-      <Caption
-        className="mt-3 hold-info text-primary"
+      <P1 bold text={title} className="mb-5 text-black" />
+      <P2
+        className="hold-info text-primary"
         mode={`${mode}`}
         text={`Hold +${ethers.utils.commify(tokens)} ${ticker}`}
       />

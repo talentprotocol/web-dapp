@@ -186,7 +186,7 @@ export const UserMenuUnconnected = ({
     >
       <strong>
         {parseAndCommify(stableBalance)} cUSD{" "}
-        <span className="text-secondary">{user.displayWalletId}</span>
+        <span className="text-primary-03">{user.displayWalletId}</span>
         <Copy color="currentColor" className="ml-2" />
       </strong>
     </Button>

@@ -87,7 +87,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
             onChange={editUsername}
           />
           <P2
-            className="form-text text-description mt-1"
+            className="form-text text-primary-04 mt-1"
             text="This will be your Talent Protocol URL"
           />
           {requestingUsername && (

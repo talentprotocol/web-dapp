@@ -16,6 +16,7 @@ const TalentProfilePicture = ({
   const roundPhoto = straight ? "" : "rounded-circle ";
   const blurPhoto = !blur ? "" : "blur-photo ";
   const borderPhoto = !border ? "" : "border-photo ";
+
   return (
     <img
       className={`${roundPhoto}${grey}${blurPhoto}${borderPhoto} ${

@@ -71,7 +71,7 @@ const RewardsModal = ({
           className="mb-2"
         />
         <P2
-          className="text-description"
+          className="text-primary-04"
           text="This will use all your accumulated rewards. If no more talent tokens can
           be minted the leftover amount will be returned to you."
         />

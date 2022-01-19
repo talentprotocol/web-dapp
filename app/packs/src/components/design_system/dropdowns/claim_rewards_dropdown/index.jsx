@@ -52,16 +52,13 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
           disabled
         >
           <P3
-            className="text-description"
+            className="text-primary-04"
             bold
             mode={mode}
             text="Claim Rewards to my wallet"
           />
-          <Tag
-            className="text-description ml-2 tag-inside-dropdown"
-            mode={mode}
-          >
-            <P3 className="text-description" bold text="Coming Soon" />
+          <Tag className="text-primary-04 ml-2 tag-inside-dropdown" mode={mode}>
+            <P3 className="text-primary-04" bold text="Coming Soon" />
           </Tag>
         </Dropdown.Item>
       </Dropdown.Menu>

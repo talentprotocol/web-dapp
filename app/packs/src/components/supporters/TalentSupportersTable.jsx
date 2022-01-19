@@ -274,7 +274,7 @@ const TalentSupportersTable = ({ talent, contractId, railsContext }) => {
                 />
                 <small className="ml-2 text-primary">
                   {supporterInfo[supporter.id]?.username}{" "}
-                  <span className="text-secondary">
+                  <span className="text-primary-03">
                     {supporter.id.substring(0, 10)}...
                   </span>
                 </small>

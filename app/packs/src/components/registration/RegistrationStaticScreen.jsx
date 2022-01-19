@@ -4,8 +4,7 @@ import { H1 } from "../design_system/typography";
 import { useWindowDimensionsHook } from "../../utils/window";
 
 const RegistrationStaticScreen = () => {
-  const { width } = useWindowDimensionsHook();
-  const mobile = width < 992;
+  const { mobile } = useWindowDimensionsHook();
 
   return (
     <>

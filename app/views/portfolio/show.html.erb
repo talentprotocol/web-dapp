@@ -1,6 +1,8 @@
 <main class="main-content">
-  <%= react_component("NewPortfolio", props: {
-    address: current_user.wallet_id || "",
-    tokenAddress: current_user.talent&.token&.contract_id
-  }, prerender: false, html_options: { class: "h-100"}) %>
+  <div class="secondary-content">
+    <%= react_component("NewPortfolio", props: {
+      address: current_user.wallet_id || "",
+      tokenAddress: current_user.talent&.token&.contract_id
+    }, prerender: false, html_options: { class: "h-100"}) %>
+  </div>
 </main>

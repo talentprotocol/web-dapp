@@ -56,6 +56,10 @@
   scrollbar-width: none;  /* Firefox */
 }
 
+.banner-height {
+  height: 356px;
+}
+
 .mh-100 {
   min-height: 100%;
 }
@@ -97,38 +101,50 @@
 }
 
 .text-black {
-  color: $gray-800;
+  color: $gray-800 !important;
+}
+
+.dark-body .text-black {
+  color: $white !important;
 }
 
 .text-white {
-  color: $white;
+  color: $white !important;
 }
 
 .text-primary {
-  color: $primary;
+  color: $primary !important;
 }
 
 .text-yellow {
-  color: $yellow;
+  color: $yellow !important;
 }
 
 .text-gray-300 {
   color: $gray-300 !important;
 }
 
-.text-gray-600 {
-  color: $gray-600 !important;
-}
-
-.text-description {
-  color: $gray-primary !important;
-}
-
 .text-green-500 {
   color: $green-500 !important;
 }
 
-.dark-body .text-description {
+.text-gray-600 {
+  color: $gray-600 !important;
+}
+
+.text-primary-03 {
+  color: $gray-400 !important;
+}
+
+.dark-body .text-primary-03 {
+  color: $gray-300 !important;
+}
+
+.text-primary-04 {
+  color: $gray-primary !important;
+}
+
+.dark-body .text-primary-04 {
   color: $gray-400 !important;
 }
 
@@ -153,12 +169,12 @@
 .divider {
   width: 100%;
   height: 1px;
-  background-color: #f3f4f4;
+  background-color: $surface-hover;
   overflow: hidden;
+}
 
-  &.dark {
-    background-color: $gray-600;
-  }
+.dark-body .divider {
+  background-color: $gray-600;
 }
 
 .border-0 {
@@ -193,14 +209,6 @@
   }
 }
 
-.dark-body .text-black {
-  color: $white !important;
-}
-
-.dark-body .text-secondary {
-  color: $gray-300 !important;
-}
-
 .horizontal-scroll {
   overflow: auto;
   white-space: nowrap;
@@ -208,18 +216,34 @@
 
 .icon-bar {
   stroke: $gray-400;
+}
 
-  &.dark {
-    stroke: $gray-300;
-  }
+.dark-body .icon-bar {
+  stroke: $gray-300;
 }
 
 .main-content {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.secondary-content {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media (max-width: 992px) {
+  .secondary-content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 
 .remove-background {

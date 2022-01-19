@@ -1,32 +1,32 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
 
-import Card from 'src/components/design_system/cards/talent';
-import CardSupporter from 'src/components/design_system/cards/supporter';
-import Perk from 'src/components/design_system/cards/perk';
-import Project from 'src/components/design_system/cards/project';
-import Roadmap from 'src/components/design_system/cards/roadmap';
-import PortfolioCard from 'src/components/design_system/cards/portfolio_card';
-import TokenPrice from 'src/components/design_system/cards/token_price';
-
+import Card from "src/components/design_system/cards/talent";
+import CardSupporter from "src/components/design_system/cards/supporter";
+import Perk from "src/components/design_system/cards/perk";
+import Project from "src/components/design_system/cards/project";
+import Roadmap from "src/components/design_system/cards/roadmap";
+import PortfolioCard from "src/components/design_system/cards/portfolio_card";
+import TokenPrice from "src/components/design_system/cards/token_price";
 
 <Meta title="Design System/Cards/Dark Mode" component={Card} />
 
 # Cards
 
-
-export const Template = (args) => <Card {...args} />
-export const TemplateSupporter = (args) => <CardSupporter {...args} />
-export const TemplatePerk = (args) => <Perk {...args} />
-export const TemplateProject = (args) => <Project {...args} />
-export const TemplateRoadmap = (args) => <Roadmap {...args} />
-export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />
-export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
+export const Template = (args) => <Card {...args} />;
+export const TemplateSupporter = (args) => <CardSupporter {...args} />;
+export const TemplatePerk = (args) => <Perk {...args} />;
+export const TemplateProject = (args) => <Project {...args} />;
+export const TemplateRoadmap = (args) => <Roadmap {...args} />;
+export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />;
+export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
 
 <Canvas>
   <Story
-    name="Card Talent #1" parameters={{backgrounds: { default: 'dark' }}}
+    name="Card Talent #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
-      photo_url: "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
+      photo_url:
+        "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
       name: "Lily Caneco",
       title: "CPO at Jivo.com",
       circ_supply: "128,320",
@@ -37,9 +37,11 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
     {Template.bind({})}
   </Story>
   <Story
-    name="Card Supporter #1" parameters={{backgrounds: { default: 'dark' }}}
+    name="Card Supporter #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
-      photo_url: "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
+      photo_url:
+        "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
       name: "Mateus Morrison",
       address_wallet: "0x71...9d81",
       mode: "dark",
@@ -47,106 +49,120 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
   >
     {TemplateSupporter.bind({})}
   </Story>
-  
+
   <Story
-    name="Perk Unavailable #1" parameters={{backgrounds: { default: 'dark' }}}
+    name="Perk Unavailable #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      my_tokens: "152",
+      myTokens: "152",
       tokens: "200",
-      ticker: "$GYB"
+      ticker: "$GYB",
     }}
   >
     {TemplatePerk.bind({})}
   </Story>
-  
+
   <Story
-    name="Perk Available #2" parameters={{backgrounds: { default: 'dark' }}}
+    name="Perk Available #2"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      my_tokens: "240",
+      myTokens: "240",
       tokens: "200",
-      ticker: "$GYB"
+      ticker: "$GYB",
     }}
   >
     {TemplatePerk.bind({})}
   </Story>
   <Story
-    name="Project simple #1" parameters={{backgrounds: { default: 'dark' }}}
+    name="Project simple #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       organization: "Talent Protocol",
       title: "Software developer",
-      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+      description:
+        "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
     }}
   >
     {TemplateProject.bind({})}
   </Story>
   <Story
-    name="Project complete #2" parameters={{backgrounds: { default: 'dark' }}}
+    name="Project complete #2"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       organization: "Talent Protocol",
       title: "Software developer",
-      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+      description:
+        "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
       location: "Lisbon, Portugal",
       website_link: "https://www.google.com/",
-      image_url: "https://thumbs.dreamstime.com/b/projects-concept-black-chalkboard-d-rendering-handwritten-top-view-office-desk-lot-business-office-supplies-79906734.jpg",
+      image_url:
+        "https://thumbs.dreamstime.com/b/projects-concept-black-chalkboard-d-rendering-handwritten-top-view-office-desk-lot-business-office-supplies-79906734.jpg",
     }}
   >
     {TemplateProject.bind({})}
   </Story>
   <Story
-    name="Roadmap #1"  parameters={{backgrounds: { default: 'dark' }}}
+    name="Roadmap #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       due_date: "Q1 2022 - Jan to Mar",
       title: "Software developer",
-      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. ",
+      description:
+        "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. ",
     }}
   >
     {TemplateRoadmap.bind({})}
   </Story>
-  
+
   <Story
-    name="Roadmap #2"  parameters={{backgrounds: { default: 'dark' }}}
+    name="Roadmap #2"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       due_date: "Q1 2022 - Jan to Mar",
       title: "General Manager + Community",
-      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. Ethical bushwick chartreuse chia scenester. Kickstarter hashtag selvage, iPhone pop-up photo booth distillery dreamcatcher vape lyft portland. ",
+      description:
+        "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. Ethical bushwick chartreuse chia scenester. Kickstarter hashtag selvage, iPhone pop-up photo booth distillery dreamcatcher vape lyft portland. ",
     }}
   >
     {TemplateRoadmap.bind({})}
   </Story>
   <Story
-    name="Portfolio Card #1"  parameters={{backgrounds: { default: 'dark' }}}
+    name="Portfolio Card #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       title: "WALLET BALLANCE",
       subtitle: "$20,781.35",
-      description: "1.34 $TAL"
+      description: "1.34 $TAL",
     }}
   >
     {TemplatePortfolioCard.bind({})}
   </Story>
   <Story
-    name="Portfolio Card #2"  parameters={{backgrounds: { default: 'dark' }}}
+    name="Portfolio Card #2"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       title: "TOTAL REWARDS CLAIMED",
       subtitle: "$210,126.59",
-      description: "123.45 $TAL"
+      description: "123.45 $TAL",
     }}
   >
     {TemplatePortfolioCard.bind({})}
   </Story>
   <Story
-    name="Token price #1" parameters={{backgrounds: { default: 'dark' }}}
+    name="Token price #1"
+    parameters={{ backgrounds: { default: "dark" } }}
     args={{
       mode: "dark",
       ticker: "$GIO",
@@ -157,7 +173,7 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       circ_supply: "300",
       max_supply: "1,000,000",
       supporters_url: "https://www.google.pt",
-      supporters_count: "5"
+      supporters_count: "5",
     }}
   >
     {TemplateTokenPrice.bind({})}

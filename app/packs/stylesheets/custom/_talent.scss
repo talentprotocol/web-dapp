@@ -31,7 +31,11 @@
 }
 
 .border-photo {
-  border: 5px solid $white;
+  border: 8px solid $white;
+}
+
+.dark-body .border-photo {
+  border: 8px solid $bg-01;
 }
 
 .pull-bottom-content {
@@ -167,40 +171,48 @@
 }
 
 .active-talent-table-tab {
-  border-bottom: 2px solid $primary !important;
+  border-bottom: 1px solid $primary !important;
   font-weight: 700;
+  color: $gray-800 !important;
 }
 
+.dark-body .active-talent-table-tab {
+  color: $white !important;
+}
 
 .talent-table-tabs {
-  border-bottom: 2px solid $light;
-  padding-bottom: 2px;
+  border-bottom: 1px solid $light;
 }
 
 .talent-table-tab {
   cursor: pointer;
-  margin-bottom: -2px;
+  padding-bottom: 16px;
+  margin-right: 24px;
+  color: $gray-400;
+
   &:hover {
-    background-color: $light;
+    color: $gray-800;
   }
 }
 
 .dark-body .talent-table-tabs {
-  border-bottom: 2px solid $gray-600;
+  border-bottom: 1px solid $gray-600;
 }
 
 .dark-body .talent-table-tab {
+  color: $gray-300;
+
   &:hover {
-    background-color: $gray-600;
-  }  
+    color: $white;
+  }
 }
 
 .table-hover {
-  cursor: pointer
+  cursor: pointer;
 }
 
 .edit-profile-talent-progress {
-  background: rgba($primary, 0.2)
+  background: rgba($primary, 0.2);
 }
 
 .edit-profile-content {
