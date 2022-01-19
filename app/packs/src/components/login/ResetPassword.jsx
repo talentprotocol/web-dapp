@@ -20,7 +20,7 @@ const ResetPasswordForm = ({
     <div>
       <H5 className="mb-2" text="Forgot password?" bold />
       <P2
-        className="mb-5 text-secondary"
+        className="mb-5 text-primary-03"
         text="Enter the email address associated with your account and
         we'll send you  a link to reset your password."
       />
@@ -61,7 +61,7 @@ const CheckEmail = ({ email, mobile }) => (
     <Envelope color="currentColor" size={24} viewBox="0 0 24 24" />
     <H5 className="mt-4 mb-2" text="Check your email" bold />
     <P2
-      className="mb-5 text-secondary"
+      className="mb-5 text-primary-03"
       text={`We sent a password reset link to ${email}`}
     />
     <Link

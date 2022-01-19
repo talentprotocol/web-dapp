@@ -1,30 +1,31 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
 
-import Card from 'src/components/design_system/cards/talent';
-import CardSupporter from 'src/components/design_system/cards/supporter';
-import Perk from 'src/components/design_system/cards/perk';
-import Project from 'src/components/design_system/cards/project';
-import Roadmap from 'src/components/design_system/cards/roadmap';
-import PortfolioCard from 'src/components/design_system/cards/portfolio_card';
-import TokenPrice from 'src/components/design_system/cards/token_price';
+import Card from "src/components/design_system/cards/talent";
+import CardSupporter from "src/components/design_system/cards/supporter";
+import Perk from "src/components/design_system/cards/perk";
+import Project from "src/components/design_system/cards/project";
+import Roadmap from "src/components/design_system/cards/roadmap";
+import PortfolioCard from "src/components/design_system/cards/portfolio_card";
+import TokenPrice from "src/components/design_system/cards/token_price";
 
 <Meta title="Design System/Cards/Light Mode" />
 
 # Cards
 
-export const Template = (args) => <Card {...args} />
-export const TemplateSupporter = (args) => <CardSupporter {...args} />
-export const TemplatePerk = (args) => <Perk {...args} />
-export const TemplateProject = (args) => <Project {...args} />
-export const TemplateRoadmap = (args) => <Roadmap {...args} />
-export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />
-export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
+export const Template = (args) => <Card {...args} />;
+export const TemplateSupporter = (args) => <CardSupporter {...args} />;
+export const TemplatePerk = (args) => <Perk {...args} />;
+export const TemplateProject = (args) => <Project {...args} />;
+export const TemplateRoadmap = (args) => <Roadmap {...args} />;
+export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />;
+export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
 
 <Canvas>
   <Story
     name="Card Talent #1"
     args={{
-      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      photo_url:
+        "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
       name: "Cameroon",
       title: "Product Designer",
       circ_supply: "415,300",
@@ -37,7 +38,8 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
   <Story
     name="Card Supporter #1"
     args={{
-      photo_url: "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      photo_url:
+        "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
       name: "Carla Ferreira",
       address_wallet: "0x71...9d81",
       mode: "light",
@@ -45,16 +47,16 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
   >
     {TemplateSupporter.bind({})}
   </Story>
-  
+
   <Story
     name="Perk Unavailable #1"
     args={{
       mode: "light",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      my_tokens: "152",
+      myTokens: "152",
       tokens: "200",
-      ticker: "$GYB"
+      ticker: "$GYB",
     }}
   >
     {TemplatePerk.bind({})}
@@ -65,9 +67,9 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      my_tokens: "240",
+      myTokens: "240",
       tokens: "200",
-      ticker: "$GYB"
+      ticker: "$GYB",
     }}
   >
     {TemplatePerk.bind({})}
@@ -78,7 +80,8 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       organization: "Talent Protocol",
       title: "Software developer",
-      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+      description:
+        "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
     }}
   >
     {TemplateProject.bind({})}
@@ -89,10 +92,12 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       organization: "Talent Protocol",
       title: "Software developer",
-      description: "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
+      description:
+        "Worked with nothing and teenage engineering to develop a beautiful and accessible true wireless earphone.",
       location: "Lisbon, Portugal",
       website_link: "https://www.google.com/",
-      image_url: "https://thumbs.dreamstime.com/b/projects-concept-black-chalkboard-d-rendering-handwritten-top-view-office-desk-lot-business-office-supplies-79906734.jpg",
+      image_url:
+        "https://thumbs.dreamstime.com/b/projects-concept-black-chalkboard-d-rendering-handwritten-top-view-office-desk-lot-business-office-supplies-79906734.jpg",
     }}
   >
     {TemplateProject.bind({})}
@@ -103,7 +108,8 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       due_date: "Q1 2022 - Jan to Mar",
       title: "Software developer",
-      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. ",
+      description:
+        "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. ",
     }}
   >
     {TemplateRoadmap.bind({})}
@@ -114,7 +120,8 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       due_date: "Q1 2022 - Jan to Mar",
       title: "General Manager + Community",
-      description: "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. Ethical bushwick chartreuse chia scenester. Kickstarter hashtag selvage, iPhone pop-up photo booth distillery dreamcatcher vape lyft portland. ",
+      description:
+        "I'm baby shoreditch portland pug wayfarers air plant iceland. Plaid chia organic meggings mumblecore. Ethical bushwick chartreuse chia scenester. Kickstarter hashtag selvage, iPhone pop-up photo booth distillery dreamcatcher vape lyft portland. ",
     }}
   >
     {TemplateRoadmap.bind({})}
@@ -125,7 +132,7 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       title: "WALLET BALLANCE",
       subtitle: "$20,781.35",
-      description: "1.34 $TAL"
+      description: "1.34 $TAL",
     }}
   >
     {TemplatePortfolioCard.bind({})}
@@ -136,7 +143,7 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       mode: "light",
       title: "TOTAL REWARDS CLAIMED",
       subtitle: "$210,126.59",
-      description: "123.45 $TAL"
+      description: "123.45 $TAL",
     }}
   >
     {TemplatePortfolioCard.bind({})}
@@ -153,7 +160,7 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />
       circ_supply: "300",
       max_supply: "1,000,000",
       supporters_url: "https://www.google.pt",
-      supporters_count: "5"
+      supporters_count: "5",
     }}
   >
     {TemplateTokenPrice.bind({})}

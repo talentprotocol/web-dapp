@@ -1,26 +1,23 @@
 <main class="main-content">
-  <div class="secondary-content">
-    <%= react_component("TalentShow", props:
-      {
-        talent: @talent.as_json,
-        profilePictureUrl: @talent.profile_picture_url,
-        bannerUrl: @talent.banner_url,
-        primaryTag: @talent.primary_tag&.description,
-        secondaryTags: @talent.tags.where.not(primary: true).map(&:description),
-        services: @talent.services.as_json,
-        token: @talent.token.as_json,
-        perks: @talent.perks.as_json,
-        careerGoal: @talent.career_goal.as_json,
-        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
-        milestones: @talent.milestones.as_json,
-        currentUserId: current_user.id,
-        tokenLive: @talent.token.deployed?,
-        isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
-        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
-        posts: @talent.user.posts.as_json,
-        badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } },
-        testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } }
-      }, prerender: false)
-    %>
-  </div>
+  <%= react_component("TalentShow", props:
+    {
+      talent: @talent.as_json,
+      profilePictureUrl: @talent.profile_picture_url,
+      bannerUrl: @talent.banner_url,
+      secondaryTags: @talent.tags.where.not(primary: true).map(&:description),
+      services: @talent.services.as_json,
+      token: @talent.token.as_json,
+      perks: @talent.perks.as_json,
+      careerGoal: @talent.career_goal.as_json,
+      goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
+      milestones: @talent.milestones.as_json,
+      currentUserId: current_user.id,
+      tokenLive: @talent.token.deployed?,
+      isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
+      user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
+      posts: @talent.user.posts.as_json,
+      badges: @talent.badges.map { |badge| { id: badge.id, name: badge.name, imageUrl: badge.image_url, url: badge.url, alt: badge.alt } },
+      testimonials: @talent.testimonials.map { |testimonial| { id: testimonial.id, title: testimonial.title, description: testimonial.description, user: { id: testimonial.user_id, username: testimonial.user.username, display_name: testimonial.user.display_name, profilePictureUrl: testimonial.user.talent&.profile_picture_url || testimonial.user.investor&.profile_picture_url } } }
+    }, prerender: false)
+  %>
 </main>

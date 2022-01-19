@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import dayjs from "dayjs";
 
-import ProjectCard from "src/components/design_system/cards/project";
+import { Caption, P2, P3 } from "src/components/design_system/typography";
+import ProjectCard from "src/components/design_system/cards/project_card";
 
 const Timeline = ({ sharedState, mode }) => {
   const sortedTimeline = useMemo(() => {
@@ -19,29 +20,27 @@ const Timeline = ({ sharedState, mode }) => {
   }, [sharedState.milestones]);
 
   return (
-    <>
-      <section className="d-flex flex-column mt-3 mx-3">
-        {sortedTimeline.map((milestone) => (
-          <div
-            key={`milestone_list_${milestone.id}`}
-            className="d-flex flex-row w-100 mb-3"
-          >
-            <div className="col-3 d-flex flex-column justify-content-center">
-              <small>{milestone.start_date}</small>
-            </div>
-            <div className="col-9">
-              <ProjectCard
-                mode={mode}
-                organization={milestone.institution}
-                title={milestone.title}
-                description={milestone.description}
-                website_link={milestone.link}
-              />
-            </div>
+    <section className="d-flex flex-column mt-5 mr-lg-5">
+      {sortedTimeline.map((milestone) => (
+        <div
+          key={`milestone_list_${milestone.id}`}
+          className="d-flex flex-row w-100 mb-5"
+        >
+          <div className="col-2 d-flex flex-column">
+            <Caption text={milestone.start_date} className="text-primary-04" />
           </div>
-        ))}
-      </section>
-    </>
+          <div className="col-10">
+            <ProjectCard
+              mode={mode}
+              organization={milestone.institution}
+              title={milestone.title}
+              description={milestone.description}
+              websiteLink={milestone.link}
+            />
+          </div>
+        </div>
+      ))}
+    </section>
   );
 };
 

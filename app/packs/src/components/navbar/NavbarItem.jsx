@@ -21,7 +21,7 @@ const NavbarItem = (props) => {
       href={props.url}
       target={props.target}
       className={`${
-        active ? "text-primary" : "text-secondary"
+        active ? "text-primary" : "text-primary-03"
       } mt-2 d-flex flex-row align-items-center`}
     >
       {props.children}

@@ -314,7 +314,6 @@ const Token = (props) => {
           railsContext={railsContext}
           mobile={mobile}
           className="w-100 mb-4"
-          removeFixedPosition
         />
         {mobile && (
           <div className="d-flex flex-row justify-content-between w-100 mt-4 mb-3">
