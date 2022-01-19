@@ -20,11 +20,13 @@ const Tr = ({ children, onClick, className }) => (
   </tr>
 );
 
-const Cell = ({ children, header, className }) => {
+const Cell = ({ children, onClick, header, className }) => {
   return header ? (
     <th className={className}>{children}</th>
   ) : (
-    <td className={className}>{children}</td>
+    <td onClick={onClick} className={className}>
+      {children}
+    </td>
   );
 };
 
