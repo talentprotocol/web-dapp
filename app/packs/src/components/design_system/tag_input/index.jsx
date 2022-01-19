@@ -49,7 +49,9 @@ const TagInput = ({
 
   return (
     <div className={cx("d-flex", "flex-column", className)}>
-      {label && <P2 bold text={label} mode={mode} className="mb-2" />}
+      {label && (
+        <P2 bold text={label} mode={mode} className="mb-2 text-black" />
+      )}
       <label
         disabled={disabled}
         className={cx("tag-input", "form-control", mode)}

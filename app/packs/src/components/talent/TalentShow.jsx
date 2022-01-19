@@ -30,47 +30,46 @@ import P2 from "src/components/design_system/typography/p2";
 import H2 from "src/components/design_system/typography/h2";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import cx from "classnames";
 
 const TalentShow = ({
   talent,
   token,
   perks,
   milestones,
-  current_user_id,
-  token_live,
+  currentUserId,
+  tokenLive,
   user,
   profilePictureUrl,
   bannerUrl,
-  primary_tag,
-  secondary_tags,
-  career_goal,
+  primaryTag,
+  secondaryTags,
+  careerGoal,
   goals,
   posts,
   isFollowing,
   badges,
-  sign_up_path,
   railsContext,
 }) => {
-  const talentIsFromCurrentUser = talent.user_id == current_user_id;
+  const talentIsFromCurrentUser = talent.user_id == currentUserId;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
-  const { height, width } = useWindowDimensionsHook();
-  const mobile = width < 992;
+  const { mobile, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
     token,
     perks,
     milestones,
-    current_user_id,
-    token_live,
+    currentUserId,
+    tokenLive,
     bannerUrl,
     user,
     profilePictureUrl,
-    primary_tag,
-    secondary_tags,
+    primaryTag,
+    secondaryTags,
     isFollowing,
-    career_goal,
+    careerGoal,
     goals,
     posts,
   });
@@ -79,7 +78,7 @@ const TalentShow = ({
   const ticker = () =>
     sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
   const allTags = () =>
-    [sharedState.primary_tag].concat(sharedState.secondary_tags);
+    [sharedState.primaryTag].concat(sharedState.secondaryTags);
   const displayName = ({ withLink }) => {
     if (sharedState.talent.profile.website && withLink) {
       return (
@@ -149,7 +148,7 @@ const TalentShow = ({
           setShow={setShow}
           tokenAddress={sharedState.token.contract_id}
           tokenId={sharedState.token.id}
-          userId={current_user_id}
+          userId={currentUserId}
           ticker={ticker()}
           railsContext={railsContext}
           mode={theme.mode()}
@@ -177,21 +176,23 @@ const TalentShow = ({
           <FontAwesomeIcon icon={faStarOutline} className="text-warning" />
         )}
       </Button>
-      <Button
-        onClick={() =>
-          (window.location.href = `/talent/${user.username}/edit_profile`)
-        }
-        type="white-subtle"
-        mode={theme.mode()}
-        className="mr-2"
-      >
-        <FontAwesomeIcon icon={faEdit} />
-      </Button>
+      {talentIsFromCurrentUser && (
+        <Button
+          onClick={() =>
+            (window.location.href = `/talent/${user.username}/edit_profile`)
+          }
+          type="white-subtle"
+          mode={theme.mode()}
+          className="mr-2"
+        >
+          <FontAwesomeIcon icon={faEdit} />
+        </Button>
+      )}
     </div>
   );
 
   return (
-    <div className="d-flex flex-column lg-h-100 p-0 px-lg-4">
+    <div className={cx("d-flex flex-column lg-h-100 p-0", mobile && "px-4")}>
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -209,9 +210,9 @@ const TalentShow = ({
           straight={true}
         />
       )}
-      <section className="d-flex flex-row mt-3 ml-lg-3 align-items-start justify-content-between flex-wrap">
+      <section className="d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap">
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
-          <div className="ml-3 ml-lg-0 mr-lg-2 d-flex flex-row">
+          <div className="d-flex flex-row">
             <TalentProfilePicture
               src={sharedState.profilePictureUrl}
               height={mobile ? 120 : 192}
@@ -219,7 +220,7 @@ const TalentShow = ({
             {mobile && actionButtons()}
           </div>
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center justify-content-start ml-3 ml-lg-0 mt-3 mt-lg-0">
+            <div className="d-flex flex-row align-items-center justify-content-start mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
@@ -262,7 +263,7 @@ const TalentShow = ({
       <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => setPageInDisplay("Overview")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Overview" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -270,7 +271,7 @@ const TalentShow = ({
         </div>
         <div
           onClick={() => setPageInDisplay("Timeline")}
-          className={`py-2 px-2 talent-table-tab${
+          className={`talent-table-tab${
             pageInDisplay == "Timeline" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -286,7 +287,7 @@ const TalentShow = ({
             <Timeline sharedState={sharedState} mode={theme.mode()} />
           )}
         </div>
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-lg-4 p-0">
           <TokenDetails
             ticker={ticker()}
             token={token}

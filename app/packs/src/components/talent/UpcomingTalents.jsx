@@ -59,8 +59,8 @@ const UpcomingTalents = ({ talents }) => {
   }
 
   return (
-    <>
-      <div className="d-flex flex-row justify-content-between align-items-center mt-4 px-3">
+    <div className={mobile && "pl-4"}>
+      <div className="d-flex flex-row justify-content-between align-items-center">
         <div className="d-flex flex-row align-items-center">
           <h6 className="mb-0">
             <strong>Upcoming Talent</strong>
@@ -71,7 +71,7 @@ const UpcomingTalents = ({ talents }) => {
             <Button
               onClick={slideLeft}
               disabled={disableLeft}
-              type="white-subtle"
+              type="white-ghost"
               mode={theme.mode()}
               className="mr-2"
             >
@@ -80,7 +80,7 @@ const UpcomingTalents = ({ talents }) => {
             <Button
               onClick={slideRight}
               disabled={disableRight}
-              type="white-subtle"
+              type="white-ghost"
               mode={theme.mode()}
             >
               <FontAwesomeIcon icon={faChevronRight} size="sm" />
@@ -88,7 +88,7 @@ const UpcomingTalents = ({ talents }) => {
           </div>
         )}
       </div>
-      <div className="d-flex flex-row mb-2 mt-3 px-3 horizontal-scroll">
+      <div className="d-flex flex-row mb-5 mt-3 horizontal-scroll">
         {sliceInDisplay.map((talent, index) => (
           <TalentCard
             coming_soon={true}
@@ -102,7 +102,7 @@ const UpcomingTalents = ({ talents }) => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

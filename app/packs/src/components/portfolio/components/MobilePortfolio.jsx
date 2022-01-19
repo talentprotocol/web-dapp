@@ -32,10 +32,10 @@ const MobilePortfolio = ({
 }) => {
   return (
     <div className={`d-flex flex-column`}>
-      <div className="w-100 talent-table-tabs horizontal-scroll mt-3 d-flex flex-row align-items-center">
+      <div className="w-100 talent-table-tabs horizontal-scroll mt-3 d-flex flex-row justify-content-center align-items-center">
         <div
           onClick={() => setActiveTab("Overview")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Overview" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -43,7 +43,7 @@ const MobilePortfolio = ({
         </div>
         <div
           onClick={() => setActiveTab("Supporting")}
-          className={`py-2 px-2 ml-3 talent-table-tab${
+          className={`talent-table-tab${
             activeTab == "Supporting" ? " active-talent-table-tab" : ""
           }`}
         >
@@ -52,7 +52,7 @@ const MobilePortfolio = ({
         {tokenAddress && (
           <div
             onClick={() => setActiveTab("Supporters")}
-            className={`py-2 px-2 talent-table-tab${
+            className={`talent-table-tab${
               activeTab == "Supporters" ? " active-talent-table-tab" : ""
             }`}
           >
@@ -101,7 +101,12 @@ const MobilePortfolio = ({
           </div>
           <div className={`divider ${mode} my-3`}></div>
           <div className="d-flex flex-column pt-3 px-4 w-100">
-            <P1 mode={mode} text={"Portfolio"} bold className="w-100" />
+            <P1
+              mode={mode}
+              text={"Portfolio"}
+              bold
+              className="w-100 text-black"
+            />
             <div className="d-flex flex-row w-100 justify-content-between align-items-center">
               <P2 mode={mode} text="Wallet Balance" className="mr-2" />
               <div className="d-flex flex-column justify-content-center align-items-end">
@@ -109,7 +114,7 @@ const MobilePortfolio = ({
                   mode={mode}
                   text={currency(cUSDBalance).format()}
                   bold
-                  className="text-right"
+                  className="text-right text-black"
                 />
                 <P2
                   mode={mode}
@@ -127,7 +132,7 @@ const MobilePortfolio = ({
                   mode={mode}
                   text={currency(talentTokensInCUSD).format()}
                   bold
-                  className="text-right"
+                  className="text-right text-black"
                 />
                 <P2
                   mode={mode}
@@ -145,7 +150,7 @@ const MobilePortfolio = ({
                   mode={mode}
                   text={currency(totalRewardsInCUSD).format()}
                   bold
-                  className="text-right"
+                  className="text-right text-black"
                 />
                 <P2
                   mode={mode}
