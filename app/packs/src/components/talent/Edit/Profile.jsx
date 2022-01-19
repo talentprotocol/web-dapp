@@ -161,7 +161,7 @@ const Profile = (props) => {
           </P3>
         </div>
       </Tooltip>
-      <div className="talent-table-tabs w-100 horizontal-scroll mt-3 d-flex flex-row align-items-center">
+      <div className="talent-table-tabs w-100 horizontal-scroll hide-scrollbar mt-3 d-flex flex-row align-items-center">
         <div
           onClick={() => changeTab("About")}
           className={`py-2 px-2 ml-3 talent-table-tab${

@@ -23,6 +23,12 @@
   }
 }
 
+.card-size {
+  width: 224px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .card-fixed-width {
   min-width: 290px;
   max-width: 290px;
@@ -32,6 +38,12 @@
   .card-fixed-width {
     min-width: 175px;
     max-width: 175px;
+  }
+
+  .card-size {
+    width: 152px;
+    height: 136px;
+    object-fit: cover;
   }
 }
 

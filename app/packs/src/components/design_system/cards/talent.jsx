@@ -20,7 +20,11 @@ const Card = ({
       className={`card ${mode} card-fixed-width text-reset text-decoration-none mr-3${mobileClass}`}
       href={href}
     >
-      <img className="card-img-top" src={imgSrc} alt="Profile picture"></img>
+      <img
+        className="card-img-top card-size"
+        src={imgSrc}
+        alt="Profile picture"
+      ></img>
 
       <div className="card-body d-flex flex-column">
         <h6>{name}</h6>

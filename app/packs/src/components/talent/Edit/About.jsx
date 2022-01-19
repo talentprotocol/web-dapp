@@ -21,13 +21,23 @@ import LoadingButton from "src/components/button/LoadingButton";
 const setupUppy = () => {
   const uppyProfile = new Uppy({
     meta: { type: "avatar" },
-    restrictions: { maxNumberOfFiles: 1 },
+    allowMultipleUploadBatches: true,
+    restrictions: {
+      maxNumberOfFiles: 1,
+      maxFileSize: 5120000,
+      allowedFileTypes: [".jpg", ".png", ".jpeg"],
+    },
     autoProceed: true,
   });
 
   const uppyBanner = new Uppy({
     meta: { type: "avatar" },
-    restrictions: { maxNumberOfFiles: 1 },
+    allowMultipleUploadBatches: true,
+    restrictions: {
+      maxNumberOfFiles: 1,
+      maxFileSize: 5120000,
+      allowedFileTypes: [".jpg", ".png", ".jpeg"],
+    },
     autoProceed: true,
   });
 
@@ -70,7 +80,6 @@ const About = (props) => {
     profile: false,
     public: false,
   });
-
   const { uppyProfile, uppyBanner } = setupUppy();
 
   useEffect(() => {
@@ -98,6 +107,16 @@ const About = (props) => {
     uppyProfile.on("upload", () => {
       setUploadingFileS3("profile");
       trackChanges(true);
+      setErrorTracking((prev) => ({ ...prev, profilePictureSize: false }));
+    });
+    uppyProfile.on("restriction-failed", () => {
+      uppyProfile.reset();
+      setErrorTracking((prev) => ({ ...prev, profilePictureSize: true }));
+    });
+
+    uppyBanner.on("restriction-failed", () => {
+      uppyBanner.reset();
+      setErrorTracking((prev) => ({ ...prev, bannerSize: true }));
     });
     uppyBanner.on("upload-success", (file, response) => {
       changeSharedState((prev) => ({
@@ -121,6 +140,7 @@ const About = (props) => {
       setUploadingFileS3("");
     });
     uppyBanner.on("upload", () => {
+      setErrorTracking((prev) => ({ ...prev, bannerSize: false }));
       setUploadingFileS3("banner");
       trackChanges(true);
     });
@@ -216,16 +236,18 @@ const About = (props) => {
               },
             }}
           />
-          <P2 text="JPG or PNG. Max 1MB" mode={mode} />
+          <P2 text="JPG or PNG. Max 1MB" />
         </div>
         {uploadingFileS3 == "profile" && (
-          <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
+          <P2 text="Uploading" className="ml-2 align-self-start" />
         )}
         {uploadingFileS3 != "profile" && uploaded["profile"] && (
+          <P2 text="Uploaded File" className="ml-2 align-self-start" />
+        )}
+        {errorTracking?.profilePictureSize && (
           <P2
-            text="Uploaded File"
-            mode={mode}
-            className="ml-2 align-self-start"
+            text="File is too large."
+            className="ml-2 align-self-start text-danger"
           />
         )}
       </div>
@@ -233,7 +255,7 @@ const About = (props) => {
         <TalentProfilePicture
           src={props.bannerUrl}
           straight
-          className={"w-50"}
+          className={"w-50 image-fit"}
           height={80}
         />
         <div className="ml-3 d-flex flex-column">
@@ -247,16 +269,18 @@ const About = (props) => {
               },
             }}
           />
-          <P2 text="JPG or PNG. Recomended 1240x356. Max 1MB" mode={mode} />
+          <P2 text="JPG or PNG. Recomended 1240x356. Max 1MB" />
         </div>
         {uploadingFileS3 == "banner" && (
-          <P2 text="Uploading" mode={mode} className="ml-2 align-self-start" />
+          <P2 text="Uploading" className="ml-2 align-self-start" />
         )}
         {uploadingFileS3 != "banner" && uploaded["banner"] && (
+          <P2 text="Uploaded File" className="ml-2 align-self-start w-100" />
+        )}
+        {errorTracking?.profilePictureSize && (
           <P2
-            text="Uploaded File"
-            mode={mode}
-            className="ml-2 align-self-start w-100"
+            text="File is too large."
+            className="ml-2 align-self-start text-danger"
           />
         )}
       </div>
@@ -311,7 +335,7 @@ const About = (props) => {
         />
       </div>
       <div className={`divider ${mode} my-3`}></div>
-      <H5 className="w-100 text-left" mode={mode} text="Social Profiles" bold />
+      <H5 className="w-100 text-left" text="Social Profiles" bold />
       <P2
         className="w-100 text-left"
         mode={mode}
