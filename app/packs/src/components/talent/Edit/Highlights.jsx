@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import dayjs from "dayjs";
 import { destroy, patch, post } from "src/utils/requests";
 
 import H5 from "src/components/design_system/typography/h5";
@@ -7,9 +7,13 @@ import P2 from "src/components/design_system/typography/p2";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import Button from "src/components/design_system/button";
+import Link from "src/components/design_system/link";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
+import Divider from "src/components/design_system/other/divider";
+
+import cx from "classnames";
 
 const emptyHighlight = (id) => ({
   id: id,
@@ -53,44 +57,54 @@ const HighlightForm = ({
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div> */}
-      <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
+      <div className="d-flex flex-row align-items-center justify-content-between mt-4">
         <TextInput
           title={"Title"}
           mode={mode}
           shortCaption="Your position or achievement"
           onChange={(e) => changeAttribute("title", e.target.value)}
           value={highlight["title"]}
-          className="w-100"
+          className="edit-profile-input"
           required={true}
           error={validationErrors?.title}
         />
+        {!showAddNew && (
+          <Button
+            onClick={() => removeHighlight(highlight["id"])}
+            type="white-ghost"
+            size="icon"
+            className={cx(mobile && "ml-1")}
+          >
+            <Delete color="currentColor" />
+          </Button>
+        )}
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextInput
           title={"Institution"}
           mode={mode}
           placeholder={"Company, Client, School, University..."}
           onChange={(e) => changeAttribute("institution", e.target.value)}
           value={highlight["institution"]}
-          className="w-100"
+          className="edit-profile-input"
           required={true}
           error={validationErrors?.institution}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextArea
           title={"Description"}
           mode={mode}
           shortCaption="Describe what you did"
           onChange={(e) => changeAttribute("description", e.target.value)}
           value={highlight["description"]}
-          className="w-100"
+          className="edit-profile-input"
           maxLength="175"
           required={true}
           error={validationErrors?.description}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
           <h6 className={`title-field ${mode}`}>
             Start Date <span className="text-danger">*</span>
@@ -105,15 +119,6 @@ const HighlightForm = ({
             onChange={(e) => changeAttribute("start_date", e.target.value)}
           />
         </div>
-        {!showAddNew && (
-          <Button
-            onClick={() => removeHighlight(highlight["id"])}
-            type="white-ghost"
-            mode={mode}
-          >
-            <Delete color="currentColor" />
-          </Button>
-        )}
         {/* <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pl-2"}`}>
           <h6 className={`title-field ${mode}`}>End Date</h6>
           <input
@@ -126,16 +131,11 @@ const HighlightForm = ({
         </div> */}
       </div>
       {showAddNew && (
-        <Button
-          onClick={addHighlight}
-          type="white-ghost"
-          mode={mode}
-          className="text-primary w-100 my-3"
-        >
-          Add Highlight
-        </Button>
+        <button className="button-link w-100 mt-4 mb-2" onClick={addHighlight}>
+          <Link text="Add Highlight" className="text-primary" />
+        </button>
       )}
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-4" />
     </>
   );
 };
@@ -191,15 +191,15 @@ const Highlights = (props) => {
 
   const sortAllMilestoneKeys = (key1, key2) => {
     if (key1.includes("new")) {
-      if (key2.includes("new")) {
-        return key1.length > key2.length ? -1 : 1;
+      return 1;
+    } else {
+      const key1Date = dayjs(allMilestones[key1].start_date);
+      const key2Date = dayjs(allMilestones[key2].start_date);
+      if (key1Date.isAfter(key2Date)) {
+        return 1;
       } else {
         return -1;
       }
-    } else if (key2.includes("new")) {
-      return -1;
-    } else {
-      return parseInt(key1) > parseInt(key2) ? -1 : 1;
     }
   };
 
@@ -329,20 +329,22 @@ const Highlights = (props) => {
       />
       {Object.keys(allMilestones)
         .sort(sortAllMilestoneKeys)
-        .map((currentMilestone, index) => (
+        .map((currentMilestoneKey) => (
           <HighlightForm
-            key={`milestone-list-${allMilestones[currentMilestone].id}`}
-            highlight={allMilestones[currentMilestone]}
+            key={`milestone-list-${allMilestones[currentMilestoneKey].id}`}
+            highlight={allMilestones[currentMilestoneKey]}
             changeAttribute={(attribute, value) =>
-              changeAttribute(currentMilestone, attribute, value)
+              changeAttribute(currentMilestoneKey, attribute, value)
             }
-            showAddNew={index == 0}
+            showAddNew={
+              currentMilestoneKey == Object.keys(allMilestones).at(-1)
+            }
             mode={mode}
             mobile={mobile}
             removeHighlight={removeHighlight}
             addHighlight={() => addHighlight("new")}
             validationErrors={
-              validationErrors[allMilestones[currentMilestone].id]
+              validationErrors[allMilestones[currentMilestoneKey].id]
             }
           />
         ))}
@@ -368,13 +370,13 @@ const Highlights = (props) => {
               </div>
             </div>
           </div>
-          <div className={`divider ${mode} my-3`}></div>
+          <Divider className="my-4" />
         </>
       )}
       <div
         className={`d-flex flex-row ${
           mobile ? "justify-content-between" : "justify-content-end"
-        } w-100`}
+        } w-100 pb-4`}
       >
         {mobile && (
           <LoadingButton

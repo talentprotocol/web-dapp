@@ -55,7 +55,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
         <P1 text={"New message"} bold mode={mode} />
         <div className="w-100 d-flex flex-row py-2 position-relative align-items-center">
           <TextInput
-            mode={`${mode} pl-5`}
+            mode={`${mode} pl-6`}
             onChange={(e) => setSearch(e.target.value)}
             value={search}
             placeholder="Search for people..."

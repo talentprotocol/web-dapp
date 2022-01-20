@@ -103,7 +103,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
       <div className="d-flex flex-column align-items-stretch lg-h-100">
         <div className="w-100 d-flex flex-row p-2 position-relative themed-border-bottom align-items-center">
           <TextInput
-            mode={`${mode} pl-5`}
+            mode={`${mode} pl-6`}
             disabled={allUsers.length == 0}
             onChange={(e) => setSearch(e.target.value)}
             value={search}

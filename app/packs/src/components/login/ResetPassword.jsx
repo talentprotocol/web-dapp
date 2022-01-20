@@ -20,7 +20,7 @@ const ResetPasswordForm = ({
     <div>
       <H5 className="mb-2" text="Forgot password?" bold />
       <P2
-        className="mb-5 text-primary-03"
+        className="mb-6 text-primary-03"
         text="Enter the email address associated with your account and
         we'll send you  a link to reset your password."
       />
@@ -41,7 +41,7 @@ const ResetPasswordForm = ({
         />
         <button
           type="submit"
-          className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-6"
         >
           Reset Password
         </button>
@@ -51,7 +51,7 @@ const ResetPasswordForm = ({
       text="Return to Login"
       href="/"
       bold
-      className={cx("mt-5", mobile && "align-self-center")}
+      className={cx("mt-6", mobile && "align-self-center")}
     />
   </>
 );
@@ -61,7 +61,7 @@ const CheckEmail = ({ email, mobile }) => (
     <Envelope color="currentColor" size={24} viewBox="0 0 24 24" />
     <H5 className="mt-4 mb-2" text="Check your email" bold />
     <P2
-      className="mb-5 text-primary-03"
+      className="mb-6 text-primary-03"
       text={`We sent a password reset link to ${email}`}
     />
     <Link

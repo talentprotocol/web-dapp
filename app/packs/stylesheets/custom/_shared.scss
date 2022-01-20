@@ -52,8 +52,8 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .banner-height {
@@ -315,10 +315,6 @@
 .button-link {
   background: none !important;
   border: none !important;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 .z-index-1 {

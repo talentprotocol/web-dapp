@@ -34,7 +34,7 @@ const TalentNameSearch = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Search talent..."
-          className="form-control bg-transparent pl-5 rounded-sm"
+          className="form-control bg-transparent pl-6 rounded-sm"
         />
       </div>
     </form>

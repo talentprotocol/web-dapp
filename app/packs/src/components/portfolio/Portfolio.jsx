@@ -47,7 +47,7 @@ const RewardsModal = ({
           You currently have{" "}
           <strong>{parseAndCommify(availableRewards)} $TAL</strong> accumulated.
         </p>
-        <div className="dropdown-divider mt-5 mb-3"></div>
+        <div className="dropdown-divider mt-6 mb-3"></div>
         <div className="d-flex flex-row flex-wrap w-100">
           <div className="d-flex flex-column col-12 col-md-6 justify-content-between ">
             <p className="mr-3 mb-0">Claim rewards to my wallet.</p>

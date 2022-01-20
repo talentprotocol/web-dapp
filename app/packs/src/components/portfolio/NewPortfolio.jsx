@@ -431,7 +431,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
           </div>
         </div>
       </div>
-      <div className="w-100 talent-table-tabs mt-5 d-flex flex-row align-items-center">
+      <div className="w-100 talent-table-tabs mt-6 d-flex flex-row align-items-center">
         <div
           onClick={() => setActiveTab("Supporting")}
           className={`talent-table-tab${

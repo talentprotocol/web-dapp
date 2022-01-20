@@ -26,7 +26,7 @@ const ChangePasswordForm = ({
     <>
       <H5 className="mb-2" text="Set new password" bold />
       <P2
-        className="mb-5 text-primary-03"
+        className="mb-6 text-primary-03"
         text="Your password must satisfy the requests bellow"
       />
       <form
@@ -72,7 +72,7 @@ const ChangePasswordForm = ({
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button primary-default-button bold extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button bold extra-big-size-button w-100 mt-6"
         >
           Continue
         </button>
@@ -81,7 +81,7 @@ const ChangePasswordForm = ({
         text="Return to Login"
         href="/"
         bold
-        className={cx("mt-5", mobile && "align-self-center mb-2")}
+        className={cx("mt-6", mobile && "align-self-center mb-2")}
       />
     </>
   );
@@ -90,10 +90,10 @@ const ChangePasswordForm = ({
 const PasswordResetConfirmed = () => (
   <div className="d-flex flex-column align-items-center text-black">
     <Check color="#1DB954" size={64} />
-    <H5 className="mt-5" text="Password Reset" bold />
+    <H5 className="mt-6" text="Password Reset" bold />
     <P2 className="mt-2" text="Your password has been succesfully reset." />
     <a
-      className="btn btn-primary talent-button primary-default-button bold big-size-button w-100 mt-5"
+      className="btn btn-primary talent-button primary-default-button bold big-size-button w-100 mt-6"
       href="/"
     >
       Return to Login

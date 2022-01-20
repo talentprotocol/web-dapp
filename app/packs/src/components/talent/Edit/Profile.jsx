@@ -131,7 +131,7 @@ const Profile = (props) => {
         <div
           className={cx(
             "talent-table-tabs w-100 horizontal-scroll hide-scrollbar d-flex flex-row align-items-center justify-content-between",
-            mobile ? "pl-4" : "px-5"
+            mobile ? "pl-4" : "px-6"
           )}
         >
           <div className="d-flex mt-3">
@@ -241,7 +241,7 @@ const Profile = (props) => {
           </Modal.Body>
         </Modal>
 
-        <div className="d-flex flex-column align-items-center edit-profile-content w-100">
+        <div className="d-flex flex-column edit-profile-content w-100">
           {activeTab == "About" && (
             <About
               {...sharedState}

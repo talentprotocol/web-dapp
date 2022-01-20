@@ -50,7 +50,7 @@ const PortfolioTable = ({ loading, talents, returnValues, onClaim }) => {
 
   return (
     <div className="table-responsive">
-      <button className="btn btn-primary active mt-5 mb-4">Supporting</button>
+      <button className="btn btn-primary active mt-6 mb-4">Supporting</button>
       <table className="table table-hover mb-0 border-bottom">
         <thead>
           <tr>

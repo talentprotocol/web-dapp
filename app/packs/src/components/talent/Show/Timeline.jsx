@@ -20,11 +20,11 @@ const Timeline = ({ sharedState, mode }) => {
   }, [sharedState.milestones]);
 
   return (
-    <section className="d-flex flex-column mt-5 mr-lg-5">
+    <section className="d-flex flex-column mt-6 mr-lg-5">
       {sortedTimeline.map((milestone) => (
         <div
           key={`milestone_list_${milestone.id}`}
-          className="d-flex flex-row w-100 mb-5"
+          className="d-flex flex-row w-100 mb-6"
         >
           <div className="col-2 d-flex flex-column">
             <Caption text={milestone.start_date} className="text-primary-04" />

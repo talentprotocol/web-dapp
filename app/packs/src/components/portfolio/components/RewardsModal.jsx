@@ -60,7 +60,7 @@ const RewardsModal = ({
           <P1 className="text-black" text="Claim rewards" bold />
         </div>
         <P2
-          className="mb-5"
+          className="mb-6"
           text="Rewards are calculated in real time and are always displayed in $TAL."
           mode={mode}
         />
@@ -75,7 +75,7 @@ const RewardsModal = ({
           text="This will use all your accumulated rewards. If no more talent tokens can
           be minted the leftover amount will be returned to you."
         />
-        <Divider mode={mode} className="mt-5 mb-3" />
+        <Divider mode={mode} className="mt-6 mb-3" />
         <div className="d-flex justify-content-between mb-2">
           <P2 className="text-gray-300" text="Unclaimed Rewards" />
           <P2
