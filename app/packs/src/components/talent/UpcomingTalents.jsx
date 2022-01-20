@@ -88,7 +88,7 @@ const UpcomingTalents = ({ talents }) => {
           </div>
         )}
       </div>
-      <div className="d-flex flex-row mb-5 mt-3 horizontal-scroll hide-scrollbar">
+      <div className="d-flex flex-row mb-6 mt-3 horizontal-scroll hide-scrollbar">
         {sliceInDisplay.map((talent, index) => (
           <TalentCard
             coming_soon={true}

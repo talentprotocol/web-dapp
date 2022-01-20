@@ -94,7 +94,7 @@ const Welcome = ({
 
   return (
     <>
-      <div className="mb-5">
+      <div className="mb-6">
         <H5 text="Welcome to Talent Protocol!" bold />
         <P2
           className="text-primary-03"
@@ -193,7 +193,7 @@ const Welcome = ({
       </form>
       <div
         className={cx(
-          "d-flex w-100 mt-5",
+          "d-flex w-100 mt-6",
           mobile && "justify-content-center pb-4"
         )}
       >

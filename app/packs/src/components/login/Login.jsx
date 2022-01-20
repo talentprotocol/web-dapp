@@ -41,7 +41,7 @@ const Login = () => {
       )}
     >
       <div>
-        <H5 className="mb-5" text="Login" bold />
+        <H5 className="mb-6" text="Login" bold />
         <form onSubmit={submitLoginForm} className="d-flex flex-column w-100">
           <label htmlFor="inputEmail">
             <P2 className="text-black" text="Email Address" bold />
@@ -78,13 +78,13 @@ const Login = () => {
           )}
           <button
             type="submit"
-            className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-5"
+            className="btn btn-primary talent-button primary-default-button extra-big-size-button bold w-100 mt-6"
           >
             Login
           </button>
         </form>
       </div>
-      <div className={cx("mt-5 pb-4", mobile && "align-self-center")}>
+      <div className={cx("mt-6 pb-4", mobile && "align-self-center")}>
         <div className="d-flex mb-2">
           <P2 className="text-black mr-1" text="Don't have an invitation?" />
           <Link

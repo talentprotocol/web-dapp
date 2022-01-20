@@ -7,12 +7,13 @@ import { H5, P2 } from "../design_system/typography";
 
 import { post } from "../../utils/requests";
 import Button from "../design_system/button";
+import Link from "../design_system/link";
 
 const ProcessingUser = ({ themePreference }) => (
   <>
     <Spinner />
     <H5
-      className="mb-1 mt-5"
+      className="mb-1 mt-6"
       text="Setting up your account"
       bold
       mode={themePreference}
@@ -29,15 +30,15 @@ const UserCreated = ({ themePreference, sendConfirmationEmail }) => (
       bold
       mode={themePreference}
     />
-    <P2 className="mb-5" text="We've just sent you a confirmation email" />
+    <P2 className="mb-6" text="We've just sent you a confirmation email" />
     <Check color="#1DB954" size={64} />
-    <p className="p2 text-black mt-5">
+    <p className="p2 text-black mt-6">
       Didn't received an email?{" "}
       <button
         className="button-link text-primary"
         onClick={sendConfirmationEmail}
       >
-        Resend
+        <Link text="Resend" />
       </button>
     </p>
   </>
@@ -71,7 +72,7 @@ const ConfirmationEmailModal = ({ show, setShow, themePreference }) => (
       <Button
         type="primary-default"
         size="extra-big"
-        className="w-100 mt-5"
+        className="w-100 mt-6"
         text="I Understand"
         onClick={() => setShow(false)}
       />

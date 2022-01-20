@@ -70,7 +70,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
 
   return (
     <>
-      <H5 className="mb-5" text="Choose your username" bold />
+      <H5 className="mb-6" text="Choose your username" bold />
       <form
         onSubmit={submitRegisterUsernameForm}
         className="d-flex flex-column w-100"
@@ -121,7 +121,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-6"
         >
           Continue
         </button>

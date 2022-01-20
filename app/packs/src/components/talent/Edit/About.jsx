@@ -17,6 +17,9 @@ import TagInput from "src/components/design_system/tag_input";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
+import Divider from "src/components/design_system/other/divider";
+
+import cx from "classnames";
 
 const uppyProfile = new Uppy({
   meta: { type: "avatar" },
@@ -241,7 +244,7 @@ const About = (props) => {
           <P2 className="mt-2" text="JPG or PNG. Max 1MB" />
         </div>
       </div>
-      <div className="d-flex flex-row w-100 align-items-center mt-4">
+      <div className="d-flex flex-row flex-wrap w-100 align-items-center mt-4">
         <TalentProfilePicture
           src={props.bannerUrl}
           straight
@@ -249,7 +252,7 @@ const About = (props) => {
           height={80}
           width={277}
         />
-        <div className="ml-4 d-flex flex-column">
+        <div className={cx("d-flex flex-column", mobile ? "mt-4" : "ml-4")}>
           <div className="d-flex align-items-center">
             <FileInput
               uppy={uppyBanner}
@@ -295,7 +298,7 @@ const About = (props) => {
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
           title={"Occupation"}
           mode={mode}
@@ -306,7 +309,7 @@ const About = (props) => {
           required={true}
         />
       </div>
-      <div className="d-flex flex-column w-100 justify-content-between mt-3">
+      <div className="d-flex flex-column w-100 justify-content-between mt-4">
         <TagInput
           label={"Tags"}
           mode={mode}
@@ -318,7 +321,7 @@ const About = (props) => {
           Press Enter to create a tag. Do not use commas or dots in the tags
         </p>
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextArea
           title={"Bio"}
           mode={mode}
@@ -330,14 +333,14 @@ const About = (props) => {
           required={true}
         />
       </div>
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-5" />
       <H5 className="w-100 text-left" text="Social Profiles" bold />
       <P2
         className="w-100 text-left"
         mode={mode}
         text="Add links to where supporters can find out more about you"
       />
-      <div className="d-flex flex-column w-100 justify-content-between mt-3">
+      <div className="d-flex flex-column w-100 justify-content-between mt-4">
         <TextInput
           title={"Website"}
           mode={mode}
@@ -353,7 +356,7 @@ const About = (props) => {
           />
         )}
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Linkedin"}
           mode={mode}
@@ -363,7 +366,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Twitter"}
           mode={mode}
@@ -373,7 +376,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Telegram"}
           mode={mode}
@@ -383,7 +386,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Discord"}
           mode={mode}
@@ -393,7 +396,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between my-3">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Github"}
           mode={mode}
@@ -411,11 +414,11 @@ const About = (props) => {
           </div>
         </div>
       )}
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-4" />
       <div
         className={`d-flex flex-row ${
           mobile ? "justify-content-between" : "justify-content-end"
-        } w-100`}
+        } w-100 pb-4`}
       >
         {mobile && (
           <LoadingButton

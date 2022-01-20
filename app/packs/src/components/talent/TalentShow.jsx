@@ -209,7 +209,7 @@ const TalentShow = ({
       <section
         className={cx(
           "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
-          mobile ? "px-4" : "px-5"
+          mobile ? "px-4" : "px-6"
         )}
       >
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
@@ -267,7 +267,7 @@ const TalentShow = ({
       <div
         className={cx(
           "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-          mobile ? "mx-4" : "mx-5"
+          mobile ? "mx-4" : "mx-6"
         )}
       >
         <div
@@ -288,7 +288,7 @@ const TalentShow = ({
         </div>
       </div>
       <div
-        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-5")}
+        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-6")}
       >
         <div className="col-12 col-lg-8 p-0">
           {pageInDisplay == "Overview" && (
@@ -310,7 +310,7 @@ const TalentShow = ({
         </div>
       </div>
       <section
-        className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-5")}
+        className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
       >
         <Roadmap
           goals={sharedState.goals}

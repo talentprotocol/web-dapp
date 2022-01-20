@@ -140,7 +140,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
         <button
           type="submit"
           disabled={invalidForm}
-          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-5"
+          className="btn btn-primary talent-button primary-default-button extra-big-size-button w-100 mt-6"
         >
           Create account
         </button>

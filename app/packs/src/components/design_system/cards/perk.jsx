@@ -46,7 +46,7 @@ const Perk = ({
           )}
         </div>
       </div>
-      <P1 bold text={title} className="mb-5 text-black" />
+      <P1 bold text={title} className="mb-6 text-black" />
       <P2
         className="hold-info text-primary"
         mode={`${mode}`}

@@ -243,6 +243,10 @@
   max-width: 615px;
 }
 
+.edit-profile-input {
+  width: 568px !important;
+}
+
 .dark-body .uppy-FileInput-input {
   color: $white;
 }
@@ -259,5 +263,16 @@
   font-weight: 700;
   &:hover {
     background: rgba($primary, 0.8);
+  }
+}
+
+@media (max-width: 992px) {
+  .edit-profile-fixed-bar {
+    width: 100% !important;
+  }
+
+  .edit-profile-content {
+    padding-left: 24px;
+    padding-right: 16px;
   }
 }
