@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import dayjs from "dayjs";
 import { destroy, patch, post } from "src/utils/requests";
 
 import H5 from "src/components/design_system/typography/h5";
@@ -12,6 +12,8 @@ import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/divider";
+
+import cx from "classnames";
 
 const emptyHighlight = (id) => ({
   id: id,
@@ -55,7 +57,7 @@ const HighlightForm = ({
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div> */}
-      <div className="d-flex flex-row align-items-center justify-content-between mt-4 flex-wrap">
+      <div className="d-flex flex-row align-items-center justify-content-between mt-4">
         <TextInput
           title={"Title"}
           mode={mode}
@@ -71,13 +73,13 @@ const HighlightForm = ({
             onClick={() => removeHighlight(highlight["id"])}
             type="white-ghost"
             size="icon"
-            mode={mode}
+            className={cx(mobile && "ml-1")}
           >
             <Delete color="currentColor" />
           </Button>
         )}
       </div>
-      <div className="d-flex flex-row justify-content-between mt-4 flex-wrap">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextInput
           title={"Institution"}
           mode={mode}
@@ -102,7 +104,7 @@ const HighlightForm = ({
           error={validationErrors?.description}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
+      <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
           <h6 className={`title-field ${mode}`}>
             Start Date <span className="text-danger">*</span>
@@ -191,7 +193,9 @@ const Highlights = (props) => {
     if (key1.includes("new")) {
       return 1;
     } else {
-      if (allMilestones[key1].start_date > allMilestones[key2].start_date) {
+      const key1Date = dayjs(allMilestones[key1].start_date);
+      const key2Date = dayjs(allMilestones[key2].start_date);
+      if (key1Date.isAfter(key2Date)) {
         return 1;
       } else {
         return -1;
