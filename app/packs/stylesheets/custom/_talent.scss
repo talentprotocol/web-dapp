@@ -211,12 +211,35 @@
   cursor: pointer;
 }
 
+.uppy-Root {
+  position: inherit;
+}
+
+.edit-profile-fixed-bar {
+  position: fixed;
+  width: calc(100% - 220px);
+  background-color: $white;
+}
+
+.dark-body .edit-profile-fixed-bar {
+  background-color: $bg-01;
+}
+
+.edit-profile-public-check {
+  fill: $green-500;
+  color: $surface-hover;
+}
+
+.dark-body .edit-profile-public-check {
+  color: $bg-01;
+}
+
 .edit-profile-talent-progress {
   background: rgba($primary, 0.2);
 }
 
 .edit-profile-content {
-  max-width: 615px;
+  max-width: 568px;
 }
 
 .dark-body .uppy-FileInput-input {

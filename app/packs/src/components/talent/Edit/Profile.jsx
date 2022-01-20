@@ -42,12 +42,12 @@ const Profile = (props) => {
   const buttonType = () => {
     if (requiredFields.length == 0) {
       if (sharedState.talent.public) {
-        return "positive-outline";
+        return "white-subtle";
       } else {
         return "positive-default";
       }
     } else {
-      return "white-subtle";
+      return "positive-subtle";
     }
   };
 
@@ -100,221 +100,230 @@ const Profile = (props) => {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center">
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        centered
-        dialogClassName="remove-background"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>You have unsaved changes</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex flex-column">
-            <P2
+    <>
+      <div className="edit-profile-fixed-bar">
+        <Tooltip
+          body={`You are missing the following fields: ${requiredFields.join(
+            ", "
+          )}`}
+          popOverAccessibilityId={"progressStats"}
+          mode={theme.mode()}
+          hide={requiredFields.length == 0}
+        >
+          <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
+            {/* below is required so the justify-content-between aligns properly */}
+            <P3 text="" />
+            <P3
               mode={theme.mode()}
-              text="You still have unsaved changes, are you sure you want to go to a different tab without saving them?"
+              text={
+                progress == 100
+                  ? "Your profile is complete!"
+                  : "Complete your profile to appeal to more supporters and earn rewards."
+              }
+              bold
+              className="text-primary"
             />
-            <div className="d-flex flex-row justify-content-end mt-3">
-              <Button
-                onClick={() => setShow(false)}
-                type="white-subtle"
-                mode={theme.mode()}
-                className="mr-2"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => changeTabAndIgnoreChanges(nextTab)}
-                type="primary-default"
-                mode={theme.mode()}
-              >
-                Go to {nextTab}
-              </Button>
+            <P3 mode={theme.mode()} className="text-primary">
+              <strong>{progress}</strong>/100%
+            </P3>
+          </div>
+        </Tooltip>
+        <div
+          className={cx(
+            "talent-table-tabs w-100 horizontal-scroll hide-scrollbar d-flex flex-row align-items-center justify-content-between",
+            mobile ? "pl-4" : "px-5"
+          )}
+        >
+          <div className="d-flex mt-3">
+            <div
+              onClick={() => changeTab("About")}
+              className={`talent-table-tab${
+                activeTab == "About" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              About
+            </div>
+            <div
+              onClick={() => changeTab("Highlights")}
+              className={`talent-table-tab${
+                activeTab == "Highlights" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Highlights
+            </div>
+            <div
+              onClick={() => changeTab("Goal")}
+              className={`talent-table-tab${
+                activeTab == "Goal" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Goal
+            </div>
+            <div
+              onClick={() => changeTab("Token")}
+              className={`talent-table-tab${
+                activeTab == "Token" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Token
+            </div>
+            <div
+              onClick={() => changeTab("Perks")}
+              className={`talent-table-tab${
+                activeTab == "Perks" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Perks
+            </div>
+            <div
+              onClick={() => changeTab("Settings")}
+              className={`talent-table-tab${
+                activeTab == "Settings" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Settings
             </div>
           </div>
-        </Modal.Body>
-      </Modal>
-
-      <Tooltip
-        body={`You are missing the following fields: ${requiredFields.join(
-          ", "
-        )}`}
-        popOverAccessibilityId={"progressStats"}
-        mode={theme.mode()}
-        hide={requiredFields.length == 0}
-      >
-        <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
-          {/* below is required so the justify-content-between aligns properly */}
-          <P3 text="" />
-          <P3
-            mode={theme.mode()}
-            text={
-              progress == 100
-                ? "Your profile is complete!"
-                : "Complete your profile to appeal to more supporters and earn rewards."
-            }
-            bold
-            className="text-primary"
-          />
-          <P3 mode={theme.mode()} className="text-primary">
-            <strong>{progress}</strong>/100%
-          </P3>
+          {!mobile && (
+            <>
+              <LoadingButton
+                onClick={() => togglePublicProfile()}
+                type={buttonType()}
+                disabled={requiredFields.length > 0 || saving["loading"]}
+                mode={theme.mode()}
+                loading={saving["loading"]}
+                success={sharedState.talent.public}
+                checkClassName="edit-profile-public-check"
+              >
+                {sharedState.talent.public ? "Public" : "Publish Profile"}
+              </LoadingButton>
+            </>
+          )}
         </div>
-      </Tooltip>
+      </div>
       <div
-        className={cx(
-          "talent-table-tabs w-100 horizontal-scroll hide-scrollbar mt-3 d-flex flex-row align-items-center",
-          mobile ? "pl-4" : "px-5"
-        )}
+        className="d-flex flex-column align-items-center"
+        style={{ marginTop: 130 }}
       >
-        <div
-          onClick={() => changeTab("About")}
-          className={`talent-table-tab${
-            activeTab == "About" ? " active-talent-table-tab" : ""
-          }`}
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          centered
+          dialogClassName="remove-background"
         >
-          About
-        </div>
-        <div
-          onClick={() => changeTab("Highlights")}
-          className={`talent-table-tab${
-            activeTab == "Highlights" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Highlights
-        </div>
-        <div
-          onClick={() => changeTab("Goal")}
-          className={`talent-table-tab${
-            activeTab == "Goal" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Goal
-        </div>
-        <div
-          onClick={() => changeTab("Token")}
-          className={`talent-table-tab${
-            activeTab == "Token" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Token
-        </div>
-        <div
-          onClick={() => changeTab("Perks")}
-          className={`talent-table-tab${
-            activeTab == "Perks" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Perks
-        </div>
-        <div
-          onClick={() => changeTab("Settings")}
-          className={`talent-table-tab${
-            activeTab == "Settings" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Settings
-        </div>
-        {!mobile && (
-          <>
-            <LoadingButton
-              onClick={() => togglePublicProfile()}
-              type={buttonType()}
-              disabled={requiredFields.length > 0 || saving["loading"]}
+          <Modal.Header closeButton>
+            <Modal.Title>You have unsaved changes</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="d-flex flex-column">
+              <P2
+                mode={theme.mode()}
+                text="You still have unsaved changes, are you sure you want to go to a different tab without saving them?"
+              />
+              <div className="d-flex flex-row justify-content-end mt-3">
+                <Button
+                  onClick={() => setShow(false)}
+                  type="white-subtle"
+                  mode={theme.mode()}
+                  className="mr-2"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => changeTabAndIgnoreChanges(nextTab)}
+                  type="primary-default"
+                  mode={theme.mode()}
+                >
+                  Go to {nextTab}
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        <div className="d-flex flex-column align-items-center edit-profile-content w-100">
+          {activeTab == "About" && (
+            <About
+              {...sharedState}
               mode={theme.mode()}
-              className="ml-auto"
-              loading={saving["loading"]}
-              success={saving["public"]}
-            >
-              {sharedState.talent.public ? "Public" : "Publish Profile"}
-            </LoadingButton>
-          </>
-        )}
+              mobile={mobile}
+              changeTab={() => changeTab("Highlights")}
+              changeSharedState={setSharedState}
+              saveProfile={() => saveAbout()}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Highlights" && (
+            <Highlights
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              changeSharedState={setSharedState}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Goal" && (
+            <Goal
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              changeSharedState={setSharedState}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Token" && (
+            <Token
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              changeSharedState={setSharedState}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Perks" && (
+            <Perks
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              changeSharedState={setSharedState}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Settings" && (
+            <Settings
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              changeSharedState={setSharedState}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+            />
+          )}
+        </div>
       </div>
-      <div className="d-flex flex-column align-items-center p-4 edit-profile-content w-100">
-        {activeTab == "About" && (
-          <About
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={() => changeTab("Highlights")}
-            changeSharedState={setSharedState}
-            saveProfile={() => saveAbout()}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-        {activeTab == "Highlights" && (
-          <Highlights
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={(tab) => changeTab(tab)}
-            changeSharedState={setSharedState}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-        {activeTab == "Goal" && (
-          <Goal
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={(tab) => changeTab(tab)}
-            changeSharedState={setSharedState}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-        {activeTab == "Token" && (
-          <Token
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={(tab) => changeTab(tab)}
-            changeSharedState={setSharedState}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-        {activeTab == "Perks" && (
-          <Perks
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={(tab) => changeTab(tab)}
-            changeSharedState={setSharedState}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-        {activeTab == "Settings" && (
-          <Settings
-            {...sharedState}
-            mode={theme.mode()}
-            mobile={mobile}
-            changeTab={(tab) => changeTab(tab)}
-            changeSharedState={setSharedState}
-            publicButtonType={buttonType()}
-            disablePublicButton={requiredFields.length > 0}
-            togglePublicProfile={() => togglePublicProfile()}
-            trackChanges={setTabHasChanges}
-          />
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 
