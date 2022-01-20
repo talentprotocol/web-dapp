@@ -3,10 +3,10 @@ import { string, oneOf, bool, func } from "prop-types";
 import P3 from "src/components/design_system/typography/p3";
 import cx from "classnames";
 
-const OptionalTag = ({ text, mode, onClick, closeable }) => {
+const OptionalTag = ({ text, mode, onClick, closeable, bold }) => {
   return (
     <div className={cx("optional-tag-container", mode)}>
-      <P3 className="optional-tag-text" mode={mode} text={text} />
+      <P3 bold={bold} className="text-black" mode={mode} text={text} />
       {closeable && (
         <span className={cx("close-tag", mode)} onClick={onClick}></span>
       )}
@@ -17,6 +17,7 @@ const OptionalTag = ({ text, mode, onClick, closeable }) => {
 OptionalTag.defaultProps = {
   mode: "light",
   closeable: true,
+  bold: null,
 };
 
 OptionalTag.propTypes = {
@@ -24,6 +25,7 @@ OptionalTag.propTypes = {
   mode: oneOf(["light", "dark"]),
   onClick: func.isRequired,
   closeable: bool,
+  bold: bool,
 };
 
 export default OptionalTag;

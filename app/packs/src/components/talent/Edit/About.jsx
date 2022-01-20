@@ -216,64 +216,67 @@ const About = (props) => {
       />
       <div className="d-flex flex-row w-100 align-items-center mt-4">
         <TalentProfilePicture src={props.profilePictureUrl} height={80} />
-        <div className="ml-3 d-flex flex-column">
-          <FileInput
-            uppy={uppyProfile}
-            pretty
-            inputName="files[]"
-            locale={{
-              strings: {
-                chooseFiles: "Choose Profile Picture",
-              },
-            }}
-          />
-          <P2 text="JPG or PNG. Max 1MB" />
+        <div className="ml-4 d-flex flex-column">
+          <div className="d-flex align-items-center">
+            <FileInput
+              uppy={uppyProfile}
+              pretty
+              inputName="files[]"
+              locale={{
+                strings: {
+                  chooseFiles: "Choose Profile Picture",
+                },
+              }}
+            />
+            {uploadingFileS3 == "profile" && (
+              <P2 text="Uploading" className="ml-2 text-black" bold />
+            )}
+            {uploadingFileS3 != "profile" && uploaded["profile"] && (
+              <P2 text="Uploaded File" className="ml-2 text-black" bold />
+            )}
+            {errorTracking?.profilePictureSize && (
+              <P2 text="File is too large." className="ml-2 text-danger" bold />
+            )}
+          </div>
+          <P2 className="mt-2" text="JPG or PNG. Max 1MB" />
         </div>
-        {uploadingFileS3 == "profile" && (
-          <P2 text="Uploading" className="ml-2 align-self-start" />
-        )}
-        {uploadingFileS3 != "profile" && uploaded["profile"] && (
-          <P2 text="Uploaded File" className="ml-2 align-self-start" />
-        )}
-        {errorTracking?.profilePictureSize && (
-          <P2
-            text="File is too large."
-            className="ml-2 align-self-start text-danger"
-          />
-        )}
       </div>
       <div className="d-flex flex-row w-100 align-items-center mt-4">
         <TalentProfilePicture
           src={props.bannerUrl}
           straight
-          className={"w-50 image-fit"}
+          className="image-fit align-self-start"
           height={80}
+          width={277}
         />
-        <div className="ml-3 d-flex flex-column">
-          <FileInput
-            uppy={uppyBanner}
-            pretty
-            inputName="banners[]"
-            locale={{
-              strings: {
-                chooseFiles: "Choose Profile Banner",
-              },
-            }}
-          />
-          <P2 text="JPG or PNG. Recomended 1240x356. Max 1MB" />
-        </div>
-        {uploadingFileS3 == "banner" && (
-          <P2 text="Uploading" className="ml-2 align-self-start" />
-        )}
-        {uploadingFileS3 != "banner" && uploaded["banner"] && (
-          <P2 text="Uploaded File" className="ml-2 align-self-start w-100" />
-        )}
-        {errorTracking?.profilePictureSize && (
+        <div className="ml-4 d-flex flex-column">
+          <div className="d-flex align-items-center">
+            <FileInput
+              uppy={uppyBanner}
+              pretty
+              inputName="banners[]"
+              locale={{
+                strings: {
+                  chooseFiles: "Choose Profile Banner",
+                },
+              }}
+            />
+            {uploadingFileS3 == "banner" && (
+              <P2 text="Uploading" className="ml-2 text-black" bold />
+            )}
+            {uploadingFileS3 != "banner" && uploaded["banner"] && (
+              <P2 text="Uploaded File" className="ml-2 text-black" bold />
+            )}
+            {errorTracking?.bannerSize && (
+              <P2 text="File is too large." className="ml-2 text-danger" bold />
+            )}
+          </div>
+
           <P2
-            text="File is too large."
-            className="ml-2 align-self-start text-danger"
+            className="mt-2"
+            text="JPG or PNG. Recomended 1240x356. Max 1MB"
           />
-        )}
+        </div>
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
