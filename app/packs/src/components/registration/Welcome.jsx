@@ -121,21 +121,21 @@ const Welcome = ({
               icon={faSpinner}
               spin
               className="position-absolute"
-              style={{ top: 43, right: 10 }}
+              style={{ top: 52, right: 10 }}
             />
           )}
           {emailValidated && (
             <FontAwesomeIcon
               icon={faCheck}
               className="position-absolute text-success"
-              style={{ top: 43, right: 10 }}
+              style={{ top: 52, right: 10 }}
             />
           )}
           {emailExists && (
             <FontAwesomeIcon
               icon={faTimes}
               className="position-absolute text-danger"
-              style={{ top: 43, right: 10 }}
+              style={{ top: 52, right: 10 }}
             />
           )}
           {emailExists && (

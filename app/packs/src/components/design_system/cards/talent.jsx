@@ -1,5 +1,6 @@
-import React from "react";
-import DefaultProfilePicture from "images/default-profile-icon.jpg";
+import React, { useEffect, useState } from "react";
+import DefaultProfilePictureLight from "images/default-profile-icon-light.png";
+import DefaultProfilePictureDark from "images/default-profile-icon-dark.png";
 
 const Card = ({
   mode,
@@ -12,8 +13,22 @@ const Card = ({
   mobile,
   coming_soon,
 }) => {
-  const imgSrc = photo_url || DefaultProfilePicture;
+  const [currentTheme, setCurrentTheme] = useState(document.body.className);
   const mobileClass = mobile ? " mobile" : "";
+
+  const imgSrc = () => {
+    if (photo_url) {
+      return photo_url;
+    } else if (currentTheme === "light-body") {
+      return DefaultProfilePictureLight;
+    } else if (currentTheme === "dark-body") {
+      return DefaultProfilePictureDark;
+    }
+  };
+
+  useEffect(() => {
+    setCurrentTheme(document.body.className);
+  }, [document.body.className]);
 
   return (
     <a
@@ -22,7 +37,7 @@ const Card = ({
     >
       <img
         className="card-img-top card-size"
-        src={imgSrc}
+        src={imgSrc()}
         alt="Profile picture"
       ></img>
 

@@ -64,6 +64,7 @@ const TagInput = ({
               mode={mode}
               closeable
               onClick={() => deleteTag(index)}
+              bold
             />
           ))}
         </div>
