@@ -57,6 +57,14 @@ class MessagesController < ApplicationController
     render json: message.to_json
   end
 
+  def send_to_all_supporters
+    if message_params[:message].empty?
+      return render json: {
+        error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
+      }, status: :bad_request
+    end
+  end
+
   private
 
   def set_receiver
