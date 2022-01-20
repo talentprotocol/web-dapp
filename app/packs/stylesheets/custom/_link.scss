@@ -1,9 +1,8 @@
 .link-container {
-  display: flex;
   cursor: pointer;
   text-decoration: none !important;
 
-  .link-text {
+  &.link-text {
     &.primary {
       color: $primary;
     }
@@ -14,11 +13,11 @@
   }
 
   &:hover {
-    .link-text.primary {
+    &.link-text.primary {
       color: $primary-link-hover;
     }
 
-    .link-text.white {
+    &.link-text.white {
       color: $gray-400;
     }
   }
@@ -26,11 +25,11 @@
   &.disabled {
     pointer-events: none;
 
-    .link-text.primary {
+    &.link-text.primary {
       color: $primary-outline-disabled;
     }
 
-    .link-text.white {
+    &.link-text.white {
       color: $gray;
     }
   }
@@ -55,20 +54,20 @@
 }
 
 .dark-body .link-container {
-  .link-text.primary {
+  &.link-text.primary {
     color: $primary;
   }
 
-  .link-text.white {
+  &.link-text.white {
     color: $white;
   }
 
   &:hover {
-    .link-text.primary {
+    &.link-text.primary {
       color: $primary-link-hover;
     }
 
-    .link-text.white {
+    &.link-text.white {
       color: $gray-300;
     }
   }
@@ -76,11 +75,11 @@
   &.disabled {
     pointer-events: none;
 
-    .link-text.primary {
+    &.link-text.primary {
       color: $primary-shade-01;
     }
 
-    .link-text.white {
+    &.link-text.white {
       color: $gray-600;
     }
   }

@@ -10,6 +10,7 @@ import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import TokenDetails from "src/components/talent/Show/TokenDetails";
 import Caption from "src/components/design_system/typography/caption";
+import Link from "src/components/design_system/link";
 import {
   ArrowRight,
   ArrowLeft,
@@ -41,17 +42,17 @@ const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
           error={error?.length || error?.characters}
         />
         {error?.length && (
-          <P2 mode={mode} className="text-danger">
+          <P2 className="text-danger">
             Your ticker needs to be between 3 and 8 characters.
           </P2>
         )}
         {error?.characters && (
-          <P2 mode={mode} className="text-danger">
+          <P2 className="text-danger">
             Your ticker can only have uppercase characters.
           </P2>
         )}
         <div className={`divider ${mode} my-3`}></div>
-        <P2 mode={mode} className="mb-2">
+        <P2 className="mb-2">
           In order to deploy a Talent Token you'll need to have CELO in your
           wallet. If you have connected your wallet already we should have
           transfered 0.01 CELO to you. Once you deploy you'll automatically
@@ -93,7 +94,7 @@ const WrongNetwork = ({ mode }) => (
     </Modal.Header>
     <Modal.Body>
       <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-        <P2 mode={mode} className="mb-3">
+        <P2 className="mb-3">
           You need to change you network on metamask to CELO before you are able
           to deploy your own Talent Token.
         </P2>
@@ -110,7 +111,7 @@ const WaitingForConfirmation = ({ mode }) => (
     </Modal.Header>
     <Modal.Body>
       <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-        <P2 mode={mode} className="mb-3">
+        <P2 className="mb-3">
           Open your Metamask Wallet and confirm the transaction to deploy your
           Talent Token. After confirmation we need to wait for the transaction
           to be approved on the blockchain.
@@ -128,9 +129,7 @@ const SuccessConfirmation = ({ mode, hide }) => (
     </Modal.Header>
     <Modal.Body>
       <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-        <P2 mode={mode} className="mb-3">
-          You've successfully deployed your token!
-        </P2>
+        <P2 className="mb-3">You've successfully deployed your token!</P2>
         <GreenCheck />
         <Button
           onClick={hide}
@@ -299,12 +298,10 @@ const Token = (props) => {
   if (contractId) {
     return (
       <>
-        <H5 className="w-100 text-left" mode={mode} text={ticker} bold />
+        <H5 className="w-100 text-left" text={ticker} bold />
         <P2 className="w-100 text-left" mode={mode}>
           You can see all your token activity on your{" "}
-          <a href="/portfolio" target="_blank">
-            portfolio
-          </a>
+          <Link href="/portfolio" target="_blank" text="portfolio" />
         </P2>
         <TokenDetails
           ticker={token.ticker}
@@ -390,13 +387,15 @@ const Token = (props) => {
         text="Launch your Talent Token today!"
         bold
       />
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
-        <P2 className="w-100 text-left mr-3" mode={mode}>
+      <div className="d-flex flex-row w-100 justify-content-between mt-2">
+        <P2 className="p2 w-100 text-left col-8 p-0" mode={mode}>
           Please be sure you have an active Metamask wallet. If you don't have
           one, please create it using{" "}
-          <a href="www.metamask.io" target="_blank">
-            Metamask.io
-          </a>
+          <Link
+            href="https://www.metamask.io"
+            target="_blank"
+            text="Metamask.io"
+          />
         </P2>
         <Button
           onClick={() => setShow(true)}
