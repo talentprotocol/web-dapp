@@ -47,7 +47,7 @@ export const NoMetamask = ({ show, hide, mode }) => {
 };
 
 export const UnableToConnect = ({ show, hide }) => (
-  <Modal show={show} onHide={hide} centered>
+  <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
     <Modal.Header closeButton>
       <Modal.Title>
         Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
@@ -80,8 +80,9 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
         wallet_id: _account.toLowerCase(),
       }).catch(() => setError(true));
 
-      if (result.error) {
+      if (result.errors) {
         setError(true);
+        setRequestingMetamask(false);
       } else {
         if (result) {
           setAccount(_account);
