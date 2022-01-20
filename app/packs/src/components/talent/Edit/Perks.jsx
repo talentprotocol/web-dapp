@@ -9,6 +9,10 @@ import Button from "src/components/design_system/button";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
+import Link from "src/components/design_system/link";
+import Divider from "src/components/design_system/other/divider";
+
+import cx from "classnames";
 
 const emptyPerk = (id) => ({
   id: id,
@@ -30,17 +34,28 @@ const PerkForm = ({
 }) => {
   return (
     <>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4">
+      <div className="d-flex flex-row align-items-center justify-content-between mt-4">
         <TextInput
           title={"Title"}
           mode={mode}
+          shortCaption="What's your perk"
           placeholder={"Social Media, Streaming, Consultant..."}
           onChange={(e) => changeAttribute("title", e.target.value)}
           value={perk["title"]}
-          className={"w-100"}
+          className="edit-profile-input"
           required={true}
           error={validationErrors?.title}
         />
+        {!showAddNew && (
+          <Button
+            onClick={() => removePerk(perk["id"])}
+            type="white-ghost"
+            size="icon"
+            className={cx(mobile && "ml-1")}
+          >
+            <Delete color="currentColor" />
+          </Button>
+        )}
       </div>
       {/* <div className="d-flex flex-row w-100 justify-content-between mt-3">
         <TextInput
@@ -55,44 +70,28 @@ const PerkForm = ({
           error={validationErrors?.description}
         />
       </div> */}
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
-        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
-          <TextInput
-            title={`Amount ${token.ticker || ""}`}
-            type="number"
-            mode={mode}
-            placeholder={"0,000.00"}
-            shortCaption={
-              "Amount of talent tokens the supporter must hold to redeem this perk."
-            }
-            onChange={(e) => changeAttribute("price", e.target.value)}
-            value={perk["price"]}
-            className="w-100"
-            required={true}
-            error={validationErrors?.price}
-          />
-        </div>
-        {!showAddNew && (
-          <Button
-            onClick={() => removePerk(perk["id"])}
-            type="white-ghost"
-            mode={mode}
-          >
-            <Delete color="currentColor" />
-          </Button>
-        )}
+      <div className="d-flex flex-row justify-content-between mt-4 flex-wrap">
+        <TextInput
+          title={`Amount ${token.ticker || ""}`}
+          type="number"
+          mode={mode}
+          placeholder={"0,000.00"}
+          shortCaption={
+            "Amount of talent tokens the supporter must hold to redeem this perk."
+          }
+          onChange={(e) => changeAttribute("price", e.target.value)}
+          value={perk["price"]}
+          className="edit-profile-input"
+          required={true}
+          error={validationErrors?.price}
+        />
       </div>
       {showAddNew && (
-        <Button
-          onClick={addPerk}
-          type="white-ghost"
-          mode={mode}
-          className="text-primary w-100 my-3"
-        >
-          Add Perk
-        </Button>
+        <button className="button-link w-100 mt-4 mb-2" onClick={addPerk}>
+          <Link text="Add Perk" className="text-primary" />
+        </button>
       )}
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-4" />
     </>
   );
 };
@@ -149,15 +148,13 @@ const Perks = (props) => {
 
   const sortAllPerkKeys = (key1, key2) => {
     if (key1.includes("new")) {
-      if (key2.includes("new")) {
-        return key1.length > key2.length ? -1 : 1;
+      return 1;
+    } else {
+      if (key1 > key2) {
+        return 1;
       } else {
         return -1;
       }
-    } else if (key2.includes("new")) {
-      return -1;
-    } else {
-      return parseInt(key1) > parseInt(key2) ? -1 : 1;
     }
   };
 
@@ -281,19 +278,19 @@ const Perks = (props) => {
       />
       {Object.keys(allPerks)
         .sort(sortAllPerkKeys)
-        .map((currentPerk, index) => (
+        .map((currentPerkKey) => (
           <PerkForm
-            key={`perk-list-${allPerks[currentPerk].id}`}
-            perk={allPerks[currentPerk]}
+            key={`perk-list-${allPerks[currentPerkKey].id}`}
+            perk={allPerks[currentPerkKey]}
             changeAttribute={(attribute, value) =>
-              changeAttribute(currentPerk, attribute, value)
+              changeAttribute(currentPerkKey, attribute, value)
             }
-            showAddNew={index == 0}
+            showAddNew={currentPerkKey == Object.keys(allPerks).at(-1)}
             mode={mode}
             mobile={mobile}
             removePerk={removePerk}
             addPerk={() => addPerk("new")}
-            validationErrors={validationErrors[allPerks[currentPerk].id]}
+            validationErrors={validationErrors[allPerks[currentPerkKey].id]}
             token={token}
           />
         ))}
@@ -322,7 +319,7 @@ const Perks = (props) => {
       <div
         className={`d-flex flex-row ${
           mobile ? "justify-content-between" : "justify-content-end"
-        } w-100`}
+        } w-100 pb-4`}
       >
         {mobile && (
           <LoadingButton
