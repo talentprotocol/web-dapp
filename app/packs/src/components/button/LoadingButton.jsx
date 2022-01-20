@@ -3,12 +3,15 @@ import React from "react";
 import Button from "src/components/design_system/button";
 import { Spinner, Check } from "src/components/icons";
 
+import cx from "classnames";
+
 const LoadingButton = ({
   loading,
   success,
   fillPrimary,
   fillSecondary,
   opacity,
+  checkClassName,
   ...props
 }) => {
   return (
@@ -23,7 +26,12 @@ const LoadingButton = ({
         />
       ) : (
         <>
-          {success ? <Check color="currentColor" className="mr-2" /> : null}
+          {success ? (
+            <Check
+              color="currentColor"
+              className={cx("mr-2", checkClassName)}
+            />
+          ) : null}
           {props.children}
         </>
       )}
