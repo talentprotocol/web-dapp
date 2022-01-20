@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import dayjs from "dayjs";
 import { destroy, patch, post } from "src/utils/requests";
 
 import H5 from "src/components/design_system/typography/h5";
@@ -10,6 +10,10 @@ import Button from "src/components/design_system/button";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
+import Link from "src/components/design_system/link";
+import Divider from "src/components/design_system/other/divider";
+
+import cx from "classnames";
 
 const emptyGoal = (id) => ({
   id: id,
@@ -30,32 +34,42 @@ const GoalForm = ({
 }) => {
   return (
     <>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
+      <div className="d-flex flex-row align-items-center justify-content-between mt-4">
         <TextInput
           title={"Title"}
           mode={mode}
-          shortCaption={"What's your goal"}
+          shortCaption="What's your goal"
           onChange={(e) => changeAttribute("title", e.target.value)}
           value={goal["title"]}
-          className={"w-100"}
+          className="edit-profile-input"
           required={true}
           error={validationErrors?.title}
         />
+        {!showAddNew && (
+          <Button
+            onClick={() => removeGoal(goal["id"])}
+            type="white-ghost"
+            size="icon"
+            className={cx(mobile && "ml-1")}
+          >
+            <Delete color="currentColor" />
+          </Button>
+        )}
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextArea
           title={"Description"}
           mode={mode}
           onChange={(e) => changeAttribute("description", e.target.value)}
           value={goal["description"]}
-          className="w-100"
+          className="edit-profile-input"
           shortCaption={"Describe your goal"}
           maxLength="175"
           required={true}
           error={validationErrors?.description}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3 flex-wrap">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pr-2"}`}>
           <h6 className={`title-field ${mode}`}>
             Due Date <span className="text-danger">*</span>
@@ -70,27 +84,13 @@ const GoalForm = ({
             onChange={(e) => changeAttribute("due_date", e.target.value)}
           />
         </div>
-        {!showAddNew && (
-          <Button
-            onClick={() => removeGoal(goal["id"])}
-            type="white-ghost"
-            mode={mode}
-          >
-            <Delete color="currentColor" />
-          </Button>
-        )}
       </div>
       {showAddNew && (
-        <Button
-          onClick={addGoal}
-          type="white-ghost"
-          mode={mode}
-          className="text-primary w-100 my-3"
-        >
-          Add Goal
-        </Button>
+        <button className="button-link w-100 mt-4 mb-2" onClick={addGoal}>
+          <Link text="Add Goal" className="text-primary" />
+        </button>
       )}
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-4" />
     </>
   );
 };
@@ -167,15 +167,15 @@ const Goal = (props) => {
 
   const sortAllGoalKeys = (key1, key2) => {
     if (key1.includes("new")) {
-      if (key2.includes("new")) {
-        return key1.length > key2.length ? -1 : 1;
+      return 1;
+    } else {
+      const key1Date = dayjs(allGoals[key1].due_date);
+      const key2Date = dayjs(allGoals[key2].due_date);
+      if (key1Date.isAfter(key2Date)) {
+        return 1;
       } else {
         return -1;
       }
-    } else if (key2.includes("new")) {
-      return -1;
-    } else {
-      return parseInt(key1) > parseInt(key2) ? -1 : 1;
     }
   };
 
@@ -360,41 +360,41 @@ const Goal = (props) => {
         mode={mode}
         text="Talk directly to your sponsors"
       />
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextArea
           title={"Pitch"}
           mode={mode}
           onChange={(e) => changeCareerAttribute("pitch", e.target.value)}
           value={careerInfo["pitch"]}
-          className="w-100"
+          className="edit-profile-input"
           maxLength="400"
           required={true}
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextInput
           title={"Pitch video"}
           mode={mode}
           placeholder={"https://"}
           onChange={(e) => changeCareerAttribute("video", e.target.value)}
           value={careerInfo["video"]}
-          className={"w-100"}
+          className="edit-profile-input"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-3">
+      <div className="d-flex flex-row justify-content-between mt-4">
         <TextArea
           title={"Challenges"}
           mode={mode}
           onChange={(e) => changeCareerAttribute("challenges", e.target.value)}
           value={careerInfo["challenges"]}
-          className="w-100"
+          className="edit-profile-input"
           shortCaption={
             "What are your challenges? This is where sponsors can help you!"
           }
           maxLength="175"
         />
       </div>
-      <div className={`divider ${mode} my-3`}></div>
+      <Divider className="my-4" />
       <H5 className="w-100 text-left" mode={mode} text="Roadmap" bold />
       <P2
         className="w-100 text-left"
@@ -403,19 +403,19 @@ const Goal = (props) => {
       />
       {Object.keys(allGoals)
         .sort(sortAllGoalKeys)
-        .map((currentGoal, index) => (
+        .map((currentGoalKey) => (
           <GoalForm
-            key={`goal-list-${allGoals[currentGoal].id}`}
-            goal={allGoals[currentGoal]}
+            key={`goal-list-${allGoals[currentGoalKey].id}`}
+            goal={allGoals[currentGoalKey]}
             changeAttribute={(attribute, value) =>
-              changeAttribute(currentGoal, attribute, value)
+              changeAttribute(currentGoalKey, attribute, value)
             }
-            showAddNew={index == 0}
+            showAddNew={currentGoalKey == Object.keys(allGoals).at(-1)}
             mode={mode}
             mobile={mobile}
             removeGoal={removeGoal}
             addGoal={() => addGoal("new")}
-            validationErrors={validationErrors[allGoals[currentGoal].id]}
+            validationErrors={validationErrors[allGoals[currentGoalKey].id]}
           />
         ))}
       {mobile && (
@@ -443,7 +443,7 @@ const Goal = (props) => {
       <div
         className={`d-flex flex-row ${
           mobile ? "justify-content-between" : "justify-content-end"
-        } w-100`}
+        } w-100 pb-4`}
       >
         {mobile && (
           <LoadingButton
