@@ -251,10 +251,10 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           </Button>
         </div>
       </div>
-      <div className={"d-flex flex-row justify-content-end w-100"}>
+      <div className={"d-flex flex-row justify-content-start w-100"}>
         <LoadingButton
           onClick={() => updateUser()}
-          type="white-subtle"
+          type="primary-default"
           mode={theme.mode()}
           disabled={saving["loading"]}
           loading={saving["loading"]}

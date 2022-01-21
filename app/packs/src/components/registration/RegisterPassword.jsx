@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { H5, P2, P3 } from "../design_system/typography";
-import Tag from "../design_system/tag";
-import TextInput from "../design_system/fields/textinput";
+import { H5, P2, P3 } from "src/components/design_system/typography";
+import Tag from "src/components/design_system/tag";
+import TextInput from "src/components/design_system/fields/textinput";
+
+import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
 
 const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
   const [localPassword, setLocalPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [validPassword, setValidPassword] = useState(false);
   const [samePassword, setSamePassword] = useState(true);
-
-  const tags = ["Number", "Upper Case", "Lower Case", "8 Characters"];
+  const {
+    valid: validPassword,
+    errors,
+    tags,
+  } = passwordMatchesRequirements(localPassword);
   const invalidForm =
     localPassword.length < 8 ||
     passwordConfirmation.length < 8 ||
@@ -25,51 +29,6 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
   };
 
   useEffect(() => {
-    const { valid } = passwordMatchesRequirements();
-    setValidPassword(valid);
-  }, [localPassword, setValidPassword]);
-
-  const passwordMatchesRequirements = () => {
-    const lengthRegex = new RegExp("^.{8,}$");
-    const lowercaseRegex = new RegExp("(?=.*[a-z])");
-    const uppercaseRegex = new RegExp("(?=.*[A-Z])");
-    const digitRegex = new RegExp("(?=.*[0-9])");
-    const errors = {};
-    let valid = true;
-
-    // the keys must match the tag names
-    if (!lengthRegex.test(localPassword)) {
-      errors["8 Characters"] = true;
-      valid = false;
-    } else {
-      errors["8 Characters"] = false;
-    }
-
-    if (!lowercaseRegex.test(localPassword)) {
-      errors["Lower Case"] = true;
-      valid = false;
-    } else {
-      errors["Lower Case"] = false;
-    }
-
-    if (!uppercaseRegex.test(localPassword)) {
-      errors["Upper Case"] = true;
-      valid = false;
-    } else {
-      errors["Upper Case"] = false;
-    }
-
-    if (!digitRegex.test(localPassword)) {
-      errors["Number"] = true;
-      valid = false;
-    } else {
-      errors["Number"] = false;
-    }
-
-    return { errors, valid };
-  };
-
-  useEffect(() => {
     if (localPassword.length > 7 && passwordConfirmation.length > 7) {
       if (localPassword === passwordConfirmation) {
         setSamePassword(true);
@@ -80,8 +39,6 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
       setSamePassword(true);
     }
   }, [localPassword, passwordConfirmation]);
-
-  const { errors } = passwordMatchesRequirements();
 
   return (
     <>

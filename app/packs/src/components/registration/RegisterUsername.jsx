@@ -95,21 +95,21 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
               icon={faSpinner}
               spin
               className="position-absolute"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 59, right: 10 }}
             />
           )}
           {usernameValidated && (
             <FontAwesomeIcon
               icon={faCheck}
               className="position-absolute text-success"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 59, right: 10 }}
             />
           )}
           {usernameExists && (
             <FontAwesomeIcon
               icon={faTimes}
               className="position-absolute text-danger"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 59, right: 10 }}
             />
           )}
           {usernameExists && (

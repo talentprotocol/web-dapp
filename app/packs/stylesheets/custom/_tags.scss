@@ -25,21 +25,10 @@
   width: fit-content;
   padding: 0px 8px;
   border-radius: 4px;
+  background-color: $gray;
 
-  &.light {
-    background-color: $gray;
-
-    &:hover {
-      background-color: $gray-surface-2;
-    }
-  }
-
-  &.dark {
-    background-color: $gray-400;
-
-    &:hover {
-      background-color: $gray-300;
-    }
+  &:hover {
+    background-color: $gray-surface-2;
   }
 
   .close-tag {
@@ -47,34 +36,40 @@
     padding-bottom: 2px;
     cursor: pointer;
 
-    &.light {
-      &:hover::after {
-        color: $gray-800;
-      }
-
-      &:active::after {
-        color: $gray-primary;
-      }
-
-      &:after {
-        content: "\00d7";
-        color: $gray-primary;
-      }
+    &:hover::after {
+      color: $gray-800;
     }
 
-    &.dark {
-      &:hover::after {
-        color: $white;
-      }
+    &:active::after {
+      color: $gray-primary;
+    }
 
-      &:active::after {
-        color: $gray-200;
-      }
+    &:after {
+      content: "\00d7";
+      color: $gray-primary;
+    }
+  }
+}
 
-      &:after {
-        content: "\00d7";
-        color: $gray-200;
-      }
+.dark-body .optional-tag-container {
+  background-color: $gray-400;
+
+  &:hover {
+    background-color: $gray-300;
+  }
+
+  .close-tag {
+    &:hover::after {
+      color: $white;
+    }
+
+    &:active::after {
+      color: $gray-200;
+    }
+
+    &:after {
+      content: "\00d7";
+      color: $gray-200;
     }
   }
 }

@@ -31,12 +31,14 @@ class API::V1::UsersController < ApplicationController
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
       else
-        if password_params[:new_password]
+        if password_params[:new_password]&.length&.positive?
           if current_user.authenticated?(password_params[:current_password])
             current_user.update!(password: password_params[:new_password])
           else
             return render json: {errors: {currentPassword: "Passwords don't match"}}, status: :conflict
           end
+        elsif user_params[:username] && (user_params[:username].length == 0 || !user_params[:username].match?(/^[a-z0-9]*$/))
+          return render json: {errors: {username: "Username only allows lower case letters and numbers"}}, status: :conflict
         end
 
         current_user.update!(user_params)
@@ -62,11 +64,15 @@ class API::V1::UsersController < ApplicationController
   end
 
   def destroy
-    service = DestroyUser.new(user_id: @user.id)
-    result = service.call
+    if current_user.authenticated?(password_params[:current_password])
+      service = DestroyUser.new(user_id: current_user.id)
+      result = service.call
 
-    if result
-      render json: {success: "User destroyed."}, status: :ok
+      if result
+        render json: {success: "User destroyed."}, status: :ok
+      else
+        render json: {errors: "Unabled to destroy user"}, status: :conflict
+      end
     else
       render json: {errors: "Unabled to destroy user"}, status: :conflict
     end
