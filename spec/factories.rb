@@ -21,6 +21,14 @@ FactoryBot.define do
       password { nil }
       email { nil }
     end
+
+    factory :user_with_talent do
+      association :talent
+    end
+
+    factory :investor_user do
+      association :investor
+    end
   end
 
   factory :message do
@@ -35,5 +43,14 @@ FactoryBot.define do
 
   factory :notification do
     type { MessageReceivedNotification.name }
+  end
+
+  factory :talent do
+  end
+
+  factory :investor do
+  end
+
+  factory :token do
   end
 end
