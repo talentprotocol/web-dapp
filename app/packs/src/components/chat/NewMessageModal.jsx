@@ -10,8 +10,9 @@ import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Link from "src/components/design_system/link";
 import { Search } from "src/components/icons";
+import { Send, ArrowLeft } from "src/components/icons";
 
-const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
+const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSupporters, mobile }) => {
   if (!show) {
     return null;
   }
@@ -68,6 +69,12 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
             color="currentColor"
             className="position-absolute chat-search-icon"
           />
+        </div>
+        <div className="w-100 d-flex align-items-start flex-column px-4 py-2">
+          <button className="button-link text-primary" onClick={() => setShowMessageToAllSupporters()}>
+            <Send color="currentColor" className="mr-2" />
+            <P2 className="text-black d-inline" text="Send message to all supporters" bold />
+          </button>
         </div>
         <div className="w-100 d-flex flex-column new-message-user-list px-4">
           {showLoadingState() && (
