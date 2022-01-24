@@ -271,10 +271,6 @@ const StakeModal = ({
                     </P1>
                   </div>
                   <div className={`divider ${mode} my-3`}></div>
-                  <P3>
-                    You'll be able to sell your Talent Tokens once we launch the
-                    $TAL token next year (subject to flow controls).
-                  </P3>
                   <div className="d-flex flex-row justify-content-between align-items-center mt-3">
                     {step() == "Connect" && (
                       <button

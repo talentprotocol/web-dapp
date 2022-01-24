@@ -27,6 +27,7 @@ const UserMenuFullScreen = ({
   onClickTransak,
   copyCodeToClipboard,
   inviteNumbers,
+  userHasInvitesLeft,
   signOut,
 }) => (
   <Modal
@@ -79,14 +80,16 @@ const UserMenuFullScreen = ({
         My Profile <ArrowRight color="currentColor" />
       </Button>
       <div className={`divider ${mode}`}></div>
-      <Button
-        onClick={copyCodeToClipboard}
-        type="white-ghost"
-        mode={mode}
-        className="d-flex flex-row justify-content-between my-3"
-      >
-        Share invite link{inviteNumbers} <Copy color="currentColor" />
-      </Button>
+      {userHasInvitesLeft && (
+        <Button
+          onClick={copyCodeToClipboard}
+          type="white-ghost"
+          mode={mode}
+          className="d-flex flex-row justify-content-between my-3"
+        >
+          Share invite link{inviteNumbers} <Copy color="currentColor" />
+        </Button>
+      )}
       <div className={`divider ${mode}`}></div>
       <Button
         onClick={() =>
@@ -107,14 +110,6 @@ const UserMenuFullScreen = ({
         Terms & Conditions <ArrowRight color="currentColor" />
       </Button>
       <Button
-        onClick={() => window.open(PRIVACY_HREF, "_blank")}
-        type="white-ghost"
-        mode={mode}
-        className="d-flex flex-row justify-content-between mb-3 mt-1"
-      >
-        Privacy Policy <ArrowRight color="currentColor" />
-      </Button>
-      <Button
         onClick={() =>
           window.open(user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE, "_blank")
         }
@@ -123,6 +118,14 @@ const UserMenuFullScreen = ({
         className="d-flex flex-row justify-content-between mb-3 mt-1"
       >
         User guide <ArrowRight color="currentColor" />
+      </Button>
+      <Button
+        onClick={() => window.open(PRIVACY_HREF, "_blank")}
+        type="white-ghost"
+        mode={mode}
+        className="d-flex flex-row justify-content-between mb-3 mt-1"
+      >
+        Privacy Policy <ArrowRight color="currentColor" />
       </Button>
       <Button onClick={signOut} type="white-subtle" mode={mode}>
         Sign out

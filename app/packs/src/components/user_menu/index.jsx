@@ -192,6 +192,8 @@ export const UserMenuUnconnected = ({
     </Button>
   );
 
+  const userHasInvitesLeft = user.invitesLeft > 0;
+
   const metamaskButton = () => (
     <MetamaskConnect
       user_id={user.id}
@@ -214,6 +216,7 @@ export const UserMenuUnconnected = ({
         onClickTransak={onClickTransak}
         copyCodeToClipboard={copyCodeToClipboard}
         inviteNumbers={inviteNumbers()}
+        userHasInvitesLeft={userHasInvitesLeft}
         signOut={signOut}
       />
     );
@@ -263,18 +266,20 @@ export const UserMenuUnconnected = ({
             </Dropdown.Item>
           )}
           <Dropdown.Divider className="user-menu-divider m-0" />
-          <Dropdown.Item
-            key="tab-dropdown-invite-code"
-            onClick={copyCodeToClipboard}
-            className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
-            disabled={user.invitesLeft == null && user.totalInvites == null}
-          >
-            <div className="d-flex">
-              <P3 bold text="Share invite link" className="text-black mr-1" />
-              <P3 bold text={inviteNumbers()} />
-            </div>
-            <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
-          </Dropdown.Item>
+          {userHasInvitesLeft && (
+            <Dropdown.Item
+              key="tab-dropdown-invite-code"
+              onClick={copyCodeToClipboard}
+              className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
+              disabled={user.invitesLeft == null && user.totalInvites == null}
+            >
+              <div className="d-flex">
+                <P3 bold text="Share invite link" className="text-black mr-1" />
+                <P3 bold text={inviteNumbers()} />
+              </div>
+              <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
+            </Dropdown.Item>
+          )}
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
             key="tab-dropdown-theme"
@@ -306,11 +311,12 @@ export const UserMenuUnconnected = ({
             />
           </Dropdown.Item>
           <Dropdown.Item
-            key="tab-dropdown-p-h"
+            key="tab-dropdown-user-guide"
             className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
-            onClick={() => window.open(PRIVACY_HREF, "_blank")}
+            target="self"
+            href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
           >
-            <P3 bold text="Privacy Policy" className="text-black" />
+            <P3 bold text="User guide" className="text-black" />
             <FontAwesomeIcon
               icon={faExternalLinkAlt}
               className="ml-2"
@@ -318,12 +324,11 @@ export const UserMenuUnconnected = ({
             />
           </Dropdown.Item>
           <Dropdown.Item
-            key="tab-dropdown-user-guide"
+            key="tab-dropdown-p-h"
             className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
-            target="self"
-            href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
+            onClick={() => window.open(PRIVACY_HREF, "_blank")}
           >
-            <P3 bold text="User guide" className="text-black" />
+            <P3 bold text="Privacy Policy" className="text-black" />
             <FontAwesomeIcon
               icon={faExternalLinkAlt}
               className="ml-2"

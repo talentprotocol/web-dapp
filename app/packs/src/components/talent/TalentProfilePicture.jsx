@@ -41,26 +41,26 @@ const TalentProfilePicture = ({
     setCurrentTheme(document.body.className);
   }, [document.body.className]);
 
-  const WithLink = ({ link, children }) => (link ?
-    <a href={link}>
-      {children}
-    </a>
-    : children
-  );
+  const WithLink = ({ link, children }) =>
+    link ? <a href={link}>{children}</a> : children;
 
   return (
-    <WithLink link={link}>
-      <img
-        className={`${roundPhoto}${grey}${blurPhoto}${borderPhoto} ${
-          className || ""
-        } image-fit`}
-        src={imgSrc()}
-        width={width || height}
-        height={height}
-        alt="Profile Picture"
-      />
-    </WithLink>
-  )
+    <>
+      {imgSrc() && (
+        <WithLink link={link}>
+          <img
+            className={`${roundPhoto}${grey}${blurPhoto}${borderPhoto} ${
+              className || ""
+            } image-fit`}
+            src={imgSrc()}
+            width={width || height}
+            height={height}
+            alt="Profile Picture"
+          />
+        </WithLink>
+      )}
+    </>
+  );
 };
 
 TalentProfilePicture.defaultProps = {
