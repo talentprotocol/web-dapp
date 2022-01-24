@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { destroy, patch } from "src/utils/requests";
 
-import { H5, P2, P3, Caption } from "src/components/design_system/typography";
+import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import { ArrowLeft } from "src/components/icons";
@@ -43,7 +43,7 @@ const Settings = (props) => {
     valid: validPassword,
     errors,
     tags,
-  } = passwordMatchesRequirements(settings["newPassword"]);
+  } = passwordMatchesRequirements(settings.newPassword);
   const usernameRegex = /^[a-z0-9]*$/;
 
   const changeAttribute = (attribute, value) => {
@@ -122,6 +122,13 @@ const Settings = (props) => {
     !!validationErrors.username ||
     !!validationErrors.currentPassword ||
     !!validationErrors.newPassword ||
+    (!!settings.newPassword && !validPassword);
+
+  const cannotChangePassword = () =>
+    !!validationErrors.currentPassword ||
+    !!validationErrors.newPassword ||
+    settings.currentPassword.length < 8 ||
+    settings.newPassword.length < 8 ||
     (!!settings.newPassword && !validPassword);
 
   return (
@@ -209,6 +216,7 @@ const Settings = (props) => {
         onClick={() => updateUser()}
         type="primary-default"
         mode={mode}
+        disabled={cannotChangePassword()}
         className="mt-4 w-100"
       >
         Change password
@@ -269,8 +277,8 @@ const Settings = (props) => {
             type={publicButtonType}
             disabled={disablePublicButton || saving.loading}
             mode={mode}
-            loading={saving["loading"]}
-            success={saving["public"]}
+            loading={saving.loading}
+            success={saving.public}
             className="ml-auto mr-3"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
@@ -280,9 +288,9 @@ const Settings = (props) => {
           onClick={() => updateUser()}
           type="primary-default"
           mode={mode}
-          disabled={saving["loading"] || cannotSaveSettings()}
-          loading={saving["loading"]}
-          success={saving["profile"]}
+          disabled={saving.loading || cannotSaveSettings()}
+          loading={saving.loading}
+          success={saving.profile}
           className="text-black"
         >
           Save Profile

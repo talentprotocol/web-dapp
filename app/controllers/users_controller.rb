@@ -17,19 +17,23 @@ class UsersController < ApplicationController
 
   def create
     if verify_captcha
-      service = CreateUser.new
-      @result = service.call(
-        email: user_params[:email],
-        username: user_params[:username],
-        password: user_params[:password],
-        invite_code: user_params[:code],
-        theme_preference: user_params[:theme_preference]
-      )
+      if User.valid_username?(user_params[:username])
+        service = CreateUser.new
+        @result = service.call(
+          email: user_params[:email],
+          username: user_params[:username],
+          password: user_params[:password],
+          invite_code: user_params[:code],
+          theme_preference: user_params[:theme_preference]
+        )
 
-      if @result[:success]
-        render json: @result[:user], status: :created
+        if @result[:success]
+          render json: @result[:user], status: :created
+        else
+          render json: @result, status: :conflict
+        end
       else
-        render json: @result, status: :conflict
+        render json: {error: "Invalid username.", field: "username"}, status: :conflict
       end
     else
       render json: {error: "We were unable to validate your captcha.", field: "captcha"}, status: :conflict

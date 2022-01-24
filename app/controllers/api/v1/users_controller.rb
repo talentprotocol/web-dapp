@@ -37,13 +37,13 @@ class API::V1::UsersController < ApplicationController
           else
             return render json: {errors: {currentPassword: "Passwords don't match"}}, status: :conflict
           end
-        elsif user_params[:username] && (user_params[:username].length == 0 || !user_params[:username].match?(/^[a-z0-9]*$/))
+        elsif !User.valid_username?(user_params[:username])
           return render json: {errors: {username: "Username only allows lower case letters and numbers"}}, status: :conflict
         end
 
         current_user.update!(user_params)
 
-        unless investor_params.empty?
+        if investor_params.present? && investor_params[:profile_picture_data].present?
           current_user.investor.profile_picture = investor_params[:profile_picture_data].as_json
           current_user.investor.save!
         end
