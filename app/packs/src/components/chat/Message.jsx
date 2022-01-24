@@ -22,6 +22,7 @@ const Message = (props) => {
       {!previousMessageSameUser && (
         <TalentProfilePicture
           src={mine ? user.profilePictureUrl : profilePictureUrl}
+          link={`talent/${props.username}`}
           height={48}
           className="mb-auto mt-2"
         />

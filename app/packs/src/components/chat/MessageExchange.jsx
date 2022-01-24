@@ -66,6 +66,7 @@ const MessageExchange = (props) => {
             </ThemedButton>
             <TalentProfilePicture
               src={props.profilePictureUrl}
+              link={`talent/${props.username}`}
               height={48}
               className="mr-2"
             />
