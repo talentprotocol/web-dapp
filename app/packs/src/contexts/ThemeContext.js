@@ -12,7 +12,9 @@ const ThemeContext = createContext({
 ThemeContext.displayName = "ThemeContext";
 
 const ThemeContainer = ({ user, children }) => {
-  const [currentTheme, setCurrentTheme] = useState(document.body.className);
+  const [currentTheme, setCurrentTheme] = useState(
+    document.body.className.split(" ").find((name) => name.includes("body"))
+  );
 
   document.addEventListener("themeChanged", (e) => {
     if (currentTheme != e.detail) {
@@ -21,7 +23,7 @@ const ThemeContainer = ({ user, children }) => {
   });
 
   const toggleTheme = async () => {
-    const newTheme = currentTheme == "light-body" ? "dark" : "light";
+    const newTheme = currentTheme.includes("light-body") ? "dark" : "light";
 
     await patch(`/api/v1/users/${user.id}`, {
       user: { theme_preference: newTheme },
