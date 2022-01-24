@@ -13,7 +13,9 @@ const Card = ({
   mobile,
   coming_soon,
 }) => {
-  const [currentTheme, setCurrentTheme] = useState(document.body.className);
+  const [currentTheme, setCurrentTheme] = useState(
+    document.body.className.split(" ").find((name) => name.includes("body"))
+  );
   const mobileClass = mobile ? " mobile" : "";
 
   const imgSrc = () => {

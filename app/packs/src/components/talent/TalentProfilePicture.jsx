@@ -16,7 +16,9 @@ const TalentProfilePicture = ({
   border,
   link,
 }) => {
-  const [currentTheme, setCurrentTheme] = useState(document.body.className);
+  const [currentTheme, setCurrentTheme] = useState(
+    document.body.className.split(" ").find((name) => name.includes("body"))
+  );
 
   const imgSrc = () => {
     if (src) {
@@ -41,12 +43,8 @@ const TalentProfilePicture = ({
     setCurrentTheme(document.body.className);
   }, [document.body.className]);
 
-  const WithLink = ({ link, children }) => (link ?
-    <a href={link}>
-      {children}
-    </a>
-    : children
-  );
+  const WithLink = ({ link, children }) =>
+    link ? <a href={link}>{children}</a> : children;
 
   return (
     <WithLink link={link}>
@@ -60,7 +58,7 @@ const TalentProfilePicture = ({
         alt="Profile Picture"
       />
     </WithLink>
-  )
+  );
 };
 
 TalentProfilePicture.defaultProps = {
