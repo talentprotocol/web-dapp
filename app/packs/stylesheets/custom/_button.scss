@@ -17,8 +17,7 @@
   }
 
   &:disabled {
-    color: $primary-outline-disabled !important;
-    background-color: $primary-disabled !important;
+    background-color: rgba($primary, 0.4) !important;;
   }
 
   &:active {

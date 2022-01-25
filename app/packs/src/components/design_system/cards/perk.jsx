@@ -24,7 +24,7 @@ const Perk = ({
 
   return (
     <div
-      className={`card${
+      className={`card card-hover${
         hideAction ? "" : " cursor-pointer"
       } ${mode} ${className}`}
       onClick={goToRoute}

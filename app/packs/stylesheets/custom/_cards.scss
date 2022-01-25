@@ -12,14 +12,22 @@
 
   &.dark {
     background-color: $gray-900;
+  }
 
+  &.mobile {
+    background: none;
+  }
+}
+
+.card-hover {
+  &.dark {
     &:hover {
       background-color: $surface-02;
     }
   }
 
-  &.mobile {
-    background: none;
+  &:hover {
+    background-color: $surface-hover;
   }
 }
 
