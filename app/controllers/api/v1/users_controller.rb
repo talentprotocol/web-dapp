@@ -37,7 +37,7 @@ class API::V1::UsersController < ApplicationController
           else
             return render json: {errors: {currentPassword: "Passwords don't match"}}, status: :conflict
           end
-        elsif !User.valid_username?(user_params[:username])
+        elsif user_params[:username] && !User.valid_username?(user_params[:username])
           return render json: {errors: {username: "Username only allows lower case letters and numbers"}}, status: :conflict
         end
 
