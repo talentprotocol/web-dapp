@@ -217,44 +217,12 @@ const Settings = (props) => {
         type="primary-default"
         mode={mode}
         disabled={cannotChangePassword()}
-        className="mt-4 w-100"
+        className="mt-4 mb-4 w-100"
       >
         Change password
       </Button>
-      <Divider className="my-4" />
-      <div className="d-flex flex-row w-100 justify-content-between my-3">
-        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 mr-2"}`}>
-          <H5
-            className="w-100 text-left"
-            mode={mode}
-            text="Close Account"
-            bold
-          />
-          <P2
-            className="w-100 text-left"
-            mode={mode}
-            text="Delete your account and account data"
-          />
-          {settings.currentPassword && validationErrors?.deleting && (
-            <P3
-              className="w-100 text-left text-danger"
-              text="Unabled to destroy user."
-            />
-          )}
-        </div>
-        <div>
-          <Button
-            onClick={() => deleteUser()}
-            type="danger-default"
-            mode={mode}
-            disabled={!settings.currentPassword}
-          >
-            Delete Account
-          </Button>
-        </div>
-      </div>
       {mobile && (
-        <div className="d-flex flex-row justify-content-between w-100 my-3">
+        <div className="d-flex flex-row justify-content-between w-100 mb-3">
           <div className="d-flex flex-column">
             <P3 text="PREVIOUS" />
             <div
@@ -295,6 +263,38 @@ const Settings = (props) => {
         >
           Save Profile
         </LoadingButton>
+      </div>
+      <Divider className="mb-4" />
+      <div className="d-flex flex-row w-100 justify-content-between my-3">
+        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 mr-2"}`}>
+          <H5
+            className="w-100 text-left"
+            mode={mode}
+            text="Close Account"
+            bold
+          />
+          <P2
+            className="w-100 text-left"
+            mode={mode}
+            text="Delete your account and account data"
+          />
+          {settings.currentPassword && validationErrors?.deleting && (
+            <P3
+              className="w-100 text-left text-danger"
+              text="Unabled to destroy user."
+            />
+          )}
+        </div>
+        <div>
+          <Button
+            onClick={() => deleteUser()}
+            type="danger-default"
+            mode={mode}
+            disabled={!settings.currentPassword}
+          >
+            Delete Account
+          </Button>
+        </div>
       </div>
     </>
   );
