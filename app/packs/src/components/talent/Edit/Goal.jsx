@@ -466,7 +466,6 @@ const Goal = (props) => {
           disabled={saving["loading"]}
           loading={saving["loading"]}
           success={saving["profile"]}
-          className="text-black"
         >
           Save Profile
         </LoadingButton>

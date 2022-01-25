@@ -259,7 +259,6 @@ const Settings = (props) => {
           disabled={saving.loading || cannotSaveSettings()}
           loading={saving.loading}
           success={saving.profile}
-          className="text-black"
         >
           Save Profile
         </LoadingButton>
