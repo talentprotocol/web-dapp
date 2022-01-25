@@ -21,14 +21,16 @@ const TextInput = ({
 }) => {
   return (
     <div className={`d-flex flex-column ${className}`}>
-      <div className="d-flex flex-row justify-content-between align-items-end mb-2">
+      <div className="d-flex flex-row justify-content-between align-items-end">
         {title ? (
-          <P2 bold className="text-black">
+          <P2 bold className="text-black mb-2">
             {title} {required && <span className="text-danger">*</span>}
           </P2>
         ) : null}
-        {maxLength ? <P2 text={`${value.length}/${maxLength}`} /> : null}
-        {topCaption ? <P3 text={topCaption} /> : null}
+        {maxLength ? (
+          <P2 className="mb-2" text={`${value.length}/${maxLength}`} />
+        ) : null}
+        {topCaption ? <P3 className="mb-2" text={topCaption} /> : null}
       </div>
 
       <input

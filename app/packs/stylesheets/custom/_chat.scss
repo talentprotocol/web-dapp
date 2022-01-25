@@ -1,9 +1,13 @@
 @import "../bootstrap/overrides";
 
 .chat-search-icon {
-  top: 25px;
-  left: 25px;
-  color: #a9acb7;
+  top: 10px;
+  left: 10px;
+  color: $gray-primary;
+}
+
+.dark-body .chat-search-icon {
+  color: $gray-400;
 }
 
 .display-messages {
@@ -90,10 +94,6 @@
   white-space: nowrap;
 }
 
-.new-message-user-list {
-  max-height: 500px;
-}
-
 .messages-from-same-user {
   margin-left: 65px !important;
 }
@@ -102,7 +102,12 @@
   .absolute-menu {
     position: absolute;
     top: 12px;
-    right: 20px
+    right: 20px;
+  }
+
+  .new-message-user-list {
+    height: 200px;
+    overflow-y: auto;
   }
 }
 
@@ -110,6 +115,11 @@
   .absolute-menu {
     position: absolute;
     top: 85px;
-    right: 20px
+    right: 20px;
+  }
+
+  .new-message-user-list {
+    height: 100%;
+    overflow-y: auto;
   }
 }

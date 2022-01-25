@@ -8,9 +8,10 @@ import { get } from "src/utils/requests";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
 import { Spinner } from "src/components/icons";
-import P1 from "src/components/design_system/typography/p1";
-import P2 from "src/components/design_system/typography/p2";
+import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
+import Link from "src/components/design_system/link";
+import { Search } from "src/components/icons";
 
 const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
   if (!show) {
@@ -51,37 +52,49 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
       dialogClassName={mobile ? "mw-100 mh-100 m-0" : "remove-background"}
       fullscreen={"md-down"}
     >
-      <Modal.Body className="show-grid p-4">
-        <P1 text={"New message"} bold mode={mode} />
-        <div className="w-100 d-flex flex-row py-2 position-relative align-items-center">
+      <Modal.Body className="show-grid p-0">
+        <P1 className="pt-4 pb-3 px-4" text={"New message"} bold mode={mode} />
+        <div className="d-flex flex-row mb-4 mx-4 position-relative align-items-center">
           <TextInput
-            mode={`${mode} pl-6`}
+            mode={`${mode} pl-5`}
             onChange={(e) => setSearch(e.target.value)}
             value={search}
             placeholder="Search for people..."
-            className="w-100 p-2"
+            className="w-100"
           />
-          <FontAwesomeIcon
-            icon={faSearch}
+          <Search
+            color="currentColor"
             className="position-absolute chat-search-icon"
-            size="lg"
           />
         </div>
-        <div className="w-100 d-flex flex-column new-message-user-list">
+        <div className="w-100 d-flex flex-column new-message-user-list px-4">
           {showLoadingState() && (
             <div className="w-100 d-flex flex-row my-2 justify-content-center">
               <Spinner />
             </div>
           )}
           {users.map((user) => (
-            <a
+            <button
               key={`new_message_user_${user.id}`}
-              className="w-100 d-flex flex-row align-items-center my-2 text-reset hover-primary"
+              className="button-link"
               onClick={() => onUserChosen(user)}
             >
-              <TalentProfilePicture src={user.profilePictureUrl} height={40} />
-              <P2 mode={mode} className="mb-0 ml-3" bold text={user.username} />
-            </a>
+              <Link
+                className="w-100 d-flex flex-row align-items-center my-2"
+                type="white"
+              >
+                <TalentProfilePicture
+                  src={user.profilePictureUrl}
+                  height={40}
+                />
+                <P2
+                  mode={mode}
+                  className="mb-0 ml-3 current-color"
+                  bold
+                  text={user.username}
+                />
+              </Link>
+            </button>
           ))}
         </div>
       </Modal.Body>

@@ -1,5 +1,5 @@
 import React from "react";
-import { string, oneOf, bool, func, node } from "prop-types";
+import { string, oneOf, bool, node } from "prop-types";
 import cx from "classnames";
 
 const Link = ({
@@ -11,6 +11,7 @@ const Link = ({
   href,
   target,
   className,
+  children,
 }) => {
   return (
     <a
@@ -25,7 +26,7 @@ const Link = ({
       target={target}
     >
       {Icon && <Icon pathClassName={cx("link-icon", bold && "bold")} />}
-      {text}
+      {text || children}
     </a>
   );
 };
@@ -39,6 +40,7 @@ Link.defaultProps = {
   href: null,
   target: null,
   className: "",
+  children: null,
 };
 
 Link.propTypes = {
@@ -50,6 +52,7 @@ Link.propTypes = {
   href: string,
   target: string,
   className: string,
+  children: node,
 };
 
 export default Link;

@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
 import NewMessageModal from "./NewMessageModal";
 import ThemedButton from "src/components/design_system/button";
-import P2 from "src/components/design_system/typography/p2";
-import P3 from "src/components/design_system/typography/p3";
+import { P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
-import { NewChat } from "src/components/icons";
+import { NewChat, Search } from "src/components/icons";
 
 const lastMessageText = (lastMessage) => {
   if (lastMessage) {
@@ -101,39 +97,43 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
         mobe={mode}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
-        <div className="w-100 d-flex flex-row p-2 position-relative themed-border-bottom align-items-center">
-          <TextInput
-            mode={`${mode} pl-6`}
-            disabled={allUsers.length == 0}
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-            placeholder="Search for people..."
-            className="w-100 p-2"
-          />
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="position-absolute chat-search-icon"
-            size="lg"
-          />
+        <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-4">
+          <div className="position-relative">
+            <TextInput
+              mode={`${mode} pl-5`}
+              disabled={allUsers.length == 0}
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              placeholder="Search for people..."
+              className="w-100"
+            />
+            <Search
+              color="currentColor"
+              className="position-absolute chat-search-icon"
+            />
+          </div>
           <ThemedButton
             onClick={() => setShow(true)}
             type="white-subtle"
             mode={mode}
             className="ml-2 p-2"
+            size="icon"
           >
             <NewChat color="currentColor" />
           </ThemedButton>
         </div>
         {allUsers.length == 0 && <EmptyUsers />}
-        {filteredUsers(allUsers, search).map((user) => (
-          <UserMessage
-            onClick={onClick}
-            key={`user-message-list-${user.id}`}
-            user={user}
-            activeUserId={activeUserId}
-            mode={mode}
-          />
-        ))}
+        <div className="w-100 d-flex flex-column lg-overflow-y-auto">
+          {filteredUsers(allUsers, search).map((user) => (
+            <UserMessage
+              onClick={onClick}
+              key={`user-message-list-${user.id}`}
+              user={user}
+              activeUserId={activeUserId}
+              mode={mode}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
