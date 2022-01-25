@@ -39,7 +39,7 @@ const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
           className="w-100 mt-3"
           maxLength={8}
           required={true}
-          error={error?.length || error?.characters}
+          error={error?.length || error?.characters || error?.tickerTaken}
         />
         {error?.length && (
           <P2 className="text-danger">
@@ -50,6 +50,9 @@ const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
           <P2 className="text-danger">
             Your ticker can only have uppercase characters.
           </P2>
+        )}
+        {error?.tickerTaken && (
+          <P2 className="text-danger">Your ticker is already taken.</P2>
         )}
         <div className={`divider ${mode} my-3`}></div>
         <P2 className="mb-2">
@@ -169,7 +172,10 @@ const Token = (props) => {
       setError((prev) => ({ ...prev, length: false }));
     }
     if (error["characters"]) {
-      setError((prev) => ({ ...prev, characters: true }));
+      setError((prev) => ({ ...prev, characters: false }));
+    }
+    if (error["tickerTaken"]) {
+      setError((prev) => ({ ...prev, tickerTaken: false }));
     }
 
     setTicker(value.toUpperCase());
@@ -179,6 +185,17 @@ const Token = (props) => {
     if (factory) {
       setDeploying(true);
       const result = await factory.createTalent(user.username, ticker);
+
+      if (result.error) {
+        setError((prev) => ({ ...prev, tickerTaken: true }));
+        setDeploying(false);
+        return;
+      }
+
+      if (result.canceled) {
+        setDeploying(false);
+        return;
+      }
 
       if (result) {
         const contractAddress = result.args.token;
