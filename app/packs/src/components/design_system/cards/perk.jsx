@@ -16,7 +16,7 @@ const Perk = ({
   hideAction,
 }) => {
   const goToRoute = () => {
-    if (hideAction) {
+    if (hideAction || myTokens < tokens) {
       return;
     }
     window.location.href = href;
