@@ -219,8 +219,12 @@ const Goal = (props) => {
 
       if (response) {
         // update local state
-        const newGoals = { ...allGoals, new: emptyGoal("new") };
+        const newGoals = { ...allGoals };
         newGoals[response.id] = response;
+
+        if (id == "new") {
+          newGoals["new"] = emptyGoal("new");
+        }
         setAllGoals(newGoals);
         setHasChanges((prev) => ({ ...prev, id: false }));
 
@@ -240,7 +244,11 @@ const Goal = (props) => {
         }));
       }
     } else {
-      setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      if (Object.keys(errors).length != 3 || id != "new") {
+        // the condition above makes sure it isn't an empty new goal that is causing the validation to fail
+
+        setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      }
     }
   };
 
