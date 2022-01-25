@@ -83,6 +83,7 @@ const GoalForm = ({
             value={goal["due_date"]}
             onChange={(e) => changeAttribute("due_date", e.target.value)}
           />
+          <p className={`short-caption ${mode}`}>DD/MM/YYYY</p>
         </div>
       </div>
       {showAddNew && (
@@ -465,7 +466,6 @@ const Goal = (props) => {
           disabled={saving["loading"]}
           loading={saving["loading"]}
           success={saving["profile"]}
-          className="text-black"
         >
           Save Profile
         </LoadingButton>

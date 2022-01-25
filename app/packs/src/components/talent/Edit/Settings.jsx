@@ -28,11 +28,13 @@ const Settings = (props) => {
     email: user.email || "",
     currentPassword: "",
     newPassword: "",
+    deletePassword: "",
   });
   const [validationErrors, setValidationErrors] = useState({
     username: false,
     currentPassword: false,
     newPassword: false,
+    deletePassword: false,
   });
   const [saving, setSaving] = useState({
     loading: false,
@@ -59,6 +61,9 @@ const Settings = (props) => {
           username: "Username only allows lower case letters and numbers",
         }));
       }
+    }
+    if (attribute == "deletePassword") {
+      setValidationErrors((prev) => ({ ...prev, deleting: false }));
     }
     setSettings((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
@@ -99,7 +104,7 @@ const Settings = (props) => {
 
   const deleteUser = async () => {
     const response = await destroy(`/api/v1/users/${user.id}`, {
-      user: { current_password: settings.currentPassword },
+      user: { current_password: settings.deletePassword },
     }).catch(() =>
       setValidationErrors((prev) => ({ ...prev, deleting: true }))
     );
@@ -217,44 +222,12 @@ const Settings = (props) => {
         type="primary-default"
         mode={mode}
         disabled={cannotChangePassword()}
-        className="mt-4 w-100"
+        className="mt-4 mb-4 w-100"
       >
         Change password
       </Button>
-      <Divider className="my-4" />
-      <div className="d-flex flex-row w-100 justify-content-between my-3">
-        <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 mr-2"}`}>
-          <H5
-            className="w-100 text-left"
-            mode={mode}
-            text="Close Account"
-            bold
-          />
-          <P2
-            className="w-100 text-left"
-            mode={mode}
-            text="Delete your account and account data"
-          />
-          {settings.currentPassword && validationErrors?.deleting && (
-            <P3
-              className="w-100 text-left text-danger"
-              text="Unabled to destroy user."
-            />
-          )}
-        </div>
-        <div>
-          <Button
-            onClick={() => deleteUser()}
-            type="danger-default"
-            mode={mode}
-            disabled={!settings.currentPassword}
-          >
-            Delete Account
-          </Button>
-        </div>
-      </div>
       {mobile && (
-        <div className="d-flex flex-row justify-content-between w-100 my-3">
+        <div className="d-flex flex-row justify-content-between w-100 mb-3">
           <div className="d-flex flex-column">
             <P3 text="PREVIOUS" />
             <div
@@ -291,10 +264,41 @@ const Settings = (props) => {
           disabled={saving.loading || cannotSaveSettings()}
           loading={saving.loading}
           success={saving.profile}
-          className="text-black"
         >
           Save Profile
         </LoadingButton>
+      </div>
+      <Divider className="mb-4" />
+      <div className="d-flex flex-column w-100 my-3">
+        <H5 className="w-100 text-left" mode={mode} text="Close Account" bold />
+        <P2
+          className="w-100 text-left"
+          mode={mode}
+          text="Delete your account and account data"
+        />
+        <TextInput
+          title={"Password"}
+          type="password"
+          placeholder={"*********"}
+          mode={mode}
+          onChange={(e) => changeAttribute("deletePassword", e.target.value)}
+          value={settings.deletePassword}
+          className="w-100 mt-4"
+          required
+          error={validationErrors.deleting}
+        />
+        {validationErrors?.deleting && (
+          <P3 className="text-danger" text="Wrong password." />
+        )}
+        <Button
+          onClick={() => deleteUser()}
+          type="danger-default"
+          mode={mode}
+          className="w-100 mt-3"
+          disabled={settings.deletePassword == ""}
+        >
+          Delete Account
+        </Button>
       </div>
     </>
   );

@@ -118,6 +118,7 @@ const HighlightForm = ({
             value={highlight["start_date"]}
             onChange={(e) => changeAttribute("start_date", e.target.value)}
           />
+          <p className={`short-caption ${mode}`}>DD/MM/YYYY</p>
         </div>
         {/* <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pl-2"}`}>
           <h6 className={`title-field ${mode}`}>End Date</h6>
@@ -398,7 +399,6 @@ const Highlights = (props) => {
           disabled={saving["loading"]}
           loading={saving["loading"]}
           success={saving["profile"]}
-          className="text-black"
         >
           Save Profile
         </LoadingButton>
