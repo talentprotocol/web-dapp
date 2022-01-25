@@ -461,8 +461,9 @@ const Goal = (props) => {
             mode={mode}
             disabled={disablePublicButton || saving["loading"]}
             loading={saving["loading"]}
-            success={saving["public"]}
+            success={props.talent.public}
             className="ml-auto mr-3"
+            checkClassName="edit-profile-public-check"
           >
             {props.talent.public ? "Public" : "Publish Profile"}
           </LoadingButton>
