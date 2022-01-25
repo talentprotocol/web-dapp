@@ -246,8 +246,12 @@ const Highlights = (props) => {
 
       if (response) {
         // update local state
-        const newMilestones = { ...allMilestones, new: emptyHighlight("new") };
+        const newMilestones = { ...allMilestones };
         newMilestones[response.id] = response;
+        if (id == "new") {
+          newMilestones["new"] = emptyHighlight("new");
+        }
+
         setAllMilestones(newMilestones);
         setHasChanges((prev) => ({ ...prev, id: false }));
 
@@ -269,7 +273,11 @@ const Highlights = (props) => {
         }));
       }
     } else {
-      setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      if (Object.keys(errors).length != 4 || id != "new") {
+        // the condition above makes sure it isn't an empty new milestone that is causing the validation to fail
+
+        setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      }
     }
   };
 

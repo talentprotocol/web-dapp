@@ -18,3 +18,8 @@ export const TALENT_GUIDE =
   "https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff";
 
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
+
+export const ERROR_MESSAGES = {
+  ticker_reserved: "talent token with this symbol already exists",
+  action_canceled: "User denied transaction signature",
+};

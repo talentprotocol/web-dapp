@@ -166,9 +166,7 @@ const Perks = (props) => {
     if (allPerks[id].price == "") {
       errors["price"] = true;
     }
-    // if (allPerks[id].description == "") {
-    //   errors["description"] = true;
-    // }
+
     return errors;
   };
 
@@ -177,7 +175,6 @@ const Perks = (props) => {
 
     if (Object.keys(errors).length == 0) {
       // add new perk and reset
-
       let requestType, url;
       if (id != "new") {
         requestType = patch;
@@ -197,8 +194,12 @@ const Perks = (props) => {
 
       if (response) {
         // update local state
-        const newPerks = { ...allPerks, new: emptyPerk("new") };
+        const newPerks = { ...allPerks };
         newPerks[response.id] = response;
+        if (id == "new") {
+          newPerks["new"] = emptyPerk("new");
+        }
+
         setAllPerks(newPerks);
         setHasChanges((prev) => ({ ...prev, id: false }));
 
@@ -218,7 +219,11 @@ const Perks = (props) => {
         }));
       }
     } else {
-      setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      if (Object.keys(errors).length != 2 || id != "new") {
+        // the condition above makes sure it isn't an empty new perk that is causing the validation to fail
+
+        setValidationErrors((prev) => ({ ...prev, [id]: errors }));
+      }
     }
   };
 

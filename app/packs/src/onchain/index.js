@@ -9,6 +9,7 @@ import TalentFactory from "../abis/recent/TalentFactory.json";
 import StableToken from "../abis/recent/StableToken.json";
 
 import Addresses from "./addresses.json";
+import { ERROR_MESSAGES } from "../utils/constants";
 
 const ALFAJORES_PARAMS = {
   chainId: "0xaef3",
@@ -242,7 +243,21 @@ class OnChain {
 
     const tx = await this.talentFactory
       .connect(this.signer)
-      .createTalent(this.account, name, symbol);
+      .createTalent(this.account, name, symbol)
+      .catch((e) => {
+        if (e.data?.message.includes(ERROR_MESSAGES.ticker_reserved)) {
+          return { error: "Ticker is already in use" };
+        } else if (e.code === 4001) {
+          return { canceled: "User canceled the request" };
+        } else if (e.data.message) {
+          return { error: e.data.message };
+        }
+        return { error: e };
+      });
+
+    if (tx.error || tx.canceled) {
+      return tx;
+    }
 
     const receipt = await tx.wait();
 

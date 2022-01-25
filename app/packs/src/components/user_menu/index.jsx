@@ -33,7 +33,7 @@ import { P2, P3 } from "src/components/design_system/typography";
 import { Copy, Sun, Moon } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
-  <Modal show={show} onHide={hide} centered>
+  <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
     <Modal.Header closeButton>
       <Modal.Title>Thank you for your support</Modal.Title>
     </Modal.Header>

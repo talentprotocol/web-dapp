@@ -19,6 +19,10 @@ const Timeline = ({ sharedState, mode }) => {
     });
   }, [sharedState.milestones]);
 
+  const formatDate = (date) => {
+    return dayjs(date, "YYYY-MM-DD").format("YYYY-MM");
+  };
+
   return (
     <section className="d-flex flex-column mt-6 mr-lg-5">
       {sortedTimeline.map((milestone) => (
@@ -27,7 +31,10 @@ const Timeline = ({ sharedState, mode }) => {
           className="d-flex flex-row w-100 mb-6"
         >
           <div className="col-2 d-flex flex-column">
-            <Caption text={milestone.start_date} className="text-primary-04" />
+            <Caption
+              text={formatDate(milestone.start_date)}
+              className="text-primary-04"
+            />
           </div>
           <div className="col-10">
             <ProjectCard

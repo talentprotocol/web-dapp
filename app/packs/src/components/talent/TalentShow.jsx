@@ -155,6 +155,7 @@ const TalentShow = ({
         type="white-subtle"
         mode={theme.mode()}
         className="mr-2 align-items-center"
+        disabled={currentUserId == user.id}
       >
         {mobile && <Chat color="currentColor" className="mr-2" />}
         {!mobile && " Message"}
