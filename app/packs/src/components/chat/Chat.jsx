@@ -126,7 +126,7 @@ const Chat = ({ users, userId, user }) => {
       <div className="d-flex flex-column w-100 h-100">
         <main className="d-flex flex-row w-100 h-100 themed-border-top">
           {(!mobile || activeUserId == 0) && (
-            <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll themed-border-right">
+            <section className="col-lg-3 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
               <MessageUserList
                 onClick={(user_id) => setActiveUserId(user_id)}
                 activeUserId={activeUserId}
@@ -137,7 +137,7 @@ const Chat = ({ users, userId, user }) => {
             </section>
           )}
           {(!mobile || activeUserId > 0) && (
-            <section className="col-lg-7 px-0 lg-overflow-y-hidden">
+            <section className="col-lg-9 px-0 lg-overflow-y-hidden">
               <MessageExchange
                 smallScreen={mobile}
                 clearActiveUserId={() => clearActiveUser()}

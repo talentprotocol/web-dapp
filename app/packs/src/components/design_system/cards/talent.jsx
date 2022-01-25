@@ -29,7 +29,9 @@ const Card = ({
   };
 
   useEffect(() => {
-    setCurrentTheme(document.body.className);
+    setCurrentTheme(
+      document.body.className.split(" ").find((name) => name.includes("body"))
+    );
   }, [document.body.className]);
 
   return (
