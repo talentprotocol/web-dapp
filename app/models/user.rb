@@ -88,6 +88,10 @@ class User < ApplicationRecord
     messagee.unread.any?
   end
 
+  def self.valid_username?(new_username)
+    new_username && new_username.length > 7 && new_username.match?(/^[a-z0-9]*$/)
+  end
+
   private
 
   def role_is_valid

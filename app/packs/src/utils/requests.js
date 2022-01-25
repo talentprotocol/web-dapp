@@ -74,17 +74,20 @@ const get = (url) => {
   });
 };
 
-const destroy = (url) => {
+const destroy = (url, content) => {
   const headers = { "Content-Type": "application/json" };
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();
   }
 
+  const body = content instanceof FormData ? content : JSON.stringify(content);
+
   return fetch(url, {
     credentials: "include",
     method: "DELETE",
     headers,
+    body,
   }).then((response) => {
     if (response) {
       const contentType = response.headers.get("content-type");

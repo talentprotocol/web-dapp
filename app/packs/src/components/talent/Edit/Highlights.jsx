@@ -375,7 +375,7 @@ const Highlights = (props) => {
       )}
       <div
         className={`d-flex flex-row ${
-          mobile ? "justify-content-between" : "justify-content-end"
+          mobile ? "justify-content-between" : ""
         } w-100 pb-4`}
       >
         {mobile && (
@@ -393,7 +393,7 @@ const Highlights = (props) => {
         )}
         <LoadingButton
           onClick={() => updateHighlights()}
-          type="white-subtle"
+          type="primary-default"
           mode={mode}
           disabled={saving["loading"]}
           loading={saving["loading"]}
