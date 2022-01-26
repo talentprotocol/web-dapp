@@ -67,6 +67,7 @@ const GoalForm = ({
           maxLength="175"
           required={true}
           error={validationErrors?.description}
+          rows={3}
         />
       </div>
       <div className="d-flex flex-row justify-content-between mt-4">
@@ -378,6 +379,7 @@ const Goal = (props) => {
           className="edit-profile-input"
           maxLength="400"
           required={true}
+          rows={3}
         />
       </div>
       <div className="d-flex flex-row justify-content-between mt-4">
@@ -401,6 +403,7 @@ const Goal = (props) => {
             "What are your challenges? This is where sponsors can help you!"
           }
           maxLength="175"
+          rows={3}
         />
       </div>
       <Divider className="my-4" />

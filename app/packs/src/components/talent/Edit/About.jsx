@@ -331,6 +331,7 @@ const About = (props) => {
           className="w-100"
           maxLength="240"
           required={true}
+          rows={3}
         />
       </div>
       <Divider className="my-5" />

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import P2 from "src/components/design_system/typography/p2";
+
+import cx from "classnames";
 
 const TextArea = ({
   title,
@@ -15,9 +17,27 @@ const TextArea = ({
   error,
   maxLength,
   onKeyDown,
+  limitHeight,
+  rows,
 }) => {
+  const textAreaRef = useRef(null);
+  const [textAreaHeight, setTextAreaHeight] = useState("auto");
+
+  useEffect(() => {
+    const limit = limitHeight || textAreaRef.current.scrollHeight;
+    setTextAreaHeight("inherit");
+    setTextAreaHeight(
+      `${Math.min(textAreaRef.current.scrollHeight, limit) + 6}px`
+    );
+  }, [value]);
+
+  const onChangeHandler = (e) => {
+    setTextAreaHeight("auto");
+    if (onChange) onChange(e);
+  };
+
   return (
-    <div className={`d-flex flex-column ${className}`}>
+    <div className={cx("d-flex flex-column", className)}>
       <div className="d-flex flex-row justify-content-between">
         {title ? (
           <h6 className={`title-field ${mode}`}>
@@ -29,14 +49,16 @@ const TextArea = ({
         ) : null}
       </div>
       <textarea
+        ref={textAreaRef}
+        rows={rows || 1}
         className={`form-control ${mode} ${error ? "border-danger" : ""}`}
-        rows="3"
         placeholder={placeholder}
         disabled={disabled}
         value={value}
-        onChange={onChange}
+        onChange={onChangeHandler}
         maxLength={maxLength}
         onKeyDown={onKeyDown}
+        style={{ height: textAreaHeight }}
       ></textarea>
 
       {shortCaption ? (

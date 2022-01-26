@@ -102,6 +102,7 @@ const HighlightForm = ({
           maxLength="175"
           required={true}
           error={validationErrors?.description}
+          rows={3}
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
