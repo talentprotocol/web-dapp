@@ -11,7 +11,6 @@ import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
-import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
 import TalentBadges from "./TalentBadges";
 
@@ -20,12 +19,13 @@ import Perks from "./Show/Perks";
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
 import TokenDetails from "./Show/TokenDetails";
+import SocialRow from "./Show/SocialRow";
 
 import { completeProfile } from "./utils/talent";
 
 import Button from "src/components/design_system/button";
 import { Chat } from "src/components/icons";
-import { H2, P2 } from "src/components/design_system/typography";
+import { H2, H5 } from "src/components/design_system/typography";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
@@ -233,27 +233,19 @@ const TalentShow = ({
                 <H2
                   bold
                   text={`$${ticker()}`}
-                  className="text-primary-04 ml-2"
+                  className="text-primary-04 ml-lg-2"
                 />
               )}
             </div>
-            <div className="d-flex flex-row pr-3 ml-3 ml-lg-0">
-              <P2
-                mode={theme.mode()}
+            <div className="d-flex flex-row mb-lg-2 align-items-center pr-3">
+              <H5
+                bold
                 text={sharedState.talent.profile.occupation}
-                className="mb-2"
+                className="mb-2 mb-lg-0 text-primary-04"
               />
-              {sharedState.talent.profile.website && (
-                <a
-                  href={sharedState.talent.profile.website}
-                  target="self"
-                  className="text-primary ml-2"
-                >
-                  {prettifyWebsiteUrl(sharedState.talent.profile.website)}
-                </a>
-              )}
+              {!mobile && <SocialRow sharedState={sharedState} />}
             </div>
-            <div className="d-flex justify-content-between ml-3 ml-lg-0">
+            <div className="d-flex justify-content-between">
               <TalentBadges badges={badges} height={40} />
               <TalentTags
                 tags={sharedState.secondaryTags}
@@ -261,6 +253,8 @@ const TalentShow = ({
                 mode={theme.mode()}
               />
             </div>
+
+            {mobile && <SocialRow sharedState={sharedState} />}
           </div>
         </div>
         {!mobile && actionButtons()}
