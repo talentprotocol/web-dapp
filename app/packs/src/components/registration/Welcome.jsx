@@ -68,8 +68,9 @@ const Welcome = ({
     }
 
     setRequestingEmail(true);
+    const searchParams = new URLSearchParams({ email: localEmail });
 
-    get(`/users?email=${localEmail}`)
+    get(`/users?${searchParams}`)
       .then((response) => {
         if (response.error) {
           setRequestingEmail(false);
@@ -121,21 +122,21 @@ const Welcome = ({
               icon={faSpinner}
               spin
               className="position-absolute"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 42, right: 10 }}
             />
           )}
           {emailValidated && (
             <FontAwesomeIcon
               icon={faCheck}
               className="position-absolute text-success"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 42, right: 10 }}
             />
           )}
           {emailExists && (
             <FontAwesomeIcon
               icon={faTimes}
               className="position-absolute text-danger"
-              style={{ top: 52, right: 10 }}
+              style={{ top: 42, right: 10 }}
             />
           )}
           {emailExists && (

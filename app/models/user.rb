@@ -89,7 +89,7 @@ class User < ApplicationRecord
   end
 
   def self.valid_username?(new_username)
-    new_username && new_username.length > 7 && new_username.match?(/^[a-z0-9]*$/)
+    new_username && new_username.length > 0 && new_username.match?(/^[a-z0-9]*$/)
   end
 
   private

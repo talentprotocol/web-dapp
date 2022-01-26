@@ -274,7 +274,7 @@ export const UserMenuUnconnected = ({
               disabled={user.invitesLeft == null && user.totalInvites == null}
             >
               <div className="d-flex">
-                <P3 bold text="Share invite link" className="text-black mr-1" />
+                <P3 bold text="Copy invite link" className="text-black mr-1" />
                 <P3 bold text={inviteNumbers()} />
               </div>
               <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
