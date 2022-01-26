@@ -20,6 +20,7 @@ const Login = () => {
   const submitLoginForm = (e) => {
     e.preventDefault();
     setErrors({ email: false, password: false });
+
     post("/session", { session: { email, password } }).then((res) => {
       if (res.error === "email") {
         setErrors((prev) => ({ ...prev, email: true }));

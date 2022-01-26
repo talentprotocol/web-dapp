@@ -45,6 +45,11 @@ const TokenDetails = ({
     });
   }, [data, loading]);
 
+  const formatNumberWithSymbol = (value) => currency(value).format();
+
+  const formatNumberWithoutSymbol = (value) =>
+    currency(value, { symbol: "" }).format();
+
   return (
     <div
       className={`card ${
@@ -61,12 +66,15 @@ const TokenDetails = ({
       <Divider className="mt-2 mb-3" />
       <div className="d-flex flex-row justify-content-between">
         <P2 bold text={`${ticker} Price`} className="text-primary-03" />
-        <P2 text={`$${tokenData.price}`} className="text-black" />
+        <P2
+          text={formatNumberWithSymbol(tokenData.price)}
+          className="text-black"
+        />
       </div>
       <div className="d-flex flex-row justify-content-between mt-3">
         <P2 bold text="Market Value" className="text-primary-03" />
         <P2
-          text={currency(tokenData.totalSupply * 0.1).format()}
+          text={formatNumberWithSymbol(tokenData.totalSupply * 0.1)}
           className="text-black"
         />
       </div>
@@ -87,13 +95,13 @@ const TokenDetails = ({
       <div className="d-flex flex-row justify-content-between">
         <P2 bold text="Circulating Supply" className="text-primary-03" />
         <P2
-          text={currency(tokenData.totalSupply).format().substring(1)}
+          text={formatNumberWithoutSymbol(tokenData.totalSupply)}
           className="text-black"
         />
       </div>
       <div className="d-flex flex-row justify-content-between mt-3">
         <P2 bold text="Max Supply" className="text-primary-03" />
-        <P2 text="1,000,000" className="text-black" />
+        <P2 text="1,000,000.00" className="text-black" />
       </div>
       <div className="d-flex flex-row justify-content-between mt-3">
         <P2 bold text="Supporters" className="text-primary-03" />

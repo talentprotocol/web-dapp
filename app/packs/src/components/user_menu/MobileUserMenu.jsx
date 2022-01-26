@@ -87,7 +87,7 @@ const UserMenuFullScreen = ({
           mode={mode}
           className="d-flex flex-row justify-content-between my-3"
         >
-          Share invite link{inviteNumbers} <Copy color="currentColor" />
+          Copy invite link{inviteNumbers} <Copy color="currentColor" />
         </Button>
       )}
       <div className={`divider ${mode}`}></div>

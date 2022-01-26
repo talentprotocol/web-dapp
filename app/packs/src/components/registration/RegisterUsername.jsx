@@ -11,13 +11,17 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
   const [requestingUsername, setRequestingUsername] = useState(false);
   const [usernameValidated, setUsernameValidated] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
 
-  const invalidForm = !usernameValidated;
+  const invalidForm = !usernameValidated || usernameError;
 
   const editUsername = (e) => {
-    if (e.target.value == "" || /^[A-Za-z0-9]+$/.test(e.target.value)) {
-      setUsername(e.target.value.toLowerCase());
+    if (e.target.value != "" && !/^[A-Za-z0-9]+$/.test(e.target.value)) {
+      setUsernameError(true);
+    } else {
+      setUsernameError(false);
     }
+    setUsername(e.target.value);
   };
 
   const submitRegisterUsernameForm = (e) => {
@@ -85,31 +89,32 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
             id="inputUsername"
             value={localUsername}
             onChange={editUsername}
+            error={usernameError}
           />
           <P2
             className="form-text text-primary-04 mt-1"
-            text="This will be your Talent Protocol URL"
+            text="This will be your Talent Protocol URL. We only accept lowercase letters and numbers."
           />
           {requestingUsername && (
             <FontAwesomeIcon
               icon={faSpinner}
               spin
               className="position-absolute"
-              style={{ top: 59, right: 10 }}
+              style={{ top: 48, right: 10 }}
             />
           )}
-          {usernameValidated && (
+          {usernameValidated && !usernameError && (
             <FontAwesomeIcon
               icon={faCheck}
               className="position-absolute text-success"
-              style={{ top: 59, right: 10 }}
+              style={{ top: 48, right: 10 }}
             />
           )}
-          {usernameExists && (
+          {(usernameExists || usernameError) && (
             <FontAwesomeIcon
               icon={faTimes}
               className="position-absolute text-danger"
-              style={{ top: 59, right: 10 }}
+              style={{ top: 48, right: 10 }}
             />
           )}
           {usernameExists && (
