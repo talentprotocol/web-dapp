@@ -141,7 +141,7 @@ const Perks = ({
             mode={mode}
             area={"General"}
             title={perk.title}
-            myTokens={parseFloat(availableBalance)}
+            tokensLeftToRedeem={calculateAmount(perk.price)}
             tokens={parseFloat(perk.price)}
             ticker={ticker}
             href={`/messages?user=${talentUserId}&perk=${perk.id}`}

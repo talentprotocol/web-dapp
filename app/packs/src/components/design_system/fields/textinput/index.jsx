@@ -2,15 +2,17 @@ import React from "react";
 
 import { P2, P3 } from "src/components/design_system/typography";
 
+import cx from "classnames";
+
 const TextInput = ({
   title,
   shortCaption,
   placeholder,
-  mode,
   disabled,
   value,
   onChange,
   className,
+  inputClassName,
   maxLength,
   required,
   error,
@@ -20,7 +22,7 @@ const TextInput = ({
   type = "text",
 }) => {
   return (
-    <div className={`d-flex flex-column ${className}`}>
+    <div className={cx("d-flex flex-column", className)}>
       <div className="d-flex flex-row justify-content-between align-items-end">
         {title ? (
           <P2 bold className="text-black mb-2">
@@ -36,7 +38,7 @@ const TextInput = ({
       <input
         id={id}
         type={type}
-        className={`form-control ${mode} ${error ? "border-danger" : ""}`}
+        className={cx("form-control", inputClassName, error && "border-danger")}
         aria-describedby={ariaDescribedBy}
         placeholder={placeholder}
         disabled={disabled}
@@ -45,9 +47,7 @@ const TextInput = ({
         maxLength={maxLength}
       />
 
-      {shortCaption ? (
-        <p className={`short-caption ${mode}`}>{shortCaption}</p>
-      ) : null}
+      {shortCaption ? <p className="short-caption">{shortCaption}</p> : null}
     </div>
   );
 };

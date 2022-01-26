@@ -4,10 +4,10 @@
 .title-field {
   font-weight: 700;
   font-size: 0.9rem;
+}
 
-  &.dark {
-    color: $white;
-  }
+.dark-body .title-field {
+  color: $white;
 }
 
 .short-caption {
@@ -16,10 +16,10 @@
   font-size: 0.8rem;
   color: $gray-primary;
   font-weight: 400;
+}
 
-  &.dark {
-    color: $gray-400;
-  }
+.dark-body .short-caption {
+  color: $gray-400;
 }
 
 .form-control {
@@ -117,13 +117,11 @@
 }
 
 .tag-input-caption {
-  &.light {
-    color: $gray-primary;
-  }
+  color: $gray-primary;
+}
 
-  &.dark {
-    color: $gray-400;
-  }
+.dark-body .tag-input-caption {
+  color: $gray-400;
 }
 
 ::placeholder {

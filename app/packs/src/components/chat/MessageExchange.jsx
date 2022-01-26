@@ -22,16 +22,16 @@ const CommunicateFirst = () => {
 
 const MessageExchange = (props) => {
   const { mode } = props;
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(url.search);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    if (params.has("perk")) {
-      params.delete("perk");
+    if (searchParams.has("perk")) {
+      searchParams.delete("perk");
       window.history.replaceState(
         {},
         document.title,
-        "/messages?" + params.toString()
+        "/messages?" + searchParams.toString()
       );
     }
   }, [props.value]);
@@ -49,6 +49,13 @@ const MessageExchange = (props) => {
     return (
       props.messages[index - 1].sender_id === props.messages[index].sender_id
     );
+  };
+
+  const onEnterPress = (e) => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      props.onSubmit(e);
+    }
   };
 
   return (
@@ -79,10 +86,12 @@ const MessageExchange = (props) => {
         id="messages"
         className="px-3 overflow-y-scroll display-messages d-flex flex-column pb-3"
       >
-        {props.messages.length == 0 && props.user.id == 0 && (
+        {props.messages.length === 0 && props.activeUserId === 0 && (
           <CommunicateFirst />
         )}
-        {props.messages.length == 0 && props.user.id != 0 && <EmptyMessages />}
+        {props.messages.length === 0 && props.activeUserId !== 0 && (
+          <EmptyMessages />
+        )}
         {props.messages.map((message, index) => (
           <Message
             key={`message_${message.id}`}
@@ -96,32 +105,35 @@ const MessageExchange = (props) => {
           />
         ))}
       </div>
-      <div className="d-flex flex-row w-100 p-2">
-        <TextArea
-          mode={mode}
-          disabled={
-            props.username == undefined ||
-            (props.messages.length == 0 && props.user.id == 0)
-          }
-          onChange={(e) => props.onChange(e.target.value)}
-          value={props.value}
-          placeholder="Start a new message"
-          className="w-100 mr-2"
-        />
-        <ThemedButton
-          onClick={props.onSubmit}
-          disabled={
-            props.value == "" ||
-            props.sendingMessage == true ||
-            (props.messages.length == 0 && props.user.id == 0)
-          }
-          type="primary-ghost"
-          mode={mode}
-          className="ml-2 p-2"
-        >
-          <Send color="currentColor" />
-        </ThemedButton>
-      </div>
+      {props.activeUserId !== 0 && (
+        <div className="d-flex flex-row w-100 p-2">
+          <TextArea
+            mode={mode}
+            disabled={
+              props.username == undefined ||
+              (props.messages.length == 0 && props.user.id == 0)
+            }
+            onChange={(e) => props.onChange(e.target.value)}
+            value={props.value}
+            placeholder="Type here"
+            className="w-100 mr-2"
+            onKeyDown={onEnterPress}
+          />
+          <ThemedButton
+            onClick={props.onSubmit}
+            disabled={
+              props.value == "" ||
+              props.sendingMessage == true ||
+              (props.messages.length == 0 && props.user.id == 0)
+            }
+            type="primary-ghost"
+            mode={mode}
+            className="ml-2 p-2"
+          >
+            <Send color="currentColor" />
+          </ThemedButton>
+        </div>
+      )}
     </div>
   );
 };

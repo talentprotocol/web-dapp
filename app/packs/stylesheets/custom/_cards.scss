@@ -5,29 +5,30 @@
   background-color: $alert-primary;
   padding: 1.5rem;
   border: 0;
+  text-decoration: none !important;
+
+  &:hover {
+    background-color: $surface-hover;
+  }
 
   img {
     border-radius: 4px;
   }
 
-  &.dark {
-    background-color: $gray-900;
-  }
-
   &.mobile {
     background: none;
   }
+
+  &.disabled {
+    pointer-events: none;
+  }
 }
 
-.card-hover {
-  &.dark {
-    &:hover {
-      background-color: $surface-02;
-    }
-  }
+.dark-body .card {
+  background-color: $gray-900;
 
   &:hover {
-    background-color: $surface-hover;
+    background-color: $surface-02;
   }
 }
 

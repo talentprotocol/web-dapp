@@ -20,9 +20,10 @@
 
 .chat-user {
   cursor: pointer;
+  border-radius: 4px;
 
   &:hover {
-    background-color: $surface-hover;
+    background-color: $gray-surface-2;
     text-decoration: none;
   }
 }
@@ -31,7 +32,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $gray-600;
+    background-color: $surface-02;
     text-decoration: none;
   }
 }
@@ -80,18 +81,16 @@
 }
 
 .chat-unread-count {
+  width: 2em;
+  height: 2em;
   background-color: $primary;
-  border-radius: 50%;
   color: white;
-  display: inline-block;
-  font-size: 75%;
-  font-weight: 700;
-  line-height: 1;
-  margin-left: 0.25rem;
-  padding: 0.4em 0.6em;
   text-align: center;
-  vertical-align: baseline;
-  white-space: nowrap;
+  border-radius: 50%;
+  line-height: 2em;
+  box-sizing: content-box;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .messages-from-same-user {
@@ -106,7 +105,7 @@
   }
 
   .new-message-user-list {
-    height: 200px;
+    height: 500px;
     overflow-y: auto;
   }
 }
