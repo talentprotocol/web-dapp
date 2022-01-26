@@ -11,7 +11,7 @@ import TextInput from "src/components/design_system/fields/textinput";
 import Link from "src/components/design_system/link";
 import { Search } from "src/components/icons";
 
-const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
+const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
   if (!show) {
     return null;
   }
@@ -51,13 +51,13 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
       fullscreen={"md-down"}
     >
       <Modal.Body className="show-grid p-0">
-        <P1 className="pt-4 pb-3 px-4" text={"New message"} bold mode={mode} />
+        <P1 className="pt-4 pb-3 px-4" text={"New message"} bold />
         <div className="d-flex flex-row mb-4 mx-4 position-relative align-items-center">
           <TextInput
-            mode={`${mode} pl-5`}
             onChange={(e) => setSearch(e.target.value)}
             value={search}
             placeholder="Search for people..."
+            inputClassName="pl-5"
             className="w-100"
           />
           <Search
@@ -86,7 +86,6 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mode, mobile }) => {
                   height={40}
                 />
                 <P2
-                  mode={mode}
                   className="mb-0 ml-3 current-color"
                   bold
                   text={user.username}

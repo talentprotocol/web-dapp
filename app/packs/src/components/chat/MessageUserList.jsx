@@ -33,12 +33,12 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
           <div style={{ minHeight: 48 }}>
             <div className="d-flex flex-row justify-content-between">
               <div className="d-flex flex-row">
-                <P2 mode={mode} text={user.username} bold className="mr-2" />
+                <P2 text={user.username} bold className="mr-2" />
               </div>
-              <P3 mode={mode} text={user.last_message_date} />
+              <P3 text={user.last_message_date} />
             </div>
             <div className="d-flex flex-row mb-0 justify-content-between">
-              <P2 mode={mode} text={message} className="mr-2" />
+              <P2 text={message} className="mr-2" />
               <UnreadMessagesCount count={user.unreadMessagesCount} />
             </div>
           </div>
@@ -95,17 +95,16 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
         setShow={setShow}
         onUserChosen={onNewMessageUser}
         mobile={mobile}
-        mobe={mode}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
         <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-4">
           <div className="position-relative">
             <TextInput
-              mode={`${mode} pl-5`}
               disabled={allUsers.length == 0}
               onChange={(e) => setSearch(e.target.value)}
               value={search}
               placeholder="Search in messages..."
+              inputClassName="pl-5"
               className="w-100"
             />
             <Search
