@@ -123,7 +123,7 @@ const TalentTable = ({ talents }) => {
   const toggleWatchlist = async (e, talent) => {
     e.preventDefault();
     setChangingFollow(true);
-    if (talent.isFollowing) {
+    if (follows[talent.id]) {
       const response = await destroy(
         `/api/v1/follows?user_id=${talent.user_id}`
       ).catch(() => setChangingFollow(false));
