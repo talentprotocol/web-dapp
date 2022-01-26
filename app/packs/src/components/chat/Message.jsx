@@ -12,19 +12,18 @@ const Message = (props) => {
     profilePictureUrl,
     username,
     previousMessageSameUser,
-    mode,
     user,
   } = props;
   const sentDate = format(new Date(message.created_at), "MMM d, yyyy, h:m a");
 
   return (
-    <div className="d-flex flex-row w-100 mt-3">
+    <div className="d-flex flex-row w-100 mt-2 message-div">
       {!previousMessageSameUser && (
         <TalentProfilePicture
           src={mine ? user.profilePictureUrl : profilePictureUrl}
           link={`talent/${props.username}`}
           height={48}
-          className="mb-auto mt-2"
+          className="mb-auto mt-3"
         />
       )}
       <div
@@ -33,21 +32,16 @@ const Message = (props) => {
         }`}
       >
         {!previousMessageSameUser && (
-          <div className="d-flex flex-row w-100 align-items-center">
+          <div className="d-flex flex-row w-100 align-items-center mt-3">
             <P2
-              mode={mode}
               bold
               text={mine ? user.username : username}
               className="mb-0 text-primary"
             />
-            <P3 mode={mode} text={sentDate} className="mb-0 ml-2" />
+            <P3 text={sentDate} className="mb-0 ml-2" />
           </div>
         )}
-        <P2
-          mode={mode}
-          text={message.text}
-          className={"text-white-space-wrap"}
-        />
+        <P2 text={message.text} className={"text-white-space-wrap"} />
       </div>
     </div>
   );

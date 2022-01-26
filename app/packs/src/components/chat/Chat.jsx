@@ -24,11 +24,11 @@ const Chat = ({ users, user }) => {
   const [lastMessageId, setLastMessageId] = useState(0);
   const [chatId, setChatId] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
+  const [gettingMessages, setGettingMessages] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
   const [messengerUsername, setMessengerUsername] = useState();
-  const { height, width } = useWindowDimensionsHook();
+  const { mobile } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
-  const mobile = width < 992;
 
   // Get user from URL
   useEffect(() => {
@@ -40,6 +40,7 @@ const Chat = ({ users, user }) => {
       window.location.replace("/messages");
     }
 
+    setGettingMessages(true);
     setMessage("");
     setMessages([]);
 
@@ -49,6 +50,7 @@ const Chat = ({ users, user }) => {
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
       setMessengerUsername(response.username);
+      setGettingMessages(false);
     });
   }, [activeUserId]);
 
@@ -145,7 +147,6 @@ const Chat = ({ users, user }) => {
     window.history.replaceState({}, document.title, `/messages?user=${userId}`);
   };
 
-
   return (
     <>
       <div className="d-flex flex-column w-100 h-100">
@@ -161,7 +162,7 @@ const Chat = ({ users, user }) => {
               />
             </section>
           )}
-          {(!mobile || activeUserId > 0) && (
+          {(!mobile || activeUserId > 0) && !gettingMessages && (
             <section className="col-lg-9 px-0 lg-overflow-y-hidden">
               <MessageExchange
                 smallScreen={mobile}

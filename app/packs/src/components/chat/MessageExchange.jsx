@@ -84,7 +84,7 @@ const MessageExchange = (props) => {
       )}
       <div
         id="messages"
-        className="px-3 overflow-y-scroll display-messages d-flex flex-column pb-3"
+        className="px-3 overflow-y-auto display-messages d-flex flex-column pb-3"
       >
         {props.messages.length === 0 && props.activeUserId === 0 && (
           <CommunicateFirst />
@@ -101,7 +101,6 @@ const MessageExchange = (props) => {
             profilePictureUrl={props.profilePictureUrl}
             username={props.username}
             user={props.user}
-            mode={mode}
           />
         ))}
       </div>
@@ -118,20 +117,19 @@ const MessageExchange = (props) => {
             placeholder="Type here"
             className="w-100 mr-2"
             onKeyDown={onEnterPress}
+            limitHeight={100}
           />
-          <ThemedButton
+          <button
+            className="button-link send-message-button"
             onClick={props.onSubmit}
             disabled={
               props.value == "" ||
               props.sendingMessage == true ||
               (props.messages.length == 0 && props.user.id == 0)
             }
-            type="primary-ghost"
-            mode={mode}
-            className="ml-2 p-2"
           >
             <Send color="currentColor" />
-          </ThemedButton>
+          </button>
         </div>
       )}
     </div>

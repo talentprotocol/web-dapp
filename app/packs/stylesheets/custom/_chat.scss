@@ -97,6 +97,24 @@
   margin-left: 65px !important;
 }
 
+.message-div {
+  overflow-wrap: anywhere;
+}
+
+.send-message-button {
+  color: $primary;
+
+  &:disabled {
+    color: $gray;
+  }
+}
+
+.dark-body .send-message-button {
+  &:disabled {
+    color: $gray-600;
+  }
+}
+
 @media (min-width: 992px) {
   .absolute-menu {
     position: absolute;
