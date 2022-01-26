@@ -222,14 +222,13 @@ const StakeModal = ({
               <P1 text={`BUY ${ticker}`} bold className="text-black mb-3" />
               <P2>
                 Please insert the amount of cUSD (Celo's stablecoin) you wish to
-                use to buy Talent Tokens. You'll need to have cUSD in your
-                Metamask wallet to do this transaction.
+                use to buy Talent Tokens.
               </P2>
               <P2 className="my-2">
                 Check the{" "}
                 <a
                   target="self"
-                  href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735"
+                  href="https://talentprotocol.notion.site/Top-Up-Your-Account-b4c96000187442daa126cb843e87ab1d"
                 >
                   guide
                 </a>{" "}
@@ -238,7 +237,7 @@ const StakeModal = ({
               <div className="d-flex flex-column">
                 <div className="form-group position-relative">
                   <TextInput
-                    title={"Lock Amount"}
+                    title={"Total Amount"}
                     mode={mode}
                     type={"number"}
                     topCaption={
@@ -321,6 +320,13 @@ const StakeModal = ({
                       </>
                     )}
                   </div>
+
+                  {stage == "Error" && (
+                    <P2 className="text-danger">
+                      There was an issue with the transaction. Check your
+                      metamask and reach out to us if the error persists.
+                    </P2>
+                  )}
                 </div>
               </div>
             </div>
