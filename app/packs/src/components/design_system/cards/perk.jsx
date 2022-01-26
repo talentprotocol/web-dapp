@@ -8,39 +8,32 @@ const Perk = ({
   mode,
   area,
   title,
-  myTokens,
+  tokensLeftToRedeem,
   tokens,
   ticker,
   className = "",
   href,
   hideAction,
 }) => {
-  const goToRoute = () => {
-    if (hideAction || myTokens < tokens) {
-      return;
-    }
-    window.location.href = href;
-  };
+  const disabled = hideAction || tokensLeftToRedeem > 0;
 
   return (
-    <div
-      className={`card card-hover${
-        hideAction ? "" : " cursor-pointer"
-      } ${mode} ${className}`}
-      onClick={goToRoute}
+    <a
+      className={`card ${mode} ${disabled ? "disabled" : ""} ${className}`}
+      href={href}
     >
       <div className="d-flex justify-content-between">
         <Caption className={`perk-area`} text={area} />
 
         <div className={`text-right ${mode}`}>
-          {myTokens >= tokens ? (
+          {tokensLeftToRedeem === 0 ? (
             <Tag className="tag-available" mode={mode}>
               <P3 bold text="Available" className="tag-available-label" />
             </Tag>
           ) : (
             <Tag className="tag-unavailable" mode={mode}>
               <P3 bold className="tag-unavailable-label">
-                Hold more {ethers.utils.commify(tokens - myTokens)} {ticker}
+                Hold more {ethers.utils.commify(tokensLeftToRedeem)} {ticker}
               </P3>
             </Tag>
           )}
@@ -52,7 +45,7 @@ const Perk = ({
         mode={`${mode}`}
         text={`Hold +${ethers.utils.commify(tokens)} ${ticker}`}
       />
-    </div>
+    </a>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import dayjs from "dayjs";
 import debounce from "lodash/debounce";
 
 import { post, get } from "src/utils/requests";
@@ -10,11 +11,12 @@ import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
 
-const Chat = ({ users, userId, user }) => {
+const Chat = ({ users, user }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
   );
+  const [localUsers, setLocalUsers] = useState(users);
   const [perkId, setPerkId] = useState(url.searchParams.get("perk") || 0);
   const [activeChannel, setActiveChannel] = useState(null); // @TODO: Refactor chat
   const [messages, setMessages] = useState([]);
@@ -88,6 +90,22 @@ const Chat = ({ users, userId, user }) => {
     setLastMessageId(response.message.id);
   };
 
+  const updateUsers = (prevUsers, response) => {
+    const receiverIndex = prevUsers.findIndex(
+      (user) => user.id === response.receiver_id
+    );
+    const formatedDate = dayjs(response.created_at).format("MMM D");
+    return [
+      ...prevUsers.slice(0, receiverIndex),
+      {
+        ...prevUsers[receiverIndex],
+        last_message: response.text,
+        last_message_date: formatedDate,
+      },
+      ...prevUsers.slice(receiverIndex + 1),
+    ];
+  };
+
   const sendNewMessage = () => {
     if (message.replace(/\s+/g, "") == "") {
       return;
@@ -100,6 +118,7 @@ const Chat = ({ users, userId, user }) => {
         console.log(response.error);
         // setError("Unable to send message, try again") // @TODO: Create error box (absolute positioned)
       } else {
+        setLocalUsers((prevUsers) => updateUsers(prevUsers, response));
         setMessages([...messages, response]);
         setLastMessageId(response.id);
         setMessage("");
@@ -121,6 +140,12 @@ const Chat = ({ users, userId, user }) => {
     setMessage("");
   };
 
+  const setActiveUser = (userId) => {
+    setActiveUserId(userId);
+    window.history.replaceState({}, document.title, `/messages?user=${userId}`);
+  };
+
+
   return (
     <>
       <div className="d-flex flex-column w-100 h-100">
@@ -128,9 +153,9 @@ const Chat = ({ users, userId, user }) => {
           {(!mobile || activeUserId == 0) && (
             <section className="col-lg-3 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
               <MessageUserList
-                onClick={(user_id) => setActiveUserId(user_id)}
+                onClick={(userId) => setActiveUser(userId)}
                 activeUserId={activeUserId}
-                users={users}
+                users={localUsers}
                 mode={theme.mode()}
                 mobile={mobile}
               />
@@ -140,6 +165,7 @@ const Chat = ({ users, userId, user }) => {
             <section className="col-lg-9 px-0 lg-overflow-y-hidden">
               <MessageExchange
                 smallScreen={mobile}
+                activeUserId={activeUserId}
                 clearActiveUserId={() => clearActiveUser()}
                 value={message}
                 onChange={setMessage}

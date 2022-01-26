@@ -267,7 +267,7 @@
 }
 
 .light-body .themed-border-top {
-  border-top: 1px solid $gray-200;
+  border-top: 1px solid $surface-hover;
 }
 
 .dark-body .themed-border-right {
@@ -275,7 +275,7 @@
 }
 
 .light-body .themed-border-right {
-  border-right: 1px solid $gray-200;
+  border-right: 1px solid $surface-hover;
 }
 
 .dark-body .themed-border-left {
@@ -283,7 +283,7 @@
 }
 
 .light-body .themed-border-left {
-  border-left: 1px solid $gray-200;
+  border-left: 1px solid $surface-hover;
 }
 
 .dark-body .themed-border-bottom {
@@ -291,7 +291,7 @@
 }
 
 .light-body .themed-border-bottom {
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $surface-hover;
 }
 
 .overflow-y-scroll {

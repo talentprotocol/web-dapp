@@ -12,7 +12,6 @@
         unreadMessagesCount: @unread_messages_counts[user]
       }
     },
-    userId: current_user.id,
     user: { id: current_user.id, username: current_user.username, profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url}
   }, prerender: false, html_options: { class: "h-100" })
 %>

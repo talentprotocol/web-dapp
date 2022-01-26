@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import debounce from "lodash/debounce";
 
 import { get } from "src/utils/requests";

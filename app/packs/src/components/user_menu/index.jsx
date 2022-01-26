@@ -265,20 +265,26 @@ export const UserMenuUnconnected = ({
               <P3 bold text="My profile" className="text-black" />
             </Dropdown.Item>
           )}
-          <Dropdown.Divider className="user-menu-divider m-0" />
           {userHasInvitesLeft && (
-            <Dropdown.Item
-              key="tab-dropdown-invite-code"
-              onClick={copyCodeToClipboard}
-              className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
-              disabled={user.invitesLeft == null && user.totalInvites == null}
-            >
-              <div className="d-flex">
-                <P3 bold text="Copy invite link" className="text-black mr-1" />
-                <P3 bold text={inviteNumbers()} />
-              </div>
-              <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
-            </Dropdown.Item>
+            <>
+              <Dropdown.Divider className="user-menu-divider m-0" />
+              <Dropdown.Item
+                key="tab-dropdown-invite-code"
+                onClick={copyCodeToClipboard}
+                className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
+                disabled={user.invitesLeft == null && user.totalInvites == null}
+              >
+                <div className="d-flex">
+                  <P3
+                    bold
+                    text="Copy invite link"
+                    className="text-black mr-1"
+                  />
+                  <P3 bold text={inviteNumbers()} />
+                </div>
+                <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
+              </Dropdown.Item>
+            </>
           )}
           <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item

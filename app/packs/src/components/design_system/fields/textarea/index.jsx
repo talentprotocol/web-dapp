@@ -14,6 +14,7 @@ const TextArea = ({
   required,
   error,
   maxLength,
+  onKeyDown,
 }) => {
   return (
     <div className={`d-flex flex-column ${className}`}>
@@ -35,6 +36,7 @@ const TextArea = ({
         value={value}
         onChange={onChange}
         maxLength={maxLength}
+        onKeyDown={onKeyDown}
       ></textarea>
 
       {shortCaption ? (

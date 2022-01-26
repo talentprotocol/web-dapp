@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "../button";
@@ -14,7 +14,7 @@ const lastMessageText = (lastMessage) => {
       ? `${lastMessage.substring(0, 28)}...`
       : lastMessage;
   } else {
-    return "Send your first message!";
+    return "";
   }
 };
 
@@ -24,25 +24,23 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
 
   return (
     <a
-      className={`w-100 p-3 themed-border-bottom chat-user${active} text-reset`}
+      className={`mx-2 pt-3 pl-5 pr-3 chat-user${active} text-reset`}
       onClick={() => onClick(user.id)}
     >
-      <div className="d-flex flex-row justify-content-between align-items-center">
-        <TalentProfilePicture
-          src={user.profilePictureUrl}
-          height={48}
-          greyscale={!active}
-        />
-        <div className="d-flex flex-column w-100 pl-2 ml-2">
-          <div className="d-flex flex-row justify-content-between">
-            <div className="d-flex flex-row">
-              <P2 mode={mode} text={user.username} bold className="mr-2" />
+      <div className="d-flex flex-row justify-content-between">
+        <TalentProfilePicture src={user.profilePictureUrl} height={48} />
+        <div className="d-flex flex-column w-100 h-100 pl-2 pb-3 ml-2 themed-border-bottom">
+          <div style={{ minHeight: 48 }}>
+            <div className="d-flex flex-row justify-content-between">
+              <div className="d-flex flex-row">
+                <P2 mode={mode} text={user.username} bold className="mr-2" />
+              </div>
+              <P3 mode={mode} text={user.last_message_date} />
             </div>
-            <P3 mode={mode} text={user.last_message_date} />
-          </div>
-          <div className="d-flex flex-row mb-0 justify-content-between">
-            <P2 mode={mode} text={message} className="mr-2" />
-            <UnreadMessagesCount count={user.unreadMessagesCount} />
+            <div className="d-flex flex-row mb-0 justify-content-between">
+              <P2 mode={mode} text={message} className="mr-2" />
+              <UnreadMessagesCount count={user.unreadMessagesCount} />
+            </div>
           </div>
         </div>
       </div>
@@ -62,14 +60,13 @@ const UnreadMessagesCount = ({ count }) => {
 };
 
 const filteredUsers = (users, search) =>
-  users.filter((user) => user.username.includes(search));
+  users.filter((user) =>
+    user.username.toLowerCase().includes(search.toLowerCase())
+  );
 
 const EmptyUsers = () => (
   <div className="w-100 p-3 themed-border-top d-flex flex-column align-items-center">
-    <p className="text-muted mb-0">
-      <small>You need to start a chat with someone!</small>
-    </p>
-    <Button type="primary" text="See Talent" href="/talent" size="sm" />
+    <Button type="primary" text="Browse Talent" href="/talent" size="sm" />
   </div>
 );
 
@@ -86,6 +83,10 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
     }
     setShow(false);
   };
+
+  useEffect(() => {
+    setAllUsers(users);
+  }, [users]);
 
   return (
     <>
@@ -104,7 +105,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
               disabled={allUsers.length == 0}
               onChange={(e) => setSearch(e.target.value)}
               value={search}
-              placeholder="Search for people..."
+              placeholder="Search in messages..."
               className="w-100"
             />
             <Search
