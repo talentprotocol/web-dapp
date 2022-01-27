@@ -19,7 +19,7 @@ const client = (env) => {
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList {
-    talentTokens(first: 200) {
+    talentTokens(first: 300) {
       id
       supporterCounter
       totalSupply
@@ -36,7 +36,7 @@ const GET_SUPPORTER_PORTFOLIO = gql`
       id
       totalAmount
       rewardsClaimed
-      talents {
+      talents(first: 300) {
         id
         amount
         talAmount
@@ -75,7 +75,7 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
       marketCap
       rewardsReady
       rewardsClaimed
-      supporters {
+      supporters(first: 300) {
         id
         amount
         talAmount

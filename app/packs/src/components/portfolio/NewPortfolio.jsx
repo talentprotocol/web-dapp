@@ -51,7 +51,7 @@ const TransakDone = ({ show, hide }) => (
 
 const LoadingPortfolio = ({ mode }) => {
   return (
-    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-4">
       <Spinner />
     </div>
   );
@@ -59,8 +59,8 @@ const LoadingPortfolio = ({ mode }) => {
 
 const ChangeNetwork = ({ mode, networkChange }) => {
   return (
-    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-      <H5 mode={mode} text="Please change your network" bold />
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4 p-lg-0">
+      <H5 mode={mode} text="Please switch your network" bold />
       <P2
         mode={mode}
         text="To see your portfolio you need to switch your network to CELO."
