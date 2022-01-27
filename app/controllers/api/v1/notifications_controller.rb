@@ -5,9 +5,9 @@ class API::V1::NotificationsController < ApplicationController
     result = @notification.update(notification_params)
 
     if result
-      render json: { success: "Notification successfully updated." }, status: :ok
+      render json: {success: "Notification successfully updated."}, status: :ok
     else
-      render json: { error: "Unable to update notification." }, status: :unprocessable_entity
+      render json: {error: "Unable to update notification."}, status: :unprocessable_entity
     end
   end
 

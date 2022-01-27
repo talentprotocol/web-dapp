@@ -1,6 +1,6 @@
 class DevEmailInterceptor
   def self.delivering_email(message)
-    message.to = [ENV['DEV_EMAIL']]
+    message.to = [ENV["DEV_EMAIL"]]
   end
 end
 

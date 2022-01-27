@@ -23,7 +23,7 @@ class API::V1::FollowsController < ApplicationController
   def destroy
     follow = Follow.find_by(user_id: follow_params[:user_id], follower_id: current_user.id)
 
-    if follow && follow.destroy
+    if follow&.destroy
       # if params[:user_id] != current_user.id
       #   DeSyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
       # end
