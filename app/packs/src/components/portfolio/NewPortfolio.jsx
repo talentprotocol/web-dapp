@@ -109,7 +109,7 @@ const newTransak = (width, height, env, apiKey) => {
   });
 };
 
-const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
+const NewPortfolio = ({ address, tokenAddress, ticker, railsContext }) => {
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState(address || "");
   const { loading, error, data, refetch } = useQuery(GET_SUPPORTER_PORTFOLIO, {
@@ -339,6 +339,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
           tokenAddress={tokenAddress}
           chainAPI={chainAPI}
           onClickTransak={onClickTransak}
+          ticker={ticker}
         />
       </>
     );
@@ -463,6 +464,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         <Supporters
           mode={theme.mode()}
           tokenAddress={tokenAddress}
+          ticker={ticker}
           onClaim={onClaim}
           chainAPI={chainAPI}
         />

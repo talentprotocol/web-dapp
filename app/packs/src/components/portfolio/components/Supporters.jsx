@@ -18,7 +18,69 @@ import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Link from "src/components/design_system/link";
-import { Spinner, OrderBy } from "src/components/icons";
+import { Spinner, OrderBy, ArrowLeft } from "src/components/icons";
+
+const MobileSupporterAction = ({
+  show,
+  hide,
+  mode,
+  name,
+  profilePicture,
+  tokensHeld,
+  unclaimedRewards,
+  ticker,
+  userId,
+}) => {
+  return (
+    <Modal
+      show={show}
+      fullscreen="true"
+      onHide={hide}
+      dialogClassName={"m-0 w-100 h-100"}
+      contentClassName={"h-100"}
+    >
+      <Modal.Body className="d-flex flex-column h-100 p-0">
+        <div className="d-flex flex-row align-items-center w-100 py-4">
+          <Button
+            onClick={hide}
+            type="white-ghost"
+            mode={mode}
+            className="mx-3 p-2"
+          >
+            <ArrowLeft color="currentColor" />
+          </Button>
+          <TalentProfilePicture src={profilePicture} height="24" />
+          <P2 className="ml-2 p-0" bold>
+            {name}
+          </P2>
+        </div>
+        <div className={`divider ${mode}`}></div>
+        <P3 className="mx-3 mt-4" bold>
+          Tokens Held
+        </P3>
+        <H4 className="mx-3 mb-4" bold>
+          {tokensHeld} {ticker}
+        </H4>
+        <div className={`divider mx-3 ${mode}`}></div>
+        <div className="d-flex flex-row justify-content-between align-items-center mx-3 mt-4">
+          <P2 bold className="text-gray-300">
+            Unclaimed Rewards
+          </P2>
+          <P1 bold>{unclaimedRewards}</P1>
+        </div>
+        <Button
+          onClick={() => (window.location.href = `/messages?user=${userId}`)}
+          type="white-subtle"
+          mode={mode}
+          disabled={!userId}
+          className="mx-3 mt-auto mb-3"
+        >
+          Message
+        </Button>
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 const MobileSupportersDropdown = ({
   show,
@@ -197,7 +259,7 @@ const SupporterOverview = ({
   );
 };
 
-const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
+const Supporters = ({ mode, ticker, tokenAddress, chainAPI, mobile }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: tokenAddress?.toLowerCase() },
   });
@@ -207,6 +269,7 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
   const [returnValues, setReturnValues] = useState({});
+  const [activeSupporter, setActiveSupporter] = useState(null);
 
   const toggleDirection = () => {
     if (sortDirection == "asc") {
@@ -392,11 +455,11 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
   const getSelectedOptionValue = (supporter) => {
     switch (selectedSort) {
       case "Amount":
-        return parseAndCommify(supporter.amount);
+        return `${parseAndCommify(supporter.amount)} ${ticker}`;
       case "Rewards":
-        return parseAndCommify(returnValues[supporter.id] || "0");
+        return `${parseAndCommify(returnValues[supporter.id] || "0")} TAL`;
       case "Alphabetical Order":
-        return parseAndCommify(supporter.amount);
+        return `${parseAndCommify(supporter.amount)} ${ticker}`;
     }
   };
 
@@ -411,6 +474,23 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
   if (mobile) {
     return (
       <>
+        {activeSupporter !== null && (
+          <MobileSupporterAction
+            show={true}
+            hide={() => setActiveSupporter(null)}
+            mode={mode}
+            profilePicture={
+              supporterInfo[activeSupporter.id]?.profilePictureUrl
+            }
+            name={supporterName(activeSupporter)}
+            tokensHeld={parseAndCommify(activeSupporter.amount)}
+            unclaimedRewards={parseAndCommify(
+              returnValues[activeSupporter.id] || "0"
+            )}
+            ticker={ticker}
+            userId={supporterInfo[activeSupporter.id]?.id}
+          />
+        )}
         <MobileSupportersDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
@@ -447,7 +527,7 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
               <Table.Tr
                 key={`supporter-${supporter.id}`}
                 className="px-2"
-                onClick={() => console.log("SHOW SUPPORTER DETAILS")}
+                onClick={() => setActiveSupporter(supporter)}
               >
                 <Table.Td>
                   <div className="d-flex cursor-pointer pl-4 py-2">
