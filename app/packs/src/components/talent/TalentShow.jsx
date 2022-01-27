@@ -14,14 +14,14 @@ import StakeModal from "../token/StakeModal";
 import TalentTags from "./TalentTags";
 import TalentBadges from "./TalentBadges";
 
-import Roadmap from "./Show/Roadmap";
-import Perks from "./Show/Perks";
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
+import Supporters from "./Show/Supporters";
+
+import Roadmap from "./Show/Roadmap";
+import Perks from "./Show/Perks";
 import TokenDetails from "./Show/TokenDetails";
 import SocialRow from "./Show/SocialRow";
-
-import { completeProfile } from "./utils/talent";
 
 import Button from "src/components/design_system/button";
 import { Chat } from "src/components/icons";
@@ -84,15 +84,6 @@ const TalentShow = ({
     return sharedState.user.display_name || sharedState.user.username;
   };
 
-  const prettifyWebsiteUrl = (url) => {
-    try {
-      const link = new URL(url);
-      return link.host;
-    } catch {
-      return url;
-    }
-  };
-
   const toggleWatchlist = async (e) => {
     e.preventDefault();
 
@@ -122,10 +113,6 @@ const TalentShow = ({
     }
     setChangingFollow(false);
   };
-
-  const profileIsComplete = useMemo(() => {
-    return completeProfile(sharedState);
-  }, [sharedState]);
 
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
@@ -281,28 +268,52 @@ const TalentShow = ({
         >
           Timeline
         </div>
+        {sharedState.token.contract_id && (
+          <div
+            onClick={() => setPageInDisplay("Supporters")}
+            className={`talent-table-tab${
+              pageInDisplay == "Supporters" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            Supporters
+          </div>
+        )}
       </div>
       <div
         className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-6")}
       >
-        <div className="col-12 col-lg-8 p-0">
+        <div
+          className={`col-12${
+            pageInDisplay != "Supporters" ? " col-lg-8" : ""
+          } p-0`}
+        >
           {pageInDisplay == "Overview" && (
             <Overview sharedState={sharedState} mode={theme.mode()} />
           )}
           {pageInDisplay == "Timeline" && (
             <Timeline sharedState={sharedState} mode={theme.mode()} />
           )}
+          {pageInDisplay == "Supporters" && (
+            <Supporters
+              sharedState={sharedState}
+              mobile={mobile}
+              mode={theme.mode()}
+              railsContext={railsContext}
+            />
+          )}
         </div>
-        <div className="col-12 col-lg-4 p-0">
-          <TokenDetails
-            ticker={ticker()}
-            token={token}
-            displayName={displayName({ withLink: false })}
-            username={sharedState.user.username}
-            railsContext={railsContext}
-            mobile={mobile}
-          />
-        </div>
+        {pageInDisplay != "Supporters" && (
+          <div className="col-12 col-lg-4 p-0">
+            <TokenDetails
+              ticker={ticker()}
+              token={token}
+              displayName={displayName({ withLink: false })}
+              username={sharedState.user.username}
+              railsContext={railsContext}
+              mobile={mobile}
+            />
+          </div>
+        )}
       </div>
       <section
         className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}

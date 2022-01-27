@@ -522,11 +522,13 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
                     src={supporterInfo[supporter.id]?.profilePictureUrl}
                     height="24"
                   />
-                  <P2
-                    text={`${supporterInfo[supporter.id]?.username}`}
-                    bold
-                    className="ml-2"
-                  />
+                  {supporterInfo[supporter.id]?.username && (
+                    <P2
+                      text={`${supporterInfo[supporter.id]?.username}`}
+                      bold
+                      className="ml-2"
+                    />
+                  )}
                   <P2
                     text={`(${supporter.id.substring(0, 10)}...)`}
                     className="ml-2"
