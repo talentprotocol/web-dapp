@@ -284,7 +284,7 @@ const StakeModal = ({
                         className="btn btn-primary w-100"
                         onClick={changeNetwork}
                       >
-                        Change Network
+                        Switch Network
                       </button>
                     )}
                     {step() == "Stake" && (

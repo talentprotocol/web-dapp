@@ -63,7 +63,7 @@ const ChangeNetwork = ({ mode, networkChange }) => {
       <H5 mode={mode} text="Please change your network" bold />
       <P2
         mode={mode}
-        text="To see your portfolio you need to change network to CELO."
+        text="To see your portfolio you need to switch your network to CELO."
         bold
       />
       <Button
@@ -72,7 +72,7 @@ const ChangeNetwork = ({ mode, networkChange }) => {
         mode={mode}
         className="mt-3"
       >
-        Change Network
+        Switch Network
       </Button>
     </div>
   );
