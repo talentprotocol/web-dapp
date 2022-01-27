@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 import dayjs from "dayjs";
 
-const Timeline = ({ sharedState }) => {
+import { Caption, P2, P3 } from "src/components/design_system/typography";
+import ProjectCard from "src/components/design_system/cards/project_card";
+
+const Timeline = ({ sharedState, mode }) => {
   const sortedTimeline = useMemo(() => {
     return sharedState.milestones.sort((first, second) => {
       const firstDate = dayjs(first.start_date);
@@ -16,39 +19,35 @@ const Timeline = ({ sharedState }) => {
     });
   }, [sharedState.milestones]);
 
+  const formatDate = (date) => {
+    return dayjs(date, "YYYY-MM-DD").format("YYYY-MM");
+  };
+
   return (
-    <>
-      <section className="d-flex flex-column mt-3 mx-3">
-        <h5>Career</h5>
-        {sortedTimeline.map((milestone) => (
-          <div
-            key={`milestone_list_${milestone.id}`}
-            className="d-flex flex-row w-100 mb-3"
-          >
-            <div className="col-3">
-              <small>{milestone.start_date}</small>
-            </div>
-            <div className="col-9 d-flex flex-column">
-              <h6 className="mb-1">
-                <strong>{milestone.title}</strong>
-              </h6>
-              <small className="text-warning">
-                <i>
-                  <a
-                    href={milestone.link}
-                    target="_blank"
-                    className="text-reset"
-                  >
-                    {milestone.institution}
-                  </a>
-                </i>
-              </small>
-              <p className="mb-1">{milestone.description}</p>
-            </div>
+    <section className="d-flex flex-column mt-6 mr-lg-5">
+      {sortedTimeline.map((milestone) => (
+        <div
+          key={`milestone_list_${milestone.id}`}
+          className="d-flex flex-row w-100 mb-6"
+        >
+          <div className="col-2 d-flex flex-column">
+            <Caption
+              text={formatDate(milestone.start_date)}
+              className="text-primary-04"
+            />
           </div>
-        ))}
-      </section>
-    </>
+          <div className="col-10">
+            <ProjectCard
+              mode={mode}
+              organization={milestone.institution}
+              title={milestone.title}
+              description={milestone.description}
+              websiteLink={milestone.link}
+            />
+          </div>
+        </div>
+      ))}
+    </section>
   );
 };
 

@@ -7,7 +7,7 @@ export const THE_GRAPH_ENDPOINTS = {
   production:
     "https://api.studio.thegraph.com/query/10292/talent-tokens/v0.0.5",
   staging:
-    "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.18",
+    "https://api.studio.thegraph.com/query/10292/talent-protocol/v0.0.19",
   development: "https://api.studio.thegraph.com/query/8098/mvp/v0.0.23",
 };
 
@@ -16,3 +16,10 @@ export const SUPPORTER_GUIDE =
 
 export const TALENT_GUIDE =
   "https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff";
+
+export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
+
+export const ERROR_MESSAGES = {
+  ticker_reserved: "talent token with this symbol already exists",
+  action_canceled: "User denied transaction signature",
+};

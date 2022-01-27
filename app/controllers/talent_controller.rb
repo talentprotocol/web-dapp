@@ -1,6 +1,7 @@
 class TalentController < ApplicationController
   before_action :set_alert, only: :index
   before_action :set_talent, only: [:show, :update]
+  before_action :set_outer_talent, only: [:edit_profile]
 
   def index
     @talents = apply_filters(base_talent.includes(:primary_tag, :user))
@@ -14,14 +15,16 @@ class TalentController < ApplicationController
   end
 
   def show
-    @talent_leaderboard = base_talent.where("ito_date < ?", Time.current).order(id: :desc).limit(10)
-
     @is_following = current_user.following.where(user_id: @talent.user.id).exists?
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @talent }
     end
+  end
+
+  def edit_profile
+    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
   end
 
   private
@@ -48,5 +51,9 @@ class TalentController < ApplicationController
       else
         Talent.includes(:user).find_by!(user: {username: params[:id]})
       end
+  end
+
+  def set_outer_talent
+    @talent = Talent.includes(:user).find_by!(user: {username: params[:talent_id]})
   end
 end

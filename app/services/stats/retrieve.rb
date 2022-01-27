@@ -4,51 +4,45 @@ class Stats::Retrieve
   end
 
   def call
-    puts "TOTAL USERS: ##{User.count}"
-    puts "TOTAL TALENT: ##{Talent.count}"
-    puts "TOTAL TALENT (LIVE): ##{Talent.where(public: true).count}"
-    puts "TOTAL TOKENS: ##{Token.count}"
-    puts "TOTAL TOKENS DEPLOYED: ##{Token.where.not(contract_id: nil)}.count"
+    prev_supporters = 0
+    prev_talent = 0
+    prev_tokens = 0
+    prev_live_talent = 0
+    start_date = Time.new(2021, 11, 1).beginning_of_day
 
-    start_date = DateTime.new(2021, 11, 1)
+    @number_of_weeks.times do |i|
+      users = User.where("created_at < ?", start_date)
+      talent = Talent.where("created_at < ?", start_date)
+      supporters = users.count - talent.count
+      tokens = Token.where.not(contract_id: nil).where("updated_at < ?", start_date)
+      live_talent = Talent.joins(:token).where(public: true).where("token.updated_at < ?", start_date).where.not(token: {contract_id: nil})
 
-    week_0_users = User.where("created_at < ?", start_date)
-    week_0_talent = Talent.where("created_at < ?", start_date)
-    week_0_tokens_deployed = Token.where.not(contract_id: nil).where("updated_at < ?", start_date)
-    week_0_talent_live = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).where("talent.created_at < ?", start_date)
+      puts "WEEK #{i} - #{start_date}"
+      puts "Supporters: #{supporters - prev_supporters}"
+      puts "Registered Talent: #{talent.count - prev_talent}"
+      puts "Token Launched: #{tokens.count - prev_tokens}"
+      puts "LIVE TALENT Launched: #{live_talent.count - prev_live_talent}"
 
-    puts "------------ WEEK 0 ------------"
-    puts "TOTAL USERS: ##{week_0_users.count}"
-    puts "TOTAL SUPPORTERS (TALENT - USERS): ##{week_0_users.count - week_0_talent.count}"
-    puts "TOTAL TALENT (REGISTERED): ##{week_0_talent.count}"
-    puts "TOTAL TOKENS DEPLOYED: ##{week_0_tokens_deployed.count}"
-    puts "TOTAL TALENT (LIVE): ##{week_0_talent_live.count}"
-    puts "------------ #WEEK 0 ------------"
-    puts ""
-    puts ""
+      start_date += 1.week
+      prev_supporters = supporters
+      prev_talent = talent.count
+      prev_tokens = tokens.count
+      prev_live_talent = live_talent.count
 
-    # week 1
+      puts "------------------------------------------"
+    end
+  end
 
-    end_date = start_date
+  def race
+    players = ["pcbo", "pedro", "fred", "gustavo", "andreas", "francisco", "ivan", "filipe", "sam"]
 
-    @number_of_weeks.times.each do |w|
-      start_date = end_date
-      end_date = start_date + 1.week
+    players.each do |player|
+      invite = Invite.find_by(code: player)
+      first_race_end = Time.new(2021, 12, 24).end_of_day
 
-      week_users = User.where("created_at < ? AND created_at >= ?", end_date, start_date)
-      week_talent = Talent.where("created_at < ? AND created_at >= ?", end_date, start_date)
-      week_tokens_deployed = Token.where.not(contract_id: nil).where("updated_at < ? AND updated_at >= ?", end_date, start_date)
-      week_talent_live = Talent.joins(:token).where(public: true).where.not(token: {contract_id: nil}).where("talent.created_at < ? AND talent.created_at >= ?", end_date, start_date)
+      users_since_first_race = User.where(invite_id: invite.id).where("created_at > ?", first_race_end)
 
-      puts "------------ WEEK #{w} ------------"
-      puts "TOTAL USERS: ##{week_users.count}"
-      puts "TOTAL SUPPORTERS (TALENT - USERS): ##{week_users.count - week_talent.count}"
-      puts "TOTAL TALENT (REGISTERED): ##{week_talent.count}"
-      puts "TOTAL TOKENS DEPLOYED: ##{week_tokens_deployed.count}"
-      puts "TOTAL TALENT (LIVE): ##{week_talent_live.count}"
-      puts "------------ #WEEK #{w} ------------"
-      puts ""
-      puts ""
+      puts "#{player} has invited #{users_since_first_race.count} talent"
     end
   end
 end

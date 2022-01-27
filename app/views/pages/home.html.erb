@@ -1,13 +1,9 @@
-<main class="d-flex flex-column mx-auto h-100">
-  <%= react_component("Logo",
-    props: { width: 34, height: 34, bigName: true, centerText: true },
-    prerender: false, html_options: { class: "m-3" })
-  %>
+<main class="h-100">
   <%= react_component("RegistrationFlow",
     props: {
       step: 1,
       captchaKey: ENV["RECAPTCHA_SITE_KEY"]
     },
-    prerender: false, html_options: { class: "px-3 pb-3"})
+    prerender: false, html_options: { class: "h-100"})
   %>
 </main>

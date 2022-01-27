@@ -1,0 +1,117 @@
+.dropdown-menu {
+  background-color: $light !important;
+  color: $black !important;
+  min-width: 230px;
+  padding: 8px 8px;
+}
+
+.dark-body .dropdown-menu {
+  color: $white !important;
+  background-color: $gray-600 !important;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-toggle.no-caret:after {
+  display: none;
+}
+
+.dropdown-item {
+  padding: 8px 32px 8px 8px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $surface-hover !important;
+  }
+}
+
+.dark-body .dropdown-item {
+  &:hover {
+    background-color: $surface-hover-02 !important;
+  }
+}
+
+.user-menu-divider {
+  border-top: 1px solid $surface-hover;
+}
+
+.dark-body .user-menu-divider {
+  border-top: 1px solid $gray-500;
+}
+
+.modal-content,
+.modal-dialog {
+  background-color: $white;
+}
+
+.dark-body .modal-dialog {
+  background-color: $gray-900;
+}
+
+.dark-body .modal-content {
+  background-color: $gray-900;
+}
+
+.user-menu-dropdown {
+  background-color: $light !important;
+  color: $black !important;
+  min-width: 230px;
+  padding: 0px 16px 16px 16px;
+}
+
+.dark-body .user-menu-dropdown {
+  color: $white !important;
+  background-color: $gray-600 !important;
+}
+
+.user-menu-dropdown-item {
+  padding: 8px 0;
+  margin: 8px 0;
+  &:hover {
+    background-color: $surface-hover !important;
+  }
+}
+
+.dark-body .user-menu-dropdown-item {
+  &:hover {
+    background-color: $surface-hover-02 !important;
+  }
+}
+
+.claim-rewards-dropdown-btn {
+  background-color: $surface-hover !important;
+  color: $black !important;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+  box-shadow: none !important;
+
+  &:hover {
+    border: 1px solid $primary !important;
+    box-shadow: 0px 0px 0px 3px $primary-disabled !important;
+  }
+
+  &:active {
+    border: 0px solid $primary;
+  }
+
+  &[aria-expanded="true"] {
+    border: 1px solid $primary !important;
+    box-shadow: 0px 0px 0px 3px $primary-disabled !important;
+  }
+}
+
+.dark-body .claim-rewards-dropdown-btn {
+  color: $white !important;
+  background-color: $gray-600 !important;
+
+  &:hover {
+    background-color: $surface-hover-02 !important;
+    box-shadow: 0px 0px 0px 3px $primary-800 !important;
+  }
+
+  &[aria-expanded="true"] {
+    background-color: $surface-hover-02 !important;
+    box-shadow: 0px 0px 0px 3px $primary-800 !important;
+  }
+}

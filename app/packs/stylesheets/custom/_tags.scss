@@ -1,0 +1,83 @@
+.tag-container {
+  cursor: default;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: $surface-hover;
+
+  &.primary {
+    background-color: $primary-200;
+  }
+}
+
+.dark-body .tag-container {
+  background-color: $gray-600;
+}
+
+.optional-tag-container {
+  cursor: default;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: fit-content;
+  padding: 0px 8px;
+  border-radius: 4px;
+  background-color: $gray;
+
+  &:hover {
+    background-color: $gray-surface-2;
+  }
+
+  .close-tag {
+    margin-left: 8px;
+    padding-bottom: 2px;
+    cursor: pointer;
+
+    &:hover::after {
+      color: $gray-800;
+    }
+
+    &:active::after {
+      color: $gray-primary;
+    }
+
+    &:after {
+      content: "\00d7";
+      color: $gray-primary;
+    }
+  }
+}
+
+.dark-body .optional-tag-container {
+  background-color: $gray-400;
+
+  &:hover {
+    background-color: $gray-300;
+  }
+
+  .close-tag {
+    &:hover::after {
+      color: $white;
+    }
+
+    &:active::after {
+      color: $gray-200;
+    }
+
+    &:after {
+      content: "\00d7";
+      color: $gray-200;
+    }
+  }
+}
+
+.tag-inside-dropdown {
+  background-color: $gray-surface-2 !important;
+}
+
+.dark-body .tag-inside-dropdown {
+  background-color: $surface-hover-02 !important;
+}

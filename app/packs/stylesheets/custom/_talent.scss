@@ -31,7 +31,11 @@
 }
 
 .border-photo {
-  border: 5px solid $white;
+  border: 8px solid $white;
+}
+
+.dark-body .border-photo {
+  border: 8px solid $bg-01;
 }
 
 .pull-bottom-content {
@@ -167,15 +171,108 @@
 }
 
 .active-talent-table-tab {
-  border-bottom: 2px solid $primary !important;
+  border-bottom: 1px solid $primary !important;
   font-weight: 700;
+  color: $gray-800 !important;
 }
 
-.talent-table-tab{
+.dark-body .active-talent-table-tab {
+  color: $white !important;
+}
+
+.talent-table-tabs {
+  border-bottom: 1px solid $light;
+}
+
+.talent-table-tab {
   cursor: pointer;
-  margin-bottom: -2px;
+  padding-bottom: 16px;
+  margin-right: 24px;
+  color: $gray-400;
+
   &:hover {
-    background-color: $light;
-    border-bottom: 2px solid #dee2e6;
+    color: $gray-800;
+  }
+}
+
+.dark-body .talent-table-tabs {
+  border-bottom: 1px solid $gray-600;
+}
+
+.dark-body .talent-table-tab {
+  color: $gray-300;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.table-hover {
+  cursor: pointer;
+}
+
+.uppy-Root {
+  position: inherit;
+  margin-bottom: 0;
+}
+
+.edit-profile-fixed-bar {
+  position: fixed;
+  width: calc(100% - 220px);
+  background-color: $white;
+}
+
+.dark-body .edit-profile-fixed-bar {
+  background-color: $bg-01;
+}
+
+.edit-profile-public-check {
+  fill: $green-500;
+  color: $surface-hover;
+}
+
+.dark-body .edit-profile-public-check {
+  color: $bg-01;
+}
+
+.edit-profile-talent-progress {
+  background: rgba($primary, 0.2);
+}
+
+.edit-profile-content {
+  max-width: 615px;
+}
+
+.edit-profile-input {
+  width: 568px !important;
+}
+
+.dark-body .uppy-FileInput-input {
+  color: $white;
+}
+
+.light-body .uppy-FileInput-input {
+  color: $black;
+}
+
+.uppy-FileInput-btn {
+  background-color: $primary;
+  color: $white;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  font-weight: 700;
+  &:hover {
+    background: rgba($primary, 0.8);
+  }
+}
+
+@media (max-width: 992px) {
+  .edit-profile-fixed-bar {
+    width: 100% !important;
+  }
+
+  .edit-profile-content {
+    padding-left: 24px;
+    padding-right: 16px;
   }
 }

@@ -9,3 +9,93 @@
 .tal-table-price {
   line-height: 1;
 }
+
+.talent-table {
+  display: table;
+  width: 100%;
+
+  &.light {
+    color: $gray-800;
+
+    thead tr {
+      border-bottom: 1px solid $surface-hover;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid $surface-hover;
+
+      &:hover {
+        background-color: $surface-hover;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.dark {
+    color: $white;
+
+    thead tr {
+      border-bottom: 1px solid $gray-600;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid $gray-600;
+
+      &:hover {
+        background-color: $gray-900;
+        cursor: pointer;
+      }
+    }
+  }
+
+  td {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  th {
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.wallet-id-text {
+  color: $gray-primary;
+}
+
+.progress {
+  background-color: $gray-surface-2;
+
+  .bg-secondary {
+    background-color: $gray !important;
+  }
+}
+
+.dark-body .progress {
+  background-color: $gray-600;
+
+  .bg-secondary {
+    background-color: $gray-400 !important;
+  }
+}
+
+// TODO need to find a more suitable place for these
+.star {
+  stroke: none;
+  fill: $warning;
+}
+
+.star-outline {
+  stroke: $gray-primary;
+}
+
+.table-options-dropdown {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}

@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import dayjs from "dayjs";
 import debounce from "lodash/debounce";
 
 import { post, get } from "src/utils/requests";
 import { setupChannel, removeChannel } from "channels/message_channel";
 
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+
 import MessageUserList from "./MessageUserList";
 import MessageExchange from "./MessageExchange";
 import { useWindowDimensionsHook } from "../../utils/window";
 
-const Chat = ({ users, userId }) => {
+const Chat = ({ users, user }) => {
   const url = new URL(document.location);
   const [activeUserId, setActiveUserId] = useState(
     url.searchParams.get("user") || 0
   );
+  const [localUsers, setLocalUsers] = useState(users);
   const [perkId, setPerkId] = useState(url.searchParams.get("perk") || 0);
   const [activeChannel, setActiveChannel] = useState(null); // @TODO: Refactor chat
   const [messages, setMessages] = useState([]);
@@ -20,8 +24,11 @@ const Chat = ({ users, userId }) => {
   const [lastMessageId, setLastMessageId] = useState(0);
   const [chatId, setChatId] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
+  const [gettingMessages, setGettingMessages] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
-  const { height, width } = useWindowDimensionsHook();
+  const [messengerUsername, setMessengerUsername] = useState();
+  const { mobile } = useWindowDimensionsHook();
+  const theme = useContext(ThemeContext);
 
   // Get user from URL
   useEffect(() => {
@@ -29,10 +36,11 @@ const Chat = ({ users, userId }) => {
       return;
     }
 
-    if (activeUserId == userId) {
+    if (activeUserId == user.id) {
       window.location.replace("/messages");
     }
 
+    setGettingMessages(true);
     setMessage("");
     setMessages([]);
 
@@ -41,6 +49,8 @@ const Chat = ({ users, userId }) => {
       setLastMessageId(response.messages[response.messages.length - 1]?.id);
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
+      setMessengerUsername(response.username);
+      setGettingMessages(false);
     });
   }, [activeUserId]);
 
@@ -52,7 +62,7 @@ const Chat = ({ users, userId }) => {
     get(`api/v1/perks/${perkId}`).then((response) => {
       if (response.title) {
         setMessage(
-          `Hi! I'm reaching out because of my perk "${response.title}"`
+          `Hi! I'm reaching out because of your perk "${response.title}"`
         );
       }
     });
@@ -82,6 +92,22 @@ const Chat = ({ users, userId }) => {
     setLastMessageId(response.message.id);
   };
 
+  const updateUsers = (prevUsers, response) => {
+    const receiverIndex = prevUsers.findIndex(
+      (user) => user.id === response.receiver_id
+    );
+    const formatedDate = dayjs(response.created_at).format("MMM D");
+    return [
+      ...prevUsers.slice(0, receiverIndex),
+      {
+        ...prevUsers[receiverIndex],
+        last_message: response.text,
+        last_message_date: formatedDate,
+      },
+      ...prevUsers.slice(receiverIndex + 1),
+    ];
+  };
+
   const sendNewMessage = () => {
     if (message.replace(/\s+/g, "") == "") {
       return;
@@ -94,6 +120,7 @@ const Chat = ({ users, userId }) => {
         console.log(response.error);
         // setError("Unable to send message, try again") // @TODO: Create error box (absolute positioned)
       } else {
+        setLocalUsers((prevUsers) => updateUsers(prevUsers, response));
         setMessages([...messages, response]);
         setLastMessageId(response.id);
         setMessage("");
@@ -115,34 +142,41 @@ const Chat = ({ users, userId }) => {
     setMessage("");
   };
 
+  const setActiveUser = (userId) => {
+    setActiveUserId(userId);
+    window.history.replaceState({}, document.title, `/messages?user=${userId}`);
+  };
+
   return (
     <>
       <div className="d-flex flex-column w-100 h-100">
-        <h1 className="h6 px-3 py-4 mb-0">
-          <strong>Messages</strong>
-        </h1>
-        <main className="d-flex flex-row w-100 h-100">
-          {(width > 992 || activeUserId == 0) && (
-            <section className="col-lg-5 mx-auto mx-lg-0 px-0 d-flex flex-column lg-overflow-y-scroll border-right">
+        <main className="d-flex flex-row w-100 h-100 themed-border-top">
+          {(!mobile || activeUserId == 0) && (
+            <section className="col-lg-3 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
               <MessageUserList
-                onClick={(user_id) => setActiveUserId(user_id)}
+                onClick={(userId) => setActiveUser(userId)}
                 activeUserId={activeUserId}
-                users={users}
+                users={localUsers}
+                mode={theme.mode()}
+                mobile={mobile}
               />
             </section>
           )}
-          {(width > 992 || activeUserId > 0) && (
-            <section className="col-lg-7 bg-white px-0 border-right lg-overflow-y-hidden">
+          {(!mobile || activeUserId > 0) && !gettingMessages && (
+            <section className="col-lg-9 px-0 lg-overflow-y-hidden">
               <MessageExchange
-                smallScreen={width <= 992}
+                smallScreen={mobile}
+                activeUserId={activeUserId}
                 clearActiveUserId={() => clearActiveUser()}
                 value={message}
                 onChange={setMessage}
                 onSubmit={ignoreAndCallDebounce}
                 messages={messages}
                 sendingMessage={sendingMessage}
-                userId={userId}
+                user={user}
                 profilePictureUrl={messengerProfilePicture}
+                username={messengerUsername}
+                mode={theme.mode()}
               />
             </section>
           )}
@@ -152,4 +186,10 @@ const Chat = ({ users, userId }) => {
   );
 };
 
-export default Chat;
+export default (props, railsContext) => {
+  return () => (
+    <ThemeContainer>
+      <Chat {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
+};

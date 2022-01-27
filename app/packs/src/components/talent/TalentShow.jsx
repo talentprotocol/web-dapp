@@ -1,13 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import {
-  faCommentAlt,
   faStar as faStarOutline,
+  faEdit,
 } from "@fortawesome/free-regular-svg-icons";
-import {
-  faChevronRight,
-  faStar,
-  faEllipsisV,
-} from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { post, destroy } from "src/utils/requests";
@@ -15,65 +11,68 @@ import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
-import EditProfile from "./Show/EditProfile";
 import TalentTags from "./TalentTags";
 import TalentBadges from "./TalentBadges";
 
-import Roadmap from "./Show/Roadmap";
-import Perks from "./Show/Perks";
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
-import TokenDetails from "./Show/TokenDetails";
+import Supporters from "./Show/Supporters";
 
-import { completeProfile } from "./utils/talent";
+import Roadmap from "./Show/Roadmap";
+import Perks from "./Show/Perks";
+import TokenDetails from "./Show/TokenDetails";
+import SocialRow from "./Show/SocialRow";
+
+import Button from "src/components/design_system/button";
+import { Chat } from "src/components/icons";
+import { H2, H5 } from "src/components/design_system/typography";
+
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import cx from "classnames";
 
 const TalentShow = ({
   talent,
   token,
   perks,
   milestones,
-  current_user_id,
-  token_live,
+  currentUserId,
+  tokenLive,
   user,
   profilePictureUrl,
   bannerUrl,
-  primary_tag,
-  secondary_tags,
-  career_goal,
+  secondaryTags,
+  careerGoal,
   goals,
   posts,
   isFollowing,
   badges,
-  sign_up_path,
   railsContext,
 }) => {
-  const talentIsFromCurrentUser = talent.user_id == current_user_id;
+  const talentIsFromCurrentUser = talent.user_id == currentUserId;
   const [pageInDisplay, setPageInDisplay] = useState("Overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
-  const { height, width } = useWindowDimensionsHook();
+  const { mobile, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
     talent,
     token,
     perks,
     milestones,
-    current_user_id,
-    token_live,
+    currentUserId,
+    tokenLive,
     bannerUrl,
     user,
     profilePictureUrl,
-    primary_tag,
-    secondary_tags,
+    secondaryTags,
     isFollowing,
-    career_goal,
+    careerGoal,
     goals,
     posts,
   });
+  const theme = useContext(ThemeContext);
 
   const ticker = () =>
-    sharedState.token.ticker ? `$${sharedState.token.ticker}` : "";
-  const allTags = () =>
-    [sharedState.primary_tag].concat(sharedState.secondary_tags);
+    sharedState.token.ticker ? `${sharedState.token.ticker}` : "";
   const displayName = ({ withLink }) => {
     if (sharedState.talent.profile.website && withLink) {
       return (
@@ -85,16 +84,9 @@ const TalentShow = ({
     return sharedState.user.display_name || sharedState.user.username;
   };
 
-  const prettifyWebsiteUrl = (url) => {
-    try {
-      const link = new URL(url);
-      return link.host;
-    } catch {
-      return url;
-    }
-  };
+  const toggleWatchlist = async (e) => {
+    e.preventDefault();
 
-  const toggleWatchlist = async () => {
     setChangingFollow(true);
     if (sharedState.isFollowing) {
       const response = await destroy(
@@ -122,27 +114,69 @@ const TalentShow = ({
     setChangingFollow(false);
   };
 
-  const profileIsComplete = useMemo(() => {
-    return completeProfile(sharedState);
-  }, [sharedState]);
+  const actionButtons = () => (
+    <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
+      <Button
+        onClick={() => setShow(true)}
+        disabled={!sharedState.token.contract_id}
+        type="primary-default"
+        mode={theme.mode()}
+        className="mr-2"
+      >
+        Buy {ticker() || "Token"}
+      </Button>
+      {sharedState.token.contract_id && (
+        <StakeModal
+          show={show}
+          setShow={setShow}
+          tokenAddress={sharedState.token.contract_id}
+          tokenId={sharedState.token.id}
+          userId={currentUserId}
+          ticker={ticker()}
+          railsContext={railsContext}
+          mode={theme.mode()}
+        />
+      )}
+      <Button
+        onClick={() => (window.location.href = `/messages?user=${user.id}`)}
+        type="white-subtle"
+        mode={theme.mode()}
+        className="mr-2 align-items-center"
+        disabled={currentUserId == user.id}
+      >
+        {mobile && <Chat color="currentColor" className="mr-2" />}
+        {!mobile && " Message"}
+      </Button>
+      <Button
+        onClick={toggleWatchlist}
+        type="white-subtle"
+        mode={theme.mode()}
+        disabled={changingFollow}
+        className="mr-2"
+      >
+        {sharedState.isFollowing ? (
+          <FontAwesomeIcon icon={faStar} className="text-warning" />
+        ) : (
+          <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+        )}
+      </Button>
+      {talentIsFromCurrentUser && (
+        <Button
+          onClick={() =>
+            (window.location.href = `/talent/${user.username}/edit_profile`)
+          }
+          type="white-subtle"
+          mode={theme.mode()}
+          className="mr-2"
+        >
+          <FontAwesomeIcon icon={faEdit} />
+        </Button>
+      )}
+    </div>
+  );
 
   return (
-    <div className="d-flex flex-column border-left lg-h-100">
-      <section className="d-none d-md-flex my-4">
-        <div className="d-flex flex-row text-muted mx-3">
-          <span>
-            <a href="/talent" className="text-reset">
-              <small>TALENT</small>
-            </a>
-          </span>
-          <span className="mx-3">
-            <FontAwesomeIcon icon={faChevronRight} size="sm" />
-          </span>
-          <span className="text-uppercase">
-            <small>{displayName({ withLink: false })}</small>
-          </span>
-        </div>
-      </section>
+    <div className="d-flex flex-column lg-h-100 p-0 lg-px-4">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -156,147 +190,161 @@ const TalentShow = ({
         <TalentProfilePicture
           src={sharedState.bannerUrl}
           height={192}
-          className="w-100 pull-bottom-content"
-          straight
+          className="w-100 pull-bottom-content banner-height"
+          straight={true}
         />
       )}
       <section
-        className="d-flex flex-row mt-3 ml-lg-3 align-items-center justify-content-between flex-wrap"
-        style={{ zIndex: 1 }}
+        className={cx(
+          "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
+          mobile ? "px-4" : "px-6"
+        )}
       >
-        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center flex-wrap">
-          <TalentProfilePicture
-            src={sharedState.profilePictureUrl}
-            height={192}
-            className="mr-2"
-            border
-          />
+        <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
+          <div className="d-flex flex-row">
+            <TalentProfilePicture
+              src={sharedState.profilePictureUrl}
+              height={mobile ? 120 : 192}
+              border
+            />
+            {mobile && actionButtons()}
+          </div>
           <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-              <h2 className="mb-0">{displayName({ withLink: false })}</h2>
+            <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
+              <H2
+                mode={theme.mode()}
+                text={displayName({ withLink: false })}
+                bold
+              />
               {ticker() != "" && (
-                <p className="mb-0 border rounded p-1 bg-light ml-2">
-                  <small>{ticker()}</small>
-                </p>
+                <H2
+                  bold
+                  text={`$${ticker()}`}
+                  className="text-primary-04 ml-lg-2"
+                />
               )}
-              <button
-                className="btn border-0 text-warning"
-                onClick={toggleWatchlist}
-                disabled={changingFollow}
-              >
-                {sharedState.isFollowing ? (
-                  <FontAwesomeIcon icon={faStar} />
-                ) : (
-                  <FontAwesomeIcon icon={faStarOutline} />
-                )}
-              </button>
             </div>
-            <div className="d-flex flex-row pr-3">
-              <p>{sharedState.talent.profile.occupation}</p>
-              {sharedState.talent.profile.website && (
-                <a
-                  href={sharedState.talent.profile.website}
-                  target="self"
-                  className="text-primary ml-2"
-                >
-                  {prettifyWebsiteUrl(sharedState.talent.profile.website)}
-                </a>
-              )}
+            <div className="d-flex flex-row mb-lg-2 align-items-center pr-3">
+              <H5
+                bold
+                text={sharedState.talent.profile.occupation}
+                className="mb-2 mb-lg-0 text-primary-04"
+              />
+              {!mobile && <SocialRow sharedState={sharedState} />}
             </div>
             <div className="d-flex justify-content-between">
               <TalentBadges badges={badges} height={40} />
-              <TalentTags tags={allTags()} className="mr-2" />
+              <TalentTags
+                tags={sharedState.secondaryTags}
+                className="mr-2"
+                mode={theme.mode()}
+              />
             </div>
+
+            {mobile && <SocialRow sharedState={sharedState} />}
           </div>
         </div>
-        <div className="d-flex flex-row justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-2 w-100 lg-width-reset">
-          <button
-            className="btn btn-primary"
-            onClick={() => setShow(true)}
-            disabled={!sharedState.token.contract_id}
+        {!mobile && actionButtons()}
+      </section>
+      <div
+        className={cx(
+          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+          mobile ? "mx-4" : "mx-6"
+        )}
+      >
+        <div
+          onClick={() => setPageInDisplay("Overview")}
+          className={`talent-table-tab${
+            pageInDisplay == "Overview" ? " active-talent-table-tab" : ""
+          }`}
+        >
+          Overview
+        </div>
+        <div
+          onClick={() => setPageInDisplay("Timeline")}
+          className={`talent-table-tab${
+            pageInDisplay == "Timeline" ? " active-talent-table-tab" : ""
+          }`}
+        >
+          Timeline
+        </div>
+        {sharedState.token.contract_id && (
+          <div
+            onClick={() => setPageInDisplay("Supporters")}
+            className={`talent-table-tab${
+              pageInDisplay == "Supporters" ? " active-talent-table-tab" : ""
+            }`}
           >
-            Buy {ticker() || "Token"}
-          </button>
-          <button className="btn btn-outline-primary ml-2" disabled>
-            Sell {ticker() || "Token"}
-          </button>
-          {sharedState.token.contract_id && (
-            <StakeModal
-              show={show}
-              setShow={setShow}
-              tokenAddress={sharedState.token.contract_id}
-              tokenId={sharedState.token.id}
-              userId={current_user_id}
-              ticker={ticker()}
+            Supporters
+          </div>
+        )}
+      </div>
+      <div
+        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-6")}
+      >
+        <div
+          className={`col-12${
+            pageInDisplay != "Supporters" ? " col-lg-8" : ""
+          } p-0`}
+        >
+          {pageInDisplay == "Overview" && (
+            <Overview sharedState={sharedState} mode={theme.mode()} />
+          )}
+          {pageInDisplay == "Timeline" && (
+            <Timeline sharedState={sharedState} mode={theme.mode()} />
+          )}
+          {pageInDisplay == "Supporters" && (
+            <Supporters
+              sharedState={sharedState}
+              mobile={mobile}
+              mode={theme.mode()}
               railsContext={railsContext}
             />
           )}
-          <a href={`/messages?user=${user.id}`} className="btn btn-light mx-2">
-            <FontAwesomeIcon icon={faCommentAlt} /> Message
-          </a>
-          <EditProfile
-            {...sharedState}
-            updateSharedState={setSharedState}
-            inviteLink={sign_up_path}
-            allowEdit={talentIsFromCurrentUser}
-            profileIsComplete={profileIsComplete}
-            railsContext={railsContext}
-          />
         </div>
-      </section>
-      <div className="d-flex flex-row flex-wrap justify-content-center justify-content-lg-start mx-3 mt-5 mt-lg-4">
-        <button
-          className={`btn rounded mr-2 p-1 px-2 underline-hover ${
-            pageInDisplay == "Overview" && "btn-primary active"
-          }`}
-          onClick={() => setPageInDisplay("Overview")}
-        >
-          <small>Overview</small>
-        </button>
-        <button
-          className={`btn rounded mr-2 p-1 px-2 underline-hover ${
-            pageInDisplay == "Timeline" && "btn-primary active"
-          }`}
-          onClick={() => setPageInDisplay("Timeline")}
-        >
-          <small>Timeline</small>
-        </button>
+        {pageInDisplay != "Supporters" && (
+          <div className="col-12 col-lg-4 p-0 mb-4">
+            <TokenDetails
+              ticker={ticker()}
+              token={token}
+              displayName={displayName({ withLink: false })}
+              username={sharedState.user.username}
+              railsContext={railsContext}
+              mobile={mobile}
+            />
+          </div>
+        )}
       </div>
-      <div className="d-flex flex-row flex-wrap">
-        <div className="col-12 col-lg-8">
-          {pageInDisplay == "Overview" && (
-            <Overview sharedState={sharedState} />
-          )}
-          {pageInDisplay == "Timeline" && (
-            <Timeline sharedState={sharedState} />
-          )}
-        </div>
-        <div className="col-12 col-lg-4">
-          <TokenDetails
+      {pageInDisplay == "Overview" && (
+        <section
+          className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
+        >
+          <Roadmap
+            goals={sharedState.goals}
+            width={width}
+            mode={theme.mode()}
+            mobile={mobile}
+          />
+          <Perks
+            perks={sharedState.perks}
             ticker={ticker()}
-            token={token}
-            displayName={displayName({ withLink: false })}
-            username={sharedState.user.username}
+            width={width}
+            contract={token.contract_id}
             railsContext={railsContext}
+            talentUserId={talent.user_id}
+            hideAction={talentIsFromCurrentUser}
+            mode={theme.mode()}
           />
-        </div>
-      </div>
-      <section className="d-flex flex-column mx-3 my-3">
-        <Roadmap goals={sharedState.goals} width={width} />
-        <Perks
-          perks={sharedState.perks}
-          ticker={ticker()}
-          width={width}
-          contract={token.contract_id}
-          railsContext={railsContext}
-          talentUserId={talent.user_id}
-          hideAction={talentIsFromCurrentUser}
-        />
-      </section>
+        </section>
+      )}
     </div>
   );
 };
 
 export default (props, railsContext) => {
-  return () => <TalentShow {...props} railsContext={railsContext} />;
+  return () => (
+    <ThemeContainer>
+      <TalentShow {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
 };

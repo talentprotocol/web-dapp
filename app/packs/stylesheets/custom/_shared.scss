@@ -1,3 +1,5 @@
+@import "../colors";
+
 .greyscale-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
@@ -5,10 +7,10 @@
 
 @keyframes placeHolderShimmer {
   0% {
-    background-position: -200px 0
+    background-position: -200px 0;
   }
   100% {
-    background-position: 200px 0
+    background-position: 200px 0;
   }
 }
 
@@ -17,6 +19,14 @@
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.reset-cursor {
+  cursor: default !important;
 }
 
 .animated-background {
@@ -36,8 +46,26 @@
   object-fit: cover;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.banner-height {
+  height: 356px;
+}
+
 .mh-100 {
   min-height: 100%;
+}
+
+.mw-100 {
+  min-width: 100%;
 }
 
 .w-32 {
@@ -73,7 +101,51 @@
 }
 
 .text-black {
-  color: $black;
+  color: $gray-800 !important;
+}
+
+.dark-body .text-black {
+  color: $white !important;
+}
+
+.text-white {
+  color: $white !important;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.text-yellow {
+  color: $yellow !important;
+}
+
+.text-gray-300 {
+  color: $gray-300 !important;
+}
+
+.text-green-500 {
+  color: $green-500 !important;
+}
+
+.text-gray-600 {
+  color: $gray-600 !important;
+}
+
+.text-primary-03 {
+  color: $gray-400 !important;
+}
+
+.dark-body .text-primary-03 {
+  color: $gray-300 !important;
+}
+
+.text-primary-04 {
+  color: $gray-primary !important;
+}
+
+.dark-body .text-primary-04 {
+  color: $gray-400 !important;
 }
 
 .hover-black {
@@ -92,4 +164,165 @@
 
 .disabled-link {
   pointer-events: none;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: $surface-hover;
+  overflow: hidden;
+}
+
+.dark-body .divider {
+  background-color: $gray-600;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.ellipse-new {
+  background-color: $primary;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  float: left;
+  margin: 4px !important;
+  margin-top: 6px !important;
+}
+
+.ellipse-notifications {
+  background-color: $danger;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+}
+
+.icon-theme {
+  stroke: $gray-600;
+
+  &.dark {
+    stroke: $gray-100;
+  }
+}
+
+.horizontal-scroll {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.icon-bar {
+  stroke: $gray-400;
+}
+
+.dark-body .icon-bar {
+  stroke: $gray-300;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.secondary-content {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 992px) {
+  .secondary-content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+.remove-background {
+  background: none !important;
+}
+
+.remove-border {
+  border: none !important;
+}
+
+.rotate-svg {
+  transform: rotate(180deg);
+}
+
+.dark-body .bg-light {
+  background-color: $gray-900 !important;
+}
+
+.dark-body .themed-border-top {
+  border-top: 1px solid $gray-600;
+}
+
+.light-body .themed-border-top {
+  border-top: 1px solid $surface-hover;
+}
+
+.dark-body .themed-border-right {
+  border-right: 1px solid $gray-600;
+}
+
+.light-body .themed-border-right {
+  border-right: 1px solid $surface-hover;
+}
+
+.dark-body .themed-border-left {
+  border-left: 1px solid $gray-600;
+}
+
+.light-body .themed-border-left {
+  border-left: 1px solid $surface-hover;
+}
+
+.dark-body .themed-border-bottom {
+  border-bottom: 1px solid $gray-600;
+}
+
+.light-body .themed-border-bottom {
+  border-bottom: 1px solid $surface-hover;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotateZ(0deg);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+#loading {
+  animation: rotate 1s infinite linear;
+}
+
+.button-link {
+  background: none !important;
+  border: none !important;
+}
+
+.z-index-1 {
+  z-index: 1;
+}
+
+.current-color {
+  color: currentColor !important;
 }

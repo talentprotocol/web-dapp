@@ -1,0 +1,65 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.navbar-bottom-mobile {
+  background-color: $white;
+  height: 56px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 1;
+
+  &.dark {
+    background-color: $bg-01;
+  }
+}
+
+.navbar-bottom-menu {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+
+  .navbar-bottom-menu-option {
+    color: $gray-400;
+    &.dark {
+      color: $gray-300;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover:not(.active) {
+      color: $black;
+      &.dark {
+        color: $white;
+      }
+    }
+
+    a.active {
+      font-weight: bold;
+      color: $black;
+
+      &.dark {
+        color: $white;
+      }
+    }
+
+    .menu-icon {
+      color: $gray-400;
+      &.dark {
+        color: $gray-300;
+      }
+
+      &:hover:not(.active) {
+        color: $black;
+        &.dark {
+          color: $white;
+        }
+      }
+    }
+  }
+}

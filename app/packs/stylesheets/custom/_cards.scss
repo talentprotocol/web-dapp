@@ -1,0 +1,290 @@
+@import "../colors";
+@import "../bootstrap/overrides";
+
+.card {
+  background-color: $alert-primary;
+  padding: 1.5rem;
+  border: 0;
+  text-decoration: none !important;
+
+  &:hover {
+    background-color: $surface-hover;
+  }
+
+  img {
+    border-radius: 4px;
+  }
+
+  &.mobile {
+    background: none;
+  }
+
+  &.disabled {
+    pointer-events: none;
+  }
+}
+
+.dark-body .card {
+  background-color: $gray-900;
+
+  &:hover {
+    background-color: $surface-02;
+  }
+}
+
+.card-size {
+  width: 224px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-fixed-width {
+  min-width: 290px;
+  max-width: 290px;
+}
+
+@media (max-width: 992px) {
+  .card-fixed-width {
+    min-width: 175px;
+    max-width: 175px;
+  }
+
+  .card-size {
+    width: 152px;
+    height: 136px;
+    object-fit: cover;
+  }
+}
+
+.card-body {
+  padding: 0;
+  padding-top: 14px;
+
+  h6 {
+    font-weight: 700;
+  }
+
+  .title {
+    font-weight: 400;
+    color: $gray-400;
+
+    &.dark {
+      color: $gray-300;
+    }
+  }
+}
+
+.circ-supply {
+  font-weight: 600;
+  color: $gray-400;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.circ-supply-data {
+  color: $gray-800;
+
+  &.dark {
+    color: $white;
+  }
+}
+
+.ticker {
+  color: $primary;
+  text-decoration: none;
+}
+
+.comingsoon {
+  background-color: $primary-disabled;
+  color: $primary;
+  padding: 5px;
+  border-radius: 5px;
+
+  &.dark {
+    background-color: $primary-shade-01;
+  }
+}
+
+.perk-area {
+  font-weight: 700;
+  color: $gray-400;
+  margin-bottom: 40px !important;
+  font-size: 0.8rem !important;
+
+  &.dark {
+    color: $gray-400;
+  }
+}
+
+.tag-available {
+  background-color: $primary-disabled !important;
+}
+
+.dark-body .tag-available {
+  background-color: $primary !important;
+}
+
+.tag-available-label {
+  color: $primary !important;
+}
+
+.dark-body .tag-available-label {
+  color: $white !important;
+}
+
+.tag-unavailable {
+  background-color: $surface-hover;
+}
+
+.dark-body .tag-unavailable {
+  background-color: $gray-600;
+}
+
+.tag-unavailable-label {
+  color: $gray-primary !important;
+}
+
+.dark-body .tag-unavailable-label {
+  color: $white !important;
+}
+
+.hold-info {
+  font-size: 1rem !important;
+  color: $warning;
+
+  &.dark {
+    color: $yellow;
+  }
+}
+
+.project-tag {
+  background-color: $primary-disabled;
+  color: $primary;
+  padding: 5px !important;
+  border-radius: 5px;
+  font-size: 0.8rem !important;
+
+  &.dark {
+    background-color: $primary-shade-01;
+    color: $primary-dark;
+  }
+}
+
+.project-location {
+  font-size: 0.8rem !important;
+  color: $gray-primary;
+
+  &.dark {
+    color: $gray-400;
+  }
+}
+
+.project-description {
+  margin-top: 1rem !important;
+  font-size: 0.9rem !important;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  margin-top: 0.5rem;
+}
+
+.roadmap-date {
+  color: $warning;
+  margin-bottom: 0.5rem !important;
+  font-size: 11px !important;
+  line-height: 185% !important;
+  font-weight: bold !important;
+  letter-spacing: 2px !important;
+
+  &.dark {
+    color: $yellow;
+  }
+}
+
+.roadmap-title {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0rem !important;
+  font-size: 0.9rem !important;
+
+  &.dark {
+    color: $white;
+  }
+}
+
+.roadmap-description {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0rem !important;
+  font-size: 0.8rem !important;
+  color: $gray-400;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.portfolio-card-title {
+  font-weight: 700;
+  color: $warning;
+  margin-bottom: 0.5rem !important;
+  font-size: 11px !important;
+  line-height: 185% !important;
+  font-weight: bold !important;
+  letter-spacing: 2px !important;
+
+  &.dark {
+    color: $yellow;
+  }
+}
+
+.portfolio-card-line-subtitle {
+  margin-top: 1rem !important;
+  margin-bottom: 0rem !important;
+
+  &.dark {
+    color: $white;
+  }
+}
+
+.portfolio-card-line-description {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0rem !important;
+  color: $gray-400;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.token-title {
+  margin-top: 1.5rem !important;
+  color: $gray-primary;
+  font-weight: normal !important;
+
+  &.dark {
+    color: $gray-400;
+  }
+}
+
+.token-item-title {
+  font-size: 0.9rem !important;
+  color: $gray-400;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.bg-coming-soon {
+  background: #7a55ff33;
+}

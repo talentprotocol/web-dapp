@@ -2,41 +2,46 @@ import React from "react";
 import { format } from "date-fns";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
+import P2 from "src/components/design_system/typography/p2";
+import P3 from "src/components/design_system/typography/p3";
 
 const Message = (props) => {
-  const { message, mine, profilePictureUrl } = props;
-  const messageStyle = mine ? "chat-my-message" : "chat-their-message";
-  const dateStyle = mine ? "align-self-end" : "align-self-start";
-
+  const {
+    message,
+    mine,
+    profilePictureUrl,
+    username,
+    previousMessageSameUser,
+    user,
+  } = props;
   const sentDate = format(new Date(message.created_at), "MMM d, yyyy, h:m a");
 
   return (
-    <div className="d-flex flex-row">
-      {!mine && (
+    <div className="d-flex flex-row w-100 mt-2 message-div">
+      {!previousMessageSameUser && (
         <TalentProfilePicture
-          src={profilePictureUrl}
-          height={40}
-          className="mt-auto mb-4"
+          src={mine ? user.profilePictureUrl : profilePictureUrl}
+          link={`talent/${props.username}`}
+          height={48}
+          className="mb-auto mt-3"
         />
       )}
-      <div className="d-flex flex-column w-100">
-        <p
-          key={`message_text_${message.id}`}
-          className={`chat-message text-break mt-2 p-3 ${messageStyle}${
-            !mine ? " ml-2" : ""
-          }`}
-        >
-          {message.text}
-        </p>
-        <span
-          id={`message-date-${message.id}`}
-          key={`message_date_${message.id}`}
-          className={`chat-message-date mb-2 ${dateStyle}${
-            !mine ? " ml-2" : ""
-          }`}
-        >
-          {sentDate}
-        </span>
+      <div
+        className={`d-flex flex-column w-100 ${
+          previousMessageSameUser ? "messages-from-same-user" : "ml-3"
+        }`}
+      >
+        {!previousMessageSameUser && (
+          <div className="d-flex flex-row w-100 align-items-center mt-3">
+            <P2
+              bold
+              text={mine ? user.username : username}
+              className="mb-0 text-primary"
+            />
+            <P3 text={sentDate} className="mb-0 ml-2" />
+          </div>
+        )}
+        <P2 text={message.text} className={"text-white-space-wrap"} />
       </div>
     </div>
   );

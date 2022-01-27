@@ -1,0 +1,21 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import Pagination from 'src/components/design_system/pagination';
+
+<Meta title="Design System/Pagination/Light Mode" component={Pagination} />
+
+export const Template = (args) => <Pagination {...args} />
+
+<Canvas>
+  <Story
+    name="Pagination"
+    args={{
+      mode: "light",
+      currentPage: 2,
+      maxPages: 7,
+      onChangePage: () => null,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

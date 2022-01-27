@@ -100,7 +100,6 @@ const About = ({
       setUploadingFileS3("");
     });
     uppyProfile.on("upload", () => {
-      console.log("HEHRE");
       setUploadingFileS3("profile");
     });
     uppyBanner.on("upload-success", (file, response) => {
@@ -146,6 +145,7 @@ const About = ({
           video: aboutInfo["video"],
         },
       },
+      user: { id: user.id },
     }).catch(() => {
       setError(true);
       setSaving(false);

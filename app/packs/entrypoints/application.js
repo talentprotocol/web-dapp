@@ -19,7 +19,6 @@ import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
-import RegistrationFlow from "src/components/registration/RegistrationFlow";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
@@ -33,6 +32,20 @@ import Home from "src/components/home/Home";
 import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
 import InviteUsers from "src/components/admin/InviteUsers";
+
+// New Layout components - @TODO: we need to check which of the above components we'll still be using or not
+
+import RegistrationFlow from "src/components/registration/RegistrationFlow";
+import Login from "src/components/login/Login";
+import ResetPassword from "src/components/login/ResetPassword";
+import ChangePassword from "src/components/login/ChangePassword";
+import SideBar from "src/components/design_system/side_bar";
+import BottomNav from "src/components/design_system/bottom_nav";
+import TopBar from "src/components/design_system/top_bar";
+import TopNav from "src/components/design_system/top_nav"; // this is the mobile one
+import Profile from "src/components/talent/Edit/Profile";
+import NewPortfolio from "src/components/portfolio/NewPortfolio";
+import EditSupporter from "src/components/supporters/EditSupporter";
 
 import "stylesheets/application.scss";
 
@@ -51,6 +64,7 @@ ReactOnRails.register({
   Chat,
   RegistrationFlow,
   TalentNameSearch,
+  Login,
   Logo,
   MetamaskConnect,
   TalentSupportersTable,
@@ -61,6 +75,15 @@ ReactOnRails.register({
   Notifications,
   WelcomePopup,
   InviteUsers,
+  SideBar,
+  BottomNav,
+  TopBar,
+  TopNav,
+  Profile,
+  NewPortfolio,
+  EditSupporter,
+  ResetPassword,
+  ChangePassword,
 });
 
 Rails.start();

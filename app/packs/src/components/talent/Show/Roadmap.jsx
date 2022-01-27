@@ -5,7 +5,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Roadmap = ({ goals, width }) => {
+import RoadmapCard from "src/components/design_system/cards/roadmap";
+import P1 from "src/components/design_system/typography/p1";
+import Button from "src/components/design_system/button";
+
+const Roadmap = ({ goals, width, mode, mobile }) => {
   const [start, setStart] = useState(0);
   const itemsPerRow = width < 768 ? 1 : 2;
 
@@ -47,42 +51,39 @@ const Roadmap = ({ goals, width }) => {
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">
-        <h5>
-          <strong>Roadmap</strong>
-        </h5>
+        <P1 mode={mode} text="Roadmap" bold className="mb-3 text-black" />
         {goals.length > itemsPerRow && (
           <div className="d-flex flex-row">
-            <button
-              className="btn btn-secondary"
+            <Button
+              type="white-subtle"
               onClick={slideLeft}
               disabled={disableLeft}
             >
               <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-            </button>
-            <button
-              className="btn btn-secondary ml-2"
+            </Button>
+            <Button
+              type="white-subtle"
+              className="ml-2"
               onClick={slideRight}
               disabled={disableRight}
             >
               <FontAwesomeIcon icon={faChevronRight} size="sm" />
-            </button>
+            </Button>
           </div>
         )}
       </div>
       <div className="d-flex justify-content-start mb-2 mt-3">
         {sliceInDisplay.map((goal, index) => (
-          <div
+          <RoadmapCard
             key={`goal_list_${goal.id}`}
-            className={`bg-light rounded p-3 ${margins(index)} ${
+            className={`${margins(index)} ${
               itemsPerRow == 1 ? "col-12" : "w-49"
-            }`}
-          >
-            <small>
-              <strong>{goal.due_date}</strong>
-            </small>
-            <h5>{goal.title}</h5>
-            <p>{goal.description}</p>
-          </div>
+            } ${mobile ? "remove-background p-0" : ""}`}
+            mode={mode}
+            due_date={goal.due_date}
+            title={goal.title}
+            description={goal.description}
+          />
         ))}
       </div>
     </>

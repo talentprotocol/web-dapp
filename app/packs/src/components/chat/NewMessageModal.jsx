@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { get } from "src/utils/requests";
 import debounce from "lodash/debounce";
 
+import { get } from "src/utils/requests";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 
-const NewMessageModal = ({ show, setShow, onUserChosen }) => {
+import { Spinner } from "src/components/icons";
+import { P1, P2 } from "src/components/design_system/typography";
+import TextInput from "src/components/design_system/fields/textinput";
+import Link from "src/components/design_system/link";
+import { Search } from "src/components/icons";
+
+const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
   if (!show) {
     return null;
   }
@@ -38,42 +42,56 @@ const NewMessageModal = ({ show, setShow, onUserChosen }) => {
   const showLoadingState = () => loading == true && users.length == 0;
 
   return (
-    <Modal scrollable={true} show={show} centered onHide={() => setShow(false)}>
-      <Modal.Body className="show-grid p-4 bg-light">
-        <p>
-          <strong>New message</strong>
-        </p>
-        <div className="w-100 d-flex flex-row py-2 position-relative align-items-center">
-          <input
-            type="text"
-            name="searchChat"
-            id="searchChat"
-            value={search}
+    <Modal
+      scrollable={true}
+      show={show}
+      centered
+      onHide={() => setShow(false)}
+      dialogClassName={mobile ? "mw-100 mh-100 m-0" : "remove-background"}
+      fullscreen={"md-down"}
+    >
+      <Modal.Body className="show-grid p-0">
+        <P1 className="pt-4 pb-3 px-4" text={"New message"} bold />
+        <div className="d-flex flex-row mb-4 mx-4 position-relative align-items-center">
+          <TextInput
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search people"
-            className="chat-input-area border w-100 p-2 pl-5"
+            value={search}
+            placeholder="Search for people..."
+            inputClassName="pl-5"
+            className="w-100"
           />
-          <FontAwesomeIcon
-            icon={faSearch}
+          <Search
+            color="currentColor"
             className="position-absolute chat-search-icon"
-            size="lg"
           />
         </div>
-        <div className="w-100 d-flex flex-column new-message-user-list">
+        <div className="w-100 d-flex flex-column new-message-user-list px-4">
           {showLoadingState() && (
             <div className="w-100 d-flex flex-row my-2 justify-content-center">
-              <FontAwesomeIcon icon={faSpinner} spin className="mr-2" /> Loading
+              <Spinner />
             </div>
           )}
           {users.map((user) => (
-            <a
+            <button
               key={`new_message_user_${user.id}`}
-              className="w-100 d-flex flex-row align-items-center my-2 text-reset hover-primary"
+              className="button-link"
               onClick={() => onUserChosen(user)}
             >
-              <TalentProfilePicture src={user.profilePictureUrl} height={40} />
-              <p className="mb-0 ml-3">{user.username}</p>
-            </a>
+              <Link
+                className="w-100 d-flex flex-row align-items-center my-2"
+                type="white"
+              >
+                <TalentProfilePicture
+                  src={user.profilePictureUrl}
+                  height={40}
+                />
+                <P2
+                  className="mb-0 ml-3 current-color"
+                  bold
+                  text={user.username}
+                />
+              </Link>
+            </button>
           ))}
         </div>
       </Modal.Body>

@@ -55,7 +55,7 @@ if Rails.env.development?
       puts "Setting up Investors.."
       admin_investor = Investor.create!(
         description: "I own this",
-        user: admin,
+        user: admin
       )
 
       john_doe = Investor.create!(
@@ -70,12 +70,14 @@ if Rails.env.development?
       marx = Talent.create!(
         ito_date: Time.current + 1.week,
         activity_count: 2,
-        user: talent2
+        user: talent2,
+        public: true
       )
       elon = Talent.create!(
         ito_date: Time.current - 1.week,
         activity_count: 2,
-        user: talent
+        user: talent,
+        public: true
       )
 
       puts "Setting up Tokens.."
@@ -89,7 +91,9 @@ if Rails.env.development?
         ticker: "ELON",
         price: 1,
         market_cap: 0,
-        talent: elon
+        talent: elon,
+        deployed: true,
+        contract_id: "12345"
       )
 
       puts "Setting up Transactions.."
@@ -145,6 +149,12 @@ if Rails.env.development?
       admin.feed.posts << post
 
       Comment.create(user: investor, post: post, text: Faker::Marketing.buzzwords)
+
+      puts "Setting up invites.."
+      Invite.create(code: "SUP-#{Invite.generate_code}", max_uses: 1, talent_invite: true, user: admin)
+      Invite.create(code: "SUP-#{Invite.generate_code}", max_uses: 1, talent_invite: true, user: investor)
+      Invite.create(code: "TAL-#{Invite.generate_code}", max_uses: 5, talent_invite: true, user: talent)
+      Invite.create(code: "TAL-#{Invite.generate_code}", max_uses: 5, talent_invite: true, user: talent2)
     end
   end
 end

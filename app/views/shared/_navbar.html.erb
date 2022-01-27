@@ -1,16 +1,35 @@
-<div class="w-100 lg-width-reset lg-navbar-min-width px-0 lg-h-100">
-  <header class="w-100 px-0 lg-h-100">
-    <%=
-      react_component("Navbar",
-      props: {
-        feedPath: root_path,
-        talentPath: talent_index_path,
-        portfolioPath: portfolio_path,
-        messagesPath: messages_path,
-        admin: current_user&.admin?,
-        adminPath: current_user.present? && admin_path,
-        hasUnreadMessages: current_user&.has_unread_messages?
-      },
-      prerender: false, html_options: { class: "d-flex flex-column align-self-lg-stretch lg-h-100" }) %>
-  </header>
-</div>
+<%= react_component("SideBar", props: {
+  mode: current_user&.theme_preference || "light",
+  talentPath: talent_index_path,
+  portfolioPath: portfolio_path,
+  messagesPath: messages_path,
+}, prerender: false) %>
+
+<%= react_component("BottomNav", props: {
+  mode: current_user&.theme_preference || "light",
+  talentPath: talent_index_path,
+  portfolioPath: portfolio_path,
+  messagesPath: messages_path,
+}, prerender: false) %>
+
+<%= react_component("UserMenu", props: {
+  mode: current_user&.theme_preference || "light",
+  user: {
+    id: current_user.id,
+    profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+    talentId: current_user.talent&.id,
+    investorId: current_user.investor&.id,
+    isTalent: current_user.talent.present?,
+    displayWalletId: current_user.display_wallet_id,
+    walletId: current_user.wallet_id,
+    username: current_user.username,
+    tokenLive: current_user.talent&.token&.contract_id.present?,
+    code: current_user.invite&.code,
+    invitesLeft: current_user.invite&.invites_left,
+    totalInvites: current_user.invite&.max_uses,
+    currentTheme: current_user.theme_preference,
+    sign_up_path: sign_up_path(code: current_user.invite&.code)
+  },
+  notifications: current_user.notifications.includes([:source]).order(id: :desc).map { |notif| { id: notif.id, title: notif.title, body: notif.body, user_id: notif.user_id, type: notif.type, read: notif.read, source_id: notif.source_id, talent_id: notif.user.talent&.id, username: notif.user.username, source_username: notif.source&.username, source_talent_id: notif.source&.talent&.id, created_at: notif.updated_at } },
+  signOutPath: sign_out_path
+}, prerender: false) %>

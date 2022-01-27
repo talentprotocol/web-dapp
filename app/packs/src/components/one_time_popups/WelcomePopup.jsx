@@ -6,26 +6,26 @@ import { patch } from "src/utils/requests";
 const TalentContent = () => (
   <>
     <Modal.Header closeButton>
-      <Modal.Title className="px-3">🎉 Congratulations!</Modal.Title>
+      <Modal.Title className="px-4 pt-4">
+        🎉 Welcome to Talent Protocol!
+      </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <div className="d-flex flex-column w-100 p-3">
-        <p>
-          You're one of the trailblazers launching a token on Talent Protocol's
-          1st season!
-        </p>
-        <p>
+      <div className="d-flex flex-column w-100 p-4">
+        <p className="mx-3">
           Read this onboarding guide that will help you complete your profile,
           launch your token, and find your first supporters.
         </p>
-        <p>
+        <p className="mx-3">
           We're still in early beta, but already live on the Celo blockchain.
           Beta users like you have access to the $TAL token at a discounted
-          price, and will be able to earn a high amount of rewards.
+          price, and will be able to start earning rewards.
         </p>
-        <p>Thank you for being an early believer in the project.</p>
+        <p className="mx-3">
+          Thank you for being an early believer in the project.
+        </p>
         <a
-          className="btn btn-primary"
+          className="btn btn-primary mx-3"
           href="https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff"
           target="self"
         >
@@ -87,6 +87,7 @@ const WelcomePopup = ({ talent, user_id }) => {
       show={show}
       centered
       onHide={onClose}
+      dialogClassName="remove-background"
     >
       {talent ? <TalentContent /> : <SupporterContent />}
     </Modal>

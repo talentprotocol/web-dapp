@@ -10,6 +10,10 @@ import { post, patch } from "src/utils/requests";
 
 import { NoMetamask } from "../login/MetamaskConnect";
 
+import LoadingButton from "src/components/button/LoadingButton";
+import { P1, P2, P3 } from "src/components/design_system/typography";
+import TextInput from "src/components/design_system/fields/textinput";
+
 const StakeModal = ({
   show,
   setShow,
@@ -18,6 +22,7 @@ const StakeModal = ({
   tokenId,
   railsContext,
   userId,
+  mode,
 }) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -167,37 +172,6 @@ const StakeModal = ({
     }
   };
 
-  const icon = () => {
-    if (!stage) {
-      return "";
-    }
-    if (stage == "Validation" || stage == "Confirm") {
-      return <FontAwesomeIcon icon={faSpinner} spin />;
-    }
-    if (stage == "Error") {
-      return <FontAwesomeIcon icon={faTimes} />;
-    }
-    if (stage == "Verified") {
-      return <FontAwesomeIcon icon={faCheck} />;
-    }
-  };
-
-  const disabledStakeButton = () => {
-    if (!currentAccount || !targetToken || valueError) {
-      return true;
-    }
-
-    if (amount == "") {
-      return true;
-    }
-
-    if (stage !== null) {
-      return true;
-    }
-
-    return false;
-  };
-
   const changeNetwork = async () => {
     await chainData.switchChain();
     window.location.reload();
@@ -208,11 +182,7 @@ const StakeModal = ({
       if (!validChain) {
         return "Change network";
       }
-      if (didAllowance) {
-        return "Stake";
-      } else {
-        return "Approve";
-      }
+      return "Stake";
     } else {
       return "Connect";
     }
@@ -228,6 +198,10 @@ const StakeModal = ({
       setValueError(false);
     }
 
+    if (didAllowance) {
+      setDidAllowance(false);
+    }
+
     setAmount(value);
   };
 
@@ -240,58 +214,63 @@ const StakeModal = ({
         show={show}
         centered
         onHide={() => setShow(false)}
+        dialogClassName="remove-background"
       >
         <Modal.Body className="show-grid p-4">
           <div className="container-fluid">
             <div className="row d-flex flex-column">
-              <h2>BUY {ticker}</h2>
-              <p>
+              <P1 text={`BUY ${ticker}`} bold className="text-black mb-3" />
+              <P2>
                 Please insert the amount of cUSD (Celo's stablecoin) you wish to
-                use to buy Talent Tokens. You'll need to have cUSD in your
-                Metamask wallet to do this transaction. Check the{" "}
+                use to buy Talent Tokens.
+              </P2>
+              <P2 className="my-2">
+                Check the{" "}
                 <a
                   target="self"
-                  href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735"
+                  href="https://talentprotocol.notion.site/Top-Up-Your-Account-b4c96000187442daa126cb843e87ab1d"
                 >
                   guide
                 </a>{" "}
                 if you need help to top up your account.
-                <small className="form-text text-muted">
-                  You'll be able to sell your Talent Tokens once we launch the
-                  $TAL token next year (subject to flow controls).
-                </small>
-              </p>
-              <form onSubmit={onSubmit}>
+              </P2>
+              <div className="d-flex flex-column">
                 <div className="form-group position-relative">
-                  <small className="form-text text-muted">
-                    Available cUSD on your wallet:{" "}
-                    {currentAccount
-                      ? parseAndCommify(availableAmount)
-                      : "[Connect wallet to get available balance]"}
-                  </small>
-                  <input
-                    className={`text-right form-control ${
-                      valueError ? "border-danger" : ""
-                    }`}
-                    inputMode="decimal"
-                    type="number"
-                    placeholder="0.0"
+                  <TextInput
+                    title={"Total Amount"}
+                    mode={mode}
+                    type={"number"}
+                    topCaption={
+                      currentAccount
+                        ? `Available amount: ${parseAndCommify(
+                            availableAmount
+                          )} cUSD`
+                        : ""
+                    }
+                    placeholder={"0.0"}
                     onChange={(e) => setValidAmount(e.target.value)}
                     value={amount}
                   />
-                  <small
-                    className="text-muted position-absolute"
-                    style={{ left: 10, top: 30 }}
-                  >
-                    cUSD
-                  </small>
-                  <small className="form-text text-primary">
-                    You will receive {amount * 10} {ticker}.
-                  </small>
-                  <small className="form-text text-muted">
-                    {ticker} tokens still available: {maxMinting}
-                  </small>
-                  <div className="d-flex flex-row mt-3">
+                  <div className={`divider ${mode} my-3`}></div>
+                  <div className="d-flex flex-row justify-content-between w-100">
+                    <P2>{ticker} tokens still available</P2>
+                    <P2>{maxMinting}</P2>
+                  </div>
+                  <div className="d-flex flex-row justify-content-between w-100 mt-2">
+                    <P2>{ticker} Price</P2>
+                    <P2>$0.1</P2>
+                  </div>
+                  <div className={`divider ${mode} my-3`}></div>
+                  <div className="d-flex flex-row justify-content-between w-100">
+                    <P1 bold className="text-black">
+                      You will receive
+                    </P1>
+                    <P1 bold className="text-black">
+                      {amount * 10} {ticker}
+                    </P1>
+                  </div>
+                  <div className={`divider ${mode} my-3`}></div>
+                  <div className="d-flex flex-row justify-content-between align-items-center mt-3">
                     {step() == "Connect" && (
                       <button
                         className="btn btn-primary w-100"
@@ -305,35 +284,51 @@ const StakeModal = ({
                         className="btn btn-primary w-100"
                         onClick={changeNetwork}
                       >
-                        Change Network
-                      </button>
-                    )}
-                    {step() == "Approve" && (
-                      <button
-                        className="btn btn-primary w-100"
-                        disabled={
-                          amount == "" ||
-                          approving ||
-                          parseFloat(amount) > parseFloat(maxMinting) ||
-                          valueError
-                        }
-                        onClick={approve}
-                      >
-                        Approve
+                        Switch Network
                       </button>
                     )}
                     {step() == "Stake" && (
-                      <button
-                        className="btn btn-primary w-100"
-                        type="submit"
-                        disabled={disabledStakeButton()}
-                      >
-                        Buy {icon()}
-                      </button>
+                      <>
+                        <LoadingButton
+                          onClick={approve}
+                          type={"primary-default"}
+                          mode={mode}
+                          className="w-100 mr-2"
+                          loading={approving}
+                          disabled={approving || didAllowance}
+                          success={didAllowance}
+                          fillPrimary={"#FFF"}
+                          fillSecondary={"#000"}
+                          opacity={"1"}
+                        >
+                          Approve
+                        </LoadingButton>
+                        <LoadingButton
+                          onClick={onSubmit}
+                          type={"primary-default"}
+                          mode={mode}
+                          className="w-100 ml-2"
+                          disabled={!didAllowance || stage == "Confirm"}
+                          loading={stage == "Confirm"}
+                          success={stage == "Verified"}
+                          fillPrimary={"#FFF"}
+                          fillSecondary={"#000"}
+                          opacity={"1"}
+                        >
+                          Buy
+                        </LoadingButton>
+                      </>
                     )}
                   </div>
+
+                  {stage == "Error" && (
+                    <P2 className="text-danger">
+                      There was an issue with the transaction. Check your
+                      metamask and reach out to us if the error persists.
+                    </P2>
+                  )}
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </Modal.Body>

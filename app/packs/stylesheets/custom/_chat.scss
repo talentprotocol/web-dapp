@@ -1,9 +1,13 @@
 @import "../bootstrap/overrides";
 
 .chat-search-icon {
-  top: 20px;
-  left: 20px;
-  color: #a9acb7;
+  top: 10px;
+  left: 10px;
+  color: $gray-primary;
+}
+
+.dark-body .chat-search-icon {
+  color: $gray-400;
 }
 
 .display-messages {
@@ -14,15 +18,21 @@
   height: 80px;
 }
 
-.messages-background {
-  background-color: $primary-light;
+.chat-user {
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $gray-surface-2;
+    text-decoration: none;
+  }
 }
 
-.chat-user {
+.dark-body .chat-user {
   cursor: pointer;
 
   &:hover {
-    background-color: $primary-light;
+    background-color: $surface-02;
     text-decoration: none;
   }
 }
@@ -33,11 +43,11 @@
 }
 
 .chat-user.active {
-  background-color: $primary-light;
+  background-color: $surface-hover;
 }
 
-.chat-messages {
-  background-color: #f8f2fe;
+.dark-body .chat-user.active {
+  background-color: $gray-600;
 }
 
 .chat-message {
@@ -49,24 +59,19 @@
 
 .chat-my-message {
   align-self: flex-end;
-  background-color: #7045f0;
-  color: white;
   border-bottom-right-radius: 0px;
 }
 
 .chat-their-message {
   align-self: flex-start;
-  background-color: white;
   border-bottom-left-radius: 0px;
 }
 
 .chat-message-date {
   font-size: 0.9rem;
-  color: grey;
 }
 
 .chat-send-area {
-  background-color: #fbfbfb;
   padding: 20px;
 }
 
@@ -76,30 +81,50 @@
 }
 
 .chat-unread-count {
+  width: 2em;
+  height: 2em;
   background-color: $primary;
-  border-radius: 50rem;
   color: white;
-  display: inline-block;
-  font-size: 75%;
-  font-weight: 700;
-  line-height: 1;
-  margin-left: 0.25rem;
-  padding: 0.25em 0.4em;
   text-align: center;
-  vertical-align: baseline;
-  white-space: nowrap;
+  border-radius: 50%;
+  line-height: 2em;
+  box-sizing: content-box;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.new-message-user-list {
-  max-height: 200px;
-  overflow-y: scroll;
+.messages-from-same-user {
+  margin-left: 65px !important;
+}
+
+.message-div {
+  overflow-wrap: anywhere;
+}
+
+.send-message-button {
+  color: $primary;
+
+  &:disabled {
+    color: $gray;
+  }
+}
+
+.dark-body .send-message-button {
+  &:disabled {
+    color: $gray-600;
+  }
 }
 
 @media (min-width: 992px) {
   .absolute-menu {
     position: absolute;
     top: 12px;
-    right: 20px
+    right: 20px;
+  }
+
+  .new-message-user-list {
+    height: 500px;
+    overflow-y: auto;
   }
 }
 
@@ -107,6 +132,11 @@
   .absolute-menu {
     position: absolute;
     top: 85px;
-    right: 20px
+    right: 20px;
+  }
+
+  .new-message-user-list {
+    height: 100%;
+    overflow-y: auto;
   }
 }

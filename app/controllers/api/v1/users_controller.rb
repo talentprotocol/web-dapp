@@ -1,5 +1,5 @@
 class API::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:update]
+  before_action :set_user, only: [:update, :destroy]
 
   def index
     @users =
@@ -23,6 +23,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
+    if @user.id != current_user.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
     if @user
       if params[:wallet_id]
         @user.update!(wallet_id: params[:wallet_id]&.downcase)
@@ -30,14 +34,56 @@ class API::V1::UsersController < ApplicationController
         service.call(user: @user)
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
+      else
+        if password_params[:new_password]&.length&.positive?
+          if current_user.authenticated?(password_params[:current_password])
+            current_user.update!(password: password_params[:new_password])
+          else
+            return render json: {errors: {currentPassword: "Passwords don't match"}}, status: :conflict
+          end
+        elsif user_params[:username] && !User.valid_username?(user_params[:username])
+          return render json: {errors: {username: "Username only allows lower case letters and numbers"}}, status: :conflict
+        end
+
+        current_user.update!(user_params)
+
+        if investor_params.present? && investor_params[:profile_picture_data].present?
+          current_user.investor.profile_picture = investor_params[:profile_picture_data].as_json
+          current_user.investor.save!
+        end
       end
 
       render json: @user, status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end
-  rescue ActiveRecord::RecordNotUnique
-    render json: {error: "Wallet already exists in the system"}, status: :conflict
+  rescue ActiveRecord::RecordNotUnique => e
+    if e.to_s.include?("username")
+      render json: {errors: {username: "Username is taken"}}, status: :conflict
+    elsif e.to_s.include?("email")
+      render json: {errors: {email: "Email is taken"}}, status: :conflict
+    else
+      render json: {errors: "Wallet already exists in the system"}, status: :conflict
+    end
+  end
+
+  def destroy
+    if @user.id != current_user.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
+    if current_user.authenticated?(password_params[:current_password])
+      service = DestroyUser.new(user_id: current_user.id)
+      result = service.call
+
+      if result
+        render json: {success: "User destroyed."}, status: :ok
+      else
+        render json: {errors: "Unabled to destroy user"}, status: :conflict
+      end
+    else
+      render json: {errors: "Unabled to destroy user"}, status: :conflict
+    end
   end
 
   private
@@ -48,5 +94,21 @@ class API::V1::UsersController < ApplicationController
 
   def search_params
     params.permit(:name)
+  end
+
+  def user_params
+    params.require(:user).permit(:theme_preference, :username, :email)
+  end
+
+  def password_params
+    params.require(:user).permit(:new_password, :current_password)
+  end
+
+  def investor_params
+    if params[:investor].present?
+      params.require(:investor).permit(profile_picture_data: {})
+    else
+      {}
+    end
   end
 end

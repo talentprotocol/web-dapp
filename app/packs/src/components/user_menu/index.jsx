@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Dropdown } from "react-bootstrap";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -12,16 +12,28 @@ import transakSDK from "@transak/transak-sdk";
 
 import MetamaskConnect from "../login/MetamaskConnect";
 import { destroy } from "../../utils/requests";
-import EditInvestorProfilePicture from "./EditInvestorProfilePicture";
 
 import { OnChain } from "src/onchain";
 import { parseAndCommify } from "src/onchain/utils";
 
 import { useWindowDimensionsHook } from "src/utils/window";
-import { SUPPORTER_GUIDE, TALENT_GUIDE } from "src/utils/constants";
+import {
+  SUPPORTER_GUIDE,
+  TALENT_GUIDE,
+  TERMS_HREF,
+  PRIVACY_HREF,
+} from "src/utils/constants";
+
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import Notifications from "src/components/notifications";
+
+import Button from "src/components/design_system/button";
+import MobileUserMenu from "./MobileUserMenu";
+import { P2, P3 } from "src/components/design_system/typography";
+import { Copy, Sun, Moon } from "src/components/icons";
 
 const TransakDone = ({ show, hide }) => (
-  <Modal show={show} onHide={hide} centered>
+  <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
     <Modal.Header closeButton>
       <Modal.Title>Thank you for your support</Modal.Title>
     </Modal.Header>
@@ -54,13 +66,19 @@ const newTransak = (width, height, env, apiKey) => {
   });
 };
 
-export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
+export const UserMenuUnconnected = ({
+  user,
+  signOutPath,
+  railsContext,
+  notifications,
+}) => {
   const [show, setShow] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
   const [stableBalance, setStableBalance] = useState(0);
   const [account, setAccount] = useState("");
   const { height, width } = useWindowDimensionsHook();
   const [transakDone, setTransakDone] = useState(false);
+  const theme = useContext(ThemeContext);
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText(user.walletId);
@@ -145,100 +163,153 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
   };
 
   const inviteNumbers = () => {
+    if (!user.invitesLeft) {
+      return "";
+    }
     if (!user.totalInvites) {
-      return null;
+      return `${user.invitesLeft}/*`;
     } else {
-      return ` (${user.invitesLeft}/${user.totalInvites})`;
+      return `${user.invitesLeft}/${user.totalInvites}`;
     }
   };
 
+  const toggleTheme = () => {
+    theme.toggleTheme();
+  };
+
+  const connectedButton = (extraClasses = "") => (
+    <Button
+      onClick={copyAddressToClipboard}
+      type="white-subtle"
+      mode={theme.mode()}
+      className={extraClasses}
+    >
+      <strong>
+        {parseAndCommify(stableBalance)} cUSD{" "}
+        <span className="text-primary-03">{user.displayWalletId}</span>
+        <Copy color="currentColor" className="ml-2" />
+      </strong>
+    </Button>
+  );
+
+  const userHasInvitesLeft = user.invitesLeft > 0;
+
+  const metamaskButton = () => (
+    <MetamaskConnect
+      user_id={user.id}
+      onConnect={onWalletConnect}
+      railsContext={railsContext}
+      mode={theme.mode()}
+    />
+  );
+
+  if (width < 992) {
+    return (
+      <MobileUserMenu
+        mode={theme.mode()}
+        notifications={notifications}
+        user={user}
+        toggleTheme={toggleTheme}
+        showConnectButton={showConnectButton}
+        connectedButton={connectedButton}
+        metamaskButton={metamaskButton}
+        onClickTransak={onClickTransak}
+        copyCodeToClipboard={copyCodeToClipboard}
+        inviteNumbers={inviteNumbers()}
+        userHasInvitesLeft={userHasInvitesLeft}
+        signOut={signOut}
+      />
+    );
+  }
+
   return (
-    <>
+    <nav className={`navbar ${theme.mode()} justify-content-end`}>
       <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
-      <Dropdown className="">
+      {!showConnectButton() && connectedButton("mr-2")}
+      {showConnectButton() && metamaskButton()}
+      <Dropdown>
         <Dropdown.Toggle
-          className="user-menu-dropdown-btn no-caret"
+          className="talent-button white-subtle-button normal-size-button no-caret d-flex align-items-center"
           id="user-dropdown"
+          bsPrefix=""
+          as="div"
         >
           <TalentProfilePicture
             src={user.profilePictureUrl}
             height={20}
             className="mr-2"
           />
-          <small className="mr-2">{user.username}</small>
-          <FontAwesomeIcon icon={faAngleDown} />
+          <P2
+            bold
+            text={user.username}
+            className="mr-2 align-middle text-black"
+          />
+          <FontAwesomeIcon icon={faAngleDown} className="align-middle" />
         </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          {!showConnectButton() && (
-            <Dropdown.Item
-              key="tab-dropdown-address"
-              onClick={copyAddressToClipboard}
-              className="d-flex flex-row justify-content-between align-items-center"
-            >
-              <div>
-                <small className="text-black">Address: </small>
-                <small className="text-secondary">{user.displayWalletId}</small>
-              </div>
-              <FontAwesomeIcon icon={faCopy} className="ml-2" />
-            </Dropdown.Item>
-          )}
-          {showConnectButton() && (
-            <Dropdown.Item key="tab-dropdown-connect-wallet">
-              <MetamaskConnect
-                user_id={user.id}
-                onConnect={onWalletConnect}
-                railsContext={railsContext}
-              />
-            </Dropdown.Item>
-          )}
-          <Dropdown.ItemText key="tab-dropdown-balance">
-            <small className="text-black">Balance: </small>
-            <small className="text-secondary">
-              {parseAndCommify(stableBalance)}
-            </small>
-            <small className="text-secondary ml-1">cUSD</small>
-          </Dropdown.ItemText>
-          <Dropdown.Item
-            key="tab-dropdown-invite-code"
-            onClick={copyCodeToClipboard}
-            className="d-flex flex-row justify-content-between"
-          >
-            <small className="text-black">Invite link{inviteNumbers()}</small>
-            <FontAwesomeIcon icon={faCopy} className="ml-2" />
-          </Dropdown.Item>
-          <Dropdown.Item
-            key="tab-dropdown-get-funds"
-            className="text-black"
-            onClick={onClickTransak}
-          >
-            <small>Get funds</small>
-          </Dropdown.Item>
+        <Dropdown.Menu className="user-menu-dropdown">
           {user.isTalent ? (
             <Dropdown.Item
               key="tab-dropdown-my-profile"
-              className="text-black"
+              className="text-black user-menu-dropdown-item"
               href={`/talent/${user.username}`}
             >
-              <small>My profile</small>
+              <P3 bold text="My profile" className="text-black" />
             </Dropdown.Item>
           ) : (
             <Dropdown.Item
               key="tab-dropdown-change-investor-image"
-              className="text-black"
-              onClick={() => setShow(true)}
+              className="text-black user-menu-dropdown-item"
+              href="/settings"
             >
-              <small>Change profile picture</small>
+              <P3 bold text="My profile" className="text-black" />
             </Dropdown.Item>
           )}
-          <Dropdown.Divider />
+          {userHasInvitesLeft && (
+            <>
+              <Dropdown.Divider className="user-menu-divider m-0" />
+              <Dropdown.Item
+                key="tab-dropdown-invite-code"
+                onClick={copyCodeToClipboard}
+                className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
+                disabled={user.invitesLeft == null && user.totalInvites == null}
+              >
+                <div className="d-flex">
+                  <P3
+                    bold
+                    text="Copy invite link"
+                    className="text-black mr-1"
+                  />
+                  <P3 bold text={inviteNumbers()} />
+                </div>
+                <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
+              </Dropdown.Item>
+            </>
+          )}
+          <Dropdown.Divider className="user-menu-divider m-0" />
           <Dropdown.Item
-            key="tab-dropdown-user-guide"
-            className="text-black d-flex flex-row justify-content-between"
-            target="self"
-            href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
+            key="tab-dropdown-theme"
+            className="text-black d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
+            onClick={toggleTheme}
           >
-            <small>User guide</small>
+            <P3
+              bold
+              text={`${theme.mode() === "light" ? "Dark" : "Light"} mode`}
+              className="text-black"
+            />
+            {theme.mode() == "light" ? (
+              <Moon color="currentColor" />
+            ) : (
+              <Sun color="currentColor" />
+            )}
+          </Dropdown.Item>
+          <Dropdown.Divider className="user-menu-divider m-0" />
+          <Dropdown.Item
+            key="tab-dropdown-t-c"
+            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            onClick={() => window.open(TERMS_HREF, "_blank")}
+          >
+            <P3 bold text="Terms & Conditions" className="text-black" />
             <FontAwesomeIcon
               icon={faExternalLinkAlt}
               className="ml-2"
@@ -246,23 +317,56 @@ export const UserMenuUnconnected = ({ user, signOutPath, railsContext }) => {
             />
           </Dropdown.Item>
           <Dropdown.Item
+            key="tab-dropdown-user-guide"
+            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            target="self"
+            href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
+          >
+            <P3 bold text="User guide" className="text-black" />
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="ml-2"
+              size="sm"
+            />
+          </Dropdown.Item>
+          <Dropdown.Item
+            key="tab-dropdown-p-h"
+            className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
+            onClick={() => window.open(PRIVACY_HREF, "_blank")}
+          >
+            <P3 bold text="Privacy Policy" className="text-black" />
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="ml-2"
+              size="sm"
+            />
+          </Dropdown.Item>
+          <Dropdown.Divider className="user-menu-divider m-0" />
+          <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
-            className="text-black"
+            className="text-black user-menu-dropdown-item"
           >
-            <small>Sign out</small>
+            <P3 bold text="Sign out" className="text-black" />
           </Dropdown.Item>
+          <Button
+            onClick={onClickTransak}
+            type="primary-default"
+            className="w-100"
+          >
+            <P3 bold text="Get funds" className="text-white" />
+          </Button>
         </Dropdown.Menu>
       </Dropdown>
-      <EditInvestorProfilePicture
-        show={show}
-        setShow={setShow}
-        investorId={user.investorId}
-      />
-    </>
+      <Notifications notifications={notifications} mode={theme.mode()} />
+    </nav>
   );
 };
 
 export default (props, railsContext) => {
-  return () => <UserMenuUnconnected {...props} railsContext={railsContext} />;
+  return () => (
+    <ThemeContainer {...props}>
+      <UserMenuUnconnected {...props} railsContext={railsContext} />
+    </ThemeContainer>
+  );
 };

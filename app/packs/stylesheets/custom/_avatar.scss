@@ -1,0 +1,20 @@
+.container-avatar {
+  display: flex;
+  align-items: center;
+
+  .avatar-name {
+    margin-left: 8px;
+  }
+
+  .avatar-token {
+    margin-left: 4px;
+
+    &.light {
+      color: $gray-primary;
+    }
+
+    &.dark {
+      color: $gray-300;
+    }
+  }
+}

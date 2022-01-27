@@ -2,9 +2,6 @@ import React from "react";
 import { Nav } from "react-bootstrap";
 
 const NavbarItem = (props) => {
-  const urlExactMatch = () => window.location.pathname == props.url;
-  const urlPartialMatch = () => window.location.pathname.includes(props.url);
-
   const urlMatches = () => {
     if (props.exact) {
       return window.location.pathname == props.url;
@@ -24,7 +21,7 @@ const NavbarItem = (props) => {
       href={props.url}
       target={props.target}
       className={`${
-        active ? "text-primary" : "text-secondary"
+        active ? "text-primary" : "text-primary-03"
       } mt-2 d-flex flex-row align-items-center`}
     >
       {props.children}

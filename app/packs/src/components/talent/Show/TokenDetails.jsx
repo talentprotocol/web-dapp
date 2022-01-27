@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import currency from "currency.js";
 
+import Divider from "src/components/design_system/other/divider";
+import { P1, P2 } from "src/components/design_system/typography";
+
 import {
   ApolloProvider,
   useQuery,
@@ -9,7 +12,14 @@ import {
   client,
 } from "src/utils/thegraph";
 
-const TokenDetails = ({ token, ticker, displayName, username }) => {
+const TokenDetails = ({
+  token,
+  ticker,
+  displayName,
+  username,
+  mobile,
+  className = "",
+}) => {
   const { loading, error, data } = useQuery(
     GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
     {
@@ -35,30 +45,40 @@ const TokenDetails = ({ token, ticker, displayName, username }) => {
     });
   }, [data, loading]);
 
+  const formatNumberWithSymbol = (value) => currency(value).format();
+
+  const formatNumberWithoutSymbol = (value) =>
+    currency(value, { symbol: "" }).format();
+
   return (
     <div
-      className="card bg-light mt-3 sticky-top"
-      style={{ top: 20, zIndex: 1 }}
+      className={`card ${
+        mobile ? "p-0 remove-background" : "bg-light"
+      } mt-3 ${className} sticky-top`}
+      style={{ zIndex: -1 }}
     >
-      <div className="card-body">
-        <h6 className="card-title">{ticker} Price Statistics</h6>
-        <div className="d-flex flex-column justify-content-between">
-          <small className="text-muted">Token Address</small>
-          <small>{token.contract_id || "Coming soon"}</small>
-        </div>
-        <h6 className="card-subtitle mb-2 text-muted mt-4">
-          {displayName} Price today
-        </h6>
-        <div className="dropdown-divider border-secondary"></div>
-        <div className="d-flex flex-row justify-content-between">
-          <small>{ticker} Price</small>
-          <small>${tokenData.price}</small>
-        </div>
-        <div className="d-flex flex-row justify-content-between mt-2">
-          <small>Market Value</small>
-          <small>{currency(tokenData.totalSupply * 0.1).format()}</small>
-        </div>
-        {/* <div className="d-flex flex-row justify-content-between mt-2">
+      <P1
+        bold
+        text={`${ticker} Price Statistics`}
+        className="text-black mb-4"
+      />
+      <P2 text={`${displayName} Price today`} className="text-primary-04" />
+      <Divider className="mt-2 mb-3" />
+      <div className="d-flex flex-row justify-content-between">
+        <P2 bold text={`${ticker} Price`} className="text-primary-03" />
+        <P2
+          text={formatNumberWithSymbol(tokenData.price)}
+          className="text-black"
+        />
+      </div>
+      <div className="d-flex flex-row justify-content-between mt-3">
+        <P2 bold text="Market Value" className="text-primary-03" />
+        <P2
+          text={formatNumberWithSymbol(tokenData.totalSupply * 0.1)}
+          className="text-black"
+        />
+      </div>
+      {/* <div className="d-flex flex-row justify-content-between mt-2">
           <small>
             Market Change{" "}
             <span
@@ -70,27 +90,26 @@ const TokenDetails = ({ token, ticker, displayName, username }) => {
           </small>
           <small>+$0.00</small>
         </div> */}
-        <h6 className="card-subtitle mb-2 text-muted mt-4">
-          {displayName} Token
-        </h6>
-        <div className="dropdown-divider border-secondary"></div>
-        <div className="d-flex flex-row justify-content-between">
-          <small>Circulating Supply</small>
-          <small>{currency(tokenData.totalSupply).format().substring(1)}</small>
-        </div>
-        <div className="d-flex flex-row justify-content-between mt-2">
-          <small>Max Supply</small>
-          <small>1,000,000</small>
-        </div>
-        <div className="d-flex flex-row justify-content-between mt-2">
-          <small>
-            Supporters{" "}
-            <a className="text-reset" href={`/talent/${username}/supporters`}>
-              (See more)
-            </a>
-          </small>
-          <small>{tokenData.supporterCount}</small>
-        </div>
+      <P2 text={`${displayName} Market Cap`} className="text-primary-04 mt-4" />
+      <Divider className="mt-2 mb-3" />
+      <div className="d-flex flex-row justify-content-between">
+        <P2 bold text="Circulating Supply" className="text-primary-03" />
+        <P2
+          text={formatNumberWithoutSymbol(tokenData.totalSupply)}
+          className="text-black"
+        />
+      </div>
+      <div className="d-flex flex-row justify-content-between mt-3">
+        <P2 bold text="Max Supply" className="text-primary-03" />
+        <P2 text="1,000,000.00" className="text-black" />
+      </div>
+      <div className="d-flex flex-row justify-content-between mt-3">
+        <P2 bold text="Supporters" className="text-primary-03" />
+        <P2 text={`${tokenData.supporterCount}`} className="text-black" />
+      </div>
+      <div className="d-flex flex-column justify-content-between mt-3">
+        <P2 bold text="Token Address" className="text-primary-03" />
+        <P2 text={token.contract_id || "Coming soon"} className="text-black" />
       </div>
     </div>
   );

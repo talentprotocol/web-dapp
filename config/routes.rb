@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     get "/talent/active", to: "talent/searches#active"
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show] do
+      get :edit_profile
       resources :supporters, only: [:index], module: "talent"
     end
 
@@ -51,7 +52,7 @@ Rails.application.routes.draw do
     mount ActionCable.server => "/cable"
 
     # Profile
-    resources :settings, only: [:index, :update]
+    resources :settings, only: [:index]
     resources :investors, only: [:update]
 
     resources :posts, only: [:show, :create, :destroy] do
@@ -64,7 +65,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
-        resources :users, only: [:index, :show, :update]
+        resources :users, only: [:index, :show, :update, :destroy]
         resources :follows, only: [:index, :create]
         delete "follows", to: "follows#destroy"
         resources :notifications, only: [:update]
@@ -92,6 +93,7 @@ Rails.application.routes.draw do
   resource :session, controller: "sessions", only: [:create]
 
   resources :users, only: [:create, :index] do
+    post :send_confirmation_email
     resource :password,
       controller: "passwords",
       only: [:edit, :update]

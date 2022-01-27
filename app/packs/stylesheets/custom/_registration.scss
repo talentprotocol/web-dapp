@@ -1,10 +1,58 @@
 @import "../bootstrap/overrides";
 
-.registration-box {
-  box-shadow: 8px 8px 0px $primary;
-  border: 1px solid $light;
-}
-
 .registration_step_subtitle {
   color: $light-grey;
+}
+
+.registration-left-screen {
+  width: 550px;
+  background-image: url(tp-logo-opacity.png),
+    linear-gradient(145.69deg, $primary -1.68%, $primary-700 100.36%);
+}
+
+.registration-mobile {
+  padding-top: 100px !important;
+}
+
+.registration-mobile-menu {
+  background-color: $white;
+}
+
+.dark-body .registration-mobile-menu {
+  background-color: $bg-01;
+}
+
+.url-verification-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary;
+  height: 36px;
+}
+
+.registration-box {
+  margin-right: auto;
+  margin-left: auto;
+  width: 471px;
+  height: 454px;
+}
+
+.registration-logo {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+}
+
+.registration-talent-text {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  width: 380px;
+}
+
+.registration-theme {
+  border: none;
+  position: absolute;
+  top: 48px;
+  right: 48px;
 }

@@ -1,0 +1,31 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+
+import NotificationAll from "src/components/design_system/notifications_all";
+
+<Meta
+  title="Design System/Notification Templates All/Dark Mode"
+  component={NotificationAll}
+/>
+
+# Notifications
+
+Multiple type of notificatinos: wallet, rocket
+
+export const Template = (args) => <NotificationAll {...args} />;
+
+<Canvas>
+  <Story
+    name="Notification template #1 (New true)"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      type: "wallet",
+      mode: "dark",
+      title: "Title notification goes here",
+      description: "Description notification goes here...",
+      timeInformation: "2 hours ago",
+      isNew: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

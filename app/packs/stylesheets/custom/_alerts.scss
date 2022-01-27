@@ -1,65 +1,89 @@
 @import "../bootstrap/overrides";
 
-.talent-alert {
-  border-radius: 0px;
+.alert {
+  background-color: $alert-primary;
+  border: 1px solid $gray;
+  box-sizing: border-box;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  padding: 0.6rem;
+
+  &.dark {
+    background: $gray-600;
+    border: 0;
+    box-shadow: 0;
+  }
 }
 
-.talent-alert-info {
-  box-shadow: 3px 3px 0px 0px $info;
-  color: $info;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(255, 255, 255, 0.94)
-    ),
-    $info;
-  border-color: $info;
+.alert-success {
+  color: $positive;
+
+  &.dark {
+    color: $green-500;
+  }
 }
 
-.talent-alert-primary {
-  box-shadow: 3px 3px 0px 0px $primary;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(255, 255, 255, 0.94)
-    ),
-    $primary;
-  color: $primary;
-  border-color: $primary;
-}
-
-.talent-alert-warning {
-  box-shadow: 3px 3px 0px 0px $warning;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(255, 255, 255, 0.94)
-    ),
-    $warning;
+.alert-warning {
   color: $warning;
-  border-color: $warning;
+
+  &.dark {
+    color: $yellow-500;
+  }
 }
 
-.talent-alert-danger {
-  box-shadow: 3px 3px 0px 0px $danger;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(255, 255, 255, 0.94)
-    ),
-    $danger;
+.alert-info {
+  color: $gray-800;
+
+  &.dark {
+    color: $white;
+  }
+}
+
+.alert-critical {
   color: $danger;
-  border-color: $danger;
+
+  &.dark {
+    color: $danger-tint-01;
+  }
 }
 
-.talent-alert-success {
-  box-shadow: 3px 3px 0px 0px $success;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(255, 255, 255, 0.94)
-    ),
-    $success;
-  color: $success;
-  border-color: $success;
+.alert-dismissable .close,
+.alert-dismissible .close {
+  color: $gray-400;
+  font-weight: 200;
+  font-size: 1.5rem;
+  text-shadow: none;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.alertRightArea {
+  margin-left: 10px;
+  margin-top: 2px;
+}
+
+.alertRightArea strong {
+  padding-top: 2px;
+  font-weight: 700;
+}
+
+.alertRightArea p {
+  padding-top: 10px;
+  font-size: 0.8rem;
+  padding-right: 10px;
+  margin-bottom: 0.5rem;
+  color: $gray-400;
+
+  &.dark {
+    color: $gray-300;
+  }
+}
+
+.alertRightArea a {
+  padding-top: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: $primary;
 }
