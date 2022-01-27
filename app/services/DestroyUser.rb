@@ -8,7 +8,9 @@ class DestroyUser
   def call
     user = User.find(@user_id)
     ActiveRecord::Base.transaction do
-      user.invite.update!(user_id: 1)
+      if user.invite.present?
+        user.invite.update!(user_id: 1)
+      end
       user.feed.feed_posts.destroy_all
       user.feed.destroy!
       user.investor.destroy!
@@ -39,6 +41,7 @@ class DestroyUser
         user.talent.destroy!
       end
 
+      Transfer.where(user: user).destroy_all
       Message.where(sender_id: user.id).destroy_all
       Message.where(receiver_id: user.id).destroy_all
 

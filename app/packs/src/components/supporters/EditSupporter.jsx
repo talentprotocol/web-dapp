@@ -44,6 +44,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
     email: email || "",
     currentPassword: "",
     newPassword: "",
+    deletePassword: "",
     profilePictureUrl: profilePictureUrl,
     s3Data: null,
   });
@@ -123,7 +124,9 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
   };
 
   const deleteUser = async () => {
-    const response = await destroy(`/api/v1/users/${id}`).catch(() =>
+    const response = await destroy(`/api/v1/users/${id}`, {
+      user: { current_password: settings.deletePassword },
+    }).catch(() =>
       setValidationErrors((prev) => ({ ...prev, deleting: true }))
     );
 
@@ -147,6 +150,9 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           username: "Username only allows lower case letters and numbers",
         }));
       }
+    }
+    if (attribute == "deletePassword") {
+      setValidationErrors((prev) => ({ ...prev, deleting: false }));
     }
     setSettings((prevInfo) => ({ ...prevInfo, [attribute]: value }));
   };
@@ -234,6 +240,19 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           <Caption className="text-danger" text="Email is already taken." />
         )}
       </div>
+
+      <div className={"d-flex flex-row justify-content-start w-100 mt-4"}>
+        <LoadingButton
+          onClick={() => updateUser()}
+          type="primary-default"
+          mode={theme.mode()}
+          disabled={saving.loading || cannotSaveSettings()}
+          loading={saving.loading}
+          success={saving.profile}
+        >
+          Save Profile
+        </LoadingButton>
+      </div>
       <div className="d-flex flex-row w-100 mt-4">
         <TextInput
           title={"Current Password"}
@@ -283,48 +302,41 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
         Change password
       </Button>
       <Divider className="my-4" />
-      <div className="d-flex flex-row w-100 justify-content-between mt-4">
-        <div className="d-flex flex-column w-100 flex-wrap">
-          <H5
-            className="w-100 text-left"
-            mode={theme.mode()}
-            text="Close Account"
-            bold
-          />
-          <P2
-            className="w-100 text-left"
-            mode={theme.mode()}
-            text="Delete your account and account data"
-          />
-          {settings.currentPassword && validationErrors?.deleting && (
-            <P3
-              className="w-100 text-left text-danger"
-              text="Unabled to destroy user."
-            />
-          )}
-        </div>
-        <div>
-          <Button
-            onClick={() => deleteUser()}
-            type="danger-default"
-            disabled={!settings.currentPassword}
-            mode={theme.mode()}
-          >
-            Delete Account
-          </Button>
-        </div>
-      </div>
-      <div className={"d-flex flex-row justify-content-start w-100 mt-4"}>
-        <LoadingButton
-          onClick={() => updateUser()}
-          type="primary-default"
+      <div className="d-flex flex-column w-100 my-3">
+        <H5
+          className="w-100 text-left"
           mode={theme.mode()}
-          disabled={saving.loading || cannotSaveSettings()}
-          loading={saving.loading}
-          success={saving.profile}
+          text="Close Account"
+          bold
+        />
+        <P2
+          className="w-100 text-left"
+          mode={theme.mode()}
+          text="Delete your account and account data"
+        />
+        <TextInput
+          title={"Password"}
+          type="password"
+          placeholder={"*********"}
+          mode={theme.mode()}
+          onChange={(e) => changeAttribute("deletePassword", e.target.value)}
+          value={settings.deletePassword}
+          className="w-100 mt-4"
+          required
+          error={validationErrors.deleting}
+        />
+        {validationErrors?.deleting && (
+          <P3 className="text-danger" text="Wrong password." />
+        )}
+        <Button
+          onClick={() => deleteUser()}
+          type="danger-default"
+          mode={theme.mode()}
+          className="w-100 mt-3"
+          disabled={settings.deletePassword == ""}
         >
-          Save Profile
-        </LoadingButton>
+          Delete Account
+        </Button>
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
 import React from "react";
-import { string, bool, oneOf } from "prop-types";
+import { string, bool, oneOf, node } from "prop-types";
 import cx from "classnames";
 
-const H4 = ({ bold, mode, text, className }) => {
+const H4 = ({ bold, mode, text, children, className }) => {
   return (
-    <h4 className={cx("h4", bold ? "bold" : "", mode, className)}>{text}</h4>
+    <h4 className={cx("h4", bold ? "bold" : "", mode, className)}>
+      {text || children}
+    </h4>
   );
 };
 
@@ -17,7 +19,8 @@ H4.defaultProps = {
 H4.propTypes = {
   bold: bool,
   mode: oneOf(["light", "dark"]),
-  text: string.isRequired,
+  text: string,
+  children: node,
   className: string,
 };
 

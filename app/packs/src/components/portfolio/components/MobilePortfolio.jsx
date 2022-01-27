@@ -29,6 +29,8 @@ const MobilePortfolio = ({
   tokenAddress,
   chainAPI,
   onClickTransak,
+  ticker,
+  currentUserId,
 }) => {
   return (
     <div className={`d-flex flex-column`}>
@@ -182,6 +184,8 @@ const MobilePortfolio = ({
           onClaim={onClaim}
           chainAPI={chainAPI}
           mobile={true}
+          ticker={ticker}
+          currentUserId={currentUserId}
         />
       )}
     </div>

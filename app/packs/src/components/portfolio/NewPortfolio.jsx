@@ -51,7 +51,7 @@ const TransakDone = ({ show, hide }) => (
 
 const LoadingPortfolio = ({ mode }) => {
   return (
-    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-4">
       <Spinner />
     </div>
   );
@@ -59,11 +59,11 @@ const LoadingPortfolio = ({ mode }) => {
 
 const ChangeNetwork = ({ mode, networkChange }) => {
   return (
-    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-      <H5 mode={mode} text="Please change your network" bold />
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4 p-lg-0">
+      <H5 mode={mode} text="Please switch your network" bold />
       <P2
         mode={mode}
-        text="To see your portfolio you need to change network to CELO."
+        text="To see your portfolio you need to switch your network to CELO."
         bold
       />
       <Button
@@ -72,7 +72,7 @@ const ChangeNetwork = ({ mode, networkChange }) => {
         mode={mode}
         className="mt-3"
       >
-        Change Network
+        Switch Network
       </Button>
     </div>
   );
@@ -109,7 +109,13 @@ const newTransak = (width, height, env, apiKey) => {
   });
 };
 
-const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
+const NewPortfolio = ({
+  address,
+  tokenAddress,
+  ticker,
+  currentUserId,
+  railsContext,
+}) => {
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState(address || "");
   const { loading, error, data, refetch } = useQuery(GET_SUPPORTER_PORTFOLIO, {
@@ -339,6 +345,8 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
           tokenAddress={tokenAddress}
           chainAPI={chainAPI}
           onClickTransak={onClickTransak}
+          ticker={ticker}
+          currentUserId={currentUserId}
         />
       </>
     );
@@ -463,8 +471,10 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
         <Supporters
           mode={theme.mode()}
           tokenAddress={tokenAddress}
+          ticker={ticker}
           onClaim={onClaim}
           chainAPI={chainAPI}
+          currentUserId={currentUserId}
         />
       )}
     </div>

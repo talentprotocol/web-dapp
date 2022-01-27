@@ -206,6 +206,14 @@ const Supporting = ({
 
   const returns = (contract_id) => {
     if (returnValues[contract_id]) {
+      return parseAndCommify(returnValues[contract_id].toString());
+    }
+
+    return "0.0";
+  };
+
+  const returnsUSD = (contract_id) => {
+    if (returnValues[contract_id]) {
       return parseAndCommify(talToUSD(returnValues[contract_id].toString()));
     }
 
@@ -217,9 +225,20 @@ const Supporting = ({
       case "Amount":
         return `${parseAndCommify(talent.amount)} ${talent.symbol}`;
       case "Rewards":
-        return returns(talent.contract_id);
+        return `${returns(talent.contract_id)} TAL`;
       case "Alphabetical Order":
         return `${parseAndCommify(talent.amount)} ${talent.symbol}`;
+    }
+  };
+
+  const getSelectedOptionValueUSD = (talent) => {
+    switch (selectedSort) {
+      case "Amount":
+        return `$${parseAndCommify(talent.amount * 0.1)}`;
+      case "Rewards":
+        return `$${returnsUSD(talent.contract_id)}`;
+      case "Alphabetical Order":
+        return `$${parseAndCommify(talent.amount * 0.1)}`;
     }
   };
 
@@ -301,7 +320,12 @@ const Supporting = ({
                     <P2 text={`${talent.name}`} bold className="ml-2" />
                   </div>
                 </Table.Td>
-                <Table.Td className="text-right pr-4 py-2">
+                <Table.Td className="d-flex flex-column justify-content-center align-items-end pr-4 py-2">
+                  <P2
+                    bold
+                    text={getSelectedOptionValueUSD(talent)}
+                    className="text-black"
+                  />
                   <P2 text={getSelectedOptionValue(talent)} />
                 </Table.Td>
               </Table.Tr>
@@ -374,13 +398,36 @@ const Supporting = ({
                 </div>
               </Table.Td>
               <Table.Td>
-                <P2 text={parseAndCommify(talent.amount)} />
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={`$${parseAndCommify(talent.amount * 0.1)}`}
+                    className="text-black"
+                  />
+                  <P2
+                    text={`${parseAndCommify(talent.amount)} ${talent.symbol}`}
+                  />
+                </div>
               </Table.Td>
               <Table.Td>
-                <P2 text={parseAndCommify(talent.amount * 5)} />
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={`$${parseAndCommify(talent.amount * 0.1)}`}
+                    className="text-black"
+                  />
+                  <P2 text={`${parseAndCommify(talent.amount * 5)} TAL`} />
+                </div>
               </Table.Td>
-              <Table.Td className="pr-3">
-                <P2 text={returns(talent.contract_id)} />
+              <Table.Td>
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={`$${returnsUSD(talent.contract_id)}`}
+                    className="text-black"
+                  />
+                  <P2 text={`${returns(talent.contract_id)} TAL`} />
+                </div>
               </Table.Td>
               <Table.Td className="pr-3">
                 <button
