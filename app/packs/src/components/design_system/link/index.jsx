@@ -1,5 +1,8 @@
 import React from "react";
 import { string, oneOf, bool, node } from "prop-types";
+
+import { P2 } from "src/components/design_system/typography";
+
 import cx from "classnames";
 
 const Link = ({
@@ -15,18 +18,13 @@ const Link = ({
 }) => {
   return (
     <a
-      className={cx(
-        "link-container p2 link-text",
-        disabled && "disabled",
-        bold && "bold",
-        type,
-        className
-      )}
-      href={href}
+      className={cx("link-container", disabled && "disabled", className)}
+      href={disabled ? null : href}
       target={target}
     >
       {Icon && <Icon pathClassName={cx("link-icon", bold && "bold")} />}
-      {text || children}
+      {text && <P2 className={cx("link-text", type)} text={text} bold={bold} />}
+      {children}
     </a>
   );
 };

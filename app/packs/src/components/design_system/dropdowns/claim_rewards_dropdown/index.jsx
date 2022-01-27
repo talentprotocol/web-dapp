@@ -33,11 +33,10 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
         />
       </Dropdown.Toggle>
 
-      <Dropdown.Menu className={cx("user-menu-dropdown", "w-100", mode)}>
+      <Dropdown.Menu className={cx("w-100", mode)}>
         <Dropdown.Item
           key="tab-dropdown-restake"
           onClick={(e) => setSelectedItem(e.target.innerText)}
-          className="user-menu-dropdown-item"
         >
           <P3
             className="text-black"
@@ -48,7 +47,7 @@ const ClaimRewardsDropdown = ({ className, mode, talentSymbol }) => {
         </Dropdown.Item>
         <Dropdown.Item
           key="tab-dropdown-withdrawal"
-          className="d-flex align-items-center user-menu-dropdown-item"
+          className="d-flex align-items-center"
           disabled
         >
           <P3

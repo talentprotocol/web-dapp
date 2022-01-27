@@ -345,14 +345,14 @@ export const UserMenuUnconnected = ({
           <Dropdown.Item
             key="tab-dropdown-sign-out"
             onClick={signOut}
-            className="text-black user-menu-dropdown-item mt-0"
+            className="text-black user-menu-dropdown-item"
           >
             <P3 bold text="Sign out" className="text-black" />
           </Dropdown.Item>
           <Button
             onClick={onClickTransak}
             type="primary-default"
-            className="w-100 my-2"
+            className="w-100"
           >
             <P3 bold text="Get funds" className="text-white" />
           </Button>
