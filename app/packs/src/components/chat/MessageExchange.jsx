@@ -84,7 +84,7 @@ const MessageExchange = (props) => {
       )}
       <div
         id="messages"
-        className="px-3 overflow-y-auto display-messages d-flex flex-column pb-3"
+        className="px-3 overflow-y-scroll display-messages d-flex flex-column pb-3"
       >
         {props.messages.length === 0 && props.activeUserId === 0 && (
           <CommunicateFirst />
