@@ -7,14 +7,17 @@ import { parseAndCommify } from "src/onchain/utils";
 import { useQuery, GET_TALENT_PORTFOLIO_FOR_ID } from "src/utils/thegraph";
 import { get } from "src/utils/requests";
 
-import P2 from "src/components/design_system/typography/p2";
-import P3 from "src/components/design_system/typography/p3";
-import H4 from "src/components/design_system/typography/h4";
-import H5 from "src/components/design_system/typography/h5";
+import {
+  H4,
+  H5,
+  P2,
+  P3,
+  Caption,
+} from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
-import Caption from "src/components/design_system/typography/caption";
+import Link from "src/components/design_system/link";
 import { Spinner, OrderBy } from "src/components/icons";
 
 const MobileSupportersDropdown = ({
@@ -537,19 +540,12 @@ const Supporters = ({ mode, tokenAddress, chainAPI, mobile }) => {
                 <P2 text={parseAndCommify(returnValues[supporter.id] || "0")} />
               </Table.Td>
               <Table.Td className="pr-3">
-                <Button
-                  onClick={() =>
-                    (window.location.href = `/messages?user=${
-                      supporterInfo[supporter.id]?.id
-                    }`)
-                  }
+                <Link
+                  text="Message"
+                  bold
                   disabled={!supporterInfo[supporter.id]?.id}
-                  type="primary-ghost"
-                  mode={mode}
-                  className="mr-2 remove-background underline-hover"
-                >
-                  Message
-                </Button>
+                  href={`/messages?user=${supporterInfo[supporter.id]?.id}`}
+                />
               </Table.Td>
             </Table.Tr>
           ))}

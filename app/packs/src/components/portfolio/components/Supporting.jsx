@@ -6,14 +6,17 @@ import { parseAndCommify } from "src/onchain/utils";
 
 import { get } from "src/utils/requests";
 
-import P2 from "src/components/design_system/typography/p2";
-import P3 from "src/components/design_system/typography/p3";
-import H4 from "src/components/design_system/typography/h4";
-import H5 from "src/components/design_system/typography/h5";
+import {
+  H4,
+  H5,
+  P2,
+  P3,
+  Caption,
+} from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
-import Caption from "src/components/design_system/typography/caption";
+import Link from "src/components/design_system/link";
 import { OrderBy } from "src/components/icons";
 
 const MobileSupportingDropdown = ({
@@ -380,14 +383,12 @@ const Supporting = ({
                 <P2 text={returns(talent.contract_id)} />
               </Table.Td>
               <Table.Td className="pr-3">
-                <Button
+                <button
                   onClick={() => onClaim(talent.contract_id)}
-                  type="primary-ghost"
-                  mode={mode}
-                  className="mr-2 remove-background underline-hover"
+                  className="mr-2 button-link remove-background"
                 >
-                  Claim rewards
-                </Button>
+                  <Link text="Claim rewards" bold />
+                </button>
               </Table.Td>
             </Table.Tr>
           ))}

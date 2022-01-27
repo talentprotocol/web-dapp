@@ -345,7 +345,7 @@ const NewPortfolio = ({ address, tokenAddress, railsContext }) => {
   }
 
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column h-100">
       <RewardsModal
         show={show}
         setShow={setShow}

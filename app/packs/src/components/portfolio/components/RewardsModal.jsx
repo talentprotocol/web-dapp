@@ -44,21 +44,23 @@ const RewardsModal = ({
       show={show}
       centered={mobile ? false : true}
       onHide={() => setShow(false)}
-      dialogClassName={mobile ? "mw-100 mh-100 m-0" : "remove-background"}
+      dialogClassName={
+        mobile ? "mw-100 mh-100 m-0" : "remove-background rewards-modal"
+      }
       fullscreen={"md-down"}
     >
-      <Modal.Body className="show-grid p-4 d-flex flex-column justify-content-between">
-        <div className="d-flex mb-3">
-          {mobile && (
-            <button
-              onClick={() => setShow(false)}
-              className="text-black remove-background remove-border mr-3"
-            >
-              <ArrowLeft color="currentColor" />
-            </button>
-          )}
-          <P1 className="text-black" text="Claim rewards" bold />
-        </div>
+      <Modal.Header closeButton className="pt-4 px-4 pb-0">
+        {mobile && (
+          <button
+            onClick={() => setShow(false)}
+            className="text-black remove-background remove-border mr-3"
+          >
+            <ArrowLeft color="currentColor" />
+          </button>
+        )}
+        <P1 className="text-black" text="Claim rewards" bold />
+      </Modal.Header>
+      <Modal.Body className="show-grid px-4 pb-4 d-flex flex-column justify-content-between">
         <P2
           className="mb-6"
           text="Rewards are calculated in real time and are always displayed in $TAL."

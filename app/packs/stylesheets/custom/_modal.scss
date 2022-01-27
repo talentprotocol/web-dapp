@@ -2,104 +2,106 @@
 @import "../bootstrap/overrides";
 
 .modal-dialog {
-    background-color: $alert-primary;
-    border: 0;
+  background-color: $alert-primary;
+  border: 0;
+}
 
-    &.dark {
-        background-color: $gray-900;
-    }
+.dark-body .modal-dialog {
+  background-color: $gray-900;
 }
 
 .modal-content {
-    background-color: $alert-primary;
-    border: 0;
-
-    &.dark {
-        background-color: $gray-900;
-    }
+  background-color: $alert-primary;
+  border: 0;
 }
 
-.modal-header
-{
-    border: 0;
+.dark-body .modal-content {
+  background-color: $gray-900;
+}
+
+.modal-header {
+  border: 0;
 }
 
 .modal-header .close {
-    color: $gray-400;
-    font-weight: 200;
-    font-size: 1.5rem;
-    text-shadow: none;
-
-    &.dark {
-        color: $gray-300;
-    }
+  color: $gray-400;
+  font-weight: 200;
+  font-size: 1.5rem;
+  text-shadow: none;
 }
 
+.dark-body .modal-header .close {
+  color: $gray-300;
+}
 
 .modal-body span {
-    padding-top: 10px;
-    font-size: 0.9rem;
-    color: $gray-600;
+  padding-top: 10px;
+  font-size: 0.9rem;
+  color: $gray-600;
+}
 
-    &.dark {
-        color: $gray-200;
-    }
+.dark-body .modal-body span {
+  color: $gray-200;
 }
 
 .modal-body p {
-    font-size: 0.9rem;
-    color: $gray-600;
+  font-size: 0.9rem;
+  color: $gray-600;
+}
 
-    &.dark {
-        color: $gray-200;
-    }
+.dark-body .modal-body p {
+  color: $gray-200;
 }
 
 .modal-body h5 {
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: $gray-800;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: $gray-800;
+}
 
-    &.dark {
-        color: White;
-    }
+.dark-body .modal-body h5 {
+  color: White;
 }
 
 .modal-body .availableAmount {
-    font-weight: 700;
-    font-size: 0.7rem;
-    color: $gray-primary;
-
-    &.dark {
-        color: $gray-400;
-    }
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: $gray-primary;
 }
 
+.dark-body .modal-body .availableAmount {
+  color: $gray-400;
+}
 
 .modal-body .short-description {
-    font-weight: 400;
-    font-size: 0.75rem;
-    color: $gray-600;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: $gray-600;
 }
 
 .modal-body .form-check {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 
-    label {
-        font-weight: 400;
-        font-size: 1rem;
-        color: $gray-800;
+  label {
+    font-weight: 400;
+    font-size: 1rem;
+    color: $gray-800;
+  }
 
-        &.dark {
-            color: $white;
-        }
-    }
+  a {
+    text-decoration: underline;
+  }
+}
 
-    a {
-        text-decoration: underline;
-    }
+.dark-body .modal-body .form-check label {
+  color: $white;
 }
 
 .button-confirm {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.rewards-modal {
+  width: 441px;
+  height: 633px;
 }
