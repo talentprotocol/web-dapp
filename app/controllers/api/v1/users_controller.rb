@@ -23,6 +23,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
+    if @user.id != current_user.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
     if @user
       if params[:wallet_id]
         @user.update!(wallet_id: params[:wallet_id]&.downcase)
@@ -64,6 +68,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def destroy
+    if @user.id != current_user.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
     if current_user.authenticated?(password_params[:current_password])
       service = DestroyUser.new(user_id: current_user.id)
       result = service.call

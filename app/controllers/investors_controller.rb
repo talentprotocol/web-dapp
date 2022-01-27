@@ -2,6 +2,10 @@ class InvestorsController < ApplicationController
   before_action :set_investor, only: [:update]
 
   def update
+    if @investor.id != current_user.investor.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
     if @investor.update(investor_params)
       redirect_to(
         settings_path,

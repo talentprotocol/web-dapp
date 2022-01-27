@@ -18,6 +18,10 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
   end
 
   def create
+    if talent.id != current_user.talent.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
     @career_goal = CareerGoal.new(career_goal_params)
     @career_goal.talent = talent
 
