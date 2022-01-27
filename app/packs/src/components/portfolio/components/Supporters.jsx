@@ -30,6 +30,7 @@ const MobileSupporterAction = ({
   unclaimedRewards,
   ticker,
   userId,
+  currentUserId,
 }) => {
   return (
     <Modal
@@ -72,7 +73,7 @@ const MobileSupporterAction = ({
           onClick={() => (window.location.href = `/messages?user=${userId}`)}
           type="white-subtle"
           mode={mode}
-          disabled={!userId}
+          disabled={!userId || userId == currentUserId}
           className="mx-3 mt-auto mb-3"
         >
           Message
@@ -259,7 +260,14 @@ const SupporterOverview = ({
   );
 };
 
-const Supporters = ({ mode, ticker, tokenAddress, chainAPI, mobile }) => {
+const Supporters = ({
+  mode,
+  ticker,
+  tokenAddress,
+  chainAPI,
+  mobile,
+  currentUserId,
+}) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: tokenAddress?.toLowerCase() },
   });
@@ -385,9 +393,17 @@ const Supporters = ({ mode, ticker, tokenAddress, chainAPI, mobile }) => {
     }
   };
 
+  const returns = (walletId) => {
+    if (returnValues[walletId]) {
+      return parseAndCommify(talToUSD(returnValues[walletId].toString()));
+    }
+
+    return "0.0";
+  };
+
   const compareRewards = (user1, user2) => {
-    const talent1Amount = parseFloat(loadReturns(user1.id).replaceAll(",", ""));
-    const talent2Amount = parseFloat(loadReturns(user2.id).replaceAll(",", ""));
+    const talent1Amount = parseFloat(returns(user1.id).replaceAll(",", ""));
+    const talent2Amount = parseFloat(returns(user2.id).replaceAll(",", ""));
 
     if (talent1Amount < talent2Amount) {
       return 1;
@@ -489,6 +505,7 @@ const Supporters = ({ mode, ticker, tokenAddress, chainAPI, mobile }) => {
             )}
             ticker={ticker}
             userId={supporterInfo[activeSupporter.id]?.id}
+            currentUserId={currentUserId}
           />
         )}
         <MobileSupportersDropdown
@@ -625,7 +642,10 @@ const Supporters = ({ mode, ticker, tokenAddress, chainAPI, mobile }) => {
                 <Link
                   text="Message"
                   bold
-                  disabled={!supporterInfo[supporter.id]?.id}
+                  disabled={
+                    !supporterInfo[supporter.id]?.id ||
+                    supporterInfo[supporter.id]?.id == currentUserId
+                  }
                   href={`/messages?user=${supporterInfo[supporter.id]?.id}`}
                 />
               </Table.Td>
