@@ -24,7 +24,7 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
 
   return (
     <a
-      className={`mx-2 pt-3 pl-5 pr-3 chat-user${active} text-reset`}
+      className={`pt-3 pl-6 pr-4 chat-user ${active} text-reset`}
       onClick={() => onClick(user.id)}
     >
       <div className="d-flex flex-row justify-content-between">
@@ -98,7 +98,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
         <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-4">
-          <div className="position-relative">
+          <div className="position-relative w-100">
             <TextInput
               disabled={allUsers.length == 0}
               onChange={(e) => setSearch(e.target.value)}
