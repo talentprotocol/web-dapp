@@ -479,6 +479,17 @@ const Supporters = ({
     }
   };
 
+  const getSelectedOptionValueUSD = (supporter) => {
+    switch (selectedSort) {
+      case "Amount":
+        return `$${parseAndCommify(supporter.amount * 0.1)}`;
+      case "Rewards":
+        return `$${parseAndCommify(returnValues[supporter.id] * 0.02 || "0")}`;
+      case "Alphabetical Order":
+        return `$${parseAndCommify(supporter.amount * 0.1)}`;
+    }
+  };
+
   const supporterName = (supporter) => {
     if (supporterInfo[supporter.id]?.username) {
       return supporterInfo[supporter.id]?.username;
@@ -555,7 +566,12 @@ const Supporters = ({
                     <P2 text={supporterName(supporter)} bold className="ml-2" />
                   </div>
                 </Table.Td>
-                <Table.Td className="text-right pr-4 py-2">
+                <Table.Td className="d-flex flex-column justify-content-center align-items-end pr-4 py-2">
+                  <P2
+                    bold
+                    text={getSelectedOptionValueUSD(supporter)}
+                    className="text-black"
+                  />
                   <P2 text={getSelectedOptionValue(supporter)} />
                 </Table.Td>
               </Table.Tr>
@@ -633,10 +649,30 @@ const Supporters = ({
                 </div>
               </Table.Td>
               <Table.Td>
-                <P2 text={parseAndCommify(supporter.amount)} />
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={`$${parseAndCommify(supporter.amount * 0.1)}`}
+                    className="text-black"
+                  />
+                  <P2 text={`${parseAndCommify(supporter.amount)} ${ticker}`} />
+                </div>
               </Table.Td>
-              <Table.Td className="pr-3">
-                <P2 text={parseAndCommify(returnValues[supporter.id] || "0")} />
+              <Table.Td>
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={`$${parseAndCommify(
+                      returnValues[supporter.id] * 0.02 || "0"
+                    )}`}
+                    className="text-black"
+                  />
+                  <P2
+                    text={`${parseAndCommify(
+                      returnValues[supporter.id] || "0"
+                    )} TAL`}
+                  />
+                </div>
               </Table.Td>
               <Table.Td className="pr-3">
                 <Link
