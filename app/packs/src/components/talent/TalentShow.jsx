@@ -303,7 +303,7 @@ const TalentShow = ({
           )}
         </div>
         {pageInDisplay != "Supporters" && (
-          <div className="col-12 col-lg-4 p-0">
+          <div className="col-12 col-lg-4 p-0 mb-4">
             <TokenDetails
               ticker={ticker()}
               token={token}
@@ -315,26 +315,28 @@ const TalentShow = ({
           </div>
         )}
       </div>
-      <section
-        className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
-      >
-        <Roadmap
-          goals={sharedState.goals}
-          width={width}
-          mode={theme.mode()}
-          mobile={mobile}
-        />
-        <Perks
-          perks={sharedState.perks}
-          ticker={ticker()}
-          width={width}
-          contract={token.contract_id}
-          railsContext={railsContext}
-          talentUserId={talent.user_id}
-          hideAction={talentIsFromCurrentUser}
-          mode={theme.mode()}
-        />
-      </section>
+      {pageInDisplay == "Overview" && (
+        <section
+          className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
+        >
+          <Roadmap
+            goals={sharedState.goals}
+            width={width}
+            mode={theme.mode()}
+            mobile={mobile}
+          />
+          <Perks
+            perks={sharedState.perks}
+            ticker={ticker()}
+            width={width}
+            contract={token.contract_id}
+            railsContext={railsContext}
+            talentUserId={talent.user_id}
+            hideAction={talentIsFromCurrentUser}
+            mode={theme.mode()}
+          />
+        </section>
+      )}
     </div>
   );
 };
