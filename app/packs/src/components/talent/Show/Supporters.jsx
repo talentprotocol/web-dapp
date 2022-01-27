@@ -205,7 +205,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   const supporterName = (supporter) => {
     let fullName = "";
     if (supporterInfo[supporter.id]?.username) {
-      fullName += `@${supporterInfo[supporter.id]?.username}`;
+      fullName += `@${supporterInfo[supporter.id]?.username}\n`;
     }
     fullName += `(${supporter.id.substring(0, 10)}...)`;
     return fullName;
@@ -235,7 +235,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
           </Button>
         </div>
         <div className={`divider ${mode} my-2`}></div>
-        <Table mode={mode} className="horizontal-scroll">
+        <Table mode={mode} className="horizontal-scroll mb-4">
           <Table.Body>
             {sortedSupporters().map((supporter) => (
               <Table.Tr
@@ -244,12 +244,16 @@ const Supporters = ({ mobile, mode, sharedState }) => {
                 onClick={() => console.log("SHOW SUPPORTER DETAILS")}
               >
                 <Table.Td>
-                  <div className="d-flex cursor-pointer pl-4 py-2">
+                  <div className="d-flex cursor-pointer py-2">
                     <TalentProfilePicture
                       src={supporterInfo[supporter.id]?.profilePictureUrl}
                       height="24"
                     />
-                    <P2 text={supporterName(supporter)} bold className="ml-2" />
+                    <P2
+                      text={supporterName(supporter)}
+                      bold
+                      className="ml-2 text-white-space-wrap"
+                    />
                   </div>
                 </Table.Td>
                 <Table.Td className="text-right pr-4 py-2">
@@ -268,7 +272,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
       <P1 className="mt-5" bold>
         Supporters
       </P1>
-      <Table mode={mode} className="px-3 horizontal-scroll mt-3">
+      <Table mode={mode} className="px-3 horizontal-scroll mt-3 mb-4">
         <Table.Head>
           <Table.Th>
             <Caption
