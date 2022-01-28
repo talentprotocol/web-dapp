@@ -22,11 +22,11 @@ FactoryBot.define do
       email { nil }
     end
 
-    factory :user_with_talent do
+    trait :with_talent do
       association :talent
     end
 
-    factory :investor_user do
+    trait :with_investor do
       association :investor
     end
   end

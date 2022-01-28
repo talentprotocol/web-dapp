@@ -1,17 +1,11 @@
 module Messages
   class SendToAllSupporters
-    class Error < StandardError; end
-
-    class UserWithoutSupporters < Error; end
-
     def initialize(user:, message:)
       @user = user
       @message = message
     end
 
     def call
-      raise UserWithoutSupporters, "You need to have supporters to use this functionality." unless investors.any?
-
       investors.map do |investor|
         receiver = investor.user
 
@@ -30,7 +24,7 @@ module Messages
     def investors
       return [] unless user.talent
 
-      user.talent.investors.distinct.includes(:user)
+      user.talent.investors.where.not(user: user).distinct.includes(:user)
     end
 
     def send_message_to(receiver)
