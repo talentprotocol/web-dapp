@@ -35,12 +35,12 @@ if Rails.env.development?
       )
 
       puts "Setting up Investors.."
-      admin_investor = Investor.create!(
+      Investor.create!(
         description: "I own this",
         user: admin
       )
 
-      john_doe = Investor.create!(
+      Investor.create!(
         description: "I'm so wealthy...",
         user: investor
       )
@@ -63,13 +63,13 @@ if Rails.env.development?
       )
 
       puts "Setting up Tokens.."
-      marx_token = Token.create!(
+      Token.create!(
         ticker: "MARX",
         price: 2,
         market_cap: 0,
         talent: marx
       )
-      elon_token = Token.create!(
+      Token.create!(
         ticker: "ELON",
         price: 1,
         market_cap: 0,
