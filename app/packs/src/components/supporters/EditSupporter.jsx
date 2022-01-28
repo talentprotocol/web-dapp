@@ -12,7 +12,7 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import { patch, destroy } from "src/utils/requests";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
-import { H5, P2, P3, Caption } from "src/components/design_system/typography";
+import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import LoadingButton from "src/components/button/LoadingButton";
@@ -20,6 +20,7 @@ import Divider from "src/components/design_system/other/divider";
 import Tag from "src/components/design_system/tag";
 
 import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
+import { emailRegex, usernameRegex } from "src/components/talent/utils/regexes";
 
 const uppyProfile = new Uppy({
   meta: { type: "avatar" },
@@ -51,6 +52,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [uploaded, setUploaded] = useState({ profile: false });
   const [validationErrors, setValidationErrors] = useState({});
+  const [emailValidated, setEmailValidated] = useState(false);
   const [saving, setSaving] = useState({
     loading: false,
     profile: false,
@@ -60,7 +62,6 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
     errors,
     tags,
   } = passwordMatchesRequirements(settings.newPassword);
-  const usernameRegex = /^[a-z0-9]*$/;
 
   const theme = useContext(ThemeContext);
 
@@ -150,6 +151,10 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           username: "Username only allows lower case letters and numbers",
         }));
       }
+    } else if (attribute === "email") {
+      setValidationErrors((prev) => ({ ...prev, email: false }));
+      setEmailValidated(false);
+      if (emailRegex.test(value)) validateEmail(value);
     }
     if (attribute == "deletePassword") {
       setValidationErrors((prev) => ({ ...prev, deleting: false }));
@@ -158,6 +163,8 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
   };
 
   const cannotSaveSettings = () =>
+    !emailValidated ||
+    !!validationErrors.email ||
     settings.username.length == 0 ||
     !!validationErrors.username ||
     !!validationErrors.currentPassword ||
@@ -170,6 +177,18 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
     settings.currentPassword.length < 8 ||
     settings.newPassword.length < 8 ||
     (!!settings.newPassword && !validPassword);
+
+  const validateEmail = (value) => {
+    if (emailRegex.test(value)) {
+      setValidationErrors((prev) => ({ ...prev, email: false }));
+    } else {
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: "Email is not valid",
+      }));
+    }
+    setEmailValidated(true);
+  };
 
   return (
     <div className="d-flex flex-column mx-auto align-items-center p-3 edit-profile-content">
@@ -222,7 +241,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           error={validationErrors?.username}
         />
         {validationErrors?.username && (
-          <Caption className="text-danger" text={validationErrors.username} />
+          <P3 className="text-danger" text={validationErrors.username} />
         )}
       </div>
       <div className="d-flex flex-row w-100 flex-wrap mt-4">
@@ -237,7 +256,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           error={validationErrors?.email}
         />
         {validationErrors?.email && (
-          <Caption className="text-danger" text="Email is already taken." />
+          <P3 className="text-danger" text={validationErrors.email} />
         )}
       </div>
 
@@ -266,7 +285,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl }) => {
           error={validationErrors?.currentPassword}
         />
         {validationErrors?.currentPassword && (
-          <Caption className="text-danger" text="Password doesn't match." />
+          <P3 className="text-danger" text="Password doesn't match." />
         )}
       </div>
       <div className="d-flex flex-row w-100 mt-4">
