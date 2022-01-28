@@ -41,7 +41,6 @@ Rails.application.routes.draw do
     get "/talent/upcoming", to: "talent/searches#upcoming"
     resources :talent, only: [:index, :show] do
       get :edit_profile
-      resources :supporters, only: [:index], module: "talent"
     end
 
     # Portfolio
