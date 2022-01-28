@@ -21,7 +21,7 @@ const Notification = ({
 }) => {
   return (
     <>
-      <div className={`notification ${mode} d-flex`}>
+      <div className={cx("notification d-flex", mode)}>
         <div className="notification-icon">
           {type === "wallet" && (
             <Wallet pathClassName={cx("icon-theme", mode)} />
@@ -37,7 +37,7 @@ const Notification = ({
           {type === "check" && <Check pathClassName={cx("icon-theme", mode)} />}
           {type === "globe" && <Globe pathClassName={cx("icon-theme", mode)} />}
         </div>
-        <div className={`d-flex flex-column notification-right-area ${mode}`}>
+        <div className={cx("d-flex flex-column notification-right-area", mode)}>
           <div className="w-100 d-flex align-items-center">
             {isNew && <div className="ellipse-new"></div>}
             {title && <P3 bold text={title} className="text-black" />}

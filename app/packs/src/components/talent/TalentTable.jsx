@@ -18,9 +18,10 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
 import TalentProfilePicture from "./TalentProfilePicture";
 import Table from "src/components/design_system/table";
-import P2 from "src/components/design_system/typography/p2";
-import Caption from "src/components/design_system/typography/caption";
+import { P1, P2, P3, Caption } from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
+
+import cx from "classnames";
 
 const MobileTalentTableDropdown = ({
   show,
@@ -31,7 +32,7 @@ const MobileTalentTableDropdown = ({
   onOptionClick,
 }) => {
   const selectedClass = (option) =>
-    option == selectedOption ? " text-primary" : "";
+    option == selectedOption ? " text-primary" : "text-black";
   return (
     <Modal
       show={show}
@@ -39,18 +40,20 @@ const MobileTalentTableDropdown = ({
       onHide={hide}
       dialogClassName={"m-0 mw-100 table-options-dropdown"}
     >
-      <Modal.Body className="d-flex flex-column p-0">
-        <small className="text-muted p-3">View</small>
-        <div className={`divider ${mode}`}></div>
+      <Modal.Body className="d-flex flex-column p-0 pb-5">
+        <P3 bold className="text-primary-04 py-3 px-4" text="View" />
+        <div className={`divider mb-2 ${mode}`}></div>
         <Button
           onClick={() => onOptionClick("Supporters")}
           type="white-ghost"
           mode={mode}
-          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
-            "Supporters"
-          )}`}
+          className="d-flex flex-row justify-content-between px-4"
         >
-          Supporters{" "}
+          <P1
+            className={cx(selectedClass("Supporters"))}
+            bold
+            text="Supporters"
+          />
           {selectedOption == "Supporters" && (
             <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
           )}
@@ -59,11 +62,13 @@ const MobileTalentTableDropdown = ({
           onClick={() => onOptionClick("Occupation")}
           type="white-ghost"
           mode={mode}
-          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
-            "Occupation"
-          )}`}
+          className="d-flex flex-row justify-content-between px-4"
         >
-          Occupation{" "}
+          <P1
+            className={cx(selectedClass("Occupation"))}
+            bold
+            text="Occupation"
+          />
           {selectedOption == "Occupation" && (
             <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
           )}
@@ -72,11 +77,13 @@ const MobileTalentTableDropdown = ({
           onClick={() => onOptionClick("Circulating Supply")}
           type="white-ghost"
           mode={mode}
-          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
-            "Circulating Supply"
-          )}`}
+          className="d-flex flex-row justify-content-between px-4"
         >
-          Circulating Supply{" "}
+          <P1
+            className={cx(selectedClass("Circulating Supply"))}
+            bold
+            text="Circulating Supply"
+          />
           {selectedOption == "Circulating Supply" && (
             <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
           )}
@@ -85,11 +92,13 @@ const MobileTalentTableDropdown = ({
           onClick={() => onOptionClick("Alphabetical Order")}
           type="white-ghost"
           mode={mode}
-          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
-            "Alphabetical Order"
-          )}`}
+          className="d-flex flex-row justify-content-between px-4"
         >
-          Alphabetical Order
+          <P1
+            className={cx(selectedClass("Alphabetical Order"))}
+            bold
+            text="Alphabetical Order"
+          />
           {selectedOption == "Alphabetical Order" && (
             <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
           )}

@@ -99,3 +99,17 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
+
+.modal.show .table-options-dropdown {
+  transition: none;
+  animation: animateBottomToTop 0.4s;
+}
+
+@keyframes animateBottomToTop {
+  from {
+    bottom: -200px;
+  }
+  to {
+    bottom: 0px;
+  }
+}
