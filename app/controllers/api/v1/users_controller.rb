@@ -39,6 +39,9 @@ class API::V1::UsersController < ApplicationController
     if @user
       if params[:wallet_id]
         @user.update!(wallet_id: params[:wallet_id]&.downcase)
+
+        SendCommunityNFTToUser.perform_later(user_id: @user.id)
+
         service = Web3::TransferCelo.new
         service.call(user: @user)
       elsif params[:welcome_pop_up]
