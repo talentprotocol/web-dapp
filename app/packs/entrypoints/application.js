@@ -22,7 +22,6 @@ import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
-import TalentSupportersTable from "src/components/supporters/TalentSupportersTable";
 import Portfolio from "src/components/portfolio/Portfolio";
 import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
@@ -67,7 +66,6 @@ ReactOnRails.register({
   Login,
   Logo,
   MetamaskConnect,
-  TalentSupportersTable,
   Portfolio,
   UserMenu,
   TalentTable,
