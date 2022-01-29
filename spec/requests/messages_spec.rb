@@ -135,4 +135,51 @@ RSpec.describe "Messages", type: :request do
       end
     end
   end
+
+  describe "#send_to_all_supporters_status" do
+    let(:params) do
+      {
+        job_id: "123456"
+      }
+    end
+
+    before do
+      allow(Sidekiq::Status).to receive(:at).and_return(2)
+      allow(Sidekiq::Status).to receive(:total).and_return(5)
+    end
+
+    it 'renders a json response with the messages sent' do
+      send_message_job = instance_double(SendMessageToAllSupportersJob, job_id: "12345")
+      allow(SendMessageToAllSupportersJob).to receive(:perform_later).and_return(send_message_job)
+
+      get send_to_all_supporters_status_messages_path(params: params, as: user)
+
+      expect(json).to eq(
+        {
+          messages_sent: 2,
+          messages_total: 5
+        }
+      )
+    end
+
+    context "when the job id is empty" do
+      let(:params) { {job_id: ""} }
+
+      it "returns a bad request response" do
+        get send_to_all_supporters_status_messages_path(params: params, as: user)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json).to eq({error: "Unable to check the status. Missing job id"})
+      end
+    end
+
+    context "when params are not passed" do
+      it "returns a bad request response" do
+        get send_to_all_supporters_status_messages_path(as: user)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json).to eq({error: "Unable to check the status. Missing job id"})
+      end
+    end
+  end
 end

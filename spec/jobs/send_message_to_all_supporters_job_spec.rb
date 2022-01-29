@@ -39,6 +39,16 @@ RSpec.describe SendMessageToAllSupportersJob, :type => :job do
     )
   end
 
+  context 'when the job is triggered asynchronously' do
+    subject(:send_message) { SendMessageToAllSupportersJob.perform_later(sender.id, message) }
+
+    it "queues of the job" do
+      job = send_message
+
+      expect(Sidekiq::Status::complete?(job.job_id)).to eq false
+    end
+  end
+
   context 'when the user has invested in himself' do
     let(:sender) { create :user, :with_investor, talent: talent }
 
