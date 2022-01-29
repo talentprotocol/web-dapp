@@ -70,6 +70,19 @@ class MessagesController < ApplicationController
     render json: { job_id: job.job_id }
   end
 
+  def send_to_all_supporters_status
+    if job_id.blank?
+      return render json: {
+        error: "Unable to check the status. Missing job id"
+      }, status: :bad_request
+    end
+
+    render json: { 
+      messages_sent: Sidekiq::Status::at(job_id),
+      messages_total: Sidekiq::Status::total(job_id)
+    }
+  end
+
   private
 
   def set_receiver
@@ -84,5 +97,9 @@ class MessagesController < ApplicationController
     if params[:user]
       @user = User.find_by(id: params[:user])
     end
+  end
+
+  def job_id
+    @job_id ||= params[:job_id]
   end
 end

@@ -1,15 +1,22 @@
 class SendMessageToAllSupportersJob < ApplicationJob
   queue_as :default
+  include Sidekiq::Status::Worker
 
   def perform(sender_id, message)
     sender = User.find(sender_id)
+    investors = investors(sender)
 
-    investors(sender).find_each do |investor|
+    total investors.count
+    at 0
+
+    investors(sender).find_each.with_index do |investor, index|
       send_message_service.call(
         message: message,
         sender: sender,
         receiver: investor.user
       )
+
+      at index
     end
   end
 
