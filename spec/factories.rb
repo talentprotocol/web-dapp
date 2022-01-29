@@ -45,12 +45,6 @@ FactoryBot.define do
     type { MessageReceivedNotification.name }
   end
 
-  factory :talent do
-  end
-
   factory :investor do
-  end
-
-  factory :token do
   end
 end

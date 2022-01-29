@@ -19,11 +19,9 @@ module Messages
     end
 
     def create_notification_for(receiver)
-      create_notification_service.call(
-        title: "New message",
-        body: "You have a new message",
-        user_id: receiver.id,
-        type: "Notifications::MessageReceived"
+      CreateNotification.new.call(
+        recipient: receiver,
+        type: MessageReceivedNotification
       )
     end
 

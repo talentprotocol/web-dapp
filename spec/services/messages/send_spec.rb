@@ -34,10 +34,8 @@ RSpec.describe Messages::Send do
 
     expect(create_notification_class).to have_received(:new)
     expect(create_notification_instance).to have_received(:call).with(
-      title: "New message",
-      body: "You have a new message",
-      user_id: receiver.id,
-      type: "Notifications::MessageReceived"
+      recipient: receiver,
+      type: MessageReceivedNotification
     )
   end
 
