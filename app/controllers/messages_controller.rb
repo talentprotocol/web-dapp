@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    if message_params[:message].empty? || current_user.id == @receiver.id
+    if message_params[:message].blank? || current_user.id == @receiver.id
       return render json: {
         error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
       }, status: :bad_request
@@ -48,11 +48,12 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
-    CreateNotification.new.call(recipient: @receiver,
-                                type: MessageReceivedNotification)
-    ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
-    # SendMessageJob.perform_later(message.id, message.created_at.to_s)
+    service = Messages::Send.new
+    message = service.call(
+      sender: current_user,
+      receiver: @receiver,
+      message: message_params[:message]
+    )
 
     render json: message.to_json
   end
@@ -64,9 +65,9 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
+    job = SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
 
-    render json: { }
+    render json: { job_id: job.job_id }
   end
 
   private
