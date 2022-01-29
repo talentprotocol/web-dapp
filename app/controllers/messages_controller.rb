@@ -64,18 +64,9 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    begin
-      sent_messages = Messages::SendToAllSupporters.new(
-        user: current_user,
-        message: message_params[:message]
-      ).call
+    SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
 
-      render json: sent_messages.to_json
-    rescue Messages::SendToAllSupporters::Error => error
-      render json: {
-        error: error.message
-      }, status: :bad_request
-    end
+    render json: { }
   end
 
   private

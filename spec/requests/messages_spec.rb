@@ -18,14 +18,13 @@ RSpec.describe "Messages", type: :request do
       allow(send_to_all_supporters_class).to receive(:new).and_return(send_to_all_supporters_instance)
     end
 
-    it "initializes and calls the send message to all supporters service" do
+    it "starts a job to send the message to all user supporters" do
       post send_to_all_supporters_messages_path(params: params, as: user)
-
-      expect(send_to_all_supporters_class).to have_received(:new).with(
-        message: "Thanks for the support!",
-        user: user
+      
+      expect(SendMessageToAllSupportersJob).to have_been_enqueued.with(
+        user_id: user.id,
+        message: "Thanks for the support!"
       )
-      expect(send_to_all_supporters_instance).to have_received(:call)
     end
 
     it 'renders a json response with the messages sent' do
