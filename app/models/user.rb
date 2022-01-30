@@ -92,6 +92,10 @@ class User < ApplicationRecord
     new_username && new_username.length > 0 && new_username.match?(/^[a-z0-9]*$/)
   end
 
+  def self.valid_email?(new_email)
+    new_email && new_email.length > 0 && new_email.match?(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+  end
+
   private
 
   def role_is_valid

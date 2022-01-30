@@ -144,8 +144,13 @@ const Chat = ({ users, user }) => {
 
   const setActiveUser = (userId) => {
     setActiveUserId(userId);
-    window.history.replaceState({}, document.title, `/messages?user=${userId}`);
+    window.history.pushState({}, document.title, `/messages?user=${userId}`);
   };
+
+  window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(document.location.search);
+    setActiveUserId(params.get("user"));
+  });
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   faStar as faStarOutline,
   faEdit,
@@ -48,8 +48,11 @@ const TalentShow = ({
   badges,
   railsContext,
 }) => {
+  const url = new URL(window.location);
+  const searchParams = new URLSearchParams(url.search);
+
   const talentIsFromCurrentUser = talent.user_id == currentUserId;
-  const [pageInDisplay, setPageInDisplay] = useState("Overview");
+  const [pageInDisplay, setPageInDisplay] = useState("overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
   const { mobile, width } = useWindowDimensionsHook();
@@ -113,6 +116,28 @@ const TalentShow = ({
     }
     setChangingFollow(false);
   };
+
+  const changeTab = (tab) => {
+    window.history.pushState({}, document.title, `${url.pathname}?tab=${tab}`);
+    setPageInDisplay(tab);
+  };
+
+  useEffect(() => {
+    if (searchParams.get("tab")) {
+      setPageInDisplay(searchParams.get("tab"));
+    } else {
+      window.history.pushState(
+        {},
+        document.title,
+        `${url.pathname}?tab=overview`
+      );
+    }
+  }, [searchParams]);
+
+  window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(document.location.search);
+    setPageInDisplay(params.get("tab"));
+  });
 
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
@@ -253,26 +278,26 @@ const TalentShow = ({
         )}
       >
         <div
-          onClick={() => setPageInDisplay("Overview")}
+          onClick={() => changeTab("overview")}
           className={`talent-table-tab${
-            pageInDisplay == "Overview" ? " active-talent-table-tab" : ""
+            pageInDisplay == "overview" ? " active-talent-table-tab" : ""
           }`}
         >
           Overview
         </div>
         <div
-          onClick={() => setPageInDisplay("Timeline")}
+          onClick={() => changeTab("timeline")}
           className={`talent-table-tab${
-            pageInDisplay == "Timeline" ? " active-talent-table-tab" : ""
+            pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
           }`}
         >
           Timeline
         </div>
         {sharedState.token.contract_id && (
           <div
-            onClick={() => setPageInDisplay("Supporters")}
+            onClick={() => changeTab("supporters")}
             className={`talent-table-tab${
-              pageInDisplay == "Supporters" ? " active-talent-table-tab" : ""
+              pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
             }`}
           >
             Supporters
@@ -284,16 +309,16 @@ const TalentShow = ({
       >
         <div
           className={`col-12${
-            pageInDisplay != "Supporters" ? " col-lg-8" : ""
+            pageInDisplay != "supporters" ? " col-lg-8" : ""
           } p-0`}
         >
-          {pageInDisplay == "Overview" && (
+          {pageInDisplay == "overview" && (
             <Overview sharedState={sharedState} mode={theme.mode()} />
           )}
-          {pageInDisplay == "Timeline" && (
+          {pageInDisplay == "timeline" && (
             <Timeline sharedState={sharedState} mode={theme.mode()} />
           )}
-          {pageInDisplay == "Supporters" && (
+          {pageInDisplay == "supporters" && (
             <Supporters
               sharedState={sharedState}
               mobile={mobile}
@@ -302,7 +327,7 @@ const TalentShow = ({
             />
           )}
         </div>
-        {pageInDisplay != "Supporters" && (
+        {pageInDisplay != "supporters" && (
           <div className="col-12 col-lg-4 p-0 mb-4">
             <TokenDetails
               ticker={ticker()}
@@ -315,7 +340,7 @@ const TalentShow = ({
           </div>
         )}
       </div>
-      {pageInDisplay == "Overview" && (
+      {pageInDisplay == "overview" && (
         <section
           className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
         >

@@ -11,6 +11,7 @@ import Divider from "src/components/design_system/other/divider";
 import Tag from "src/components/design_system/tag";
 
 import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
+import { emailRegex, usernameRegex } from "src/components/talent/utils/regexes";
 
 const Settings = (props) => {
   const {
@@ -41,18 +42,21 @@ const Settings = (props) => {
     profile: false,
     public: false,
   });
+  const [emailValidated, setEmailValidated] = useState(false);
   const {
     valid: validPassword,
     errors,
     tags,
   } = passwordMatchesRequirements(settings.newPassword);
-  const usernameRegex = /^[a-z0-9]*$/;
 
   const changeAttribute = (attribute, value) => {
-    if (attribute == "currentPassword" && validationErrors.currentPassword) {
+    if (attribute === "currentPassword" && validationErrors.currentPassword) {
       setValidationErrors((prev) => ({ ...prev, currentPassword: false }));
-    }
-    if (attribute == "username") {
+    } else if (attribute === "email") {
+      setValidationErrors((prev) => ({ ...prev, email: false }));
+      setEmailValidated(false);
+      if (emailRegex.test(value)) validateEmail(value);
+    } else if (attribute === "username") {
       if (usernameRegex.test(value)) {
         setValidationErrors((prev) => ({ ...prev, username: false }));
       } else {
@@ -61,8 +65,7 @@ const Settings = (props) => {
           username: "Username only allows lower case letters and numbers",
         }));
       }
-    }
-    if (attribute == "deletePassword") {
+    } else if (attribute === "deletePassword") {
       setValidationErrors((prev) => ({ ...prev, deleting: false }));
     }
     setSettings((prevInfo) => ({ ...prevInfo, [attribute]: value }));
@@ -123,6 +126,8 @@ const Settings = (props) => {
   };
 
   const cannotSaveSettings = () =>
+    !emailValidated ||
+    !!validationErrors.email ||
     settings.username.length == 0 ||
     !!validationErrors.username ||
     !!validationErrors.currentPassword ||
@@ -135,6 +140,18 @@ const Settings = (props) => {
     settings.currentPassword.length < 8 ||
     settings.newPassword.length < 8 ||
     (!!settings.newPassword && !validPassword);
+
+  const validateEmail = (value) => {
+    if (emailRegex.test(value)) {
+      setValidationErrors((prev) => ({ ...prev, email: false }));
+    } else {
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: "Email is not valid",
+      }));
+    }
+    setEmailValidated(true);
+  };
 
   return (
     <>
@@ -166,7 +183,7 @@ const Settings = (props) => {
       </div>
       <div className="d-flex flex-row w-100 flex-wrap mt-4">
         <TextInput
-          title={"Email"}
+          title="Email"
           type="email"
           mode={mode}
           onChange={(e) => changeAttribute("email", e.target.value)}
@@ -174,9 +191,10 @@ const Settings = (props) => {
           className="w-100"
           required
           error={validationErrors.email}
+          onBlur={(e) => validateEmail(e.target.value)}
         />
-        {validationErrors.email && (
-          <P3 className="text-danger" text="Email is already taken." />
+        {validationErrors?.email && (
+          <P3 className="text-danger" text={validationErrors.email} />
         )}
       </div>
       <div className="d-flex flex-row w-100 flex-wrap mt-4">

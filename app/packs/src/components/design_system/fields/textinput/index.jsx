@@ -11,6 +11,7 @@ const TextInput = ({
   disabled,
   value,
   onChange,
+  onBlur,
   className,
   inputClassName,
   maxLength,
@@ -44,6 +45,7 @@ const TextInput = ({
         disabled={disabled}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         maxLength={maxLength}
       />
 

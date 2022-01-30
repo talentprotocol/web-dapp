@@ -51,7 +51,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
   const notificationHref = (type, notification) => {
     switch (type) {
       case "Notifications::TokenAcquired":
-        return `/talent/${notification.username}/supporters`;
+        return `/talent/${notification.username}?tab=supporters`;
       case "Notifications::MessageReceived":
         return "/messages";
       case "Notifications::TalentListed":
