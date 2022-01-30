@@ -103,7 +103,7 @@ RSpec.describe "Messages", type: :request do
     end
 
     it 'renders a json response with the messages sent' do
-      send_message_job = instance_double(SendMessageToAllSupportersJob, job_id: "12345")
+      send_message_job = instance_double(SendMessageToAllSupportersJob, provider_job_id: "12345")
       allow(SendMessageToAllSupportersJob).to receive(:perform_later).and_return(send_message_job)
 
       post send_to_all_supporters_messages_path(params: params, as: user)
@@ -146,6 +146,7 @@ RSpec.describe "Messages", type: :request do
     before do
       allow(Sidekiq::Status).to receive(:at).and_return(2)
       allow(Sidekiq::Status).to receive(:total).and_return(5)
+      allow(Sidekiq::Status).to receive(:get).and_return(1)
     end
 
     it 'renders a json response with the messages sent' do
@@ -157,7 +158,8 @@ RSpec.describe "Messages", type: :request do
       expect(json).to eq(
         {
           messages_sent: 2,
-          messages_total: 5
+          messages_total: 5,
+          last_receiver_id: 1
         }
       )
     end

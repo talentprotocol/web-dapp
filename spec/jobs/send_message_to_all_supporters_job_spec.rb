@@ -10,7 +10,8 @@ RSpec.describe SendMessageToAllSupportersJob, :type => :job do
   subject(:send_message) { SendMessageToAllSupportersJob.perform_now(sender.id, message) }
 
   let(:send_message_class) { Messages::Send }
-  let(:send_message_instance) { instance_double(send_message_class, call: true) }
+  let(:send_message_instance) { instance_double(send_message_class, call: created_message) }
+  let(:created_message) { build :message }
 
   let(:investor_user_one) { create :user, :with_investor }
   let(:investor_user_two) { create :user, :with_investor }
