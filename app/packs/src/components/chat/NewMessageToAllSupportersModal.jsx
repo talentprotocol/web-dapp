@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "src/components/design_system/button";
 import TextArea from "src/components/design_system/fields/textarea";
+import { P3 } from "src/components/design_system/typography";
 import debounce from "lodash/debounce";
-import { post } from "src/utils/requests";
+import { get, post } from "src/utils/requests";
 
 const NewMessageToAllSupportersModal = ({ show, setShow, mode, mobile }) => {
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
+  const [pollingIntervalId, setPollingIntervalId] = useState();
+  const [messagesSent, setMessagesSent] = useState(0);
+  const [messagesTotal, setMessagesTotal] = useState(0);
 
   const sendMessage = () => {
     if (message.replace(/\s+/g, "") == "") {
@@ -21,15 +25,39 @@ const NewMessageToAllSupportersModal = ({ show, setShow, mode, mobile }) => {
         console.log(response.error);
         // setError("Unable to send message, try again") // @TODO: Create error box (absolute positioned)
       } else {
-        const lastMessage = response[response.length - 1]
-        setShow(false)
-        window.location.href = `/messages?user=${lastMessage.receiver_id}`;
+        window.sessionStorage.setItem("send_to_all_supporters_job_id", response.job_id);
+        retrieveProgress();
+        setPollingIntervalId(setInterval(retrieveProgress, 2000));
       }
       setSendingMessage(false);
     });
   };
 
   const debouncedNewMessage = debounce(() => sendMessage(), 200);
+
+  const retrieveProgress = () => {
+    const job_id = window.sessionStorage.getItem("send_to_all_supporters_job_id");
+    get(`/messages/send_to_all_supporters_status?job_id=${job_id}`).then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setMessagesSent(response.messages_sent);
+        setMessagesTotal(response.messages_total);
+
+        if(response.messages_sent == response.messages_total && response.messages_total != 0) {
+          clearPollingInterval(response.last_receiver_id);
+        }
+      }
+    });
+  }
+
+  const clearPollingInterval = (receiver_id) => {
+    clearInterval(pollingIntervalId);
+    setPollingIntervalId(false);
+    window.sessionStorage.setItem("send_to_all_supporters_job_id", null);
+    setShow(false);
+    window.location.href = `/messages?user=${receiver_id}`;
+  }
 
   return (
     <Modal
@@ -57,6 +85,15 @@ const NewMessageToAllSupportersModal = ({ show, setShow, mode, mobile }) => {
         >
           Send message
         </Button>
+        {
+          pollingIntervalId
+          &&
+          messagesTotal > 0
+          &&
+          <P3 className="w-100 mt-2">
+            {`We're sending the message to your supporters! We've already sent ${messagesSent} of ${messagesTotal} messages`}
+          </P3>
+        }
       </Modal.Body>
     </Modal>
   );

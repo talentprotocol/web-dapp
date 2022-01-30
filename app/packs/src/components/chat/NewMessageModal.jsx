@@ -10,7 +10,7 @@ import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Link from "src/components/design_system/link";
 import { Search } from "src/components/icons";
-import { Send, ArrowLeft } from "src/components/icons";
+import { Send } from "src/components/icons";
 
 const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSupporters, mobile }) => {
   if (!show) {
@@ -57,7 +57,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSuppo
     >
       <Modal.Body className="show-grid p-0">
         <P1 className="pt-4 pb-3 px-4" text={"New message"} bold />
-        <div className="d-flex flex-row mb-4 mx-4 position-relative align-items-center">
+        <div className="d-flex flex-row mb-3 mx-4 position-relative align-items-center">
           <TextInput
             onChange={(e) => setSearch(e.target.value)}
             value={search}
@@ -70,7 +70,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSuppo
             className="position-absolute chat-search-icon"
           />
         </div>
-        <div className="w-100 d-flex align-items-start flex-column px-4 py-2">
+        <div className="w-100 d-flex align-items-start flex-column px-4 mb-3">
           <button className="button-link text-primary" onClick={() => setShowMessageToAllSupporters()}>
             <Send color="currentColor" className="mr-2" />
             <P2 className="text-black d-inline" text="Send message to all supporters" bold />

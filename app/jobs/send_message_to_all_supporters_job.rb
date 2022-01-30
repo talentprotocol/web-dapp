@@ -10,13 +10,14 @@ class SendMessageToAllSupportersJob < ApplicationJob
     at 0
 
     investors(sender).find_each.with_index do |investor, index|
-      send_message_service.call(
+      created_message = send_message_service.call(
         message: message,
         sender: sender,
         receiver: investor.user
       )
 
-      at index
+      store last_receiver_id: created_message.receiver_id
+      at index + 1
     end
   end
 
