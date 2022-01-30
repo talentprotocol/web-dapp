@@ -10,7 +10,7 @@ class Invite < ApplicationRecord
 
   def invites_left
     if max_uses.nil?
-      uses
+      uses > 0 ? uses : 1
     else
       max_uses - uses
     end
