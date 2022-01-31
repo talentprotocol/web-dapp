@@ -2,29 +2,6 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
-  # Admin area
-  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    root to: "talent#index", as: :admin_root
-
-    get "/admin", to: "admin/dashboards#show"
-
-    mount Sidekiq::Web => "/sidekiq"
-
-    namespace :admin do
-      resources :dashboards, only: [:show]
-      resources :investors
-      resources :talent do
-        resources :tokens, only: [:show, :edit, :update], module: "talent"
-        resources :career_goals, only: [:show, :edit, :update], module: "talent"
-        resources :tags, module: "talent"
-      end
-      resources :wait_list
-      resources :users
-      resources :invites, only: [:index, :create]
-    end
-  end
-  # end Admin
-
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
     root to: "talent#index", as: :user_root
