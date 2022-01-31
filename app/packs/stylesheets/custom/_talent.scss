@@ -28,121 +28,6 @@
   margin-bottom: -40px;
 }
 
-.talent-edit-nav-btn {
-  background-color: transparent !important;
-  color: $secondary;
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom: 0px solid transparent !important;
-  border-radius: 0px;
-  padding: 0px;
-  &:hover {
-    border-bottom: 0px solid $primary !important;
-    color: $primary !important;
-    border-top: 0px;
-    border-right: 0px;
-    border-left: 0px;
-    background-color: transparent;
-    text-decoration: underline;
-  }
-}
-
-.talent-border-separator-dashed {
-  border-top: 1px dashed $secondary;
-  border-bottom: 0px;
-  border-right: 0px;
-  border-left: 0px;
-}
-
-.md-talent-card-spacing {
-  padding-right: 24px;
-  padding-left: 0px;
-  &:nth-child(3n) {
-    padding-right: 0px;
-  }
-}
-
-.talent-card-spacing {
-  @media (min-width: 576px) {
-    padding-right: 0px;
-    padding-left: 0px;
-  }
-
-  @media (min-width: 768px) and (max-width: 991px) {
-    padding-right: 12px;
-    padding-left: 0px;
-    &:nth-child(2n) {
-      padding-left: 12px;
-      padding-right: 0px;
-    }
-  }
-
-  @media (min-width: 992px) {
-    padding-right: 24px;
-    padding-left: 0px;
-    &:nth-child(3n) {
-      padding-right: 0px;
-    }
-  }
-}
-
-// talent/:id
-
-.talent-show-h6 {
-  border: 1px solid #000000;
-  box-shadow: 4.39149px 4.39149px 0px #000000;
-  border-radius: 1px;
-}
-
-.tal-reward-amount {
-  border-radius: 25px;
-  background-color: #2796fe3e;
-  color: $blue;
-}
-
-@media (min-width: 992px) {
-  .talent-content-body-700 {
-    max-width: 700px;
-  }
-  .talent-content-body-1200 {
-    max-width: 1200px;
-  }
-  .tal-content-side-500 {
-    max-width: 500px;
-  }
-}
-
-.talent-profile-video-player {
-  width: 250px;
-  height: 140px;
-
-  @media (min-width: 576px) {
-    width: 350px;
-    height: 200px;
-  }
-
-  @media (min-width: 768px) {
-    height: 340px;
-    width: 600px;
-  }
-
-  @media (min-width: 992px) {
-    height: 220px;
-    width: 400px;
-  }
-
-  @media (min-width: 1200px) {
-    height: 280px;
-    width: 500px;
-  }
-
-  @media (min-width: 1500px) {
-    height: 340px;
-    width: 600px;
-  }
-}
-
 .talent-search-icon {
   position: absolute;
   top: 1px;
@@ -150,10 +35,6 @@
 
 .text-white-space-wrap {
   white-space: pre-wrap;
-}
-
-.talent-video-height {
-  height: 61%;
 }
 
 .active-talent-table-tab {

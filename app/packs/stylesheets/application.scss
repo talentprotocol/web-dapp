@@ -7,7 +7,6 @@
 @import "custom/checkbox";
 @import "custom/fields";
 @import "custom/chat";
-@import "custom/navbar";
 @import "custom/talent";
 @import "custom/alerts";
 @import "custom/modal";
@@ -85,10 +84,6 @@ body {
 
   .lg-width-reset {
     width: auto !important;
-  }
-
-  .lg-navbar-min-width {
-    min-width: 200px;
   }
 
   .lg-overflow-y-hidden {
