@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_103639) do
+ActiveRecord::Schema.define(version: 2022_01_31_105743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,17 +206,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_103639) do
     t.index ["talent_id"], name: "index_talent_badges_on_talent_id"
   end
 
-  create_table "testimonials", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description", null: false
-    t.bigint "user_id", null: false
-    t.bigint "talent_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["talent_id"], name: "index_testimonials_on_talent_id"
-    t.index ["user_id"], name: "index_testimonials_on_user_id"
-  end
-
   create_table "tokens", force: :cascade do |t|
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
@@ -309,8 +298,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_103639) do
   add_foreign_key "tags", "talent"
   add_foreign_key "talent_badges", "badges"
   add_foreign_key "talent_badges", "talent"
-  add_foreign_key "testimonials", "talent"
-  add_foreign_key "testimonials", "users"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transactions", "investors"
   add_foreign_key "transactions", "tokens"

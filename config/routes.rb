@@ -80,7 +80,6 @@ Rails.application.routes.draw do
         end
         resources :stakes, only: [:create]
         resources :investor, only: [:update]
-        resources :testimonials, only: [:create]
         resources :perks, only: [:show]
       end
     end

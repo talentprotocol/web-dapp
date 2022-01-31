@@ -29,7 +29,6 @@ class Talent < ApplicationRecord
   has_many :perks
   has_many :services
   has_many :milestones
-  has_many :testimonials
   has_many :talent_badges
   has_many :badges, through: :talent_badges
 

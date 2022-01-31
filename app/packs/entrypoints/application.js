@@ -13,7 +13,6 @@ import "@fontsource/plus-jakarta-sans";
 import ReactOnRails from "react-on-rails";
 import Button from "src/components/button";
 import Navbar from "src/components/navbar";
-import Alert from "src/components/alert";
 import Pagination from "src/components/pagination";
 import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
@@ -55,7 +54,6 @@ ReactOnRails.register({
   UpcomingTalents,
   Button,
   Navbar,
-  Alert,
   Pagination,
   NavTabs,
   TalentShow,

@@ -18,15 +18,6 @@ FactoryBot.define do
     end
   end
 
-  factory :alert_configuration do
-    page { "/talent" }
-    alert_type { "primary" }
-    text { "Connect your wallet to buy Career Tokens" }
-    href { "https://metamask.io/" }
-    button_text { "MetaMask" }
-    css_class { "w-100" }
-  end
-
   factory :message do
   end
 
