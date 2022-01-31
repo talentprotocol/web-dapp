@@ -1,24 +1,6 @@
 if Rails.env.development?
   namespace :dev do
     task prime: ["db:setup", "db:seed"] do
-      puts "Setting up Alert configurations.."
-      AlertConfiguration.create!(
-        page: "/talent",
-        alert_type: "primary",
-        text: "Connect your wallet to buy Carrer Tokens",
-        href: "https://metamask.io/",
-        button_text: "Connect MetaMask",
-        css_class: "w-100"
-      )
-
-      AlertConfiguration.create!(
-        page: "/feed",
-        alert_type: "primary",
-        text: "Apply to launch your Career Token on Talent Protocol",
-        href: "https://www.talentprotocol.com/invite",
-        button_text: "Reserve $TICKER"
-      )
-
       puts "Setting up Users.."
       admin = User.create!(
         username: "Admin",
