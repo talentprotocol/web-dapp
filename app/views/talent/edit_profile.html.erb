@@ -6,7 +6,6 @@
       bannerUrl: @talent.banner_url,
       primary_tag: @talent.primary_tag&.description,
       secondary_tags: @talent.tags.where.not(primary: true).map(&:description),
-      services: @talent.services.as_json,
       token: @talent.token.as_json,
       perks: @talent.perks.as_json,
       career_goal: @talent.career_goal.as_json,

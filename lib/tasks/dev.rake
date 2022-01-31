@@ -78,33 +78,6 @@ if Rails.env.development?
         contract_id: "12345"
       )
 
-      puts "Setting up Transactions.."
-      service = CreateTransaction.new
-      service.call(
-        token_address: elon_token.contract_id,
-        amount: 1000,
-        user_id: john_doe.id,
-        inbound: true,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
-      )
-      service.call(
-        token_address: elon_token.contract_id,
-        amount: 500,
-        user_id: admin_investor.id,
-        inbound: false,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
-      )
-      service.call(
-        token_address: marx_token.contract_id,
-        amount: 350,
-        user_id: admin_investor.id,
-        inbound: true,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
-      )
-
       puts "Setting up Career Goals.."
       CareerGoal.create(
         target_date: Date.today + 1.year,

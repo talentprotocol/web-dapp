@@ -58,9 +58,6 @@ Rails.application.routes.draw do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
 
-    # Swap
-    resources :transactions, only: [:create]
-
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
@@ -74,7 +71,6 @@ Rails.application.routes.draw do
         resources :talent, only: [:show, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
-          resources :services, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
           resources :career_goals, only: [:update, :create], module: "talent"
         end
