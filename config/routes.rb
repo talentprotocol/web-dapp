@@ -17,11 +17,9 @@ Rails.application.routes.draw do
         resources :tokens, only: [:show, :edit, :update], module: "talent"
         resources :career_goals, only: [:show, :edit, :update], module: "talent"
         resources :tags, module: "talent"
-        resources :badges, module: "talent"
       end
       resources :wait_list
       resources :users
-      resources :badges
       resources :invites, only: [:index, :create]
     end
   end

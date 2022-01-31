@@ -26,9 +26,6 @@ class Talent < ApplicationRecord
   has_one :career_goal
   has_many :perks
   has_many :milestones
-  has_many :talent_badges
-  has_many :badges, through: :talent_badges
-
   has_many :tags
   has_one :primary_tag, -> { where(primary: true) }, class_name: "Tag"
 

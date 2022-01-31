@@ -12,7 +12,6 @@ import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
 import TalentTags from "./TalentTags";
-import TalentBadges from "./TalentBadges";
 
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
@@ -45,7 +44,6 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
-  badges,
   railsContext,
 }) => {
   const url = new URL(window.location);
@@ -258,7 +256,6 @@ const TalentShow = ({
               {!mobile && <SocialRow sharedState={sharedState} />}
             </div>
             <div className="d-flex justify-content-between">
-              <TalentBadges badges={badges} height={40} />
               <TalentTags
                 tags={sharedState.secondaryTags}
                 className="mr-2"

@@ -2,20 +2,6 @@
 
 // Talent card
 
-.talent-status-badge {
-  top: 15px;
-  right: 15px;
-  position: absolute;
-  border-radius: 25px;
-}
-
-.talent-status-badge.active {
-  background-color: #e7f8f2;
-}
-.talent-status-badge.upcoming {
-  background-color: #f8f8e7;
-}
-
 .talent-link {
   text-decoration: none;
   color: inherit;

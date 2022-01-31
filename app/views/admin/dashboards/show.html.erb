@@ -18,13 +18,10 @@
           <th scope="row"><%= @user_count %></th>
           <td><%= react_component("Button", props: { type: "primary", href: admin_users_path, text: "Manage"}, prerender: false) %></td>
         </tr>
+        <tr>
           <th scope="row">Invites</th>
           <th scope="row"> - </th>
           <td><%= react_component("Button", props: { type: "primary", href: admin_invites_path, text: "Manage"}, prerender: false) %></td>
-        <tr>
-          <th scope="row">Badges</th>
-          <th scope="row"><%= @badge_count %></th>
-          <td><%= react_component("Button", props: { type: "primary", href: admin_badges_path, text: "Manage"}, prerender: false) %></td>
         </tr>
       </tbody>
     </table>

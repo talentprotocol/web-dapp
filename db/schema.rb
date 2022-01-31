@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_110610) do
+ActiveRecord::Schema.define(version: 2022_01_31_111237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "badges", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "image_data"
-    t.string "url"
-    t.string "alt"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "career_goals", force: :cascade do |t|
     t.text "description"
@@ -188,15 +179,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_110610) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
-  create_table "talent_badges", force: :cascade do |t|
-    t.bigint "talent_id", null: false
-    t.bigint "badge_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["badge_id"], name: "index_talent_badges_on_badge_id"
-    t.index ["talent_id"], name: "index_talent_badges_on_talent_id"
-  end
-
   create_table "tokens", force: :cascade do |t|
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
@@ -270,8 +252,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_110610) do
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "tags", "talent"
-  add_foreign_key "talent_badges", "badges"
-  add_foreign_key "talent_badges", "talent"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"
 end
