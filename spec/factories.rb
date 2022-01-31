@@ -25,9 +25,6 @@ FactoryBot.define do
     email { Faker::Internet.email }
   end
 
-  factory :transaction do
-  end
-
   factory :feed do
   end
 end
