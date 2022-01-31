@@ -9,7 +9,25 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
 import BottomNavItem from "./BottomNavItem";
 
-export const BottomNav = ({ talentPath, portfolioPath, messagesPath }) => {
+const UnreadMessagesIndicator = () => {
+  return (
+    <div class="position-relative">
+      <span
+        class="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        style={{ height: 0, width: 0, left: 15, top: -23 }}
+      >
+        &nbsp;
+      </span>
+    </div>
+  );
+};
+
+export const BottomNav = ({
+  talentPath,
+  portfolioPath,
+  messagesPath,
+  hasUnreadMessages,
+}) => {
   const { height, width } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
 
@@ -44,6 +62,7 @@ export const BottomNav = ({ talentPath, portfolioPath, messagesPath }) => {
             routeName="Messages"
             Icon={Chat}
           />
+          {hasUnreadMessages && <UnreadMessagesIndicator />}
         </div>
       </div>
     </nav>

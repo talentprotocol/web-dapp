@@ -10,7 +10,25 @@ import SideBarItem from "./SideBarItem";
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
-export const SideBar = ({ talentPath, portfolioPath, messagesPath }) => {
+const UnreadMessagesIndicator = () => {
+  return (
+    <div class="position-relative">
+      <span
+        class="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        style={{ height: 0, width: 0, left: 25, top: -30 }}
+      >
+        &nbsp;
+      </span>
+    </div>
+  );
+};
+
+export const SideBar = ({
+  talentPath,
+  portfolioPath,
+  messagesPath,
+  hasUnreadMessages,
+}) => {
   const { height, width } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
 
@@ -47,6 +65,7 @@ export const SideBar = ({ talentPath, portfolioPath, messagesPath }) => {
           routeName="Messages"
           Icon={Chat}
         />
+        {hasUnreadMessages && <UnreadMessagesIndicator />}
       </ul>
     </div>
   );
