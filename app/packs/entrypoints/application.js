@@ -11,14 +11,11 @@ import "channels";
 import "@fontsource/plus-jakarta-sans";
 
 import ReactOnRails from "react-on-rails";
-import Navbar from "src/components/navbar";
 import Pagination from "src/components/pagination";
-import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
-import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
 import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
@@ -48,16 +45,13 @@ require.context("../images", true);
 ReactOnRails.register({
   ActiveTalents,
   UpcomingTalents,
-  Navbar,
   Pagination,
-  NavTabs,
   TalentShow,
   MessageUserList,
   Chat,
   RegistrationFlow,
   TalentNameSearch,
   Login,
-  Logo,
   MetamaskConnect,
   UserMenu,
   TalentTable,
