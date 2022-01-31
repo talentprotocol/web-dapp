@@ -1,24 +1,6 @@
 if Rails.env.development?
   namespace :dev do
     task prime: ["db:setup", "db:seed"] do
-      puts "Setting up Alert configurations.."
-      AlertConfiguration.create!(
-        page: "/talent",
-        alert_type: "primary",
-        text: "Connect your wallet to buy Carrer Tokens",
-        href: "https://metamask.io/",
-        button_text: "Connect MetaMask",
-        css_class: "w-100"
-      )
-
-      AlertConfiguration.create!(
-        page: "/feed",
-        alert_type: "primary",
-        text: "Apply to launch your Career Token on Talent Protocol",
-        href: "https://www.talentprotocol.com/invite",
-        button_text: "Reserve $TICKER"
-      )
-
       puts "Setting up Users.."
       admin = User.create!(
         username: "Admin",
@@ -94,33 +76,6 @@ if Rails.env.development?
         talent: elon,
         deployed: true,
         contract_id: "12345"
-      )
-
-      puts "Setting up Transactions.."
-      service = CreateTransaction.new
-      service.call(
-        token_address: elon_token.contract_id,
-        amount: 1000,
-        user_id: john_doe.id,
-        inbound: true,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
-      )
-      service.call(
-        token_address: elon_token.contract_id,
-        amount: 500,
-        user_id: admin_investor.id,
-        inbound: false,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
-      )
-      service.call(
-        token_address: marx_token.contract_id,
-        amount: 350,
-        user_id: admin_investor.id,
-        inbound: true,
-        block_id: SecureRandom.hex,
-        transaction_id: SecureRandom.hex
       )
 
       puts "Setting up Career Goals.."

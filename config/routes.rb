@@ -2,31 +2,6 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
-  # Admin area
-  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    root to: "talent#index", as: :admin_root
-
-    get "/admin", to: "admin/dashboards#show"
-
-    mount Sidekiq::Web => "/sidekiq"
-
-    namespace :admin do
-      resources :dashboards, only: [:show]
-      resources :investors
-      resources :talent do
-        resources :tokens, only: [:show, :edit, :update], module: "talent"
-        resources :career_goals, only: [:show, :edit, :update], module: "talent"
-        resources :tags, module: "talent"
-        resources :badges, module: "talent"
-      end
-      resources :wait_list
-      resources :users
-      resources :badges
-      resources :invites, only: [:index, :create]
-    end
-  end
-  # end Admin
-
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
     root to: "talent#index", as: :user_root
@@ -58,9 +33,6 @@ Rails.application.routes.draw do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
 
-    # Swap
-    resources :transactions, only: [:create]
-
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
@@ -74,13 +46,11 @@ Rails.application.routes.draw do
         resources :talent, only: [:show, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
-          resources :services, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
           resources :career_goals, only: [:update, :create], module: "talent"
         end
         resources :stakes, only: [:create]
         resources :investor, only: [:update]
-        resources :testimonials, only: [:create]
         resources :perks, only: [:show]
       end
     end

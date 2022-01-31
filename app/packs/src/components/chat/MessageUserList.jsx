@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import Button from "../button";
 import NewMessageModal from "./NewMessageModal";
 import ThemedButton from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
@@ -64,9 +63,15 @@ const filteredUsers = (users, search) =>
     user.username.toLowerCase().includes(search.toLowerCase())
   );
 
-const EmptyUsers = () => (
+const EmptyUsers = ({ mode }) => (
   <div className="w-100 p-3 themed-border-top d-flex flex-column align-items-center">
-    <Button type="primary" text="Browse Talent" href="/talent" size="sm" />
+    <ThemedButton
+      onClick={() => (window.location.href = "/talent")}
+      type="primary-default"
+      mode={mode}
+    >
+      Browse Talent
+    </ThemedButton>
   </div>
 );
 
@@ -122,7 +127,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
             <NewChat color="currentColor" />
           </ThemedButton>
         </div>
-        {allUsers.length == 0 && <EmptyUsers />}
+        {allUsers.length == 0 && <EmptyUsers mode={mode} />}
         <div className="w-100 d-flex flex-column lg-overflow-y-auto">
           {filteredUsers(allUsers, search).map((user) => (
             <UserMessage

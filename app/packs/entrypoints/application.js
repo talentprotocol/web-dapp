@@ -11,26 +11,18 @@ import "channels";
 import "@fontsource/plus-jakarta-sans";
 
 import ReactOnRails from "react-on-rails";
-import Button from "src/components/button";
-import Navbar from "src/components/navbar";
-import Alert from "src/components/alert";
 import Pagination from "src/components/pagination";
-import NavTabs from "src/components/navbar/NavTabs";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
-import Logo from "src/components/logo";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
-import Portfolio from "src/components/portfolio/Portfolio";
 import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import ActiveTalents from "src/components/talent/ActiveTalents";
 import TalentTable from "src/components/talent/TalentTable";
-import Home from "src/components/home/Home";
 import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
-import InviteUsers from "src/components/admin/InviteUsers";
 
 // New Layout components - @TODO: we need to check which of the above components we'll still be using or not
 
@@ -53,26 +45,18 @@ require.context("../images", true);
 ReactOnRails.register({
   ActiveTalents,
   UpcomingTalents,
-  Button,
-  Navbar,
-  Alert,
   Pagination,
-  NavTabs,
   TalentShow,
   MessageUserList,
   Chat,
   RegistrationFlow,
   TalentNameSearch,
   Login,
-  Logo,
   MetamaskConnect,
-  Portfolio,
   UserMenu,
   TalentTable,
-  Home,
   Notifications,
   WelcomePopup,
-  InviteUsers,
   SideBar,
   BottomNav,
   TopBar,

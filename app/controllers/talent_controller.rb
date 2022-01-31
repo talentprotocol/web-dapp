@@ -1,5 +1,4 @@
 class TalentController < ApplicationController
-  before_action :set_alert, only: :index
   before_action :set_talent, only: [:show, :update]
   before_action :set_outer_talent, only: [:edit_profile]
 
@@ -36,12 +35,6 @@ class TalentController < ApplicationController
   def apply_filters(talent)
     filtered_talent = talent_filter(talent)
     talent_sort(filtered_talent)
-  end
-
-  def set_alert
-    # at some point we can extract this to application controller and search
-    # for request.path - but for security reasons we might not want to do so
-    @alert = AlertConfiguration.find_by(page: talent_index_path)
   end
 
   def set_talent

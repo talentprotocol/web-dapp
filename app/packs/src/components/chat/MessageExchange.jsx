@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Message from "./Message";
-import Button from "../button";
 import ThemedButton from "src/components/design_system/button";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";

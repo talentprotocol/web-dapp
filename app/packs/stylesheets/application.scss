@@ -6,9 +6,7 @@
 @import "custom/tooltip";
 @import "custom/checkbox";
 @import "custom/fields";
-@import "custom/avatar";
 @import "custom/chat";
-@import "custom/navbar";
 @import "custom/talent";
 @import "custom/alerts";
 @import "custom/modal";
@@ -24,12 +22,10 @@
 @import "custom/link";
 @import "custom/registration";
 @import "custom/dropdowns";
-@import "custom/admin";
 @import "custom/shared";
 @import "custom/top_nav";
 @import "custom/bottom_nav";
 @import "custom/placeholder";
-@import "custom/pagination";
 @import "custom/portfolio";
 @import "colors";
 @import "types";
@@ -88,10 +84,6 @@ body {
 
   .lg-width-reset {
     width: auto !important;
-  }
-
-  .lg-navbar-min-width {
-    min-width: 200px;
   }
 
   .lg-overflow-y-hidden {
