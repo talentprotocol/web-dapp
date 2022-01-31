@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_28_132744) do
+ActiveRecord::Schema.define(version: 2022_01_31_102418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,14 +230,10 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
   end
 
   create_table "tokens", force: :cascade do |t|
-    t.integer "price"
-    t.integer "market_cap"
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "talent_id"
-    t.integer "reserve_ratio"
-    t.bigint "talent_fee"
     t.boolean "deployed", default: false
     t.string "contract_id"
     t.index ["talent_id"], name: "index_tokens_on_talent_id"
