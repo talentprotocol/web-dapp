@@ -1,6 +1,8 @@
 import React from "react";
+import { P3 } from "src/components/design_system/typography";
+import cx from "classnames";
 
-const BottomNavItem = ({ exact, url, secondaryUrl, Icon, mode, routeName }) => {
+const BottomNavItem = ({ exact, url, secondaryUrl, Icon, routeName }) => {
   const urlMatches = () => {
     if (exact) {
       return window.location.pathname == url;
@@ -15,16 +17,15 @@ const BottomNavItem = ({ exact, url, secondaryUrl, Icon, mode, routeName }) => {
   return (
     <a
       href={url}
-      className={`d-flex flex-column justify-content-center align-items-center ${mode}${
-        urlMatches() ? " active" : ""
-      }`}
+      className={cx(
+        "d-flex flex-column justify-content-center align-items-center",
+        urlMatches() && "active"
+      )}
     >
-      <div
-        className={`menu-icon ${mode}${urlMatches() ? " text-primary" : ""}`}
-      >
+      <div className={cx("mobile-menu-icon", urlMatches() && "text-primary")}>
         <Icon />
       </div>
-      {urlMatches() ? <span className="text-primary">{routeName}</span> : null}
+      {urlMatches() && <P3 className="text-primary" text={routeName} />}
     </a>
   );
 };

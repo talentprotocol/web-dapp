@@ -7,6 +7,7 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Notifications from "src/components/notifications";
 import Button from "src/components/design_system/button";
 import { ArrowLeft, Sun, Moon, ArrowRight, Copy } from "src/components/icons";
+import { P1, P2 } from "src/components/design_system/typography";
 
 import {
   SUPPORTER_GUIDE,
@@ -56,7 +57,7 @@ const UserMenuFullScreen = ({
           height={48}
           className="mr-2"
         />
-        <strong>@{user.username}</strong>
+        <P2 className="text-black" bold text={`@${user.username}`} />
       </div>
       <div className="d-flex flex-column w-100 mb-3">
         {!showConnectButton() && connectedButton()}
@@ -67,7 +68,7 @@ const UserMenuFullScreen = ({
           mode={mode}
           className="w-100 my-2"
         >
-          <strong>Get Funds</strong>
+          <P1 className="text-black" bold text="Get Funds" />
         </Button>
       </div>
       <div className={`divider ${mode}`}></div>
@@ -77,7 +78,8 @@ const UserMenuFullScreen = ({
         mode={mode}
         className="d-flex flex-row justify-content-between my-3"
       >
-        My Profile <ArrowRight color="currentColor" />
+        <P1 className="text-black" bold text="My Profile" />
+        <ArrowRight color="currentColor" />
       </Button>
       <div className={`divider ${mode}`}></div>
       {userHasInvitesLeft && (
@@ -99,7 +101,8 @@ const UserMenuFullScreen = ({
         mode={mode}
         className="d-flex flex-row justify-content-between mt-3 mb-1"
       >
-        Feedback <ArrowRight color="currentColor" />
+        <P1 className="text-black" bold text="Feedback" />
+        <ArrowRight color="currentColor" />
       </Button>
       <Button
         onClick={() => window.open(TERMS_HREF, "_blank")}
@@ -107,7 +110,8 @@ const UserMenuFullScreen = ({
         mode={mode}
         className="d-flex flex-row justify-content-between mt-1 mb-1"
       >
-        Terms & Conditions <ArrowRight color="currentColor" />
+        <P1 className="text-black" bold text="Terms & Conditions" />
+        <ArrowRight color="currentColor" />
       </Button>
       <Button
         onClick={() =>
@@ -117,7 +121,8 @@ const UserMenuFullScreen = ({
         mode={mode}
         className="d-flex flex-row justify-content-between mb-3 mt-1"
       >
-        User guide <ArrowRight color="currentColor" />
+        <P1 className="text-black" bold text="User guide" />
+        <ArrowRight color="currentColor" />
       </Button>
       <Button
         onClick={() => window.open(PRIVACY_HREF, "_blank")}
@@ -125,10 +130,11 @@ const UserMenuFullScreen = ({
         mode={mode}
         className="d-flex flex-row justify-content-between mb-3 mt-1"
       >
-        Privacy Policy <ArrowRight color="currentColor" />
+        <P1 className="text-black" bold text="Privacy Policy" />
+        <ArrowRight color="currentColor" />
       </Button>
       <Button onClick={signOut} type="white-subtle" mode={mode}>
-        Sign out
+        <P1 className="text-black" bold text="Sign out" />
       </Button>
     </Modal.Body>
   </Modal>
