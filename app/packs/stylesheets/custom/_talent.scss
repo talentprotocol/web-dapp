@@ -85,8 +85,10 @@
 
 .edit-profile-fixed-bar {
   position: fixed;
-  width: calc(100% - 220px);
-  background-color: $white;
+  width: 100%;
+  background-color: #ffffff;
+  top: 70px;
+  left: 0;
 }
 
 .dark-body .edit-profile-fixed-bar {

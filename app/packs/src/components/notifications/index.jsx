@@ -87,8 +87,9 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           type="white-ghost"
           mode={mode}
           className="ml-2"
+          size="none-size"
         >
-          <Bell color="currentColor" />
+          <Bell color="currentColor" size={20} />
         </Button>
         <Modal
           show={showNotifications}
@@ -140,12 +141,13 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           className="talent-button white-subtle-button normal-size-button no-caret"
           id="notifications-dropdown"
           as="div"
+          style={{ height: 34 }}
         >
           <Bell
             color="currentColor"
             style={{
-              marginRight: notificationsUnread ? -10 : -3,
-              marginTop: 3,
+              marginRight: notificationsUnread ? -12 : -3,
+              marginTop: -2,
             }}
           />
           {notificationsUnread && (

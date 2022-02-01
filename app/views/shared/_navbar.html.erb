@@ -1,11 +1,3 @@
-<%= react_component("SideBar", props: {
-  mode: current_user&.theme_preference || "light",
-  talentPath: talent_index_path,
-  portfolioPath: portfolio_path,
-  messagesPath: messages_path,
-  hasUnreadMessages: current_user&.has_unread_messages?,
-}, prerender: false) %>
-
 <%= react_component("BottomNav", props: {
   mode: current_user&.theme_preference || "light",
   talentPath: talent_index_path,
