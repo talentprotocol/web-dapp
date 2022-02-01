@@ -23,6 +23,7 @@ const UserMenu = ({
   toggleTheme,
   mode,
   userHasInvitesLeft,
+  inviteNumbers,
   onClickTransak,
   signOut,
 }) => {

@@ -252,6 +252,7 @@ export const TopBar = ({ user, signOutPath, railsContext, notifications }) => {
           toggleTheme={toggleTheme}
           mode={theme.mode()}
           userHasInvitesLeft={userHasInvitesLeft}
+          inviteNumbers={inviteNumbers}
           onClickTransak={onClickTransak}
           signOut={signOut}
         />
