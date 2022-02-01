@@ -14,8 +14,6 @@ class TalentController < ApplicationController
   end
 
   def show
-    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @talent }
@@ -23,7 +21,9 @@ class TalentController < ApplicationController
   end
 
   def edit_profile
-    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
+    if @talent.id != current_user.talent&.id
+      redirect_to root_url
+    end
   end
 
   private
