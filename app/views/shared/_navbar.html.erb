@@ -6,7 +6,7 @@
   hasUnreadMessages: current_user&.has_unread_messages?,
 }, prerender: false) %>
 
-<%= react_component("UserMenu", props: {
+<%= react_component("TopBar", props: {
   mode: current_user&.theme_preference || "light",
   user: {
     id: current_user.id,
