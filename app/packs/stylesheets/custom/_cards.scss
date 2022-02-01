@@ -39,14 +39,18 @@
 }
 
 .card-fixed-width {
-  min-width: 290px;
-  max-width: 290px;
+  min-width: 272px;
+  max-width: 272px;
+
+  &:first-child {
+    margin-left: 0px !important;
+  }
 }
 
 @media (max-width: 992px) {
   .card-fixed-width {
-    min-width: 175px;
-    max-width: 175px;
+    min-width: 200px;
+    max-width: 200px;
   }
 
   .card-size {

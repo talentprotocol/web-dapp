@@ -4,7 +4,7 @@ const Icon = (props) => {
   return (
     <svg
       width={props.width ? props.width : "172"}
-      height="35"
+      height={props.height ? props.height : "35"}
       viewBox="0 0 250 35"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

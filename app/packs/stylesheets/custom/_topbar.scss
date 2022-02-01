@@ -2,36 +2,29 @@
 @import "../bootstrap/overrides";
 
 .navbar {
-  height: 70px;
   position: fixed;
   top: 0px;
   right: 0px;
-  left: 220px;
-  background-color: $white;
+  left: 0px;
+  max-width: 1240px;
+  width: 100%;
   z-index: 1;
   padding-right: 40px;
   padding-left: 40px;
   padding-top: 16px;
   padding-bottom: 16px;
-
-  &.dark {
-    background-color: $gray-900;
-  }
-}
-
-@media (min-width: 992px) {
-  .navbar {
-    left: 220px;
-  }
+  backdrop-filter: blur(48px);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 @media (max-width: 992px) {
   .navbar {
-    left: 0px;
     padding-right: 24px;
     padding-left: 24px;
     padding-top: 20px;
     padding-bottom: 20px;
+    backdrop-filter: none;
   }
 }
 

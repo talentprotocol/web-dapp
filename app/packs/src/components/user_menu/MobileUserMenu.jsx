@@ -162,8 +162,14 @@ const MobileUserMenu = ({
 
   return (
     <nav className={`navbar ${mode} justify-content-between`}>
-      {mode == "light" ? <LogoLight width={128} /> : <LogoDark width={128} />}
-      <div className="d-flex flex-row">
+      <a href="/">
+        {mode == "light" ? (
+          <LogoLight width={128} height={20} />
+        ) : (
+          <LogoDark width={128} height={20} />
+        )}
+      </a>
+      <div className="d-flex flex-row" style={{ height: 24 }}>
         <Notifications
           notifications={notifications}
           mode={mode}
@@ -173,7 +179,8 @@ const MobileUserMenu = ({
           onClick={() => setShowMenu(true)}
           type="white-ghost"
           mode={mode}
-          className="ml-2"
+          className="ml-4"
+          size="none-size"
         >
           <TalentProfilePicture src={user.profilePictureUrl} height={20} />
         </Button>

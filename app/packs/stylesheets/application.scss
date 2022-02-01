@@ -13,17 +13,16 @@
 @import "custom/notification";
 @import "custom/cards";
 @import "custom/topbar";
-@import "custom/sidebar";
 @import "custom/list";
 @import "custom/feed";
 @import "custom/leaderboards";
 @import "custom/table";
+@import "custom/tab";
 @import "custom/tags";
 @import "custom/link";
 @import "custom/registration";
 @import "custom/dropdowns";
 @import "custom/shared";
-@import "custom/top_nav";
 @import "custom/bottom_nav";
 @import "custom/placeholder";
 @import "custom/portfolio";
@@ -115,14 +114,13 @@ textarea {
 
 @media (min-width: 992px) {
   body#user-logged {
-    padding-left: 220px !important;
-    padding-top: 70px !important;
+    padding-top: 66px !important;
   }
 }
 
 @media (max-width: 992px) {
   body#user-logged {
     padding-bottom: 56px !important;
-    padding-top: 70px !important;
+    padding-top: 64px !important;
   }
 }

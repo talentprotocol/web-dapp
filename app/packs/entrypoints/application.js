@@ -17,7 +17,6 @@ import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
-import UserMenu from "src/components/user_menu";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import ActiveTalents from "src/components/talent/ActiveTalents";
 import TalentTable from "src/components/talent/TalentTable";
@@ -30,10 +29,8 @@ import RegistrationFlow from "src/components/registration/RegistrationFlow";
 import Login from "src/components/login/Login";
 import ResetPassword from "src/components/login/ResetPassword";
 import ChangePassword from "src/components/login/ChangePassword";
-import SideBar from "src/components/design_system/side_bar";
 import BottomNav from "src/components/design_system/bottom_nav";
-import TopBar from "src/components/design_system/top_bar";
-import TopNav from "src/components/design_system/top_nav"; // this is the mobile one
+import TopBar from "src/components/top_bar";
 import Profile from "src/components/talent/Edit/Profile";
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
 import EditSupporter from "src/components/supporters/EditSupporter";
@@ -53,14 +50,12 @@ ReactOnRails.register({
   TalentNameSearch,
   Login,
   MetamaskConnect,
-  UserMenu,
+  TopBar,
   TalentTable,
   Notifications,
   WelcomePopup,
-  SideBar,
   BottomNav,
   TopBar,
-  TopNav,
   Profile,
   NewPortfolio,
   EditSupporter,
