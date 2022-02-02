@@ -237,13 +237,10 @@ const TalentShow = ({
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
                 bold
+                className="mr-2 text-break"
               />
               {ticker() != "" && (
-                <H2
-                  bold
-                  text={`$${ticker()}`}
-                  className="text-primary-04 ml-lg-2"
-                />
+                <H2 bold text={`$${ticker()}`} className="text-primary-04" />
               )}
             </div>
             <div className="d-flex flex-row mb-lg-2 align-items-center pr-3">
@@ -300,7 +297,7 @@ const TalentShow = ({
           </div>
         )}
       </div>
-      <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
+      <div className={cx("d-flex flex-row flex-wrap", mobile && "pl-4")}>
         <div
           className={`col-12${
             pageInDisplay != "supporters" ? " col-lg-8" : ""
@@ -335,7 +332,7 @@ const TalentShow = ({
         )}
       </div>
       {pageInDisplay == "overview" && (
-        <section className={cx("d-flex flex-column my-3", mobile && "px-4")}>
+        <section className={cx("d-flex flex-column my-3", mobile && "pl-4")}>
           <Roadmap
             goals={sharedState.goals}
             width={width}
