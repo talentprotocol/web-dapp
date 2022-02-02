@@ -241,7 +241,10 @@ const About = (props) => {
               <P2 text="File is too large." className="ml-2 text-danger" bold />
             )}
           </div>
-          <P2 className="mt-2" text="JPG or PNG. Max 1MB" />
+          <P2
+            className="mt-2"
+            text="Add a portrait here and get your face easily recognized by your network. JPG or PNG, max 5MB. "
+          />
         </div>
       </div>
       <div className="d-flex flex-row flex-wrap w-100 align-items-center mt-4">
@@ -277,7 +280,7 @@ const About = (props) => {
 
           <P2
             className="mt-2"
-            text="JPG or PNG. Recomended 1240x356. Max 1MB"
+            text="JPG or PNG. Recomended 1240x356. Max 5MB"
           />
         </div>
       </div>
@@ -318,14 +321,16 @@ const About = (props) => {
           className="w-100"
         />
         <p className="short-caption">
-          Press Enter to create a tag. Do not use commas or dots in the tags
+          Add keywords that define you. Skills, industries, roles, passions,
+          hobbies. Press Enter to create a tag. Do not use commas or dots in the
+          tags
         </p>
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextArea
-          title={"Bio"}
+          title={"Intro"}
           mode={mode}
-          shortCaption="Brief description for your profile"
+          shortCaption="Tell supporters where you come from, what you do, and how you got to be who you are today."
           onChange={(e) => changeTalentAttribute("headline", e.target.value)}
           value={props.talent.profile.headline || ""}
           className="w-100"

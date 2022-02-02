@@ -48,7 +48,7 @@ const MobileUserMenu = ({
             type="white-ghost"
             mode={mode}
             className="ml-4"
-            size="none-size"
+            size="none"
           >
             <TalentProfilePicture src={user.profilePictureUrl} height={20} />
           </Button>

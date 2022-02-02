@@ -87,7 +87,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           type="white-ghost"
           mode={mode}
           className="ml-2"
-          size="none-size"
+          size="none"
         >
           <Bell color="currentColor" size={20} />
         </Button>

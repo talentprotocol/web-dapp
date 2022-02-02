@@ -9,9 +9,9 @@ import BottomNavItem from "./BottomNavItem";
 
 const UnreadMessagesIndicator = () => {
   return (
-    <div class="position-relative">
+    <div className="position-relative">
       <span
-        class="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        className="position-absolute badge border border-light rounded-circle bg-danger p-1"
         style={{ height: 0, width: 0, left: 10, top: -22 }}
       >
         &nbsp;
