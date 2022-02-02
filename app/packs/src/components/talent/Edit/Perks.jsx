@@ -39,7 +39,6 @@ const PerkForm = ({
           title={"Title"}
           mode={mode}
           shortCaption="What's your perk"
-          placeholder={"Social Media, Streaming, Consultant..."}
           onChange={(e) => changeAttribute("title", e.target.value)}
           value={perk["title"]}
           className="edit-profile-input"
