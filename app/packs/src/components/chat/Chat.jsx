@@ -154,8 +154,8 @@ const Chat = ({ users, user }) => {
 
   return (
     <>
-      <div className="d-flex flex-column w-100 h-100">
-        <main className="d-flex flex-row w-100 h-100 themed-border-top">
+      <div className="d-flex flex-column w-100 h-100 themed-border-top">
+        <main className="d-flex flex-row h-100 themed-border-left chat-container">
           {(!mobile || activeUserId == 0) && (
             <section className="col-lg-3 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
               <MessageUserList
@@ -168,7 +168,7 @@ const Chat = ({ users, user }) => {
             </section>
           )}
           {(!mobile || activeUserId > 0) && !gettingMessages && (
-            <section className="col-lg-9 px-0 lg-overflow-y-hidden">
+            <section className="col-lg-9 px-0 lg-overflow-y-hidden themed-border-right">
               <MessageExchange
                 smallScreen={mobile}
                 activeUserId={activeUserId}

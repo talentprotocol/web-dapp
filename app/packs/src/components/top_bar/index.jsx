@@ -17,7 +17,7 @@ import LogoLight from "src/components/icons/LogoLight";
 import LogoDark from "src/components/icons/LogoDark";
 import Tab from "src/components/design_system/tab";
 import Button from "src/components/design_system/button";
-import MobileUserMenu from "src/components/user_menu/MobileUserMenu";
+import MobileTopBar from "src/components/top_bar/MobileTopBar";
 import { Copy } from "src/components/icons";
 
 const UnreadMessagesIndicator = () => {
@@ -212,7 +212,7 @@ export const TopBar = ({
 
   if (width < 992) {
     return (
-      <MobileUserMenu
+      <MobileTopBar
         mode={theme.mode()}
         notifications={notifications}
         user={user}
@@ -230,54 +230,56 @@ export const TopBar = ({
   }
 
   return (
-    <nav className={`navbar ${theme.mode()} d-flex justify-content-between`}>
-      <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
-      <div className="d-flex align-items-center" style={{ height: 34 }}>
-        <a href="/" className="mr-6" style={{ height: 30 }}>
-          {theme.mode() == "light" ? (
-            <LogoLight width={128} height={20} />
-          ) : (
-            <LogoDark width={128} height={20} />
-          )}
-        </a>
-        <Tab
-          onClick={() => (window.location.href = "/talent")}
-          text="Talent"
-          type="white"
-          active={activeTab.includes("/talent")}
-          className="mr-4"
-        />
-        <Tab
-          onClick={() => (window.location.href = "/portfolio")}
-          text="Portfolio"
-          type="white"
-          active={activeTab === "/portfolio"}
-          className="mr-4"
-        />
-        <Tab
-          onClick={() => (window.location.href = "/messages")}
-          text="Messages"
-          type="white"
-          active={activeTab === "/messages"}
-        />
-        {hasUnreadMessages && <UnreadMessagesIndicator />}
-      </div>
-      <div className="d-flex" style={{ height: 34 }}>
-        {!showConnectButton() && connectedButton("mr-2")}
-        {showConnectButton() && metamaskButton()}
-        <UserMenu
-          user={user}
-          copyCodeToClipboard={copyCodeToClipboard}
-          toggleTheme={toggleTheme}
-          mode={theme.mode()}
-          userHasInvitesLeft={userHasInvitesLeft}
-          inviteNumbers={inviteNumbers}
-          onClickTransak={onClickTransak}
-          signOut={signOut}
-        />
-        <Notifications notifications={notifications} mode={theme.mode()} />
-      </div>
-    </nav>
+    <div className="navbar-container">
+      <nav className={`navbar ${theme.mode()} d-flex justify-content-between`}>
+        <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
+        <div className="d-flex align-items-center" style={{ height: 34 }}>
+          <a href="/" className="mr-6" style={{ height: 30 }}>
+            {theme.mode() == "light" ? (
+              <LogoLight width={128} height={20} />
+            ) : (
+              <LogoDark width={128} height={20} />
+            )}
+          </a>
+          <Tab
+            onClick={() => (window.location.href = "/talent")}
+            text="Talent"
+            type="white"
+            active={activeTab.includes("/talent")}
+            className="mr-4"
+          />
+          <Tab
+            onClick={() => (window.location.href = "/portfolio")}
+            text="Portfolio"
+            type="white"
+            active={activeTab === "/portfolio"}
+            className="mr-4"
+          />
+          <Tab
+            onClick={() => (window.location.href = "/messages")}
+            text="Messages"
+            type="white"
+            active={activeTab === "/messages"}
+          />
+          {hasUnreadMessages && <UnreadMessagesIndicator />}
+        </div>
+        <div className="d-flex" style={{ height: 34 }}>
+          {!showConnectButton() && connectedButton("mr-2")}
+          {showConnectButton() && metamaskButton()}
+          <UserMenu
+            user={user}
+            copyCodeToClipboard={copyCodeToClipboard}
+            toggleTheme={toggleTheme}
+            mode={theme.mode()}
+            userHasInvitesLeft={userHasInvitesLeft}
+            inviteNumbers={inviteNumbers}
+            onClickTransak={onClickTransak}
+            signOut={signOut}
+          />
+          <Notifications notifications={notifications} mode={theme.mode()} />
+        </div>
+      </nav>
+    </div>
   );
 };
 

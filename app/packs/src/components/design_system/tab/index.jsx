@@ -29,11 +29,7 @@ const Tab = ({
     >
       {Icon && <Icon pathClassName="tab-icon" color="current-color" />}
       {text && (
-        <P2
-          className={cx("tab-text", "current-color")}
-          text={text}
-          bold={active}
-        />
+        <P2 className={cx("tab-text", "current-color")} text={text} bold />
       )}
       {children}
     </button>

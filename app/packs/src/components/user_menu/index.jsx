@@ -69,7 +69,7 @@ const UserMenu = ({
         )}
         {userHasInvitesLeft && (
           <>
-            <Dropdown.Divider className="user-menu-divider m-0" />
+            <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
             <Dropdown.Item
               key="tab-dropdown-invite-code"
               onClick={copyCodeToClipboard}
@@ -84,7 +84,7 @@ const UserMenu = ({
             </Dropdown.Item>
           </>
         )}
-        <Dropdown.Divider className="user-menu-divider m-0" />
+        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-theme"
           className="text-black d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
@@ -101,7 +101,7 @@ const UserMenu = ({
             <Sun color="currentColor" />
           )}
         </Dropdown.Item>
-        <Dropdown.Divider className="user-menu-divider m-0" />
+        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-t-c"
           className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
@@ -139,7 +139,7 @@ const UserMenu = ({
             size="sm"
           />
         </Dropdown.Item>
-        <Dropdown.Divider className="user-menu-divider m-0" />
+        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-sign-out"
           onClick={signOut}

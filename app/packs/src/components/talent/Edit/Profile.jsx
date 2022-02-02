@@ -110,95 +110,99 @@ const Profile = (props) => {
           mode={theme.mode()}
           hide={requiredFields.length == 0}
         >
-          <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress py-2 px-3">
-            {/* below is required so the justify-content-between aligns properly */}
-            <P3 text="" />
-            <P3
-              mode={theme.mode()}
-              text={
-                progress == 100
-                  ? "Your profile is complete!"
-                  : "Complete your profile to appeal to more supporters and earn rewards."
-              }
-              bold
-              className="text-primary"
-            />
-            <P3 mode={theme.mode()} className="text-primary">
-              <strong>{progress}</strong>/100%
-            </P3>
+          <div className="edit-profile-talent-progress-container py-2 px-3">
+            <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress">
+              {/* below is required so the justify-content-between aligns properly */}
+              <P3 text="" />
+              <P3
+                mode={theme.mode()}
+                text={
+                  progress == 100
+                    ? "Your profile is complete!"
+                    : "Complete your profile to appeal to more supporters and earn rewards."
+                }
+                bold
+                className="text-primary"
+              />
+              <P3 mode={theme.mode()} className="text-primary">
+                <strong>{progress}</strong>/100%
+              </P3>
+            </div>
           </div>
         </Tooltip>
-        <div
-          className={cx(
-            "talent-table-tabs w-100 horizontal-scroll hide-scrollbar d-flex flex-row align-items-center justify-content-between",
-            mobile ? "pl-4" : "px-6"
-          )}
-        >
-          <div className="d-flex mt-3">
-            <div
-              onClick={() => changeTab("About")}
-              className={`talent-table-tab${
-                activeTab == "About" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              About
-            </div>
-            <div
-              onClick={() => changeTab("Highlights")}
-              className={`talent-table-tab${
-                activeTab == "Highlights" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Highlights
-            </div>
-            <div
-              onClick={() => changeTab("Goal")}
-              className={`talent-table-tab${
-                activeTab == "Goal" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Goal
-            </div>
-            <div
-              onClick={() => changeTab("Token")}
-              className={`talent-table-tab${
-                activeTab == "Token" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Token
-            </div>
-            <div
-              onClick={() => changeTab("Perks")}
-              className={`talent-table-tab${
-                activeTab == "Perks" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Perks
-            </div>
-            <div
-              onClick={() => changeTab("Settings")}
-              className={`talent-table-tab${
-                activeTab == "Settings" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Settings
-            </div>
-          </div>
-          {!mobile && (
-            <>
-              <LoadingButton
-                onClick={() => togglePublicProfile()}
-                type={buttonType()}
-                disabled={requiredFields.length > 0 || saving["loading"]}
-                mode={theme.mode()}
-                loading={saving["loading"]}
-                success={sharedState.talent.public}
-                checkClassName="edit-profile-public-check"
+        <div className="talent-table-tabs w-100 horizontal-scroll hide-scrollbar">
+          <div
+            className={cx(
+              "edit-profile-talent-progress d-flex flex-row align-items-center justify-content-between",
+              mobile && "pl-4"
+            )}
+          >
+            <div className="d-flex mt-3">
+              <div
+                onClick={() => changeTab("About")}
+                className={`talent-table-tab${
+                  activeTab == "About" ? " active-talent-table-tab" : ""
+                }`}
               >
-                {sharedState.talent.public ? "Public" : "Publish Profile"}
-              </LoadingButton>
-            </>
-          )}
+                About
+              </div>
+              <div
+                onClick={() => changeTab("Highlights")}
+                className={`talent-table-tab${
+                  activeTab == "Highlights" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Highlights
+              </div>
+              <div
+                onClick={() => changeTab("Goal")}
+                className={`talent-table-tab${
+                  activeTab == "Goal" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Goal
+              </div>
+              <div
+                onClick={() => changeTab("Token")}
+                className={`talent-table-tab${
+                  activeTab == "Token" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Token
+              </div>
+              <div
+                onClick={() => changeTab("Perks")}
+                className={`talent-table-tab${
+                  activeTab == "Perks" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Perks
+              </div>
+              <div
+                onClick={() => changeTab("Settings")}
+                className={`talent-table-tab${
+                  activeTab == "Settings" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Settings
+              </div>
+            </div>
+            {!mobile && (
+              <>
+                <LoadingButton
+                  onClick={() => togglePublicProfile()}
+                  type={buttonType()}
+                  disabled={requiredFields.length > 0 || saving["loading"]}
+                  mode={theme.mode()}
+                  loading={saving["loading"]}
+                  success={sharedState.talent.public}
+                  checkClassName="edit-profile-public-check"
+                >
+                  {sharedState.talent.public ? "Public" : "Publish Profile"}
+                </LoadingButton>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <div

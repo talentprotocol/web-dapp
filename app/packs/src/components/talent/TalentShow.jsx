@@ -175,7 +175,7 @@ const TalentShow = ({
         type="white-subtle"
         mode={theme.mode()}
         disabled={changingFollow}
-        className="mr-2"
+        className={cx(talentIsFromCurrentUser && "mr-2")}
       >
         {sharedState.isFollowing ? (
           <FontAwesomeIcon icon={faStar} className="text-warning" />
@@ -190,7 +190,6 @@ const TalentShow = ({
           }
           type="white-subtle"
           mode={theme.mode()}
-          className="mr-2"
         >
           <FontAwesomeIcon icon={faEdit} />
         </Button>
@@ -199,7 +198,7 @@ const TalentShow = ({
   );
 
   return (
-    <div className="d-flex flex-column lg-h-100 p-0 lg-px-4">
+    <div className="d-flex flex-column lg-h-100 p-0">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -220,7 +219,7 @@ const TalentShow = ({
       <section
         className={cx(
           "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
-          mobile ? "px-4" : "px-6"
+          mobile && "px-4"
         )}
       >
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
@@ -271,7 +270,7 @@ const TalentShow = ({
       <div
         className={cx(
           "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-          mobile ? "mx-4" : "mx-6"
+          mobile && "mx-4"
         )}
       >
         <div
@@ -301,9 +300,7 @@ const TalentShow = ({
           </div>
         )}
       </div>
-      <div
-        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-6")}
-      >
+      <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
         <div
           className={`col-12${
             pageInDisplay != "supporters" ? " col-lg-8" : ""
@@ -338,9 +335,7 @@ const TalentShow = ({
         )}
       </div>
       {pageInDisplay == "overview" && (
-        <section
-          className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
-        >
+        <section className={cx("d-flex flex-column my-3", mobile && "px-4")}>
           <Roadmap
             goals={sharedState.goals}
             width={width}

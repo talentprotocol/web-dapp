@@ -112,15 +112,13 @@ textarea {
   }
 }
 
-@media (min-width: 992px) {
-  body#user-logged {
-    padding-top: 66px !important;
-  }
-}
-
 @media (max-width: 992px) {
-  body#user-logged {
-    padding-bottom: 56px !important;
-    padding-top: 64px !important;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* hide scrollbar in Firefox */
   }
 }

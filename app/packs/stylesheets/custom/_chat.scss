@@ -1,5 +1,12 @@
 @import "../bootstrap/overrides";
 
+.chat-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
+  width: 100%;
+}
+
 .chat-search-icon {
   top: 10px;
   left: 10px;

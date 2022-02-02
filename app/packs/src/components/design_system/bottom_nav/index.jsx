@@ -33,7 +33,7 @@ export const BottomNav = ({
   }
 
   return (
-    <nav className={"navbar-bottom-mobile themed-border-top"}>
+    <nav className="navbar-bottom-mobile">
       <div className="navbar-bottom-menu">
         <div className="navbar-bottom-menu-option">
           <BottomNavItem
