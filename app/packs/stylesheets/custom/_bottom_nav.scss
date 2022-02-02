@@ -16,6 +16,16 @@
   background: rgba(19, 20, 21, 0.7);
 }
 
+@-moz-document url-prefix() {
+  .navbar-bottom-mobile {
+    background: rgba(250, 250, 251, 1);
+    backdrop-filter: unset;
+  }
+  .dark-body .navbar-bottom-mobile {
+    background: rgba(19, 20, 21, 1);
+  }
+}
+
 .navbar-bottom-menu {
   display: flex;
   flex-flow: row wrap;
