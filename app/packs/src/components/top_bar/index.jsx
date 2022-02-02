@@ -20,6 +20,19 @@ import Button from "src/components/design_system/button";
 import MobileUserMenu from "src/components/user_menu/MobileUserMenu";
 import { Copy } from "src/components/icons";
 
+const UnreadMessagesIndicator = () => {
+  return (
+    <div className="position-relative">
+      <span
+        className="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        style={{ height: 0, width: 0, left: -8, top: -12 }}
+      >
+        &nbsp;
+      </span>
+    </div>
+  );
+};
+
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
     <Modal.Header closeButton>
@@ -54,9 +67,14 @@ const newTransak = (width, height, env, apiKey) => {
   });
 };
 
-export const TopBar = ({ user, signOutPath, railsContext, notifications }) => {
+export const TopBar = ({
+  user,
+  signOutPath,
+  railsContext,
+  notifications,
+  hasUnreadMessages,
+}) => {
   const url = new URL(document.location);
-  const [show, setShow] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
   const [stableBalance, setStableBalance] = useState(0);
   const [account, setAccount] = useState("");
@@ -242,6 +260,7 @@ export const TopBar = ({ user, signOutPath, railsContext, notifications }) => {
           type="white"
           active={activeTab === "/messages"}
         />
+        {hasUnreadMessages && <UnreadMessagesIndicator />}
       </div>
       <div className="d-flex" style={{ height: 34 }}>
         {!showConnectButton() && connectedButton("mr-2")}

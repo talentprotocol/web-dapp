@@ -103,7 +103,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
             <Button
               onClick={() => setShowNotifications(false)}
               type="white-ghost"
-              size="small-icon"
+              size="icon"
               className="d-flex align-items-center mr-4"
             >
               <ArrowLeft color="currentColor" size={16} />
@@ -115,10 +115,9 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
               <small className="w-100 text-center">No notifications</small>
             )}
             {currentNotifications.map((notification) => (
-              <>
+              <div key={`notifications-menu-${notification.id}`}>
                 <Divider />
                 <Button
-                  key={`notifications-menu-${notification.id}`}
                   onClick={() => notificationRead(notification)}
                   type="white-ghost"
                   mode={mode}
@@ -126,7 +125,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
                 >
                   <Notification notification={notification} mode={mode} />
                 </Button>
-              </>
+              </div>
             ))}
           </Modal.Body>
         </Modal>
