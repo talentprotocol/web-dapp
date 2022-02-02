@@ -11,6 +11,8 @@ class API::V1::CareerGoals::GoalsController < ApplicationController
 
   def create
     @goal = Goal.new(goal_params)
+    parsed_date = goal_params[:due_date].split("-").map(&:to_i)
+    @goal.due_date = Date.new(parsed_date[0], parsed_date[1])
     @goal.career_goal = career_goal
 
     if @goal.save

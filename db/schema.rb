@@ -10,31 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_28_132744) do
+ActiveRecord::Schema.define(version: 2022_01_31_111237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "alert_configurations", force: :cascade do |t|
-    t.string "page", null: false
-    t.string "alert_type"
-    t.string "text"
-    t.string "href"
-    t.string "button_text"
-    t.string "css_class"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["page"], name: "index_alert_configurations_on_page", unique: true
-  end
-
-  create_table "badges", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "image_data"
-    t.string "url"
-    t.string "alt"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "career_goals", force: :cascade do |t|
     t.text "description"
@@ -171,15 +150,6 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "services", force: :cascade do |t|
-    t.integer "price", null: false
-    t.string "title", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "talent_id"
-    t.index ["talent_id"], name: "index_services_on_talent_id"
-  end
-
   create_table "tags", force: :cascade do |t|
     t.string "description"
     t.boolean "primary"
@@ -209,55 +179,15 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
-  create_table "talent_badges", force: :cascade do |t|
-    t.bigint "talent_id", null: false
-    t.bigint "badge_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["badge_id"], name: "index_talent_badges_on_badge_id"
-    t.index ["talent_id"], name: "index_talent_badges_on_talent_id"
-  end
-
-  create_table "testimonials", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description", null: false
-    t.bigint "user_id", null: false
-    t.bigint "talent_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["talent_id"], name: "index_testimonials_on_talent_id"
-    t.index ["user_id"], name: "index_testimonials_on_user_id"
-  end
-
   create_table "tokens", force: :cascade do |t|
-    t.integer "price"
-    t.integer "market_cap"
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "talent_id"
-    t.integer "reserve_ratio"
-    t.bigint "talent_fee"
     t.boolean "deployed", default: false
     t.string "contract_id"
     t.index ["talent_id"], name: "index_tokens_on_talent_id"
     t.index ["ticker"], name: "index_tokens_on_ticker", unique: true
-  end
-
-  create_table "transactions", force: :cascade do |t|
-    t.integer "amount"
-    t.string "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "token_id"
-    t.bigint "investor_id"
-    t.string "transaction_hash"
-    t.string "block_hash"
-    t.boolean "inbound"
-    t.index ["block_hash"], name: "index_transactions_on_block_hash"
-    t.index ["investor_id"], name: "index_transactions_on_investor_id"
-    t.index ["token_id"], name: "index_transactions_on_token_id"
-    t.index ["transaction_hash"], name: "index_transactions_on_transaction_hash"
   end
 
   create_table "transfers", force: :cascade do |t|
@@ -289,8 +219,8 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.boolean "disabled", default: false
     t.string "theme_preference", default: "light"
+    t.boolean "disabled", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
@@ -321,14 +251,7 @@ ActiveRecord::Schema.define(version: 2021_12_28_132744) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
-  add_foreign_key "services", "talent"
   add_foreign_key "tags", "talent"
-  add_foreign_key "talent_badges", "badges"
-  add_foreign_key "talent_badges", "talent"
-  add_foreign_key "testimonials", "talent"
-  add_foreign_key "testimonials", "users"
   add_foreign_key "tokens", "talent"
-  add_foreign_key "transactions", "investors"
-  add_foreign_key "transactions", "tokens"
   add_foreign_key "transfers", "users"
 end

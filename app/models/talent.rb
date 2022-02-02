@@ -23,16 +23,9 @@ class Talent < ApplicationRecord
   belongs_to :user, optional: true
 
   has_one :token
-  has_many :transactions, through: :token
-  has_many :investors, through: :transactions
   has_one :career_goal
   has_many :perks
-  has_many :services
   has_many :milestones
-  has_many :testimonials
-  has_many :talent_badges
-  has_many :badges, through: :talent_badges
-
   has_many :tags
   has_one :primary_tag, -> { where(primary: true) }, class_name: "Tag"
 

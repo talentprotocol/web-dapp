@@ -61,7 +61,7 @@ Button.propTypes = {
     "white-subtle",
   ]),
   mode: oneOf(["light", "dark"]),
-  size: oneOf(["icon", "normal", "big", "extra-big"]),
+  size: oneOf(["none", "icon", "normal", "big", "extra-big"]),
   className: string,
   disabled: bool,
 };

@@ -1,5 +1,12 @@
 @import "../bootstrap/overrides";
 
+.chat-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
+  width: 100%;
+}
+
 .chat-search-icon {
   top: 10px;
   left: 10px;
@@ -12,10 +19,6 @@
 
 .display-messages {
   height: calc(100% - 80px);
-}
-
-.input-message-height {
-  height: 80px;
 }
 
 .chat-user {
@@ -48,36 +51,6 @@
 
 .dark-body .chat-user.active {
   background-color: $gray-600;
-}
-
-.chat-message {
-  max-width: 75%;
-  border-radius: 16px;
-  font-size: 0.9rem;
-  margin-bottom: 0px;
-}
-
-.chat-my-message {
-  align-self: flex-end;
-  border-bottom-right-radius: 0px;
-}
-
-.chat-their-message {
-  align-self: flex-start;
-  border-bottom-left-radius: 0px;
-}
-
-.chat-message-date {
-  font-size: 0.9rem;
-}
-
-.chat-send-area {
-  padding: 20px;
-}
-
-.chat-input-area {
-  border-radius: 0px;
-  resize: none;
 }
 
 .chat-unread-count {

@@ -1,20 +1,21 @@
 <main class="main-content">
-  <%= react_component("TalentShow", props:
-    {
-      talent: @talent.as_json,
-      profilePictureUrl: @talent.profile_picture_url,
-      bannerUrl: @talent.banner_url,
-      secondaryTags: @talent.tags.where.not(primary: true).map(&:description),
-      services: @talent.services.as_json,
-      token: @talent.token.as_json,
-      perks: @talent.perks.as_json,
-      careerGoal: @talent.career_goal.as_json,
-      goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
-      milestones: @talent.milestones.as_json,
-      currentUserId: current_user.id,
-      tokenLive: @talent.token.deployed?,
-      isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
-      user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
-    }, prerender: false)
-  %>
+  <div class="container-grid">
+    <%= react_component("TalentShow", props:
+      {
+        talent: @talent.as_json,
+        profilePictureUrl: @talent.profile_picture_url,
+        bannerUrl: @talent.banner_url,
+        secondaryTags: @talent.tags.where.not(primary: true).map(&:description),
+        token: @talent.token.as_json,
+        perks: @talent.perks.as_json,
+        careerGoal: @talent.career_goal.as_json,
+        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
+        milestones: @talent.milestones.as_json,
+        currentUserId: current_user.id,
+        tokenLive: @talent.token.deployed?,
+        isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
+        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
+      }, prerender: false)
+    %>
+  </div>
 </main>

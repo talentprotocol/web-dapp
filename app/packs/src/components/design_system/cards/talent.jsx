@@ -36,7 +36,7 @@ const Card = ({
 
   return (
     <a
-      className={`card ${mode} card-fixed-width text-reset text-decoration-none mr-4${mobileClass}`}
+      className={`card ${mode} card-fixed-width text-reset text-decoration-none ml-4${mobileClass}`}
       href={href}
     >
       <img

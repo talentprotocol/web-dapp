@@ -14,7 +14,7 @@
 
 .notification {
   box-sizing: border-box;
-  padding: 0.6rem;
+  padding: 12px;
 }
 
 .notification-icon {
@@ -34,6 +34,8 @@
   width: 365px;
   max-height: 425px;
   overflow-y: auto;
+  padding: 12px 12px !important;
+  overflow-y: overlay;
 }
 
 .light-body .notifications-menu {
@@ -48,8 +50,8 @@
 
 .notifications-unread-icon {
   position: relative;
-  top: -9px;
-  right: 0px;
+  top: -11px;
+  right: -2px;
   border: 4px solid $primary;
   border-radius: 50%;
   font-size: 0px;
@@ -81,5 +83,11 @@
   color: $white !important;
   &:hover {
     background: $surface-hover-02 !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .notification {
+    padding: 16px 24px;
   }
 }

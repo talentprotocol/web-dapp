@@ -80,11 +80,11 @@ const GoalForm = ({
               validationErrors?.due_date ? "border-danger" : ""
             }`}
             placeholder={"Select date"}
-            type="date"
+            type="month"
             value={goal["due_date"]}
             onChange={(e) => changeAttribute("due_date", e.target.value)}
           />
-          <p className={`short-caption ${mode}`}>DD/MM/YYYY</p>
+          <p className={`short-caption ${mode}`}>MM/YYYY</p>
         </div>
       </div>
       {showAddNew && (
@@ -100,7 +100,10 @@ const GoalForm = ({
 const arrayToObject = (inputArray) => {
   const obj = {};
 
-  inputArray.forEach((element) => (obj[element.id] = element));
+  inputArray.forEach((element) => {
+    obj[element.id] = element;
+    obj[element.id]["due_date"] = dayjs(element.due_date).format("YYYY-MM");
+  });
 
   return obj;
 };

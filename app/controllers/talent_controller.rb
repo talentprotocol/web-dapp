@@ -1,5 +1,4 @@
 class TalentController < ApplicationController
-  before_action :set_alert, only: :index
   before_action :set_talent, only: [:show, :update]
   before_action :set_outer_talent, only: [:edit_profile]
 
@@ -15,8 +14,6 @@ class TalentController < ApplicationController
   end
 
   def show
-    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @talent }
@@ -24,7 +21,9 @@ class TalentController < ApplicationController
   end
 
   def edit_profile
-    @is_following = current_user.following.where(user_id: @talent.user.id).exists?
+    if @talent.id != current_user.talent&.id
+      redirect_to root_url
+    end
   end
 
   private
@@ -38,18 +37,12 @@ class TalentController < ApplicationController
     talent_sort(filtered_talent)
   end
 
-  def set_alert
-    # at some point we can extract this to application controller and search
-    # for request.path - but for security reasons we might not want to do so
-    @alert = AlertConfiguration.find_by(page: talent_index_path)
-  end
-
   def set_talent
     @talent =
       if id_param > 0
-        Talent.find(params[:id])
+        Talent.find_by!(id: params[:id], disabled: false)
       else
-        Talent.includes(:user).find_by!(user: {username: params[:id]})
+        Talent.includes(:user).find_by!(user: {username: params[:id], disabled: false})
       end
   end
 

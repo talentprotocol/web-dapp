@@ -22,7 +22,6 @@ class User < ApplicationRecord
   has_many :following, foreign_key: :follower_id, class_name: "Follow"
   has_many :comments
   has_many :posts
-  has_many :testimonials
   has_many :notifications
   has_many :notification_sources, foreign_key: :source_id, class_name: "Notification"
 

@@ -2,16 +2,27 @@
 @import "../bootstrap/overrides";
 
 .navbar-bottom-mobile {
-  background-color: $white;
   height: 56px;
   position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;
   z-index: 1;
+  background: rgba(250, 250, 251, 0.7);
+  backdrop-filter: blur(48px);
+}
 
-  &.dark {
-    background-color: $bg-01;
+.dark-body .navbar-bottom-mobile {
+  background: rgba(19, 20, 21, 0.7);
+}
+
+@-moz-document url-prefix() {
+  .navbar-bottom-mobile {
+    background: rgba(250, 250, 251, 1);
+    backdrop-filter: unset;
+  }
+  .dark-body .navbar-bottom-mobile {
+    background: rgba(19, 20, 21, 1);
   }
 }
 
@@ -24,9 +35,6 @@
 
   .navbar-bottom-menu-option {
     color: $gray-400;
-    &.dark {
-      color: $gray-300;
-    }
 
     a {
       text-decoration: none;
@@ -34,31 +42,36 @@
 
     a:hover:not(.active) {
       color: $black;
-      &.dark {
-        color: $white;
-      }
     }
 
     a.active {
       font-weight: bold;
       color: $black;
-
-      &.dark {
-        color: $white;
-      }
     }
 
-    .menu-icon {
+    .mobile-menu-icon {
       color: $gray-400;
-      &.dark {
-        color: $gray-300;
-      }
 
       &:hover:not(.active) {
         color: $black;
-        &.dark {
-          color: $white;
-        }
+      }
+    }
+  }
+}
+
+.dark-body .navbar-bottom-menu {
+  .navbar-bottom-menu-option {
+    color: $gray-300;
+
+    a:hover:not(.active) {
+      color: $white;
+    }
+
+    .mobile-menu-icon {
+      color: $gray-300;
+
+      &:hover:not(.active) {
+        color: $white;
       }
     }
   }

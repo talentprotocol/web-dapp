@@ -115,11 +115,11 @@ const HighlightForm = ({
               validationErrors?.start_date ? "border-danger" : ""
             }`}
             placeholder={"Select date"}
-            type="date"
+            type="month"
             value={highlight["start_date"]}
             onChange={(e) => changeAttribute("start_date", e.target.value)}
           />
-          <p className={`short-caption ${mode}`}>DD/MM/YYYY</p>
+          <p className={`short-caption ${mode}`}>MM/YYYY</p>
         </div>
         {/* <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pl-2"}`}>
           <h6 className={`title-field ${mode}`}>End Date</h6>
@@ -145,7 +145,10 @@ const HighlightForm = ({
 const arrayToObject = (inputArray) => {
   const obj = {};
 
-  inputArray.forEach((element) => (obj[element.id] = element));
+  inputArray.forEach((element) => {
+    obj[element.id] = element;
+    obj[element.id]["start_date"] = dayjs(element.start_date).format("YYYY-MM");
+  });
 
   return obj;
 };
@@ -335,7 +338,7 @@ const Highlights = (props) => {
       <P2
         className="w-100 text-left"
         mode={mode}
-        text="Highlight what you've done in the past."
+        text="Tell us about your professional achievements and previous work experiences."
       />
       {Object.keys(allMilestones)
         .sort(sortAllMilestoneKeys)

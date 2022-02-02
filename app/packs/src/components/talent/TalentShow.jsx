@@ -12,7 +12,6 @@ import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
 import TalentTags from "./TalentTags";
-import TalentBadges from "./TalentBadges";
 
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
@@ -45,7 +44,6 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
-  badges,
   railsContext,
 }) => {
   const url = new URL(window.location);
@@ -177,7 +175,7 @@ const TalentShow = ({
         type="white-subtle"
         mode={theme.mode()}
         disabled={changingFollow}
-        className="mr-2"
+        className={cx(talentIsFromCurrentUser && "mr-2")}
       >
         {sharedState.isFollowing ? (
           <FontAwesomeIcon icon={faStar} className="text-warning" />
@@ -192,16 +190,15 @@ const TalentShow = ({
           }
           type="white-subtle"
           mode={theme.mode()}
-          className="mr-2"
         >
-          <FontAwesomeIcon icon={faEdit} />
+          Edit Profile
         </Button>
       )}
     </div>
   );
 
   return (
-    <div className="d-flex flex-column lg-h-100 p-0 lg-px-4">
+    <div className="d-flex flex-column lg-h-100 p-0">
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -222,7 +219,7 @@ const TalentShow = ({
       <section
         className={cx(
           "d-flex flex-row mt-3 align-items-start justify-content-between flex-wrap",
-          mobile ? "px-4" : "px-6"
+          mobile && "px-4"
         )}
       >
         <div className="d-flex flex-row justify-content-start align-items-center flex-wrap">
@@ -234,19 +231,16 @@ const TalentShow = ({
             />
             {mobile && actionButtons()}
           </div>
-          <div className="d-flex flex-column">
+          <div className={cx("d-flex flex-column", !mobile && "ml-5")}>
             <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
                 text={displayName({ withLink: false })}
                 bold
+                className="mr-2 text-break"
               />
               {ticker() != "" && (
-                <H2
-                  bold
-                  text={`$${ticker()}`}
-                  className="text-primary-04 ml-lg-2"
-                />
+                <H2 bold text={`$${ticker()}`} className="text-primary-04" />
               )}
             </div>
             <div className="d-flex flex-row mb-lg-2 align-items-center pr-3">
@@ -258,7 +252,6 @@ const TalentShow = ({
               {!mobile && <SocialRow sharedState={sharedState} />}
             </div>
             <div className="d-flex justify-content-between">
-              <TalentBadges badges={badges} height={40} />
               <TalentTags
                 tags={sharedState.secondaryTags}
                 className="mr-2"
@@ -274,7 +267,7 @@ const TalentShow = ({
       <div
         className={cx(
           "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-          mobile ? "mx-4" : "mx-6"
+          mobile && "mx-4"
         )}
       >
         <div
@@ -304,9 +297,7 @@ const TalentShow = ({
           </div>
         )}
       </div>
-      <div
-        className={cx("d-flex flex-row flex-wrap", mobile ? "px-4" : "px-6")}
-      >
+      <div className={cx("d-flex flex-row flex-wrap", mobile && "pl-4")}>
         <div
           className={`col-12${
             pageInDisplay != "supporters" ? " col-lg-8" : ""
@@ -341,9 +332,7 @@ const TalentShow = ({
         )}
       </div>
       {pageInDisplay == "overview" && (
-        <section
-          className={cx("d-flex flex-column my-3", mobile ? "px-4" : "px-6")}
-        >
+        <section className={cx("d-flex flex-column my-3", mobile && "pl-4")}>
           <Roadmap
             goals={sharedState.goals}
             width={width}

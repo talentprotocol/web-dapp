@@ -10,6 +10,9 @@ import { patch } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
 import Button from "src/components/design_system/button";
+import Divider from "src/components/design_system/other/divider";
+import { P2 } from "src/components/design_system/typography";
+import { ArrowLeft } from "src/components/icons";
 
 const Notification = ({ notification, mode }) => {
   const presentDay = new Date();
@@ -36,7 +39,7 @@ const Notification = ({ notification, mode }) => {
       mode={mode}
       title={notification.title}
       description={notification.body}
-      timeInformation={formatDistance(presentDay, createdAt)}
+      timeInformation={`${formatDistance(presentDay, createdAt)} ago`}
       isNew={!notification.read}
     />
   );
@@ -84,8 +87,9 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           type="white-ghost"
           mode={mode}
           className="ml-2"
+          size="none"
         >
-          <Bell color="currentColor" />
+          <Bell color="currentColor" size={20} />
         </Button>
         <Modal
           show={showNotifications}
@@ -95,23 +99,33 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           backdrop={false}
           className="p-0"
         >
-          <Modal.Header closeButton>
-            <Modal.Title>Notifications</Modal.Title>
+          <Modal.Header className="p-4 align-items-center justify-content-start">
+            <Button
+              onClick={() => setShowNotifications(false)}
+              type="white-ghost"
+              size="icon"
+              className="d-flex align-items-center mr-4"
+            >
+              <ArrowLeft color="currentColor" size={16} />
+            </Button>
+            <P2 className="text-black" bold text="Notifications" />
           </Modal.Header>
-          <Modal.Body className="d-flex flex-column">
+          <Modal.Body className="d-flex flex-column p-0">
             {currentNotifications.length == 0 && (
               <small className="w-100 text-center">No notifications</small>
             )}
             {currentNotifications.map((notification) => (
-              <Button
-                key={`notifications-menu-${notification.id}`}
-                onClick={() => notificationRead(notification)}
-                type="white-ghost"
-                mode={mode}
-                className="text-left text-black"
-              >
-                <Notification notification={notification} mode={mode} />
-              </Button>
+              <div key={`notifications-menu-${notification.id}`}>
+                <Divider />
+                <Button
+                  onClick={() => notificationRead(notification)}
+                  type="white-ghost"
+                  mode={mode}
+                  className="text-left text-black p-0"
+                >
+                  <Notification notification={notification} mode={mode} />
+                </Button>
+              </div>
             ))}
           </Modal.Body>
         </Modal>
@@ -126,12 +140,13 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           className="talent-button white-subtle-button normal-size-button no-caret"
           id="notifications-dropdown"
           as="div"
+          style={{ height: 34 }}
         >
           <Bell
             color="currentColor"
             style={{
-              marginRight: notificationsUnread ? -10 : -3,
-              marginTop: 3,
+              marginRight: notificationsUnread ? -12 : -3,
+              marginTop: -2,
             }}
           />
           {notificationsUnread && (

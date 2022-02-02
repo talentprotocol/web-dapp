@@ -6,30 +6,25 @@
 @import "custom/tooltip";
 @import "custom/checkbox";
 @import "custom/fields";
-@import "custom/avatar";
 @import "custom/chat";
-@import "custom/navbar";
 @import "custom/talent";
 @import "custom/alerts";
 @import "custom/modal";
 @import "custom/notification";
 @import "custom/cards";
 @import "custom/topbar";
-@import "custom/sidebar";
 @import "custom/list";
 @import "custom/feed";
 @import "custom/leaderboards";
 @import "custom/table";
+@import "custom/tab";
 @import "custom/tags";
 @import "custom/link";
 @import "custom/registration";
 @import "custom/dropdowns";
-@import "custom/admin";
 @import "custom/shared";
-@import "custom/top_nav";
 @import "custom/bottom_nav";
 @import "custom/placeholder";
-@import "custom/pagination";
 @import "custom/portfolio";
 @import "colors";
 @import "types";
@@ -90,10 +85,6 @@ body {
     width: auto !important;
   }
 
-  .lg-navbar-min-width {
-    min-width: 200px;
-  }
-
   .lg-overflow-y-hidden {
     overflow-y: hidden;
   }
@@ -121,16 +112,13 @@ textarea {
   }
 }
 
-@media (min-width: 992px) {
-  body#user-logged {
-    padding-left: 220px !important;
-    padding-top: 70px !important;
-  }
-}
-
 @media (max-width: 992px) {
-  body#user-logged {
-    padding-bottom: 56px !important;
-    padding-top: 70px !important;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* hide scrollbar in Firefox */
   }
 }

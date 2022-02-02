@@ -225,21 +225,40 @@
 .main-content {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: overlay;
   width: 100%;
   height: 100%;
+}
+
+@media (min-width: 992px) {
+  .main-content {
+    padding-top: 66px !important;
+  }
+
+  .container-grid {
+    max-width: 1240px;
+    width: 100%;
+    height: 100%;
+    padding-right: 40px;
+    padding-left: 40px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 .secondary-content {
   padding-top: 40px;
   padding-bottom: 40px;
-  padding-left: 40px;
-  padding-right: 40px;
   width: 100%;
   height: 100%;
 }
 
 @media (max-width: 992px) {
+  .main-content {
+    padding-bottom: 56px !important;
+    padding-top: 64px !important;
+  }
+
   .secondary-content {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -325,4 +344,108 @@
 
 .current-color {
   color: currentColor !important;
+}
+
+.mb-5 {
+  margin-bottom: 32px !important;
+}
+
+.ml-5 {
+  margin-left: 32px !important;
+}
+
+.mt-5 {
+  margin-top: 32px !important;
+}
+
+.mr-5 {
+  margin-right: 32px !important;
+}
+
+.mx-5 {
+  margin-left: 32px !important;
+  margin-right: 32px !important;
+}
+
+.my-5 {
+  margin-top: 32px !important;
+  margin-bottom: 32px !important;
+}
+
+.pb-5 {
+  padding-bottom: 32px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pt-5 {
+  padding-top: 32px !important;
+}
+
+.pr-5 {
+  padding-right: 32px !important;
+}
+
+.px-5 {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
+.py-5 {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+
+.mb-6 {
+  margin-bottom: 40px !important;
+}
+
+.ml-6 {
+  margin-left: 40px !important;
+}
+
+.mt-6 {
+  margin-top: 40px !important;
+}
+
+.mr-6 {
+  margin-right: 40px !important;
+}
+
+.mx-6 {
+  margin-left: 40px !important;
+  margin-right: 40px !important;
+}
+
+.my-6 {
+  margin-top: 40px !important;
+  margin-bottom: 40px !important;
+}
+
+.pb-6 {
+  padding-bottom: 40px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pt-6 {
+  padding-top: 40px !important;
+}
+
+.pr-6 {
+  padding-right: 40px !important;
+}
+
+.px-6 {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+
+.py-6 {
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
 }

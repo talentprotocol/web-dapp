@@ -17,7 +17,7 @@
   }
 
   &:disabled {
-    background-color: rgba($primary, 0.4) !important;;
+    background-color: rgba($primary, 0.4) !important;
   }
 
   &:active {
@@ -676,6 +676,12 @@
   padding: 0px;
   width: 34px;
   height: 34px;
+}
+
+.small-icon-size-button {
+  padding: 0px;
+  width: 16px;
+  height: 16px;
 }
 
 .normal-size-button {
