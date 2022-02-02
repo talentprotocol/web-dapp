@@ -203,40 +203,6 @@
   margin-top: 0.5rem;
 }
 
-.roadmap-date {
-  color: $warning;
-  margin-bottom: 0.5rem !important;
-  font-size: 11px !important;
-  line-height: 185% !important;
-  font-weight: bold !important;
-  letter-spacing: 2px !important;
-
-  &.dark {
-    color: $yellow;
-  }
-}
-
-.roadmap-title {
-  margin-top: 0.75rem !important;
-  margin-bottom: 0rem !important;
-  font-size: 0.9rem !important;
-
-  &.dark {
-    color: $white;
-  }
-}
-
-.roadmap-description {
-  margin-top: 0.75rem !important;
-  margin-bottom: 0rem !important;
-  font-size: 0.8rem !important;
-  color: $gray-400;
-
-  &.dark {
-    color: $gray-300;
-  }
-}
-
 .portfolio-card-title {
   font-weight: 700;
   color: $warning;

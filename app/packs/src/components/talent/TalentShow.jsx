@@ -231,7 +231,7 @@ const TalentShow = ({
             />
             {mobile && actionButtons()}
           </div>
-          <div className="d-flex flex-column">
+          <div className={cx("d-flex flex-column", !mobile && "ml-5")}>
             <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
               <H2
                 mode={theme.mode()}
