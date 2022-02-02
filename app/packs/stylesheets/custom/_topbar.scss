@@ -16,6 +16,16 @@
   background: rgba(19, 20, 21, 0.7);
 }
 
+@-moz-document url-prefix() {
+  .navbar-container {
+    background: rgba(250, 250, 251, 1);
+    backdrop-filter: unset;
+  }
+  .dark-body .navbar-container {
+    background: rgba(19, 20, 21, 1);
+  }
+}
+
 .navbar {
   max-width: 1240px;
   width: 100%;
