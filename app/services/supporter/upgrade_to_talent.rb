@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Talent::CreateTalent
+class Supporter::UpgradeToTalent
   def call(user_id:)
     user = User.find(user_id)
 
