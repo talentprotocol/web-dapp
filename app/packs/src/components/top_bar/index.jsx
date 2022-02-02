@@ -22,9 +22,9 @@ import { Copy } from "src/components/icons";
 
 const UnreadMessagesIndicator = () => {
   return (
-    <div class="position-relative">
+    <div className="position-relative">
       <span
-        class="position-absolute badge border border-light rounded-circle bg-danger p-1"
+        className="position-absolute badge border border-light rounded-circle bg-danger p-1"
         style={{ height: 0, width: 0, left: -8, top: -12 }}
       >
         &nbsp;
