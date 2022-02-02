@@ -87,7 +87,7 @@
   position: fixed;
   width: 100%;
   background-color: #ffffff;
-  top: 70px;
+  top: 66px;
   left: 0;
 }
 
@@ -104,8 +104,16 @@
   color: $bg-01;
 }
 
-.edit-profile-talent-progress {
+.edit-profile-talent-progress-container {
   background: rgba($primary, 0.2);
+}
+
+.edit-profile-talent-progress {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1240px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .edit-profile-content {
@@ -143,5 +151,12 @@
   .edit-profile-content {
     padding-left: 24px;
     padding-right: 16px;
+  }
+
+  .edit-profile-talent-progress {
+    margin-right: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 8px;
   }
 }
