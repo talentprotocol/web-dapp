@@ -191,7 +191,7 @@ const TalentShow = ({
           type="white-subtle"
           mode={theme.mode()}
         >
-          <FontAwesomeIcon icon={faEdit} />
+          Edit Profile
         </Button>
       )}
     </div>
