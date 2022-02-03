@@ -46,7 +46,7 @@ Button.propTypes = {
     "primary-default",
     "primary-outline",
     "primary-ghost",
-    "primary-subtline",
+    "primary-subtle",
     "danger-default",
     "danger-outline",
     "danger-ghost",
