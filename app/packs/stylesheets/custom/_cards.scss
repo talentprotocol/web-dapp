@@ -175,7 +175,7 @@
 
   &.dark {
     background-color: $primary-shade-01;
-    color: $primary-dark;
+    color: $primary-400;
   }
 }
 
@@ -256,5 +256,43 @@
 }
 
 .bg-coming-soon {
-  background: #7a55ff33;
+  background: $primary-light;
+}
+
+.highlights-card {
+  width: 371px;
+  height: 283px;
+  border-radius: 4px;
+  background-color: $white;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark-body .highlights-card-title {
+  background-color: $surface-02;
+  box-shadow: none;
+}
+
+.dark-body .highlights-card-body {
+  background-color: $gray-900;
+  box-shadow: none;
+}
+
+.highlights-card-user {
+  height: 43px;
+  margin-top: 16px;
+
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.coming-soon-tag {
+  height: 24px;
+  background-color: $primary-disabled !important;
+  color: $primary-600;
+}
+
+.dark-body .coming-soon-tag {
+  background: rgba(122, 85, 255, 0.2) !important;
+  color: $primary-400;
 }
