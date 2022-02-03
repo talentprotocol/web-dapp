@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import RoadmapCard from "src/components/design_system/cards/roadmap";
+import RoadmapCard from "src/components/design_system/cards/Roadmap";
 import P1 from "src/components/design_system/typography/p1";
 import Button from "src/components/design_system/button";
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import currency from "currency.js";
 
-import Divider from "src/components/design_system/other/divider";
+import Divider from "src/components/design_system/other/Divider";
 import { P1, P2 } from "src/components/design_system/typography";
 
 import {

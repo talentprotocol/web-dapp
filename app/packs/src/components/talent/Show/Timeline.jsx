@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import dayjs from "dayjs";
 
 import { Caption, P2, P3 } from "src/components/design_system/typography";
-import ProjectCard from "src/components/design_system/cards/project_card";
+import ProjectCard from "src/components/design_system/cards/ProjectCard";
 
 const Timeline = ({ sharedState, mode }) => {
   const sortedTimeline = useMemo(() => {

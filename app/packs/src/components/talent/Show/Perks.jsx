@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ethers } from "ethers";
 
-import Perk from "src/components/design_system/cards/perk";
+import Perk from "src/components/design_system/cards/Perk";
 import P1 from "src/components/design_system/typography/p1";
 import Button from "src/components/design_system/button";
 
