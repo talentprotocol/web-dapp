@@ -1,10 +1,10 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import TextInput from 'src/components/design_system/fields/textinput';
+import TextInput from "src/components/design_system/fields/textinput";
 
 <Meta title="Design System/Fields/TextInput/Light Mode" component={TextInput} />
 
-export const Template = (args) => <TextInput {...args} />
+export const Template = (args) => <TextInput {...args} />;
 
 <Canvas>
   <Story
@@ -16,7 +16,7 @@ export const Template = (args) => <TextInput {...args} />
       disabled: false,
     }}
   >
-  {Template.bind({})}
+    {Template.bind({})}
   </Story>
   <Story
     name="No title"
@@ -26,7 +26,7 @@ export const Template = (args) => <TextInput {...args} />
       disabled: false,
     }}
   >
-  {Template.bind({})}
+    {Template.bind({})}
   </Story>
   <Story
     name="With short caption"
@@ -37,7 +37,7 @@ export const Template = (args) => <TextInput {...args} />
       disabled: false,
     }}
   >
-  {Template.bind({})}
+    {Template.bind({})}
   </Story>
   <Story
     name="Disabled"
@@ -47,6 +47,6 @@ export const Template = (args) => <TextInput {...args} />
       disabled: true,
     }}
   >
-  {Template.bind({})}
+    {Template.bind({})}
   </Story>
 </Canvas>

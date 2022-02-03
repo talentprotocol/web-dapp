@@ -11,7 +11,7 @@ import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight, ArrowLeft, Delete } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Link from "src/components/design_system/link";
-import Divider from "src/components/design_system/other/divider";
+import Divider from "src/components/design_system/other/Divider";
 
 import cx from "classnames";
 

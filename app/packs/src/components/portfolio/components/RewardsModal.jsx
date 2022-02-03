@@ -6,7 +6,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseAndCommify } from "src/onchain/utils";
 import ClaimRewardsDropdown from "../../design_system/dropdowns/claim_rewards_dropdown";
-import Divider from "../../design_system/other/divider";
+import Divider from "../../design_system/other/Divider";
 import P1 from "../../design_system/typography/p1";
 import P2 from "../../design_system/typography/p2";
 import P3 from "../../design_system/typography/p3";

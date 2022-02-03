@@ -1,7 +1,7 @@
 import React from "react";
 import ReactPlayer from "react-player/youtube";
 
-import Divider from "../../design_system/other/divider";
+import Divider from "../../design_system/other/Divider";
 import { P1, P2, H5, Caption } from "src/components/design_system/typography";
 
 const Overview = ({ sharedState, mode }) => {

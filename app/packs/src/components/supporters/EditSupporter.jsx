@@ -16,7 +16,7 @@ import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import LoadingButton from "src/components/button/LoadingButton";
-import Divider from "src/components/design_system/other/divider";
+import Divider from "src/components/design_system/other/Divider";
 import Tag from "src/components/design_system/tag";
 
 import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
