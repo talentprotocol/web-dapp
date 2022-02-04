@@ -17,7 +17,8 @@
   }
 
   &:disabled {
-    background-color: rgba($primary, 0.4) !important;
+    color: rgba($primary, 0.3) !important;
+    background-color: $primary-disabled !important;
   }
 
   &:active {
@@ -26,8 +27,8 @@
 }
 
 .dark-body .primary-default-button:disabled {
-  color: lighten($primary, 20%) !important;
-  background-color: $primary !important;
+  color: rgba($primary, 0.4) !important;
+  background-color: rgba($primary, 0.2) !important;
 }
 
 .primary-outline-button {
