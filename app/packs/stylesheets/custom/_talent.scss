@@ -17,11 +17,11 @@
 }
 
 .border-photo {
-  border: 8px solid $white;
+  border: 8px solid $bg-01;
 }
 
 .dark-body .border-photo {
-  border: 8px solid $bg-01;
+  border: 8px solid $dark-bg-01;
 }
 
 .pull-bottom-content {
@@ -48,7 +48,7 @@
 }
 
 .talent-table-tabs {
-  border-bottom: 1px solid $light;
+  border-bottom: 1px solid $surface-hover;
 }
 
 .talent-table-tab {
@@ -92,7 +92,7 @@
 }
 
 .dark-body .edit-profile-fixed-bar {
-  background-color: $bg-01;
+  background-color: $dark-bg-01;
 }
 
 .edit-profile-public-check {
@@ -101,7 +101,7 @@
 }
 
 .dark-body .edit-profile-public-check {
-  color: $bg-01;
+  color: $dark-bg-01;
 }
 
 .edit-profile-talent-progress-container {

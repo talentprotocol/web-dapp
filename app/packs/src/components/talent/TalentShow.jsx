@@ -212,7 +212,7 @@ const TalentShow = ({
         <TalentProfilePicture
           src={sharedState.bannerUrl}
           height={192}
-          className="w-100 pull-bottom-content banner-height"
+          className="w-100 pull-bottom-content banner-img"
           straight={true}
         />
       )}
