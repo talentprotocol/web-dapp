@@ -1,0 +1,53 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import TalentCard from "src/components/design_system/cards/NewTalentCard";
+
+<Meta title="Design System/TalentCard" component={TalentCard} />
+
+# TalentCards
+
+Custom TalentCards to show titles.
+
+## Examples
+
+export const Template = (args) => <TalentCard {...args} />;
+
+<Canvas>
+  <Story
+    name="Light mode"
+    args={{
+      name: "User 1",
+      token: "$USER",
+      occupation: "Sofware Engineer",
+      profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+      circulatingSupply: 5000000,
+      numberOfSupporters: 35,
+      description: "Small and simple into",
+      following: false,
+      updateFollow: () => null,
+      talentLink: "/",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Dark mode"
+    parameters={{ backgrounds: { default: "dark" } }}
+    args={{
+      name: "Really long name to see that only occupies one line",
+      token: "$USER",
+      occupation:
+        "Really long occupation with a lot of bla bla bla to see that only occupies two lines.",
+      profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+      circulatingSupply: 5000000,
+      numberOfSupporters: 35,
+      description:
+        "Hi I'm User and I'm the founder of The New Digital School. I've been a designer, entrepreneur and teacher in the digital field for a while now. I love sharing knowledge ! This is more 3 lines of text so i can see if this gets cut out",
+      following: true,
+      updateFollow: () => null,
+      talentLink: "/",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
