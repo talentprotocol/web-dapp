@@ -17,7 +17,7 @@ import TagInput from "src/components/design_system/tag_input";
 import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
-import Divider from "src/components/design_system/other/divider";
+import Divider from "src/components/design_system/other/Divider";
 
 import cx from "classnames";
 

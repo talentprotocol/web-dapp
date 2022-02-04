@@ -1,5 +1,6 @@
+import React from "react";
 // Global styles need to be imported here so that storybook picks them up
-import "stylesheets/application.scss"
+import "stylesheets/application.scss";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -10,16 +11,28 @@ export const parameters = {
     },
   },
   backgrounds: {
-    default: 'light',
+    default: "light",
     values: [
       {
-        name: 'light',
-        value: '#fff',
+        name: "light",
+        value: "#fff",
       },
       {
-        name: 'dark',
-        value: '#000',
+        name: "dark",
+        value: "#131415",
       },
     ],
   },
-}
+};
+
+export const decorators = [
+  (Story) => {
+    const theme = Story()._owner.pendingProps.parameters.backgrounds.default;
+
+    return (
+      <div className={`${theme}-body`}>
+        <Story />
+      </div>
+    );
+  },
+];

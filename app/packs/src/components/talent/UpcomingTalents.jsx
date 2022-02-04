@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
-import TalentCard from "src/components/design_system/cards/talent";
+import TalentCard from "src/components/design_system/cards/Talent";
 import Button from "src/components/design_system/button";
 
 const UpcomingTalents = ({ talents }) => {

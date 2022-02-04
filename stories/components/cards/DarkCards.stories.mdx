@@ -1,24 +1,20 @@
-import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
-import Card from "src/components/design_system/cards/talent";
-import CardSupporter from "src/components/design_system/cards/supporter";
-import Perk from "src/components/design_system/cards/perk";
-import Project from "src/components/design_system/cards/project";
-import Roadmap from "src/components/design_system/cards/roadmap";
-import PortfolioCard from "src/components/design_system/cards/portfolio_card";
-import TokenPrice from "src/components/design_system/cards/token_price";
+import Card from "src/components/design_system/cards/Talent";
+import Perk from "src/components/design_system/cards/Perk";
+import Project from "src/components/design_system/cards/ProjectCard";
+import Roadmap from "src/components/design_system/cards/Roadmap";
+import PortfolioCard from "src/components/design_system/cards/PortfolioCard";
 
-<Meta title="Design System/Cards/Dark Mode" component={Card} />
+<Meta title="Design System/Cards/Dark Mode" />
 
 # Cards
 
 export const Template = (args) => <Card {...args} />;
-export const TemplateSupporter = (args) => <CardSupporter {...args} />;
 export const TemplatePerk = (args) => <Perk {...args} />;
 export const TemplateProject = (args) => <Project {...args} />;
 export const TemplateRoadmap = (args) => <Roadmap {...args} />;
 export const TemplatePortfolioCard = (args) => <PortfolioCard {...args} />;
-export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
 
 <Canvas>
   <Story
@@ -26,30 +22,16 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
     parameters={{ backgrounds: { default: "dark" } }}
     args={{
       photo_url:
-        "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
-      name: "Lily Caneco",
-      title: "CPO at Jivo.com",
-      circ_supply: "128,320",
-      ticker: "$LILI",
+        "https://media.istockphoto.com/photos/beautiful-woman-posing-against-dark-background-picture-id638756792?k=20&m=638756792&s=612x612&w=0&h=PAiwpR6vmkBlctx0kmvGKX3HsBcMdd2PFD4BlEEI7Ac=",
+      name: "Cameroon",
+      title: "Product Designer",
+      circ_supply: "415,300",
+      ticker: "$CAM",
       mode: "dark",
     }}
   >
     {Template.bind({})}
   </Story>
-  <Story
-    name="Card Supporter #1"
-    parameters={{ backgrounds: { default: "dark" } }}
-    args={{
-      photo_url:
-        "https://www.fancygirldesignstudio.com/wp-content/uploads/2017/11/Rachel-Rouhana-Profile-Pic-Square-300x300.jpg",
-      name: "Mateus Morrison",
-      address_wallet: "0x71...9d81",
-      mode: "dark",
-    }}
-  >
-    {TemplateSupporter.bind({})}
-  </Story>
-
   <Story
     name="Perk Unavailable #1"
     parameters={{ backgrounds: { default: "dark" } }}
@@ -57,14 +39,13 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
       mode: "dark",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      myTokens: "152",
-      tokens: "200",
+      tokensLeftToRedeem: 152,
+      tokens: 200,
       ticker: "$GYB",
     }}
   >
     {TemplatePerk.bind({})}
   </Story>
-
   <Story
     name="Perk Available #2"
     parameters={{ backgrounds: { default: "dark" } }}
@@ -72,8 +53,8 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
       mode: "dark",
       area: "Social media",
       title: "Be part of my Telgeram group where I post daily news",
-      myTokens: "240",
-      tokens: "200",
+      tokensLeftToRedeem: 0,
+      tokens: 200,
       ticker: "$GYB",
     }}
   >
@@ -122,7 +103,6 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
   >
     {TemplateRoadmap.bind({})}
   </Story>
-
   <Story
     name="Roadmap #2"
     parameters={{ backgrounds: { default: "dark" } }}
@@ -159,23 +139,5 @@ export const TemplateTokenPrice = (args) => <TokenPrice {...args} />;
     }}
   >
     {TemplatePortfolioCard.bind({})}
-  </Story>
-  <Story
-    name="Token price #1"
-    parameters={{ backgrounds: { default: "dark" } }}
-    args={{
-      mode: "dark",
-      ticker: "$GIO",
-      token_address: "0x07829467f103d023bd5b5196c46713a9ce52238e",
-      display_name: "GIORGIO ANTINO",
-      price: "0.01",
-      market_value: "1,000",
-      circ_supply: "300",
-      max_supply: "1,000,000",
-      supporters_url: "https://www.google.pt",
-      supporters_count: "5",
-    }}
-  >
-    {TemplateTokenPrice.bind({})}
   </Story>
 </Canvas>

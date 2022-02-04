@@ -10,7 +10,7 @@ import { patch } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
 import Button from "src/components/design_system/button";
-import Divider from "src/components/design_system/other/divider";
+import Divider from "src/components/design_system/other/Divider";
 import { P2 } from "src/components/design_system/typography";
 import { ArrowLeft } from "src/components/icons";
 
