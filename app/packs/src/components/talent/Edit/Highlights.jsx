@@ -251,7 +251,11 @@ const Highlights = (props) => {
       if (response) {
         // update local state
         const newMilestones = { ...allMilestones };
-        newMilestones[response.id] = response;
+        newMilestones[response.id] = {
+          ...response,
+          start_date: dayjs(response.start_date).format("YYYY-MM"),
+        };
+
         if (id == "new") {
           newMilestones["new"] = emptyHighlight("new");
         }
