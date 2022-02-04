@@ -2,7 +2,11 @@ class API::V1::CareerGoals::GoalsController < ApplicationController
   before_action :validate_access
 
   def update
-    if goal.update(goal_params)
+    goal.assign_attributes(goal_params)
+    parsed_date = goal_params[:due_date].split("-").map(&:to_i)
+    goal.due_date = Date.new(parsed_date[0], parsed_date[1])
+
+    if goal.save
       render json: goal, status: :ok
     else
       render json: {error: "Unable to update goal"}, status: :unprocessable_entity
