@@ -224,7 +224,10 @@ const Goal = (props) => {
       if (response) {
         // update local state
         const newGoals = { ...allGoals };
-        newGoals[response.id] = response;
+        newGoals[response.id] = {
+          ...response,
+          due_date: dayjs(response.due_date).format("YYYY-MM"),
+        };
 
         if (id == "new") {
           newGoals["new"] = emptyGoal("new");
