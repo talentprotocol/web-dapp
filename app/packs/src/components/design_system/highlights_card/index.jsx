@@ -8,8 +8,11 @@ import Tag from "src/components/design_system/tag";
 import Divider from "src/components/design_system/other/Divider";
 import { P1, P2, P3 } from "src/components/design_system/typography";
 import { ArrowForward } from "src/components/icons";
+import { useWindowDimensionsHook } from "src/utils/window";
 
 const HighlightsCard = ({ title, users }) => {
+  const { mobile } = useWindowDimensionsHook();
+
   const icon = () => {
     switch (title) {
       case "Most Trendy":
@@ -19,9 +22,10 @@ const HighlightsCard = ({ title, users }) => {
       case "Launching Soon":
         return "💎";
       default:
-        return null;
+        return "";
     }
   };
+
   return (
     <div className="highlights-card">
       <div className="d-flex justify-content-between align-items-center p-4 highlights-card-title">
@@ -34,33 +38,38 @@ const HighlightsCard = ({ title, users }) => {
           <ArrowForward className="ml-2" color="currentColor" size={12} />
         </div>
       </div>
-      <Divider />
-      <div className="p-4 highlights-card-body">
-        {users.map((user, index) => (
-          <div
-            key={`${user.id}-${index}`}
-            className="d-flex justify-content-between highlights-card-user"
-          >
-            <div className="d-flex align-items-center">
-              <TalentProfilePicture src={user.profilePictureUrl} height={32} />
-              <P2 className="text-black ml-3" text={user.name} />
-            </div>
-            {title === "Launching Soon" ? (
-              <Tag className="coming-soon-tag align-self-center ml-2">
-                <P3 className="current-color" bold text="Coming Soon" />
-              </Tag>
-            ) : (
-              <div className="d-flex flex-column align-items-end">
-                <P3 className="text-primary-04" text="Market cap" />
-                <P2
-                  className="text-black"
-                  text={currency(user.circulatingSupply).format()}
+      {!mobile && <Divider />}
+      {!mobile && (
+        <div className="p-4 highlights-card-body">
+          {users.map((user, index) => (
+            <div
+              key={`${user.id}-${index}`}
+              className="d-flex justify-content-between highlights-card-user"
+            >
+              <div className="d-flex align-items-center">
+                <TalentProfilePicture
+                  src={user.profilePictureUrl}
+                  height={32}
                 />
+                <P2 className="text-black ml-3" text={user.name} />
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+              {title === "Launching Soon" ? (
+                <Tag className="coming-soon-tag align-self-center ml-2">
+                  <P3 className="current-color" bold text="Coming Soon" />
+                </Tag>
+              ) : (
+                <div className="d-flex flex-column align-items-end">
+                  <P3 className="text-primary-04" text="Market cap" />
+                  <P2
+                    className="text-black"
+                    text={currency(user.circulatingSupply).format()}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

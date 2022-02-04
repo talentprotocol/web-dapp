@@ -261,15 +261,25 @@
 
 .highlights-card {
   width: 371px;
-  height: 283px;
   border-radius: 4px;
-  background-color: $white;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark-body .highlights-card {
+  box-shadow: none;
+}
+
+.highlights-card-title {
+  height: 74px;
 }
 
 .dark-body .highlights-card-title {
   background-color: $surface-02;
   box-shadow: none;
+}
+
+.highlights-card-body {
+  height: 208px;
 }
 
 .dark-body .highlights-card-body {
