@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import SendMessageModal from "./SendMessageModal";
 
 import { OnChain } from "src/onchain";
 import { parseAndCommify } from "src/onchain/utils";
@@ -11,7 +11,7 @@ import { post, patch } from "src/utils/requests";
 import { NoMetamask } from "../login/MetamaskConnect";
 
 import LoadingButton from "src/components/button/LoadingButton";
-import { P1, P2, P3 } from "src/components/design_system/typography";
+import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 
 const StakeModal = ({
@@ -22,7 +22,10 @@ const StakeModal = ({
   tokenId,
   railsContext,
   userId,
+  talentUserId,
+  talentName,
   mode,
+  talentIsFromCurrentUser
 }) => {
   const [amount, setAmount] = useState("");
   const [showNoMetamask, setShowNoMetamask] = useState(false);
@@ -36,6 +39,7 @@ const StakeModal = ({
   const [didAllowance, setDidAllowance] = useState(false);
   const [validChain, setValidChain] = useState(true);
   const [valueError, setValueError] = useState(false);
+  const [showNewMessageModal, setShowNewMessageModal] = useState(false);
 
   const setupOnChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
@@ -136,9 +140,20 @@ const StakeModal = ({
       }).catch((e) => console.log(e));
 
       setStage("Verified");
+
+      if(!talentIsFromCurrentUser) {
+        showSendMessageModal();
+      }
     } else {
       setStage("Error");
     }
+  };
+
+  const showSendMessageModal = () => {
+    setTimeout(() => {
+      setShow(false);
+      setShowNewMessageModal(true);
+    }, 1000); 
   };
 
   const approve = async (e) => {
@@ -208,6 +223,15 @@ const StakeModal = ({
   return (
     <>
       <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
+      <SendMessageModal
+          show={showNewMessageModal}
+          setShow={setShowNewMessageModal}
+          ticker={ticker}
+          talentName={talentName}
+          talentId={talentUserId}
+          amountBought={amount}
+          mode={mode}
+        />
       <Modal
         scrollable={true}
         fullscreen={"md-down"}

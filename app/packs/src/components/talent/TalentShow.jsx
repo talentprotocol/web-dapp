@@ -155,9 +155,12 @@ const TalentShow = ({
           tokenAddress={sharedState.token.contract_id}
           tokenId={sharedState.token.id}
           userId={currentUserId}
+          talentUserId={talent.user_id}
+          talentName={displayName({ withLink: false })}
           ticker={ticker()}
           railsContext={railsContext}
           mode={theme.mode()}
+          talentIsFromCurrentUser={talentIsFromCurrentUser}
         />
       )}
       <Button
