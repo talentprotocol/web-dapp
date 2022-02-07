@@ -10,15 +10,15 @@ class API::UpdateTalent
     update_talent(talent_params)
     update_user(user_params)
 
-    if tag_params[:secondary_tags]
-      all_tags = tag_params[:secondary_tags]
-
-      @talent.tags.where(primary: false).where.not(description: all_tags).delete_all
+    if tag_params[:tags]
+      all_tags = tag_params[:tags]
+      @talent.talent_tags.joins(:tag).where.not(tag: {description: all_tags}).delete_all
 
       all_tags.each do |description|
-        tag = Tag.find_or_initialize_by(talent_id: @talent.id, description: description, primary: false)
+        tag = Tag.find_or_create_by(description: description.downcase)
+        talent_tag = TalentTag.find_or_initialize_by(talent: @talent, tag: tag)
 
-        tag.save! unless tag.persisted?
+        talent_tag.save! unless talent_tag.persisted?
       end
     end
 

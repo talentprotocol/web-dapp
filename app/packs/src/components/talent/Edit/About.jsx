@@ -187,7 +187,7 @@ const About = (props) => {
     trackChanges(true);
     changeSharedState((prev) => ({
       ...prev,
-      secondary_tags: tags,
+      tags,
     }));
   };
 
@@ -317,7 +317,7 @@ const About = (props) => {
           label={"Tags"}
           mode={mode}
           onTagChange={(newTags) => changeTags(newTags)}
-          tags={props.secondary_tags}
+          tags={props.tags}
           className="w-100"
         />
         <p className="short-caption">
