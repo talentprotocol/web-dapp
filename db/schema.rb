@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_111237) do
+ActiveRecord::Schema.define(version: 2022_02_07_120731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,15 @@ ActiveRecord::Schema.define(version: 2022_01_31_111237) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
+  create_table "talent_tags", force: :cascade do |t|
+    t.bigint "talent_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_id"], name: "index_talent_tags_on_tag_id"
+    t.index ["talent_id"], name: "index_talent_tags_on_talent_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
@@ -252,6 +261,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_111237) do
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "tags", "talent"
+  add_foreign_key "talent_tags", "tags"
+  add_foreign_key "talent_tags", "talent"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"
 end
