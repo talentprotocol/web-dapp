@@ -13,10 +13,10 @@ class API::UpdateTalent
     if tag_params[:secondary_tags]
       all_tags = tag_params[:secondary_tags]
 
-      @talent.tags.where(primary: false).where.not(description: all_tags).delete_all
+      @talent.tags.where.not(description: all_tags).delete_all
 
       all_tags.each do |description|
-        tag = Tag.find_or_initialize_by(talent_id: @talent.id, description: description, primary: false)
+        tag = Tag.find_or_initialize_by(talent_id: @talent.id, description: description)
 
         tag.save! unless tag.persisted?
       end

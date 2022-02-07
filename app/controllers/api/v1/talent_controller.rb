@@ -51,7 +51,6 @@ class API::V1::TalentController < ApplicationController
     params.require(:talent).permit(
       :username,
       :display_name,
-      :primary_tag,
       :public,
       :disable_messages,
       profile: [
