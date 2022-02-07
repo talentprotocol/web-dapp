@@ -21,6 +21,7 @@ import Goal from "./Goal";
 import Token from "./Token";
 import Perks from "./Perks";
 import Settings from "./Settings";
+import Invites from "./Invites";
 
 import cx from "classnames";
 
@@ -179,6 +180,14 @@ const Profile = (props) => {
                 Perks
               </div>
               <div
+                onClick={() => changeTab("Invites")}
+                className={`talent-table-tab${
+                  activeTab == "Invites" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Invites
+              </div>
+              <div
                 onClick={() => changeTab("Settings")}
                 className={`talent-table-tab${
                   activeTab == "Settings" ? " active-talent-table-tab" : ""
@@ -310,6 +319,19 @@ const Profile = (props) => {
               disablePublicButton={requiredFields.length > 0}
               togglePublicProfile={() => togglePublicProfile()}
               trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Invites" && (
+            <Invites
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+              invites={props.invites}
             />
           )}
           {activeTab == "Settings" && (

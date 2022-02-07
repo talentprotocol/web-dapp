@@ -313,9 +313,9 @@ const Perks = (props) => {
             <Caption text="NEXT" />
             <div
               className="text-grey cursor-pointer"
-              onClick={() => changeTab("Settings")}
+              onClick={() => changeTab("Invites")}
             >
-              Settings <ArrowRight color="currentColor" />
+              Invites <ArrowRight color="currentColor" />
             </div>
           </div>
         </div>

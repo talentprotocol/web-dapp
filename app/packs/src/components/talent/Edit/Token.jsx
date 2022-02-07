@@ -318,7 +318,9 @@ const Token = (props) => {
         <H5 className="w-100 text-left" text={ticker} bold />
         <P2 className="w-100 text-left" mode={mode}>
           You can see all your token activity on your{" "}
-          <Link href="/portfolio" target="_blank" text="portfolio" />
+          <a href="/portfolio" target="_blank">
+            portfolio
+          </a>
         </P2>
         <TokenDetails
           ticker={token.ticker}
@@ -408,11 +410,9 @@ const Token = (props) => {
         <P2 className="p2 w-100 text-left col-8 p-0" mode={mode}>
           Please be sure you have an active Metamask wallet. If you don't have
           one, please create it using{" "}
-          <Link
-            href="https://www.metamask.io"
-            target="_blank"
-            text="Metamask.io"
-          />
+          <a href="https://www.metamask.io" target="_blank">
+            Metamask.io
+          </a>
         </P2>
         <Button
           onClick={() => setShow(true)}
