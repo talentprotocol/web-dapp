@@ -154,8 +154,6 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "talent_id"
-    t.index ["talent_id"], name: "index_tags_on_talent_id"
     t.index ["description"], name: "index_tags_on_description"
   end
 
@@ -260,7 +258,6 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
-  add_foreign_key "tags", "talent"
   add_foreign_key "talent_tags", "tags"
   add_foreign_key "talent_tags", "talent"
   add_foreign_key "tokens", "talent"
