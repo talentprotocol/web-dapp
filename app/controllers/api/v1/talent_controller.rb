@@ -44,14 +44,13 @@ class API::V1::TalentController < ApplicationController
   end
 
   def tag_params
-    params.permit(secondary_tags: [])
+    params.permit(tags: [])
   end
 
   def talent_params
     params.require(:talent).permit(
       :username,
       :display_name,
-      :primary_tag,
       :public,
       :disable_messages,
       profile: [

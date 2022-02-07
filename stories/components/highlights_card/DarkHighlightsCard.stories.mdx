@@ -1,0 +1,104 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+
+import HighlightsCard from "src/components/design_system/highlights_card";
+
+<Meta
+  title="Design System/HighlightsCard/Dark Mode"
+  component={HighlightsCard}
+  parameters={{ backgrounds: { default: "dark" } }}
+/>
+
+# HighlightsCards
+
+Custom HighlightsCards to show titles.
+
+## Examples
+
+export const Template = (args) => <HighlightsCard {...args} />;
+
+<Canvas>
+  <Story
+    name="Most Trendy"
+    args={{
+      title: "Most Trendy",
+      users: [
+        {
+          id: 1,
+          name: "User 1",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          circulatingSupply: 1000,
+        },
+        {
+          id: 2,
+          name: "User 2",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          circulatingSupply: 3000,
+        },
+        {
+          id: 3,
+          name: "User 3",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          circulatingSupply: 4500000,
+        },
+      ],
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Latest Added"
+    args={{
+      title: "Latest Added",
+      users: [
+        {
+          id: 1,
+          name: "User 1",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          circulatingSupply: 1000,
+        },
+        {
+          id: 2,
+          name: "User 2",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          circulatingSupply: 3000,
+        },
+        {
+          id: 3,
+          name: "User 3",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          circulatingSupply: 4500000,
+        },
+      ],
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Launching Soon"
+    args={{
+      title: "Launching Soon",
+      users: [
+        {
+          id: 1,
+          name: "User 1",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=1",
+          circulatingSupply: 1000,
+        },
+        {
+          id: 2,
+          name: "User 2",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=2",
+          circulatingSupply: 3000,
+        },
+        {
+          id: 3,
+          name: "User 3",
+          profilePictureUrl: "https://i.pravatar.cc/150?img=3",
+          circulatingSupply: 4500000,
+        },
+      ],
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

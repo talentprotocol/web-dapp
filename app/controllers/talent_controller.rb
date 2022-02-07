@@ -3,7 +3,7 @@ class TalentController < ApplicationController
   before_action :set_outer_talent, only: [:edit_profile]
 
   def index
-    @talents = apply_filters(base_talent.includes(:primary_tag, :user))
+    @talents = apply_filters(base_talent.includes(:user))
     @active_talents = @talents.where.not(token: {contract_id: nil})
     @upcoming_talents = @talents.where(token: {contract_id: nil})
 

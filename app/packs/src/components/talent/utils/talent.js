@@ -37,7 +37,7 @@ export const profileProgress = ({
   milestones,
   goals,
   perks,
-  secondary_tags,
+  tags,
   user,
 }) => {
   let total = 100;
@@ -60,7 +60,7 @@ export const profileProgress = ({
     total -= 10;
   }
 
-  if (secondary_tags.length == 0) {
+  if (tags.length == 0) {
     total -= 10;
   }
 
