@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { patch } from "src/utils/requests";
@@ -53,6 +53,16 @@ const Profile = (props) => {
   const [sharedState, setSharedState] = useState({ ...props });
   const progress = profileProgress(sharedState);
   const requiredFields = missingFields(sharedState);
+
+  useEffect(() => {
+    if (activeTab != "") {
+      window.history.pushState(
+        {},
+        document.title,
+        `${url.pathname}?tab=${activeTab}`
+      );
+    }
+  }, [activeTab]);
 
   const buttonType = () => {
     if (requiredFields.length == 0) {
