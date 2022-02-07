@@ -15,7 +15,9 @@ class API::UpdateTalent
       @talent.talent_tags.joins(:tag).where.not(tag: {description: all_tags}).delete_all
 
       all_tags.each do |description|
-        tag = Tag.find_or_create_by(description: description.downcase)
+        tag = Tag.find_by(description: description.downcase)
+        tag ||= Tag.find_or_create_by(talent_id: @talent.id, description: description.downcase)
+
         talent_tag = TalentTag.find_or_initialize_by(talent: @talent, tag: tag)
 
         talent_tag.save! unless talent_tag.persisted?
