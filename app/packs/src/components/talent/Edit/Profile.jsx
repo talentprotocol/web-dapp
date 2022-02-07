@@ -25,9 +25,23 @@ import Invites from "./Invites";
 
 import cx from "classnames";
 
+const allowedTabs = [
+  "About",
+  "Highlights",
+  "Goal",
+  "Token",
+  "Perks",
+  "Settings",
+  "Invites",
+];
+
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
-  const [activeTab, setActiveTab] = useState("About");
+  const url = new URL(window.location);
+  const searchParams = new URLSearchParams(url.search);
+  const initialTab = () =>
+    allowedTabs.find((item) => item === searchParams.get("tab")) || "About";
+  const [activeTab, setActiveTab] = useState(initialTab());
   const { mobile } = useWindowDimensionsHook();
   const [saving, setSaving] = useState({
     loading: false,

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { H5, P2 } from "src/components/design_system/typography";
+import { H5, P2, Caption } from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
-import { ArrowLeft, Check } from "src/components/icons";
+import { ArrowLeft, ArrowRight, Check } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
 
@@ -17,6 +17,11 @@ const Invites = (props) => {
     invites,
   } = props;
   const [copied, setCopied] = useState({});
+  const [saving, setSaving] = useState({
+    loading: false,
+    profile: false,
+    public: false,
+  });
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
@@ -41,35 +46,41 @@ const Invites = (props) => {
       <H5 className="w-100 text-left" text="Invites" bold />
       <P2 className="w-100 text-left" text="Manage your invites" />
       {invites.length == 0 ? (
-        <P2>You current don't have any invites actuve.</P2>
+        <P2 className="w-100 text-left">
+          You current don't have any active invites.
+        </P2>
       ) : (
         ""
       )}
       {invites.map((invite) => (
         <div key={`invite-${invite.id}`}>
           <Divider className="my-4" />
-          <P2 className="p2 text-left w-100 p-0" bold>
-            {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
-          </P2>
-          <P2 className="p2 text-left w-100 p-0">
-            {invite.max_uses !== null
-              ? `Uses: ${invite.uses}/${invite.max_uses}`
-              : `Uses: ${invite.uses}`}
-          </P2>
-          <div className="d-flex flex-row w-100 justify-content-between mt-2">
-            <P2 className="p2 text-left col-8 p-0">{`Code: ${invite.code}`}</P2>
-            <Button
-              onClick={() => addInviteToClipboard(invite)}
-              type="primary-default"
-              mode={mode}
-            >
-              Copy invite link{" "}
-              {copied[invite.id] ? (
-                <Check color="currentColor" className="ml-2" />
-              ) : (
-                ""
-              )}
-            </Button>
+          <div className="d-flex flex-row w-100 justify-content-between align-items-end mt-2">
+            <div className="col-8 d-flex flex-column p-0">
+              <P2 className="p2 text-left" bold>
+                {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
+              </P2>
+              <P2 className="p2 text-left">
+                {invite.max_uses !== null
+                  ? `Uses: ${invite.uses}/${invite.max_uses}`
+                  : `Uses: ${invite.uses}`}
+              </P2>
+              <P2 className="p2 text-left">{`Code: ${invite.code}`}</P2>
+            </div>
+            <div>
+              <Button
+                onClick={() => addInviteToClipboard(invite)}
+                type="primary-default"
+                mode={mode}
+              >
+                Copy invite link{" "}
+                {copied[invite.id] ? (
+                  <Check color="currentColor" className="ml-2" />
+                ) : (
+                  ""
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       ))}
