@@ -44,7 +44,7 @@ class API::V1::TalentController < ApplicationController
   end
 
   def tag_params
-    params.permit(secondary_tags: [])
+    params.permit(tags: [])
   end
 
   def talent_params

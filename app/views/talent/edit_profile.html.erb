@@ -5,7 +5,7 @@
         talent: @talent.as_json,
         profilePictureUrl: @talent.profile_picture_url,
         bannerUrl: @talent.banner_url,
-        secondary_tags: @talent.tags.map(&:description),
+        tags: @talent.tags.map(&:description),
         token: @talent.token.as_json,
         perks: @talent.perks.as_json,
         career_goal: @talent.career_goal.as_json,
