@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "talent_id"
     t.index ["talent_id"], name: "index_tags_on_talent_id"
+    t.index ["description"], name: "index_tags_on_description"
   end
 
   create_table "talent", force: :cascade do |t|

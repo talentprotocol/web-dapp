@@ -39,7 +39,7 @@ const TalentShow = ({
   user,
   profilePictureUrl,
   bannerUrl,
-  secondaryTags,
+  tags,
   careerGoal,
   goals,
   posts,
@@ -64,7 +64,7 @@ const TalentShow = ({
     bannerUrl,
     user,
     profilePictureUrl,
-    secondaryTags,
+    tags,
     isFollowing,
     careerGoal,
     goals,
@@ -253,7 +253,7 @@ const TalentShow = ({
             </div>
             <div className="d-flex justify-content-between">
               <TalentTags
-                tags={sharedState.secondaryTags}
+                tags={sharedState.tags}
                 className="mr-2"
                 mode={theme.mode()}
               />
