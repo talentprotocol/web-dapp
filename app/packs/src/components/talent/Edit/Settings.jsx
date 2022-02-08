@@ -10,8 +10,8 @@ import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
 import Tag from "src/components/design_system/tag";
 
-import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
-import { emailRegex, usernameRegex } from "src/components/talent/utils/regexes";
+import { passwordMatchesRequirements } from "src/utils/passwordRequirements";
+import { emailRegex, usernameRegex } from "src/utils/regexes";
 
 const Settings = (props) => {
   const {
