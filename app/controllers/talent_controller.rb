@@ -40,7 +40,7 @@ class TalentController < ApplicationController
   def set_talent
     @talent =
       if id_param > 0
-        Talent.find_by!(id: params[:id], disabled: false)
+        Talent.includes(:user).find_by!(id: params[:id], user: {disabled: false})
       else
         Talent.includes(:user).find_by!(user: {username: params[:id], disabled: false})
       end
