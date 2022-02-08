@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_07_161354) do
+ActiveRecord::Schema.define(version: 2022_02_07_173908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,12 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
     t.bigint "post_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "discovery_rows", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "feed_posts", force: :cascade do |t|
@@ -154,7 +160,9 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "discovery_row_id"
     t.index ["description"], name: "index_tags_on_description"
+    t.index ["discovery_row_id"], name: "index_tags_on_discovery_row_id"
   end
 
   create_table "talent", force: :cascade do |t|
@@ -258,6 +266,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_161354) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
+  add_foreign_key "tags", "discovery_rows"
   add_foreign_key "talent_tags", "tags"
   add_foreign_key "talent_tags", "talent"
   add_foreign_key "tokens", "talent"

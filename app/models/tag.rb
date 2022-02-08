@@ -1,4 +1,6 @@
 class Tag < ApplicationRecord
+  belongs_to :discovery_row
+
   has_many :talent_tags
   has_many :talents, through: :talent_tags
 
