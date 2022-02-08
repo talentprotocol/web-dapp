@@ -3,7 +3,7 @@ import { H5, P2, P3 } from "src/components/design_system/typography";
 import Tag from "src/components/design_system/tag";
 import TextInput from "src/components/design_system/fields/textinput";
 
-import { passwordMatchesRequirements } from "src/components/talent/utils/passwordRequirements";
+import { passwordMatchesRequirements } from "src/utils/passwordRequirements";
 
 const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
   const [localPassword, setLocalPassword] = useState("");

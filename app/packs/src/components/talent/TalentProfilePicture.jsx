@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { string, number, oneOfType, bool } from "prop-types";
+import ThemeContainer, { useTheme } from "src/contexts/ThemeContext";
 import DefaultProfilePictureLight from "images/default-profile-icon-light.png";
 import DefaultProfilePictureDark from "images/default-profile-icon-dark.png";
 import DefaultBannerLight from "images/default-banner-light.png";
@@ -16,20 +17,18 @@ const TalentProfilePicture = ({
   border,
   link,
 }) => {
-  const [currentTheme, setCurrentTheme] = useState(
-    document.body.className.split(" ").find((name) => name.includes("body"))
-  );
+  const { mode } = useTheme();
 
   const imgSrc = () => {
     if (src) {
       return src;
-    } else if (currentTheme === "light-body" && !straight) {
+    } else if (mode() === "light" && !straight) {
       return DefaultProfilePictureLight;
-    } else if (currentTheme === "dark-body" && !straight) {
+    } else if (mode() === "dark" && !straight) {
       return DefaultProfilePictureDark;
-    } else if (currentTheme === "light-body" && straight) {
+    } else if (mode() === "light" && straight) {
       return DefaultBannerLight;
-    } else if (currentTheme === "dark-body" && straight) {
+    } else if (mode() === "dark" && straight) {
       return DefaultBannerDark;
     }
   };
@@ -38,12 +37,6 @@ const TalentProfilePicture = ({
   const roundPhoto = straight ? "" : "rounded-circle ";
   const blurPhoto = !blur ? "" : "blur-photo ";
   const borderPhoto = !border ? "" : "border-photo ";
-
-  useEffect(() => {
-    setCurrentTheme(
-      document.body.className.split(" ").find((name) => name.includes("body"))
-    );
-  }, [document.body.className]);
 
   const WithLink = ({ link, children }) =>
     link ? <a href={link}>{children}</a> : children;
@@ -86,5 +79,8 @@ TalentProfilePicture.propTypes = {
   border: bool,
   link: string,
 };
-
-export default TalentProfilePicture;
+export default (props, _railsContext) => (
+  <ThemeContainer>
+    <TalentProfilePicture {...props} />
+  </ThemeContainer>
+);
