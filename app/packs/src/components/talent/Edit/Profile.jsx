@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { patch } from "src/utils/requests";
@@ -21,12 +21,27 @@ import Goal from "./Goal";
 import Token from "./Token";
 import Perks from "./Perks";
 import Settings from "./Settings";
+import Invites from "./Invites";
 
 import cx from "classnames";
 
+const allowedTabs = [
+  "About",
+  "Highlights",
+  "Goal",
+  "Token",
+  "Perks",
+  "Settings",
+  "Invites",
+];
+
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
-  const [activeTab, setActiveTab] = useState("About");
+  const url = new URL(window.location);
+  const searchParams = new URLSearchParams(url.search);
+  const initialTab = () =>
+    allowedTabs.find((item) => item === searchParams.get("tab")) || "About";
+  const [activeTab, setActiveTab] = useState(initialTab());
   const { mobile } = useWindowDimensionsHook();
   const [saving, setSaving] = useState({
     loading: false,
@@ -38,6 +53,16 @@ const Profile = (props) => {
   const [sharedState, setSharedState] = useState({ ...props });
   const progress = profileProgress(sharedState);
   const requiredFields = missingFields(sharedState);
+
+  useEffect(() => {
+    if (activeTab != "") {
+      window.history.pushState(
+        {},
+        document.title,
+        `${url.pathname}?tab=${activeTab}`
+      );
+    }
+  }, [activeTab]);
 
   const buttonType = () => {
     if (requiredFields.length == 0) {
@@ -179,6 +204,14 @@ const Profile = (props) => {
                 Perks
               </div>
               <div
+                onClick={() => changeTab("Invites")}
+                className={`talent-table-tab${
+                  activeTab == "Invites" ? " active-talent-table-tab" : ""
+                }`}
+              >
+                Invites
+              </div>
+              <div
                 onClick={() => changeTab("Settings")}
                 className={`talent-table-tab${
                   activeTab == "Settings" ? " active-talent-table-tab" : ""
@@ -310,6 +343,19 @@ const Profile = (props) => {
               disablePublicButton={requiredFields.length > 0}
               togglePublicProfile={() => togglePublicProfile()}
               trackChanges={setTabHasChanges}
+            />
+          )}
+          {activeTab == "Invites" && (
+            <Invites
+              {...sharedState}
+              mode={theme.mode()}
+              mobile={mobile}
+              changeTab={(tab) => changeTab(tab)}
+              publicButtonType={buttonType()}
+              disablePublicButton={requiredFields.length > 0}
+              togglePublicProfile={() => togglePublicProfile()}
+              trackChanges={setTabHasChanges}
+              invites={props.invites}
             />
           )}
           {activeTab == "Settings" && (

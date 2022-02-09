@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_one :talent
   has_one :investor
-  has_one :invite
+  has_many :invites
   belongs_to :invited, class_name: "Invite", foreign_key: "invite_id", optional: true
 
   # Chat

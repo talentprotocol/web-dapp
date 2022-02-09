@@ -250,9 +250,9 @@ const Settings = (props) => {
             <P3 text="PREVIOUS" />
             <div
               className="text-grey cursor-pointer"
-              onClick={() => changeTab("Perks")}
+              onClick={() => changeTab("Invites")}
             >
-              <ArrowLeft color="currentColor" /> Perks
+              <ArrowLeft color="currentColor" /> Invites
             </div>
           </div>
         </div>

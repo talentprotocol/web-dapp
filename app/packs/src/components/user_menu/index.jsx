@@ -17,16 +17,7 @@ import Button from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
 import { Sun, Moon } from "src/components/icons";
 
-const UserMenu = ({
-  user,
-  copyCodeToClipboard,
-  toggleTheme,
-  mode,
-  userHasInvitesLeft,
-  inviteNumbers,
-  onClickTransak,
-  signOut,
-}) => {
+const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -67,23 +58,18 @@ const UserMenu = ({
             <P3 bold text="My profile" className="text-black" />
           </Dropdown.Item>
         )}
-        {userHasInvitesLeft && (
-          <>
-            <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
-            <Dropdown.Item
-              key="tab-dropdown-invite-code"
-              onClick={copyCodeToClipboard}
-              className="d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
-              disabled={user.invitesLeft == null && user.totalInvites == null}
-            >
-              <div className="d-flex">
-                <P3 bold text="Copy invite link" className="text-black mr-1" />
-                <P3 bold text={inviteNumbers()} />
-              </div>
-              <FontAwesomeIcon icon={faCopy} className="ml-2 text-black" />
-            </Dropdown.Item>
-          </>
-        )}
+        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
+        <Dropdown.Item
+          key="tab-dropdown-change-investor-image"
+          className="text-black user-menu-dropdown-item"
+          href={
+            user.isTalent
+              ? `/talent/${user.username}/edit_profile?tab=Invites`
+              : `/settings?tab=Invites`
+          }
+        >
+          <P3 bold text="Invites" className="text-black" />
+        </Dropdown.Item>
         <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-theme"

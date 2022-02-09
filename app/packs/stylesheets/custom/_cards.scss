@@ -395,3 +395,11 @@
   -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
 }
+
+.invite-card {
+  background-color: $white;
+}
+
+.dark-body .invite-card {
+  background-color: $gray-900;
+}

@@ -15,7 +15,7 @@
         token_live: @talent.token.deployed?,
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
         posts: @talent.user.posts.as_json,
-        sign_up_path: sign_up_path(code: current_user.invite&.code)
+        invites: current_user.invites.as_json,
       }, prerender: false)
     %>
   </div>
