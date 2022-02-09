@@ -9,6 +9,9 @@ class CreateInvite
 
   def call
     user = User.find_by(id: @user_id)
+    invite = user.invites.find_by(talent_invite: @talent_invite)
+    return invite if invite
+
     invite = Invite.new
 
     invite.user = user

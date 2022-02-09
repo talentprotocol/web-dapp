@@ -34,10 +34,11 @@ const ActiveTalents = ({ talents }) => {
       setMobile(false);
     }
 
-    const sidebar = 220;
-    const card = 290;
+    const card = 272;
+    const actualWidth = width > 1240 ? 1240 : width;
 
-    const numberOfCards = (width - sidebar) / card;
+    const numberOfCards = actualWidth / card;
+
     return Math.floor(numberOfCards);
   }, [width]);
 

@@ -44,8 +44,8 @@ class MessagesController < ApplicationController
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
     service = CreateNotification.new
     service.call(
-      title: "New message",
-      body: "You have a new message",
+      title: "New messages",
+      body: "You have new messages",
       user_id: @receiver.id,
       type: "Notifications::MessageReceived"
     )

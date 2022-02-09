@@ -125,27 +125,39 @@ const WaitingForConfirmation = ({ mode }) => (
   </>
 );
 
-const SuccessConfirmation = ({ mode, hide }) => (
-  <>
-    <Modal.Header closeButton>
-      <Modal.Title className="px-3"></Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-        <P2 className="mb-3">You've successfully deployed your token!</P2>
-        <GreenCheck />
-        <Button
-          onClick={hide}
-          type="primary-default"
-          mode={mode}
-          className="w-100 mt-3"
-        >
-          Confirm
-        </Button>
-      </div>
-    </Modal.Body>
-  </>
-);
+const SuccessConfirmation = ({ mode, hide, code }) => {
+  const link = `${window.location.origin}/sign_up?code=${code}`;
+  return (
+    <>
+      <Modal.Header closeButton>
+        <Modal.Title className="px-3">Launch your Talent Token</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
+          <P2 className="w-100 text-left">
+            You've successfully deployed your token!
+          </P2>
+          <P2 className="mb-3">
+            You are now able to invite a talent to launch their token! Share
+            this link with them{" "}
+            <a href={link} target="self">
+              {link}
+            </a>
+          </P2>
+          <GreenCheck mode={mode} />
+          <Button
+            onClick={hide}
+            type="primary-default"
+            mode={mode}
+            className="w-100 mt-3"
+          >
+            Confirm
+          </Button>
+        </div>
+      </Modal.Body>
+    </>
+  );
+};
 
 const Token = (props) => {
   const {
@@ -160,6 +172,7 @@ const Token = (props) => {
   const [ticker, setTicker] = useState(token.ticker || "");
   const [show, setShow] = useState(false);
   const [deploying, setDeploying] = useState(false);
+  const [code, setCode] = useState("");
   const [success, setSuccess] = useState(false);
   const [validChain, setValidChain] = useState(true);
   const [walletConnected, setWalletConnected] = useState(true);
@@ -211,6 +224,7 @@ const Token = (props) => {
         );
 
         if (response) {
+          setCode(response.code);
           setSuccess(true);
           setDeploying(false);
           setContractId(contractAddress.toLowerCase());
@@ -267,6 +281,7 @@ const Token = (props) => {
       }
     ).catch(() => {
       console.log("error updating ticker");
+      setShow(false);
     });
 
     if (response) {
@@ -312,13 +327,15 @@ const Token = (props) => {
 
   const onClose = () => setShow(false);
 
-  if (contractId) {
+  if (contractId && !show) {
     return (
       <>
         <H5 className="w-100 text-left" text={ticker} bold />
         <P2 className="w-100 text-left" mode={mode}>
           You can see all your token activity on your{" "}
-          <Link href="/portfolio" target="_blank" text="portfolio" />
+          <a href="/portfolio" target="_blank">
+            portfolio
+          </a>
         </P2>
         <TokenDetails
           ticker={token.ticker}
@@ -396,6 +413,7 @@ const Token = (props) => {
           error={error}
           backdrop={false}
           setShow={setShow}
+          code={code}
         />
       </Modal>
       <H5
@@ -408,11 +426,9 @@ const Token = (props) => {
         <P2 className="p2 w-100 text-left col-8 p-0" mode={mode}>
           Please be sure you have an active Metamask wallet. If you don't have
           one, please create it using{" "}
-          <Link
-            href="https://www.metamask.io"
-            target="_blank"
-            text="Metamask.io"
-          />
+          <a href="https://www.metamask.io" target="_blank">
+            Metamask.io
+          </a>
         </P2>
         <Button
           onClick={() => setShow(true)}

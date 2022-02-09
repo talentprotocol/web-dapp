@@ -79,16 +79,19 @@ const UserMenuFullScreen = ({
         <ArrowRight color="currentColor" />
       </Button>
       <div className={`divider ${mode}`}></div>
-      {userHasInvitesLeft && (
-        <Button
-          onClick={copyCodeToClipboard}
-          type="white-ghost"
-          mode={mode}
-          className="d-flex flex-row justify-content-between my-3"
-        >
-          Copy invite link{inviteNumbers} <Copy color="currentColor" />
-        </Button>
-      )}
+      <Button
+        onClick={() =>
+          (window.location.href = user.isTalent
+            ? `/talent/${user.username}/edit_profile?tab=Invites`
+            : `/settings?tab=Invites`)
+        }
+        type="white-ghost"
+        mode={mode}
+        className="d-flex flex-row justify-content-between my-3"
+      >
+        <P1 className="text-black" bold text="Invites" />
+        <ArrowRight color="currentColor" />
+      </Button>
       <div className={`divider ${mode}`}></div>
       <Button
         onClick={() =>

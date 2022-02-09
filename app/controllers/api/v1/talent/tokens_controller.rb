@@ -11,11 +11,13 @@ class API::V1::Talent::TokensController < ApplicationController
     if token.update(token_params)
       if token.deployed? && !was_deployed
         talent.update(public: true)
+        service = CreateInvite.new(user_id: current_user.id, single_use: true, talent_invite: true)
+        invite = service.call
         AddUsersToMailerliteJob.perform_later(current_user.id)
         CreateNotificationNewTalentListedJob.perform_later(talent.user_id)
       end
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
-      render json: token, status: :ok
+      render json: token.as_json.merge(code: invite&.code), status: :ok
     else
       render json: {error: "Unable to update Token"}, status: :unprocessable_entity
     end

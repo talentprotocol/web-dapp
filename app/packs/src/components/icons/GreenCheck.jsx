@@ -1,7 +1,7 @@
 import React from "react";
 import { string, number } from "prop-types";
 
-const GreenCheck = ({ className, pathClassName, style, width }) => (
+const GreenCheck = ({ className, pathClassName, style, width, mode }) => (
   <svg
     className={className}
     viewBox={"0 0 64 64"}
@@ -21,6 +21,7 @@ const GreenCheck = ({ className, pathClassName, style, width }) => (
       d="M43 21.5L28.9141 41.6197C28.7283 41.8867 28.4816 42.1057 28.1945 42.2587C27.9074 42.4117 27.588 42.4943 27.2627 42.4997C26.9374 42.5051 26.6154 42.4331 26.3234 42.2897C26.0314 42.1462 25.7776 41.9354 25.5831 41.6747L22 36.8984"
       stroke="#1DB954"
       strokeWidth="2"
+      fill={mode == "light" ? "white" : "black"}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -37,6 +38,7 @@ GreenCheck.propTypes = {
   className: string,
   pathClassName: string,
   width: number,
+  mode: string.isRequired,
 };
 
 export default GreenCheck;
