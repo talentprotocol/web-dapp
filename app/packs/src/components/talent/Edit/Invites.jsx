@@ -1,10 +1,35 @@
 import React, { useState } from "react";
 
-import { H5, P2, Caption } from "src/components/design_system/typography";
+import {
+  H5,
+  P1,
+  P2,
+  P3,
+  Caption,
+} from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
 import { ArrowLeft, ArrowRight, Check } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
+
+const InviteCard = ({ title, code, onClick, mode, copied, uses }) => {
+  return (
+    <div className="w-100 invite-card p-4 d-flex flex-column my-2">
+      <P1 bold>{title}</P1>
+      <P2>{uses}</P2>
+      <div className="w-100 d-flex flex-row justify-content-between align-items-end mt-2">
+        <div className="d-flex flex-column">
+          <P3>Code</P3>
+          <P2 bold>{code}</P2>
+        </div>
+        <Button onClick={onClick} type="primary-default" mode={mode}>
+          Copy invite link{" "}
+          {copied ? <Check color="currentColor" className="ml-2" /> : ""}
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const Invites = (props) => {
   const {
@@ -53,36 +78,19 @@ const Invites = (props) => {
         ""
       )}
       {invites.map((invite) => (
-        <div key={`invite-${invite.id}`}>
-          <Divider className="my-4" />
-          <div className="d-flex flex-row w-100 justify-content-between align-items-end mt-2">
-            <div className="col-8 d-flex flex-column p-0">
-              <P2 className="p2 text-left" bold>
-                {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
-              </P2>
-              <P2 className="p2 text-left">
-                {invite.max_uses !== null
-                  ? `Uses: ${invite.uses}/${invite.max_uses}`
-                  : `Uses: ${invite.uses}`}
-              </P2>
-              <P2 className="p2 text-left">{`Code: ${invite.code}`}</P2>
-            </div>
-            <div>
-              <Button
-                onClick={() => addInviteToClipboard(invite)}
-                type="primary-default"
-                mode={mode}
-              >
-                Copy invite link{" "}
-                {copied[invite.id] ? (
-                  <Check color="currentColor" className="ml-2" />
-                ) : (
-                  ""
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
+        <InviteCard
+          key={`invite-${invite.id}`}
+          title={`${invite.talent_invite ? "Talent" : "Supporter"} invite`}
+          code={invite.code}
+          onClick={() => addInviteToClipboard(invite)}
+          mode={mode}
+          copied={copied[invite.id]}
+          uses={
+            invite.max_uses !== null
+              ? `Uses: ${invite.uses}/${invite.max_uses}`
+              : `Uses: ${invite.uses}`
+          }
+        />
       ))}
       {mobile && (
         <div className="d-flex flex-row justify-content-between w-100 my-3">
