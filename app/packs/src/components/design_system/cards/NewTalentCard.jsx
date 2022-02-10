@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { string, bool, number } from "prop-types";
+import React, { useState, useEffect } from "react";
+import { string, bool } from "prop-types";
+import { ethers } from "ethers";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -8,26 +9,49 @@ import { H5, P1, P2, P3 } from "src/components/design_system/typography";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { Star } from "src/components/icons";
 import { func } from "prop-types";
+import {
+  ApolloProvider,
+  useQuery,
+  GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+  client,
+} from "src/utils/thegraph";
 
 const NewTalentCard = ({
   name,
-  token,
+  ticker,
   occupation,
   profilePictureUrl,
-  circulatingSupply,
-  numberOfSupporters,
-  description,
-  following,
+  contractId,
+  headline,
+  isFollowing,
   updateFollow,
   talentLink,
 }) => {
   const { mobile } = useWindowDimensionsHook();
+  const [tokenData, setTokenData] = useState({
+    totalSupply: 0,
+    supporterCount: 0,
+  });
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE, {
+    variables: { id: contractId?.toLowerCase() },
+  });
 
   const updateFollowing = (e) => {
     e.preventDefault();
-    updateFollow(!following);
+    updateFollow();
   };
+
+  useEffect(() => {
+    if (loading || !data || !data.talentToken) {
+      return;
+    }
+
+    setTokenData({
+      totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply || 0),
+      supporterCount: data.talentToken.supporterCounter || 0,
+    });
+  }, [data, loading]);
 
   return (
     <div
@@ -45,7 +69,7 @@ const NewTalentCard = ({
               text={occupation}
             />
           </div>
-          <P2 className="text-primary" bold text={token} />
+          {ticker && <P2 className="text-primary" bold text={`$${ticker}`} />}
         </a>
       ) : (
         <a className="talent-card-details talent-link" href={talentLink}>
@@ -68,13 +92,13 @@ const NewTalentCard = ({
               className="button-link ml-2 z-index-1"
               onClick={(e) => updateFollowing(e)}
             >
-              <Star pathClassName={following ? "star" : "star-outline"} />
+              <Star pathClassName={isFollowing ? "star" : "star-outline"} />
             </button>
           </div>
           <P1
-            className="text-black talent-card-details-description mt-3"
+            className="text-black talent-card-details-headline mt-3"
             bold
-            text={description}
+            text={headline}
           />
         </a>
       )}
@@ -87,9 +111,9 @@ const NewTalentCard = ({
         <div className="d-flex justify-content-between">
           <P2
             className="text-black"
-            text={`${currency(circulatingSupply).format()}`}
+            text={`${currency(tokenData.totalSupply).format()}`}
           />
-          <P2 className="text-black" text={`${numberOfSupporters}`} />
+          <P2 className="text-black" text={`${tokenData.supporterCount}`} />
         </div>
       </div>
     </div>
@@ -98,15 +122,18 @@ const NewTalentCard = ({
 
 NewTalentCard.propTypes = {
   name: string.isRequired,
-  token: string.isRequired,
-  occupation: string.isRequired,
-  profilePictureUrl: string.isRequired,
-  circulatingSupply: number.isRequired,
-  numberOfSupporters: number.isRequired,
-  description: string.isRequired,
-  following: bool.isRequired,
+  ticker: string,
+  occupation: string,
+  profilePictureUrl: string,
+  contractId: string,
+  headline: string,
+  isFollowing: bool.isRequired,
   updateFollow: func.isRequired,
   talentLink: string.isRequired,
 };
 
-export default NewTalentCard;
+export default (props) => (
+  <ApolloProvider client={client(props.railsContext.contractsEnv)}>
+    <NewTalentCard {...props} />
+  </ApolloProvider>
+);

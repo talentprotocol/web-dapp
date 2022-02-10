@@ -450,3 +450,23 @@
   padding-top: 40px !important;
   padding-bottom: 40px !important;
 }
+
+.talent-background {
+  height: 316px;
+  border-radius: 8px;
+  background-image: url(images/tp-vector-talent-background.png),
+    linear-gradient(95.58deg, #7a55ff 0.32%, #3c2789 102.52%);
+}
+
+.talent-background-text {
+  margin-right: auto;
+  margin-left: auto;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-wrap: wrap;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}

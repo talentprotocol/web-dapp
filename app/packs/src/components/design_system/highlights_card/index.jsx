@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { string, bool, number, arrayOf, shape } from "prop-types";
+import { ethers } from "ethers";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -9,9 +10,36 @@ import Divider from "src/components/design_system/other/Divider";
 import { P1, P2, P3 } from "src/components/design_system/typography";
 import { ArrowForward } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
+import {
+  ApolloProvider,
+  useQuery,
+  GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+  client,
+} from "src/utils/thegraph";
 
-const HighlightsCard = ({ title, users }) => {
+import cx from "classnames";
+
+const HighlightsCard = ({ title, talents, className }) => {
   const { mobile } = useWindowDimensionsHook();
+  const [localTalents, setLocalTalents] = useState(talents);
+  const { loadingIndex0, data: talentIndex0Data } = useQuery(
+    GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+    {
+      variables: { id: localTalents[0]?.contractId?.toLowerCase() },
+    }
+  );
+  const { loadingIndex1, data: talentIndex1Data } = useQuery(
+    GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+    {
+      variables: { id: localTalents[1]?.contractId?.toLowerCase() },
+    }
+  );
+  const { loadingIndex2, data: talentIndex2Data } = useQuery(
+    GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+    {
+      variables: { id: localTalents[2]?.contractId?.toLowerCase() },
+    }
+  );
 
   const icon = () => {
     switch (title) {
@@ -26,8 +54,53 @@ const HighlightsCard = ({ title, users }) => {
     }
   };
 
+  const addTokenDetails = (talents, totalSupply, index) => {
+    const newArray = talents.map((talent) => {
+      if (talents[index].id === talent.id) {
+        return { ...talent, totalSupply: totalSupply };
+      } else {
+        return { ...talent };
+      }
+    });
+
+    return newArray;
+  };
+
+  useEffect(() => {
+    if (!loadingIndex0 && talentIndex0Data?.talentToken) {
+      setLocalTalents((prev) => {
+        const totalSupply = ethers.utils.formatUnits(
+          talentIndex0Data.talentToken.totalSupply || 0
+        );
+        return addTokenDetails(prev, totalSupply, 0);
+      });
+    }
+  }, [loadingIndex0, talentIndex0Data]);
+
+  useEffect(() => {
+    if (!loadingIndex1 && talentIndex1Data?.talentToken) {
+      setLocalTalents((prev) => {
+        const totalSupply = ethers.utils.formatUnits(
+          talentIndex1Data.talentToken.totalSupply || 0
+        );
+        return addTokenDetails(prev, totalSupply, 1);
+      });
+    }
+  }, [loadingIndex1, talentIndex1Data]);
+
+  useEffect(() => {
+    if (!loadingIndex2 && talentIndex2Data?.talentToken) {
+      setLocalTalents((prev) => {
+        const totalSupply = ethers.utils.formatUnits(
+          talentIndex2Data.talentToken.totalSupply || 0
+        );
+        return addTokenDetails(prev, totalSupply, 2);
+      });
+    }
+  }, [loadingIndex2, talentIndex2Data]);
+
   return (
-    <div className="highlights-card">
+    <div className={cx("highlights-card", className)}>
       <div className="d-flex justify-content-between align-items-center p-4 highlights-card-title">
         <div className="d-flex align-items-center">
           <span className="mr-2">{icon()}</span>
@@ -41,17 +114,17 @@ const HighlightsCard = ({ title, users }) => {
       {!mobile && <Divider />}
       {!mobile && (
         <div className="p-4 highlights-card-body">
-          {users.map((user, index) => (
+          {localTalents.map((talent, index) => (
             <div
-              key={`${user.id}-${index}`}
+              key={`${talent.id}-${index}`}
               className="d-flex justify-content-between highlights-card-user"
             >
               <div className="d-flex align-items-center">
                 <TalentProfilePicture
-                  src={user.profilePictureUrl}
+                  src={talent.profilePictureUrl}
                   height={32}
                 />
-                <P2 className="text-black ml-3" text={user.name} />
+                <P2 className="text-black ml-3" text={talent.name} />
               </div>
               {title === "Launching Soon" ? (
                 <Tag className="coming-soon-tag align-self-center ml-2">
@@ -62,7 +135,7 @@ const HighlightsCard = ({ title, users }) => {
                   <P3 className="text-primary-04" text="Market cap" />
                   <P2
                     className="text-black"
-                    text={currency(user.circulatingSupply).format()}
+                    text={currency(talent.totalSupply).format()}
                   />
                 </div>
               )}
@@ -75,12 +148,13 @@ const HighlightsCard = ({ title, users }) => {
 };
 
 HighlightsCard.defaultProps = {
-  users: [],
+  talents: [],
+  className: "",
 };
 
 HighlightsCard.propTypes = {
   title: string.isRequired,
-  users: arrayOf(
+  talents: arrayOf(
     shape({
       id: number,
       name: string,
@@ -88,6 +162,11 @@ HighlightsCard.propTypes = {
       circulatingSupply: number,
     })
   ),
+  className: string,
 };
 
-export default HighlightsCard;
+export default (props) => (
+  <ApolloProvider client={client(props.railsContext.contractsEnv)}>
+    <HighlightsCard {...props} />
+  </ApolloProvider>
+);
