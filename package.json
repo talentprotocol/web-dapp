@@ -29,7 +29,6 @@
     "core-js": "^3.13.0",
     "css-loader": "^5.2.6",
     "currency.js": "^2.0.4",
-    "date-fns": "^2.22.1",
     "dayjs": "^1.10.7",
     "ethers": "^5.4.7",
     "graphql": "^15.6.0",

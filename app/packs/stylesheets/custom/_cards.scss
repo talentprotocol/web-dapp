@@ -403,3 +403,20 @@
 .dark-body .invite-card {
   background-color: $gray-900;
 }
+
+.marketing-card {
+  width: 374px;
+  padding: 16px;
+  border-radius: 4px;
+
+  &:hover {
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.dark-body .marketing-card {
+  &:hover {
+    box-shadow: none;
+    background-color: $gray-900;
+  }
+}

@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
-import Bell from "../icons/Bell";
-import { formatDistance } from "date-fns";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 import { patch } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
@@ -12,12 +14,9 @@ import NotificationTemplate from "src/components/design_system/notification";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
 import { P2 } from "src/components/design_system/typography";
-import { ArrowLeft } from "src/components/icons";
+import { Bell, ArrowLeft } from "src/components/icons";
 
 const Notification = ({ notification, mode }) => {
-  const presentDay = new Date();
-  const createdAt = new Date(notification.created_at);
-
   const type = () => {
     switch (notification.type) {
       case "Notifications::TokenAcquired":
@@ -39,14 +38,14 @@ const Notification = ({ notification, mode }) => {
       mode={mode}
       title={notification.title}
       description={notification.body}
-      timeInformation={`${formatDistance(presentDay, createdAt)} ago`}
+      timeInformation={dayjs(notification.created_at).fromNow()}
       isNew={!notification.read}
     />
   );
 };
 
 const Notifications = ({ notifications, mode, hideBackground = false }) => {
-  const { height, width } = useWindowDimensionsHook();
+  const { width } = useWindowDimensionsHook();
   const [currentNotifications, setCurrentNotifications] =
     useState(notifications);
   const [showNotifications, setShowNotifications] = useState(false);

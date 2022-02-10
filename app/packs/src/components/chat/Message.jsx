@@ -1,5 +1,5 @@
 import React from "react";
-import { format } from "date-fns";
+import dayjs from "dayjs";
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import P2 from "src/components/design_system/typography/p2";
@@ -14,7 +14,7 @@ const Message = (props) => {
     previousMessageSameUser,
     user,
   } = props;
-  const sentDate = format(new Date(message.created_at), "MMM d, yyyy, h:m a");
+  const sentDate = dayjs(message.created_at).format("MMM D, YYYY, h:m A");
 
   return (
     <div className="d-flex flex-row w-100 mt-2 message-div">
