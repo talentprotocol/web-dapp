@@ -395,6 +395,10 @@ const Token = (props) => {
 
   const CurrentModal = getCurrentModal();
 
+  const readyForLaunch = () =>
+    requiredFields.length == 0 ||
+    (requiredFields.length == 1 && requiredFields[0] == "Ticker");
+
   return (
     <>
       <Modal
@@ -432,7 +436,7 @@ const Token = (props) => {
               Metamask.io
             </a>
           </P2>
-          {requiredFields.length > 0 && (
+          {!readyForLaunch() && (
             <P2>
               You must further complete your profile before you can launch your
               token.
@@ -443,7 +447,7 @@ const Token = (props) => {
           onClick={() => setShow(true)}
           type="primary-default"
           mode={mode}
-          disabled={requiredFields.length > 0}
+          disabled={!readyForLaunch()}
         >
           Launch Talent Token
         </Button>
