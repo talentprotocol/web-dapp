@@ -168,6 +168,7 @@ const Token = (props) => {
     mobile,
     changeTab,
     changeSharedState,
+    requiredFields,
   } = props;
   const [ticker, setTicker] = useState(token.ticker || "");
   const [show, setShow] = useState(false);
@@ -394,6 +395,10 @@ const Token = (props) => {
 
   const CurrentModal = getCurrentModal();
 
+  const readyForLaunch = () =>
+    requiredFields.length == 0 ||
+    (requiredFields.length == 1 && requiredFields[0] == "Ticker");
+
   return (
     <>
       <Modal
@@ -423,17 +428,26 @@ const Token = (props) => {
         bold
       />
       <div className="d-flex flex-row w-100 justify-content-between mt-2">
-        <P2 className="p2 w-100 text-left col-8 p-0" mode={mode}>
-          Please be sure you have an active Metamask wallet. If you don't have
-          one, please create it using{" "}
-          <a href="https://www.metamask.io" target="_blank">
-            Metamask.io
-          </a>
-        </P2>
+        <div className="col-8 d-flex flex-column p-0">
+          <P2 className="p2 w-100 text-left p-0" mode={mode}>
+            Please be sure you have an active Metamask wallet. If you don't have
+            one, please create it using{" "}
+            <a href="https://www.metamask.io" target="_blank">
+              Metamask.io
+            </a>
+          </P2>
+          {!readyForLaunch() && (
+            <P2>
+              You must further complete your profile before you can launch your
+              token.
+            </P2>
+          )}
+        </div>
         <Button
           onClick={() => setShow(true)}
           type="primary-default"
           mode={mode}
+          disabled={!readyForLaunch()}
         >
           Launch Talent Token
         </Button>

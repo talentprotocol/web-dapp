@@ -330,6 +330,7 @@ const Profile = (props) => {
               disablePublicButton={requiredFields.length > 0}
               togglePublicProfile={() => togglePublicProfile()}
               trackChanges={setTabHasChanges}
+              requiredFields={requiredFields}
             />
           )}
           {activeTab == "Perks" && (
