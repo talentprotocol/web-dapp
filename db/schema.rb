@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_195458) do
   end
 
   create_table "marketing_articles", force: :cascade do |t|
+    t.string "link", null: false
     t.string "title", null: false
     t.string "description"
     t.text "image_data"
