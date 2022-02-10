@@ -4,7 +4,7 @@ require "sidekiq-scheduler/web"
 Rails.application.routes.draw do
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
-    root to: "talent#index", as: :user_root
+    root to: "discovery#index", as: :user_root
 
     # file uploads
     unless Rails.env.test?
