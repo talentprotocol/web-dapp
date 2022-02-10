@@ -1,6 +1,8 @@
 import React from "react";
 import { string, shape } from "prop-types";
-import { formatDistance } from "date-fns";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import { P1, P2, P3 } from "src/components/design_system/typography";
@@ -8,9 +10,6 @@ import { P1, P2, P3 } from "src/components/design_system/typography";
 import cx from "classnames";
 
 const MarketingCard = ({ title, imgUrl, description, user, date }) => {
-  const presentDay = new Date();
-  const createdAt = new Date(date);
-
   return (
     <div className="marketing-card d-flex flex-column">
       <img
@@ -26,10 +25,7 @@ const MarketingCard = ({ title, imgUrl, description, user, date }) => {
         <TalentProfilePicture src={user.profilePictureUrl} height={32} />
         <div className="d-flex flex-column ml-3">
           <P2 className="text-black" bold text={user.name} />
-          <P3
-            className="text-primary-03"
-            text={`${formatDistance(presentDay, createdAt)} ago`}
-          />
+          <P3 className="text-primary-03" text={dayjs(date).fromNow()} />
         </div>
       </div>
     </div>
