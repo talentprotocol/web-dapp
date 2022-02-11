@@ -3,8 +3,9 @@ class DiscoveryController < ApplicationController
     @most_trendy_talents = Talent.all.limit(3)
 
     @latest_added_talents = base_talent
+      .joins(:token)
       .where.not(token: {contract_id: nil})
-      .order(created_at: :desc)
+      .order("token.deployed_at DESC")
       .limit(3)
 
     @launching_soon_talents = base_talent
@@ -15,16 +16,18 @@ class DiscoveryController < ApplicationController
     @discovery_rows = []
 
     DiscoveryRow.find_each do |row|
-      talents_by_tag = base_talent.joins(:tags).where(tags: {id: row.tags.pluck(:id)}).distinct.order(:id)
-      @discovery_rows << {title: row.title, talents: talents_by_tag.sample(4, random: Random.new(Date.today.jd))}
+      ids = base_talent.joins(:tags).where(tags: {id: row.tags.pluck(:id)}).distinct.order(:id).pluck(:id)
+      @discovery_rows << {
+        title: row.title,
+        talents: Talent
+          .where(id: ids)
+          .select("setseed(0.#{Date.today.jd}), talent.*")
+          .order("random()")
+          .limit(4)
+      }
     end
 
     @marketing_articles = MarketingArticle.all.order(created_at: :desc).limit(3)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @discovery_rows }
-    end
   end
 
   private

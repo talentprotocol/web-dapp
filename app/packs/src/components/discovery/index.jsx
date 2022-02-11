@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
+import { ethers } from "ethers";
+import {
+  ApolloProvider,
+  useQuery,
+  GET_DISCOVERY_TALENTS,
+  client,
+} from "src/utils/thegraph";
+
 import { H2, P1 } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
@@ -15,10 +23,28 @@ const Discovery = ({
   launchingSoonTalents,
   discoveryRows,
   marketingArticles,
-  railsContext,
 }) => {
   const { mobile } = useWindowDimensionsHook();
+  const [localMostTrendyTalents, setLocalMostTrendyTalents] =
+    useState(mostTrendyTalents);
+  const [localLatestAddedTalents, setLocalLatestAddedTalents] =
+    useState(latestAddedTalents);
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
+  const { loading, data } = useQuery(GET_DISCOVERY_TALENTS, {
+    variables: {
+      mostTrendyIds: localMostTrendyTalents.map((talent) =>
+        talent.contractId?.toLowerCase()
+      ),
+      latestAddedIds: localLatestAddedTalents.map((talent) =>
+        talent.contractId?.toLowerCase()
+      ),
+      talentIds: localDiscoveryRows
+        .map((row) => row.talents)
+        .flat()
+        .map((talent) => talent.contractId)
+        .filter((id) => id),
+    },
+  });
 
   const updateFollow = async (talent) => {
     const newDiscoveryRows = localDiscoveryRows.map((currRow) => {
@@ -51,6 +77,53 @@ const Discovery = ({
     }
   };
 
+  const addTokenDetails = (talents, talentsFromChain) => {
+    const newArray = talents.map((talent) => {
+      const talentFromChain = talentsFromChain.find(
+        (t) => t.id === talent.contractId
+      );
+      if (talentFromChain) {
+        const totalSupply = ethers.utils.formatUnits(
+          talentFromChain.totalSupply || 0
+        );
+        const supporterCount = talentFromChain.supporterCounter;
+
+        return {
+          ...talent,
+          totalSupply: totalSupply,
+          supporterCount: supporterCount,
+        };
+      } else {
+        return { ...talent };
+      }
+    });
+
+    return newArray;
+  };
+
+  useEffect(() => {
+    if (!loading && data?.mostTrendy) {
+      setLocalMostTrendyTalents((prev) =>
+        addTokenDetails(prev, data.mostTrendy)
+      );
+    }
+    if (!loading && data?.latestAdded) {
+      setLocalLatestAddedTalents((prev) =>
+        addTokenDetails(prev, data.latestAdded)
+      );
+    }
+    if (!loading && data?.talents) {
+      setLocalDiscoveryRows((prev) => {
+        const newArray = prev.map((row) => ({
+          ...row,
+          talents: addTokenDetails(row.talents, data.talents),
+        }));
+
+        return newArray;
+      });
+    }
+  }, [loading, data]);
+
   return (
     <div className="d-flex flex-column">
       {!mobile && (
@@ -73,20 +146,17 @@ const Discovery = ({
         <HighlightsCard
           className="mt-2"
           title="Most Trendy"
-          talents={mostTrendyTalents}
-          railsContext={railsContext}
+          talents={localMostTrendyTalents}
         />
         <HighlightsCard
           className="mt-2"
           title="Latest Added"
-          talents={latestAddedTalents}
-          railsContext={railsContext}
+          talents={localLatestAddedTalents}
         />
         <HighlightsCard
           className="mt-2"
           title="Launching Soon"
           talents={launchingSoonTalents}
-          railsContext={railsContext}
         />
       </div>
       <div>
@@ -110,12 +180,12 @@ const Discovery = ({
                     ticker={talent.ticker}
                     occupation={talent.occupation}
                     profilePictureUrl={talent.profilePictureUrl}
-                    contractId={talent.contractId}
                     headline={talent.headline}
                     isFollowing={talent.isFollowing}
                     updateFollow={() => updateFollow(talent)}
                     talentLink={`/talent/${talent.username}`}
-                    railsContext={railsContext}
+                    totalSupply={talent.totalSupply}
+                    supporterCount={talent.supporterCount}
                   />
                 </div>
               ))}
@@ -149,5 +219,9 @@ const Discovery = ({
 };
 
 export default (props, railsContext) => {
-  return () => <Discovery {...props} railsContext={railsContext} />;
+  return () => (
+    <ApolloProvider client={client(railsContext.contractsEnv)}>
+      <Discovery {...props} railsContext={railsContext} />
+    </ApolloProvider>
+  );
 };
