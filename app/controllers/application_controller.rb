@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def route_not_found
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       raise ActionController::RoutingError.new("We didn't find any routes that match your request.")
     else
       redirect_to root_path

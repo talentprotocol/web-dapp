@@ -99,7 +99,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email)
+    params.require(:user).permit(:theme_preference, :username, :email, :messaging_disabled)
   end
 
   def password_params
