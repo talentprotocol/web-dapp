@@ -41,6 +41,12 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
+    if @receiver.messaging_disabled?
+      return render json: {
+        error: "Unable to create message, receiver as messaging disabled."
+      }, status: :bad_request
+    end
+
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
     service = CreateNotification.new
     service.call(
