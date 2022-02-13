@@ -31,6 +31,7 @@ const MobileSupporterAction = ({
   ticker,
   userId,
   currentUserId,
+  messagingDisabled
 }) => {
   return (
     <Modal
@@ -73,7 +74,7 @@ const MobileSupporterAction = ({
           onClick={() => (window.location.href = `/messages?user=${userId}`)}
           type="white-subtle"
           mode={mode}
-          disabled={!userId || userId == currentUserId}
+          disabled={!userId || userId == currentUserId || messagingDisabled}
           className="mx-3 mt-auto mb-3"
         >
           Message
@@ -267,6 +268,7 @@ const Supporters = ({
   chainAPI,
   mobile,
   currentUserId,
+  messagingDisabled
 }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: tokenAddress?.toLowerCase() },
@@ -328,6 +330,7 @@ const Supporters = ({
           ...prev,
           [supporter.id]: {
             profilePictureUrl: response.profilePictureUrl,
+            messagingDisabled: response.messagingDisabled,
             username: response.username,
             id: response.id,
           },
@@ -517,6 +520,7 @@ const Supporters = ({
             ticker={ticker}
             userId={supporterInfo[activeSupporter.id]?.id}
             currentUserId={currentUserId}
+            messagingDisabled={supporterInfo[activeSupporter.id]?.messagingDisabled || props.messagingDisabled}
           />
         )}
         <MobileSupportersDropdown
@@ -680,7 +684,9 @@ const Supporters = ({
                   bold
                   disabled={
                     !supporterInfo[supporter.id]?.id ||
-                    supporterInfo[supporter.id]?.id == currentUserId
+                    supporterInfo[supporter.id]?.id == currentUserId ||
+                    supporterInfo[supporter.id]?.messagingDisabled ||
+                    props.messagingDisabled
                   }
                   href={`/messages?user=${supporterInfo[supporter.id]?.id}`}
                 />

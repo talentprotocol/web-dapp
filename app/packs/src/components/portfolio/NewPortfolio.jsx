@@ -114,6 +114,7 @@ const NewPortfolio = ({
   tokenAddress,
   ticker,
   currentUserId,
+  messagingDisabled,
   railsContext,
 }) => {
   // --- On chain variables ---
@@ -475,6 +476,7 @@ const NewPortfolio = ({
           onClaim={onClaim}
           chainAPI={chainAPI}
           currentUserId={currentUserId}
+          messagingDisabled={messagingDisabled}
         />
       )}
     </div>
