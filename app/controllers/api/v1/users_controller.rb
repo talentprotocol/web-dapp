@@ -2,14 +2,18 @@ class API::V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
 
   def index
-    @users =
-      if search_params[:name].present?
-        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).where("username ilike ? ", "%#{search_params[:name]}%")
-      else
-        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).limit(20)
-      end
+    @users = search_params.present? ? filtered_users : filtered_users.limit(20)
 
-    render json: {users: @users.map { |u| {id: u.id, profilePictureUrl: u&.talent&.profile_picture_url || u.investor.profile_picture_url, username: u.username, ticker: u.talent&.token&.display_ticker} }}, status: :ok
+    render json: {
+      users: @users.map { |u| 
+        {
+          id: u.id,
+          profilePictureUrl: u&.talent&.profile_picture_url || u.investor&.profile_picture_url,
+          username: u.username,
+          ticker: u.talent&.token&.display_ticker
+        }
+      }
+    }, status: :ok
   end
 
   def show
@@ -95,7 +99,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def search_params
-    params.permit(:name)
+    params.permit(:name, :messaging_disabled)
   end
 
   def user_params
@@ -112,5 +116,12 @@ class API::V1::UsersController < ApplicationController
     else
       {}
     end
+  end
+
+  def filtered_users
+    Users::Search.new(
+      current_user: current_user,
+      search_params: search_params.to_h
+    ).call
   end
 end
