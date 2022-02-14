@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         resources :stakes, only: [:create]
         resources :investor, only: [:update]
         resources :perks, only: [:show]
+        resources :talents, only: [:index]
       end
     end
   end

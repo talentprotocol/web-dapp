@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { string, bool } from "prop-types";
-import { ethers } from "ethers";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -19,7 +18,7 @@ const NewTalentCard = ({
   isFollowing,
   updateFollow,
   talentLink,
-  totalSupply,
+  marketCap,
   supporterCount,
 }) => {
   const { mobile } = useWindowDimensionsHook();
@@ -86,10 +85,7 @@ const NewTalentCard = ({
           <P3 className="text-primary-04" text="Supporters" />
         </div>
         <div className="d-flex justify-content-between">
-          <P2
-            className="text-black"
-            text={`${currency(totalSupply).format()}`}
-          />
+          <P2 className="text-black" text={`${currency(marketCap).format()}`} />
           <P2 className="text-black" text={supporterCount} />
         </div>
       </div>
@@ -102,7 +98,7 @@ NewTalentCard.defaultProps = {
   occupation: "",
   profilePictureUrl: "",
   headline: "",
-  totalSupply: "",
+  marketCap: "",
   supporterCount: "0",
 };
 
@@ -115,7 +111,7 @@ NewTalentCard.propTypes = {
   isFollowing: bool.isRequired,
   updateFollow: func.isRequired,
   talentLink: string.isRequired,
-  totalSupply: string,
+  marketCap: string,
   supporterCount: string,
 };
 

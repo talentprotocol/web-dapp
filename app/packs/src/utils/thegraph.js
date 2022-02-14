@@ -88,12 +88,12 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
 `;
 
 const GET_DISCOVERY_TALENTS = gql`
-  query GetDiscoveryTalents(
-    $mostTrendyIds: [String!]
-    $latestAddedIds: [String!]
-    $talentIds: [String!]
-  ) {
-    mostTrendy: talentTokens(where: { id_in: $mostTrendyIds }) {
+  query GetDiscoveryTalents($latestAddedIds: [String!], $talentIds: [String!]) {
+    mostTrendy: talentTokens(
+      orderBy: totalSupply
+      orderDirection: desc
+      first: 8
+    ) {
       ...fields
     }
     latestAdded: talentTokens(where: { id_in: $latestAddedIds }) {

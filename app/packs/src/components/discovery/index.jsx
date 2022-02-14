@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 
-import { post, destroy } from "src/utils/requests";
+import { get, post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
 import { ethers } from "ethers";
+import { parseAndCommify } from "src/onchain/utils";
 import {
   ApolloProvider,
   useQuery,
@@ -18,23 +19,69 @@ import MarketingCard from "src/components/design_system/cards/MarketingCard";
 import cx from "classnames";
 
 const Discovery = ({
-  mostTrendyTalents,
   latestAddedTalents,
   launchingSoonTalents,
   discoveryRows,
   marketingArticles,
 }) => {
   const { mobile } = useWindowDimensionsHook();
-  const [localMostTrendyTalents, setLocalMostTrendyTalents] =
-    useState(mostTrendyTalents);
+  const [localMostTrendyTalents, setLocalMostTrendyTalents] = useState([]);
   const [localLatestAddedTalents, setLocalLatestAddedTalents] =
     useState(latestAddedTalents);
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
-  const { loading, data } = useQuery(GET_DISCOVERY_TALENTS, {
+
+  const addTokenDetails = (talents, talentsFromChain) => {
+    const newArray = talents.map((talent) => {
+      const talentFromChain = talentsFromChain.find(
+        (t) => t.id === talent.contractId
+      );
+      if (talentFromChain) {
+        const totalSupply = ethers.utils.formatUnits(
+          talentFromChain.totalSupply || 0
+        );
+        const supporterCount = talentFromChain.supporterCounter;
+
+        return {
+          ...talent,
+          marketCap: parseAndCommify(totalSupply * 0.1),
+          supporterCount: supporterCount,
+        };
+      } else {
+        return { ...talent };
+      }
+    });
+
+    return newArray;
+  };
+
+  const setLocalData = (data) => {
+    if (data.mostTrendy) {
+      const ids = data.mostTrendy.map((talent) => talent.id);
+      get(`api/v1/talents?ids=${ids}`).then((response) => {
+        setLocalMostTrendyTalents(
+          addTokenDetails(response.talents, data.mostTrendy)
+        );
+      });
+    }
+    if (data.latestAdded) {
+      setLocalLatestAddedTalents((prev) =>
+        addTokenDetails(prev, data.latestAdded)
+      );
+    }
+    if (data.talents) {
+      setLocalDiscoveryRows((prev) => {
+        const newArray = prev.map((row) => ({
+          ...row,
+          talents: addTokenDetails(row.talents, data.talents),
+        }));
+
+        return newArray;
+      });
+    }
+  };
+
+  useQuery(GET_DISCOVERY_TALENTS, {
     variables: {
-      mostTrendyIds: localMostTrendyTalents.map((talent) =>
-        talent.contractId?.toLowerCase()
-      ),
       latestAddedIds: localLatestAddedTalents.map((talent) =>
         talent.contractId?.toLowerCase()
       ),
@@ -44,6 +91,7 @@ const Discovery = ({
         .map((talent) => talent.contractId)
         .filter((id) => id),
     },
+    onCompleted: setLocalData,
   });
 
   const updateFollow = async (talent) => {
@@ -77,53 +125,6 @@ const Discovery = ({
     }
   };
 
-  const addTokenDetails = (talents, talentsFromChain) => {
-    const newArray = talents.map((talent) => {
-      const talentFromChain = talentsFromChain.find(
-        (t) => t.id === talent.contractId
-      );
-      if (talentFromChain) {
-        const totalSupply = ethers.utils.formatUnits(
-          talentFromChain.totalSupply || 0
-        );
-        const supporterCount = talentFromChain.supporterCounter;
-
-        return {
-          ...talent,
-          totalSupply: totalSupply,
-          supporterCount: supporterCount,
-        };
-      } else {
-        return { ...talent };
-      }
-    });
-
-    return newArray;
-  };
-
-  useEffect(() => {
-    if (!loading && data?.mostTrendy) {
-      setLocalMostTrendyTalents((prev) =>
-        addTokenDetails(prev, data.mostTrendy)
-      );
-    }
-    if (!loading && data?.latestAdded) {
-      setLocalLatestAddedTalents((prev) =>
-        addTokenDetails(prev, data.latestAdded)
-      );
-    }
-    if (!loading && data?.talents) {
-      setLocalDiscoveryRows((prev) => {
-        const newArray = prev.map((row) => ({
-          ...row,
-          talents: addTokenDetails(row.talents, data.talents),
-        }));
-
-        return newArray;
-      });
-    }
-  }, [loading, data]);
-
   return (
     <div className="d-flex flex-column">
       {!mobile && (
@@ -142,7 +143,12 @@ const Discovery = ({
           </div>
         </div>
       )}
-      <div className="w-100 d-flex flex-wrap justify-content-between mt-6">
+      <div
+        className={cx(
+          "w-100 d-flex flex-wrap mt-6",
+          mobile ? "justify-content-center" : "justify-content-between"
+        )}
+      >
         <HighlightsCard
           className="mt-2"
           title="Most Trendy"
@@ -184,7 +190,7 @@ const Discovery = ({
                     isFollowing={talent.isFollowing}
                     updateFollow={() => updateFollow(talent)}
                     talentLink={`/talent/${talent.username}`}
-                    totalSupply={talent.totalSupply}
+                    marketCap={talent.marketCap}
                     supporterCount={talent.supporterCount}
                   />
                 </div>
@@ -199,7 +205,12 @@ const Discovery = ({
           bold
           text="More from Talent Protocol"
         />
-        <div className="d-flex justify-content-between flex-wrap mb-4">
+        <div
+          className={cx(
+            "d-flex flex-wrap mb-4",
+            mobile ? "justify-content-center" : "justify-content-between"
+          )}
+        >
           {marketingArticles.map((article) => (
             <div key={article.id} className="mt-3">
               <MarketingCard

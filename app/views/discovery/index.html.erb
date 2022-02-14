@@ -2,7 +2,6 @@
   <div class="container-grid">
     <%= react_component("Discovery",
       props: {
-        mostTrendyTalents: @most_trendy_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, username: talent.user.username, name: talent.user.display_name || talent.user.username }},
         latestAddedTalents: @latest_added_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, username: talent.user.username, name: talent.user.display_name || talent.user.username }},
         launchingSoonTalents: @launching_soon_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, username: talent.user.username, name: talent.user.display_name || talent.user.username }},
         discoveryRows: @discovery_rows.map { |row| { title: row[:title], talents: row[:talents].map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, occupation: talent.occupation, headline: talent.headline, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, name: talent.user.display_name || talent.user.username, userId: talent.user_id }}}},

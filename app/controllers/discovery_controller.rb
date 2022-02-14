@@ -1,7 +1,5 @@
 class DiscoveryController < ApplicationController
   def index
-    @most_trendy_talents = Talent.all.limit(3)
-
     @latest_added_talents = base_talent
       .joins(:token)
       .where.not(token: {contract_id: nil})
