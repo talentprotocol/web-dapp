@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
       chat_id: @chat_id,
       current_user_id: @sender.id,
       profilePictureUrl: @receiver.talent&.profile_picture_url || @receiver.investor&.profile_picture_url,
-      username: @receiver.username,
+      username: @receiver.username
     }
   end
 

@@ -40,6 +40,17 @@ We provide a rake task to setup some initial data in the application.
 ```shell
 bin/rails dev:prime
 ```
+
+### Git approach
+
+Our developments are made in feature branches. In order to create a feature branch you should create a new one from the `dev` branch.
+
+We also recommend you to setup our pre-commit hook. In order to do that you just need to run once:
+
+`cp .githooks/pre-commit .git/hooks`
+
+After that `make lint` will run before each commit for the staged files.
+
 ## Links
 
 - Project homepage: https://talentprotocol.com

@@ -127,9 +127,9 @@ RSpec.describe User, type: :model do
       user1 = build(:user, username: "A", email: "a@m.com")
       user2 = build(:user, username: "B", email: "b@m.com")
       create(:message, sender: user1, receiver: user2, text: "Hello!",
-             is_read: true)
+                       is_read: true)
       create(:message, sender: user2, receiver: user1, text: "Hello!",
-             is_read: false)
+                       is_read: false)
       create(:message, sender: user2, receiver: user1, text: "Bye!", is_read:
              false)
 
