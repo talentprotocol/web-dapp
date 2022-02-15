@@ -33,7 +33,7 @@
 
 .primary-outline-button {
   color: $primary;
-  background-color: $white;
+  background-color: transparent;
   border: 1px solid $primary;
   line-height: 18px;
   font-size: 14px;
@@ -47,20 +47,20 @@
 
   &:disabled {
     color: $primary-outline-disabled !important;
-    background-color: $white !important;
+    background-color: transparent !important;
     border: 1px solid $primary-outline-disabled !important;
   }
 
   &:active {
     color: $primary;
-    background-color: $white;
+    background-color: transparent;
     border: 1px solid $primary;
   }
 }
 
 .dark-body .primary-outline-button {
   color: $primary;
-  background-color: $gray-800;
+  background-color: transparent;
 
   &:hover {
     color: $white;
@@ -70,13 +70,13 @@
 
   &:disabled {
     color: $primary-800 !important;
-    background-color: $gray-800 !important;
+    background-color: transparent !important;
     border: 1px solid $primary-800 !important;
   }
 
   &:active {
     color: $primary;
-    background-color: $gray-800;
+    background-color: transparent;
   }
 }
 
@@ -226,7 +226,7 @@
 
 .dark-body .danger-outline-button {
   color: $danger-tint-01;
-  background-color: $gray-800;
+  background-color: transparent;
   border: 1px solid $danger-tint-01;
 
   &:hover {
@@ -236,13 +236,13 @@
 
   &:disabled {
     color: $danger-shade-01 !important;
-    background-color: $gray-800 !important;
+    background-color: transparent !important;
     border: 1px solid $danger-shade-01 !important;
   }
 
   &:active {
     color: $danger-tint-01;
-    background-color: $gray-800;
+    background-color: transparent;
   }
 }
 
@@ -395,6 +395,7 @@
 
 .dark-body .positive-outline-button {
   color: $positive;
+  background-color: transparent;
   border: 1px solid $green-500;
 
   &:hover {
@@ -544,7 +545,7 @@
 
 .white-outline-button {
   color: $gray-800;
-  background-color: $white;
+  background-color: transparent;
   border: 1px solid $gray-800;
   line-height: 18px;
   font-size: 14px;
@@ -557,19 +558,19 @@
 
   &:disabled {
     color: $gray !important;
-    background-color: $white !important;
+    background-color: transparent !important;
     border: 1px solid $gray !important;
   }
 
   &:active {
     color: $gray-800;
-    background-color: $white;
+    background-color: transparent;
   }
 }
 
 .dark-body .white-outline-button {
   color: $white;
-  background-color: $gray-800;
+  background-color: transparent;
   border: 1px solid $white;
 
   &:hover {
@@ -579,13 +580,13 @@
 
   &:disabled {
     color: $gray-600 !important;
-    background-color: $gray-800 !important;
+    background-color: transparent !important;
     border: 1px solid $gray-600 !important;
   }
 
   &:active {
     color: $white;
-    background-color: $gray-800;
+    background-color: transparent;
   }
 }
 
