@@ -10,13 +10,26 @@ import {
 import Button from "src/components/design_system/button";
 import { ArrowLeft, ArrowRight, Check } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
-import Divider from "src/components/design_system/other/Divider";
 
-const InviteCard = ({ title, code, onClick, mode, copied, uses }) => {
+const TALENT_TEXT =
+  "Invite a talented friend to launch a token. They skip the traditional application process, receive $200 USD and you earn 100 TAL.";
+const SUPPORTER_TEXT =
+  "Every week the 3 users with the most referrals will win a total of 2,000 TAL (1st: 1200, 2nd: 500, 3rd: 300).";
+
+const InviteCard = ({
+  title,
+  code,
+  onClick,
+  mode,
+  copied,
+  explanation,
+  uses,
+}) => {
   return (
     <div className="w-100 invite-card p-4 d-flex flex-column my-2">
       <P1 bold>{title}</P1>
-      <P2>{uses}</P2>
+      <P2>{explanation}</P2>
+      <P2 className="mt-2">{uses}</P2>
       <div className="w-100 d-flex flex-row justify-content-between align-items-end mt-2">
         <div className="d-flex flex-column">
           <P3>Code</P3>
@@ -81,6 +94,7 @@ const Invites = (props) => {
         <InviteCard
           key={`invite-${invite.id}`}
           title={`${invite.talent_invite ? "Talent" : "Supporter"} invite`}
+          explanation={invite.talent_invite ? TALENT_TEXT : SUPPORTER_TEXT}
           code={invite.code}
           onClick={() => addInviteToClipboard(invite)}
           mode={mode}
@@ -88,7 +102,7 @@ const Invites = (props) => {
           uses={
             invite.max_uses !== null
               ? `Uses: ${invite.uses}/${invite.max_uses}`
-              : `Uses: ${invite.uses}`
+              : `Uses: ${invite.uses}/(unlimited)`
           }
         />
       ))}
