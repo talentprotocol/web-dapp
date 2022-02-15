@@ -1,16 +1,5 @@
 class DiscoveryController < ApplicationController
   def index
-    @latest_added_talents = base_talent
-      .joins(:token)
-      .where.not(token: {contract_id: nil})
-      .order("token.deployed_at DESC")
-      .limit(3)
-
-    @launching_soon_talents = base_talent
-      .where(token: {contract_id: nil})
-      .order(created_at: :desc)
-      .limit(3)
-
     @discovery_rows = []
 
     DiscoveryRow.find_each do |row|

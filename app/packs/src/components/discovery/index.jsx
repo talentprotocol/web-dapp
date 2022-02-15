@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { get, post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
@@ -18,19 +18,16 @@ import MarketingCard from "src/components/design_system/cards/MarketingCard";
 
 import cx from "classnames";
 
-const Discovery = ({
-  latestAddedTalents,
-  launchingSoonTalents,
-  discoveryRows,
-  marketingArticles,
-}) => {
+const Discovery = ({ discoveryRows, marketingArticles }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localMostTrendyTalents, setLocalMostTrendyTalents] = useState([]);
-  const [localLatestAddedTalents, setLocalLatestAddedTalents] =
-    useState(latestAddedTalents);
+  const [localLaunchingSoonTalents, setLocalLaunchingSoonTalents] = useState(
+    []
+  );
+  const [localLatestAddedTalents, setLocalLatestAddedTalents] = useState([]);
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
 
-  const addTokenDetails = (talents, talentsFromChain) => {
+  const addTokenDetails = useCallback((talents, talentsFromChain) => {
     const newArray = talents.map((talent) => {
       const talentFromChain = talentsFromChain.find(
         (t) => t.id === talent.contractId
@@ -52,18 +49,18 @@ const Discovery = ({
     });
 
     return newArray;
-  };
+  }, []);
 
   const setLocalData = (data) => {
-    if (data.mostTrendy) {
+    if (data.mostTrendy && !mobile) {
       const ids = data.mostTrendy.map((talent) => talent.id);
-      get(`api/v1/talents?ids=${ids}`).then((response) => {
+      get(`api/v1/talents/most_trendy?ids=${ids}`).then((response) => {
         setLocalMostTrendyTalents(
           addTokenDetails(response.talents, data.mostTrendy)
         );
       });
     }
-    if (data.latestAdded) {
+    if (data.latestAdded && !mobile) {
       setLocalLatestAddedTalents((prev) =>
         addTokenDetails(prev, data.latestAdded)
       );
@@ -125,6 +122,15 @@ const Discovery = ({
     }
   };
 
+  useEffect(() => {
+    if (!mobile) {
+      get("api/v1/talents").then((response) => {
+        setLocalLatestAddedTalents(response.latest_added_talents);
+        setLocalLaunchingSoonTalents(response.launching_soon_talents);
+      });
+    }
+  }, [mobile]);
+
   return (
     <div className="d-flex flex-column">
       {!mobile && (
@@ -162,7 +168,7 @@ const Discovery = ({
         <HighlightsCard
           className="mt-2"
           title="Launching Soon"
-          talents={launchingSoonTalents}
+          talents={localLaunchingSoonTalents}
         />
       </div>
       <div>
