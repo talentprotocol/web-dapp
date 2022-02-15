@@ -175,7 +175,7 @@ const Chat = ({ users, user }) => {
   }, [activeUserId]);
 
   const messagingDisabled = () => {
-    const activeUser = users.find(user => user.id == activeUserId)
+    const activeUser = users.find(user => user.id === activeUserId)
     return user.messagingDisabled || (activeUser && activeUser.messagingDisabled)
   }
 

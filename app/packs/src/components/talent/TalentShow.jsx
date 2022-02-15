@@ -163,18 +163,16 @@ const TalentShow = ({
           talentIsFromCurrentUser={talentIsFromCurrentUser}
         />
       )}
-      { user.messaging_enabled && (
-          <Button
-            onClick={() => (window.location.href = `/messages?user=${user.id}`)}
-            type="white-subtle"
-            mode={theme.mode()}
-            className="mr-2 align-items-center"
-            disabled={currentUserId == user.id}
-          >
-            {mobile && <Chat color="currentColor" className="mr-2" />}
-            {!mobile && " Message"}
-          </Button>
-        )}
+      <Button
+        onClick={() => (window.location.href = `/messages?user=${user.id}`)}
+        type="white-subtle"
+        mode={theme.mode()}
+        className="mr-2 align-items-center"
+        disabled={user.messaging_enabled || (currentUserId == user.id)}
+      >
+        {mobile && <Chat color="currentColor" className="mr-2" />}
+        {!mobile && " Message"}
+      </Button>
       <Button
         onClick={toggleWatchlist}
         type="white-subtle"
