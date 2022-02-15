@@ -28,7 +28,7 @@ RSpec.describe "Users", type: :request do
       get_users
 
       expect(response).to have_http_status(:ok)
-    end 
+    end
 
     context "when search params are not passed" do
       let(:params) { {} }
@@ -61,10 +61,10 @@ RSpec.describe "Users", type: :request do
 
     context "when search params are passed" do
       let(:params) do
-         {
-           name: "john",
-           messaging_disabled: "false"
-         }
+        {
+          name: "john",
+          messaging_disabled: "false"
+        }
       end
 
       it "initializes and calls the search users service" do
@@ -125,7 +125,7 @@ RSpec.describe "Users", type: :request do
     context "when the params are all valid" do
       it "returns a successful response" do
         update_user_request
-  
+
         expect(response).to have_http_status(:ok)
       end
 

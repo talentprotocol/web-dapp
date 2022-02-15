@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
 
     if @receiver.messaging_disabled?
       return render json: {
-        error: "Unable to create message, receiver as messaging disabled."
+        error: "Unable to create a message, the receiver has messaging disabled."
       }, status: :bad_request
     end
 

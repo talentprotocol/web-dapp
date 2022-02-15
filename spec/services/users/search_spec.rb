@@ -18,7 +18,7 @@ RSpec.describe Users::Search do
   end
 
   context "when the name is passed" do
-    let(:search_params) do 
+    let(:search_params) do
       {
         name: "john"
       }
@@ -31,7 +31,7 @@ RSpec.describe Users::Search do
 
   context "when the messaging_disabled is passed" do
     context "when messaging_disabled is true" do
-      let(:search_params) do 
+      let(:search_params) do
         {
           messaging_disabled: true
         }
@@ -43,7 +43,7 @@ RSpec.describe Users::Search do
     end
 
     context "when messaging_disabled is false" do
-      let(:search_params) do 
+      let(:search_params) do
         {
           messaging_disabled: false
         }
