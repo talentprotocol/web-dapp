@@ -7,7 +7,7 @@
         username: user.username,
         ticker: user.talent&.token&.ticker,
         last_message: current_user.last_message_with(user)&.text,
-        last_message_date: current_user.last_message_with(user)&.created_at&.strftime("%b %d"),
+        last_message_date: current_user.last_message_with(user)&.created_at,
         profilePictureUrl: user.talent&.profile_picture_url || user.investor&.profile_picture_url,
         unreadMessagesCount: @unread_messages_counts[user]
       }

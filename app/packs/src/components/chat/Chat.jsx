@@ -152,6 +152,28 @@ const Chat = ({ users, user }) => {
     setActiveUserId(params.get("user"));
   });
 
+  useEffect(() => {
+    const currentUserId = localUsers.findIndex(
+      (user) => user.id === activeUserId
+    );
+
+    if (
+      currentUserId > 0 &&
+      localUsers.length > 0 &&
+      localUsers[currentUserId].unreadMessagesCount > 0
+    ) {
+      const newUsers = [
+        ...localUsers.slice(0, currentUserId),
+        {
+          ...localUsers[currentUserId],
+          unreadMessagesCount: 0,
+        },
+        ...localUsers.slice(currentUserId + 1),
+      ];
+      setLocalUsers(newUsers);
+    }
+  }, [activeUserId]);
+
   return (
     <>
       <div className="d-flex flex-column w-100 h-100 themed-border-top">
