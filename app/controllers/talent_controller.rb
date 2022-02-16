@@ -3,7 +3,9 @@ class TalentController < ApplicationController
   before_action :set_outer_talent, only: [:edit_profile]
 
   def index
-    talents = apply_filters(Talent.base)
+    service = Talents::Search.new(params)
+    talents = service.call
+
     @active_talents = talents.active
   end
 
@@ -21,11 +23,6 @@ class TalentController < ApplicationController
   end
 
   private
-
-  def apply_filters(talents)
-    service = API::FilterAndSortTalents.new(Talent.base, params)
-    service.call
-  end
 
   def set_talent
     @talent =

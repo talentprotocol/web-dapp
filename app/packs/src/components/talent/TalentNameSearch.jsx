@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { get } from "src/utils/requests";
 
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TextInput from "src/components/design_system/fields/textinput";
+import { Search } from "src/components/icons";
 
-const TalentNameSearch = () => {
+const TalentNameSearch = ({ setLocalTalents }) => {
   const url = new URL(document.location);
   const [name, setName] = useState(url.searchParams.get("filter") || "");
 
@@ -11,30 +12,29 @@ const TalentNameSearch = () => {
     e.preventDefault();
 
     url.searchParams.set("filter", name);
-    if (url.searchParams.has("page")) {
-      url.searchParams.delete("page");
-    }
-    window.location.href = url.toString();
+    get(`/api/v1/talent?${url.searchParams.toString()}`).then((response) => {
+      setLocalTalents(response.talents);
+      window.history.pushState(
+        {},
+        document.title,
+        name ? `${url.pathname}?filter=${name}` : url.pathname
+      );
+    });
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="form-group position-relative">
-        <button
-          type="submit"
-          disabled={name.length == 0}
-          className="btn btn-outline-secondary talent-button border-0 talent-search-icon"
-        >
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
-        <input
-          type="text"
-          name="name"
-          id="name"
+      <div className="position-relative">
+        <TextInput
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Search talent..."
-          className="form-control bg-transparent pl-6 rounded-sm"
+          placeholder="Search"
+          inputClassName="pl-5"
+          className="w-100"
+        />
+        <Search
+          color="currentColor"
+          className="position-absolute chat-search-icon"
         />
       </div>
     </form>
