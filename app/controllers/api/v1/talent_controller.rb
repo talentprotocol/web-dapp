@@ -1,4 +1,10 @@
 class API::V1::TalentController < ApplicationController
+  def index
+    talents = apply_filters(Talent.base)
+
+    render json: {talents: talents.active.order(username: :desc).map { |talent| {id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, occupation: talent.occupation, headline: talent.headline, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, name: talent.user.display_name || talent.user.username, userId: talent.user_id} }}, status: :ok
+  end
+
   def show
     @talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 
@@ -41,6 +47,11 @@ class API::V1::TalentController < ApplicationController
       :display_name,
       :username
     )
+  end
+
+  def apply_filters(talents)
+    service = API::FilterAndSortTalents.new(Talent.base, params)
+    service.call
   end
 
   def tag_params

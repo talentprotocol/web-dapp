@@ -29,8 +29,21 @@ class Talent < ApplicationRecord
   has_many :talent_tags
   has_many :tags, through: :talent_tags
 
-  scope :active, -> { where("ito_date <= ?", Time.current) }
-  scope :upcoming, -> { where("ito_date > ? OR ito_date is NULL", Time.current) }
+  scope :base, -> { where(public: true).includes([:user, :token]) }
+  scope :active, -> { joins(:token).where.not(tokens: {contract_id: nil}) }
+  scope :upcoming, -> { joins(:token).where(tokens: {contract_id: nil}) }
+
+  scope :filter_by_name_or_ticker,
+    ->(param) {
+      if param.present?
+        where(
+          "users.username ilike ? OR users.display_name ilike ? OR tokens.ticker ilike ?",
+          "%#{param}%",
+          "%#{param}%",
+          "%#{param}%"
+        )
+      end
+    }
 
   delegate :wallet_id, :username, to: :user
 

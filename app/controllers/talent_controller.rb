@@ -3,14 +3,8 @@ class TalentController < ApplicationController
   before_action :set_outer_talent, only: [:edit_profile]
 
   def index
-    @talents = apply_filters(base_talent.includes(:user))
-    @active_talents = @talents.where.not(token: {contract_id: nil})
-    @upcoming_talents = @talents.where(token: {contract_id: nil})
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @talents }
-    end
+    talents = apply_filters(Talent.base)
+    @active_talents = talents.active
   end
 
   def show
@@ -28,13 +22,9 @@ class TalentController < ApplicationController
 
   private
 
-  def base_talent
-    Talent.where(public: true).includes([:user, :token])
-  end
-
-  def apply_filters(talent)
-    filtered_talent = talent_filter(talent)
-    talent_sort(filtered_talent)
+  def apply_filters(talents)
+    service = API::FilterAndSortTalents.new(Talent.base, params)
+    service.call
   end
 
   def set_talent
