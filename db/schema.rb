@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_100024) do
-
+ActiveRecord::Schema.define(version: 2022_02_11_160104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -203,6 +202,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_100024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["tag_id"], name: "index_talent_tags_on_tag_id"
+    t.index ["talent_id", "tag_id"], name: "index_talent_tags_on_talent_id_and_tag_id", unique: true
     t.index ["talent_id"], name: "index_talent_tags_on_talent_id"
   end
 
@@ -213,6 +213,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_100024) do
     t.bigint "talent_id"
     t.boolean "deployed", default: false
     t.string "contract_id"
+    t.datetime "deployed_at"
     t.index ["talent_id"], name: "index_tokens_on_talent_id"
     t.index ["ticker"], name: "index_tokens_on_ticker", unique: true
   end

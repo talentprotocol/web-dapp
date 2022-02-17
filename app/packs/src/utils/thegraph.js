@@ -87,6 +87,30 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
   }
 `;
 
+const GET_DISCOVERY_TALENTS = gql`
+  query GetDiscoveryTalents($latestAddedIds: [String!], $talentIds: [String!]) {
+    mostTrendy: talentTokens(
+      orderBy: totalSupply
+      orderDirection: desc
+      first: 8
+    ) {
+      ...fields
+    }
+    latestAdded: talentTokens(where: { id_in: $latestAddedIds }) {
+      ...fields
+    }
+    talents: talentTokens(where: { id_in: $talentIds }) {
+      ...fields
+    }
+  }
+
+  fragment fields on TalentToken {
+    id
+    supporterCounter
+    totalSupply
+  }
+`;
+
 export {
   ApolloProvider,
   useQuery,
@@ -94,5 +118,6 @@ export {
   GET_TALENT_PORTFOLIO_FOR_ID,
   GET_SUPPORTER_PORTFOLIO,
   GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+  GET_DISCOVERY_TALENTS,
   client,
 };

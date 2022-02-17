@@ -57,6 +57,7 @@ gem "sidekiq-scheduler"
 
 # Requests
 gem "faraday"
+gem "down"
 
 # GraphQL
 gem "graphql-client"

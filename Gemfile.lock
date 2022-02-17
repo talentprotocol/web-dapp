@@ -434,6 +434,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   clearance
   dotenv-rails
+  down
   eth
   ethereum.rb
   factory_bot_rails (~> 6.2.0)

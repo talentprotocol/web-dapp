@@ -1,5 +1,5 @@
 import React from "react";
-import { string, bool, number, arrayOf, shape } from "prop-types";
+import { string, number, arrayOf, shape } from "prop-types";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -7,10 +7,12 @@ import Link from "src/components/design_system/link";
 import Tag from "src/components/design_system/tag";
 import Divider from "src/components/design_system/other/Divider";
 import { P1, P2, P3 } from "src/components/design_system/typography";
-import { ArrowForward } from "src/components/icons";
+import { ArrowForward, Spinner } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 
-const HighlightsCard = ({ title, users }) => {
+import cx from "classnames";
+
+const HighlightsCard = ({ title, talents, className }) => {
   const { mobile } = useWindowDimensionsHook();
 
   const icon = () => {
@@ -27,7 +29,7 @@ const HighlightsCard = ({ title, users }) => {
   };
 
   return (
-    <div className="highlights-card">
+    <div className={cx("highlights-card", className)}>
       <div className="d-flex justify-content-between align-items-center p-4 highlights-card-title">
         <div className="d-flex align-items-center">
           <span className="mr-2">{icon()}</span>
@@ -38,49 +40,58 @@ const HighlightsCard = ({ title, users }) => {
           <ArrowForward className="ml-2" color="currentColor" size={12} />
         </div>
       </div>
-      {!mobile && <Divider />}
       {!mobile && (
-        <div className="p-4 highlights-card-body">
-          {users.map((user, index) => (
-            <div
-              key={`${user.id}-${index}`}
-              className="d-flex justify-content-between highlights-card-user"
-            >
-              <div className="d-flex align-items-center">
-                <TalentProfilePicture
-                  src={user.profilePictureUrl}
-                  height={32}
-                />
-                <P2 className="text-black ml-3" text={user.name} />
-              </div>
-              {title === "Launching Soon" ? (
-                <Tag className="coming-soon-tag align-self-center ml-2">
-                  <P3 className="current-color" bold text="Coming Soon" />
-                </Tag>
-              ) : (
-                <div className="d-flex flex-column align-items-end">
-                  <P3 className="text-primary-04" text="Market cap" />
-                  <P2
-                    className="text-black"
-                    text={currency(user.circulatingSupply).format()}
-                  />
+        <>
+          <Divider />
+          {talents.length > 0 ? (
+            <div className="p-4 highlights-card-body">
+              {talents.map((talent, index) => (
+                <div
+                  key={`${talent.id}-${index}`}
+                  className="d-flex justify-content-between highlights-card-user"
+                >
+                  <div className="d-flex align-items-center">
+                    <TalentProfilePicture
+                      src={talent.profilePictureUrl}
+                      height={32}
+                    />
+                    <P2 className="text-black ml-3" text={talent.name} />
+                  </div>
+                  {title === "Launching Soon" ? (
+                    <Tag className="coming-soon-tag align-self-center ml-2">
+                      <P3 className="current-color" bold text="Coming Soon" />
+                    </Tag>
+                  ) : (
+                    <div className="d-flex flex-column align-items-end">
+                      <P3 className="text-primary-04" text="Market cap" />
+                      <P2
+                        className="text-black"
+                        text={currency(talent.marketCap).format()}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
+          ) : (
+            <div className="highlights-card-body d-flex justify-content-center align-items-center">
+              <Spinner />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 };
 
 HighlightsCard.defaultProps = {
-  users: [],
+  talents: [],
+  className: "",
 };
 
 HighlightsCard.propTypes = {
   title: string.isRequired,
-  users: arrayOf(
+  talents: arrayOf(
     shape({
       id: number,
       name: string,
@@ -88,6 +99,7 @@ HighlightsCard.propTypes = {
       circulatingSupply: number,
     })
   ),
+  className: string,
 };
 
 export default HighlightsCard;

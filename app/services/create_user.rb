@@ -69,6 +69,7 @@ class CreateUser
     user.email_confirmation_token = Clearance::Token.new
     user.invited = invite
     user.theme_preference = theme_preference
+    user.role = "basic"
     user.save!
     user
   end

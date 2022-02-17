@@ -34,6 +34,7 @@ import TopBar from "src/components/top_bar";
 import Profile from "src/components/talent/Edit/Profile";
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
 import EditSupporter from "src/components/supporters/EditSupporter";
+import Discovery from "src/components/discovery";
 
 import "stylesheets/application.scss";
 
@@ -61,6 +62,7 @@ ReactOnRails.register({
   EditSupporter,
   ResetPassword,
   ChangePassword,
+  Discovery,
 });
 
 Rails.start();

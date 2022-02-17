@@ -9,9 +9,13 @@ import { P1, P2, P3 } from "src/components/design_system/typography";
 
 import cx from "classnames";
 
-const MarketingCard = ({ title, imgUrl, description, user, date }) => {
+const MarketingCard = ({ link, title, imgUrl, description, user, date }) => {
   return (
-    <div className="marketing-card d-flex flex-column">
+    <a
+      className="marketing-card d-flex flex-column"
+      href={link}
+      target="_blank"
+    >
       <img
         className={cx("image-fit")}
         src={imgUrl}
@@ -28,11 +32,12 @@ const MarketingCard = ({ title, imgUrl, description, user, date }) => {
           <P3 className="text-primary-03" text={dayjs(date).fromNow()} />
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 
 MarketingCard.propTypes = {
+  link: string.isRequired,
   title: string.isRequired,
   imgUrl: string,
   description: string,
