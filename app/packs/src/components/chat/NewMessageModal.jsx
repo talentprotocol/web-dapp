@@ -22,7 +22,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
   const fetchUsers = async () => {
     setLoading(true);
 
-    const response = await get(`api/v1/users?name=${search}`).catch(() =>
+    const response = await get(`api/v1/users?name=${search}&messaging_disabled=false`).catch(() =>
       setLoading(false)
     );
 

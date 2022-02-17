@@ -2,21 +2,30 @@ class API::V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
 
   def index
-    @users =
-      if search_params[:name].present?
-        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).where("username ilike ? ", "%#{search_params[:name]}%")
-      else
-        User.includes(:investor, talent: [:token]).where.not(id: current_user.id).limit(20)
-      end
+    @users = search_params.present? ? filtered_users : filtered_users.limit(20)
 
-    render json: {users: @users.map { |u| {id: u.id, profilePictureUrl: u&.talent&.profile_picture_url || u.investor.profile_picture_url, username: u.username, ticker: u.talent&.token&.display_ticker} }}, status: :ok
+    render json: {
+      users: @users.map { |u| 
+        {
+          id: u.id,
+          profilePictureUrl: u&.talent&.profile_picture_url || u.investor&.profile_picture_url,
+          username: u.username,
+          ticker: u.talent&.token&.display_ticker
+        }
+      }
+    }, status: :ok
   end
 
   def show
     @user = User.find_by(wallet_id: params[:id])
 
     if @user
-      render json: {id: @user.id, profilePictureUrl: @user&.talent&.profile_picture_url || @user.investor.profile_picture_url, username: @user.username}, status: :ok
+      render json: {
+        id: @user.id,
+        profilePictureUrl: @user&.talent&.profile_picture_url || @user.investor.profile_picture_url,
+        username: @user.username,
+        messagingDisabled: @user.messaging_disabled
+      }, status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end
@@ -95,11 +104,11 @@ class API::V1::UsersController < ApplicationController
   end
 
   def search_params
-    params.permit(:name)
+    params.permit(:name, :messaging_disabled)
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email)
+    params.require(:user).permit(:theme_preference, :username, :email, :messaging_disabled)
   end
 
   def password_params
@@ -112,5 +121,12 @@ class API::V1::UsersController < ApplicationController
     else
       {}
     end
+  end
+
+  def filtered_users
+    Users::Search.new(
+      current_user: current_user,
+      search_params: search_params.to_h
+    ).call
   end
 end

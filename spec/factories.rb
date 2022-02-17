@@ -7,9 +7,14 @@ FactoryBot.define do
   end
 
   factory :user do
-    username { "User" }
-    email { "user@talentprotocol.com" }
+    sequence :username do |n|
+      "User_#{n}"
+    end
+    sequence :email do |n|
+      "user_#{n}@talentprotocol.com"
+    end
     password { "password" }
+    email_confirmed_at { Date.today }
 
     trait :metamask_login do
       wallet_id { "0x123" }

@@ -5,6 +5,7 @@ import { destroy, patch } from "src/utils/requests";
 import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
+import Checkbox from "src/components/design_system/checkbox";
 import { ArrowLeft } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
@@ -27,6 +28,7 @@ const Settings = (props) => {
   const [settings, setSettings] = useState({
     username: user.username || "",
     email: user.email || "",
+    messagingDisabled: user.messaging_disabled || false,
     currentPassword: "",
     newPassword: "",
     deletePassword: "",
@@ -79,6 +81,7 @@ const Settings = (props) => {
         ...settings,
         current_password: settings.currentPassword,
         new_password: settings.newPassword,
+        messaging_disabled: settings.messagingDisabled,
       },
     }).catch(() => setValidationErrors((prev) => ({ ...prev, saving: true })));
 
@@ -125,14 +128,17 @@ const Settings = (props) => {
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
-  const cannotSaveSettings = () =>
+  const messagingModeChanged = () =>
+    settings.messagingDisabled != user.messaging_disabled
+
+  const cannotSaveSettings = () => 
     !emailValidated ||
     !!validationErrors.email ||
     settings.username.length == 0 ||
     !!validationErrors.username ||
     !!validationErrors.currentPassword ||
     !!validationErrors.newPassword ||
-    (!!settings.newPassword && !validPassword);
+    (!!settings.newPassword && !validPassword)
 
   const cannotChangePassword = () =>
     !!validationErrors.currentPassword ||
@@ -196,6 +202,21 @@ const Settings = (props) => {
         {validationErrors?.email && (
           <P3 className="text-danger" text={validationErrors.email} />
         )}
+      </div>
+      <div className="d-flex flex-column w-100 flex-wrap mt-4">
+        <P2 bold className="text-black mb-2">
+          Disable Messages
+        </P2>
+
+        <Checkbox
+            className="form-check-input mt-4"
+            checked={settings.messagingDisabled}
+            onChange={() => changeAttribute("messagingDisabled", !settings.messagingDisabled)}
+          >
+          <div className="d-flex flex-wrap">
+            <P2 className="mr-1" text="I don't want to receive messages" />
+          </div>
+        </Checkbox>
       </div>
       <div className="d-flex flex-row w-100 flex-wrap mt-4">
         <TextInput
@@ -280,7 +301,7 @@ const Settings = (props) => {
           onClick={() => updateUser()}
           type="primary-default"
           mode={mode}
-          disabled={saving.loading || cannotSaveSettings()}
+          disabled={(saving.loading || cannotSaveSettings()) && !messagingModeChanged()}
           loading={saving.loading}
           success={saving.profile}
         >
