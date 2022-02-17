@@ -25,7 +25,7 @@ class API::V1::TalentsController < ApplicationController
       .where.not(user: {role: "admin"})
       .limit(3)
 
-    if talents
+    if talents.length.positive?
       render json: {talents: talents.map { |talent| {id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, username: talent.user.username, name: talent.user.display_name || talent.user.username} }}, status: :ok
     else
       render json: {error: "Talents not found."}, status: :not_found
