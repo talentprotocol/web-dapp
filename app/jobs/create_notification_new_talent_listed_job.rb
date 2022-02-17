@@ -8,10 +8,10 @@ class CreateNotificationNewTalentListedJob < ApplicationJob
         next if source_id == user.id
 
         service.call(
-          title: 'New talent listed',
-          body: 'Someone was just added to the talent list',
+          title: "New talent listed",
+          body: "Someone was just added to the talent list",
           user_id: user.id,
-          type: 'Notifications::TalentListed'
+          type: "Notifications::TalentListed"
         )
       end
     rescue => e

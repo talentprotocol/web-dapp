@@ -18,6 +18,14 @@ import { P2, P3 } from "src/components/design_system/typography";
 import { Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
+  const onClickInvites = () => {
+    const url = user.isTalent
+      ? `/talent/${user.username}/edit_profile?tab=Invites`
+      : `/settings?tab=Invites`;
+
+    window.location.href = url;
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -58,18 +66,6 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
             <P3 bold text="My profile" className="text-black" />
           </Dropdown.Item>
         )}
-        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
-        <Dropdown.Item
-          key="tab-dropdown-change-investor-image"
-          className="text-black user-menu-dropdown-item"
-          href={
-            user.isTalent
-              ? `/talent/${user.username}/edit_profile?tab=Invites`
-              : `/settings?tab=Invites`
-          }
-        >
-          <P3 bold text="Invites" className="text-black" />
-        </Dropdown.Item>
         <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-theme"
@@ -134,8 +130,15 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <P3 bold text="Sign out" className="text-black" />
         </Dropdown.Item>
         <Button
-          onClick={onClickTransak}
+          onClick={onClickInvites}
           type="primary-default"
+          className="w-100 mb-2"
+        >
+          <P3 bold text="Invites" className="text-white" />
+        </Button>
+        <Button
+          onClick={onClickTransak}
+          type="primary-outline"
           className="w-100"
         >
           <P3 bold text="Get funds" className="text-white" />

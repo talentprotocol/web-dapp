@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Check for ruby style errors
+
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+NC='\033[0m'
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+  against=HEAD
+else
+  # Initial commit: diff against an empty tree object
+  # Change it to match your initial commit sha
+  against=744c04f2b1ad7aaa24ea0df7831680f7ddddbe58
+fi
+
+# Check if standardrb is installed for the current project
+bin/bundle exec standardrb -v >/dev/null 2>&1 || { echo >&2 "${red}[Ruby Style][Fatal]: Add standardrb to your Gemfile"; exit 1; }
+
+echo "${green}[Ruby Style][Info]: Checking Ruby Style${NC}"
+
+echo "${green}[Ruby Style][Info]: ${FILES}${NC}"
+
+# Run standardrb on the staged files
+output=$(make lint)
+
+if [ $? -ne 0 ]; then
+  echo "${red}[Ruby Style][Error]: Fix the issues below and commit again: ${NC}"
+
+  echo "${output}"
+
+  exit 1
+fi
+
+exit 0

@@ -207,6 +207,53 @@ const EditSupporter = ({ id, username, email, profilePictureUrl, invites }) => {
 
   return (
     <div className="d-flex flex-column mx-auto align-items-center p-3 edit-profile-content">
+      <H5 className="w-100 text-left" text="Invites" bold />
+      <P2 className="w-100 text-left" text="Manage your invites" />
+      {invites.length == 0 ? (
+        <P2 className="w-100 text-left">
+          You current don't have any active invites.
+        </P2>
+      ) : (
+        ""
+      )}
+      {invites.map((invite) => (
+        <div className="w-100" key={`invite-${invite.id}`}>
+          <Divider className="my-4" />
+          <div className="d-flex flex-row flex-wrap w-100 justify-content-between align-items-end mt-2">
+            <P2 className="w-100 p2 text-left" bold>
+              {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
+            </P2>
+            <P2 className="w-100">
+              Invite your friends, earn 10 TAL per referral, and compete for the
+              big weekly prize of 1,000 TAL if you’re the first user to reach 15
+              invites.
+            </P2>
+            <div className="col-8 d-flex flex-column p-0 mt-2">
+              <P2 className="p2 text-left">
+                {invite.max_uses !== null
+                  ? `Uses: ${invite.uses}/${invite.max_uses}`
+                  : `Uses: ${invite.uses}`}
+              </P2>
+              <P2 className="p2 text-left">{`Code: ${invite.code}`}</P2>
+            </div>
+            <div>
+              <Button
+                onClick={() => addInviteToClipboard(invite)}
+                type="primary-default"
+                mode={theme.mode()}
+              >
+                Copy invite link{" "}
+                {copied[invite.id] ? (
+                  <Check color="currentColor" className="ml-2" />
+                ) : (
+                  ""
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ))}
+      <Divider className="my-4" />
       <H5
         className="w-100 text-left"
         mode={theme.mode()}
@@ -335,48 +382,6 @@ const EditSupporter = ({ id, username, email, profilePictureUrl, invites }) => {
       >
         Change password
       </Button>
-      <Divider className="my-4" />
-      <H5 className="w-100 text-left" text="Invites" bold />
-      <P2 className="w-100 text-left" text="Manage your invites" />
-      {invites.length == 0 ? (
-        <P2 className="w-100 text-left">
-          You current don't have any active invites.
-        </P2>
-      ) : (
-        ""
-      )}
-      {invites.map((invite) => (
-        <div className="w-100" key={`invite-${invite.id}`}>
-          <Divider className="my-4" />
-          <div className="d-flex flex-row w-100 justify-content-between align-items-end mt-2">
-            <div className="col-8 d-flex flex-column p-0">
-              <P2 className="p2 text-left" bold>
-                {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
-              </P2>
-              <P2 className="p2 text-left">
-                {invite.max_uses !== null
-                  ? `Uses: ${invite.uses}/${invite.max_uses}`
-                  : `Uses: ${invite.uses}`}
-              </P2>
-              <P2 className="p2 text-left">{`Code: ${invite.code}`}</P2>
-            </div>
-            <div>
-              <Button
-                onClick={() => addInviteToClipboard(invite)}
-                type="primary-default"
-                mode={theme.mode()}
-              >
-                Copy invite link{" "}
-                {copied[invite.id] ? (
-                  <Check color="currentColor" className="ml-2" />
-                ) : (
-                  ""
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
-      ))}
       <Divider className="my-4" />
       <div className="d-flex flex-column w-100 my-3">
         <H5

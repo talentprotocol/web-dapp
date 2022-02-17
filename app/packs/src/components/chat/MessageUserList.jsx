@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import NewMessageModal from "./NewMessageModal";
 import ThemedButton from "src/components/design_system/button";
@@ -21,6 +25,8 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
   const message = lastMessageText(user.last_message);
   const active = user.id == activeUserId ? " active" : "";
 
+  const displayTime = dayjs(user.last_message_date).fromNow();
+
   return (
     <a
       className={`pt-3 pl-6 pr-4 chat-user ${active} text-reset`}
@@ -34,7 +40,7 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
               <div className="d-flex flex-row">
                 <P2 text={user.username} bold className="mr-2" />
               </div>
-              <P3 text={user.last_message_date} />
+              <P3 text={displayTime} />
             </div>
             <div className="d-flex flex-row mb-0 justify-content-between">
               <P2 text={message} className="mr-2" />
@@ -75,6 +81,18 @@ const EmptyUsers = ({ mode }) => (
   </div>
 );
 
+const sortUsers = (user1, user2) => {
+  const date1 = dayjs(user1.last_message_date);
+  const date2 = dayjs(user2.last_message_date);
+
+  if (date1.isBefore(date2)) {
+    return 1;
+  } else if (date1.isAfter(date2)) {
+    return -1;
+  }
+  return 0;
+};
+
 const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
@@ -92,6 +110,8 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
   useEffect(() => {
     setAllUsers(users);
   }, [users]);
+
+  const sortedUsers = users.sort(sortUsers);
 
   return (
     <>
@@ -127,9 +147,9 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
             <NewChat color="currentColor" />
           </ThemedButton>
         </div>
-        {allUsers.length == 0 && <EmptyUsers mode={mode} />}
+        {sortedUsers.length == 0 && <EmptyUsers mode={mode} />}
         <div className="w-100 d-flex flex-column lg-overflow-y-auto">
-          {filteredUsers(allUsers, search).map((user) => (
+          {filteredUsers(sortedUsers, search).map((user) => (
             <UserMessage
               onClick={onClick}
               key={`user-message-list-${user.id}`}
