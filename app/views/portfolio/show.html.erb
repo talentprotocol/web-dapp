@@ -5,7 +5,8 @@
         address: current_user.wallet_id || "",
         tokenAddress: current_user.talent&.token&.contract_id,
         ticker: current_user.talent&.token&.ticker,
-        currentUserId: current_user.id
+        currentUserId: current_user.id,
+        messagingDisabled: current_user.messaging_disabled
       }, prerender: false, html_options: { class: "h-100"}) %>
     </div>
   </div>

@@ -109,11 +109,12 @@ const MessageExchange = (props) => {
             mode={mode}
             disabled={
               props.username == undefined ||
-              (props.messages.length == 0 && props.user.id == 0)
+              (props.messages.length == 0 && props.user.id == 0) ||
+              props.messagingDisabled
             }
             onChange={(e) => props.onChange(e.target.value)}
             value={props.value}
-            placeholder="Type here"
+            placeholder={props.messagingDisabled ? `Messaging disabled. Either you or ${props.username} have messaging disabled.` : "Type here"}
             className="w-100 mr-2"
             onKeyDown={onEnterPress}
             limitHeight={100}
@@ -124,7 +125,8 @@ const MessageExchange = (props) => {
             disabled={
               props.value == "" ||
               props.sendingMessage == true ||
-              (props.messages.length == 0 && props.user.id == 0)
+              (props.messages.length == 0 && props.user.id == 0) ||
+              props.messagingDisabled
             }
           >
             <Send color="currentColor" />

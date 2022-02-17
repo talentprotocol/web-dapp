@@ -14,6 +14,7 @@ import { patch, destroy } from "src/utils/requests";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
+import Checkbox from "src/components/design_system/checkbox";
 import Button from "src/components/design_system/button";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
@@ -40,10 +41,11 @@ uppyProfile.use(AwsS3Multipart, {
   },
 });
 
-const EditSupporter = ({ id, username, email, profilePictureUrl, invites }) => {
+const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureUrl, invites }) => {
   const [settings, setSettings] = useState({
     username: username || "",
     email: email || "",
+    messagingDisabled: messagingDisabled,
     currentPassword: "",
     newPassword: "",
     deletePassword: "",
@@ -102,6 +104,7 @@ const EditSupporter = ({ id, username, email, profilePictureUrl, invites }) => {
       user: {
         email: settings.email,
         username: settings.username,
+        messaging_disabled: settings.messagingDisabled,
         new_password: settings.newPassword,
         current_password: settings.currentPassword,
       },
@@ -320,6 +323,22 @@ const EditSupporter = ({ id, username, email, profilePictureUrl, invites }) => {
         {validationErrors?.email && (
           <P3 className="text-danger" text={validationErrors.email} />
         )}
+      </div>
+
+      <div className="d-flex flex-column w-100 flex-wrap mt-4">
+        <P2 bold className="text-black mb-2">
+          Disable Messages
+        </P2>
+
+        <Checkbox
+            className="form-check-input mt-4"
+            checked={settings.messagingDisabled}
+            onChange={() => changeAttribute("messagingDisabled", !settings.messagingDisabled)}
+          >
+          <div className="d-flex flex-wrap">
+            <P2 className="mr-1" text="I don't want to receive messages" />
+          </div>
+        </Checkbox>
       </div>
 
       <div className={"d-flex flex-row justify-content-start w-100 mt-4"}>

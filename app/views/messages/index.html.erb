@@ -9,10 +9,16 @@
         last_message: current_user.last_message_with(user)&.text,
         last_message_date: current_user.last_message_with(user)&.created_at,
         profilePictureUrl: user.talent&.profile_picture_url || user.investor&.profile_picture_url,
-        unreadMessagesCount: @unread_messages_counts[user]
+        unreadMessagesCount: @unread_messages_counts[user],
+        messagingDisabled: user.messaging_disabled
       }
     },
-    user: { id: current_user.id, username: current_user.username, profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url}
+    user: {
+      id: current_user.id,
+      username: current_user.username,
+      profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+      messagingDisabled: current_user.messaging_disabled
+    }
   }, prerender: false, html_options: { class: "h-100" })
 %>
 </main>

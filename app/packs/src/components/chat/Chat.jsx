@@ -174,6 +174,11 @@ const Chat = ({ users, user }) => {
     }
   }, [activeUserId]);
 
+  const messagingDisabled = () => {
+    const activeUser = users.find(user => user.id === activeUserId)
+    return user.messagingDisabled || (activeUser && activeUser.messagingDisabled)
+  }
+
   return (
     <>
       <div className="d-flex flex-column w-100 h-100 themed-border-top">
@@ -200,6 +205,7 @@ const Chat = ({ users, user }) => {
                 onSubmit={ignoreAndCallDebounce}
                 messages={messages}
                 sendingMessage={sendingMessage}
+                messagingDisabled={messagingDisabled()}
                 user={user}
                 profilePictureUrl={messengerProfilePicture}
                 username={messengerUsername}
