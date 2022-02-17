@@ -95,6 +95,11 @@ class User < ApplicationRecord
     new_email && new_email.length > 0 && new_email.match?(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
   end
 
+  def as_json(options = {})
+    options[:except] ||= [:remember_token, :encrypted_password, :confirmation_token, :last_sign_in_at, :nounce, :email_confirmation_token]
+    super(options)
+  end
+
   private
 
   def role_is_valid
