@@ -6,7 +6,12 @@ module Talents
     end
 
     def call
-      talents = Talent.base.order("tokens.deployed_at DESC")
+      talents = Talent
+        .base
+        .select("setseed(0.#{Date.today.jd}), talent.*")
+        .joins(:user, :token)
+        .order("random()")
+
       talents = filter_by_name_or_ticker(talents) if filter_params.key?(:name)
       talents = filter_by_status(talents) if filter_params.key?(:status)
 
