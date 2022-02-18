@@ -46,7 +46,13 @@ const NewTalentCard = ({
               text={occupation}
             />
           </div>
-          {ticker && <P2 className="text-primary" bold text={`$${ticker}`} />}
+          {ticker ? (
+            <P2 className="text-primary" bold text={`$${ticker}`} />
+          ) : (
+            <Tag className="coming-soon-tag">
+              <P3 className="current-color" bold text="Coming Soon" />
+            </Tag>
+          )}
         </a>
       ) : (
         <a className="talent-card-details talent-link" href={talentLink}>
@@ -86,17 +92,14 @@ const NewTalentCard = ({
           <P3 className="text-primary-04" text="Supporters" />
         </div>
         <div className="d-flex justify-content-between">
-          {ticker ? (
-            <P2
-              className="text-black"
-              text={`${currency(marketCap).format()}`}
-            />
-          ) : (
-            <Tag className="coming-soon-tag">
-              <P3 className="current-color" bold text="Coming Soon" />
-            </Tag>
-          )}
-          <P2 className="text-black" text={`${supporterCount}`} />
+          <P2
+            className="text-black"
+            text={ticker ? `${currency(marketCap).format()}` : "-"}
+          />
+          <P2
+            className="text-black"
+            text={ticker ? `${supporterCount}` : "-"}
+          />
         </div>
       </div>
     </div>

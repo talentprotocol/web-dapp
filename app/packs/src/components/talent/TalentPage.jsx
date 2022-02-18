@@ -21,12 +21,15 @@ import cx from "classnames";
 const TalentPage = ({ talents }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
-  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
-    variables: { ids: talents.map((talent) => talent.contractId) },
-  });
   const [localTalents, setLocalTalents] = useState(talents);
+  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
+    variables: {
+      ids: localTalents.map((talent) => talent.contractId).filter((id) => id),
+    },
+  });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("");
 
   const getSupporterCount = (contractId) => {
     if (loading || !data) {
@@ -34,13 +37,13 @@ const TalentPage = ({ talents }) => {
     }
 
     const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId.toLowerCase()
+      (element) => element.id == contractId?.toLowerCase()
     );
 
     if (chosenTalent) {
       return ethers.utils.commify(chosenTalent.supporterCounter);
     }
-    return "0";
+    return "-1";
   };
 
   const getCirculatingSupply = (contractId) => {
@@ -49,7 +52,7 @@ const TalentPage = ({ talents }) => {
     }
 
     const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId.toLowerCase()
+      (element) => element.id == contractId?.toLowerCase()
     );
 
     if (chosenTalent) {
@@ -57,7 +60,7 @@ const TalentPage = ({ talents }) => {
         ethers.utils.formatUnits(chosenTalent.totalSupply)
       );
     }
-    return "0";
+    return "-1";
   };
 
   const getProgress = (contractId) => {
@@ -66,7 +69,7 @@ const TalentPage = ({ talents }) => {
     }
 
     const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId.toLowerCase()
+      (element) => element.id == contractId?.toLowerCase()
     );
 
     if (chosenTalent) {
@@ -116,6 +119,23 @@ const TalentPage = ({ talents }) => {
     }
   };
 
+  const compareCirculatingSupply = (talent1, talent2) => {
+    const talent1Amount = ethers.utils.parseUnits(
+      getCirculatingSupply(talent1.contractId).replaceAll(",", "")
+    );
+    const talent2Amount = ethers.utils.parseUnits(
+      getCirculatingSupply(talent2.contractId).replaceAll(",", "")
+    );
+
+    if (talent1Amount.gt(talent2Amount)) {
+      return 1;
+    } else if (talent1Amount.lt(talent2Amount)) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div className={cx(mobile && "m-4")}>
       <div className="mb-5">
@@ -130,6 +150,7 @@ const TalentPage = ({ talents }) => {
         listModeOnly={listModeOnly}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
+        compareCirculatingSupply={compareCirculatingSupply}
       />
       {listModeOnly ? (
         <TalentTableListMode
@@ -140,6 +161,9 @@ const TalentPage = ({ talents }) => {
           getSupporterCount={getSupporterCount}
           updateFollow={updateFollow}
           watchlistOnly={watchlistOnly}
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+          compareCirculatingSupply={compareCirculatingSupply}
         />
       ) : (
         <TalentTableCardMode

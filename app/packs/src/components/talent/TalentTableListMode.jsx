@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ethers } from "ethers";
 import { useWindowDimensionsHook } from "src/utils/window";
 import Modal from "react-bootstrap/Modal";
 import { OrderBy } from "src/components/icons";
 
 import TalentProfilePicture from "./TalentProfilePicture";
 import Table from "src/components/design_system/table";
-import { P1, P2, P3, Caption } from "src/components/design_system/typography";
+import Tag from "src/components/design_system/tag";
 import Button from "src/components/design_system/button";
+import { P1, P2, P3, Caption } from "src/components/design_system/typography";
 
 import cx from "classnames";
 
@@ -73,7 +73,7 @@ const MobileTalentTableDropdown = ({
           <P1
             className={cx(selectedClass("Circulating Supply"))}
             bold
-            text="Circulating Supply"
+            text="Market Cap"
           />
           {selectedOption == "Circulating Supply" && (
             <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
@@ -107,11 +107,13 @@ const TalentTableListMode = ({
   getSupporterCount,
   watchlistOnly,
   updateFollow,
+  selectedSort,
+  setSelectedSort,
+  compareCirculatingSupply,
 }) => {
   const [sortDirection, setSortDirection] = useState("asc");
   const { mobile } = useWindowDimensionsHook();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
 
   const compareUsername = (talent1, talent2) => {
     if (talent1.username > talent2.username) {
@@ -136,23 +138,6 @@ const TalentTableListMode = ({
   const compareSupporters = (talent1, talent2) =>
     getSupporterCount(talent1.contractId) -
     getSupporterCount(talent2.contractId);
-
-  const compareCirculatingSupply = (talent1, talent2) => {
-    const talent1Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent1.contractId).replaceAll(",", "")
-    );
-    const talent2Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent2.contractId).replaceAll(",", "")
-    );
-
-    if (talent1Amount.gt(talent2Amount)) {
-      return 1;
-    } else if (talent1Amount.lt(talent2Amount)) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
 
   const filteredTalents = () => {
     let desiredTalent = talents;
@@ -247,7 +232,7 @@ const TalentTableListMode = ({
         <Table mode={theme.mode()} className="horizontal-scroll">
           <Table.Body>
             {filteredTalents().map((talent) => (
-              <Table.Tr key={`talent-${talent.contractId}`}>
+              <Table.Tr key={`talent-${talent.id}`}>
                 <Table.Td>
                   <div className="d-flex flex-row align-items-center">
                     <button
@@ -291,114 +276,136 @@ const TalentTableListMode = ({
   }
 
   return (
-    <>
-      <Table mode={theme.mode()} className="px-3 horizontal-scroll">
-        <Table.Head>
-          <Table.Th>
-            <Caption bold text="" />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Alphabetical Order")}
-              bold
-              text={`TALENT${sortIcon("Alphabetical Order")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Occupation")}
-              bold
-              text={`OCCUPATION${sortIcon("Occupation")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Supporters")}
-              bold
-              text={`SUPPORTERS${sortIcon("Supporters")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-          <Table.Th>
-            <Caption
-              onClick={() => onOptionClick("Circulating Supply")}
-              bold
-              text={`CIRCULATING SUPPLY${sortIcon("Circulating Supply")}`}
-              className="cursor-pointer"
-            />
-          </Table.Th>
-        </Table.Head>
-        <Table.Body>
-          {filteredTalents().map((talent) => (
-            <Table.Tr key={`talent-${talent.contractId}`}>
-              <Table.Td>
-                <button
-                  className="border-0 text-warning button-link"
-                  onClick={() => updateFollow(talent)}
-                >
-                  {talent.isFollowing ? (
-                    <FontAwesomeIcon icon={faStar} />
-                  ) : (
-                    <FontAwesomeIcon icon={faStarOutline} />
-                  )}
-                </button>
-              </Table.Td>
-              <Table.Td
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
+    <Table mode={theme.mode()} className="px-3 horizontal-scroll">
+      <Table.Head>
+        <Table.Th>
+          <Caption bold text="" />
+        </Table.Th>
+        <Table.Th>
+          <Caption
+            onClick={() => onOptionClick("Alphabetical Order")}
+            bold
+            text={`TALENT${sortIcon("Alphabetical Order")}`}
+            className="cursor-pointer"
+          />
+        </Table.Th>
+        <Table.Th>
+          <Caption
+            onClick={() => onOptionClick("Occupation")}
+            bold
+            text={`OCCUPATION${sortIcon("Occupation")}`}
+            className="cursor-pointer"
+          />
+        </Table.Th>
+        <Table.Th>
+          <Caption
+            onClick={() => onOptionClick("Supporters")}
+            bold
+            text={`SUPPORTERS${sortIcon("Supporters")}`}
+            className="cursor-pointer"
+          />
+        </Table.Th>
+        <Table.Th>
+          <Caption
+            onClick={() => onOptionClick("Circulating Supply")}
+            bold
+            text={`MARKET CAP${sortIcon("Circulating Supply")}`}
+            className="cursor-pointer"
+          />
+        </Table.Th>
+      </Table.Head>
+      <Table.Body>
+        {filteredTalents().map((talent) => (
+          <Table.Tr key={`talent-${talent.id}`}>
+            <Table.Td>
+              <button
+                className="border-0 text-warning button-link"
+                onClick={() => updateFollow(talent)}
               >
-                <div className="d-flex">
-                  <TalentProfilePicture
-                    src={talent.profilePictureUrl}
-                    height="24"
-                  />
-                  <P2 text={talent.username} bold className="ml-2" />
-                </div>
-              </Table.Td>
-              <Table.Td
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
-              >
-                <P2 text={talent.occupation} />
-              </Table.Td>
-              <Table.Td
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
-              >
-                <P2 text={`${getSupporterCount(talent.contractId)}`} />
-              </Table.Td>
-              <Table.Td
-                className="pr-3"
-                onClick={() =>
-                  (window.location.href = `/talent/${talent.username}`)
-                }
-              >
-                <P2
-                  text={`${getCirculatingSupply(talent.contractId)} ${
-                    talent.ticker
-                  }`}
+                {talent.isFollowing ? (
+                  <FontAwesomeIcon icon={faStar} />
+                ) : (
+                  <FontAwesomeIcon icon={faStarOutline} />
+                )}
+              </button>
+            </Table.Td>
+            <Table.Td
+              onClick={() =>
+                (window.location.href = `/talent/${talent.username}`)
+              }
+            >
+              <div className="d-flex">
+                <TalentProfilePicture
+                  src={talent.profilePictureUrl}
+                  height="24"
                 />
-                <div className="progress" style={{ height: 6 }}>
-                  <div
-                    className="progress-bar bg-secondary"
-                    role="progressbar"
-                    aria-valuenow={getProgress(talent.contractId)}
-                    style={{ width: `${getProgress(talent.contractId)}%` }}
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </Table.Td>
-            </Table.Tr>
-          ))}
-        </Table.Body>
-      </Table>
-    </>
+                <P2 text={talent.name} bold className="ml-2" />
+                {talent.ticker ? (
+                  <P2
+                    text={`$${talent.ticker}`}
+                    bold
+                    className="text-primary-03 ml-2"
+                  />
+                ) : (
+                  <Tag className="coming-soon-tag ml-2">
+                    <P3 className="current-color" bold text="Coming Soon" />
+                  </Tag>
+                )}
+              </div>
+            </Table.Td>
+            <Table.Td
+              onClick={() =>
+                (window.location.href = `/talent/${talent.username}`)
+              }
+            >
+              <P2 text={talent.occupation} />
+            </Table.Td>
+            <Table.Td
+              onClick={() =>
+                (window.location.href = `/talent/${talent.username}`)
+              }
+            >
+              <P2
+                text={
+                  !talent.ticker
+                    ? "-"
+                    : `${getSupporterCount(talent.contractId)}`
+                }
+              />
+            </Table.Td>
+            <Table.Td
+              className={
+                (cx("pr-3"),
+                talent.ticker ? "" : "d-flex justify-content-center")
+              }
+              onClick={() =>
+                (window.location.href = `/talent/${talent.username}`)
+              }
+            >
+              <P2
+                text={
+                  !talent.ticker
+                    ? "-"
+                    : `${getCirculatingSupply(talent.contractId)} ${
+                        talent.ticker || ""
+                      }`
+                }
+              />
+              <div className="progress" style={{ height: 6 }}>
+                <div
+                  className="progress-bar bg-secondary"
+                  role="progressbar"
+                  aria-valuenow={getProgress(talent.contractId)}
+                  style={{ width: `${getProgress(talent.contractId)}%` }}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+            </Table.Td>
+          </Table.Tr>
+        ))}
+      </Table.Body>
+    </Table>
   );
 };
 
