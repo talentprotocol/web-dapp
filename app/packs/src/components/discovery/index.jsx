@@ -122,15 +122,6 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
     }
   };
 
-  useEffect(() => {
-    if (!mobile) {
-      get("api/v1/talents").then((response) => {
-        setLocalLatestAddedTalents(response.latest_added_talents);
-        setLocalLaunchingSoonTalents(response.launching_soon_talents);
-      });
-    }
-  }, [mobile]);
-
   return (
     <div className="d-flex flex-column">
       {!mobile && (
@@ -158,17 +149,17 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
         <HighlightsCard
           className="mt-2"
           title="Most Trendy"
-          talents={localMostTrendyTalents}
+          link="/talent?status=Trending"
         />
         <HighlightsCard
           className="mt-2"
           title="Latest Added"
-          talents={localLatestAddedTalents}
+          link="/talent?status=Latest+added"
         />
         <HighlightsCard
           className="mt-2"
           title="Launching Soon"
-          talents={localLaunchingSoonTalents}
+          link="/talent?status=Launching+soon"
         />
       </div>
       <div>

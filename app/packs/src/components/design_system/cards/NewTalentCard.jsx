@@ -4,6 +4,7 @@ import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Divider from "src/components/design_system/other/Divider";
+import Tag from "src/components/design_system/tag";
 import { H5, P1, P2, P3 } from "src/components/design_system/typography";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { Star } from "src/components/icons";
@@ -85,8 +86,17 @@ const NewTalentCard = ({
           <P3 className="text-primary-04" text="Supporters" />
         </div>
         <div className="d-flex justify-content-between">
-          <P2 className="text-black" text={`${currency(marketCap).format()}`} />
-          <P2 className="text-black" text={supporterCount} />
+          {ticker ? (
+            <P2
+              className="text-black"
+              text={`${currency(marketCap).format()}`}
+            />
+          ) : (
+            <Tag className="coming-soon-tag">
+              <P3 className="current-color" bold text="Coming Soon" />
+            </Tag>
+          )}
+          <P2 className="text-black" text={`${supporterCount}`} />
         </div>
       </div>
     </div>

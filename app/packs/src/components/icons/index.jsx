@@ -1,5 +1,6 @@
 export { default as Bookmarks } from "src/components/icons/Bookmarks";
 export { default as Calendar } from "src/components/icons/Calendar";
+export { default as Carret } from "src/components/icons/Carret";
 export { default as Chat } from "src/components/icons/Chat";
 export { default as Check } from "src/components/icons/Check";
 export { default as Copy } from "src/components/icons/Copy";
