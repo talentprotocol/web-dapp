@@ -1,13 +1,14 @@
 class API::V1::TalentsController < ApplicationController
   def index
-    latest_added_talents = base_talent
-      .joins(:token)
-      .where.not(token: {contract_id: nil})
-      .order("token.deployed_at DESC")
+    latest_added_talents = Talent
+      .base
+      .active
+      .order("tokens.deployed_at DESC")
       .limit(3)
 
-    launching_soon_talents = base_talent
-      .where(token: {contract_id: nil})
+    launching_soon_talents = Talent
+      .base
+      .upcoming
       .order(created_at: :desc)
       .limit(3)
 
@@ -30,11 +31,5 @@ class API::V1::TalentsController < ApplicationController
     else
       render json: {error: "Talents not found."}, status: :not_found
     end
-  end
-
-  private
-
-  def base_talent
-    @base_talent ||= Talent.where(public: true).includes([:user, :token])
   end
 end

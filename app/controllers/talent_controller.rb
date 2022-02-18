@@ -3,10 +3,8 @@ class TalentController < ApplicationController
   before_action :set_outer_talent, only: [:edit_profile]
 
   def index
-    service = Talents::Search.new(params)
-    talents = service.call
-
-    @active_talents = talents.active
+    service = Talents::Search.new(filter_params: filter_params.to_h)
+    @talents = service.call
   end
 
   def show
@@ -23,6 +21,10 @@ class TalentController < ApplicationController
   end
 
   private
+
+  def filter_params
+    params.permit(:name, :status)
+  end
 
   def set_talent
     @talent =

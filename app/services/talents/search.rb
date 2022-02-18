@@ -1,29 +1,44 @@
 module Talents
   class Search
-    def initialize(params)
-      @params = params
+    def initialize(filter_params: {}, sort_params: {})
+      @filter_params = filter_params
+      @sort_params = sort_params
     end
 
     def call
-      talents = Talent.base
-      talents = filter_by_name_or_ticker(talents) if filter_params.key?(:filter)
+      talents = Talent.base.order("tokens.deployed_at DESC")
+      talents = filter_by_name_or_ticker(talents) if filter_params.key?(:name)
+      talents = filter_by_status(talents) if filter_params.key?(:status)
 
       sort(talents)
     end
 
     private
 
-    attr_reader :params
+    attr_reader :filter_params, :sort_params
 
     def filter_by_name_or_ticker(talents)
       talents
         .joins(:user, :token)
         .where(
           "users.username ilike ? OR users.display_name ilike ? OR tokens.ticker ilike ?",
-          "%#{filter_params[:filter]}%",
-          "%#{filter_params[:filter]}%",
-          "%#{filter_params[:filter]}%"
+          "%#{filter_params[:name]}%",
+          "%#{filter_params[:name]}%",
+          "%#{filter_params[:name]}%"
         )
+    end
+
+    def filter_by_status(talents)
+      if filter_params[:status] == "Launching soon"
+        talents.upcoming.order(created_at: :desc)
+      elsif filter_params[:status] == "Latest added" || filter_params[:status] == "Trending"
+        talents
+          .active
+          .where("tokens.deployed_at > ?", 1.month.ago)
+          .order("tokens.deployed_at DESC")
+      else
+        talents
+      end
     end
 
     def sort(talents)
@@ -38,14 +53,6 @@ module Talents
       else
         talents.order(created_at: :desc)
       end
-    end
-
-    def filter_params
-      params.permit(:filter)
-    end
-
-    def sort_params
-      params.permit(:sort)
     end
   end
 end

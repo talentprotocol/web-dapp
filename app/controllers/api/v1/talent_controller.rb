@@ -1,9 +1,9 @@
 class API::V1::TalentController < ApplicationController
   def index
-    service = Talents::Search.new(params)
+    service = Talents::Search.new(filter_params: filter_params.to_h)
     talents = service.call
 
-    render json: {talents: talents.active.order(username: :desc).map { |talent| {id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, occupation: talent.occupation, headline: talent.headline, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, name: talent.user.display_name || talent.user.username, userId: talent.user_id} }}, status: :ok
+    render json: {talents: talents.order(username: :desc).map { |talent| {id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, occupation: talent.occupation, headline: talent.headline, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, name: talent.user.display_name || talent.user.username, userId: talent.user_id} }}, status: :ok
   end
 
   def show
@@ -41,6 +41,10 @@ class API::V1::TalentController < ApplicationController
       else
         Talent.find_by!(public_key: params[:talent_id])
       end
+  end
+
+  def filter_params
+    params.permit(:name, :status)
   end
 
   def user_params

@@ -3,7 +3,14 @@ class DiscoveryController < ApplicationController
     @discovery_rows = []
 
     DiscoveryRow.find_each do |row|
-      ids = base_talent.joins(:tags).where(tags: {id: row.tags.pluck(:id)}).distinct.order(:id).pluck(:id)
+      ids = Talent
+        .base
+        .joins(:tags)
+        .where(tags: {id: row.tags.pluck(:id)})
+        .distinct
+        .order(:id)
+        .pluck(:id)
+
       @discovery_rows << {
         title: row.title,
         talents: Talent
@@ -15,11 +22,5 @@ class DiscoveryController < ApplicationController
     end
 
     @marketing_articles = MarketingArticle.all.order(created_at: :desc).limit(3)
-  end
-
-  private
-
-  def base_talent
-    @base_talent ||= Talent.where(public: true).includes([:user, :token])
   end
 end
