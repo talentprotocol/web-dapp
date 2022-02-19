@@ -175,8 +175,13 @@ const Chat = ({ users, user }) => {
   }, [activeUserId]);
 
   const messagingDisabled = () => {
-    const activeUser = users.find(user => user.id === activeUserId)
+    const activeUser = users.find(user => user.id == activeUserId)
     return user.messagingDisabled || (activeUser && activeUser.messagingDisabled)
+  }
+
+  const activeUserWithTalent = () => {
+    const activeUser = users.find(user => user.id == activeUserId)
+    return (activeUser && activeUser.withTalent)
   }
 
   return (
@@ -209,6 +214,7 @@ const Chat = ({ users, user }) => {
                 user={user}
                 profilePictureUrl={messengerProfilePicture}
                 username={messengerUsername}
+                messengerWithTalent={activeUserWithTalent()}
                 mode={theme.mode()}
               />
             </section>
