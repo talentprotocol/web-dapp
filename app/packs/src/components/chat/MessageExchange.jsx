@@ -57,6 +57,26 @@ const MessageExchange = (props) => {
     }
   };
 
+  const mine = (message) => message && message.sender_id === props.user.id
+
+  const link = (message) => {
+    const {
+      user,
+      username,
+      messengerWithTalent
+    } = props;
+
+    if(mine(message)) {
+      if(user.withTalent) {
+        return `talent/${user.username}`
+      }
+    } else {
+      if(messengerWithTalent) {
+        return `talent/${username}`
+      }
+    }
+  };
+
   return (
     <div className="h-100 d-flex flex-column">
       {props.smallScreen && (
@@ -72,7 +92,7 @@ const MessageExchange = (props) => {
             </ThemedButton>
             <TalentProfilePicture
               src={props.profilePictureUrl}
-              link={`talent/${props.username}`}
+              link={link()}
               height={48}
               className="mr-2"
             />
@@ -96,7 +116,8 @@ const MessageExchange = (props) => {
             key={`message_${message.id}`}
             message={message}
             previousMessageSameUser={isPreviousMessageFromSameSender(index)}
-            mine={message.sender_id === props.user.id}
+            mine={mine(message)}
+            profileLink={link(message)}
             profilePictureUrl={props.profilePictureUrl}
             username={props.username}
             user={props.user}
