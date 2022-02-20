@@ -14,7 +14,7 @@ const MobileUserMenu = ({
   toggleTheme,
   connectedButton,
   showConnectButton,
-  metamaskButton,
+  walletConnectButton,
   onClickTransak,
   copyCodeToClipboard,
   inviteNumbers,
@@ -60,7 +60,7 @@ const MobileUserMenu = ({
             user={user}
             connectedButton={connectedButton}
             showConnectButton={showConnectButton}
-            metamaskButton={metamaskButton}
+            walletConnectButton={walletConnectButton}
             onClickTransak={openTransak}
             copyCodeToClipboard={copyCodeToClipboard}
             inviteNumbers={inviteNumbers}
