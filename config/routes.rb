@@ -45,7 +45,9 @@ Rails.application.routes.draw do
         resources :users, only: [:index, :show, :update, :destroy]
         resources :follows, only: [:index, :create]
         delete "follows", to: "follows#destroy"
-        resources :notifications, only: [:update]
+        resources :notifications, only: [] do
+          post :mark_as_read
+        end
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
@@ -84,6 +86,10 @@ Rails.application.routes.draw do
   resources :wait_list, only: [:create, :index]
 
   root to: "sessions#new", as: :root
+
+  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
+    mount Sidekiq::Web => "/sidekiq"
+  end
 
   match "*unmatched", to: "application#route_not_found", via: :all
 end
