@@ -116,9 +116,9 @@ const TalentTableListMode = ({
   const [showDropdown, setShowDropdown] = useState(false);
 
   const compareUsername = (talent1, talent2) => {
-    if (talent1.username > talent2.username) {
+    if (talent1.user.username > talent2.user.username) {
       return 1;
-    } else if (talent1.username < talent2.username) {
+    } else if (talent1.user.username < talent2.user.username) {
       return -1;
     } else {
       return 0;
@@ -136,8 +136,8 @@ const TalentTableListMode = ({
   };
 
   const compareSupporters = (talent1, talent2) =>
-    getSupporterCount(talent1.contractId) -
-    getSupporterCount(talent2.contractId);
+    getSupporterCount(talent1.token.contractId) -
+    getSupporterCount(talent2.token.contractId);
 
   const filteredTalents = () => {
     let desiredTalent = talents;
@@ -248,21 +248,21 @@ const TalentTableListMode = ({
                     <div
                       className="d-flex flex-row align-items-center"
                       onClick={() =>
-                        (window.location.href = `/talent/${talent.username}`)
+                        (window.location.href = `/talent/${talent.user.username}`)
                       }
                     >
                       <TalentProfilePicture
                         src={talent.profilePictureUrl}
                         height="24"
                       />
-                      <P2 text={talent.username} bold className="ml-2" />
+                      <P2 text={talent.user.username} bold className="ml-2" />
                     </div>
                   </div>
                 </Table.Td>
                 <Table.Td
                   className="text-right pr-3"
                   onClick={() =>
-                    (window.location.href = `/talent/${talent.username}`)
+                    (window.location.href = `/talent/${talent.user.username}`)
                   }
                 >
                   <P2 text={getSelectedOptionValue(talent)} />
@@ -331,7 +331,7 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.username}`)
+                (window.location.href = `/talent/${talent.user.username}`)
               }
             >
               <div className="d-flex">
@@ -339,10 +339,10 @@ const TalentTableListMode = ({
                   src={talent.profilePictureUrl}
                   height="24"
                 />
-                <P2 text={talent.name} bold className="ml-2" />
-                {talent.ticker ? (
+                <P2 text={talent.user.name} bold className="ml-2" />
+                {talent.token.ticker ? (
                   <P2
-                    text={`$${talent.ticker}`}
+                    text={`$${talent.token.ticker}`}
                     bold
                     className="text-primary-03 ml-2"
                   />
@@ -355,39 +355,39 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.username}`)
+                (window.location.href = `/talent/${talent.user.username}`)
               }
             >
               <P2 text={talent.occupation} />
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.username}`)
+                (window.location.href = `/talent/${talent.user.username}`)
               }
             >
               <P2
                 text={
-                  !talent.ticker
+                  !talent.token.ticker
                     ? "-"
-                    : `${getSupporterCount(talent.contractId)}`
+                    : `${getSupporterCount(talent.token.contractId)}`
                 }
               />
             </Table.Td>
             <Table.Td
               className={
                 (cx("pr-3"),
-                talent.ticker ? "" : "d-flex justify-content-center")
+                talent.token.ticker ? "" : "d-flex justify-content-center")
               }
               onClick={() =>
-                (window.location.href = `/talent/${talent.username}`)
+                (window.location.href = `/talent/${talent.user.username}`)
               }
             >
               <P2
                 text={
-                  !talent.ticker
+                  !talent.token.ticker
                     ? "-"
-                    : `${getCirculatingSupply(talent.contractId)} ${
-                        talent.ticker || ""
+                    : `${getCirculatingSupply(talent.token.contractId)} ${
+                        talent.token.ticker || ""
                       }`
                 }
               />
@@ -395,8 +395,8 @@ const TalentTableListMode = ({
                 <div
                   className="progress-bar bg-secondary"
                   role="progressbar"
-                  aria-valuenow={getProgress(talent.contractId)}
-                  style={{ width: `${getProgress(talent.contractId)}%` }}
+                  aria-valuenow={getProgress(talent.token.contractId)}
+                  style={{ width: `${getProgress(talent.token.contractId)}%` }}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 ></div>

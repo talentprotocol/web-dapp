@@ -31,16 +31,16 @@ const TalentTableCardMode = ({
       {filteredTalents().map((talent) => (
         <div key={talent.id} className={cx("mt-3", !mobile && "pr-4")}>
           <NewTalentCard
-            name={talent.name}
-            ticker={talent.ticker}
+            name={talent.user.name}
+            ticker={talent.token.ticker}
             occupation={talent.occupation}
             profilePictureUrl={talent.profilePictureUrl}
             headline={talent.headline}
             isFollowing={talent.isFollowing}
             updateFollow={() => updateFollow(talent)}
-            talentLink={`/talent/${talent.username}`}
-            marketCap={getCirculatingSupply(talent.contractId)}
-            supporterCount={getSupporterCount(talent.contractId)}
+            talentLink={`/talent/${talent.user.username}`}
+            marketCap={getCirculatingSupply(talent.token.contractId)}
+            supporterCount={getSupporterCount(talent.token.contractId)}
           />
         </div>
       ))}

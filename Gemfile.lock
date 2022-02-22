@@ -96,6 +96,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
+    blueprinter (0.25.3)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     bootstrap-email (1.1.0)
@@ -426,6 +427,7 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3
   bcrypt
+  blueprinter
   bootsnap (>= 1.4.4)
   bootstrap-email
   bullet

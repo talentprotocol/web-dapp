@@ -24,7 +24,9 @@ const TalentPage = ({ talents }) => {
   const [localTalents, setLocalTalents] = useState(talents);
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: {
-      ids: localTalents.map((talent) => talent.contractId).filter((id) => id),
+      ids: localTalents
+        .map((talent) => talent.token.contractId)
+        .filter((id) => id),
     },
   });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
@@ -121,10 +123,10 @@ const TalentPage = ({ talents }) => {
 
   const compareCirculatingSupply = (talent1, talent2) => {
     const talent1Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent1.contractId).replaceAll(",", "")
+      getCirculatingSupply(talent1.token.contractId).replaceAll(",", "")
     );
     const talent2Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent2.contractId).replaceAll(",", "")
+      getCirculatingSupply(talent2.token.contractId).replaceAll(",", "")
     );
 
     if (talent1Amount.gt(talent2Amount)) {

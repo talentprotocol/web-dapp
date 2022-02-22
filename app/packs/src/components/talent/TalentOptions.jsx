@@ -7,6 +7,7 @@ import TalentNameSearch from "./TalentNameSearch";
 import TalentFilters from "./TalentFilters";
 import { Grid, List } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
+import { camelCaseObject } from "src/utils/transformObjects";
 
 import cx from "classnames";
 
@@ -29,12 +30,12 @@ const TalentOptions = ({
     params.set(filterType, option);
 
     get(`/api/v1/talent?${params.toString()}`).then((response) => {
+      const talents = response.map((talent) => camelCaseObject(talent));
+
       if (option === "Trending") {
-        setLocalTalents(
-          response.talents.sort(compareCirculatingSupply).reverse()
-        );
+        setLocalTalents(talents.sort(compareCirculatingSupply).reverse());
       } else {
-        setLocalTalents(response.talents);
+        setLocalTalents(talents);
       }
       window.history.replaceState(
         {},

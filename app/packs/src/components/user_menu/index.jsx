@@ -14,7 +14,7 @@ import {
 } from "src/utils/constants";
 import Button from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
-import { Carret, Sun, Moon } from "src/components/icons";
+import { Caret, Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
@@ -44,7 +44,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           text={user.username}
           className="mr-2 align-middle text-black"
         />
-        <Carret size={12} color="currentColor" />
+        <Caret size={12} color="currentColor" />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="user-menu-dropdown">
