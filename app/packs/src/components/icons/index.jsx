@@ -1,5 +1,6 @@
 export { default as Bookmarks } from "src/components/icons/Bookmarks";
 export { default as Calendar } from "src/components/icons/Calendar";
+export { default as Caret } from "src/components/icons/Caret";
 export { default as Chat } from "src/components/icons/Chat";
 export { default as Check } from "src/components/icons/Check";
 export { default as Copy } from "src/components/icons/Copy";
@@ -9,9 +10,11 @@ export { default as Expand } from "src/components/icons/Expand";
 export { default as ExternalLink } from "src/components/icons/ExternalLink";
 export { default as Gif } from "src/components/icons/Gif";
 export { default as Globe } from "src/components/icons/Globe";
+export { default as Grid } from "src/components/icons/Grid";
 export { default as Help } from "src/components/icons/Help";
 export { default as Home } from "src/components/icons/Home";
 export { default as Img } from "src/components/icons/Img";
+export { default as List } from "src/components/icons/List";
 export { default as LogoLight } from "src/components/icons/LogoLight";
 export { default as LogoDark } from "src/components/icons/LogoDark";
 export { default as LogoWord } from "src/components/icons/LogoWord";

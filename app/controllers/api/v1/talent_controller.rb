@@ -1,4 +1,11 @@
 class API::V1::TalentController < ApplicationController
+  def index
+    service = Talents::Search.new(filter_params: filter_params.to_h)
+    talents = service.call
+
+    render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
+  end
+
   def show
     @talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 
@@ -34,6 +41,10 @@ class API::V1::TalentController < ApplicationController
       else
         Talent.find_by!(public_key: params[:talent_id])
       end
+  end
+
+  def filter_params
+    params.permit(:name, :status)
   end
 
   def user_params

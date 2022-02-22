@@ -43,7 +43,7 @@ Rails.application.routes.draw do
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
-        resources :talent, only: [:show, :update] do
+        resources :talent, only: [:index, :show, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
@@ -52,9 +52,6 @@ Rails.application.routes.draw do
         resources :stakes, only: [:create]
         resources :investor, only: [:update]
         resources :perks, only: [:show]
-        resources :talents, only: [:index] do
-          get :most_trendy, on: :collection
-        end
       end
     end
   end

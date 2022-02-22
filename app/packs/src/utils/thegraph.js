@@ -18,8 +18,8 @@ const client = (env) => {
 };
 
 const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList {
-    talentTokens(first: 300) {
+  query GetTalentList($ids: [String!]) {
+    talentTokens(where: { id_in: $ids }) {
       id
       supporterCounter
       totalSupply
@@ -88,17 +88,7 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
 `;
 
 const GET_DISCOVERY_TALENTS = gql`
-  query GetDiscoveryTalents($latestAddedIds: [String!], $talentIds: [String!]) {
-    mostTrendy: talentTokens(
-      orderBy: totalSupply
-      orderDirection: desc
-      first: 8
-    ) {
-      ...fields
-    }
-    latestAdded: talentTokens(where: { id_in: $latestAddedIds }) {
-      ...fields
-    }
+  query GetDiscoveryTalents($talentIds: [String!]) {
     talents: talentTokens(where: { id_in: $talentIds }) {
       ...fields
     }

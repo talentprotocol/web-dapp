@@ -13,38 +13,18 @@
 .talent-table {
   display: table;
   width: 100%;
+  color: $gray-800;
 
-  &.light {
-    color: $gray-800;
-
-    thead tr {
-      border-bottom: 1px solid $surface-hover;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid $surface-hover;
-
-      &:hover {
-        background-color: $surface-hover;
-        cursor: pointer;
-      }
-    }
+  thead tr {
+    border-bottom: 1px solid $surface-hover;
   }
 
-  &.dark {
-    color: $white;
+  tbody tr {
+    border-bottom: 1px solid $surface-hover;
 
-    thead tr {
-      border-bottom: 1px solid $gray-600;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid $gray-600;
-
-      &:hover {
-        background-color: $gray-900;
-        cursor: pointer;
-      }
+    &:hover {
+      background-color: $surface-hover;
+      cursor: pointer;
     }
   }
 
@@ -61,6 +41,23 @@
   }
 }
 
+.dark-body .talent-table {
+  color: $white;
+
+  thead tr {
+    border-bottom: 1px solid $gray-800;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $gray-800;
+
+    &:hover {
+      background-color: $gray-900;
+      cursor: pointer;
+    }
+  }
+}
+
 .wallet-id-text {
   color: $gray-primary;
 }
@@ -74,7 +71,7 @@
 }
 
 .dark-body .progress {
-  background-color: $gray-600;
+  background-color: $gray-800;
 
   .bg-secondary {
     background-color: $gray-400 !important;

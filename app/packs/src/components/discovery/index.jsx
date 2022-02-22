@@ -20,11 +20,6 @@ import cx from "classnames";
 
 const Discovery = ({ discoveryRows, marketingArticles }) => {
   const { mobile } = useWindowDimensionsHook();
-  const [localMostTrendyTalents, setLocalMostTrendyTalents] = useState([]);
-  const [localLaunchingSoonTalents, setLocalLaunchingSoonTalents] = useState(
-    []
-  );
-  const [localLatestAddedTalents, setLocalLatestAddedTalents] = useState([]);
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
 
   const addTokenDetails = useCallback((talents, talentsFromChain) => {
@@ -52,19 +47,6 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
   }, []);
 
   const setLocalData = (data) => {
-    if (data.mostTrendy && !mobile) {
-      const ids = data.mostTrendy.map((talent) => talent.id);
-      get(`api/v1/talents/most_trendy?ids=${ids}`).then((response) => {
-        setLocalMostTrendyTalents(
-          addTokenDetails(response.talents, data.mostTrendy)
-        );
-      });
-    }
-    if (data.latestAdded && !mobile) {
-      setLocalLatestAddedTalents((prev) =>
-        addTokenDetails(prev, data.latestAdded)
-      );
-    }
     if (data.talents) {
       setLocalDiscoveryRows((prev) => {
         const newArray = prev.map((row) => ({
@@ -79,9 +61,6 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
 
   useQuery(GET_DISCOVERY_TALENTS, {
     variables: {
-      latestAddedIds: localLatestAddedTalents.map((talent) =>
-        talent.contractId?.toLowerCase()
-      ),
       talentIds: localDiscoveryRows
         .map((row) => row.talents)
         .flat()
@@ -122,15 +101,6 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
     }
   };
 
-  useEffect(() => {
-    if (!mobile) {
-      get("api/v1/talents").then((response) => {
-        setLocalLatestAddedTalents(response.latest_added_talents);
-        setLocalLaunchingSoonTalents(response.launching_soon_talents);
-      });
-    }
-  }, [mobile]);
-
   return (
     <div className="d-flex flex-column">
       {!mobile && (
@@ -158,17 +128,17 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
         <HighlightsCard
           className="mt-2"
           title="Most Trendy"
-          talents={localMostTrendyTalents}
+          link="/talent?status=Trending"
         />
         <HighlightsCard
           className="mt-2"
           title="Latest Added"
-          talents={localLatestAddedTalents}
+          link="/talent?status=Latest+added"
         />
         <HighlightsCard
           className="mt-2"
           title="Launching Soon"
-          talents={localLaunchingSoonTalents}
+          link="/talent?status=Launching+soon"
         />
       </div>
       <div>
