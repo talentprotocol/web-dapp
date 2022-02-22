@@ -8,9 +8,10 @@ class DestroyUser
   def call
     user = User.find(@user_id)
     ActiveRecord::Base.transaction do
-      if user.invite.present?
-        user.invite.update!(user_id: 1)
+      if user.invites.count > 0
+        user.invites.update_all(user_id: 1)
       end
+
       user.feed.feed_posts.destroy_all
       user.feed.destroy!
       user.investor.destroy!

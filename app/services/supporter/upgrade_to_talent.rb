@@ -19,8 +19,8 @@ class Supporter::UpgradeToTalent
   private
 
   def create_invite(user)
-    if user.invite
-      user.invite.update!(max_uses: nil)
+    if user.invites.count > 0
+      user.invites.first.update!(max_uses: nil)
     else
       service = CreateInvite.new(user_id: user.id)
       service.call
