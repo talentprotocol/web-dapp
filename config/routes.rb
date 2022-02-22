@@ -2,6 +2,12 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
+  # Admin area
+  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
+    mount Sidekiq::Web => "/sidekiq"
+  end
+  # end Admin
+
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
     root to: "talent#index", as: :user_root
