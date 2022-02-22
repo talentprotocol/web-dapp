@@ -1,10 +1,7 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import {
-  faAngleDown,
-  faExternalLinkAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   SUPPORTER_GUIDE,

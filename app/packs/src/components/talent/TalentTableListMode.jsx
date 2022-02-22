@@ -46,7 +46,7 @@ const MobileTalentTableDropdown = ({
             text="Supporters"
           />
           {selectedOption == "Supporters" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -61,7 +61,7 @@ const MobileTalentTableDropdown = ({
             text="Occupation"
           />
           {selectedOption == "Occupation" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -76,7 +76,7 @@ const MobileTalentTableDropdown = ({
             text="Market Cap"
           />
           {selectedOption == "Circulating Supply" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -91,7 +91,7 @@ const MobileTalentTableDropdown = ({
             text="Alphabetical Order"
           />
           {selectedOption == "Alphabetical Order" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
       </Modal.Body>

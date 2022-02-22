@@ -17,7 +17,6 @@ class DiscoveryController < ApplicationController
           .where(id: ids)
           .select("setseed(0.#{Date.today.jd}), talent.*")
           .order("random()")
-          .limit(4)
       }
     end
 

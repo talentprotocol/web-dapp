@@ -20,7 +20,7 @@ const TalentFilters = ({ status, setStatus, filter }) => {
     <Dropdown>
       <Dropdown.Toggle
         className="talent-button white-subtle-button normal-size-button no-caret d-flex justify-content-between align-items-center"
-        id="user-dropdown"
+        id="talent-filters-dropdown"
         bsPrefix=""
         as="div"
         style={{ height: 34, width: 150 }}
