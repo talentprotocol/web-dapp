@@ -33,6 +33,8 @@ class UsersController < ApplicationController
       )
 
       if @result[:success]
+        UserMailer.with(user: @result[:user]).send_sign_up_email.deliver_later
+
         render json: @result[:user], status: :created
       else
         render json: @result, status: :conflict

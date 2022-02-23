@@ -11,9 +11,11 @@ const Message = (props) => {
     mine,
     profilePictureUrl,
     username,
+    profileLink,
     previousMessageSameUser,
     user,
   } = props;
+
   const sentDate = dayjs(message.created_at).format("MMM D, YYYY, h:m A");
 
   return (
@@ -21,7 +23,7 @@ const Message = (props) => {
       {!previousMessageSameUser && (
         <TalentProfilePicture
           src={mine ? user.profilePictureUrl : profilePictureUrl}
-          link={`talent/${props.username}`}
+          link={profileLink}
           height={48}
           className="mb-auto mt-3"
         />

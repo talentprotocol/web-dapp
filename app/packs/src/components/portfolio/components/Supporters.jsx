@@ -10,6 +10,7 @@ import { get } from "src/utils/requests";
 import {
   H4,
   H5,
+  P1,
   P2,
   P3,
   Caption,
@@ -522,7 +523,7 @@ const Supporters = ({
             currentUserId={currentUserId}
             messagingDisabled={
               supporterInfo[activeSupporter.id]?.messagingDisabled ||
-              props.messagingDisabled
+              messagingDisabled
             }
           />
         )}
@@ -689,7 +690,7 @@ const Supporters = ({
                     !supporterInfo[supporter.id]?.id ||
                     supporterInfo[supporter.id]?.id == currentUserId ||
                     supporterInfo[supporter.id]?.messagingDisabled ||
-                    props.messagingDisabled
+                    messagingDisabled
                   }
                   href={`/messages?user=${supporterInfo[supporter.id]?.id}`}
                 />

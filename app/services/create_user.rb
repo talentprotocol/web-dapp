@@ -29,8 +29,6 @@ class CreateUser
 
       create_invite(user)
 
-      UserMailer.with(user: user).send_sign_up_email.deliver_later
-
       @result[:user] = user
       @result[:success] = true
       @result
