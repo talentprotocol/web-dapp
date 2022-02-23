@@ -10,7 +10,7 @@ class BaseNotification < Noticed::Base
       @source
     else
       @source_loaded = true
-      @source = User.find_by_id(params["source_id"])
+      @source = User.find_by(id: params["source_id"])
     end
   end
 
@@ -30,5 +30,6 @@ class BaseNotification < Noticed::Base
   end
 
   def url
+    raise "This method should be redefined on the subclass"
   end
 end

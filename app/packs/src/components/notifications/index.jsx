@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { post } from "src/utils/requests";
+import { put } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
@@ -54,7 +54,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
 
   const notificationRead = async (notification) => {
     if (!notification.read) {
-      await post(`/api/v1/notifications/${notification.id}/mark_as_read`);
+      await put(`/api/v1/notifications/${notification.id}/mark_as_read`);
     }
     if (notification.url) {
       window.location.href = notification.url;

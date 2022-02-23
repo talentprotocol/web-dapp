@@ -5,9 +5,9 @@ class CreateNotificationTalentChangedJob < ApplicationJob
     users_ids = users_ids.filter { |id| id != source_id }
 
     User.where(id: users_ids).find_each do |user|
-      CreateNotification.call(recipient: user,
-                              type: TalentChangedNotification,
-                              source_id: source_id)
+      CreateNotification.new.call(recipient: user,
+                                  type: TalentChangedNotification,
+                                  source_id: source_id)
     end
   end
 end

@@ -5,9 +5,9 @@ class API::V1::StakesController < ApplicationController
     if token.talent.user_id != current_user.id
       current_user.update!(tokens_purchased: true)
       AddUsersToMailerliteJob.perform_later(current_user.id)
-      CreateNotification.call(recipient: token.talent.user,
-                              type: TokenAcquiredNotification,
-                              source_id: current_user.id)
+      CreateNotification.new.call(recipient: token.talent.user,
+                                  type: TokenAcquiredNotification,
+                                  source_id: current_user.id)
       # add_follow(token.talent.user_id)
     end
 
