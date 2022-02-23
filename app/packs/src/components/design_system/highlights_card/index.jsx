@@ -10,7 +10,7 @@ import cx from "classnames";
 const HighlightsCard = ({ title, link, className }) => {
   const icon = () => {
     switch (title) {
-      case "Most Trendy":
+      case "Trending":
         return "🔥";
       case "Latest Added":
         return "🚀";

@@ -119,6 +119,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     <NewTalentCard
                       name={talent.name}
                       ticker={talent.ticker}
+                      contractId={talent.contractId}
                       occupation={talent.occupation}
                       profilePictureUrl={talent.profilePictureUrl}
                       headline={talent.headline}

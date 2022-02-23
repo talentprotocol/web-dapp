@@ -65,17 +65,17 @@ const MobileTalentTableDropdown = ({
           )}
         </Button>
         <Button
-          onClick={() => onOptionClick("Circulating Supply")}
+          onClick={() => onOptionClick("Market Cap")}
           type="white-ghost"
           mode={mode}
           className="d-flex flex-row justify-content-between px-4"
         >
           <P1
-            className={cx(selectedClass("Circulating Supply"))}
+            className={cx(selectedClass("Market Cap"))}
             bold
             text="Market Cap"
           />
-          {selectedOption == "Circulating Supply" && (
+          {selectedOption == "Market Cap" && (
             <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
@@ -103,71 +103,16 @@ const TalentTableListMode = ({
   talents,
   theme,
   getProgress,
-  getCirculatingSupply,
+  getMarketCap,
   getSupporterCount,
-  watchlistOnly,
   updateFollow,
   selectedSort,
   setSelectedSort,
-  compareCirculatingSupply,
+  sortDirection,
+  setSortDirection,
 }) => {
-  const [sortDirection, setSortDirection] = useState("asc");
   const { mobile } = useWindowDimensionsHook();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const compareUsername = (talent1, talent2) => {
-    if (talent1.user.username > talent2.user.username) {
-      return 1;
-    } else if (talent1.user.username < talent2.user.username) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareOccupation = (talent1, talent2) => {
-    if (talent1.occupation < talent2.occupation) {
-      return 1;
-    } else if (talent1.occupation > talent2.occupation) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareSupporters = (talent1, talent2) =>
-    getSupporterCount(talent1.token.contractId) -
-    getSupporterCount(talent2.token.contractId);
-
-  const filteredTalents = () => {
-    let desiredTalent = talents;
-    if (watchlistOnly) {
-      desiredTalent = talents.filter((talent) => talent.isFollowing);
-    }
-    let comparisonFunction;
-
-    switch (selectedSort) {
-      case "Supporters":
-        comparisonFunction = compareSupporters;
-        break;
-      case "Occupation":
-        comparisonFunction = compareOccupation;
-        break;
-      case "Circulating Supply":
-        comparisonFunction = compareCirculatingSupply;
-        break;
-      case "Alphabetical Order":
-        comparisonFunction = compareUsername;
-        break;
-    }
-    desiredTalent.sort(comparisonFunction);
-
-    if (sortDirection != "asc") {
-      desiredTalent.reverse();
-    }
-
-    return desiredTalent;
-  };
 
   const toggleDirection = () => {
     if (sortDirection == "asc") {
@@ -188,14 +133,17 @@ const TalentTableListMode = ({
   };
 
   const getSelectedOptionValue = (talent) => {
+    const contractId = talent.token.contractId;
     switch (selectedSort) {
       case "Supporters":
-        return getSupporterCount(talent.contractId);
+        return contractId ? getSupporterCount(talent.token.contractId) : "-";
       case "Occupation":
         return talent.occupation;
-      case "Circulating Supply":
-        return getCirculatingSupply(talent.contractId);
+      case "Market Cap":
+        return contractId ? getMarketCap(talent.token.contractId) : "";
       case "Alphabetical Order":
+        return talent.occupation;
+      default:
         return talent.occupation;
     }
   };
@@ -208,9 +156,12 @@ const TalentTableListMode = ({
     }
   };
 
+  console.log({ selectedSort });
+  console.log({ sortDirection });
+
   if (mobile) {
     return (
-      <div className="pl-4">
+      <div>
         <MobileTalentTableDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
@@ -219,19 +170,15 @@ const TalentTableListMode = ({
           order={sortDirection}
           onOptionClick={onOptionClick}
         />
-        <div className="w-100 talent-table-tabs mt-3 d-flex flex-row align-items-center">
-          <Button
-            onClick={() => setShowDropdown(true)}
-            type="white-ghost"
-            mode={theme.mode()}
-            className=""
-          >
+        <div className="w-100 talent-table-tabs mt-3 d-flex flex-row justify-content-between align-items-center">
+          <P2 text="Talent" className="text-black ml-2" bold />
+          <Button onClick={() => setShowDropdown(true)} type="white-ghost">
             {selectedSort} <OrderBy black={true} />
           </Button>
         </div>
         <Table mode={theme.mode()} className="horizontal-scroll">
           <Table.Body>
-            {filteredTalents().map((talent) => (
+            {talents.map((talent) => (
               <Table.Tr key={`talent-${talent.id}`}>
                 <Table.Td>
                   <div className="d-flex flex-row align-items-center">
@@ -255,7 +202,7 @@ const TalentTableListMode = ({
                         src={talent.profilePictureUrl}
                         height="24"
                       />
-                      <P2 text={talent.user.username} bold className="ml-2" />
+                      <P2 text={talent.user.name} bold className="ml-2" />
                     </div>
                   </div>
                 </Table.Td>
@@ -307,15 +254,15 @@ const TalentTableListMode = ({
         </Table.Th>
         <Table.Th>
           <Caption
-            onClick={() => onOptionClick("Circulating Supply")}
+            onClick={() => onOptionClick("Market Cap")}
             bold
-            text={`MARKET CAP${sortIcon("Circulating Supply")}`}
+            text={`MARKET CAP${sortIcon("Market Cap")}`}
             className="cursor-pointer"
           />
         </Table.Th>
       </Table.Head>
       <Table.Body>
-        {filteredTalents().map((talent) => (
+        {talents.map((talent) => (
           <Table.Tr key={`talent-${talent.id}`}>
             <Table.Td>
               <button
@@ -340,7 +287,7 @@ const TalentTableListMode = ({
                   height="24"
                 />
                 <P2 text={talent.user.name} bold className="ml-2" />
-                {talent.token.ticker ? (
+                {talent.token.contractId ? (
                   <P2
                     text={`$${talent.token.ticker}`}
                     bold
@@ -367,16 +314,16 @@ const TalentTableListMode = ({
             >
               <P2
                 text={
-                  !talent.token.ticker
-                    ? "-"
-                    : `${getSupporterCount(talent.token.contractId)}`
+                  talent.token.contractId
+                    ? `${getSupporterCount(talent.token.contractId)}`
+                    : "-"
                 }
               />
             </Table.Td>
             <Table.Td
               className={
                 (cx("pr-3"),
-                talent.token.ticker ? "" : "d-flex justify-content-center")
+                talent.token.contractId ? "" : "d-flex justify-content-center")
               }
               onClick={() =>
                 (window.location.href = `/talent/${talent.user.username}`)
@@ -384,11 +331,11 @@ const TalentTableListMode = ({
             >
               <P2
                 text={
-                  !talent.token.ticker
-                    ? "-"
-                    : `${getCirculatingSupply(talent.token.contractId)} ${
-                        talent.token.ticker || ""
+                  talent.token.contractId
+                    ? `${getMarketCap(talent.token.contractId)} ${
+                        talent.token.ticker
                       }`
+                    : "-"
                 }
               />
               <div className="progress" style={{ height: 6 }}>

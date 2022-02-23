@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { get } from "src/utils/requests";
 
 import Button from "src/components/design_system/button";
@@ -16,7 +16,8 @@ const TalentOptions = ({
   listModeOnly,
   setListModeOnly,
   setLocalTalents,
-  compareCirculatingSupply,
+  setSelectedSort,
+  setSortDirection,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
@@ -33,10 +34,12 @@ const TalentOptions = ({
       const talents = response.map((talent) => camelCaseObject(talent));
 
       if (option === "Trending") {
-        setLocalTalents(talents.sort(compareCirculatingSupply).reverse());
+        setSelectedSort("Market Cap");
+        setSortDirection("asc");
       } else {
-        setLocalTalents(talents);
+        setSelectedSort("");
       }
+      setLocalTalents(talents);
       window.history.replaceState(
         {},
         document.title,
@@ -44,6 +47,12 @@ const TalentOptions = ({
       );
     });
   };
+
+  useEffect(() => {
+    if (status === "Trending") {
+      setSelectedSort("Market Cap");
+    }
+  }, [status]);
 
   return (
     <div
