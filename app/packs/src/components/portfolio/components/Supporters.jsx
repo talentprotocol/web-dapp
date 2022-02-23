@@ -31,7 +31,7 @@ const MobileSupporterAction = ({
   ticker,
   userId,
   currentUserId,
-  messagingDisabled
+  messagingDisabled,
 }) => {
   return (
     <Modal
@@ -114,7 +114,7 @@ const MobileSupportersDropdown = ({
         >
           Amount{" "}
           {selectedOption == "Amount" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -127,7 +127,7 @@ const MobileSupportersDropdown = ({
         >
           Unclaimed Rewards{" "}
           {selectedOption == "Rewards" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -140,7 +140,7 @@ const MobileSupportersDropdown = ({
         >
           Alphabetical Order
           {selectedOption == "Alphabetical Order" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
       </Modal.Body>
@@ -268,7 +268,7 @@ const Supporters = ({
   chainAPI,
   mobile,
   currentUserId,
-  messagingDisabled
+  messagingDisabled,
 }) => {
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: { id: tokenAddress?.toLowerCase() },
@@ -520,7 +520,10 @@ const Supporters = ({
             ticker={ticker}
             userId={supporterInfo[activeSupporter.id]?.id}
             currentUserId={currentUserId}
-            messagingDisabled={supporterInfo[activeSupporter.id]?.messagingDisabled || props.messagingDisabled}
+            messagingDisabled={
+              supporterInfo[activeSupporter.id]?.messagingDisabled ||
+              props.messagingDisabled
+            }
           />
         )}
         <MobileSupportersDropdown

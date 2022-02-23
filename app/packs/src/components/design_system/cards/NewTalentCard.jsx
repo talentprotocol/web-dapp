@@ -72,7 +72,7 @@ const NewTalentCard = ({
               </div>
             </div>
             <button
-              className="button-link ml-2 z-index-1"
+              className="button-link ml-2"
               onClick={(e) => updateFollowing(e)}
             >
               <Star pathClassName={isFollowing ? "star" : "star-outline"} />

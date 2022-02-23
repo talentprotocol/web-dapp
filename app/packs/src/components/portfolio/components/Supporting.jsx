@@ -49,7 +49,7 @@ const MobileSupportingDropdown = ({
         >
           Amount{" "}
           {selectedOption == "Amount" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -62,7 +62,7 @@ const MobileSupportingDropdown = ({
         >
           Unclaimed Rewards{" "}
           {selectedOption == "Rewards" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -75,7 +75,7 @@ const MobileSupportingDropdown = ({
         >
           Alphabetical Order
           {selectedOption == "Alphabetical Order" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
       </Modal.Body>

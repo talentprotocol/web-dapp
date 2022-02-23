@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 
-import { get, post, destroy } from "src/utils/requests";
-import { useWindowDimensionsHook } from "../../utils/window";
+import { post, destroy } from "src/utils/requests";
+import { useWindowDimensionsHook } from "src/utils/window";
 import { ethers } from "ethers";
 import { parseAndCommify } from "src/onchain/utils";
 import {
@@ -11,10 +11,11 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { H2, P1 } from "src/components/design_system/typography";
+import { H2 } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
-import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
-import MarketingCard from "src/components/design_system/cards/MarketingCard";
+
+import DiscoveryRows from "./discovery_rows";
+import DiscoveryMarketingArticles from "./discovery_marketing_articles";
 
 import cx from "classnames";
 
@@ -141,66 +142,15 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
           link="/talent?status=Launching+soon"
         />
       </div>
-      <div>
-        {localDiscoveryRows.map((row) => (
-          <div key={row.title} className="mt-6">
-            <P1
-              bold
-              text={row.title}
-              className={cx("text-black", mobile && "ml-4")}
-            />
-            <div
-              className={cx(
-                "w-100 d-flex flex-wrap",
-                mobile ? "justify-content-center" : "justify-content-between"
-              )}
-            >
-              {row.talents.map((talent) => (
-                <div key={talent.id} className="mt-3">
-                  <NewTalentCard
-                    name={talent.name}
-                    ticker={talent.ticker}
-                    occupation={talent.occupation}
-                    profilePictureUrl={talent.profilePictureUrl}
-                    headline={talent.headline}
-                    isFollowing={talent.isFollowing}
-                    updateFollow={() => updateFollow(talent)}
-                    talentLink={`/talent/${talent.username}`}
-                    marketCap={talent.marketCap}
-                    supporterCount={talent.supporterCount}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-6 mb-4">
-        <P1
-          className={cx("text-black", mobile && "ml-4")}
-          bold
-          text="More from Talent Protocol"
-        />
-        <div
-          className={cx(
-            "d-flex flex-wrap mb-4",
-            mobile ? "justify-content-center" : "justify-content-between"
-          )}
-        >
-          {marketingArticles.map((article) => (
-            <div key={article.id} className="mt-3">
-              <MarketingCard
-                link={article.link}
-                title={article.title}
-                imgUrl={article.imgUrl}
-                description={article.description}
-                user={article.user}
-                date={article.date}
-              />
-            </div>
-          ))}
+      <DiscoveryRows
+        discoveryRows={localDiscoveryRows}
+        updateFollow={updateFollow}
+      />
+      {marketingArticles.length > 0 && (
+        <div className="mt-6 mb-4">
+          <DiscoveryMarketingArticles marketingArticles={marketingArticles} />
         </div>
-      </div>
+      )}
     </div>
   );
 };
