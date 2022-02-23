@@ -32,6 +32,8 @@ class UsersController < ApplicationController
         theme_preference: user_params[:theme_preference]
       )
 
+      UserMailer.with(user: @result[:user]).send_sign_up_email.deliver_later
+
       if @result[:success]
         render json: @result[:user], status: :created
       else
