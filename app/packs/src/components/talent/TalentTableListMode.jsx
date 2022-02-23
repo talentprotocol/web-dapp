@@ -156,12 +156,9 @@ const TalentTableListMode = ({
     }
   };
 
-  console.log({ selectedSort });
-  console.log({ sortDirection });
-
   if (mobile) {
     return (
-      <div>
+      <>
         <MobileTalentTableDropdown
           show={showDropdown}
           hide={() => setShowDropdown(false)}
@@ -218,7 +215,7 @@ const TalentTableListMode = ({
             ))}
           </Table.Body>
         </Table>
-      </div>
+      </>
     );
   }
 
@@ -332,9 +329,7 @@ const TalentTableListMode = ({
               <P2
                 text={
                   talent.token.contractId
-                    ? `${getMarketCap(talent.token.contractId)} ${
-                        talent.token.ticker
-                      }`
+                    ? `$${getMarketCap(talent.token.contractId)}`
                     : "-"
                 }
               />

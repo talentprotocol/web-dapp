@@ -1,5 +1,6 @@
 import React, { useState, useContext, useMemo } from "react";
 import { ethers } from "ethers";
+import { parseAndCommify } from "src/onchain/utils";
 import { useWindowDimensionsHook } from "src/utils/window";
 
 import {
@@ -59,9 +60,8 @@ const TalentPage = ({ talents }) => {
     );
 
     if (chosenTalent) {
-      return ethers.utils.commify(
-        ethers.utils.formatUnits(chosenTalent.totalSupply)
-      );
+      const totalSupply = ethers.utils.formatUnits(chosenTalent.totalSupply);
+      return parseAndCommify(totalSupply * 0.1);
     }
     return "-1";
   };
