@@ -1,11 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { P1 } from "src/components/design_system/typography";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Caret } from "src/components/icons";
 import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
 import Button from "src/components/design_system/button";
@@ -119,6 +114,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     <NewTalentCard
                       name={talent.name}
                       ticker={talent.ticker}
+                      contractId={talent.contractId}
                       occupation={talent.occupation}
                       profilePictureUrl={talent.profilePictureUrl}
                       headline={talent.headline}

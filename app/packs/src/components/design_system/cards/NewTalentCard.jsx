@@ -13,6 +13,7 @@ import { func } from "prop-types";
 const NewTalentCard = ({
   name,
   ticker,
+  contractId,
   occupation,
   profilePictureUrl,
   headline,
@@ -46,7 +47,7 @@ const NewTalentCard = ({
               text={occupation}
             />
           </div>
-          {ticker ? (
+          {contractId ? (
             <P2 className="text-primary" bold text={`$${ticker}`} />
           ) : (
             <Tag className="coming-soon-tag">
@@ -94,11 +95,11 @@ const NewTalentCard = ({
         <div className="d-flex justify-content-between">
           <P2
             className="text-black"
-            text={ticker ? `${currency(marketCap).format()}` : "-"}
+            text={contractId ? `${currency(marketCap).format()}` : "-"}
           />
           <P2
             className="text-black"
-            text={ticker ? `${supporterCount}` : "-"}
+            text={contractId ? `${supporterCount}` : "-"}
           />
         </div>
       </div>
@@ -108,6 +109,7 @@ const NewTalentCard = ({
 
 NewTalentCard.defaultProps = {
   ticker: "",
+  contractId: null,
   occupation: "",
   profilePictureUrl: "",
   headline: "",
@@ -118,6 +120,7 @@ NewTalentCard.defaultProps = {
 NewTalentCard.propTypes = {
   name: string.isRequired,
   ticker: string,
+  contractId: string,
   occupation: string,
   profilePictureUrl: string,
   headline: string,

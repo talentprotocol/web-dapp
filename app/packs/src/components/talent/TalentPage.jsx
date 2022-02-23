@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import { ethers } from "ethers";
+import { parseAndCommify } from "src/onchain/utils";
 import { useWindowDimensionsHook } from "src/utils/window";
 
 import {
@@ -11,7 +12,7 @@ import {
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
-import { H3, P1 } from "src/components/design_system/typography";
+import { H3, P1, P2 } from "src/components/design_system/typography";
 import TalentTableListMode from "./TalentTableListMode";
 import TalentTableCardMode from "./TalentTableCardMode";
 import TalentOptions from "./TalentOptions";
@@ -32,6 +33,7 @@ const TalentPage = ({ talents }) => {
   const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const getSupporterCount = (contractId) => {
     if (loading || !data) {
@@ -48,7 +50,7 @@ const TalentPage = ({ talents }) => {
     return "-1";
   };
 
-  const getCirculatingSupply = (contractId) => {
+  const getMarketCap = (contractId) => {
     if (loading || !data) {
       return "0";
     }
@@ -58,9 +60,8 @@ const TalentPage = ({ talents }) => {
     );
 
     if (chosenTalent) {
-      return ethers.utils.commify(
-        ethers.utils.formatUnits(chosenTalent.totalSupply)
-      );
+      const totalSupply = ethers.utils.formatUnits(chosenTalent.totalSupply);
+      return parseAndCommify(totalSupply * 0.1);
     }
     return "-1";
   };
@@ -121,12 +122,42 @@ const TalentPage = ({ talents }) => {
     }
   };
 
-  const compareCirculatingSupply = (talent1, talent2) => {
+  const compareName = (talent1, talent2) => {
+    const name1 = talent1.user.name.toLowerCase() || "";
+    const name2 = talent2.user.name.toLowerCase() || "";
+
+    if (name1 > name2) {
+      return 1;
+    } else if (name1 < name2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  const compareOccupation = (talent1, talent2) => {
+    const occupation1 = talent1.occupation?.toLowerCase() || "";
+    const occupation2 = talent2.occupation?.toLowerCase() || "";
+
+    if (occupation1 < occupation2) {
+      return 1;
+    } else if (occupation1 > occupation2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  const compareSupporters = (talent1, talent2) =>
+    getSupporterCount(talent1.token.contractId) -
+    getSupporterCount(talent2.token.contractId);
+
+  const compareMarketCap = (talent1, talent2) => {
     const talent1Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent1.token.contractId).replaceAll(",", "")
+      getMarketCap(talent1.token.contractId).replaceAll(",", "")
     );
     const talent2Amount = ethers.utils.parseUnits(
-      getCirculatingSupply(talent2.token.contractId).replaceAll(",", "")
+      getMarketCap(talent2.token.contractId).replaceAll(",", "")
     );
 
     if (talent1Amount.gt(talent2Amount)) {
@@ -138,8 +169,39 @@ const TalentPage = ({ talents }) => {
     }
   };
 
+  const filteredTalents = useMemo(() => {
+    let desiredTalent = [...localTalents];
+    if (watchlistOnly) {
+      desiredTalent = localTalents.filter((talent) => talent.isFollowing);
+    }
+    let comparisonFunction;
+
+    switch (selectedSort) {
+      case "Supporters":
+        comparisonFunction = compareSupporters;
+        break;
+      case "Occupation":
+        comparisonFunction = compareOccupation;
+        break;
+      case "Market Cap":
+        comparisonFunction = compareMarketCap;
+        break;
+      case "Alphabetical Order":
+        comparisonFunction = compareName;
+        break;
+    }
+
+    if (sortDirection === "asc") {
+      desiredTalent.sort(comparisonFunction).reverse();
+    } else if (sortDirection === "desc") {
+      desiredTalent.sort(comparisonFunction);
+    }
+
+    return desiredTalent;
+  }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
+
   return (
-    <div className={cx(mobile && "m-4")}>
+    <div className={cx("pb-6", mobile && "p-4")}>
       <div className="mb-5">
         <H3 className="text-black mb-3" bold text="Explore All Talent" />
         <P1
@@ -152,28 +214,37 @@ const TalentPage = ({ talents }) => {
         listModeOnly={listModeOnly}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
-        compareCirculatingSupply={compareCirculatingSupply}
+        setSelectedSort={setSelectedSort}
+        setSortDirection={setSortDirection}
       />
+      {localTalents.length === 0 && (
+        <div className="d-flex justify-content-center mt-6">
+          <P2
+            className="text-black"
+            bold
+            text="We couldn’t find any talent based on your search."
+          />
+        </div>
+      )}
       {listModeOnly ? (
         <TalentTableListMode
           theme={theme}
-          talents={localTalents}
+          talents={filteredTalents}
           getProgress={getProgress}
-          getCirculatingSupply={getCirculatingSupply}
+          getMarketCap={getMarketCap}
           getSupporterCount={getSupporterCount}
           updateFollow={updateFollow}
-          watchlistOnly={watchlistOnly}
           selectedSort={selectedSort}
           setSelectedSort={setSelectedSort}
-          compareCirculatingSupply={compareCirculatingSupply}
+          sortDirection={sortDirection}
+          setSortDirection={setSortDirection}
         />
       ) : (
         <TalentTableCardMode
-          talents={localTalents}
-          getCirculatingSupply={getCirculatingSupply}
+          talents={filteredTalents}
+          getMarketCap={getMarketCap}
           getSupporterCount={getSupporterCount}
           updateFollow={updateFollow}
-          watchlistOnly={watchlistOnly}
         />
       )}
     </div>

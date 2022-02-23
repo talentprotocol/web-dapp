@@ -128,7 +128,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
       >
         <HighlightsCard
           className="mt-2"
-          title="Most Trendy"
+          title="Trending"
           link="/talent?status=Trending"
         />
         <HighlightsCard
