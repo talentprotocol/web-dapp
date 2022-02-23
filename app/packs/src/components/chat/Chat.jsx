@@ -175,14 +175,16 @@ const Chat = ({ users, user }) => {
   }, [activeUserId]);
 
   const messagingDisabled = () => {
-    const activeUser = users.find(user => user.id == activeUserId)
-    return user.messagingDisabled || (activeUser && activeUser.messagingDisabled)
-  }
+    const activeUser = users.find((user) => user.id == activeUserId);
+    return (
+      user.messagingDisabled || (activeUser && activeUser.messagingDisabled)
+    );
+  };
 
   const activeUserWithTalent = () => {
-    const activeUser = users.find(user => user.id == activeUserId)
-    return (activeUser && activeUser.withTalent)
-  }
+    const activeUser = users.find((user) => user.id == activeUserId);
+    return activeUser && activeUser.withTalent;
+  };
 
   return (
     <>
@@ -194,6 +196,7 @@ const Chat = ({ users, user }) => {
                 onClick={(userId) => setActiveUser(userId)}
                 activeUserId={activeUserId}
                 users={localUsers}
+                setUsers={setLocalUsers}
                 mode={theme.mode()}
                 mobile={mobile}
               />

@@ -25,7 +25,13 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
   const message = lastMessageText(user.last_message);
   const active = user.id == activeUserId ? " active" : "";
 
-  const displayTime = dayjs(user.last_message_date).fromNow();
+  const displayTime = () => {
+    if (user.last_message_date) {
+      return dayjs(user.last_message_date).fromNow();
+    } else {
+      return "";
+    }
+  };
 
   return (
     <a
@@ -40,7 +46,7 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
               <div className="d-flex flex-row">
                 <P2 text={user.username} bold className="mr-2" />
               </div>
-              <P3 text={displayTime} />
+              <P3 text={displayTime()} />
             </div>
             <div className="d-flex flex-row mb-0 justify-content-between">
               <P2 text={message} className="mr-2" />
@@ -93,23 +99,25 @@ const sortUsers = (user1, user2) => {
   return 0;
 };
 
-const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
+const MessageUserList = ({
+  users,
+  setUsers,
+  activeUserId,
+  onClick,
+  mode,
+  mobile,
+}) => {
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
-  const [allUsers, setAllUsers] = useState(users);
 
   const onNewMessageUser = (user) => {
     onClick(user.id);
-    const index = allUsers.findIndex((u) => u.id == user.id);
+    const index = users.findIndex((u) => u.id == user.id);
     if (index < 0) {
-      setAllUsers((prev) => [...prev, user]);
+      setUsers((prev) => [...prev, user]);
     }
     setShow(false);
   };
-
-  useEffect(() => {
-    setAllUsers(users);
-  }, [users]);
 
   const sortedUsers = users.sort(sortUsers);
 
@@ -125,7 +133,7 @@ const MessageUserList = ({ users, activeUserId, onClick, mode, mobile }) => {
         <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-4">
           <div className="position-relative w-100">
             <TextInput
-              disabled={allUsers.length == 0}
+              disabled={users.length == 0}
               onChange={(e) => setSearch(e.target.value)}
               value={search}
               placeholder="Search in messages..."
