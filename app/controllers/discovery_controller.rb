@@ -5,6 +5,7 @@ class DiscoveryController < ApplicationController
     DiscoveryRow.find_each do |row|
       ids = Talent
         .base
+        .active
         .joins(:tags)
         .where(tags: {id: row.tags.pluck(:id)})
         .distinct

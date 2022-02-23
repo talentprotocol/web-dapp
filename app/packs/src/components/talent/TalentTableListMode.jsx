@@ -249,7 +249,7 @@ const TalentTableListMode = ({
             className="cursor-pointer"
           />
         </Table.Th>
-        <Table.Th>
+        <Table.Th className="col-2">
           <Caption
             onClick={() => onOptionClick("Market Cap")}
             bold
@@ -318,10 +318,10 @@ const TalentTableListMode = ({
               />
             </Table.Td>
             <Table.Td
-              className={
-                (cx("pr-3"),
-                talent.token.contractId ? "" : "d-flex justify-content-center")
-              }
+              className={cx(
+                "pr-3",
+                talent.token.contractId ? "" : "d-flex justify-content-center"
+              )}
               onClick={() =>
                 (window.location.href = `/talent/${talent.user.username}`)
               }
