@@ -89,7 +89,7 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
 
 const GET_DISCOVERY_TALENTS = gql`
   query GetDiscoveryTalents($talentIds: [String!]) {
-    talents: talentTokens(where: { id_in: $talentIds }) {
+    talents: talentTokens(first: 500, where: { id_in: $talentIds }) {
       ...fields
     }
   }
