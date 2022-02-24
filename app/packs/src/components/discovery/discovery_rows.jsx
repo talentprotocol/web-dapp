@@ -68,7 +68,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
       {discoveryRows.map((row) => (
         <div key={row.title}>
           {row.talents.length > 0 ? (
-            <div className="mt-6">
+            <>
               <div className="d-flex justify-content-between">
                 <P1
                   bold
@@ -105,7 +105,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
               </div>
               <div
                 className={cx(
-                  "w-100 d-flex horizontal-scroll hide-scrollbar talents-cards-container justify-start",
+                  "w-100 d-flex horizontal-scroll hide-scrollbar talents-cards-container justify-start pb-6",
                   mobile && "pl-4"
                 )}
               >
@@ -127,7 +127,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </>
           ) : (
             <></>
           )}
