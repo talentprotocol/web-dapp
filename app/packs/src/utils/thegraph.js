@@ -19,7 +19,7 @@ const client = (env) => {
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!]) {
-    talentTokens(where: { id_in: $ids }) {
+    talentTokens(first: 500, where: { id_in: $ids }) {
       id
       supporterCounter
       totalSupply
