@@ -18,8 +18,8 @@ const client = (env) => {
 };
 
 const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList {
-    talentTokens(first: 300) {
+  query GetTalentList($ids: [String!]) {
+    talentTokens(where: { id_in: $ids }) {
       id
       supporterCounter
       totalSupply
@@ -87,6 +87,20 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
   }
 `;
 
+const GET_DISCOVERY_TALENTS = gql`
+  query GetDiscoveryTalents($talentIds: [String!]) {
+    talents: talentTokens(where: { id_in: $talentIds }) {
+      ...fields
+    }
+  }
+
+  fragment fields on TalentToken {
+    id
+    supporterCounter
+    totalSupply
+  }
+`;
+
 export {
   ApolloProvider,
   useQuery,
@@ -94,5 +108,6 @@ export {
   GET_TALENT_PORTFOLIO_FOR_ID,
   GET_SUPPORTER_PORTFOLIO,
   GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE,
+  GET_DISCOVERY_TALENTS,
   client,
 };

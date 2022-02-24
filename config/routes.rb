@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
-    root to: "talent#index", as: :user_root
+    root to: "discovery#index", as: :user_root
 
     # file uploads
     unless Rails.env.test?
@@ -49,7 +49,7 @@ Rails.application.routes.draw do
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
-        resources :talent, only: [:show, :update] do
+        resources :talent, only: [:index, :show, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"

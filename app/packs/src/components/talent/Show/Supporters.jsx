@@ -48,7 +48,7 @@ const MobileSupportersDropdown = ({
         >
           Amount{" "}
           {selectedOption == "Amount" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
         <Button
@@ -61,7 +61,7 @@ const MobileSupportersDropdown = ({
         >
           Alphabetical Order
           {selectedOption == "Alphabetical Order" && (
-            <OrderBy className={order == "asc" ? "" : "rotate-svg"} />
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
       </Modal.Body>

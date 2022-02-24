@@ -18,8 +18,6 @@ import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
 import MetamaskConnect from "src/components/login/MetamaskConnect";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
-import ActiveTalents from "src/components/talent/ActiveTalents";
-import TalentTable from "src/components/talent/TalentTable";
 import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
 
@@ -34,13 +32,14 @@ import TopBar from "src/components/top_bar";
 import Profile from "src/components/talent/Edit/Profile";
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
 import EditSupporter from "src/components/supporters/EditSupporter";
+import Discovery from "src/components/discovery";
+import TalentPage from "src/components/talent/TalentPage";
 
 import "stylesheets/application.scss";
 
 require.context("../images", true);
 
 ReactOnRails.register({
-  ActiveTalents,
   UpcomingTalents,
   Pagination,
   TalentShow,
@@ -51,7 +50,6 @@ ReactOnRails.register({
   Login,
   MetamaskConnect,
   TopBar,
-  TalentTable,
   Notifications,
   WelcomePopup,
   BottomNav,
@@ -61,6 +59,8 @@ ReactOnRails.register({
   EditSupporter,
   ResetPassword,
   ChangePassword,
+  Discovery,
+  TalentPage,
 });
 
 Rails.start();

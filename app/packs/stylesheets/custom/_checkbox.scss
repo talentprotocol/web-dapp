@@ -5,6 +5,7 @@
   position: relative;
   padding-left: 20px;
   cursor: pointer;
+  z-index: -1;
 
   &:hover input ~ .checkmark {
     border: 1px solid $primary;

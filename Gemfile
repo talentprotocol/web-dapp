@@ -57,9 +57,13 @@ gem "sidekiq-scheduler"
 
 # Requests
 gem "faraday"
+gem "down"
 
 # GraphQL
 gem "graphql-client"
+
+# JSON Object Presenter
+gem "blueprinter"
 
 group :development, :test do
   gem "awesome_print"

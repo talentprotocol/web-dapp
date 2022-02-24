@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { string, bool, number } from "prop-types";
+import { string, bool } from "prop-types";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Divider from "src/components/design_system/other/Divider";
+import Tag from "src/components/design_system/tag";
 import { H5, P1, P2, P3 } from "src/components/design_system/typography";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { Star } from "src/components/icons";
@@ -11,22 +12,23 @@ import { func } from "prop-types";
 
 const NewTalentCard = ({
   name,
-  token,
+  ticker,
+  contractId,
   occupation,
   profilePictureUrl,
-  circulatingSupply,
-  numberOfSupporters,
-  description,
-  following,
+  headline,
+  isFollowing,
   updateFollow,
   talentLink,
+  marketCap,
+  supporterCount,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
 
   const updateFollowing = (e) => {
     e.preventDefault();
-    updateFollow(!following);
+    updateFollow();
   };
 
   return (
@@ -45,7 +47,13 @@ const NewTalentCard = ({
               text={occupation}
             />
           </div>
-          <P2 className="text-primary" bold text={token} />
+          {contractId ? (
+            <P2 className="text-primary" bold text={`$${ticker}`} />
+          ) : (
+            <Tag className="coming-soon-tag">
+              <P3 className="current-color" bold text="Coming Soon" />
+            </Tag>
+          )}
         </a>
       ) : (
         <a className="talent-card-details talent-link" href={talentLink}>
@@ -65,16 +73,16 @@ const NewTalentCard = ({
               </div>
             </div>
             <button
-              className="button-link ml-2 z-index-1"
+              className="button-link ml-2"
               onClick={(e) => updateFollowing(e)}
             >
-              <Star pathClassName={following ? "star" : "star-outline"} />
+              <Star pathClassName={isFollowing ? "star" : "star-outline"} />
             </button>
           </div>
           <P1
-            className="text-black talent-card-details-description mt-3"
+            className="text-black talent-card-details-headline mt-3"
             bold
-            text={description}
+            text={headline}
           />
         </a>
       )}
@@ -87,26 +95,40 @@ const NewTalentCard = ({
         <div className="d-flex justify-content-between">
           <P2
             className="text-black"
-            text={`${currency(circulatingSupply).format()}`}
+            text={contractId ? `${currency(marketCap).format()}` : "-"}
           />
-          <P2 className="text-black" text={`${numberOfSupporters}`} />
+          <P2
+            className="text-black"
+            text={contractId ? `${supporterCount}` : "-"}
+          />
         </div>
       </div>
     </div>
   );
 };
 
+NewTalentCard.defaultProps = {
+  ticker: "",
+  contractId: null,
+  occupation: "",
+  profilePictureUrl: "",
+  headline: "",
+  marketCap: "",
+  supporterCount: "0",
+};
+
 NewTalentCard.propTypes = {
   name: string.isRequired,
-  token: string.isRequired,
-  occupation: string.isRequired,
-  profilePictureUrl: string.isRequired,
-  circulatingSupply: number.isRequired,
-  numberOfSupporters: number.isRequired,
-  description: string.isRequired,
-  following: bool.isRequired,
+  ticker: string,
+  contractId: string,
+  occupation: string,
+  profilePictureUrl: string,
+  headline: string,
+  isFollowing: bool.isRequired,
   updateFollow: func.isRequired,
   talentLink: string.isRequired,
+  marketCap: string,
+  supporterCount: string,
 };
 
 export default NewTalentCard;

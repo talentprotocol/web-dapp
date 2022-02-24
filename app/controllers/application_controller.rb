@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   layout "application"
 
+  protect_from_forgery
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def render_404
@@ -30,41 +32,5 @@ class ApplicationController < ActionController::Base
     Integer(params[:talent_id])
   rescue
     0
-  end
-
-  def talent_sort(talents)
-    if sort_params[:sort].present?
-      if sort_params[:sort] == "market_cap"
-        talents.joins(:token).order(market_cap: :desc)
-      elsif sort_params[:sort] == "activity"
-        talents.order(activity_count: :desc)
-      else
-        talents.order(created_at: :desc)
-      end
-    else
-      talents.order(created_at: :desc)
-    end
-  end
-
-  def talent_filter(talents)
-    if filter_params[:filter].present?
-      talents.joins(:user, :token)
-        .where(
-          "users.username ilike ? OR users.display_name ilike ? OR token.ticker ilike ?",
-          "%#{filter_params[:filter]}%",
-          "%#{filter_params[:filter]}%",
-          "%#{filter_params[:filter]}%"
-        )
-    else
-      talents
-    end
-  end
-
-  def filter_params
-    params.permit(:filter)
-  end
-
-  def sort_params
-    params.permit(:sort)
   end
 end

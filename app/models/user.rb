@@ -25,7 +25,7 @@ class User < ApplicationRecord
   has_many :notifications
   has_many :notification_sources, foreign_key: :source_id, class_name: "Notification"
 
-  VALID_ROLES = ["admin"].freeze
+  VALID_ROLES = ["admin", "basic"].freeze
 
   # [CLEARANCE] override email writing to allow nil but not two emails ""
   def self.normalize_email(email)

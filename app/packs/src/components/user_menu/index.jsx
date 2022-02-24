@@ -1,11 +1,7 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import {
-  faAngleDown,
-  faExternalLinkAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   SUPPORTER_GUIDE,
@@ -15,7 +11,7 @@ import {
 } from "src/utils/constants";
 import Button from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
-import { Sun, Moon } from "src/components/icons";
+import { Caret, Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
@@ -45,7 +41,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           text={user.username}
           className="mr-2 align-middle text-black"
         />
-        <FontAwesomeIcon icon={faAngleDown} className="align-middle" />
+        <Caret size={12} color="currentColor" />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="user-menu-dropdown">
@@ -141,7 +137,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           type="primary-outline"
           className="w-100"
         >
-          <P3 bold text="Get funds" className="text-white" />
+          <P3 bold text="Get funds" className="current-color" />
         </Button>
       </Dropdown.Menu>
     </Dropdown>

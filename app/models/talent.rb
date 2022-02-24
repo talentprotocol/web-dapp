@@ -29,8 +29,9 @@ class Talent < ApplicationRecord
   has_many :talent_tags
   has_many :tags, through: :talent_tags
 
-  scope :active, -> { where("ito_date <= ?", Time.current) }
-  scope :upcoming, -> { where("ito_date > ? OR ito_date is NULL", Time.current) }
+  scope :base, -> { where(public: true).includes([:user, :token]) }
+  scope :active, -> { joins(:token).where.not(tokens: {contract_id: nil}) }
+  scope :upcoming, -> { joins(:token).where(tokens: {contract_id: nil}) }
 
   delegate :wallet_id, :username, to: :user
 

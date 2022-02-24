@@ -1,19 +1,26 @@
 <main class="main-content">
   <div class="container-grid">
     <div class="secondary-content">
-      <%= react_component("ActiveTalents",
+      <%= react_component("TalentPage",
         props: {
-          talents: @active_talents.order("token.updated_at desc").map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contract_id: talent.token.contract_id, occupation: talent.occupation, ticker: talent.token.ticker, username: talent.user.username, name: talent.user.display_name.present? ? talent.user.display_name : talent.user.username }}
-        },
-        prerender: false) %>
-      <%= react_component("UpcomingTalents",
-        props: {
-          talents: @upcoming_talents.map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, occupation: talent.occupation, name: talent.user.display_name.present? ? talent.user.display_name : talent.user.username, username: talent.user.username }}
-        },
-        prerender: false) %>
-      <%= react_component("TalentTable",
-        props: {
-          talents: @active_talents.order(username: :desc).map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contract_id: talent.token.contract_id, occupation: talent.occupation, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, user_id: talent.user_id }}
+          talents: @talents.map { |talent|
+            {
+              id: talent.id,
+              profilePictureUrl: talent.profile_picture_url,
+              occupation: talent.occupation,
+              headline: talent.headline,
+              token: {
+                ticker: talent.token.ticker,
+                contractId: talent.token.contract_id
+              },
+              user: {
+                username: talent.user.username,
+                name: talent.user.display_name || talent.user.username
+              },
+              isFollowing: current_user.following.where(user_id: talent.user_id).exists?,
+              userId: talent.user_id
+            }
+          }
         },
         prerender: false) %>
     </div>
