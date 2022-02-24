@@ -5,4 +5,9 @@ class Notification < ApplicationRecord
   scope :find_by_source_id, ->(source_id) {
     where("(params->>'source_id')::bigint = ?", source_id.to_int)
   }
+  scope :unemailed, -> { where(emailed_at: nil) }
+
+  def mark_as_emailed
+    update_column(:emailed_at, Time.current)
+  end
 end

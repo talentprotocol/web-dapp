@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   validate :role_is_valid, if: -> { role.present? }
   validate :email_and_password
+  validate :validate_notification_preferences
 
   has_one :talent
   has_one :investor
@@ -25,6 +26,15 @@ class User < ApplicationRecord
   has_many :notifications, as: :recipient
 
   VALID_ROLES = ["admin", "basic"].freeze
+
+  module Delivery
+    TYPES = [
+      MessageReceivedNotification,
+      TokenAcquiredNotification
+    ].map(&:name).freeze
+
+    METHODS = [DISABLED = 0, IMMEDIATE = 1, DIGEST = 2]
+  end
 
   # [CLEARANCE] override email writing to allow nil but not two emails ""
   def self.normalize_email(email)
@@ -99,7 +109,30 @@ class User < ApplicationRecord
     super(options)
   end
 
+  def prefers_digest_notification?(type)
+    notification_preferences[type.name] == Delivery::DIGEST
+  end
+
+  def prefers_immediate_notification?(type)
+    notification_preferences[type.name].nil? ||
+      notification_preferences[type.name] == Delivery::IMMEDIATE
+  end
+
   private
+
+  def validate_notification_preferences
+    valid = false
+
+    if notification_preferences.is_a?(Hash)
+      valid = notification_preferences.all? do |type, value|
+        Delivery::TYPES.include?(type) && Delivery::METHODS.include?(value)
+      end
+    end
+
+    if !valid
+      errors.add(:notification_preferences, "Invalid notification preferences.")
+    end
+  end
 
   def role_is_valid
     unless role.in?(VALID_ROLES)

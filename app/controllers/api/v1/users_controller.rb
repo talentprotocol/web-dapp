@@ -108,7 +108,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email, :messaging_disabled)
+    params.require(:user).permit(
+      :theme_preference, :username, :email, :messaging_disabled,
+      notification_preferences: {}
+    )
   end
 
   def password_params

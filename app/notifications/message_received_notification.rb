@@ -1,5 +1,5 @@
 class MessageReceivedNotification < BaseNotification
   def url
-    messages_path
+    messages_url
   end
 end

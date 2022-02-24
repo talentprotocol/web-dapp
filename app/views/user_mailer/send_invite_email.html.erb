@@ -1,44 +1,28 @@
-<body>
-  <div class="bg-white">
-    <div class="container">
-      <div class="row my-10 max-w-80 ax-center">
-        <div class="col-2 ay-middle">
-          <img class="img-fluid ay-middle" alt="talent protocol logo" src="https://beta.talentprotocol.com/brand_logo.png" />
-        </div>
-        <div class="col-10 ay-middle">
-          <img class="img-fluid ay-middle" alt="talent protocol name" src="https://beta.talentprotocol.com/brand_name.png" />
-        </div>
-      </div>
-      <h3 class="ax-center text-center mb-10">Hello <%= @email %>!</h3>
-      <p class="w-full lh-lg text-lg mb-10">
-        We want to officially invite you to be part of <strong>Talent Protocol's</strong> 1st season!
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        Our platform is still invite-only and in early beta, but already live on the Celo blockchain.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        👉 First, <a href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">read this guide</a> that will help you create an account, explore the platform and buy your first Talent Tokens (30 are already live, and more are coming soon).
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        👉 Here’s your <strong>invite code</strong> to sign-up: <%= link_to "#{@invite.code}", sign_up_url(code: @invite.code) %>
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        👉 <strong>Insider tip</strong>: during this 1st season, you are actually getting $TAL at a discounted price ($0.025) and earning a considerable amount of daily rewards 👯
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        🙈 Don’t get your expectations too high, there's still a long way to go regarding the product. Our strategy is launch early, get "real world" feedback and iterate fast.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        🐞 If you see any bugs, get stuck in the process or have suggestions feel free to reach out to Filipe Macedo on Discord (filmacedo#9596) or at filipe@talentprotocol.com.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        Looking forward to hearing your thoughts and feedback!
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        Let’s do this! 🚀
-      </p>
-      <p class="ax-center text-center text-primary"><a href="https://www.talentprotocol.com/">@talentprotocol</a></p>
-      <p class="ax-center text-center text-primary"><small><a href="https://twitter.com/talentprotocol">twitter</a> | <a href="https://discord.gg/talentprotocol">discord</a> | <a href="https://t.me/talentprotocol">telegram</a></small></p>
-    </div>
-  </div>
-</body>
+<h3 class="ax-center text-center mb-10">Hello <%= @email %>!</h3>
+<p class="w-full lh-lg text-lg mb-10">
+  We want to officially invite you to be part of <strong>Talent Protocol's</strong> 1st season!
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  Our platform is still invite-only and in early beta, but already live on the Celo blockchain.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  👉 First, <a href="https://talentprotocol.notion.site/User-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">read this guide</a> that will help you create an account, explore the platform and buy your first Talent Tokens (30 are already live, and more are coming soon).
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  👉 Here’s your <strong>invite code</strong> to sign-up: <%= link_to "#{@invite.code}", sign_up_url(code: @invite.code) %>
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  👉 <strong>Insider tip</strong>: during this 1st season, you are actually getting $TAL at a discounted price ($0.02) and earning a considerable amount of daily rewards 👯
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  🙈 Don’t get your expectations too high, there's still a long way to go regarding the product. Our strategy is launch early, get "real world" feedback and iterate fast.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  🐞 If you see any bugs, get stuck in the process or have suggestions feel free to reach out to Filipe Macedo on Discord (filmacedo#9596) or at filipe@talentprotocol.com.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  Looking forward to hearing your thoughts and feedback!
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  Let’s do this! 🚀
+</p>

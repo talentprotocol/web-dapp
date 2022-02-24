@@ -6,6 +6,7 @@ import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import Checkbox from "src/components/design_system/checkbox";
+import Form from "react-bootstrap/Form"
 import { ArrowLeft } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
@@ -14,8 +15,20 @@ import Tag from "src/components/design_system/tag";
 import { passwordMatchesRequirements } from "src/utils/passwordRequirements";
 import { emailRegex, usernameRegex } from "src/utils/regexes";
 
+const NotificationInputs = [
+  {
+    description: "Someone bought your talent token",
+    name: "TokenAcquiredNotification",
+  },
+  {
+    description: "Someone sent you a chat message",
+    name: "MessageReceivedNotification",
+  },
+]
+
 const Settings = (props) => {
   const {
+    notificationPreferences,
     user,
     mobile,
     changeTab,
@@ -50,6 +63,10 @@ const Settings = (props) => {
     errors,
     tags,
   } = passwordMatchesRequirements(settings.newPassword);
+  const [notifications, setNotifications] = useState({
+    saving: false,
+    success: false,
+  });
 
   const changeAttribute = (attribute, value) => {
     if (attribute === "currentPassword" && validationErrors.currentPassword) {
@@ -126,6 +143,26 @@ const Settings = (props) => {
     setSaving((prev) => ({ ...prev, loading: true }));
     await togglePublicProfile();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
+  };
+
+  const setNotificationSettings = name => event => {
+    const value = parseInt(event.currentTarget.value, 10);
+    const preferences = { ...notificationPreferences, [name]: value };
+    changeSharedState(prev => ({ ...prev, notificationPreferences: preferences }));
+  }
+
+  const updateNotificationSettings = async () => {
+    let success = true;
+    setNotifications(prev => ({ ...prev, saving: true, success: false }));
+
+    const response = await patch(`/api/v1/users/${user.id}`, {
+      user: {
+        notification_preferences: notificationPreferences
+      }
+    }).catch(() => success = false);
+
+    success = success && response && !response.errors;
+    setNotifications(prev => ({ ...prev, saving: false, success }));
   };
 
   const messagingModeChanged = () =>
@@ -308,6 +345,54 @@ const Settings = (props) => {
           Save Profile
         </LoadingButton>
       </div>
+
+      <Divider className="mb-4" />
+      <div className="d-flex flex-column w-100 my-3">
+        <H5 className="w-100 text-left" mode={mode} text="Email Notification Settings" bold />
+        <P2
+          className="w-100 text-left"
+          mode={mode}
+          text="For each type of notification you can select to receive an immediate email notification, a daily email digest or to not receive any email."
+        />
+
+        {NotificationInputs.map(input =>
+          <div className="d-flex flex-row w-100 flex-wrap mt-4" key={input.name}>
+            <div className="d-flex flex-column w-100">
+              <div className="d-flex flex-row justify-content-between align-items-end">
+                <P2 bold className="text-black mb-2">
+                  {input.description}
+                </P2>
+              </div>
+              <Form.Control
+                as="select"
+                onChange={setNotificationSettings(input.name)}
+                value={notificationPreferences[input.name]}
+              >
+                <option value="0">Disabled</option>
+                <option value="1">Immediate</option>
+                <option value="2">Digest</option>
+              </Form.Control>
+            </div>
+          </div>
+        )}
+        <div
+          className={`d-flex flex-row ${
+            mobile ? "justify-content-between" : "mt-4"
+          } w-100 pb-4`}
+        >
+          <LoadingButton
+            onClick={updateNotificationSettings}
+            type="primary-default"
+            mode={mode}
+            loading={notifications.saving}
+            disabled={notifications.saving}
+            success={notifications.success}
+          >
+            Save Settings
+          </LoadingButton>
+        </div>
+      </div>
+
       <Divider className="mb-4" />
       <div className="d-flex flex-column w-100 my-3">
         <H5 className="w-100 text-left" mode={mode} text="Close Account" bold />
