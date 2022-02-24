@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   layout "application"
 
+  protect_from_forgery
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def render_404

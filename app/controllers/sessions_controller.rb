@@ -1,4 +1,6 @@
 class SessionsController < Clearance::SessionsController
+  protect_from_forgery
+
   def create
     if User.find_by(email: params[:session][:email])
       @user = authenticate(params)
