@@ -6,8 +6,9 @@ class DiscoveryController < ApplicationController
       ids = Talent
         .base
         .active
-        .joins(:tags)
+        .joins(:tags, :user)
         .where(tags: {id: row.tags.pluck(:id)})
+        .where(users: {role: "basic"})
         .distinct
         .order(:id)
         .pluck(:id)
