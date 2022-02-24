@@ -1,6 +1,7 @@
 <h3 class="ax-center text-center mb-10">Hello <%= @user.username %>!</h3>
-<p class="w-full lh-lg text-lg mb-10">
+<p class="w-full lh-lg text-center text-lg mb-10">
   <%= @notification.body %>!
 </p>
 <%= link_to @notification.button_label, @notification.url,
   class: "btn btn-primary rounded-full fw-800 text-5xl py-4 ax-center mb-10 w-full w-lg-80" %>
+<p class="ax-center text-center text-primary">You can disable or change the periodicity of these messages on your profile.</p>
