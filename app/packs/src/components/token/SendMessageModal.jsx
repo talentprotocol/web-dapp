@@ -5,7 +5,7 @@ import TextArea from "src/components/design_system/fields/textarea";
 import { H3 } from "src/components/design_system/typography";
 import { P2 } from "src/components/design_system/typography";
 import Link from "src/components/design_system/link";
-import { Check }  from "src/components/icons";
+import { Check } from "src/components/icons";
 import debounce from "lodash/debounce";
 import { post } from "src/utils/requests";
 
@@ -39,13 +39,13 @@ const SendMessage = ({
   talentName,
   hide,
   sendMessage,
-  sendingMessage
+  sendingMessage,
 }) => (
   <>
     <Modal.Header className="d-flex flex-column justify-content-center align-items-center">
-      <Check width="64" height="64" color="#1DB954" className="my-6"/>
-      <H3 mode={mode} text="Congratulations!" bold className="py-1"/>
-      <P2 
+      <Check width="64" height="64" color="#1DB954" className="my-6" />
+      <H3 mode={mode} text="Congratulations!" bold className="py-1" />
+      <P2
         mode={mode}
         text={`You've just bought ${amountBought} ${ticker}. You can now start a conversation with ${talentName}`}
         className="px-4 text-center"
@@ -53,30 +53,41 @@ const SendMessage = ({
     </Modal.Header>
     <Modal.Body className="show-grid p-4">
       <TextArea
-          mode={mode}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Share something with your supporters"
-          className="w-100 mr-2 py-3"
-          rows="5"
-        />
+        mode={mode}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder={`Share something with ${talentName}`}
+        className="w-100 mr-2 py-3"
+        rows="5"
+      />
 
       <Button
         type="primary-default"
         onClick={sendMessage}
-        disabled={sendingMessage} 
+        disabled={sendingMessage}
         className="mt-2 float-right"
       >
         Send message
       </Button>
 
-      <button className="button-link normal-size-button float-right mt-1" onClick={hide}>
+      <button
+        className="button-link normal-size-button float-right mt-1"
+        onClick={hide}
+      >
         <Link text="Maybe later!" className="text-primary" />
       </button>
     </Modal.Body>
   </>
 );
 
-const SendMessageModal = ({ show, setShow, amountBought, ticker, talentName, talentId, mode }) => {
+const SendMessageModal = ({
+  show,
+  setShow,
+  amountBought,
+  ticker,
+  talentName,
+  talentId,
+  mode,
+}) => {
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
@@ -94,7 +105,7 @@ const SendMessageModal = ({ show, setShow, amountBought, ticker, talentName, tal
         // setError("Unable to send message, try again") // @TODO: Create error box (absolute positioned)
       } else {
         setSendingMessage(false);
-        setMessageSent(true)
+        setMessageSent(true);
       }
     });
   };
