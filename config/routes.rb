@@ -87,9 +87,5 @@ Rails.application.routes.draw do
 
   root to: "sessions#new", as: :root
 
-  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    mount Sidekiq::Web => "/sidekiq"
-  end
-
   match "*unmatched", to: "application#route_not_found", via: :all
 end
