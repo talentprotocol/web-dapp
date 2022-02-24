@@ -12,7 +12,12 @@ class API::UpdateTalent
 
     if tag_params[:tags]
       all_tags = tag_params[:tags]
-      @talent.talent_tags.joins(:tag).where.not(tag: {description: all_tags}).delete_all
+      @talent
+        .talent_tags
+        .joins(:tag)
+        .where(tag: {hidden: false})
+        .where.not(tag: {description: all_tags})
+        .delete_all
 
       all_tags.each do |description|
         tag = Tag.find_or_create_by(description: description.downcase)
