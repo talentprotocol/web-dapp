@@ -122,7 +122,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
       )}
       <div
         className={cx(
-          "w-100 d-flex flex-wrap mt-6",
+          "w-100 d-flex flex-wrap mt-6 mb-6",
           mobile ? "justify-content-center" : "justify-content-between"
         )}
       >
@@ -147,7 +147,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
         updateFollow={updateFollow}
       />
       {marketingArticles.length > 0 && (
-        <div className="mt-6 mb-4">
+        <div className="mt-3 mb-4">
           <DiscoveryMarketingArticles marketingArticles={marketingArticles} />
         </div>
       )}
