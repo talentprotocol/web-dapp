@@ -23,6 +23,7 @@ const MarketingCard = ({ link, title, imgUrl, description, user, date }) => {
           width="100%"
           height={184}
           alt="Marketing Picture"
+          style={{ borderRadius: "4px" }}
         />
         <P1 className="text-black mt-3" bold text={title} />
         <P2 className="text-primary-03" text={description} />
