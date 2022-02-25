@@ -232,7 +232,7 @@ const TalentShow = ({
               height={mobile ? 120 : 192}
               border
             />
-            {mobile && actionButtons()}
+            {mobile && !publicPageViewer && actionButtons()}
           </div>
           <div className={cx("d-flex flex-column", !mobile && "ml-5")}>
             <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
@@ -265,7 +265,7 @@ const TalentShow = ({
             {mobile && <SocialRow sharedState={sharedState} />}
           </div>
         </div>
-        {!mobile && actionButtons()}
+        {!mobile && !publicPageViewer && actionButtons()}
       </section>
       {!publicPageViewer && (
         <div
