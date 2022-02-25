@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  faStar as faStarOutline,
-  faEdit,
-} from "@fortawesome/free-regular-svg-icons";
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -50,6 +47,7 @@ const TalentShow = ({
   const searchParams = new URLSearchParams(url.search);
 
   const talentIsFromCurrentUser = talent.user_id == currentUserId;
+  const publicPageViewer = !currentUserId;
   const [pageInDisplay, setPageInDisplay] = useState("overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
@@ -121,16 +119,18 @@ const TalentShow = ({
   };
 
   useEffect(() => {
-    if (searchParams.get("tab")) {
+    if (searchParams.get("tab") && !publicPageViewer) {
       setPageInDisplay(searchParams.get("tab"));
-    } else {
+    } else if (!publicPageViewer) {
       window.history.pushState(
         {},
         document.title,
         `${url.pathname}?tab=overview`
       );
+    } else if (publicPageViewer) {
+      window.history.pushState({}, document.title, url.pathname);
     }
-  }, [searchParams]);
+  }, [searchParams, publicPageViewer]);
 
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(document.location.search);
@@ -168,7 +168,7 @@ const TalentShow = ({
         type="white-subtle"
         mode={theme.mode()}
         className="mr-2 align-items-center"
-        disabled={user.messaging_enabled || (currentUserId == user.id)}
+        disabled={user.messaging_enabled || currentUserId == user.id}
       >
         {mobile && <Chat color="currentColor" className="mr-2" />}
         {!mobile && " Message"}
@@ -267,40 +267,42 @@ const TalentShow = ({
         </div>
         {!mobile && actionButtons()}
       </section>
-      <div
-        className={cx(
-          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-          mobile && "mx-4"
-        )}
-      >
+      {!publicPageViewer && (
         <div
-          onClick={() => changeTab("overview")}
-          className={`talent-table-tab${
-            pageInDisplay == "overview" ? " active-talent-table-tab" : ""
-          }`}
+          className={cx(
+            "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+            mobile && "mx-4"
+          )}
         >
-          Overview
-        </div>
-        <div
-          onClick={() => changeTab("timeline")}
-          className={`talent-table-tab${
-            pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Timeline
-        </div>
-        {sharedState.token.contract_id && (
           <div
-            onClick={() => changeTab("supporters")}
+            onClick={() => changeTab("overview")}
             className={`talent-table-tab${
-              pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
+              pageInDisplay == "overview" ? " active-talent-table-tab" : ""
             }`}
           >
-            Supporters
+            Overview
           </div>
-        )}
-      </div>
-      <div className={cx("d-flex flex-row flex-wrap", mobile && "pl-4")}>
+          <div
+            onClick={() => changeTab("timeline")}
+            className={`talent-table-tab${
+              pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            Timeline
+          </div>
+          {sharedState.token.contract_id && (
+            <div
+              onClick={() => changeTab("supporters")}
+              className={`talent-table-tab${
+                pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Supporters
+            </div>
+          )}
+        </div>
+      )}
+      <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
         <div
           className={`col-12${
             pageInDisplay != "supporters" ? " col-lg-8" : ""
@@ -335,7 +337,7 @@ const TalentShow = ({
         )}
       </div>
       {pageInDisplay == "overview" && (
-        <section className={cx("d-flex flex-column my-3", mobile && "pl-4")}>
+        <section className={cx("d-flex flex-column my-3", mobile && "px-4")}>
           <Roadmap
             goals={sharedState.goals}
             width={width}

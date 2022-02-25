@@ -1,5 +1,11 @@
 <main class="main-content">
   <div class="container-grid">
+    <% if current_user.nil? %>
+      <%= react_component("LoggedOutTopBar", props:
+        {
+        }, prerender: false)
+      %>
+    <% end %>
     <%= react_component("TalentShow", props:
       {
         talent: @talent.as_json,
@@ -11,9 +17,9 @@
         careerGoal: @talent.career_goal.as_json,
         goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
         milestones: @talent.milestones.as_json,
-        currentUserId: current_user.id,
+        currentUserId: current_user&.id,
         tokenLive: @talent.token.deployed?,
-        isFollowing: current_user.following.where(user_id: @talent.user_id).exists?,
+        isFollowing: current_user ? current_user.following.where(user_id: @talent.user_id).exists? : nil,
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
       }, prerender: false)
     %>
