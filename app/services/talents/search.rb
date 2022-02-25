@@ -6,14 +6,10 @@ module Talents
     end
 
     def call
-      talents = Talent
-        .base
-        .select("setseed(0.#{Date.today.jd}), talent.*")
-        .joins(:user, :token)
-        .order("random()")
+      talents = Talent.base
 
       talents = filter_by_name_or_ticker(talents) if filter_params.key?(:name)
-      talents = filter_by_status(talents) if filter_params.key?(:status)
+      talents = filter_by_status(talents)
 
       sort(talents)
     end
@@ -35,14 +31,16 @@ module Talents
 
     def filter_by_status(talents)
       if filter_params[:status] == "Launching soon"
-        talents.upcoming.order(created_at: :desc)
+        talents.upcoming.order(created_at: :asc)
       elsif filter_params[:status] == "Latest added" || filter_params[:status] == "Trending"
         talents
           .active
           .where("tokens.deployed_at > ?", 1.month.ago)
-          .order("tokens.deployed_at DESC")
+          .order("tokens.deployed_at ASC")
       else
         talents
+          .select("setseed(0.#{Date.today.jd}), talent.*")
+          .order("random()")
       end
     end
 
