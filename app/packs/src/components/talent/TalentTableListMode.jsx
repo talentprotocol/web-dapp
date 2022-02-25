@@ -173,7 +173,7 @@ const TalentTableListMode = ({
             {selectedSort} <OrderBy black={true} />
           </Button>
         </div>
-        <Table mode={theme.mode()} className="horizontal-scroll">
+        <Table mode={theme.mode()}>
           <Table.Body>
             {talents.map((talent) => (
               <Table.Tr key={`talent-${talent.id}`}>
@@ -278,7 +278,7 @@ const TalentTableListMode = ({
                 (window.location.href = `/talent/${talent.user.username}`)
               }
             >
-              <div className="d-flex">
+              <div className="d-flex align-items-center">
                 <TalentProfilePicture
                   src={talent.profilePictureUrl}
                   height="24"
