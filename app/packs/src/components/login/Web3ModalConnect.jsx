@@ -7,7 +7,7 @@ import { patch } from "../../utils/requests";
 
 import Button from "src/components/design_system/button";
 
-export const NoMetamask = ({ show, hide, mode }) => {
+export const WalletConnectionError = ({ show, hide, mode }) => {
   const openMetamaskDownload = () =>
     window.open("https://metamask.io/download", "_blank").focus();
   const openDiscordLink = () =>
@@ -63,14 +63,14 @@ export const UnableToConnect = ({ show, hide }) => (
   </Modal>
 );
 
-const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
-  const [requestingMetamask, setRequestingMetamask] = useState(false);
+const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
+  const [requestingWalletConnection, setRequestingWalletConnection] = useState(false);
   const [account, setAccount] = useState("");
-  const [showNoMetamask, setShowNoMetamask] = useState(false);
+  const [showWalletConnectionError, setShowWalletConnectionError] = useState(false);
   const [error, setError] = useState(false);
 
-  const connectMetamask = async (e) => {
-    setRequestingMetamask(true);
+  const connectWallet = async (e) => {
+    setRequestingWalletConnection(true);
 
     const api = new OnChain(railsContext.contractsEnv);
     const _account = await api.retrieveAccount();
@@ -78,51 +78,49 @@ const MetamaskConnect = ({ user_id, onConnect, railsContext, mode }) => {
     if (_account) {
       const result = await patch(`/api/v1/users/${user_id}`, {
         wallet_id: _account.toLowerCase(),
-      }).catch(() => setError(true));
+      }).catch(
+        (error) => {
+          console.log(error);
+          setError(true)
+        });
 
       if (result.errors) {
         setError(true);
-        setRequestingMetamask(false);
+        setRequestingWalletConnection(false);
       } else {
         if (result) {
           setAccount(_account);
         }
         onConnect(_account);
-        setRequestingMetamask(false);
+        setRequestingWalletConnection(false);
       }
     } else {
-      setRequestingMetamask(false);
-      setShowNoMetamask(true);
+      setRequestingWalletConnection(false);
+      setShowWalletConnectionError(true);
     }
   };
 
-  const allowConnect = () => requestingMetamask == false;
+  const allowConnect = () => requestingWalletConnection == false;
 
   return (
     <>
-      <NoMetamask
-        show={showNoMetamask}
-        hide={() => setShowNoMetamask(false)}
+      <WalletConnectionError
+        show={showWalletConnectionError}
+        hide={() => setShowWalletConnectionError(false)}
         mode={mode}
       />
       <UnableToConnect show={error} hide={() => setError(false)} />
       <Button
-        onClick={connectMetamask}
+        onClick={connectWallet}
         type="white-subtle"
         mode={mode}
         className="mr-2"
         disabled={!allowConnect()}
       >
-        <img
-          src={MetamaskFox}
-          height={16}
-          alt="Metamask Fox"
-          className="mr-2"
-        />
         {account == "" ? "Connect Wallet" : `${account.substring(0, 10)}...`}{" "}
       </Button>
     </>
   );
 };
 
-export default MetamaskConnect;
+export default Web3ModalConnect;

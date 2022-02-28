@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { newKit, CeloContract } from "@celo/contractkit";
+import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 import dayjs from "dayjs";
 
 import TalentToken from "../abis/recent/TalentToken.json";
@@ -48,19 +50,45 @@ class OnChain {
       this.stakingAddress = Addresses["production"]["staking"];
       this.fornoURI = Addresses["production"]["forno"];
     }
+    this.web3Modal = this.initializeWeb3Modal();
+  }
+
+  initializeWeb3Modal = () => {
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider, // required
+        options: {
+          rpc: {
+            [parseInt(this.getEnvChainID())]: this.getEnvRpcURls()[0]
+          }
+        }
+      }
+    };
+
+    return new Web3Modal({
+      cacheProvider: true,
+      providerOptions
+    });
   }
 
   // LOAD WEB3
 
   async connectedAccount() {
     try {
-      await detectEthereumProvider();
+      let web3ModalInstance;
 
-      if (window.ethereum !== undefined) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        window.ethereum.on("chainChanged", (_chainId) =>
+      if (this.web3Modal.cachedProvider) {
+        web3ModalInstance = await this.web3Modal.connect();
+      } else {
+        return false;
+      }
+
+      if (web3ModalInstance !== undefined) {
+        const provider = new ethers.providers.Web3Provider(web3ModalInstance);
+        web3ModalInstance.on("chainChanged", (_chainId) =>
           window.location.reload()
         );
+        
         const signer = await provider.getSigner();
         this.signer = signer;
         const account = await signer.getAddress();
@@ -70,17 +98,18 @@ class OnChain {
       } else {
         return false;
       }
-    } catch {
+    } catch (error) {
+      console.log(error)
       return false;
     }
   }
 
   async getChainID() {
     let provider;
-    await detectEthereumProvider();
+    const web3ModalInstance = await this.web3Modal.connect();
 
-    if (window.ethereum !== undefined) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+    if (web3ModalInstance !== undefined) {
+      provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
@@ -97,6 +126,14 @@ class OnChain {
     }
   };
 
+  getEnvRpcURls = () => {
+    if (this.env == "production") {
+      return CELO_PARAMS.rpcUrls;
+    } else {
+      return ALFAJORES_PARAMS.rpcUrls;
+    }
+  };
+
   getEnvNetworkParams = () => {
     if (this.env == "production") {
       return CELO_PARAMS;
@@ -107,19 +144,22 @@ class OnChain {
 
   async switchChain() {
     try {
-      await window.ethereum.request({
+      const web3ModalInstance = await this.web3Modal.connect();
+
+      await web3ModalInstance.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: this.getEnvChainID() }],
       });
     } catch (error) {
+      console.log(error)
       // metamask mobile throws an error but that error has no code
       // https://github.com/MetaMask/metamask-mobile/issues/3312
       if (!!error.code || error.code === 4902) {
-        await window.ethereum.request({
+        await web3ModalInstance.request({
           method: "wallet_addEthereumChain",
           params: [this.getEnvNetworkParams()],
         });
-        await window.ethereum.request({
+        await web3ModalInstance.request({
           method: "wallet_switchEthereumChain",
           params: [{ chainId: this.getEnvChainID() }],
         });
@@ -140,11 +180,13 @@ class OnChain {
 
   async retrieveAccount() {
     try {
-      await detectEthereumProvider();
-      if (window.ethereum !== undefined) {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        window.ethereum.on("chainChanged", (_chainId) =>
+      const web3ModalInstance = await this.web3Modal.connect();
+
+      if (web3ModalInstance !== undefined) {
+        const provider = new ethers.providers.Web3Provider(web3ModalInstance);
+        await web3ModalInstance.enable();
+
+        web3ModalInstance.on("chainChanged", (_chainId) =>
           window.location.reload()
         );
         const signer = await provider.getSigner();
@@ -160,7 +202,8 @@ class OnChain {
       } else {
         return false;
       }
-    } catch {
+    } catch (error){
+      console.error(error)
       return false;
     }
   }
@@ -187,11 +230,11 @@ class OnChain {
   }
 
   async loadStaking() {
-    await detectEthereumProvider();
-
+    const web3ModalInstance = await this.web3Modal.connect();
     let provider;
-    if (window.ethereum !== undefined) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    if (web3ModalInstance !== undefined) {
+      provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
@@ -210,9 +253,11 @@ class OnChain {
   }
 
   async loadStableToken() {
+    const web3ModalInstance = await this.web3Modal.connect();
     let provider;
-    if (window.ethereum !== undefined) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    if (web3ModalInstance !== undefined) {
+      provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }
@@ -285,9 +330,11 @@ class OnChain {
   }
 
   async getToken(address) {
+    const web3ModalInstance = await this.web3Modal.connect();
     let provider;
-    if (window.ethereum !== undefined) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    if (web3ModalInstance !== undefined) {
+      provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
       provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
     }

@@ -16,7 +16,7 @@ import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
 import TalentNameSearch from "src/components/talent/TalentNameSearch";
-import MetamaskConnect from "src/components/login/MetamaskConnect";
+import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import Notifications from "src/components/notifications";
 import WelcomePopup from "src/components/one_time_popups/WelcomePopup";
@@ -48,7 +48,7 @@ ReactOnRails.register({
   RegistrationFlow,
   TalentNameSearch,
   Login,
-  MetamaskConnect,
+  Web3ModalConnect,
   TopBar,
   Notifications,
   WelcomePopup,

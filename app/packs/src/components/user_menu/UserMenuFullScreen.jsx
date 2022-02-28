@@ -21,7 +21,7 @@ const UserMenuFullScreen = ({
   user,
   connectedButton,
   showConnectButton,
-  metamaskButton,
+  walletConnectButton,
   onClickTransak,
   copyCodeToClipboard,
   inviteNumbers,
@@ -58,7 +58,7 @@ const UserMenuFullScreen = ({
       </div>
       <div className="d-flex flex-column w-100 mb-3">
         {!showConnectButton() && connectedButton()}
-        {showConnectButton() && metamaskButton()}
+        {showConnectButton() && walletConnectButton()}
         <Button
           onClick={onClickTransak}
           type="primary-default"

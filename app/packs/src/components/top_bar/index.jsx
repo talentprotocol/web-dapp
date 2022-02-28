@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import transakSDK from "@transak/transak-sdk";
 
-import MetamaskConnect from "../login/MetamaskConnect";
+import Web3ModalConnect from "../login/Web3ModalConnect";
 import { destroy } from "../../utils/requests";
 
 import { OnChain } from "src/onchain";
@@ -201,8 +201,8 @@ export const TopBar = ({
 
   const userHasInvitesLeft = user.invitesLeft > 0;
 
-  const metamaskButton = () => (
-    <MetamaskConnect
+  const walletConnectButton = () => (
+    <Web3ModalConnect
       user_id={user.id}
       onConnect={onWalletConnect}
       railsContext={railsContext}
@@ -219,7 +219,7 @@ export const TopBar = ({
         toggleTheme={toggleTheme}
         showConnectButton={showConnectButton}
         connectedButton={connectedButton}
-        metamaskButton={metamaskButton}
+        walletConnectButton={walletConnectButton}
         onClickTransak={onClickTransak}
         copyCodeToClipboard={copyCodeToClipboard}
         inviteNumbers={inviteNumbers()}
@@ -265,7 +265,7 @@ export const TopBar = ({
         </div>
         <div className="d-flex" style={{ height: 34 }}>
           {!showConnectButton() && connectedButton("mr-2")}
-          {showConnectButton() && metamaskButton()}
+          {showConnectButton() && walletConnectButton()}
           <UserMenu
             user={user}
             copyCodeToClipboard={copyCodeToClipboard}

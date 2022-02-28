@@ -8,7 +8,7 @@ import { parseAndCommify } from "src/onchain/utils";
 
 import { post, patch } from "src/utils/requests";
 
-import { NoMetamask } from "../login/MetamaskConnect";
+import { WalletConnectionError } from "../login/Web3ModalConnect";
 
 import LoadingButton from "src/components/button/LoadingButton";
 import { P1, P2 } from "src/components/design_system/typography";
@@ -28,7 +28,7 @@ const StakeModal = ({
   talentIsFromCurrentUser
 }) => {
   const [amount, setAmount] = useState("");
-  const [showNoMetamask, setShowNoMetamask] = useState(false);
+  const [showWalletConnectionError, setShowWalletConnectionError] = useState(false);
   const [availableAmount, setAvailableAmount] = useState("0");
   const [currentAccount, setCurrentAccount] = useState(null);
   const [maxMinting, setMaxMinting] = useState("0");
@@ -123,7 +123,11 @@ const StakeModal = ({
 
     const result = await chainData
       .createStake(targetToken.address, amount)
-      .catch(() => setStage("Error"));
+      .catch(
+        (error) => {
+            console.error(error);
+           setStage("Error")
+        });
 
     if (result) {
       const _availableAmount = await chainData.getStableBalance(true);
@@ -183,7 +187,7 @@ const StakeModal = ({
       }
     } else {
       setShow(false);
-      setShowNoMetamask(true);
+      setShowWalletConnectionError(true);
     }
   };
 
@@ -222,7 +226,7 @@ const StakeModal = ({
 
   return (
     <>
-      <NoMetamask show={showNoMetamask} hide={() => setShowNoMetamask(false)} />
+      <WalletConnectionError show={showWalletConnectionError} hide={() => setShowWalletConnectionError(false)} />
       <SendMessageModal
           show={showNewMessageModal}
           setShow={setShowNewMessageModal}
