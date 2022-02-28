@@ -16,7 +16,7 @@ const RegisterUsername = ({ themePreference, changeUsername, changeStep }) => {
   const invalidForm = !usernameValidated || usernameError;
 
   const editUsername = (e) => {
-    if (e.target.value != "" && !/^[A-Za-z0-9]+$/.test(e.target.value)) {
+    if (e.target.value != "" && !/^[a-z0-9]+$/.test(e.target.value)) {
       setUsernameError(true);
     } else {
       setUsernameError(false);
