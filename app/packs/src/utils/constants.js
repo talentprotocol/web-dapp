@@ -17,6 +17,12 @@ export const SUPPORTER_GUIDE =
 export const TALENT_GUIDE =
   "https://talentprotocol.notion.site/Talent-Onboarding-Guide-4a7fcc0ede144f8296c418bb173e45ff";
 
+export const USER_GUIDE =
+  "https://talentprotocol.notion.site/User-Guide-ab42205b0294491e98364dec24d5ad5e";
+
+export const REFERRAL_RACE =
+  "https://medium.com/@talentprotocol/the-talent-protocol-invite-race-438959b01b34";
+
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
 export const ERROR_MESSAGES = {

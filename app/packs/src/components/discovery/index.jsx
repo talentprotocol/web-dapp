@@ -11,8 +11,10 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { H2 } from "src/components/design_system/typography";
+import { REFERRAL_RACE } from "src/utils/constants";
+import { H2, Caption } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
+import Button from "src/components/design_system/button";
 
 import DiscoveryRows from "./discovery_rows";
 import DiscoveryMarketingArticles from "./discovery_marketing_articles";
@@ -107,16 +109,16 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
       {!mobile && (
         <div className="talent-background">
           <div className="talent-background-text text-white">
-            <H2 className="d-inline" text="Support" bold />
-            <H2
-              className="d-inline text-yellow ml-2"
-              text="undiscovered"
-              bold
+            <div style={{ width: "470px" }}>
+              <Caption className="mb-2 text-yellow" text="Referral Race" bold />
+              <H2 text="Invite your friends and win $TAL tokens." bold />
+            </div>
+            <Button
+              text="Learn More"
+              type="primary-default"
+              size="extra-big"
+              onClick={() => window.open(REFERRAL_RACE, "_blank")}
             />
-            <H2 className="d-inline text-yellow" text="talent" bold />
-            <H2 className="d-inline ml-2" text="and be rewarded as" bold />
-            <H2 className="d-inline" text="they" bold />
-            <H2 className="d-inline text-yellow ml-2" text=" grow." bold />
           </div>
         </div>
       )}
