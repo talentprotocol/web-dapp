@@ -193,13 +193,24 @@ const Welcome = ({
         </button>
       </form>
       <div
-        className={cx(
-          "d-flex w-100 mt-6",
-          mobile && "justify-content-center pb-4"
-        )}
+        className={cx("d-flex w-100 mt-6", mobile && "justify-content-center")}
       >
         <P2 className="text-black mr-1" text="Already have an account?" />
         <Link text="Login" href="/" bold />
+      </div>
+      <div
+        className={cx(
+          "d-flex w-100 mt-2",
+          mobile && "justify-content-center pb-4"
+        )}
+      >
+        <P2 className="text-black mr-1" text="Want more info?" />
+        <Link
+          bold
+          href="https://talentprotocol.notion.site/User-Guide-ab42205b0294491e98364dec24d5ad5e"
+          target="_blank"
+          text="Check our user guide"
+        />
       </div>
     </>
   );

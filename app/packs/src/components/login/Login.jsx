@@ -95,9 +95,18 @@ const Login = () => {
             text="Join the waitlist"
           />
         </div>
-        <div className="d-flex">
+        <div className="d-flex mb-2">
           <P2 className="text-black mr-1" text="Already have an invitation?" />
           <Link bold href="/sign_up" text="Register here" />
+        </div>
+        <div className="d-flex">
+          <P2 className="text-black mr-1" text="Want more info?" />
+          <Link
+            bold
+            href="https://talentprotocol.notion.site/User-Guide-ab42205b0294491e98364dec24d5ad5e"
+            target="_blank"
+            text="Check our user guide"
+          />
         </div>
       </div>
     </div>
