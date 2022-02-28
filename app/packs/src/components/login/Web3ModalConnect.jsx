@@ -3,48 +3,37 @@ import Modal from "react-bootstrap/Modal";
 import { OnChain } from "src/onchain";
 
 import MetamaskFox from "images/metamask-fox.svg";
-import { patch } from "../../utils/requests";
+import { patch } from "src/utils/requests";
+import { TALENT_PROTOCOL_DISCORD } from "src/utils/constants";
 
 import Button from "src/components/design_system/button";
 
-export const WalletConnectionError = ({ show, hide, mode }) => {
-  const openMetamaskDownload = () =>
-    window.open("https://metamask.io/download", "_blank").focus();
-  const openDiscordLink = () =>
-    window.open("https://discord.gg/DMgt9bhawK", "_blank").focus();
-  return (
-    <Modal
-      show={show}
-      onHide={hide}
-      centered
-      dialogClassName="remove-background"
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>
-          Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p className={mode}>
-          We couldn't find metamask installed on your browser. You can install
-          it{" "}
-          <a href="https://metamask.io/download" onClick={openMetamaskDownload}>
-            here
-          </a>
-          .
-        </p>
-        <p className={mode}>
-          If you think this is a mistake and you have metamask installed, reach
-          out to us on{" "}
-          <a href="https://discord.gg/DMgt9bhawK" onClick={openDiscordLink}>
-            Discord
-          </a>
-          .
-        </p>
-      </Modal.Body>
-    </Modal>
-  );
-};
+export const WalletConnectionError = ({ show, hide, mode }) => (
+  <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
+    <Modal.Header closeButton>
+      <Modal.Title>
+        Metamask <img src={MetamaskFox} height={32} alt="Metamask Fox" />
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p className={mode}>
+        We couldn't find metamask installed on your browser. You can install it{" "}
+        <a href="https://metamask.io/download" target="_blank">
+          here
+        </a>
+        .
+      </p>
+      <p className={mode}>
+        If you think this is a mistake and you have metamask installed, reach
+        out to us on{" "}
+        <a href={TALENT_PROTOCOL_DISCORD} target="_blank">
+          Discord
+        </a>
+        .
+      </p>
+    </Modal.Body>
+  </Modal>
+);
 
 export const UnableToConnect = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
@@ -64,9 +53,11 @@ export const UnableToConnect = ({ show, hide }) => (
 );
 
 const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
-  const [requestingWalletConnection, setRequestingWalletConnection] = useState(false);
+  const [requestingWalletConnection, setRequestingWalletConnection] =
+    useState(false);
   const [account, setAccount] = useState("");
-  const [showWalletConnectionError, setShowWalletConnectionError] = useState(false);
+  const [showWalletConnectionError, setShowWalletConnectionError] =
+    useState(false);
   const [error, setError] = useState(false);
 
   const connectWallet = async (e) => {
@@ -78,11 +69,10 @@ const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
     if (_account) {
       const result = await patch(`/api/v1/users/${user_id}`, {
         wallet_id: _account.toLowerCase(),
-      }).catch(
-        (error) => {
-          console.log(error);
-          setError(true)
-        });
+      }).catch((error) => {
+        console.log(error);
+        setError(true);
+      });
 
       if (result.errors) {
         setError(true);

@@ -23,6 +23,8 @@ export const USER_GUIDE =
 export const REFERRAL_RACE =
   "https://medium.com/@talentprotocol/the-talent-protocol-invite-race-438959b01b34";
 
+export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
+
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
 export const ERROR_MESSAGES = {
