@@ -25,7 +25,7 @@ const StakeModal = ({
   talentUserId,
   talentName,
   mode,
-  talentIsFromCurrentUser
+  talentIsFromCurrentUser,
 }) => {
   const [amount, setAmount] = useState("");
   const [showWalletConnectionError, setShowWalletConnectionError] = useState(false);
@@ -145,7 +145,7 @@ const StakeModal = ({
 
       setStage("Verified");
 
-      if(!talentIsFromCurrentUser) {
+      if (!talentIsFromCurrentUser) {
         showSendMessageModal();
       }
     } else {
@@ -157,7 +157,7 @@ const StakeModal = ({
     setTimeout(() => {
       setShow(false);
       setShowNewMessageModal(true);
-    }, 1000); 
+    }, 1000);
   };
 
   const approve = async (e) => {
@@ -228,14 +228,14 @@ const StakeModal = ({
     <>
       <WalletConnectionError show={showWalletConnectionError} hide={() => setShowWalletConnectionError(false)} />
       <SendMessageModal
-          show={showNewMessageModal}
-          setShow={setShowNewMessageModal}
-          ticker={ticker}
-          talentName={talentName}
-          talentId={talentUserId}
-          amountBought={amount}
-          mode={mode}
-        />
+        show={showNewMessageModal}
+        setShow={setShowNewMessageModal}
+        ticker={ticker}
+        talentName={talentName}
+        talentId={talentUserId}
+        amountBought={amount * 10}
+        mode={mode}
+      />
       <Modal
         scrollable={true}
         fullscreen={"md-down"}
