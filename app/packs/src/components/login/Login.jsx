@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import TextInput from "../design_system/fields/textinput";
 import RegistrationContainer from "../registration/RegistrationContainer";
 import Link from "../design_system/link";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useWindowDimensionsHook } from "../../utils/window";
+import { useTheme } from "src/contexts/ThemeContext";
+import { useWindowDimensionsHook } from "src/utils/window";
 import { H5, P2, P3 } from "../design_system/typography";
-import { TALENT_PROTOCOL_WEBSITE } from "../../utils/constants";
-import { post } from "../../utils/requests";
+import { TALENT_PROTOCOL_WEBSITE, USER_GUIDE } from "src/utils/constants";
+import { post } from "src/utils/requests";
 import cx from "classnames";
 
 const Login = () => {
@@ -95,9 +95,18 @@ const Login = () => {
             text="Join the waitlist"
           />
         </div>
-        <div className="d-flex">
+        <div className="d-flex mb-2">
           <P2 className="text-black mr-1" text="Already have an invitation?" />
           <Link bold href="/sign_up" text="Register here" />
+        </div>
+        <div className="d-flex">
+          <P2 className="text-black mr-1" text="Want more info?" />
+          <Link
+            bold
+            href={USER_GUIDE}
+            target="_blank"
+            text="Check our user guide"
+          />
         </div>
       </div>
     </div>
