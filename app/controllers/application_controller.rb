@@ -25,7 +25,8 @@ class ApplicationController < ActionController::Base
   private
 
   def track_user_activity
-    current_user.touch
+    # safe navigation is required for non-auth users (sign_up, login)
+    current_user&.touch
   end
 
   def id_param
