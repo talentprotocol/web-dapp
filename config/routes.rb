@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         resources :notifications, only: [] do
           put :mark_as_read
         end
+        post "clear_notifications", to: "notifications#mark_all_as_read"
+
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
@@ -85,10 +87,6 @@ Rails.application.routes.draw do
   resources :wait_list, only: [:create, :index]
 
   root to: "sessions#new", as: :root
-
-  constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
-    mount Sidekiq::Web => "/sidekiq"
-  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

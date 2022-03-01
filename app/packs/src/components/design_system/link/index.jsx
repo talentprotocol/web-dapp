@@ -14,11 +14,21 @@ const Link = ({
   target,
   className,
   children,
+  onClick,
 }) => {
+  let forceDisable = disabled;
+  let onClickCallback = onClick;
+  if (onClickCallback) {
+    forceDisable = true;
+  } else {
+    onClickCallback = () => null;
+  }
+
   return (
     <a
       className={cx("link-container", type, disabled && "disabled", className)}
       href={disabled ? null : href}
+      disabled={disabled}
       target={target}
     >
       {text && <P2 text={text} bold={bold} />}
