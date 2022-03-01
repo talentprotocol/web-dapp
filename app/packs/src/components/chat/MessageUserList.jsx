@@ -27,6 +27,7 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
 
   const displayTime = () => {
     if (user.last_message_date) {
+      console.log(user.last_message_date);
       return dayjs(user.last_message_date).fromNow();
     } else {
       return "";
