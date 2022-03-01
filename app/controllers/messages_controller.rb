@@ -48,13 +48,8 @@ class MessagesController < ApplicationController
     end
 
     message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
-    service = CreateNotification.new
-    service.call(
-      title: "New messages",
-      body: "You have new messages",
-      user_id: @receiver.id,
-      type: "Notifications::MessageReceived"
-    )
+    CreateNotification.new.call(recipient: @receiver,
+                                type: MessageReceivedNotification)
     ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
     # SendMessageJob.perform_later(message.id, message.created_at.to_s)
 

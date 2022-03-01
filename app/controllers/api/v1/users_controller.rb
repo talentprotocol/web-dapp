@@ -5,7 +5,7 @@ class API::V1::UsersController < ApplicationController
     @users = search_params.present? ? filtered_users : filtered_users.limit(20)
 
     render json: {
-      users: @users.map { |u| 
+      users: @users.map { |u|
         {
           id: u.id,
           profilePictureUrl: u&.talent&.profile_picture_url || u.investor&.profile_picture_url,

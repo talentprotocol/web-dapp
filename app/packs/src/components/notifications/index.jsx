@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { patch } from "src/utils/requests";
+import { put } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
@@ -19,13 +19,11 @@ import { Bell, ArrowLeft } from "src/components/icons";
 const Notification = ({ notification, mode }) => {
   const type = () => {
     switch (notification.type) {
-      case "Notifications::TokenAcquired":
+      case "TokenAcquiredNotification":
         return "wallet";
-      case "Notifications::MessageReceived":
+      case "MessageReceivedNotification":
         return "chat";
-      case "Notifications::TalentListed":
-        return "talent";
-      case "Notifications::TalentChanged":
+      case "TalentChangedNotification":
         return "star";
       default:
         return "globe";
@@ -50,32 +48,17 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
     useState(notifications);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const notificationHref = (type, notification) => {
-    switch (type) {
-      case "Notifications::TokenAcquired":
-        return `/talent/${notification.username}?tab=supporters`;
-      case "Notifications::MessageReceived":
-        return "/messages";
-      case "Notifications::TalentListed":
-        return "/talent";
-      case "Notifications::TalentChanged":
-        return `/talent/${notification.source_username}`;
-      default:
-        return "";
-    }
-  };
-
   const notificationsUnread = currentNotifications.some(
     (notif) => notif.read === false
   );
 
   const notificationRead = async (notification) => {
     if (!notification.read) {
-      await patch(`/api/v1/notifications/${notification.id}`, {
-        notification: { read: true },
-      });
+      await put(`/api/v1/notifications/${notification.id}/mark_as_read`);
     }
-    window.location.href = notificationHref(notification.type, notification);
+    if (notification.url) {
+      window.location.href = notification.url;
+    }
   };
 
   if (width < 992) {

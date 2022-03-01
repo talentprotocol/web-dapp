@@ -1,16 +1,8 @@
 class Notification < ApplicationRecord
-  belongs_to :user
-  belongs_to :source, class_name: "User", optional: true
+  include Noticed::Model
+  belongs_to :recipient, polymorphic: true
 
-  validates_presence_of :title
-  validates_presence_of :body
-
-  TYPES = %w[
-    Notifications::TokenAcquired
-    Notifications::MessageReceived
-    Notifications::TalentListed
-    Notifications::TalentChanged
-  ].freeze
-
-  validates :type, inclusion: {in: TYPES}
+  scope :find_by_source_id, ->(source_id) {
+    where("(params->>'source_id')::bigint = ?", source_id.to_int)
+  }
 end

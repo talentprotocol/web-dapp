@@ -5,7 +5,9 @@ class API::V1::StakesController < ApplicationController
     if token.talent.user_id != current_user.id
       current_user.update!(tokens_purchased: true)
       AddUsersToMailerliteJob.perform_later(current_user.id)
-      create_notification_talent_token_bought(token.talent.user_id, current_user)
+      CreateNotification.new.call(recipient: token.talent.user,
+                                  type: TokenAcquiredNotification,
+                                  source_id: current_user.id)
       # add_follow(token.talent.user_id)
     end
 
@@ -17,18 +19,6 @@ class API::V1::StakesController < ApplicationController
   def stake_params
     params.require(:stake).permit(
       :token_id
-    )
-  end
-
-  def create_notification_talent_token_bought(talent_user_id, user)
-    name = user.display_name.present? ? user.display_name : user.username
-    service = CreateNotification.new
-    service.call(
-      title: "Supporter",
-      body: "#{name} bought more of your talent token",
-      user_id: talent_user_id,
-      source_id: user.id,
-      type: "Notifications::TokenAcquired"
     )
   end
 

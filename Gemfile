@@ -65,6 +65,9 @@ gem "graphql-client"
 # JSON Object Presenter
 gem "blueprinter"
 
+# Notifications
+gem "noticed", "~> 1.5"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"
