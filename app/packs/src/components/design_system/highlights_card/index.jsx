@@ -29,8 +29,15 @@ const HighlightsCard = ({ title, link, className }) => {
           <P1 className="text-black" bold text={title} />
         </div>
         <div className="d-flex align-items-center text-primary">
-          <Link type="primary" text="Discover All" href={link} bold />
-          <ArrowForward className="ml-2" color="currentColor" size={12} />
+          <Link
+            className="d-flex align-items-center"
+            type="primary"
+            text="Discover All"
+            href={link}
+            bold
+          >
+            <ArrowForward className="ml-2" color="currentColor" size={12} />
+          </Link>
         </div>
       </div>
     </div>

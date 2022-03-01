@@ -2,84 +2,72 @@
   cursor: pointer;
   text-decoration: none !important;
 
-  .link-text {
-    &.primary {
-      color: $primary;
-    }
-
-    &.white {
-      color: $gray-800;
-    }
-  }
-
-  &:hover {
-    .link-text.primary {
-      color: $primary-link-hover;
-    }
-
-    .link-text.white {
-      color: $gray-400;
-    }
-  }
-
   &.disabled {
     pointer-events: none;
     cursor: default;
-
-    .link-text.primary {
-      color: $primary-outline-disabled;
-    }
-
-    .link-text.white {
-      color: $gray;
-    }
   }
 
-  .link-icon {
-    &.light {
-      stroke: $gray-400;
+  &.primary {
+    > * {
+      color: $primary !important;
+    }
 
-      &.bold {
-        stroke: $gray-800;
+    &:hover {
+      > * {
+        color: $primary-link-hover !important;
       }
     }
 
-    &.dark {
-      stroke: $gray-300;
+    &.disabled {
+      > * {
+        color: $primary-outline-disabled !important;
+      }
+    }
+  }
 
-      &.bold {
-        stroke: $white;
+  &.white {
+    > * {
+      color: $gray-800 !important;
+    }
+
+    &:hover {
+      > * {
+        color: $gray-400 !important;
+      }
+    }
+
+    &.disabled {
+      > * {
+        color: $gray !important;
       }
     }
   }
 }
 
 .dark-body .link-container {
-  .link-text.primary {
-    color: $primary;
-  }
-
-  .link-text.white {
-    color: $white;
-  }
-
-  &:hover {
-    .link-text.primary {
-      color: $primary-link-hover;
-    }
-
-    .link-text.white {
-      color: $gray-300;
+  &.primary {
+    &.disabled {
+      > * {
+        color: $primary-shade-01 !important;
+      }
     }
   }
 
-  &.disabled {
-    .link-text.primary {
-      color: $primary-shade-01;
+  &.white {
+    > * {
+      color: $white !important;
     }
 
-    .link-text.white {
-      color: $gray-600;
+    &:hover {
+      > * {
+        color: $gray-300 !important;
+      }
+    }
+
+    &.disabled {
+      > * {
+        color: $gray-600 !important;
+      }
     }
   }
 }

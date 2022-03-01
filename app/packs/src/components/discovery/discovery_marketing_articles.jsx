@@ -28,8 +28,6 @@ const DiscoveryMarketingArticles = ({ marketingArticles }) => {
               title={article.title}
               imgUrl={article.imgUrl}
               description={article.description}
-              user={article.user}
-              date={article.date}
             />
           </div>
         ))}

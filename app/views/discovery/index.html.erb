@@ -2,8 +2,28 @@
   <div class="container-grid">
     <%= react_component("Discovery",
       props: {
-        discoveryRows: @discovery_rows.map { |row| { title: row[:title], talents: row[:talents].map { |talent| { id: talent.id, profilePictureUrl: talent.profile_picture_url, contractId: talent.token.contract_id, occupation: talent.occupation, headline: talent.headline, ticker: talent.token.ticker, isFollowing: current_user.following.where(user_id: talent.user_id).exists?, username: talent.user.username, name: talent.user.display_name || talent.user.username, userId: talent.user_id }}}},
-        marketingArticles: @marketing_articles.map { |article| { id: article.id, link: article.link, title: article.title, description: article.description, imgUrl: article.image_url, date: article.article_created_at, user: { name: article.user.display_name || article.user.username, profilePictureUrl: article.user.talent.profile_picture_url } }}
+        discoveryRows: @discovery_rows.map { |row| {
+          title: row["title"],
+          talents: row["talents"].map { |talent| {
+            id: talent["id"],
+            profilePictureUrl: talent["profile_picture_url"],
+            contractId: talent["token"]["contract_id"],
+            occupation: talent["occupation"],
+            headline: talent["headline"],
+            ticker: talent["token"]["ticker"],
+            isFollowing: talent["is_following"],
+            name: talent["user"]["name"],
+            username: talent["user"]["username"],
+            userId: talent["user_id"],
+          }}
+        }},
+        marketingArticles: @marketing_articles.map { |article| {
+          id: article["id"],
+          link: article["link"],
+          title: article["title"],
+          description: article["description"],
+          imgUrl: article["image_url"]
+        }}
       },
       prerender: false) %>
   </div>

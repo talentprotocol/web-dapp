@@ -85,11 +85,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
                   src={user.profilePictureUrl}
                   height={40}
                 />
-                <P2
-                  className="mb-0 ml-3 current-color"
-                  bold
-                  text={user.username}
-                />
+                <P2 className="mb-0 ml-3" bold text={user.username} />
               </Link>
             </button>
           ))}
