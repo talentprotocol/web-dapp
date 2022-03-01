@@ -2,10 +2,10 @@ class API::V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
 
   def index
-    @users = search_params[:name].present? ? filtered_users.includes(:talent, :investor) : filtered_users.limit(20)
+    @users = search_params[:name].present? ? filtered_users : filtered_users.limit(20)
 
     render json: {
-      users: @users.map { |u|
+      users: @users.includes(:talent, :investor).map { |u|
         {
           id: u.id,
           profilePictureUrl: u&.talent&.profile_picture_url || u.investor&.profile_picture_url,
