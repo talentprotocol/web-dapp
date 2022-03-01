@@ -16,7 +16,7 @@ import Supporters from "./Show/Supporters";
 
 import Roadmap from "./Show/Roadmap";
 import Perks from "./Show/Perks";
-import TokenDetails from "./Show/TokenDetails";
+import SimpleTokenDetails from "./Show/SimpleTokenDetails";
 import SocialRow from "./Show/SocialRow";
 
 import Button from "src/components/design_system/button";
@@ -324,14 +324,11 @@ const TalentShow = ({
           )}
         </div>
         {pageInDisplay != "supporters" && (
-          <div className="col-12 col-lg-4 p-0 mb-4">
-            <TokenDetails
+          <div className="col-12 col-lg-4 p-0 mt-4">
+            <SimpleTokenDetails
               ticker={ticker()}
               token={token}
-              displayName={displayName({ withLink: false })}
-              username={sharedState.user.username}
               railsContext={railsContext}
-              mobile={mobile}
             />
           </div>
         )}
