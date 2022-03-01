@@ -6,7 +6,7 @@ import { H5, P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import Checkbox from "src/components/design_system/checkbox";
-import Form from "react-bootstrap/Form"
+import Form from "react-bootstrap/Form";
 import { ArrowLeft } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
@@ -24,7 +24,7 @@ const NotificationInputs = [
     description: "Someone sent you a chat message",
     name: "MessageReceivedNotification",
   },
-]
+];
 
 const Settings = (props) => {
   const {
@@ -145,37 +145,40 @@ const Settings = (props) => {
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
-  const setNotificationSettings = name => event => {
+  const setNotificationSettings = (name) => (event) => {
     const value = parseInt(event.currentTarget.value, 10);
     const preferences = { ...notificationPreferences, [name]: value };
-    changeSharedState(prev => ({ ...prev, notificationPreferences: preferences }));
-  }
+    changeSharedState((prev) => ({
+      ...prev,
+      notificationPreferences: preferences,
+    }));
+  };
 
   const updateNotificationSettings = async () => {
     let success = true;
-    setNotifications(prev => ({ ...prev, saving: true, success: false }));
+    setNotifications((prev) => ({ ...prev, saving: true, success: false }));
 
     const response = await patch(`/api/v1/users/${user.id}`, {
       user: {
-        notification_preferences: notificationPreferences
-      }
-    }).catch(() => success = false);
+        notification_preferences: notificationPreferences,
+      },
+    }).catch(() => (success = false));
 
     success = success && response && !response.errors;
-    setNotifications(prev => ({ ...prev, saving: false, success }));
+    setNotifications((prev) => ({ ...prev, saving: false, success }));
   };
 
   const messagingModeChanged = () =>
-    settings.messagingDisabled != user.messaging_disabled
+    settings.messagingDisabled != user.messaging_disabled;
 
-  const cannotSaveSettings = () => 
+  const cannotSaveSettings = () =>
     !emailValidated ||
     !!validationErrors.email ||
     settings.username.length == 0 ||
     !!validationErrors.username ||
     !!validationErrors.currentPassword ||
     !!validationErrors.newPassword ||
-    (!!settings.newPassword && !validPassword)
+    (!!settings.newPassword && !validPassword);
 
   const cannotChangePassword = () =>
     !!validationErrors.currentPassword ||
@@ -246,10 +249,12 @@ const Settings = (props) => {
         </P2>
 
         <Checkbox
-            className="form-check-input mt-4"
-            checked={settings.messagingDisabled}
-            onChange={() => changeAttribute("messagingDisabled", !settings.messagingDisabled)}
-          >
+          className="form-check-input mt-4"
+          checked={settings.messagingDisabled}
+          onChange={() =>
+            changeAttribute("messagingDisabled", !settings.messagingDisabled)
+          }
+        >
           <div className="d-flex flex-wrap">
             <P2 className="mr-1" text="I don't want to receive messages" />
           </div>
@@ -338,7 +343,9 @@ const Settings = (props) => {
           onClick={() => updateUser()}
           type="primary-default"
           mode={mode}
-          disabled={(saving.loading || cannotSaveSettings()) && !messagingModeChanged()}
+          disabled={
+            (saving.loading || cannotSaveSettings()) && !messagingModeChanged()
+          }
           loading={saving.loading}
           success={saving.profile}
         >
@@ -348,15 +355,23 @@ const Settings = (props) => {
 
       <Divider className="mb-4" />
       <div className="d-flex flex-column w-100 my-3">
-        <H5 className="w-100 text-left" mode={mode} text="Email Notification Settings" bold />
+        <H5
+          className="w-100 text-left"
+          mode={mode}
+          text="Email Notification Settings"
+          bold
+        />
         <P2
           className="w-100 text-left"
           mode={mode}
           text="For each type of notification you can select to receive an immediate email notification, a daily email digest or to not receive any email."
         />
 
-        {NotificationInputs.map(input =>
-          <div className="d-flex flex-row w-100 flex-wrap mt-4" key={input.name}>
+        {NotificationInputs.map((input) => (
+          <div
+            className="d-flex flex-row w-100 flex-wrap mt-4"
+            key={input.name}
+          >
             <div className="d-flex flex-column w-100">
               <div className="d-flex flex-row justify-content-between align-items-end">
                 <P2 bold className="text-black mb-2">
@@ -367,6 +382,7 @@ const Settings = (props) => {
                 as="select"
                 onChange={setNotificationSettings(input.name)}
                 value={notificationPreferences[input.name]}
+                className="height-auto"
               >
                 <option value="0">Disabled</option>
                 <option value="1">Immediate</option>
@@ -374,7 +390,7 @@ const Settings = (props) => {
               </Form.Control>
             </div>
           </div>
-        )}
+        ))}
         <div
           className={`d-flex flex-row ${
             mobile ? "justify-content-between" : "mt-4"

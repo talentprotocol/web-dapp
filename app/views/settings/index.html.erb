@@ -7,6 +7,9 @@
       messagingDisabled: current_user.messaging_disabled,
       invites: current_user.invites.as_json,
       profilePictureUrl: current_user.investor.profile_picture_url,
+      notificationPreferences: User::Delivery::TYPES.map do |type|
+          [type, current_user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
+        end.to_h
     }, prerender: false)
   %>
 </main>
