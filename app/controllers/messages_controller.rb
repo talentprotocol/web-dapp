@@ -29,6 +29,7 @@ class MessagesController < ApplicationController
       messages: @messages.map(&:to_json),
       chat_id: @chat_id,
       current_user_id: @sender.id,
+      lastOnline: @receiver.updated_at,
       profilePictureUrl: @receiver.talent&.profile_picture_url || @receiver.investor&.profile_picture_url,
       username: @receiver.username
     }

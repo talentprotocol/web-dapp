@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Message from "./Message";
-import ThemedButton from "src/components/design_system/button";
+import dayjs from "dayjs";
 
+import ThemedButton from "src/components/design_system/button";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import P2 from "src/components/design_system/typography/p2";
 import TextArea from "src/components/design_system/fields/textarea";
@@ -16,6 +17,37 @@ const EmptyMessages = () => {
 const CommunicateFirst = () => {
   return (
     <div className="my-auto align-self-center">Find someone to chat with!</div>
+  );
+};
+
+const ChatHeader = ({ profilePictureUrl, link, lastOnline, username }) => {
+  const date = dayjs();
+  const lastOnlineDay = dayjs(lastOnline);
+  const period = date.unix() - lastOnlineDay.unix();
+  let message = "";
+
+  if (period < 120) {
+    message = "Online";
+  } else {
+    message = `last seen ${lastOnlineDay.fromNow()}`;
+  }
+
+  return (
+    <div
+      className="d-flex flex-row w-100 pt-3 themed-border-bottom"
+      style={{ paddingBottom: 18 }}
+    >
+      <TalentProfilePicture
+        src={profilePictureUrl}
+        link={link}
+        height={48}
+        className="ml-3 mr-2"
+      />
+      <div className="d-flex flex-column">
+        <P2 bold>{username}</P2>
+        <P2 className={message == "Online" ? "text-primary" : ""}>{message}</P2>
+      </div>
+    </div>
   );
 };
 
@@ -57,22 +89,18 @@ const MessageExchange = (props) => {
     }
   };
 
-  const mine = (message) => message && message.sender_id === props.user.id
+  const mine = (message) => message && message.sender_id === props.user.id;
 
   const link = (message) => {
-    const {
-      user,
-      username,
-      messengerWithTalent
-    } = props;
+    const { user, username, messengerWithTalent } = props;
 
-    if(mine(message)) {
-      if(user.withTalent) {
-        return `talent/${user.username}`
+    if (mine(message)) {
+      if (user.withTalent) {
+        return `talent/${user.username}`;
       }
     } else {
-      if(messengerWithTalent) {
-        return `talent/${username}`
+      if (messengerWithTalent) {
+        return `talent/${username}`;
       }
     }
   };
@@ -100,6 +128,14 @@ const MessageExchange = (props) => {
           </div>
           <div className={`divider ${mode}`}></div>
         </>
+      )}
+      {props.activeUserId !== 0 && (
+        <ChatHeader
+          username={props.username}
+          profilePictureUrl={props.profilePictureUrl}
+          lastOnline={props.lastOnline}
+          link={link()}
+        />
       )}
       <div
         id="messages"
@@ -135,7 +171,11 @@ const MessageExchange = (props) => {
             }
             onChange={(e) => props.onChange(e.target.value)}
             value={props.value}
-            placeholder={props.messagingDisabled ? `Messaging disabled. Either you or ${props.username} have messaging disabled.` : "Type here"}
+            placeholder={
+              props.messagingDisabled
+                ? `Messaging disabled. Either you or ${props.username} have messaging disabled.`
+                : "Type here"
+            }
             className="w-100 mr-2"
             onKeyDown={onEnterPress}
             limitHeight={100}
