@@ -27,6 +27,7 @@ const Chat = ({ users, user }) => {
   const [gettingMessages, setGettingMessages] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
   const [messengerUsername, setMessengerUsername] = useState();
+  const [lastOnline, setLastOnline] = useState();
   const { mobile } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
 
@@ -50,6 +51,7 @@ const Chat = ({ users, user }) => {
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
       setMessengerUsername(response.username);
+      setLastOnline(response.lastOnline);
       setGettingMessages(false);
     });
   }, [activeUserId]);
@@ -217,6 +219,7 @@ const Chat = ({ users, user }) => {
                 user={user}
                 profilePictureUrl={messengerProfilePicture}
                 username={messengerUsername}
+                lastOnline={lastOnline}
                 messengerWithTalent={activeUserWithTalent()}
                 mode={theme.mode()}
               />

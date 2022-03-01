@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   include Clearance::Controller
   include Pagy::Backend
 
+  before_action :track_user_activity
+
   layout "application"
 
   protect_from_forgery
@@ -21,6 +23,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def track_user_activity
+    current_user.touch
+  end
 
   def id_param
     Integer(params[:id])
