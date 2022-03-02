@@ -8,19 +8,25 @@
     <% end %>
     <%= react_component("TalentShow", props:
       {
-        talent: @talent.as_json,
-        profilePictureUrl: @talent.profile_picture_url,
-        bannerUrl: @talent.banner_url,
-        tags: @talent.tags.where(hidden: false).map(&:description),
-        token: @talent.token.as_json,
-        perks: @talent.perks.as_json,
-        careerGoal: @talent.career_goal.as_json,
-        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
-        milestones: @talent.milestones.as_json,
+        talent: @talent,
+        profilePictureUrl: @talent["profile_picture_url"],
+        bannerUrl: @talent["banner_url"],
+        tags: @talent["tags"].map { |tag| tag["description"] },
+        token: @talent["token"],
+        perks: @talent["perks"],
+        careerGoal: @talent["career_goal"],
+        goals: @talent["career_goal"]["goals"],
+        milestones: @talent["milestones"],
         currentUserId: current_user&.id,
-        tokenLive: @talent.token.deployed?,
-        isFollowing: current_user ? current_user.following.where(user_id: @talent.user_id).exists? : nil,
-        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, wallet_id: @talent.user.wallet_id },
+        tokenLive: @talent["token"]["deployed"],
+        isFollowing: @talent["is_following"],
+        user: {
+          id: @talent["user_id"],
+          email: @talent["user"]["email"],
+          username: @talent["user"]["username"],
+          display_name: @talent["user"]["display_name"],
+          wallet_id: @talent["user"]["wallet_id"]
+        },
       }, prerender: false)
     %>
   </div>

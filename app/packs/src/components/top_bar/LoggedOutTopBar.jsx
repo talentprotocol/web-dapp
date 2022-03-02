@@ -11,7 +11,6 @@ export const LoggedOutTopBar = ({}) => {
   const { mobile } = useWindowDimensionsHook();
   const { simpleToggleTheme, mode } = useTheme();
 
-  console.log(mode());
   return (
     <div className="navbar-container">
       <nav className={`navbar d-flex justify-content-between`}>
