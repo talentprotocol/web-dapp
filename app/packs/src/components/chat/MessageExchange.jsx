@@ -44,7 +44,9 @@ const ChatHeader = ({ profilePictureUrl, link, lastOnline, username }) => {
         className="ml-3 mr-2"
       />
       <div className="d-flex flex-column">
-        <P2 bold>{username}</P2>
+        <P2 bold className="text-black">
+          {username}
+        </P2>
         <P2 className={message == "Online" ? "text-primary" : ""}>{message}</P2>
       </div>
     </div>
@@ -74,6 +76,15 @@ const MessageExchange = (props) => {
 
   const isPreviousMessageFromSameSender = (index) => {
     if (index == 0) {
+      return false;
+    }
+
+    const firstDate = dayjs(props.messages[index - 1].created_at);
+    const secondDate = dayjs(props.messages[index].created_at);
+
+    // Unix returns a value in seconds, so if messages are spaced with > 5 minutes
+    // then we want to make sure the timestamp and profile picture show again
+    if (secondDate.unix() - firstDate.unix() > 600) {
       return false;
     }
 

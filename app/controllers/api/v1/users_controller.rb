@@ -32,7 +32,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.id != current_user.id
+    if @user.nil? || @user.id != current_user.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 

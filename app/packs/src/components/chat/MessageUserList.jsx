@@ -35,12 +35,12 @@ const UserMessage = ({ user, activeUserId, onClick, mode }) => {
 
   return (
     <a
-      className={`pt-3 pl-6 pr-4 chat-user ${active} text-reset`}
+      className={`pt-3 pl-6 pr-6 chat-user ${active} text-reset`}
       onClick={() => onClick(user.id)}
     >
-      <div className="d-flex flex-row justify-content-between">
+      <div className="d-flex flex-row justify-content-between themed-border-bottom">
         <TalentProfilePicture src={user.profilePictureUrl} height={48} />
-        <div className="d-flex flex-column w-100 h-100 pl-2 pb-3 ml-2 themed-border-bottom">
+        <div className="d-flex flex-column w-100 h-100 pl-2 pb-3 ml-2">
           <div style={{ minHeight: 48 }}>
             <div className="d-flex flex-row justify-content-between">
               <div className="d-flex flex-row">
@@ -130,7 +130,7 @@ const MessageUserList = ({
         mobile={mobile}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
-        <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-4">
+        <div className="w-100 d-flex flex-row themed-border-bottom align-items-center py-4 pl-6 pr-6">
           <div className="position-relative w-100">
             <TextInput
               disabled={users.length == 0}
