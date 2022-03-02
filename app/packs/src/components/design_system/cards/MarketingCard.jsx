@@ -1,21 +1,15 @@
 import React from "react";
 import { string, shape } from "prop-types";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 
-import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
-import { P1, P2, P3 } from "src/components/design_system/typography";
+import { P1, P2 } from "src/components/design_system/typography";
+import { Caret } from "src/components/icons";
+import Link from "src/components/design_system/link";
 
 import cx from "classnames";
 
-const MarketingCard = ({ link, title, imgUrl, description, user, date }) => {
+const MarketingCard = ({ link, title, imgUrl, description }) => {
   return (
-    <a
-      className="marketing-card d-flex flex-column justify-content-between"
-      href={link}
-      target="_blank"
-    >
+    <div className="marketing-card d-flex flex-column justify-content-between">
       <div className="d-flex flex-column">
         <img
           className={cx("image-fit")}
@@ -29,13 +23,17 @@ const MarketingCard = ({ link, title, imgUrl, description, user, date }) => {
         <P2 className="text-primary-03" text={description} />
       </div>
       <div className="d-flex flex-row align-items-center mt-2">
-        <TalentProfilePicture src={user.profilePictureUrl} height={32} />
-        <div className="d-flex flex-column ml-3">
-          <P2 className="text-black" bold text={user.name} />
-          <P3 className="text-primary-03" text={dayjs(date).fromNow()} />
-        </div>
+        <Link
+          className="d-flex align-items-center"
+          bold
+          href={link}
+          target="_blank"
+          text="Learn More"
+        >
+          <Caret size={12} color="currentColor" className="rotate-270 ml-2" />
+        </Link>
       </div>
-    </a>
+    </div>
   );
 };
 
