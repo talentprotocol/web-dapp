@@ -1,5 +1,5 @@
 class TalentController < ApplicationController
-  before_action :set_talent, only: [:show, :update]
+  before_action :set_talent, only: [:show]
   before_action :set_outer_talent, only: [:edit_profile]
 
   def index
@@ -8,10 +8,12 @@ class TalentController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @talent }
-    end
+    @talent = TalentBlueprint.render_as_json(
+      @talent,
+      view: :extended,
+      current_user: current_user,
+      tags: @talent.tags.where(hidden: false)
+    )
   end
 
   def edit_profile

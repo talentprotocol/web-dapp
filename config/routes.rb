@@ -18,9 +18,7 @@ Rails.application.routes.draw do
     end
 
     # Talent pages & search
-    get "/talent/active", to: "talent/searches#active"
-    get "/talent/upcoming", to: "talent/searches#upcoming"
-    resources :talent, only: [:index, :show] do
+    resources :talent, only: [:index] do
       get :edit_profile
     end
 
@@ -75,6 +73,7 @@ Rails.application.routes.draw do
       controller: "passwords",
       only: [:edit, :update]
   end
+  resources :talent, only: [:show]
 
   get "/sign_up" => "pages#home", :as => :sign_up
   get "/" => "sessions#new", :as => "sign_in"

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  faStar as faStarOutline,
-  faEdit,
-} from "@fortawesome/free-regular-svg-icons";
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -19,7 +16,7 @@ import Supporters from "./Show/Supporters";
 
 import Roadmap from "./Show/Roadmap";
 import Perks from "./Show/Perks";
-import TokenDetails from "./Show/TokenDetails";
+import SimpleTokenDetails from "./Show/SimpleTokenDetails";
 import SocialRow from "./Show/SocialRow";
 
 import Button from "src/components/design_system/button";
@@ -50,6 +47,7 @@ const TalentShow = ({
   const searchParams = new URLSearchParams(url.search);
 
   const talentIsFromCurrentUser = talent.user_id == currentUserId;
+  const publicPageViewer = !currentUserId;
   const [pageInDisplay, setPageInDisplay] = useState("overview");
   const [show, setShow] = useState(false);
   const [changingFollow, setChangingFollow] = useState(false);
@@ -121,16 +119,18 @@ const TalentShow = ({
   };
 
   useEffect(() => {
-    if (searchParams.get("tab")) {
+    if (searchParams.get("tab") && !publicPageViewer) {
       setPageInDisplay(searchParams.get("tab"));
-    } else {
+    } else if (!publicPageViewer) {
       window.history.pushState(
         {},
         document.title,
         `${url.pathname}?tab=overview`
       );
+    } else {
+      window.history.pushState({}, document.title, url.pathname);
     }
-  }, [searchParams]);
+  }, [searchParams, publicPageViewer]);
 
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(document.location.search);
@@ -168,7 +168,7 @@ const TalentShow = ({
         type="white-subtle"
         mode={theme.mode()}
         className="mr-2 align-items-center"
-        disabled={user.messaging_enabled || (currentUserId == user.id)}
+        disabled={user.messaging_enabled || currentUserId == user.id}
       >
         {mobile && <Chat color="currentColor" className="mr-2" />}
         {!mobile && " Message"}
@@ -232,7 +232,7 @@ const TalentShow = ({
               height={mobile ? 120 : 192}
               border
             />
-            {mobile && actionButtons()}
+            {mobile && !publicPageViewer && actionButtons()}
           </div>
           <div className={cx("d-flex flex-column", !mobile && "ml-5")}>
             <div className="d-flex flex-row flex-wrap align-items-center justify-content-start mt-3 mt-lg-0">
@@ -265,42 +265,44 @@ const TalentShow = ({
             {mobile && <SocialRow sharedState={sharedState} />}
           </div>
         </div>
-        {!mobile && actionButtons()}
+        {!mobile && !publicPageViewer && actionButtons()}
       </section>
-      <div
-        className={cx(
-          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-          mobile && "mx-4"
-        )}
-      >
+      {!publicPageViewer && (
         <div
-          onClick={() => changeTab("overview")}
-          className={`talent-table-tab${
-            pageInDisplay == "overview" ? " active-talent-table-tab" : ""
-          }`}
+          className={cx(
+            "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+            mobile && "mx-4"
+          )}
         >
-          Overview
-        </div>
-        <div
-          onClick={() => changeTab("timeline")}
-          className={`talent-table-tab${
-            pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Timeline
-        </div>
-        {sharedState.token.contract_id && (
           <div
-            onClick={() => changeTab("supporters")}
+            onClick={() => changeTab("overview")}
             className={`talent-table-tab${
-              pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
+              pageInDisplay == "overview" ? " active-talent-table-tab" : ""
             }`}
           >
-            Supporters
+            Overview
           </div>
-        )}
-      </div>
-      <div className={cx("d-flex flex-row flex-wrap", mobile && "pl-4")}>
+          <div
+            onClick={() => changeTab("timeline")}
+            className={`talent-table-tab${
+              pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            Timeline
+          </div>
+          {sharedState.token.contract_id && (
+            <div
+              onClick={() => changeTab("supporters")}
+              className={`talent-table-tab${
+                pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
+              }`}
+            >
+              Supporters
+            </div>
+          )}
+        </div>
+      )}
+      <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
         <div
           className={`col-12${
             pageInDisplay != "supporters" ? " col-lg-8" : ""
@@ -322,20 +324,17 @@ const TalentShow = ({
           )}
         </div>
         {pageInDisplay != "supporters" && (
-          <div className="col-12 col-lg-4 p-0 mb-4">
-            <TokenDetails
+          <div className="col-12 col-lg-4 p-0 mt-4">
+            <SimpleTokenDetails
               ticker={ticker()}
               token={token}
-              displayName={displayName({ withLink: false })}
-              username={sharedState.user.username}
               railsContext={railsContext}
-              mobile={mobile}
             />
           </div>
         )}
       </div>
       {pageInDisplay == "overview" && (
-        <section className={cx("d-flex flex-column my-3", mobile && "pl-4")}>
+        <section className={cx("d-flex flex-column my-3", mobile && "px-4")}>
           <Roadmap
             goals={sharedState.goals}
             width={width}

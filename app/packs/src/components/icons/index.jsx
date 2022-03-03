@@ -15,6 +15,7 @@ export { default as Help } from "src/components/icons/Help";
 export { default as Home } from "src/components/icons/Home";
 export { default as Img } from "src/components/icons/Img";
 export { default as List } from "src/components/icons/List";
+export { default as Logo } from "src/components/icons/Logo";
 export { default as LogoLight } from "src/components/icons/LogoLight";
 export { default as LogoDark } from "src/components/icons/LogoDark";
 export { default as LogoWord } from "src/components/icons/LogoWord";
