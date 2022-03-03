@@ -38,8 +38,7 @@ const Link = ({
   return (
     <a
       className={cx("link-container", type, disabled && "disabled", className)}
-      href={href}
-      disabled={disabled}
+      href={disabled ? null : href}
       target={target}
     >
       {text && <P2 text={text} bold={bold} />}
