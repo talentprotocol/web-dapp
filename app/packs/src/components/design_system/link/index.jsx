@@ -1,9 +1,9 @@
 import React from "react";
+import cx from "classnames";
 import { string, oneOf, bool, node } from "prop-types";
 
+import Button from "src/components/design_system/button";
 import { P2 } from "src/components/design_system/typography";
-
-import cx from "classnames";
 
 const Link = ({
   text,
@@ -16,18 +16,26 @@ const Link = ({
   children,
   onClick,
 }) => {
-  let forceDisable = disabled;
-  let onClickCallback = onClick;
-  if (onClickCallback) {
-    forceDisable = true;
-  } else {
-    onClickCallback = () => null;
+  if (!!onClick) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        className="button-link text-primary"
+      >
+        {Icon && <Icon pathClassName={cx("link-icon", bold && "bold")} />}
+        {text && (
+          <P2 className={cx("link-text", type)} text={text} bold={bold} />
+        )}
+        {children}
+      </button>
+    );
   }
 
   return (
     <a
       className={cx("link-container", type, disabled && "disabled", className)}
-      href={disabled ? null : href}
+      href={href}
       disabled={disabled}
       target={target}
     >
