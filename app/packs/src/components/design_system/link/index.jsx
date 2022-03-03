@@ -21,12 +21,15 @@ const Link = ({
       <button
         disabled={disabled}
         onClick={onClick}
-        className="button-link text-primary"
-      >
-        {Icon && <Icon pathClassName={cx("link-icon", bold && "bold")} />}
-        {text && (
-          <P2 className={cx("link-text", type)} text={text} bold={bold} />
+        className={cx(
+          "link-container",
+          "button-link",
+          type,
+          disabled && "disabled",
+          className
         )}
+      >
+        {text && <P2 text={text} bold={bold} />}
         {children}
       </button>
     );

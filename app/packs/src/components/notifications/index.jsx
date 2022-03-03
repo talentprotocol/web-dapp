@@ -161,7 +161,6 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
             <Link
               disabled={currentNotifications.length == 0}
               text="Mark all as read"
-              type="text-primary"
               onClick={markAllAsRead}
             />
           </div>
