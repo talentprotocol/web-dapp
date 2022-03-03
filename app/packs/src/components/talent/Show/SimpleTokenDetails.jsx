@@ -40,7 +40,7 @@ const SimpleTokenDetails = ({ token, ticker }) => {
     currency(value, { symbol: "" }).format();
 
   return (
-    <div>
+    <>
       <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-5">
         <P2 className="mb-2 text-primary-04" bold text="Market Value" />
         <H4 bold text={formatNumberWithSymbol(tokenData.totalSupply * 0.1)} />
@@ -56,7 +56,7 @@ const SimpleTokenDetails = ({ token, ticker }) => {
         <P2 className="mb-2 text-primary-04" bold text="Supporters" />
         <H4 bold text={tokenData.supporterCount} />
       </div>
-    </div>
+    </>
   );
 };
 

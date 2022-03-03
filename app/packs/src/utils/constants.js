@@ -27,6 +27,9 @@ export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
 
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
+export const TALENT_APPLICATION_FORM =
+  "https://talentprotocol.typeform.com/apply";
+
 export const ERROR_MESSAGES = {
   ticker_reserved: "talent token with this symbol already exists",
   action_canceled: "User denied transaction signature",

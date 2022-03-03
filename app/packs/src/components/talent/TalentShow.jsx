@@ -127,7 +127,7 @@ const TalentShow = ({
         document.title,
         `${url.pathname}?tab=overview`
       );
-    } else if (publicPageViewer) {
+    } else {
       window.history.pushState({}, document.title, url.pathname);
     }
   }, [searchParams, publicPageViewer]);

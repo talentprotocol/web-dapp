@@ -5,7 +5,7 @@ import Link from "../design_system/link";
 import { useTheme } from "src/contexts/ThemeContext";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { H5, P2, P3 } from "../design_system/typography";
-import { TALENT_PROTOCOL_WEBSITE, USER_GUIDE } from "src/utils/constants";
+import { TALENT_APPLICATION_FORM, USER_GUIDE } from "src/utils/constants";
 import { post } from "src/utils/requests";
 import cx from "classnames";
 
@@ -91,7 +91,7 @@ const Login = () => {
           <Link
             bold
             target="_blank"
-            href={TALENT_PROTOCOL_WEBSITE}
+            href={TALENT_APPLICATION_FORM}
             text="Join the waitlist"
           />
         </div>

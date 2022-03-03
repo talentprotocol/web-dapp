@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { useTheme } from "src/contexts/ThemeContext";
-import { TALENT_PROTOCOL_WEBSITE } from "src/utils/constants";
+import { TALENT_APPLICATION_FORM } from "src/utils/constants";
 
 import { LogoLight, LogoDark, Logo } from "src/components/icons";
 import Button from "src/components/design_system/button";
@@ -30,7 +30,7 @@ export const LoggedOutTopBar = ({}) => {
         <div className="d-flex" style={{ height: 34 }}>
           <Button
             type="primary-default"
-            onClick={() => window.open(TALENT_PROTOCOL_WEBSITE)}
+            onClick={() => window.open(TALENT_APPLICATION_FORM)}
             text="Join Waitlist"
           />
           <Button
