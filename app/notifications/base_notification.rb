@@ -16,12 +16,8 @@ class BaseNotification < Noticed::Base
   end
 
   def source
-    if @source_loaded
-      @source
-    else
-      @source_loaded = true
-      @source = User.find_by(id: params["source_id"])
-    end
+    @source ||=
+      User.find_by(id: params.params["source_id"])
   end
 
   def source_name
