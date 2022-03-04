@@ -17,10 +17,10 @@ class BaseNotification < Noticed::Base
 
   def source
     @source ||=
-      if params&.params
-        User.find_by(id: params.params["source_id"])
-      else
+      if params.is_a?(Hash)
         User.find_by(id: params["source_id"])
+      elsif params&.params && params.params["source_id"]
+        User.find_by(id: params.params["source_id"])
       end
   end
 
