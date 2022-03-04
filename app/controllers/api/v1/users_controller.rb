@@ -32,7 +32,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.id != current_user.id
+    if @user.nil? || @user.id != current_user.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
@@ -108,7 +108,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email, :messaging_disabled)
+    params.require(:user).permit(
+      :theme_preference, :username, :email, :messaging_disabled,
+      notification_preferences: {}
+    )
   end
 
   def password_params

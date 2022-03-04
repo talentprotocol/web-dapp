@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         resources :notifications, only: [] do
           put :mark_as_read
         end
+        post "clear_notifications", to: "notifications#mark_all_as_read"
+
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
@@ -85,6 +87,10 @@ Rails.application.routes.draw do
   resources :wait_list, only: [:create, :index]
 
   root to: "sessions#new", as: :root
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 
   match "*unmatched", to: "application#route_not_found", via: :all
 end

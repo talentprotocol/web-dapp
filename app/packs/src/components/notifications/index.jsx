@@ -7,14 +7,15 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { put } from "src/utils/requests";
+import { put, post } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
-import { P2 } from "src/components/design_system/typography";
+import { P1, P2 } from "src/components/design_system/typography";
 import { Bell, ArrowLeft } from "src/components/icons";
+import Link from "src/components/design_system/link";
 
 const Notification = ({ notification, mode }) => {
   const type = () => {
@@ -61,6 +62,14 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
     }
   };
 
+  const markAllAsRead = async () => {
+    const request = await post("/api/v1/clear_notifications");
+    if (request.success) {
+      const newNotifications = notifications.map((n) => ({ ...n, read: true }));
+      setCurrentNotifications(newNotifications);
+    }
+  };
+
   if (width < 992) {
     return (
       <>
@@ -91,6 +100,13 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
               <ArrowLeft color="currentColor" size={16} />
             </Button>
             <P2 className="text-black" bold text="Notifications" />
+            <Button
+              onClick={() => markAllAsRead()}
+              type="white-ghost"
+              className="d-flex align-items-center text-primary ml-auto"
+            >
+              Mark all as read
+            </Button>
           </Modal.Header>
           <Modal.Body className="d-flex flex-column p-0">
             {currentNotifications.length == 0 && (
@@ -140,6 +156,14 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           className="notifications-menu"
           style={width < 400 ? { width: width - 50 } : {}}
         >
+          <div className="d-flex flex-row justify-content-between">
+            <P1 bold>Notifications</P1>
+            <Link
+              disabled={currentNotifications.length == 0}
+              text="Mark all as read"
+              onClick={markAllAsRead}
+            />
+          </div>
           {currentNotifications.length == 0 && (
             <Dropdown.ItemText key="no-notifications">
               <small className="w-100 text-center no-notifications-item">

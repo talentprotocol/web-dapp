@@ -1,39 +1,23 @@
-<body>
-  <div class="bg-white">
-    <div class="container">
-      <div class="row my-10 max-w-80 ax-center">
-        <div class="col-2 ay-middle">
-          <img class="img-fluid ay-middle" alt="talent protocol logo" src="https://beta.talentprotocol.com/brand_logo.png" />
-        </div>
-        <div class="col-10 ay-middle">
-          <img class="img-fluid ay-middle" alt="talent protocol name" src="https://beta.talentprotocol.com/brand_name.png" />
-        </div>
-      </div>
-      <h3 class="ax-center text-center mb-10">Congratulations <%= @user.username%>, you have successfully launched your token!</h3>
-      <p class="w-full lh-lg text-lg mb-10">
-        As one of the first 100 talents that registered, we just offered you 2,000 of your own Talent Tokens, worth $200 cUSD.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        The direct link to your profile is <span class="text-primary"><%= root_url + "talent/#{@user.username}" %></span>
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        And this is your personal invite link that you can share with 5 people to signup as supporters.<br>
-        <span class="text-primary"><%= root_url + "sign_up?code=#{@invite.code}" %></span>
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        We recommend sharing the <a href="https://talentprotocol.notion.site/Supporter-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">Supporter Onboarding Guide</a> with your friends to help them create an account, but please bear in mind that this is still a difficult process for non web3 natives.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        Remember that, in this season, your supporters will have access to the $TAL token at a discounted price, and can also start earning a high amount of weekly rewards every week.
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        If you have any questions, feel free to reach out to us on Discord (filmacedo#9596) or at filipe@talentprotocol.com
-      </p>
-      <p class="w-full lh-lg text-lg mb-10">
-        Let’s do this! 🚀
-      </p>
-      <p class="ax-center text-center text-primary"><a href="https://www.talentprotocol.com/">@talentprotocol</a></p>
-      <p class="ax-center text-center text-primary"><small><a href="https://twitter.com/talentprotocol">twitter</a> | <a href="https://discord.gg/talentprotocol">discord</a> | <a href="https://t.me/talentprotocol">telegram</a></small></p>
-    </div>
-  </div>
-</body>
+<h3 class="ax-center text-center mb-10">Congratulations <%= @user.username%>, you have successfully launched your token!</h3>
+<p class="w-full lh-lg text-lg mb-10">
+  As one of the first 100 talents that registered, we just offered you 2,000 of your own Talent Tokens, worth $200 cUSD.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  The direct link to your profile is <span class="text-primary"><%= root_url + "talent/#{@user.username}" %></span>
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  And this is your personal invite link that you can share with 5 people to signup as supporters.<br>
+  <span class="text-primary"><%= root_url + "sign_up?code=#{@invite.code}" %></span>
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  We recommend sharing the <a href="https://talentprotocol.notion.site/Supporter-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">Supporter Onboarding Guide</a> with your friends to help them create an account, but please bear in mind that this is still a difficult process for non web3 natives.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  Remember that, in this season, your supporters will have access to the $TAL token at a discounted price, and can also start earning a high amount of weekly rewards every week.
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  If you have any questions, feel free to reach out to us on Discord (filmacedo#9596) or at filipe@talentprotocol.com
+</p>
+<p class="w-full lh-lg text-lg mb-10">
+  Let’s do this! 🚀
+</p>

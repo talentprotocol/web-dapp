@@ -221,6 +221,15 @@ GEM
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     libv8-node (15.14.0.1)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -465,6 +474,7 @@ DEPENDENCIES
   graphql-client
   image_processing (~> 1.12)
   jbuilder (~> 2.7)
+  letter_opener_web
   listen (~> 3.3)
   lockbox
   mini_racer

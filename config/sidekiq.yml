@@ -6,6 +6,9 @@
   - mailers
   - low
 :schedule:
+  send_notification_digests:
+    cron: '0 10 * * *' # runs once every day at 10am
+    class: SendNotificationDigestsJob
   sync_talent_with_notion:
-    cron: '0 20 * * *' # Runs once every wednesday at 5pm
+    cron: '0 20 * * *' # Runs once every day at 8pm
     class: SyncTalentWithNotionJob
