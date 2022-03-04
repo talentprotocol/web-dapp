@@ -17,7 +17,11 @@ class BaseNotification < Noticed::Base
 
   def source
     @source ||=
-      User.find_by(id: params.params["source_id"])
+      if params&.params
+        User.find_by(id: params.params["source_id"])
+      else
+        User.find_by(id: params["source_id"])
+      end
   end
 
   def source_name
