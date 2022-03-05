@@ -1,9 +1,20 @@
 import React from "react";
 import dayjs from "dayjs";
+import { LinkItEmail, LinkItUrl } from 'react-linkify-it';
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
+
+const MessageLinkified = (props) => {
+  return (
+    <LinkItUrl>
+      <LinkItEmail>
+          {props.message}
+      </LinkItEmail>
+    </LinkItUrl>
+  )
+}
 
 const Message = (props) => {
   const {
@@ -43,7 +54,9 @@ const Message = (props) => {
             <P3 text={sentDate} className="mb-0 ml-2" />
           </div>
         )}
-        <P2 text={message.text} className={"text-white-space-wrap"} />
+        <P2 className={"text-white-space-wrap"}>
+          <MessageLinkified message={message.text}/>
+        </P2>
       </div>
     </div>
   );

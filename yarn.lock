@@ -11725,6 +11725,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-linkify-it@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-linkify-it/-/react-linkify-it-1.0.4.tgz#58fd2bb63763f1dc888019d9b82339af8d600e93"
+  integrity sha512-/XNtL2DNzhjBu60aUZ119uUBsV7tWUYcQjIU/Tti6B29h7QR1I+0Q/u84vUKfT0BIEeHbe41KgvkufKBxfNInw==
+
 react-on-rails@12.2.0:
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/react-on-rails/-/react-on-rails-12.2.0.tgz#289d3752f695be7a9e71c8075a2601029e1ac71e"
