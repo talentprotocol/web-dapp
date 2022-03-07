@@ -3,6 +3,7 @@ class NotificationMailer < ApplicationMailer
     @user = params[:recipient]
     @notification = params[:record].to_notification
     @notification.record.mark_as_emailed
+
     subject = "Talent Protocol - #{@notification.title}"
     bootstrap_mail(to: @user.email, subject: subject)
   end
