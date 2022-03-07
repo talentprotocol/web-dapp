@@ -137,12 +137,18 @@ const TalentShow = ({
     setPageInDisplay(params.get("tab"));
   });
 
+  const copyLinkToProfile = () => {
+    navigator.clipboard.writeText(
+      window.location.origin + window.location.pathname
+    );
+  };
+
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
       <Button
         onClick={() => setShow(true)}
         disabled={!sharedState.token.contract_id}
-        type="primary-default"
+        type={currentUserId == user.id ? "white-subtle" : "primary-default"}
         mode={theme.mode()}
         className="mr-2"
       >
@@ -163,29 +169,33 @@ const TalentShow = ({
           talentIsFromCurrentUser={talentIsFromCurrentUser}
         />
       )}
-      <Button
-        onClick={() => (window.location.href = `/messages?user=${user.id}`)}
-        type="white-subtle"
-        mode={theme.mode()}
-        className="mr-2 align-items-center"
-        disabled={user.messaging_enabled || currentUserId == user.id}
-      >
-        {mobile && <Chat color="currentColor" className="mr-2" />}
-        {!mobile && " Message"}
-      </Button>
-      <Button
-        onClick={toggleWatchlist}
-        type="white-subtle"
-        mode={theme.mode()}
-        disabled={changingFollow}
-        className={cx(talentIsFromCurrentUser && "mr-2")}
-      >
-        {sharedState.isFollowing ? (
-          <FontAwesomeIcon icon={faStar} className="text-warning" />
-        ) : (
-          <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
-        )}
-      </Button>
+      {!talentIsFromCurrentUser && (
+        <Button
+          onClick={() => (window.location.href = `/messages?user=${user.id}`)}
+          type="white-subtle"
+          mode={theme.mode()}
+          className="mr-2 align-items-center"
+          disabled={user.messaging_enabled}
+        >
+          {mobile && <Chat color="currentColor" className="mr-2" />}
+          {!mobile && " Message"}
+        </Button>
+      )}
+      {!talentIsFromCurrentUser && (
+        <Button
+          onClick={toggleWatchlist}
+          type="white-subtle"
+          mode={theme.mode()}
+          disabled={changingFollow}
+          className={cx(talentIsFromCurrentUser && "mr-2")}
+        >
+          {sharedState.isFollowing ? (
+            <FontAwesomeIcon icon={faStar} className="text-warning" />
+          ) : (
+            <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+          )}
+        </Button>
+      )}
       {talentIsFromCurrentUser && (
         <Button
           onClick={() =>
@@ -195,6 +205,16 @@ const TalentShow = ({
           mode={theme.mode()}
         >
           Edit Profile
+        </Button>
+      )}
+      {talentIsFromCurrentUser && (
+        <Button
+          onClick={copyLinkToProfile}
+          type="primary-default"
+          mode={theme.mode()}
+          className="ml-2"
+        >
+          Share
         </Button>
       )}
     </div>
