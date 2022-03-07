@@ -3,7 +3,7 @@
   <% content_for :meta_description, @talent["headline"] %>
 <% end %>
 <% if @talent["profile_picture_url"].present? %>
-  <% content_for :meta_image, @talent.profile_picture_url %>
+  <% content_for :meta_image, @talent["profile_picture_url"] %>
   <% content_for :meta_card_type, "summary" %>
 <% end %>
 
