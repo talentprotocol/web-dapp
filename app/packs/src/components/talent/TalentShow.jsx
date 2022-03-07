@@ -328,6 +328,7 @@ const TalentShow = ({
             <SimpleTokenDetails
               ticker={ticker()}
               token={token}
+              mode={theme.mode()}
               railsContext={railsContext}
             />
           </div>
