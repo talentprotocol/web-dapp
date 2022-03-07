@@ -54,7 +54,7 @@ const SimpleTokenDetails = ({ token, ticker }) => {
       </div>
       <div className="card disabled d-flex flex-column align-items-center justify-content-center">
         <P2 className="mb-2 text-primary-04" bold text="Supporters" />
-        <H4 bold text={tokenData.supporterCount} />
+        <H4 bold text={`${tokenData.supporterCount}`} />
       </div>
     </>
   );

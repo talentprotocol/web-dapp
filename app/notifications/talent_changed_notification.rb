@@ -10,6 +10,6 @@ class TalentChangedNotification < BaseNotification
   end
 
   def url
-    talent_url(source.username) if source.present?
+    user_url(source.username) if source.present?
   end
 end

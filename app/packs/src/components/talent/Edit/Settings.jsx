@@ -216,7 +216,7 @@ const Settings = (props) => {
         <TextInput
           title={"Username"}
           mode={mode}
-          shortCaption={`Your Talent Protocol URL: /talent/${settings.username}`}
+          shortCaption={`Your Talent Protocol URL: /u/${settings.username}`}
           onChange={(e) => changeAttribute("username", e.target.value)}
           value={settings.username}
           className="w-100"

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit_profile]
+
   def index
     if user_params[:email].present?
       @user = User.find_by(email: user_params[:email].downcase)
@@ -13,6 +15,17 @@ class UsersController < ApplicationController
     else
       render json: {error: "Couldn't find the user for that email or username"}, status: :not_found
     end
+  end
+
+  def show
+    talent = @user.talent
+
+    @talent = TalentBlueprint.render_as_json(
+      talent,
+      view: :extended,
+      current_user: current_user,
+      tags: talent.tags.where(hidden: false)
+    )
   end
 
   def create
@@ -42,6 +55,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_profile
+    if @user.id != current_user.id
+      redirect_to root_url
+    end
+
+    @talent = @user.talent
+    @investor = @user.investor
+  end
+
   def send_confirmation_email
     UserMailer.with(user: User.find(params[:user_id])).send_sign_up_email.deliver_later
 
@@ -49,6 +71,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def set_user
+    @user = User.find_by!(username: params[:username])
+  end
 
   def user_params
     params.permit(:email, :username, :password, :code, :captcha, :mode, :theme_preference)

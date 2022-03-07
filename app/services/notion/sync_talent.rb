@@ -83,7 +83,7 @@ class Notion::SyncTalent
           ]
         },
         "Profile URL": {
-          url: talent_path(talent, only_path: true)
+          url: user_path(talent, only_path: true)
         },
         Telegram: {
           rich_text: [

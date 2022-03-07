@@ -107,11 +107,11 @@ const MessageExchange = (props) => {
 
     if (mine(message)) {
       if (user.withTalent) {
-        return `talent/${user.username}`;
+        return `u/${user.username}`;
       }
     } else {
       if (messengerWithTalent) {
-        return `talent/${username}`;
+        return `u/${username}`;
       }
     }
   };

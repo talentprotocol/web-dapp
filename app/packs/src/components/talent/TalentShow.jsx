@@ -189,7 +189,7 @@ const TalentShow = ({
       {talentIsFromCurrentUser && (
         <Button
           onClick={() =>
-            (window.location.href = `/talent/${user.username}/edit_profile`)
+            (window.location.href = `/u/${user.username}/edit_profile`)
           }
           type="white-subtle"
           mode={theme.mode()}
