@@ -12,7 +12,21 @@ class SendNotificationDigestsJob < ApplicationJob
       )
 
     notifications.each do |row|
-      NotificationMailer.digest(row.recipient_id, row.notification_ids).deliver_later
+      # We should make sure the user hasn't in the mean time read the messages
+      # but forgot about the notification
+      notifications = Notification.where(id: row.notification_ids)
+      digest_notification_ids = []
+      if notifications.where(type: "MessageReceivedNotification").exists?
+        user = User.find_by(user_id: row.recipient_id)
+        digest_notification_ids =
+          if user.has_unread_messages?
+            row.notification_ids
+          else
+            notifications.where(type: "MessageReceivedNotification").update_all(read_at: Time.current)
+            notifications.where.not(type: "MessageReceivedNotification").pluck(:id)
+          end
+      end
+      NotificationMailer.digest(row.recipient_id, digest_notification_ids).deliver_later
     end
   end
 end
