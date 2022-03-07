@@ -1,3 +1,12 @@
+<% content_for :meta_title, "#{@talent["user"]["username"]} | #{DEFAULT_META["meta_product_name"]}" %>
+<% if @talent["headline"].present? %>
+  <% content_for :meta_description, @talent["headline"] %>
+<% end %>
+<% if @talent["profile_picture_url"].present? %>
+  <% content_for :meta_image, @talent.profile_picture_url %>
+  <% content_for :meta_card_type, "summary" %>
+<% end %>
+
 <main class="main-content">
   <div class="container-grid">
     <% if current_user.nil? %>

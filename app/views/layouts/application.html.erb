@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Talent Protocol</title>
+    <title><%= meta_title %></title>
+    <meta name="description" content="<%= meta_description %>">
+    <meta property="og:url" content="<%= request.original_url %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="<%= meta_title %>" />
+    <meta name="twitter:card" content="<%= meta_card_type %>" />
+    <meta property="og:description" content="<%= meta_description %>" />
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
