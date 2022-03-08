@@ -25,6 +25,8 @@ export const REFERRAL_RACE =
 
 export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
 
+export const TALENT_PROTOCOL_TWITTER = "https://twitter.com/talentprotocol";
+
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
 export const TALENT_APPLICATION_FORM =
