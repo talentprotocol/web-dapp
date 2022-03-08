@@ -12,9 +12,9 @@ import { ArrowLeft, ArrowRight, Check } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 
 const TALENT_TEXT =
-  "Invite a talented friend to launch a token. They skip the traditional application process, receive $200 USD and you earn 100 TAL.";
+  "Invite a talented friend to launch a token. They skip the traditional application process and receive $200 USD.";
 const SUPPORTER_TEXT =
-  "Invite your friends to join the Talent Protocol platform as a supporter";
+  "Invite your friends to join the Talent Protocol platform as supporters.";
 
 const InviteCard = ({
   title,

@@ -15,7 +15,7 @@
 }
 
 .dark-body .tag-container {
-  background-color: $gray-600;
+  background-color: $gray-800;
 }
 
 .optional-tag-container {
@@ -29,7 +29,7 @@
   background-color: $gray;
 
   &:hover {
-    background-color: $gray-surface-2;
+    background-color: $light-gray-200;
   }
 
   .close-tag {
@@ -53,7 +53,7 @@
 }
 
 .dark-body .optional-tag-container {
-  background-color: $gray-800;
+  background-color: $gray-400;
 
   &:hover {
     background-color: $gray-300;
