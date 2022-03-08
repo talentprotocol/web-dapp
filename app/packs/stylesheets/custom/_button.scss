@@ -541,6 +541,25 @@
   }
 }
 
+.dark-mode-static-white-default-button {
+  color: $gray-800;
+  background-color: $white;
+  border: none;
+
+  &:hover {
+    background-color: $gray-200;
+  }
+
+  &:disabled {
+    color: $gray-600 !important;
+    background-color: $gray-800 !important;
+  }
+
+  &:active {
+    background-color: $white;
+  }
+}
+
 .white-outline-button {
   color: $gray-800;
   background-color: transparent;
