@@ -192,7 +192,7 @@ const TalentTableListMode = ({
                     <div
                       className="d-flex flex-row align-items-center"
                       onClick={() =>
-                        (window.location.href = `/talent/${talent.user.username}`)
+                        (window.location.href = `/u/${talent.user.username}`)
                       }
                     >
                       <TalentProfilePicture
@@ -206,7 +206,7 @@ const TalentTableListMode = ({
                 <Table.Td
                   className="text-right pr-3"
                   onClick={() =>
-                    (window.location.href = `/talent/${talent.user.username}`)
+                    (window.location.href = `/u/${talent.user.username}`)
                   }
                 >
                   <P2 text={getSelectedOptionValue(talent)} />
@@ -275,7 +275,7 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.user.username}`)
+                (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <div className="d-flex align-items-center">
@@ -299,14 +299,14 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.user.username}`)
+                (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2 text={talent.occupation} />
             </Table.Td>
             <Table.Td
               onClick={() =>
-                (window.location.href = `/talent/${talent.user.username}`)
+                (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2
@@ -323,7 +323,7 @@ const TalentTableListMode = ({
                 talent.token.contractId ? "" : "d-flex justify-content-center"
               )}
               onClick={() =>
-                (window.location.href = `/talent/${talent.user.username}`)
+                (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2

@@ -18,10 +18,7 @@ Rails.application.routes.draw do
     end
 
     # Talent pages & search
-    resources :talent, only: [:index] do
-      get :edit_profile
-    end
-
+    resources :talent, only: [:index]
     # Portfolio
     resource :portfolio, only: [:show]
 
@@ -75,8 +72,12 @@ Rails.application.routes.draw do
       controller: "passwords",
       only: [:edit, :update]
   end
-  resources :talent, only: [:show]
 
+  get "/u/:username" => "users#show", :as => "user"
+  # redirect /talent to /u so we have the old route still working
+  get "/talent/:username", to: redirect("/u/%{username}")
+
+  get "/u/:username/edit_profile", to: "users#edit_profile"
   get "/sign_up" => "pages#home", :as => :sign_up
   get "/" => "sessions#new", :as => "sign_in"
   delete "/" => "sessions#new", :as => "sign_in_redirect"

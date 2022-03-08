@@ -120,7 +120,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                       headline={talent.headline}
                       isFollowing={talent.isFollowing}
                       updateFollow={() => updateFollow(talent)}
-                      talentLink={`/talent/${talent.username}`}
+                      talentLink={`/u/${talent.username}`}
                       marketCap={talent.marketCap}
                       supporterCount={talent.supporterCount}
                     />

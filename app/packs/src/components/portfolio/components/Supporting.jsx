@@ -385,9 +385,7 @@ const Supporting = ({
               <Table.Td>
                 <div
                   className="d-flex cursor-pointer"
-                  onClick={() =>
-                    (window.location.href = `/talent/${talent.name}`)
-                  }
+                  onClick={() => (window.location.href = `/u/${talent.name}`)}
                 >
                   <TalentProfilePicture
                     src={talentProfilePictures[talent.contract_id]}

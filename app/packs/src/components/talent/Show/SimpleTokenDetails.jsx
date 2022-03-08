@@ -70,7 +70,7 @@ const SimpleTokenDetails = ({ token, ticker, mode, railsContext }) => {
       </div>
       <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
         <P2 className="mb-2 text-primary-04" bold text="Supporters" />
-        <H4 bold text={tokenData.supporterCount} />
+        <H4 bold text={`${tokenData.supporterCount}`} />
       </div>
       {token.contract_id && (
         <div className="card card-no-hover d-flex flex-column align-items-center justify-content-center p-3">
