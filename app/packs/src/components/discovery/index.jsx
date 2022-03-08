@@ -12,7 +12,7 @@ import {
 } from "src/utils/thegraph";
 
 import { TALENT_PROTOCOL_TWITTER } from "src/utils/constants";
-import { H3, P1, Caption } from "src/components/design_system/typography";
+import { P1 } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
 
@@ -111,8 +111,6 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
           <div className="talent-background-text text-white">
             <div className="col-1"></div>
             <div style={{ width: "400px" }}>
-              <Caption className="mb-2 text-yellow" text="Social" bold />
-              <H3 className="pb-4" text="Keep up to date with us." bold />
               <Button
                 type="white-default"
                 size="extra-big"
