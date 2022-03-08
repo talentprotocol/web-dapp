@@ -9,6 +9,7 @@ import MetamaskFox from "images/metamask-fox.svg";
 import { H4, P2 } from "src/components/design_system/typography";
 import { Copy } from "src/components/icons";
 import Button from "src/components/design_system/button";
+import Tooltip from "src/components/design_system/tooltip";
 
 import {
   ApolloProvider,
@@ -88,14 +89,21 @@ const SimpleTokenDetails = ({ token, ticker, mode, railsContext }) => {
               className="text-black"
               text={`${token.contract_id.substring(0, 10)}...`}
             />
-            <Button
-              type="white-subtle"
+            <Tooltip
+              body={"Copied!"}
+              popOverAccessibilityId={"coppy_address_success"}
               mode={mode}
-              className="ml-2"
-              onClick={copyTokenAdddres}
+              placement="top"
             >
-              <Copy color="currentColor" />
-            </Button>
+              <Button
+                type="white-subtle"
+                mode={mode}
+                className="ml-2"
+                onClick={copyTokenAdddres}
+              >
+                <Copy color="currentColor" />
+              </Button>
+            </Tooltip>
             <Button
               type="white-subtle"
               mode={mode}
