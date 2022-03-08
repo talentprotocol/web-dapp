@@ -22,6 +22,7 @@ import SocialRow from "./Show/SocialRow";
 import Button from "src/components/design_system/button";
 import { Chat } from "src/components/icons";
 import { H2, H5 } from "src/components/design_system/typography";
+import Tooltip from "src/components/design_system/tooltip";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
@@ -208,14 +209,21 @@ const TalentShow = ({
         </Button>
       )}
       {talentIsFromCurrentUser && (
-        <Button
-          onClick={copyLinkToProfile}
-          type="primary-default"
+        <Tooltip
+          body={"Copied!"}
+          popOverAccessibilityId={"share_success"}
           mode={theme.mode()}
-          className="ml-2"
+          placement="top"
         >
-          Share
-        </Button>
+          <Button
+            onClick={copyLinkToProfile}
+            type="primary-default"
+            mode={theme.mode()}
+            className="ml-2"
+          >
+            Share
+          </Button>
+        </Tooltip>
       )}
     </div>
   );
