@@ -29,6 +29,10 @@
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
 }
 
+.dark-body .card-no-hover:hover {
+  background-color: $gray-900 !important;
+}
+
 .dark-body .card {
   background-color: $gray-900;
   box-shadow: none;
@@ -153,7 +157,7 @@
 }
 
 .dark-body .tag-unavailable {
-  background-color: $gray-600;
+  background-color: $gray-800;
 }
 
 .tag-unavailable-label {
