@@ -65,6 +65,9 @@ gem "graphql-client"
 # JSON Object Presenter
 gem "blueprinter"
 
+# Notifications
+gem "noticed", "~> 1.5"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"
@@ -78,6 +81,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "letter_opener_web"
   gem "web-console", ">= 4.1.0"
   gem "rack-mini-profiler", "~> 2.0"
   gem "listen", "~> 3.3"

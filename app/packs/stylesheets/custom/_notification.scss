@@ -44,7 +44,7 @@
 }
 
 .dark-body .notifications-menu {
-  background-color: $gray-600 !important;
+  background-color: $gray-800 !important;
   color: $white !important;
 }
 
@@ -82,7 +82,7 @@
 .dark-body .notifications-menu-dropdown-item {
   color: $white !important;
   &:hover {
-    background: $surface-hover-02 !important;
+    background: $gray-800 !important;
   }
 }
 

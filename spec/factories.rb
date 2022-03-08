@@ -32,4 +32,8 @@ FactoryBot.define do
 
   factory :feed do
   end
+
+  factory :notification do
+    type { MessageReceivedNotification.name }
+  end
 end

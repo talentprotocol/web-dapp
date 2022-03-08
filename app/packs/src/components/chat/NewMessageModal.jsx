@@ -20,11 +20,15 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
+    if (search.length > 0 && search.length < 3) {
+      return;
+    }
+
     setLoading(true);
 
-    const response = await get(`api/v1/users?name=${search}&messaging_disabled=false`).catch(() =>
-      setLoading(false)
-    );
+    const response = await get(
+      `api/v1/users?name=${search}&messaging_disabled=false`
+    ).catch(() => setLoading(false));
 
     if (response.users) {
       setUsers(response.users);
@@ -85,11 +89,7 @@ const NewMessageModal = ({ show, setShow, onUserChosen, mobile }) => {
                   src={user.profilePictureUrl}
                   height={40}
                 />
-                <P2
-                  className="mb-0 ml-3 current-color"
-                  bold
-                  text={user.username}
-                />
+                <P2 className="mb-0 ml-3" bold text={user.username} />
               </Link>
             </button>
           ))}

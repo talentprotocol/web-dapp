@@ -7,25 +7,24 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { patch } from "src/utils/requests";
+import { put, post } from "src/utils/requests";
 
 import { useWindowDimensionsHook } from "../../utils/window";
 import NotificationTemplate from "src/components/design_system/notification";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
-import { P2 } from "src/components/design_system/typography";
+import { P1, P2 } from "src/components/design_system/typography";
 import { Bell, ArrowLeft } from "src/components/icons";
+import Link from "src/components/design_system/link";
 
 const Notification = ({ notification, mode }) => {
   const type = () => {
     switch (notification.type) {
-      case "Notifications::TokenAcquired":
+      case "TokenAcquiredNotification":
         return "wallet";
-      case "Notifications::MessageReceived":
+      case "MessageReceivedNotification":
         return "chat";
-      case "Notifications::TalentListed":
-        return "talent";
-      case "Notifications::TalentChanged":
+      case "TalentChangedNotification":
         return "star";
       default:
         return "globe";
@@ -50,32 +49,25 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
     useState(notifications);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const notificationHref = (type, notification) => {
-    switch (type) {
-      case "Notifications::TokenAcquired":
-        return `/talent/${notification.username}?tab=supporters`;
-      case "Notifications::MessageReceived":
-        return "/messages";
-      case "Notifications::TalentListed":
-        return "/talent";
-      case "Notifications::TalentChanged":
-        return `/talent/${notification.source_username}`;
-      default:
-        return "";
-    }
-  };
-
   const notificationsUnread = currentNotifications.some(
     (notif) => notif.read === false
   );
 
   const notificationRead = async (notification) => {
     if (!notification.read) {
-      await patch(`/api/v1/notifications/${notification.id}`, {
-        notification: { read: true },
-      });
+      await put(`/api/v1/notifications/${notification.id}/mark_as_read`);
     }
-    window.location.href = notificationHref(notification.type, notification);
+    if (notification.url) {
+      window.location.href = notification.url;
+    }
+  };
+
+  const markAllAsRead = async () => {
+    const request = await post("/api/v1/clear_notifications");
+    if (request.success) {
+      const newNotifications = notifications.map((n) => ({ ...n, read: true }));
+      setCurrentNotifications(newNotifications);
+    }
   };
 
   if (width < 992) {
@@ -108,6 +100,13 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
               <ArrowLeft color="currentColor" size={16} />
             </Button>
             <P2 className="text-black" bold text="Notifications" />
+            <Button
+              onClick={() => markAllAsRead()}
+              type="white-ghost"
+              className="d-flex align-items-center text-primary ml-auto"
+            >
+              Mark all as read
+            </Button>
           </Modal.Header>
           <Modal.Body className="d-flex flex-column p-0">
             {currentNotifications.length == 0 && (
@@ -157,6 +156,14 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
           className="notifications-menu"
           style={width < 400 ? { width: width - 50 } : {}}
         >
+          <div className="d-flex flex-row justify-content-between">
+            <P1 bold>Notifications</P1>
+            <Link
+              disabled={currentNotifications.length == 0}
+              text="Mark all as read"
+              onClick={markAllAsRead}
+            />
+          </div>
           {currentNotifications.length == 0 && (
             <Dropdown.ItemText key="no-notifications">
               <small className="w-100 text-center no-notifications-item">

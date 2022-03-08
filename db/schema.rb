@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_02_24_105745) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -139,16 +138,16 @@ ActiveRecord::Schema.define(version: 2022_02_24_105745) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.text "body", default: "", null: false
-    t.bigint "user_id"
-    t.bigint "source_id"
-    t.string "type", default: "", null: false
-    t.boolean "read", default: false
+    t.string "type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "title", default: "", null: false
-    t.index ["source_id"], name: "index_notifications_on_source_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.jsonb "params"
+    t.datetime "read_at"
+    t.datetime "emailed_at"
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
 
   create_table "perks", force: :cascade do |t|
@@ -252,6 +251,7 @@ ActiveRecord::Schema.define(version: 2022_02_24_105745) do
     t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
     t.boolean "messaging_disabled", default: false
+    t.jsonb "notification_preferences", default: {}
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Uppy from "@uppy/core";
 import { FileInput } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
+import Form from "react-bootstrap/Form";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
@@ -24,6 +25,17 @@ import { Check } from "src/components/icons";
 import { passwordMatchesRequirements } from "src/utils/passwordRequirements";
 import { emailRegex, usernameRegex } from "src/utils/regexes";
 
+const NotificationInputs = [
+  {
+    description: "Someone bought your talent token",
+    name: "TokenAcquiredNotification",
+  },
+  {
+    description: "Someone sent you a chat message",
+    name: "MessageReceivedNotification",
+  },
+];
+
 const uppyProfile = new Uppy({
   meta: { type: "avatar" },
   restrictions: {
@@ -41,7 +53,15 @@ uppyProfile.use(AwsS3Multipart, {
   },
 });
 
-const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureUrl, invites }) => {
+const EditSupporter = ({
+  id,
+  username,
+  email,
+  messagingDisabled,
+  profilePictureUrl,
+  invites,
+  notificationPreferences,
+}) => {
   const [settings, setSettings] = useState({
     username: username || "",
     email: email || "",
@@ -51,6 +71,7 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
     deletePassword: "",
     profilePictureUrl: profilePictureUrl,
     s3Data: null,
+    notificationPreferences: notificationPreferences,
   });
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [uploaded, setUploaded] = useState({ profile: false });
@@ -66,6 +87,10 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
     errors,
     tags,
   } = passwordMatchesRequirements(settings.newPassword);
+  const [notifications, setNotifications] = useState({
+    saving: false,
+    success: false,
+  });
 
   const theme = useContext(ThemeContext);
 
@@ -196,6 +221,26 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
     }
   };
 
+  const setNotificationSettings = (name) => (event) => {
+    const value = parseInt(event.currentTarget.value, 10);
+    const preferences = { ...settings.notificationPreferences, [name]: value };
+    setSettings((prev) => ({ ...prev, notificationPreferences: preferences }));
+  };
+
+  const updateNotificationSettings = async () => {
+    let success = true;
+    setNotifications((prev) => ({ ...prev, saving: true, success: false }));
+
+    const response = await patch(`/api/v1/users/${id}`, {
+      user: {
+        notification_preferences: settings.notificationPreferences,
+      },
+    }).catch(() => (success = false));
+
+    success = success && response && !response.errors;
+    setNotifications((prev) => ({ ...prev, saving: false, success }));
+  };
+
   const addInviteToClipboard = (invite) => {
     setCopied((prev) => ({ ...prev, [invite.id]: true }));
     navigator.clipboard.writeText(
@@ -227,9 +272,8 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
               {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
             </P2>
             <P2 className="w-100">
-              Invite your friends, earn 10 TAL per referral, and compete for the
-              big weekly prize of 1,000 TAL if you’re the first user to reach 15
-              invites.
+              Invite your friends to join the Talent Protocol platform as
+              supporters.
             </P2>
             <div className="col-8 d-flex flex-column p-0 mt-2">
               <P2 className="p2 text-left">
@@ -331,10 +375,12 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
         </P2>
 
         <Checkbox
-            className="form-check-input mt-4"
-            checked={settings.messagingDisabled}
-            onChange={() => changeAttribute("messagingDisabled", !settings.messagingDisabled)}
-          >
+          className="form-check-input mt-4"
+          checked={settings.messagingDisabled}
+          onChange={() =>
+            changeAttribute("messagingDisabled", !settings.messagingDisabled)
+          }
+        >
           <div className="d-flex flex-wrap">
             <P2 className="mr-1" text="I don't want to receive messages" />
           </div>
@@ -401,6 +447,57 @@ const EditSupporter = ({ id, username, email, messagingDisabled, profilePictureU
       >
         Change password
       </Button>
+      <Divider className="mb-4" />
+      <div className="d-flex flex-column w-100 my-3">
+        <H5
+          className="w-100 text-left"
+          mode={theme.mode()}
+          text="Email Notification Settings"
+          bold
+        />
+        <P2
+          className="w-100 text-left"
+          mode={theme.mode()}
+          text="For each type of notification you can select to receive an immediate email notification, a daily email digest or to not receive any email."
+        />
+
+        {NotificationInputs.map((input) => (
+          <div
+            className="d-flex flex-row w-100 flex-wrap mt-4"
+            key={input.name}
+          >
+            <div className="d-flex flex-column w-100">
+              <div className="d-flex flex-row justify-content-between align-items-end">
+                <P2 bold className="text-black mb-2">
+                  {input.description}
+                </P2>
+              </div>
+              <Form.Control
+                as="select"
+                onChange={setNotificationSettings(input.name)}
+                value={settings.notificationPreferences[input.name]}
+                className="height-auto"
+              >
+                <option value="0">Disabled</option>
+                <option value="1">Immediate</option>
+                <option value="2">Digest</option>
+              </Form.Control>
+            </div>
+          </div>
+        ))}
+        <div className={`d-flex flex-row mt-4 w-100 pb-4`}>
+          <LoadingButton
+            onClick={updateNotificationSettings}
+            type="primary-default"
+            mode={theme.mode()}
+            loading={notifications.saving}
+            disabled={notifications.saving}
+            success={notifications.success}
+          >
+            Save Settings
+          </LoadingButton>
+        </div>
+      </div>
       <Divider className="my-4" />
       <div className="d-flex flex-column w-100 my-3">
         <H5

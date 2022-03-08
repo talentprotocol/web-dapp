@@ -1,23 +1,17 @@
 class API::V1::NotificationsController < ApplicationController
-  before_action :set_notification, only: [:update]
+  def mark_all_as_read
+    current_user.notifications.where(read_at: nil).update_all(read_at: Time.current)
 
-  def update
-    result = @notification.update(notification_params)
-
-    if result
-      render json: {success: "Notification successfully updated."}, status: :ok
-    else
-      render json: {error: "Unable to update notification."}, status: :unprocessable_entity
-    end
+    render json: {success: "Notifications were marked as read"}, status: :ok
   end
 
-  private
+  def mark_as_read
+    id = params[:notification_id]
 
-  def set_notification
-    @notification = Notification.find(params[:id])
-  end
+    notification = current_user.notifications.find(id)
+    notification.mark_as_read! if notification.read_at.nil?
 
-  def notification_params
-    params.require(:notification).permit(:read)
+    render json: {success: "Notification successfully updated."},
+           status: :ok
   end
 end

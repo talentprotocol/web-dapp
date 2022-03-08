@@ -27,6 +27,7 @@ const Chat = ({ users, user }) => {
   const [gettingMessages, setGettingMessages] = useState(false);
   const [messengerProfilePicture, setMessengerProfilePicture] = useState();
   const [messengerUsername, setMessengerUsername] = useState();
+  const [lastOnline, setLastOnline] = useState();
   const { mobile } = useWindowDimensionsHook();
   const theme = useContext(ThemeContext);
 
@@ -50,6 +51,7 @@ const Chat = ({ users, user }) => {
       setChatId(response.chat_id);
       setMessengerProfilePicture(response.profilePictureUrl);
       setMessengerUsername(response.username);
+      setLastOnline(response.lastOnline);
       setGettingMessages(false);
     });
   }, [activeUserId]);
@@ -96,13 +98,13 @@ const Chat = ({ users, user }) => {
     const receiverIndex = prevUsers.findIndex(
       (user) => user.id === response.receiver_id
     );
-    const formatedDate = dayjs(response.created_at).format("MMM D");
+
     return [
       ...prevUsers.slice(0, receiverIndex),
       {
         ...prevUsers[receiverIndex],
         last_message: response.text,
-        last_message_date: formatedDate,
+        last_message_date: response.created_at,
       },
       ...prevUsers.slice(receiverIndex + 1),
     ];
@@ -191,7 +193,7 @@ const Chat = ({ users, user }) => {
       <div className="d-flex flex-column w-100 h-100 themed-border-top">
         <main className="d-flex flex-row h-100 themed-border-left chat-container">
           {(!mobile || activeUserId == 0) && (
-            <section className="col-lg-3 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
+            <section className="col-lg-4 mx-auto mx-lg-0 px-0 d-flex flex-column themed-border-right">
               <MessageUserList
                 onClick={(userId) => setActiveUser(userId)}
                 activeUserId={activeUserId}
@@ -203,7 +205,7 @@ const Chat = ({ users, user }) => {
             </section>
           )}
           {(!mobile || activeUserId > 0) && !gettingMessages && (
-            <section className="col-lg-9 px-0 lg-overflow-y-hidden themed-border-right">
+            <section className="col-lg-8 px-0 lg-overflow-y-hidden themed-border-right">
               <MessageExchange
                 smallScreen={mobile}
                 activeUserId={activeUserId}
@@ -217,6 +219,7 @@ const Chat = ({ users, user }) => {
                 user={user}
                 profilePictureUrl={messengerProfilePicture}
                 username={messengerUsername}
+                lastOnline={lastOnline}
                 messengerWithTalent={activeUserWithTalent()}
                 mode={theme.mode()}
               />

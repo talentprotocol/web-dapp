@@ -175,7 +175,7 @@
 }
 
 .dark-body .divider {
-  background-color: $gray-600;
+  background-color: $gray-800;
 }
 
 .border-0 {
@@ -292,7 +292,7 @@
 }
 
 .dark-body .themed-border-top {
-  border-top: 1px solid $gray-600;
+  border-top: 1px solid $gray-800;
 }
 
 .light-body .themed-border-top {
@@ -300,7 +300,7 @@
 }
 
 .dark-body .themed-border-right {
-  border-right: 1px solid $gray-600;
+  border-right: 1px solid $gray-800;
 }
 
 .light-body .themed-border-right {
@@ -308,7 +308,7 @@
 }
 
 .dark-body .themed-border-left {
-  border-left: 1px solid $gray-600;
+  border-left: 1px solid $gray-800;
 }
 
 .light-body .themed-border-left {
@@ -316,7 +316,7 @@
 }
 
 .dark-body .themed-border-bottom {
-  border-bottom: 1px solid $gray-600;
+  border-bottom: 1px solid $gray-800;
 }
 
 .light-body .themed-border-bottom {
@@ -461,16 +461,16 @@
 .talent-background {
   height: 316px;
   border-radius: 8px;
-  background-image: url(images/tp-vector-talent-background.png),
+  background-image: url(images/tp-twitter-follow-background.png),
     linear-gradient(95.58deg, #7a55ff 0.32%, #3c2789 102.52%);
 }
 
 .talent-background-text {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   height: 100%;
-  flex-wrap: wrap;
-  padding-top: 50px;
-  padding-bottom: 50px;
+}
+
+.height-auto {
+  height: auto;
 }

@@ -22,6 +22,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
+  config.serve_static_assets = ENV["RAILS_SERVE_STATIC_FILES"].present?
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
@@ -64,6 +65,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {host: ENV.fetch("EMAIL_ENV", "dev") + ".talentprotocol.com"}
+  routes.default_url_options[:host] = ENV.fetch("EMAIL_ENV", "dev") + ".talentprotocol.com"
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

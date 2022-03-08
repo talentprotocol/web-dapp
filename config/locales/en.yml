@@ -31,3 +31,15 @@
 
 en:
   hello: "Hello world"
+  notifications:
+    message_received_notification:
+      title: "New messages"
+      body: "You have new messages"
+      button: "Check your inbox"
+    talent_changed_notification:
+      title: "Talent info updated"
+      body: "%{name} profile has been updated"
+    token_acquired_notification:
+      title: "Supporter"
+      body: "You have a new investment by %{name}"
+      button: "Check your supporters"

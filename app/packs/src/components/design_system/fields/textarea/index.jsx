@@ -22,13 +22,22 @@ const TextArea = ({
 }) => {
   const textAreaRef = useRef(null);
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
+  const [initialHeight, setInitialHeight] = useState(null);
 
   useEffect(() => {
     const limit = limitHeight || textAreaRef.current.scrollHeight;
-    setTextAreaHeight("inherit");
-    setTextAreaHeight(
-      `${Math.min(textAreaRef.current.scrollHeight, limit) + 6}px`
-    );
+
+    if (initialHeight === null) {
+      setInitialHeight(Math.min(textAreaRef.current.scrollHeight, limit) + 6);
+    } else if (value === "") {
+      setTextAreaHeight("inherit");
+      setTextAreaHeight(`${initialHeight}px`);
+    } else {
+      setTextAreaHeight("inherit");
+      setTextAreaHeight(
+        `${Math.min(textAreaRef.current.scrollHeight, limit) + 6}px`
+      );
+    }
   }, [value]);
 
   const onChangeHandler = (e) => {

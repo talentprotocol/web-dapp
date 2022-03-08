@@ -11,8 +11,8 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { REFERRAL_RACE } from "src/utils/constants";
-import { H2, Caption } from "src/components/design_system/typography";
+import { TALENT_PROTOCOL_TWITTER } from "src/utils/constants";
+import { P1 } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
 
@@ -109,16 +109,16 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
       {!mobile && (
         <div className="talent-background">
           <div className="talent-background-text text-white">
-            <div style={{ width: "470px" }}>
-              <Caption className="mb-2 text-yellow" text="Referral Race" bold />
-              <H2 text="Invite your friends and win $TAL tokens." bold />
+            <div className="col-1"></div>
+            <div style={{ width: "400px" }}>
+              <Button
+                type="white-default"
+                size="extra-big"
+                onClick={() => window.open(TALENT_PROTOCOL_TWITTER, "_blank")}
+              >
+                <P1 className="text-primary" bold text="Follow us on Twitter" />
+              </Button>
             </div>
-            <Button
-              text="Learn More"
-              type="primary-default"
-              size="extra-big"
-              onClick={() => window.open(REFERRAL_RACE, "_blank")}
-            />
           </div>
         </div>
       )}

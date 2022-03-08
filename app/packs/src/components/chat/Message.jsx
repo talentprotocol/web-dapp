@@ -16,7 +16,7 @@ const Message = (props) => {
     user,
   } = props;
 
-  const sentDate = dayjs(message.created_at).format("MMM D, YYYY, h:m A");
+  const sentDate = dayjs(message.created_at).format("MMM D, YYYY, h:mm A");
 
   return (
     <div className="d-flex flex-row w-100 mt-2 message-div">

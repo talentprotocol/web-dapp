@@ -14,6 +14,9 @@
         current_user_id: current_user.id,
         token_live: @talent.token.deployed?,
         user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, messaging_disabled: @talent.user.messaging_disabled, wallet_id: @talent.user.wallet_id },
+        notificationPreferences: User::Delivery::TYPES.map do |type|
+          [type, @talent.user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
+        end.to_h,
         posts: @talent.user.posts.as_json,
         invites: current_user.invites.as_json,
       }, prerender: false)

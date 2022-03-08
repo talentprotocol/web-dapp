@@ -59,17 +59,17 @@ class OnChain {
         package: WalletConnectProvider, // required
         options: {
           rpc: {
-            [parseInt(this.getEnvChainID())]: this.getEnvRpcURls()[0]
-          }
-        }
-      }
+            [parseInt(this.getEnvChainID())]: this.getEnvRpcURls()[0],
+          },
+        },
+      },
     };
 
     return new Web3Modal({
       cacheProvider: true,
-      providerOptions
+      providerOptions,
     });
-  }
+  };
 
   // LOAD WEB3
 
@@ -88,7 +88,7 @@ class OnChain {
         web3ModalInstance.on("chainChanged", (_chainId) =>
           window.location.reload()
         );
-        
+
         const signer = await provider.getSigner();
         this.signer = signer;
         const account = await signer.getAddress();
@@ -99,7 +99,7 @@ class OnChain {
         return false;
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return false;
     }
   }
@@ -151,7 +151,7 @@ class OnChain {
         params: [{ chainId: this.getEnvChainID() }],
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // metamask mobile throws an error but that error has no code
       // https://github.com/MetaMask/metamask-mobile/issues/3312
       if (!!error.code || error.code === 4902) {
@@ -202,8 +202,8 @@ class OnChain {
       } else {
         return false;
       }
-    } catch (error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
       return false;
     }
   }
@@ -441,6 +441,38 @@ class OnChain {
       return ethers.utils.formatUnits(result);
     } else {
       return result;
+    }
+  }
+
+  // ONCHAIN UTILS
+
+  async addTokenToWallet(contract_id, symbol) {
+    const web3ModalInstance = await this.web3Modal.connect();
+
+    if (!web3ModalInstance) {
+      return;
+    }
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await web3ModalInstance.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: contract_id, // The address that the token is at.
+            symbol: symbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: 18, // The number of decimals in the token
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Added token to metamask");
+      } else {
+        console.log("Token not added to metamask");
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }

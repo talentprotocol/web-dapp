@@ -2,10 +2,10 @@ class API::V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
 
   def index
-    @users = search_params.present? ? filtered_users : filtered_users.limit(20)
+    @users = search_params[:name].present? ? filtered_users : filtered_users.limit(20)
 
     render json: {
-      users: @users.map { |u| 
+      users: @users.includes(:talent, :investor).map { |u|
         {
           id: u.id,
           profilePictureUrl: u&.talent&.profile_picture_url || u.investor&.profile_picture_url,
@@ -32,7 +32,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.id != current_user.id
+    if @user.nil? || @user.id != current_user.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
@@ -108,7 +108,10 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:theme_preference, :username, :email, :messaging_disabled)
+    params.require(:user).permit(
+      :theme_preference, :username, :email, :messaging_disabled,
+      notification_preferences: {}
+    )
   end
 
   def password_params

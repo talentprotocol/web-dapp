@@ -34,6 +34,7 @@ import NewPortfolio from "src/components/portfolio/NewPortfolio";
 import EditSupporter from "src/components/supporters/EditSupporter";
 import Discovery from "src/components/discovery";
 import TalentPage from "src/components/talent/TalentPage";
+import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
 
 import "stylesheets/application.scss";
 
@@ -61,6 +62,7 @@ ReactOnRails.register({
   ChangePassword,
   Discovery,
   TalentPage,
+  LoggedOutTopBar,
 });
 
 Rails.start();

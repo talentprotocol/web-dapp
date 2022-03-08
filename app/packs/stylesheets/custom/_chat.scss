@@ -50,11 +50,12 @@
 }
 
 .dark-body .chat-user.active {
-  background-color: $gray-600;
+  background-color: $gray-800;
 }
 
 .chat-unread-count {
   width: 2em;
+  min-width: 2em;
   height: 2em;
   background-color: $primary;
   color: white;
