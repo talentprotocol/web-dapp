@@ -272,9 +272,8 @@ const EditSupporter = ({
               {`${invite.talent_invite ? "Talent" : "Supporter"}`} invite
             </P2>
             <P2 className="w-100">
-              Invite your friends, earn 10 TAL per referral, and compete for the
-              big weekly prize of 1,000 TAL if you’re the first user to reach 15
-              invites.
+              Invite your friends to join the Talent Protocol platform as a
+              supporter.
             </P2>
             <div className="col-8 d-flex flex-column p-0 mt-2">
               <P2 className="p2 text-left">

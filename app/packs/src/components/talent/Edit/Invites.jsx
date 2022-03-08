@@ -14,7 +14,7 @@ import LoadingButton from "src/components/button/LoadingButton";
 const TALENT_TEXT =
   "Invite a talented friend to launch a token. They skip the traditional application process, receive $200 USD and you earn 100 TAL.";
 const SUPPORTER_TEXT =
-  "Every week the 3 users with the most referrals will win a total of 2,000 TAL (1st: 1200, 2nd: 500, 3rd: 300).";
+  "Invite your friends to join the Talent Protocol platform as a supporter";
 
 const InviteCard = ({
   title,
