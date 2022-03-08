@@ -461,13 +461,12 @@
 .talent-background {
   height: 316px;
   border-radius: 8px;
-  background-image: url(images/tp-vector-talent-background.png),
+  background-image: url(images/tp-twitter-follow-background.png),
     linear-gradient(95.58deg, #7a55ff 0.32%, #3c2789 102.52%);
 }
 
 .talent-background-text {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   height: 100%;
   flex-wrap: wrap;
