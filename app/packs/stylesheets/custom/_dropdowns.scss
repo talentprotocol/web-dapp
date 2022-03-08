@@ -7,7 +7,7 @@
 
 .dark-body .dropdown-menu {
   color: $white !important;
-  background-color: $gray-600 !important;
+  background-color: $gray-800 !important;
 }
 
 .dropdown-toggle {
@@ -29,7 +29,7 @@
 
 .dark-body .dropdown-item {
   &:hover {
-    background-color: $surface-hover-02 !important;
+    background-color: $gray-600 !important;
   }
 }
 
@@ -38,7 +38,7 @@
 }
 
 .dark-body .user-menu-divider {
-  border-top: 1px solid $gray-500;
+  border-top: 1px solid $gray-800;
 }
 
 .modal-content,
@@ -63,7 +63,7 @@
 
 .dark-body .user-menu-dropdown {
   color: $white !important;
-  background-color: $gray-600 !important;
+  background-color: $gray-800 !important;
 }
 
 .user-menu-dropdown-item {
@@ -76,7 +76,7 @@
 
 .dark-body .user-menu-dropdown-item {
   &:hover {
-    background-color: $surface-hover-02 !important;
+    background-color: $gray-600 !important;
   }
 }
 
@@ -103,7 +103,7 @@
 
 .dark-body .claim-rewards-dropdown-btn {
   color: $white !important;
-  background-color: $gray-600 !important;
+  background-color: $gray-800 !important;
 
   &:hover {
     background-color: $surface-hover-02 !important;
