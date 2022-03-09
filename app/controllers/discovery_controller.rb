@@ -16,8 +16,8 @@ class DiscoveryController < ApplicationController
       discovery_rows << {
         id: row.id,
         title: row.title,
-        tag: row.tag,
-        tag_link: row.tag_link,
+        badge: row.badge,
+        badge_link: row.badge_link,
         talents: Talent
           .where(id: ids)
           .select("setseed(0.#{Date.today.jd}), talent.*")

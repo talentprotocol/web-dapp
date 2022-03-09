@@ -82,7 +82,7 @@ const TokenDetails = ({
           <small>
             Market Change{" "}
             <span
-              className="bg-dark p-1 rounded text-white"
+              className="bg-dark p-1 rounded permanent-text-white"
               style={{ fontSize: 10 }}
             >
               24h

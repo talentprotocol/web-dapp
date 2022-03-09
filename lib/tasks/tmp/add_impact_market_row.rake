@@ -1,6 +1,6 @@
 namespace :row do
   task add_impact_market: :environment do
-    tag = Tag.create(description: "impact_market_hidden", hidden: true)
+    tag = Tag.create!(description: "impact_market_hidden", hidden: true)
     usernames = ["jessicagbt", "rosaline2104", "anaccmn", "avina", "susannezapelao", "hannahbamwerinde"]
 
     usernames.each do |username|
@@ -10,9 +10,10 @@ namespace :row do
 
     row = DiscoveryRow.create!(
       title: "Women of Impact",
-      tag: "IMPACT MARKET",
-      tag_link: "https://www.impactmarket.com/"
+      badge: "IMPACT MARKET",
+      badge_link: "https://www.impactmarket.com/"
     )
     tag.discovery_row_id = row.id
+    tag.save!
   end
 end

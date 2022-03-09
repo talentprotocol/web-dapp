@@ -434,7 +434,11 @@ const EditSupporter = ({
             className={`mr-2 mt-2${errors[tag] ? "" : " bg-success"}`}
             key={tag}
           >
-            <P3 text={tag} bold className={errors[tag] ? "" : "text-white"} />
+            <P3
+              text={tag}
+              bold
+              className={errors[tag] ? "" : "permanent-text-white"}
+            />
           </Tag>
         ))}
       </div>

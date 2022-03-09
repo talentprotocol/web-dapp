@@ -64,20 +64,23 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
   const disableRight = (title, talents) =>
     start[title] + itemsPerRow(talents) >= talents.length;
 
-  const discoveryTag = (row) => {
-    console.log(row);
-    if (!!row.tag_link) {
+  const discoveryBadge = (row) => {
+    if (!!row.badge_link) {
       return (
-        <a href={row.tag_link} className="cursor-pointer ml-2 " target="_blank">
+        <a
+          href={row.badge_link}
+          className="cursor-pointer ml-2 "
+          target="_blank"
+        >
           <Tag className="bg-primary text-white cursor-pointer">
-            <P3 className="current-color" bold text={row.tag} />
+            <P3 className="current-color" bold text={row.badge} />
           </Tag>
         </a>
       );
     } else {
       return (
         <Tag className="ml-2 bg-primary text-white">
-          <P3 className="current-color" bold text={row.tag} />
+          <P3 className="current-color" bold text={row.badge} />
         </Tag>
       );
     }
@@ -97,7 +100,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     className={cx("text-black", mobile && "pl-4")}
                   />
 
-                  {!!row.tag && discoveryTag(row)}
+                  {!!row.badge && discoveryBadge(row)}
                 </div>
                 {row.talents.length > itemsPerRow(row.talents) && (
                   <div className="d-flex flex-row">

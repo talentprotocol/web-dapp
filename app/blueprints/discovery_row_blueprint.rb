@@ -1,5 +1,5 @@
 class DiscoveryRowBlueprint < Blueprinter::Base
-  fields :id, :title, :tag, :tag_link
+  fields :id, :title, :badge, :badge_link
 
   view :normal do
     association :talents, blueprint: TalentBlueprint, view: :normal

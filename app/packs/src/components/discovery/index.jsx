@@ -108,7 +108,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
     <div className="d-flex flex-column">
       {!mobile && (
         <div className="talent-background">
-          <div className="talent-background-text text-white">
+          <div className="talent-background-text permanent-text-white">
             <div className="col-1"></div>
             <div style={{ width: "400px" }}>
               <Button

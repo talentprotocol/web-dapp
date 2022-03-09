@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2022_03_09_100124) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "tag"
-    t.string "tag_link"
+    t.string "badge"
+    t.string "badge_link"
   end
 
   create_table "feed_posts", force: :cascade do |t|
