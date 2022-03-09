@@ -15,9 +15,7 @@ import { Caret, Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
-    const url = user.isTalent
-      ? `/u/${user.username}/edit_profile?tab=Invites`
-      : `/settings?tab=Invites`;
+    const url = `/u/${user.username}/edit_profile?tab=Invites`;
 
     window.location.href = url;
   };
@@ -57,7 +55,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <Dropdown.Item
             key="tab-dropdown-change-investor-image"
             className="text-black user-menu-dropdown-item"
-            href="/settings"
+            href={`/u/${user.username}/edit_profile`}
           >
             <P3 bold text="My profile" className="text-black" />
           </Dropdown.Item>

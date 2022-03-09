@@ -20,12 +20,16 @@ class UsersController < ApplicationController
   def show
     talent = @user.talent
 
-    @talent = TalentBlueprint.render_as_json(
-      talent,
-      view: :extended,
-      current_user: current_user,
-      tags: talent.tags.where(hidden: false)
-    )
+    if talent
+      @talent = TalentBlueprint.render_as_json(
+        talent,
+        view: :extended,
+        current_user: current_user,
+        tags: @user.tags.where(hidden: false)
+      )
+    else
+      puts "investor"
+    end
   end
 
   def create

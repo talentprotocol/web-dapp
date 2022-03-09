@@ -1,7 +1,7 @@
 class Tag < ApplicationRecord
   has_one :discovery_row
-  has_many :talent_tags
-  has_many :talents, through: :talent_tags
+  has_many :user_tags
+  has_many :talents, through: :user_tags
 
   def to_s
     description

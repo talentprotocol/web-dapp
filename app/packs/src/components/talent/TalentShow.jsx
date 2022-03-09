@@ -8,7 +8,7 @@ import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
-import TalentTags from "./TalentTags";
+import UserTags from "./UserTags";
 
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
@@ -283,7 +283,7 @@ const TalentShow = ({
               {!mobile && <SocialRow sharedState={sharedState} />}
             </div>
             <div className="d-flex justify-content-between">
-              <TalentTags
+              <UserTags
                 tags={sharedState.tags}
                 className="mr-2"
                 mode={theme.mode()}

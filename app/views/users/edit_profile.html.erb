@@ -1,25 +1,46 @@
 <main class="main-content">
   <div class="container-grid">
-    <%= react_component("Profile", props:
-      {
-        talent: @talent.as_json,
-        profilePictureUrl: @talent.profile_picture_url,
-        bannerUrl: @talent.banner_url,
-        tags: @talent.tags.where(hidden: false).map(&:description),
-        token: @talent.token.as_json,
-        perks: @talent.perks.as_json,
-        career_goal: @talent.career_goal.as_json,
-        goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
-        milestones: @talent.milestones.as_json,
-        current_user_id: current_user.id,
-        token_live: @talent.token.deployed?,
-        user: { id: @talent.user_id, email: @talent.user.email, username: @talent.user.username, display_name: @talent.user.display_name, messaging_disabled: @talent.user.messaging_disabled, wallet_id: @talent.user.wallet_id },
-        notificationPreferences: User::Delivery::TYPES.map do |type|
-          [type, @talent.user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
-        end.to_h,
-        posts: @talent.user.posts.as_json,
-        invites: current_user.invites.as_json,
-      }, prerender: false)
-    %>
+    <% if current_user.talent.present? %>
+      <%= react_component("EditTalent", props:
+        {
+          talent: @talent.as_json,
+          profilePictureUrl: @talent.profile_picture_url,
+          bannerUrl: @talent.banner_url,
+          tags: current_user.tags.where(hidden: false).map(&:description),
+          token: @talent.token.as_json,
+          perks: @talent.perks.as_json,
+          career_goal: @talent.career_goal.as_json,
+          goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
+          milestones: @talent.milestones.as_json,
+          current_user_id: current_user.id,
+          token_live: @talent.token.deployed?,
+          user: { id: current_user.id, email: current_user.email, username: current_user.username, display_name: current_user.display_name, messaging_disabled: current_user.messaging_disabled, wallet_id: current_user.wallet_id },
+          notificationPreferences: User::Delivery::TYPES.map do |type|
+            [type, @talent.user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
+          end.to_h,
+          posts: @talent.user.posts.as_json,
+          invites: current_user.invites.as_json,
+        }, prerender: false)
+      %>
+    <% else %>
+      <%= react_component("EditSupporter", props:
+        {
+          id: current_user.id,
+          investor: @investor.as_json,
+          username: current_user.username,
+          email: current_user.email,
+          displayName: current_user.display_name,
+          walletId: current_user.wallet_id ,
+          messagingDisabled: current_user.messaging_disabled,
+          invites: current_user.invites.as_json,
+          tags: current_user.tags.where(hidden: false).map(&:description),
+          profilePictureUrl: @investor.profile_picture_url,
+          bannerUrl: @investor.banner_url,
+          notificationPreferences: User::Delivery::TYPES.map do |type|
+              [type, current_user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
+            end.to_h
+        }, prerender: false)
+      %>
+    <% end %>
   </div>
 </main>

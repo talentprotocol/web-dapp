@@ -15,28 +15,36 @@
         }, prerender: false)
       %>
     <% end %>
-    <%= react_component("TalentShow", props:
-      {
-        talent: @talent,
-        profilePictureUrl: @talent["profile_picture_url"],
-        bannerUrl: @talent["banner_url"],
-        tags: @talent["tags"].map { |tag| tag["description"] },
-        token: @talent["token"],
-        perks: @talent["perks"],
-        careerGoal: @talent["career_goal"],
-        goals: @talent["career_goal"]["goals"],
-        milestones: @talent["milestones"],
-        currentUserId: current_user&.id,
-        tokenLive: @talent["token"]["deployed"],
-        isFollowing: @talent["is_following"],
-        user: {
-          id: @talent["user_id"],
-          email: @talent["user"]["email"],
-          username: @talent["user"]["username"],
-          display_name: @talent["user"]["display_name"],
-          wallet_id: @talent["user"]["wallet_id"]
-        },
-      }, prerender: false)
-    %>
+    <% if @talent.present? %>
+      <%= react_component("TalentShow", props:
+        {
+          talent: @talent,
+          profilePictureUrl: @talent["profile_picture_url"],
+          bannerUrl: @talent["banner_url"],
+          tags: @talent["tags"].map { |tag| tag["description"] },
+          token: @talent["token"],
+          perks: @talent["perks"],
+          careerGoal: @talent["career_goal"],
+          goals: @talent["career_goal"]["goals"],
+          milestones: @talent["milestones"],
+          currentUserId: current_user&.id,
+          tokenLive: @talent["token"]["deployed"],
+          isFollowing: @talent["is_following"],
+          user: {
+            id: @talent["user_id"],
+            email: @talent["user"]["email"],
+            username: @talent["user"]["username"],
+            display_name: @talent["user"]["display_name"],
+            wallet_id: @talent["user"]["wallet_id"]
+          },
+        }, prerender: false)
+      %>
+    <% else %>
+      <%= react_component("SupporterProfile", props:
+        {
+          
+        }, prerender: false)
+      %>
+    <% end %>
   </div>
 </main>
