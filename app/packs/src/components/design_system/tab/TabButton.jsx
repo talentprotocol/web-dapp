@@ -23,7 +23,7 @@ const TabButton = ({
       <button
         className={cx(
           "button-link m-1",
-          activeTab === textTabPrimary && "active text-white",
+          activeTab === textTabPrimary && "active permanent-text-white",
           className
         )}
         onClick={() => changeActiveTab(textTabPrimary)}
@@ -36,7 +36,7 @@ const TabButton = ({
         className={cx(
           "button-link m-1",
           activeTab === textTabSecondary
-            ? "active text-white"
+            ? "active permanent-text-white"
             : "text-primary-03",
           className
         )}
