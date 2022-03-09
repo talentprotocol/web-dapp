@@ -130,7 +130,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           type="primary-default"
           className="w-100 mb-2"
         >
-          <P3 bold text="Invites" className="text-white" />
+          <P3 bold text="Invites" className="permanent-text-white" />
         </Button>
         <Button
           onClick={onClickTransak}
