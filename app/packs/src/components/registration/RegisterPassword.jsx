@@ -70,7 +70,7 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
                   mode={themePreference}
                   text={tag}
                   bold
-                  className={errors[tag] ? "" : "text-white"}
+                  className={errors[tag] ? "" : "permanent-text-white"}
                 />
               </Tag>
             ))}

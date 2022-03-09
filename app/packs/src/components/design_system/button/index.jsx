@@ -59,6 +59,7 @@ Button.propTypes = {
     "white-outline",
     "white-ghost",
     "white-subtle",
+    "dark-mode-static-white-default",
   ]),
   mode: oneOf(["light", "dark"]),
   size: oneOf(["none", "icon", "normal", "big", "extra-big"]),

@@ -4,6 +4,8 @@
       props: {
         discoveryRows: @discovery_rows.map { |row| {
           title: row["title"],
+          badge: row["badge"],
+          badge_link: row["badge_link"],
           talents: row["talents"].map { |talent| {
             id: talent["id"],
             profilePictureUrl: talent["profile_picture_url"],

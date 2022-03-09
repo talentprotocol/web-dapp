@@ -19,7 +19,7 @@ const RegistrationStaticScreen = () => {
               heigth="20"
             />
           </div>
-          <div className="registration-talent-text text-white">
+          <div className="registration-talent-text permanent-text-white">
             <H1 className="d-inline" text="Support" bold />
             <H1
               className="d-inline text-yellow"

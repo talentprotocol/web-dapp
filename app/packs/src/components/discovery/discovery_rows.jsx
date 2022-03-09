@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
-import { P1 } from "src/components/design_system/typography";
+import { P1, P3 } from "src/components/design_system/typography";
 import { Caret } from "src/components/icons";
 import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
 import Button from "src/components/design_system/button";
+import Tag from "src/components/design_system/tag";
 
 import cx from "classnames";
 
@@ -63,6 +64,28 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
   const disableRight = (title, talents) =>
     start[title] + itemsPerRow(talents) >= talents.length;
 
+  const discoveryBadge = (row) => {
+    if (!!row.badge_link) {
+      return (
+        <a
+          href={row.badge_link}
+          className="cursor-pointer ml-2 "
+          target="_blank"
+        >
+          <Tag className="bg-primary text-white cursor-pointer">
+            <P3 className="current-color" bold text={row.badge} />
+          </Tag>
+        </a>
+      );
+    } else {
+      return (
+        <Tag className="ml-2 bg-primary text-white">
+          <P3 className="current-color" bold text={row.badge} />
+        </Tag>
+      );
+    }
+  };
+
   return (
     <>
       {discoveryRows.map((row) => (
@@ -70,11 +93,15 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
           {row.talents.length > 0 ? (
             <>
               <div className="d-flex justify-content-between">
-                <P1
-                  bold
-                  text={row.title}
-                  className={cx("text-black", mobile && "pl-4")}
-                />
+                <div className="d-flex flex-row">
+                  <P1
+                    bold
+                    text={row.title}
+                    className={cx("text-black", mobile && "pl-4")}
+                  />
+
+                  {!!row.badge && discoveryBadge(row)}
+                </div>
                 {row.talents.length > itemsPerRow(row.talents) && (
                   <div className="d-flex flex-row">
                     <Button

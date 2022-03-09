@@ -108,17 +108,17 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
     <div className="d-flex flex-column">
       {!mobile && (
         <div className="talent-background">
-          <div className="talent-background-text text-white">
+          <div className="talent-background-text permanent-text-white">
             <div className="col-1"></div>
-            <div style={{ width: "400px" }}>
+            <>
               <Button
-                type="white-default"
+                type="dark-mode-static-white-default"
                 size="extra-big"
                 onClick={() => window.open(TALENT_PROTOCOL_TWITTER, "_blank")}
               >
                 <P1 className="text-primary" bold text="Follow us on Twitter" />
               </Button>
-            </div>
+            </>
           </div>
         </div>
       )}
