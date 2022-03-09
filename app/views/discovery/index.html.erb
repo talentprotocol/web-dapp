@@ -4,6 +4,8 @@
       props: {
         discoveryRows: @discovery_rows.map { |row| {
           title: row["title"],
+          tag: row["tag"],
+          tag_link: row["tag_link"],
           talents: row["talents"].map { |talent| {
             id: talent["id"],
             profilePictureUrl: talent["profile_picture_url"],
