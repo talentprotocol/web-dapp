@@ -17,7 +17,7 @@ class SendNotificationDigestsJob < ApplicationJob
       notifications = Notification.where(id: row.notification_ids)
       digest_notification_ids = []
       if notifications.where(type: "MessageReceivedNotification").exists?
-        user = User.find_by(user_id: row.recipient_id)
+        user = User.find_by!(id: row.recipient_id)
         digest_notification_ids =
           if user.has_unread_messages?
             row.notification_ids
