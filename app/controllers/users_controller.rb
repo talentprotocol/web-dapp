@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   def show
     talent = @user.talent
+    investor = @user.investor
 
     if talent
       @talent = TalentBlueprint.render_as_json(
@@ -28,7 +29,11 @@ class UsersController < ApplicationController
         tags: @user.tags.where(hidden: false)
       )
     else
-      puts "investor"
+      @investor = InvestorBlueprint.render_as_json(
+        investor,
+        view: :extended,
+        tags: @user.tags.where(hidden: false)
+      )
     end
   end
 

@@ -30,7 +30,7 @@
           username: current_user.username,
           email: current_user.email,
           displayName: current_user.display_name,
-          walletId: current_user.wallet_id ,
+          walletId: current_user.wallet_id,
           messagingDisabled: current_user.messaging_disabled,
           invites: current_user.invites.as_json,
           tags: current_user.tags.where(hidden: false).map(&:description),

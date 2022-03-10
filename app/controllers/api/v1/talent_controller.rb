@@ -7,10 +7,10 @@ class API::V1::TalentController < ApplicationController
   end
 
   def show
-    @talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
+    talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 
-    if @talent
-      render json: {id: @talent.id, profilePictureUrl: @talent.profile_picture_url}, status: :ok
+    if talent
+      render json: TalentBlueprint.render(talent, view: :normal, current_user: current_user), status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end

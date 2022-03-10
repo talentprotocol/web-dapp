@@ -32,8 +32,6 @@ const Profile = (props) => {
     railsContext: null,
   });
 
-  console.log(sharedState);
-
   useEffect(() => {
     if (activeTab != "") {
       window.history.pushState(

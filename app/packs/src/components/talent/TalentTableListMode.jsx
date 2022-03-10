@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import currency from "currency.js";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -110,6 +111,7 @@ const TalentTableListMode = ({
   setSelectedSort,
   sortDirection,
   setSortDirection,
+  publicPageViewer,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -179,16 +181,18 @@ const TalentTableListMode = ({
               <Table.Tr key={`talent-${talent.id}`}>
                 <Table.Td>
                   <div className="d-flex flex-row align-items-center">
-                    <button
-                      className="border-0 text-warning button-link"
-                      onClick={() => updateFollow(talent)}
-                    >
-                      {talent.isFollowing ? (
-                        <FontAwesomeIcon icon={faStar} />
-                      ) : (
-                        <FontAwesomeIcon icon={faStarOutline} />
-                      )}
-                    </button>
+                    {!publicPageViewer && (
+                      <button
+                        className="border-0 text-warning button-link"
+                        onClick={() => updateFollow(talent)}
+                      >
+                        {talent.isFollowing ? (
+                          <FontAwesomeIcon icon={faStar} />
+                        ) : (
+                          <FontAwesomeIcon icon={faStarOutline} />
+                        )}
+                      </button>
+                    )}
                     <div
                       className="d-flex flex-row align-items-center"
                       onClick={() =>
@@ -222,9 +226,11 @@ const TalentTableListMode = ({
   return (
     <Table mode={theme.mode()} className="px-3 horizontal-scroll">
       <Table.Head>
-        <Table.Th>
-          <Caption bold text="" />
-        </Table.Th>
+        {!publicPageViewer && (
+          <Table.Th>
+            <Caption bold text="" />
+          </Table.Th>
+        )}
         <Table.Th>
           <Caption
             onClick={() => onOptionClick("Alphabetical Order")}
@@ -261,18 +267,20 @@ const TalentTableListMode = ({
       <Table.Body>
         {talents.map((talent) => (
           <Table.Tr key={`talent-${talent.id}`}>
-            <Table.Td>
-              <button
-                className="border-0 text-warning button-link"
-                onClick={() => updateFollow(talent)}
-              >
-                {talent.isFollowing ? (
-                  <FontAwesomeIcon icon={faStar} />
-                ) : (
-                  <FontAwesomeIcon icon={faStarOutline} />
-                )}
-              </button>
-            </Table.Td>
+            {!publicPageViewer && (
+              <Table.Td>
+                <button
+                  className="border-0 text-warning button-link"
+                  onClick={() => updateFollow(talent)}
+                >
+                  {talent.isFollowing ? (
+                    <FontAwesomeIcon icon={faStar} />
+                  ) : (
+                    <FontAwesomeIcon icon={faStarOutline} />
+                  )}
+                </button>
+              </Table.Td>
+            )}
             <Table.Td
               onClick={() =>
                 (window.location.href = `/u/${talent.user.username}`)
@@ -329,7 +337,9 @@ const TalentTableListMode = ({
               <P2
                 text={
                   talent.token.contractId
-                    ? `$${getMarketCap(talent.token.contractId)}`
+                    ? `${currency(
+                        getMarketCap(talent.token.contractId)
+                      ).format()}`
                     : "-"
                 }
               />

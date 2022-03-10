@@ -1,10 +1,21 @@
-<% content_for :meta_title, "#{@talent["user"]["username"]} | #{DEFAULT_META["meta_product_name"]}" %>
-<% if @talent["headline"].present? %>
-  <% content_for :meta_description, @talent["headline"] %>
-<% end %>
-<% if @talent["profile_picture_url"].present? %>
-  <% content_for :meta_image, @talent["profile_picture_url"] %>
-  <% content_for :meta_card_type, "summary" %>
+<% if @talent.present? %>
+  <% content_for :meta_title, "#{@talent["user"]["username"]} | #{DEFAULT_META["meta_product_name"]}" %>
+  <% if @talent["headline"].present? %>
+    <% content_for :meta_description, @talent["headline"] %>
+  <% end %>
+  <% if @talent["profile_picture_url"].present? %>
+    <% content_for :meta_image, @talent["profile_picture_url"] %>
+    <% content_for :meta_card_type, "summary" %>
+  <% end %>
+<% else %>
+  <% content_for :meta_title, "#{@investor["user"]["username"]} | #{DEFAULT_META["meta_product_name"]}" %>
+  <% if @investor["headline"].present? %>
+    <% content_for :meta_description, @investor["headline"] %>
+  <% end %>
+  <% if @investor["profile_picture_url"].present? %>
+    <% content_for :meta_image, @investor["profile_picture_url"] %>
+    <% content_for :meta_card_type, "summary" %>
+  <% end %>
 <% end %>
 
 <main class="main-content">
@@ -42,7 +53,18 @@
     <% else %>
       <%= react_component("SupporterProfile", props:
         {
-          
+          investor: @investor,
+          profilePictureUrl: @investor["profile_picture_url"],
+          bannerUrl: @investor["banner_url"],
+          tags: @investor["tags"].map { |tag| tag["description"] },
+          currentUserId: current_user&.id,
+          user: {
+            id: @investor["user_id"],
+            email: @investor["user"]["email"],
+            username: @investor["user"]["username"],
+            display_name: @investor["user"]["display_name"],
+            wallet_id: @investor["user"]["wallet_id"]
+          },
         }, prerender: false)
       %>
     <% end %>

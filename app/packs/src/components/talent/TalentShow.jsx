@@ -280,7 +280,7 @@ const TalentShow = ({
                 text={sharedState.talent.profile.occupation}
                 className="mb-2 mb-lg-0 text-primary-04"
               />
-              {!mobile && <SocialRow sharedState={sharedState} />}
+              {!mobile && <SocialRow profile={sharedState.talent.profile} />}
             </div>
             <div className="d-flex justify-content-between">
               <UserTags
@@ -290,7 +290,7 @@ const TalentShow = ({
               />
             </div>
 
-            {mobile && <SocialRow sharedState={sharedState} />}
+            {mobile && <SocialRow profile={sharedState.talent.profile} />}
           </div>
         </div>
         {!mobile && !publicPageViewer && actionButtons()}
@@ -337,7 +337,12 @@ const TalentShow = ({
           } p-0`}
         >
           {pageInDisplay == "overview" && (
-            <Overview sharedState={sharedState} mode={theme.mode()} />
+            <Overview
+              user={sharedState.user}
+              profile={sharedState.talent.profile}
+              careerGoal={sharedState.careerGoal}
+              mode={theme.mode()}
+            />
           )}
           {pageInDisplay == "timeline" && (
             <Timeline sharedState={sharedState} mode={theme.mode()} />

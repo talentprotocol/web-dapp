@@ -70,13 +70,7 @@ const UserMenuFullScreen = ({
       </div>
       <div className={`divider ${mode}`}></div>
       <Button
-        onClick={() => {
-          if (user.talent) {
-            window.location.href = `/u/${user.username}`;
-          } else {
-            window.location.href = `/u/${user.username}/edit_profile`;
-          }
-        }}
+        onClick={() => (window.location.href = `/u/${user.username}`)}
         type="white-ghost"
         mode={mode}
         className="d-flex flex-row justify-content-between my-3"

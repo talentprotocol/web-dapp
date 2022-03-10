@@ -35,6 +35,7 @@ import EditSupporter from "src/components/supporters/edit/Profile";
 import Discovery from "src/components/discovery";
 import TalentPage from "src/components/talent/TalentPage";
 import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
+import SupporterProfile from "src/components/supporters/show/Profile";
 
 import "stylesheets/application.scss";
 
@@ -63,6 +64,7 @@ ReactOnRails.register({
   Discovery,
   TalentPage,
   LoggedOutTopBar,
+  SupporterProfile,
 });
 
 Rails.start();
