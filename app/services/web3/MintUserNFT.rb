@@ -9,6 +9,10 @@ module Web3
         if contract.call.balance_of(user.wallet_id) == 0 && !user.user_nft_minted
           puts "Sending to user ##{user.id}"
           contract.transact_and_wait.airdrop([user.wallet_id])
+
+          if contract.call.balance_of(user.wallet_id) != 1
+            return false
+          end
           address
         else
           puts "User ##{user.id} already owns a Level One token"
