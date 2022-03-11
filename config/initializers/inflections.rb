@@ -20,4 +20,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.uncountable "portfolio"
   inflect.uncountable "wait_list"
   inflect.acronym "API"
+  inflect.acronym "NFT"
 end
