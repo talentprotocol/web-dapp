@@ -6,7 +6,7 @@ module Web3
 
     def call(user:)
       if user.wallet_id
-        if contract.call.balance_of(user.wallet_id) == 0
+        if contract.call.balance_of(user.wallet_id) == 0 && !user.user_nft_minted
           puts "Sending to user ##{user.id}"
           contract.transact_and_wait.airdrop([user.wallet_id])
           address
