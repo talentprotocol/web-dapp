@@ -1,18 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
-import { LinkItEmail, LinkItUrl } from 'react-linkify-it';
+import Modal from "react-bootstrap/Modal";
+import { LinkIt, LinkItEmail, urlRegex } from 'react-linkify-it';
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import P2 from "src/components/design_system/typography/p2";
-import P3 from "src/components/design_system/typography/p3";
+import { P1, P2, P3 } from "src/components/design_system/typography";
+
+export const PhisingAwarenessModal = ({ show, hide, url }) => (
+    <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
+      <Modal.Body className="p-4">
+        <P1
+          bold
+          text="Before you go"
+          className="mb-4">
+        </P1>
+        <P2
+          text="Always double check that the links that were sent to you are legitimate. It's a dangerous world out there."
+          className="mb-2"
+          >
+        </P2>
+        <a
+          className="mb-6"
+          href={url}
+          >
+            {url}
+        </a>
+        <div class="d-flex flex-row justify-content-between align-items-center mt-4">
+          <button
+              className="talent-button white-subtle-button normal-size-button w-100 mr-2"
+              onClick={hide}
+            >
+            Cancel
+          </button>
+          <a
+            className="btn talent-button primary-default-button normal-size-button w-100 ml-2"
+            href={url}
+            target="_blank"
+            onClick={hide}
+          >
+            I Understand
+          </a>
+        </div>
+      </Modal.Body>
+    </Modal>
+);
 
 const MessageLinkified = (props) => {
+  const [showPishingModal, setShowPishingModal] = useState(false);
+  const [url, setUrl] = useState('');
+
+  const {
+    message,
+    mine
+  } = props;
+
+  const handleClick = (e, url) => {
+    if(mine) {
+      return
+    }
+    e.preventDefault();
+    setShowPishingModal(true);
+    setUrl(e.target.origin)
+  };
+
   return (
-    <LinkItUrl>
+    <LinkIt
+      component={(match, key) => (
+        <a
+          href={match}
+          key={key}
+          target="_blank"
+          onClick={handleClick}
+        >
+          {match}
+        </a>
+      )}
+      regex={urlRegex}
+    >
       <LinkItEmail>
-          {props.message}
+        { !mine && <PhisingAwarenessModal url={url} show={showPishingModal} hide={() => setShowPishingModal(false)} /> }
+        {message}
       </LinkItEmail>
-    </LinkItUrl>
+    </LinkIt>
   )
 }
 
@@ -55,7 +124,7 @@ const Message = (props) => {
           </div>
         )}
         <P2 className={"text-white-space-wrap"}>
-          <MessageLinkified message={message.text}/>
+          <MessageLinkified message={message.text} mine={mine}/>
         </P2>
       </div>
     </div>
