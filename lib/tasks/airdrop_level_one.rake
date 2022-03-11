@@ -4,7 +4,7 @@ namespace :users do
     puts "Sending to ##{User.count} users"
 
     User.where.not(wallet_id: nil).find_each do |user|
-      service.call(user)
+      service.call(user: user)
     end
   end
 end
