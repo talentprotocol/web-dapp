@@ -33,7 +33,7 @@ export const TALENT_PROTOCOL_TWITTER = "https://twitter.com/talentprotocol";
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
 export const TALENT_APPLICATION_FORM =
-  "https://talentprotocol.typeform.com/apply";
+  "https://talentprotocol.typeform.com/waitlist";
 
 export const ERROR_MESSAGES = {
   ticker_reserved: "talent token with this symbol already exists",
