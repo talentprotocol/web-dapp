@@ -61,9 +61,9 @@ class API::V1::UsersController < ApplicationController
 
         current_user.update!(user_params)
 
-        if investor_params.present? && investor_params[:profile_picture_data].present?
-          current_user.investor.profile_picture = investor_params[:profile_picture_data].as_json
-          current_user.investor.save!
+        if investor_params.present?
+          service = API::UpdateInvestor.new(investor: @user.investor)
+          service.call(investor_params: investor_params, tag_params: tag_params)
         end
       end
 
@@ -112,7 +112,7 @@ class API::V1::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :theme_preference, :username, :email, :messaging_disabled,
+      :theme_preference, :username, :email, :messaging_disabled, :display_name,
       notification_preferences: {}
     )
   end
@@ -123,10 +123,20 @@ class API::V1::UsersController < ApplicationController
 
   def investor_params
     if params[:investor].present?
-      params.require(:investor).permit(profile_picture_data: {})
+      params.require(:investor).permit(
+        profile: [
+          :occupation, :location, :headline, :website, :video, :linkedin, :twitter, :telegram, :discord, :github
+        ],
+        profile_picture_data: {},
+        banner_data: {}
+      )
     else
       {}
     end
+  end
+
+  def tag_params
+    params.permit(tags: [])
   end
 
   def filtered_users

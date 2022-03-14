@@ -8,7 +8,7 @@ import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
-import TalentTags from "./TalentTags";
+import UserTags from "./UserTags";
 
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
@@ -280,17 +280,17 @@ const TalentShow = ({
                 text={sharedState.talent.profile.occupation}
                 className="mb-2 mb-lg-0 text-primary-04"
               />
-              {!mobile && <SocialRow sharedState={sharedState} />}
+              {!mobile && <SocialRow profile={sharedState.talent.profile} />}
             </div>
             <div className="d-flex justify-content-between">
-              <TalentTags
+              <UserTags
                 tags={sharedState.tags}
                 className="mr-2"
                 mode={theme.mode()}
               />
             </div>
 
-            {mobile && <SocialRow sharedState={sharedState} />}
+            {mobile && <SocialRow profile={sharedState.talent.profile} />}
           </div>
         </div>
         {!mobile && !publicPageViewer && actionButtons()}
@@ -337,7 +337,12 @@ const TalentShow = ({
           } p-0`}
         >
           {pageInDisplay == "overview" && (
-            <Overview sharedState={sharedState} mode={theme.mode()} />
+            <Overview
+              user={sharedState.user}
+              profile={sharedState.talent.profile}
+              careerGoal={sharedState.careerGoal}
+              mode={theme.mode()}
+            />
           )}
           {pageInDisplay == "timeline" && (
             <Timeline sharedState={sharedState} mode={theme.mode()} />

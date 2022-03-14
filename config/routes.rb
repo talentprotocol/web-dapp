@@ -48,7 +48,7 @@ Rails.application.routes.draw do
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
-        resources :talent, only: [:index, :show, :update] do
+        resources :talent, only: [:index, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
@@ -73,11 +73,6 @@ Rails.application.routes.draw do
       only: [:edit, :update]
   end
 
-  get "/u/:username" => "users#show", :as => "user"
-  # redirect /talent to /u so we have the old route still working
-  get "/talent/:username", to: redirect("/u/%{username}")
-
-  get "/u/:username/edit_profile", to: "users#edit_profile"
   get "/sign_up" => "pages#home", :as => :sign_up
   get "/" => "sessions#new", :as => "sign_in"
   delete "/" => "sessions#new", :as => "sign_in_redirect"
@@ -86,6 +81,18 @@ Rails.application.routes.draw do
   # end Auth
 
   resources :wait_list, only: [:create, :index]
+
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :talent, only: [:show]
+    end
+  end
+
+  get "/u/:username" => "users#show", :as => "user"
+  # redirect /talent to /u so we have the old route still working
+  get "/talent/:username", to: redirect("/u/%{username}")
+
+  get "/u/:username/edit_profile", to: "users#edit_profile"
 
   root to: "sessions#new", as: :root
 

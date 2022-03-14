@@ -19,13 +19,22 @@ class UsersController < ApplicationController
 
   def show
     talent = @user.talent
+    investor = @user.investor
 
-    @talent = TalentBlueprint.render_as_json(
-      talent,
-      view: :extended,
-      current_user: current_user,
-      tags: talent.tags.where(hidden: false)
-    )
+    if talent
+      @talent = TalentBlueprint.render_as_json(
+        talent,
+        view: :extended,
+        current_user: current_user,
+        tags: @user.tags.where(hidden: false)
+      )
+    else
+      @investor = InvestorBlueprint.render_as_json(
+        investor,
+        view: :extended,
+        tags: @user.tags.where(hidden: false)
+      )
+    end
   end
 
   def create

@@ -7,14 +7,13 @@ import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
 
 import { getAuthToken } from "src/utils/requests";
+import { patch } from "src/utils/requests";
 
-import H5 from "src/components/design_system/typography/h5";
-import P2 from "src/components/design_system/typography/p2";
-import TalentProfilePicture from "../TalentProfilePicture";
+import { H5, P2, Caption } from "src/components/design_system/typography";
+import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
-import Caption from "src/components/design_system/typography/caption";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
@@ -55,18 +54,18 @@ uppyBanner.use(AwsS3Multipart, {
   },
 });
 
-const About = (props) => {
-  const {
-    mode,
-    changeTab,
-    changeSharedState,
-    mobile,
-    saveProfile,
-    publicButtonType,
-    disablePublicButton,
-    togglePublicProfile,
-    trackChanges,
-  } = props;
+const About = ({
+  id,
+  profilePictureUrl,
+  bannerUrl,
+  investor,
+  displayName,
+  tags,
+  changeTab,
+  mobile,
+  trackChanges,
+  changeSharedState,
+}) => {
   const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
   const [uploaded, setUploaded] = useState({ banner: false, profile: false });
@@ -81,8 +80,8 @@ const About = (props) => {
       changeSharedState((prev) => ({
         ...prev,
         profilePictureUrl: response.uploadURL,
-        talent: {
-          ...prev.talent,
+        investor: {
+          ...prev.investor,
           profile_picture_data: {
             id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
             storage: "cache",
@@ -116,8 +115,8 @@ const About = (props) => {
       changeSharedState((prev) => ({
         ...prev,
         bannerUrl: response.uploadURL,
-        talent: {
-          ...prev.talent,
+        investor: {
+          ...prev.investor,
           banner_data: {
             id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
             storage: "cache",
@@ -156,16 +155,16 @@ const About = (props) => {
     }
   };
 
-  const changeTalentAttribute = (attribute, value) => {
+  const changeInvestorAttribute = (attribute, value) => {
     trackChanges(true);
     validateWebsite(attribute, value);
 
     changeSharedState((prev) => ({
       ...prev,
-      talent: {
-        ...prev.talent,
+      investor: {
+        ...prev.investor,
         profile: {
-          ...prev.talent.profile,
+          ...prev.investor.profile,
           [attribute]: value,
         },
       },
@@ -174,13 +173,7 @@ const About = (props) => {
 
   const changeUserAttribute = (attribute, value) => {
     trackChanges(true);
-    changeSharedState((prev) => ({
-      ...prev,
-      user: {
-        ...prev.user,
-        [attribute]: value,
-      },
-    }));
+    changeSharedState((prev) => ({ ...prev, [attribute]: value }));
   };
 
   const changeTags = (tags) => {
@@ -193,35 +186,28 @@ const About = (props) => {
 
   const onProfileSave = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await saveProfile();
+
+    const response = await patch(`/api/v1/users/${id}`, {
+      display_name: displayName,
+      tags: tags,
+      investor: investor,
+    }).catch(() => {
+      return false;
+    });
+
     setSaving((prev) => ({ ...prev, loading: false, profile: true }));
     trackChanges(false);
   };
 
-  const onTogglePublic = async () => {
-    setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
-    setSaving((prev) => ({ ...prev, loading: false, public: true }));
-  };
-
   const cannotSaveProfile =
-    !props.talent.profile.headline || !props.talent.profile.occupation;
+    !investor.profile.headline || !investor.profile.occupation;
 
   return (
     <>
-      <H5
-        className="w-100 text-left"
-        mode={mode}
-        text="Personal Information"
-        bold
-      />
-      <P2
-        className="w-100 text-left"
-        mode={mode}
-        text="Let's start with the basics"
-      />
+      <H5 className="w-100 text-left" text="Personal Information" bold />
+      <P2 className="w-100 text-left" text="Let's start with the basics" />
       <div className="d-flex flex-row w-100 align-items-center mt-4">
-        <TalentProfilePicture src={props.profilePictureUrl} height={80} />
+        <TalentProfilePicture src={profilePictureUrl} height={80} />
         <div className="ml-4 d-flex flex-column">
           <div className="d-flex align-items-center">
             <FileInput
@@ -252,7 +238,7 @@ const About = (props) => {
       </div>
       <div className="d-flex flex-row flex-wrap w-100 align-items-center mt-4">
         <TalentProfilePicture
-          src={props.bannerUrl}
+          src={bannerUrl}
           straight
           className="image-fit align-self-start"
           height={80}
@@ -290,27 +276,26 @@ const About = (props) => {
       <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
           title={"Display Name"}
-          mode={mode}
           shortCaption="The name that we will generally use"
-          onChange={(e) => changeUserAttribute("display_name", e.target.value)}
-          value={props.user.display_name || ""}
+          onChange={(e) => changeUserAttribute("displayName", e.target.value)}
+          value={displayName || ""}
           className={mobile ? "w-100" : "w-50 pr-2"}
         />
         <TextInput
           title={"Location"}
-          mode={mode}
-          onChange={(e) => changeTalentAttribute("location", e.target.value)}
-          value={props.talent.profile.location || ""}
+          onChange={(e) => changeInvestorAttribute("location", e.target.value)}
+          value={investor.profile.location || ""}
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
         <TextInput
           title={"Occupation"}
-          mode={mode}
           shortCaption="We know you are a lot of things, but let us know your main occupation"
-          onChange={(e) => changeTalentAttribute("occupation", e.target.value)}
-          value={props.talent.profile.occupation || ""}
+          onChange={(e) =>
+            changeInvestorAttribute("occupation", e.target.value)
+          }
+          value={investor.profile.occupation || ""}
           className="w-100"
           required={true}
         />
@@ -318,9 +303,8 @@ const About = (props) => {
       <div className="d-flex flex-column w-100 justify-content-between mt-4">
         <TagInput
           label={"Tags"}
-          mode={mode}
           onTagChange={(newTags) => changeTags(newTags)}
-          tags={props.tags}
+          tags={tags}
           className="w-100"
         />
         <p className="short-caption">
@@ -332,10 +316,9 @@ const About = (props) => {
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextArea
           title={"Intro"}
-          mode={mode}
           shortCaption="Tell supporters where you come from, what you do, and how you got to be who you are today."
-          onChange={(e) => changeTalentAttribute("headline", e.target.value)}
-          value={props.talent.profile.headline || ""}
+          onChange={(e) => changeInvestorAttribute("headline", e.target.value)}
+          value={investor.profile.headline || ""}
           className="w-100"
           maxLength="240"
           required={true}
@@ -346,16 +329,14 @@ const About = (props) => {
       <H5 className="w-100 text-left" text="Social Profiles" bold />
       <P2
         className="w-100 text-left"
-        mode={mode}
         text="Add links to where supporters can find out more about you"
       />
       <div className="d-flex flex-column w-100 justify-content-between mt-4">
         <TextInput
           title={"Website"}
-          mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("website", e.target.value)}
-          value={props.talent.profile.website || ""}
+          onChange={(e) => changeInvestorAttribute("website", e.target.value)}
+          value={investor.profile.website || ""}
           className="w-100"
         />
         {errorTracking["website"] && (
@@ -368,58 +349,56 @@ const About = (props) => {
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Linkedin"}
-          mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("linkedin", e.target.value)}
-          value={props.talent.profile.linkedin || ""}
+          onChange={(e) => changeInvestorAttribute("linkedin", e.target.value)}
+          value={investor.profile.linkedin || ""}
           className="w-100"
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Twitter"}
-          mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("twitter", e.target.value)}
-          value={props.talent.profile.twitter || ""}
+          onChange={(e) => changeInvestorAttribute("twitter", e.target.value)}
+          value={investor.profile.twitter || ""}
           className="w-100"
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Telegram"}
-          mode={mode}
           placeholder={"@"}
-          onChange={(e) => changeTalentAttribute("telegram", e.target.value)}
-          value={props.talent.profile.telegram || ""}
+          onChange={(e) => changeInvestorAttribute("telegram", e.target.value)}
+          value={investor.profile.telegram || ""}
           className="w-100"
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Discord"}
-          mode={mode}
           placeholder={"#"}
-          onChange={(e) => changeTalentAttribute("discord", e.target.value)}
-          value={props.talent.profile.discord || ""}
+          onChange={(e) => changeInvestorAttribute("discord", e.target.value)}
+          value={investor.profile.discord || ""}
           className="w-100"
         />
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Github"}
-          mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("github", e.target.value)}
-          value={props.talent.profile.github || ""}
+          onChange={(e) => changeInvestorAttribute("github", e.target.value)}
+          value={investor.profile.github || ""}
           className="w-100"
         />
       </div>
       {mobile && (
         <div className="d-flex flex-column align-items-end w-100 my-3">
           <Caption text="NEXT" />
-          <div className="text-grey cursor-pointer" onClick={changeTab}>
-            Highlights <ArrowRight color="currentColor" />
+          <div
+            className="text-grey cursor-pointer"
+            onClick={() => changeTab("Invites")}
+          >
+            Invites <ArrowRight color="currentColor" />
           </div>
         </div>
       )}
@@ -429,24 +408,9 @@ const About = (props) => {
           mobile ? "justify-content-between" : ""
         } w-100 pb-4`}
       >
-        {mobile && (
-          <LoadingButton
-            onClick={() => onTogglePublic()}
-            type={publicButtonType}
-            disabled={disablePublicButton || saving["loading"]}
-            mode={mode}
-            loading={saving["loading"]}
-            success={props.talent.public}
-            className="ml-auto mr-3"
-            checkClassName="edit-profile-public-check"
-          >
-            {props.talent.public ? "Public" : "Publish Profile"}
-          </LoadingButton>
-        )}
         <LoadingButton
           onClick={() => onProfileSave()}
           type="primary-default"
-          mode={mode}
           disabled={cannotSaveProfile || saving["loading"]}
           loading={saving["loading"]}
           success={saving["profile"]}

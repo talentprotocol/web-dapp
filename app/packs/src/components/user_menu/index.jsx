@@ -15,9 +15,7 @@ import { Caret, Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
-    const url = user.isTalent
-      ? `/u/${user.username}/edit_profile?tab=Invites`
-      : `/settings?tab=Invites`;
+    const url = `/u/${user.username}/edit_profile?tab=Invites`;
 
     window.location.href = url;
   };
@@ -45,23 +43,13 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="user-menu-dropdown">
-        {user.isTalent ? (
-          <Dropdown.Item
-            key="tab-dropdown-my-profile"
-            className="text-black user-menu-dropdown-item"
-            href={`/u/${user.username}`}
-          >
-            <P3 bold text="My profile" className="text-black" />
-          </Dropdown.Item>
-        ) : (
-          <Dropdown.Item
-            key="tab-dropdown-change-investor-image"
-            className="text-black user-menu-dropdown-item"
-            href="/settings"
-          >
-            <P3 bold text="My profile" className="text-black" />
-          </Dropdown.Item>
-        )}
+        <Dropdown.Item
+          key="tab-dropdown-my-profile"
+          className="text-black user-menu-dropdown-item"
+          href={`/u/${user.username}`}
+        >
+          <P3 bold text="My profile" className="text-black" />
+        </Dropdown.Item>
         <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
         <Dropdown.Item
           key="tab-dropdown-theme"

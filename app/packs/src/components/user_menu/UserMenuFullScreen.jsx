@@ -81,9 +81,7 @@ const UserMenuFullScreen = ({
       <div className={`divider ${mode}`}></div>
       <Button
         onClick={() =>
-          (window.location.href = user.isTalent
-            ? `/u/${user.username}/edit_profile?tab=Invites`
-            : `/settings?tab=Invites`)
+          (window.location.href = `/u/${user.username}/edit_profile?tab=Invites`)
         }
         type="white-ghost"
         mode={mode}

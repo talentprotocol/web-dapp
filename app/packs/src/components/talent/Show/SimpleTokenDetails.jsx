@@ -18,7 +18,13 @@ import {
   client,
 } from "src/utils/thegraph";
 
-const SimpleTokenDetails = ({ token, ticker, mode, railsContext }) => {
+const SimpleTokenDetails = ({
+  token,
+  ticker,
+  supportingCount,
+  mode,
+  railsContext,
+}) => {
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE, {
     variables: { id: token?.contract_id?.toLowerCase() },
   });
@@ -57,68 +63,88 @@ const SimpleTokenDetails = ({ token, ticker, mode, railsContext }) => {
 
   return (
     <>
-      <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
-        <P2 className="mb-2 text-primary-04" bold text="Market Value" />
-        <H4 bold text={formatNumberWithSymbol(tokenData.totalSupply * 0.1)} />
-      </div>
-      <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
-        <P2 className="mb-2 text-primary-04" bold text="Circulating Supply" />
-        <H4
-          bold
-          text={`${formatNumberWithoutSymbol(tokenData.totalSupply)} ${ticker}`}
-        />
-      </div>
-      <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
-        <P2 className="mb-2 text-primary-04" bold text="Supporters" />
-        <H4 bold text={`${tokenData.supporterCount}`} />
-      </div>
-      {token.contract_id && (
-        <div className="card card-no-hover d-flex flex-column align-items-center justify-content-center p-3">
-          <P2 className="mb-2 text-primary-04" bold text="Contract" />
-          <div className="d-flex flex-row justify-content-center align-items-center">
-            <img
-              src={CeloImage}
-              className="mr-1"
-              width="16"
-              height="16"
-              alt="celo-logo"
-            />
-            <P2 text="Celo:" className="mr-1" />
-            <P2
+      {ticker ? (
+        <>
+          <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
+            <P2 className="mb-2 text-primary-04" bold text="Market Value" />
+            <H4
               bold
-              className="text-black"
-              text={`${token.contract_id.substring(0, 10)}...`}
+              text={formatNumberWithSymbol(tokenData.totalSupply * 0.1)}
             />
-            <Tooltip
-              body={"Copied!"}
-              popOverAccessibilityId={"coppy_address_success"}
-              mode={mode}
-              placement="top"
-            >
-              <Button
-                type="white-subtle"
-                mode={mode}
-                className="ml-2"
-                onClick={copyTokenAdddres}
-              >
-                <Copy color="currentColor" />
-              </Button>
-            </Tooltip>
-            <Button
-              type="white-subtle"
-              mode={mode}
-              className="ml-2"
-              onClick={addTokenToMetamask}
-            >
-              <img
-                src={MetamaskFox}
-                width={16}
-                height={16}
-                alt="Metamask Fox"
-              />
-            </Button>
           </div>
-        </div>
+          <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
+            <P2
+              className="mb-2 text-primary-04"
+              bold
+              text="Circulating Supply"
+            />
+            <H4
+              bold
+              text={`${formatNumberWithoutSymbol(
+                tokenData.totalSupply
+              )} ${ticker}`}
+            />
+          </div>
+          <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
+            <P2 className="mb-2 text-primary-04" bold text="Supporters" />
+            <H4 bold text={`${tokenData.supporterCount}`} />
+          </div>
+          {token?.contract_id && (
+            <div className="card card-no-hover d-flex flex-column align-items-center justify-content-center p-3">
+              <P2 className="mb-2 text-primary-04" bold text="Contract" />
+              <div className="d-flex flex-row justify-content-center align-items-center">
+                <img
+                  src={CeloImage}
+                  className="mr-1"
+                  width="16"
+                  height="16"
+                  alt="celo-logo"
+                />
+                <P2 text="Celo:" className="mr-1" />
+                <P2
+                  bold
+                  className="text-black"
+                  text={`${token.contract_id.substring(0, 10)}...`}
+                />
+                <Tooltip
+                  body={"Copied!"}
+                  popOverAccessibilityId={"coppy_address_success"}
+                  mode={mode}
+                  placement="top"
+                >
+                  <Button
+                    type="white-subtle"
+                    mode={mode}
+                    className="ml-2"
+                    onClick={copyTokenAdddres}
+                  >
+                    <Copy color="currentColor" />
+                  </Button>
+                </Tooltip>
+                <Button
+                  type="white-subtle"
+                  mode={mode}
+                  className="ml-2"
+                  onClick={addTokenToMetamask}
+                >
+                  <img
+                    src={MetamaskFox}
+                    width={16}
+                    height={16}
+                    alt="Metamask Fox"
+                  />
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
+            <P2 className="mb-2 text-primary-04" bold text="Supporting" />
+            <H4 bold text={`${supportingCount || 0}`} />
+          </div>
+        </>
       )}
     </>
   );
