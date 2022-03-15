@@ -88,6 +88,9 @@ GEM
     aws-sdk-kms (1.44.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-lambda (1.64.0)
+      aws-sdk-core (~> 3, >= 3.112.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.96.2)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sdk-kms (~> 1)
@@ -453,6 +456,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  aws-sdk-lambda
   aws-sdk-s3
   bcrypt
   blueprinter
