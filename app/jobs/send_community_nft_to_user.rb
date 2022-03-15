@@ -6,18 +6,9 @@ class SendCommunityNFTToUser < ApplicationJob
       return
     end
 
-    ActiveRecord::Base.transaction do
-      user = User.find(user_id)
+    user = User.find(user_id)
 
-      service = Web3::MintUserNFT.new
-      result = service.call(user: user)
-      if result
-        user.update!(user_nft_minted: true, user_nft_address: result)
-      end
-    rescue => e
-      Rollbar.error(e, "Unable to send NFT to user ##{user_id}")
-
-      raise ActiveRecord::Rollback.new(e)
-    end
+    service = Web3::MintUserNFT.new
+    service.call(user: user)
   end
 end
