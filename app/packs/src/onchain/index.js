@@ -352,9 +352,19 @@ class OnChain {
 
     const amount = ethers.utils.parseUnits(_amount);
 
+    // estimate the gas price before submitting the TX
+    // so that we can manually override the gas limit
+    // - this doesn't increase the cost, since the cost will
+    //   be whatever it is, it simply allows a higher value
+    const estimatedGasPrice = await this.staking
+      .connect(this.signer)
+      .estimateGas.stakeStable(token, amount);
+
     const tx = await this.staking
       .connect(this.signer)
-      .stakeStable(token, amount);
+      .stakeStable(token, amount, {
+        gasLimit: estimatedGasPrice.mul(130).div(100), // increase amount by 30%
+      });
 
     const receipt = await tx.wait();
 

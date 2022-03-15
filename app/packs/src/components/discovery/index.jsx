@@ -11,8 +11,8 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { TALENT_PROTOCOL_TWITTER } from "src/utils/constants";
-import { P1 } from "src/components/design_system/typography";
+import { COMMUNITY_S01_NFT_AIRDROP } from "src/utils/constants";
+import { H3, P1, Caption } from "src/components/design_system/typography";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
 
@@ -110,15 +110,25 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
         <div className="talent-background">
           <div className="talent-background-text permanent-text-white">
             <div className="col-1"></div>
-            <>
+            <div style={{ width: "420px" }}>
+              <Caption
+                className="mb-2 text-yellow"
+                text="NFT AIRDROP - SEASON 1"
+                bold
+              />
+              <H3
+                className="pb-4"
+                text="Community contributors just earned a special NFT!"
+                bold
+              />
               <Button
                 type="dark-mode-static-white-default"
                 size="extra-big"
-                onClick={() => window.open(TALENT_PROTOCOL_TWITTER, "_blank")}
+                onClick={() => window.open(COMMUNITY_S01_NFT_AIRDROP, "_blank")}
               >
-                <P1 className="text-primary" bold text="Follow us on Twitter" />
+                <P1 className="text-primary" bold text="Learn More" />
               </Button>
-            </>
+            </div>
           </div>
         </div>
       )}

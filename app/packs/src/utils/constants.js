@@ -23,6 +23,9 @@ export const USER_GUIDE =
 export const REFERRAL_RACE =
   "https://medium.com/@talentprotocol/the-talent-protocol-invite-race-438959b01b34";
 
+export const COMMUNITY_S01_NFT_AIRDROP =
+  "https://medium.com/@talentprotocol/part-of-season-1-get-ready-for-the-nft-airdrop-dd7485c2f11b";
+
 export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
 
 export const TALENT_PROTOCOL_TWITTER = "https://twitter.com/talentprotocol";
@@ -30,7 +33,7 @@ export const TALENT_PROTOCOL_TWITTER = "https://twitter.com/talentprotocol";
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
 
 export const TALENT_APPLICATION_FORM =
-  "https://talentprotocol.typeform.com/apply";
+  "https://talentprotocol.typeform.com/waitlist";
 
 export const ERROR_MESSAGES = {
   ticker_reserved: "talent token with this symbol already exists",

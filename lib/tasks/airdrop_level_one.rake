@@ -3,12 +3,12 @@ require "csv"
 namespace :users do
   task airdrop_level_one: :environment do
     index = 0
-    total = User.where.not(wallet_id: nil, user_nft_minted: false).order(:id).limit(100).count
+    total = User.where.not(wallet_id: nil).where(user_nft_minted: false).order(:id).limit(100).count
     puts "Sending to ##{total} users"
 
     CSV.open("airdrop_results.csv", "w") do |csv|
       csv << ["user_id", "username", "wallet_id", "success"]
-      User.where.not(wallet_id: nil, user_nft_minted: false).order(:id).limit(100).find_each do |user|
+      User.where.not(wallet_id: nil).where(user_nft_minted: false).order(:id).limit(100).find_each do |user|
         index += 1
         puts "- User ##{index}/#{total}"
 
