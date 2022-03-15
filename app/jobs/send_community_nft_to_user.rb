@@ -9,7 +9,7 @@ class SendCommunityNFTToUser < ApplicationJob
     ActiveRecord::Base.transaction do
       user = User.find(user_id)
 
-      service = Web3::MintUserNFT.new(season: 2)
+      service = Web3::MintUserNFT.new
       result = service.call(user: user)
       if result
         user.update!(user_nft_minted: true, user_nft_address: result)

@@ -3,7 +3,7 @@ module Web3
     def call(user:)
       if user.wallet_id && !user.user_nft_minted
         resp = client.invoke({
-          function_name: "prodNFTUserAirdrop",
+          function_name: ENV["USER_NFT_LAMBDA_FUNCTION"],
           invocation_type: "RequestResponse",
           log_type: "None",
           payload: JSON.generate({wallet_id: user.wallet_id})
@@ -19,6 +19,7 @@ module Web3
             user_nft_tx: response["body"]["tx"]
           )
         else
+          puts "User ##{user.id} already owns a Level One token"
           false
         end
       end
