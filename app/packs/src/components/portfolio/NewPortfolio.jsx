@@ -25,6 +25,7 @@ import RewardsModal from "./components/RewardsModal";
 import Supporting from "./components/Supporting";
 import Supporters from "./components/Supporters";
 import MobilePortfolio from "./components/MobilePortfolio";
+import NFTs from "./components/NFTs";
 
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
@@ -49,7 +50,7 @@ const TransakDone = ({ show, hide }) => (
   </Modal>
 );
 
-const LoadingPortfolio = ({ mode }) => {
+export const LoadingPortfolio = ({ mode }) => {
   return (
     <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-4">
       <Spinner />
@@ -115,6 +116,7 @@ const NewPortfolio = ({
   ticker,
   currentUserId,
   messagingDisabled,
+  userNFT,
   railsContext,
 }) => {
   // --- On chain variables ---
@@ -459,6 +461,16 @@ const NewPortfolio = ({
             Supporters
           </div>
         )}
+        {!!userNFT.id && (
+          <div
+            onClick={() => setActiveTab("NFTs")}
+            className={`talent-table-tab${
+              activeTab == "NFTs" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            NFTs
+          </div>
+        )}
       </div>
       {activeTab == "Supporting" && (
         <Supporting
@@ -478,6 +490,9 @@ const NewPortfolio = ({
           currentUserId={currentUserId}
           messagingDisabled={messagingDisabled}
         />
+      )}
+      {activeTab == "NFTs" && (
+        <NFTs mode={theme.mode()} userNFT={userNFT} chainAPI={chainAPI} />
       )}
     </div>
   );
