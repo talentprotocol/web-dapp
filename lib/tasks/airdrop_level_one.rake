@@ -2,14 +2,18 @@ require "csv"
 
 namespace :users do
   task airdrop_level_one: :environment do
-    puts "Sending to ##{User.count} users"
+    index = 0
+    total = User.where.not(wallet_id: nil, user_nft_minted: false).order(:id).limit(100).count
+    puts "Sending to ##{total} users"
 
     CSV.open("airdrop_results.csv", "w") do |csv|
       csv << ["user_id", "username", "wallet_id", "success"]
-      User.where.not(wallet_id: nil).pluck(:id).each do |user_id|
-        user = User.find(user_id)
+      User.where.not(wallet_id: nil, user_nft_minted: false).order(:id).limit(100).find_each do |user|
+        index += 1
+        puts "- User ##{index}/#{total}"
+
         if user.wallet_id.length == 42
-          service = Web3::MintUserNFT.new(season: 1)
+          service = Web3::MintUserNFT.new
           result = service.call(user: user)
           if result.present?
             user.update!(user_nft_minted: true, user_nft_address: result)
