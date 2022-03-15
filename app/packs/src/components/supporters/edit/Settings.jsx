@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
 
-import { getAuthToken } from "src/utils/requests";
 import { patch, destroy } from "src/utils/requests";
 
 import { ArrowLeft } from "src/components/icons";
@@ -20,10 +19,6 @@ import { passwordMatchesRequirements } from "src/utils/passwordRequirements";
 import { emailRegex, usernameRegex } from "src/utils/regexes";
 
 const NotificationInputs = [
-  {
-    description: "Someone bought your talent token",
-    name: "TokenAcquiredNotification",
-  },
   {
     description: "Someone sent you a chat message",
     name: "MessageReceivedNotification",

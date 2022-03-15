@@ -242,7 +242,7 @@ const About = ({
           straight
           className="image-fit align-self-start"
           height={80}
-          width={277}
+          width={270}
         />
         <div className={cx("d-flex flex-column", mobile ? "mt-4" : "ml-4")}>
           <div className="d-flex align-items-center">
