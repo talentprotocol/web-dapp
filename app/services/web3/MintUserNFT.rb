@@ -1,21 +1,24 @@
 module Web3
   class MintUserNFT
-    def initialize(params = {})
-      @season_number = params.fetch(:season, 2)
-    end
-
     def call(user:)
-      if user.wallet_id
-        if contract.call.balance_of(user.wallet_id) == 0 && !user.user_nft_minted
-          puts "Sending to user ##{user.id}"
-          contract.transact_and_wait.airdrop([user.wallet_id])
+      if user.wallet_id && !user.user_nft_minted
+        resp = client.invoke({
+          function_name: "prodNFTUserAirdrop",
+          invocation_type: "RequestResponse",
+          log_type: "None",
+          payload: JSON.generate({wallet_id: user.wallet_id})
+        })
 
-          if contract.call.balance_of(user.wallet_id) != 1
-            return false
-          end
-          address
+        response = JSON.parse(resp.payload.string)
+
+        if response["statusCode"] == 200
+          user.update!(
+            user_nft_minted: true,
+            user_nft_address: response["body"]["tokenAddress"],
+            user_nft_token_id: response["body"]["tokenId"],
+            user_nft_tx: response["body"]["tx"]
+          )
         else
-          puts "User ##{user.id} already owns a Level One token"
           false
         end
       end
@@ -23,48 +26,8 @@ module Web3
 
     private
 
-    def abi
-      @abi ||=
-        begin
-          file = File.open("app/services/web3/abi/CommunityUser.json")
-          json_content = JSON.parse(file.read)
-          json_content["abi"]
-        end
-    end
-
-    def address
-      @season_number == 2 ? ENV["COMMUNITY_USER_NFT_ADDRESS"] : ENV["COMMUNITY_USER_NFT_AIRDROP_ADDRESS"]
-    end
-
-    def contract
-      @contract ||=
-        begin
-          c = Ethereum::Contract.create(
-            name: "CommunityUser",
-            address: address,
-            abi: abi,
-            client: client
-          )
-          c.key = key
-          c
-        end
-    end
-
     def client
-      @client ||= Ethereum::HttpClient.new(celo_url)
-    end
-
-    def key
-      @key ||=
-        if ENV["CELO_WALLET_PRIVATE_KEY"]
-          Eth::Key.new(priv: ENV["CELO_WALLET_PRIVATE_KEY"])
-        else
-          false
-        end
-    end
-
-    def celo_url
-      ENV["FORNO_URL"] || "https://alfajores-forno.celo-testnet.org"
+      @client ||= Aws::Lambda::Client.new(region: "eu-west-2")
     end
   end
 end
