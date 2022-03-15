@@ -3,7 +3,7 @@ require "csv"
 namespace :users do
   task airdrop_level_one: :environment do
     index = 0
-    total = User.count
+    total = User.where.not(wallet_id: nil).count
     puts "Sending to ##{total} users"
 
     CSV.open("airdrop_results.csv", "w") do |csv|
