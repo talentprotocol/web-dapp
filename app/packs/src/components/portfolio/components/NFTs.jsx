@@ -26,7 +26,7 @@ const NFTs = ({ userNFT, chainAPI }) => {
   }
 
   return (
-    <div className="d-flex flex-row flex-wrap py-4">
+    <div className="d-flex flex-row flex-wrap py-4 nfts-wrapper">
       <NFTCard
         imageUrl={nftImages.userNFT}
         address={userNFT.tokenAddress}

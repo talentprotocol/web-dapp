@@ -5,7 +5,7 @@ import Button from "src/components/design_system/button";
 
 const NFTCard = ({ imageUrl, address, tokenId, creator, onClick }) => {
   return (
-    <div className="d-flex flex-column position-relative nft-card width-fit mr-4">
+    <div className="d-flex flex-column position-relative nft-card width-fit mr-lg-4">
       <img src={imageUrl} className="nft-image m-1" />
       <div className="d-flex flex-row align-items-center mx-4 mb-3">
         <div className="d-flex flex-column mr-4">

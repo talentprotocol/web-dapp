@@ -350,6 +350,7 @@ const NewPortfolio = ({
           onClickTransak={onClickTransak}
           ticker={ticker}
           currentUserId={currentUserId}
+          userNFT={userNFT}
         />
       </>
     );
@@ -491,9 +492,7 @@ const NewPortfolio = ({
           messagingDisabled={messagingDisabled}
         />
       )}
-      {activeTab == "NFTs" && (
-        <NFTs mode={theme.mode()} userNFT={userNFT} chainAPI={chainAPI} />
-      )}
+      {activeTab == "NFTs" && <NFTs userNFT={userNFT} chainAPI={chainAPI} />}
     </div>
   );
 };
