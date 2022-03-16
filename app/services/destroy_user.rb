@@ -9,7 +9,7 @@ class DestroyUser
     user = User.find(@user_id)
     ActiveRecord::Base.transaction do
       if user.invites.count > 0
-        user.invites.update_all(user_id: 1)
+        user.invites.update_all(user_id: 1, max_uses: 0)
       end
 
       user.feed.feed_posts.destroy_all
