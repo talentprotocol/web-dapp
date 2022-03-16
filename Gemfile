@@ -39,7 +39,7 @@ gem "bcrypt"
 
 # File Attachment toolkit
 gem "shrine", "~> 3.0"
-gem "marcel", "~> 0.3" # mime-type analyzer
+gem "marcel", "~> 1.0" # mime-type analyzer
 gem "aws-sdk-s3"
 gem "aws-sdk-lambda"
 gem "uppy-s3_multipart", "~> 1.0"
