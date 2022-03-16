@@ -11,23 +11,30 @@ import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import { H5 } from "src/components/design_system/typography";
+import { Spinner } from "src/components/icons";
 import TalentTableListMode from "src/components/talent/TalentTableListMode";
 import TalentTableCardMode from "src/components/talent/TalentTableCardMode";
 import SupportingOptions from "./SupportingOptions";
 
-const Supporting = ({ wallet, setSupportingCount, publicPageViewer }) => {
+const Supporting = ({
+  wallet,
+  setSupportingCount,
+  publicPageViewer,
+  withOptions = true,
+  listMode = false,
+}) => {
   const urlParams = new URLSearchParams(document.location.search);
   const theme = useContext(ThemeContext);
 
   const [localTalents, setLocalTalents] = useState([]);
   const [watchlistOnly, setWatchlistOnly] = useState(false);
-  const [listModeOnly, setListModeOnly] = useState(false);
+  const [listModeOnly, setListModeOnly] = useState(listMode);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [nameSearch, setNameSearch] = useState(urlParams.get("name") || "");
 
   const { loading, data } = useQuery(GET_SUPPORTER_PORTFOLIO, {
-    variables: { id: wallet.toLowerCase() },
+    variables: { id: wallet?.toLowerCase() },
   });
 
   const getSupporterCount = (contractId) => {
@@ -167,10 +174,6 @@ const Supporting = ({ wallet, setSupportingCount, publicPageViewer }) => {
   };
 
   const filteredTalents = useMemo(() => {
-    if (!data || data.supporter == null) {
-      return [];
-    }
-
     let desiredTalent = [...localTalents];
     if (watchlistOnly) {
       desiredTalent = localTalents.filter((talent) => talent.isFollowing);
@@ -211,48 +214,60 @@ const Supporting = ({ wallet, setSupportingCount, publicPageViewer }) => {
     }
 
     return desiredTalent;
-  }, [
-    localTalents,
-    watchlistOnly,
-    selectedSort,
-    sortDirection,
-    data,
-    nameSearch,
-  ]);
+  }, [localTalents, watchlistOnly, selectedSort, sortDirection, nameSearch]);
+
+  const populateTalents = async () => {
+    const newLocalTalents = [...localTalents];
+
+    for (const talent of data.supporter.talents) {
+      const response = await get(
+        `/api/v1/talent/${talent.talent.id.toLowerCase()}`
+      );
+      if (response) {
+        const index = localTalents.findIndex(
+          (localTalent) => localTalent.id === response.id
+        );
+        if (index > -1) {
+          newLocalTalents[index] = camelCaseObject(response);
+        } else {
+          newLocalTalents.push(camelCaseObject(response));
+        }
+      }
+    }
+    setLocalTalents(newLocalTalents);
+  };
 
   useEffect(() => {
     if (data?.supporter !== undefined) {
-      setSupportingCount(data.supporter.talents.length);
-      data.supporter.talents.forEach((talent) => {
-        get(`/api/v1/talent/${talent.talent.id.toLowerCase()}`).then(
-          (response) => {
-            const index = localTalents.findIndex(
-              (localTalent) => localTalent.id === response.id
-            );
-            const newLocalTalents = [...localTalents];
-            if (index > -1) {
-              newLocalTalents[index] = camelCaseObject(response);
-            } else {
-              newLocalTalents.push(camelCaseObject(response));
-            }
-            setLocalTalents(newLocalTalents);
-          }
-        );
-      });
+      if (setSupportingCount) {
+        setSupportingCount(data.supporter.talents.length);
+      }
+
+      populateTalents();
     }
-  }, [data]);
+  }, [data?.supporter]);
+
+  if (loading) {
+    return (
+      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
         <H5 bold text="Supporting" />
-        <SupportingOptions
-          changeTab={changeTab}
-          listModeOnly={listModeOnly}
-          setListModeOnly={setListModeOnly}
-          setNameSearch={setNameSearch}
-          publicPageViewer={publicPageViewer}
-        />
+        {withOptions && (
+          <SupportingOptions
+            changeTab={changeTab}
+            listModeOnly={listModeOnly}
+            setListModeOnly={setListModeOnly}
+            setNameSearch={setNameSearch}
+            publicPageViewer={publicPageViewer}
+          />
+        )}
       </div>
       {listModeOnly ? (
         <TalentTableListMode
