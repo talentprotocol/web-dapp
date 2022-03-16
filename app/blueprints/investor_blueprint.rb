@@ -2,7 +2,7 @@ class InvestorBlueprint < Blueprinter::Base
   fields :id, :profile_picture_url
 
   view :normal do
-    fields :user_id
+    fields :user_id, :headline
     association :user, blueprint: UserBlueprint, view: :normal
   end
 
