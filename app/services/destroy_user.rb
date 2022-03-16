@@ -9,7 +9,7 @@ class DestroyUser
     user = User.find(@user_id)
     ActiveRecord::Base.transaction do
       if user.invites.count > 0
-        user.invites.update_all(user_id: 1)
+        user.invites.update_all(user_id: 1, max_uses: 0)
       end
 
       user.feed.feed_posts.destroy_all
@@ -42,7 +42,7 @@ class DestroyUser
         user.talent.destroy!
       end
 
-      Transfer.where(user: user).destroy_all
+      Transfer.where(user: user).update_all(user_id: nil)
       Message.where(sender_id: user.id).destroy_all
       Message.where(receiver_id: user.id).destroy_all
 

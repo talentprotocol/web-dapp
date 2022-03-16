@@ -11,6 +11,7 @@ module Web3
         transfer.user = user
         transfer.amount = DEFAULT_AMOUNT
         transfer.tx_hash = tx_hash
+        transfer.wallet_id = wallet_id
         transfer.save!
       end
     end
@@ -18,7 +19,7 @@ module Web3
     private
 
     def no_previous_transfer(user)
-      !Transfer.where(user: user).exists?
+      !(Transfer.where(user: user).exists? || Transfer.where(wallet_id: user.wallet_id).exists?)
     end
 
     def client
