@@ -483,6 +483,7 @@ DEPENDENCIES
   letter_opener_web
   listen (~> 3.3)
   lockbox
+  marcel (~> 1.0)
   mini_racer
   noticed (~> 1.5)
   pagy (~> 4.8)
