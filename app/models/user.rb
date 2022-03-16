@@ -144,7 +144,7 @@ class User < ApplicationRecord
   end
 
   def username_is_valid
-    unless username.match?(/^[A-Za-z0-9]*$/)
+    unless username.match?(/^[a-z0-9]*$/)
       errors.add(:base, "The username has invalid characters.")
     end
   end
