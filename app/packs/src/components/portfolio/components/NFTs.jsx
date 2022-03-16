@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import NFTCard from "src/components/design_system/cards/NFTCard";
+
 import { LoadingPortfolio } from "../NewPortfolio";
 
 const NFTs = ({ userNFT, chainAPI }) => {
@@ -13,15 +15,26 @@ const NFTs = ({ userNFT, chainAPI }) => {
     });
   }, [userNFT]);
 
-  console.log(nftImages);
+  const linkToNFT = (nft) => {
+    const baseUrl = chainAPI.getEnvBlockExplorerUrls();
+
+    return `${baseUrl}/token/${nft.tokenAddress}/instance/${nft.id}`;
+  };
+
   if (loading) {
     return <LoadingPortfolio />;
   }
+
   return (
-    <>
-      <h1>NFTs!</h1>
-      <img src={nftImages.userNFT} width="100" height="100" />
-    </>
+    <div className="d-flex flex-row flex-wrap py-4">
+      <NFTCard
+        imageUrl={nftImages.userNFT}
+        address={userNFT.tokenAddress}
+        tokenId={userNFT.id}
+        creator={"Talent Protocol"}
+        onClick={() => window.open(linkToNFT(userNFT))}
+      />
+    </div>
   );
 };
 

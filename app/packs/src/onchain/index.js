@@ -137,6 +137,14 @@ class OnChain {
     }
   };
 
+  getEnvBlockExplorerUrls = () => {
+    if (this.env == "production") {
+      return CELO_PARAMS.blockExplorerUrls;
+    } else {
+      return ALFAJORES_PARAMS.blockExplorerUrls;
+    }
+  };
+
   getEnvNetworkParams = () => {
     if (this.env == "production") {
       return CELO_PARAMS;
