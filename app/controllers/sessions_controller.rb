@@ -13,12 +13,12 @@ class SessionsController < Clearance::SessionsController
           if status.success?
             render json: {}, status: :ok
           else
-            render json: {error: "password"}, status: :unauthorized
+            render json: {error: "wrong email or password"}, status: :unauthorized
           end
         end
       end
     else
-      render json: {error: "email"}, status: :unauthorized
+      render json: {error: "wrong email or password"}, status: :unauthorized
     end
   end
 end
