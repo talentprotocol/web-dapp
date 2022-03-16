@@ -466,3 +466,32 @@
     }
   }
 }
+
+.nft-image {
+  width: 363px;
+  height: 363px;
+}
+
+.nft-card {
+  max-width: 371px;
+  background-color: $white;
+}
+
+.dark-body .nft-card {
+  background-color: $gray-900;
+}
+
+@media (max-width: 992px) {
+  .nft-image {
+    width: 350px;
+    height: 350px;
+  }
+
+  .nft-card {
+    max-width: 360px;
+  }
+
+  .nfts-wrapper {
+    justify-content: center;
+  }
+}

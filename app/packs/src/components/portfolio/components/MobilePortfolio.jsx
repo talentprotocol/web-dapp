@@ -2,6 +2,7 @@ import React from "react";
 
 import Supporting from "./Supporting";
 import Supporters from "./Supporters";
+import NFTs from "./NFTs";
 
 import currency from "currency.js";
 
@@ -31,6 +32,7 @@ const MobilePortfolio = ({
   onClickTransak,
   ticker,
   currentUserId,
+  userNFT,
 }) => {
   return (
     <div className={`d-flex flex-column`}>
@@ -59,6 +61,16 @@ const MobilePortfolio = ({
             }`}
           >
             Supporters
+          </div>
+        )}
+        {!!userNFT.id && (
+          <div
+            onClick={() => setActiveTab("NFTs")}
+            className={`talent-table-tab${
+              activeTab == "NFTs" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            NFTs
           </div>
         )}
       </div>
@@ -188,6 +200,7 @@ const MobilePortfolio = ({
           currentUserId={currentUserId}
         />
       )}
+      {activeTab == "NFTs" && <NFTs userNFT={userNFT} chainAPI={chainAPI} />}
     </div>
   );
 };
