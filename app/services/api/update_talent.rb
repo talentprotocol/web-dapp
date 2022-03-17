@@ -13,7 +13,8 @@ class API::UpdateTalent
     if tag_params[:tags]
       all_tags = tag_params[:tags]
       @talent
-        .talent_tags
+        .user
+        .user_tags
         .joins(:tag)
         .where(tag: {hidden: false})
         .where.not(tag: {description: all_tags})
@@ -21,9 +22,9 @@ class API::UpdateTalent
 
       all_tags.each do |description|
         tag = Tag.find_or_create_by(description: description.downcase)
-        talent_tag = TalentTag.find_or_initialize_by(talent: @talent, tag: tag)
+        user_tag = UserTag.find_or_initialize_by(user: @talent.user, tag: tag)
 
-        talent_tag.save! unless talent_tag.persisted?
+        user_tag.save! unless user_tag.persisted?
       end
     end
 

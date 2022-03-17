@@ -3,7 +3,7 @@ import React from "react";
 import Tag from "src/components/design_system/tag";
 import P2 from "src/components/design_system/typography/p2";
 
-const TalentTags = ({ tags, talent_id, className, mode }) => {
+const UserTags = ({ tags, talent_id, className, mode }) => {
   const validTags = tags.filter((item) => item != "");
 
   if (validTags && validTags.length > 0) {
@@ -25,4 +25,4 @@ const TalentTags = ({ tags, talent_id, className, mode }) => {
   }
 };
 
-export default TalentTags;
+export default UserTags;

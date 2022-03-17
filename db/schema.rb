@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_03_16_152458) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,6 +88,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.text "profile_picture_data"
+    t.text "banner_data"
+    t.jsonb "profile", default: {}
     t.index ["public_key"], name: "index_investors_on_public_key", unique: true
     t.index ["user_id"], name: "index_investors_on_user_id"
   end
@@ -200,16 +201,6 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.index ["user_id"], name: "index_talent_on_user_id"
   end
 
-  create_table "talent_tags", force: :cascade do |t|
-    t.bigint "talent_id"
-    t.bigint "tag_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["tag_id"], name: "index_talent_tags_on_tag_id"
-    t.index ["talent_id", "tag_id"], name: "index_talent_tags_on_talent_id_and_tag_id", unique: true
-    t.index ["talent_id"], name: "index_talent_tags_on_talent_id"
-  end
-
   create_table "tokens", force: :cascade do |t|
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
@@ -233,6 +224,18 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.index ["wallet_id"], name: "index_transfers_on_wallet_id"
   end
 
+  create_table "user_tags", force: :cascade do |t|
+    t.bigint "talent_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["tag_id"], name: "index_user_tags_on_tag_id"
+    t.index ["talent_id", "tag_id"], name: "index_user_tags_on_talent_id_and_tag_id", unique: true
+    t.index ["talent_id"], name: "index_user_tags_on_talent_id"
+    t.index ["user_id"], name: "index_user_tags_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "email"
@@ -253,8 +256,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.boolean "disabled", default: false
     t.string "theme_preference", default: "light"
+    t.boolean "disabled", default: false
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
@@ -293,8 +296,9 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "tags", "discovery_rows"
-  add_foreign_key "talent_tags", "tags"
-  add_foreign_key "talent_tags", "talent"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"
+  add_foreign_key "user_tags", "tags"
+  add_foreign_key "user_tags", "talent"
+  add_foreign_key "user_tags", "users"
 end

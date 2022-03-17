@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
+import { post, destroy } from "src/utils/requests";
+
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "../../utils/window";
 import TalentProfilePicture from "./TalentProfilePicture";
 
 import StakeModal from "../token/StakeModal";
-import TalentTags from "./TalentTags";
+import UserTags from "./UserTags";
 
 import Overview from "./Show/Overview";
 import Timeline from "./Show/Timeline";
 import Supporters from "./Show/Supporters";
+import Supporting from "src/components/supporters/show/Supporting";
 
 import Roadmap from "./Show/Roadmap";
 import Perks from "./Show/Perks";
@@ -120,18 +122,16 @@ const TalentShow = ({
   };
 
   useEffect(() => {
-    if (searchParams.get("tab") && !publicPageViewer) {
+    if (searchParams.get("tab")) {
       setPageInDisplay(searchParams.get("tab"));
-    } else if (!publicPageViewer) {
+    } else {
       window.history.pushState(
         {},
         document.title,
         `${url.pathname}?tab=overview`
       );
-    } else {
-      window.history.pushState({}, document.title, url.pathname);
     }
-  }, [searchParams, publicPageViewer]);
+  }, [searchParams]);
 
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(document.location.search);
@@ -200,7 +200,7 @@ const TalentShow = ({
       {talentIsFromCurrentUser && (
         <Button
           onClick={() =>
-            (window.location.href = `/talent/${user.username}/edit_profile`)
+            (window.location.href = `/u/${user.username}/edit_profile`)
           }
           type="white-subtle"
           mode={theme.mode()}
@@ -280,64 +280,77 @@ const TalentShow = ({
                 text={sharedState.talent.profile.occupation}
                 className="mb-2 mb-lg-0 text-primary-04"
               />
-              {!mobile && <SocialRow sharedState={sharedState} />}
+              {!mobile && <SocialRow profile={sharedState.talent.profile} />}
             </div>
             <div className="d-flex justify-content-between">
-              <TalentTags
+              <UserTags
                 tags={sharedState.tags}
                 className="mr-2"
                 mode={theme.mode()}
               />
             </div>
 
-            {mobile && <SocialRow sharedState={sharedState} />}
+            {mobile && <SocialRow profile={sharedState.talent.profile} />}
           </div>
         </div>
         {!mobile && !publicPageViewer && actionButtons()}
       </section>
-      {!publicPageViewer && (
+      <div
+        className={cx(
+          "talent-table-tabs mt-3 d-flex flex-row align-items-center",
+          mobile && "mx-4"
+        )}
+      >
         <div
-          className={cx(
-            "talent-table-tabs mt-3 d-flex flex-row align-items-center",
-            mobile && "mx-4"
-          )}
+          onClick={() => changeTab("overview")}
+          className={`talent-table-tab${
+            pageInDisplay == "overview" ? " active-talent-table-tab" : ""
+          }`}
         >
-          <div
-            onClick={() => changeTab("overview")}
-            className={`talent-table-tab${
-              pageInDisplay == "overview" ? " active-talent-table-tab" : ""
-            }`}
-          >
-            Overview
-          </div>
-          <div
-            onClick={() => changeTab("timeline")}
-            className={`talent-table-tab${
-              pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
-            }`}
-          >
-            Timeline
-          </div>
-          {sharedState.token.contract_id && (
-            <div
-              onClick={() => changeTab("supporters")}
-              className={`talent-table-tab${
-                pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
-              }`}
-            >
-              Supporters
-            </div>
-          )}
+          Overview
         </div>
-      )}
+        <div
+          onClick={() => changeTab("timeline")}
+          className={`talent-table-tab${
+            pageInDisplay == "timeline" ? " active-talent-table-tab" : ""
+          }`}
+        >
+          Timeline
+        </div>
+        {sharedState.token.contract_id && (
+          <div
+            onClick={() => changeTab("supporters")}
+            className={`talent-table-tab${
+              pageInDisplay == "supporters" ? " active-talent-table-tab" : ""
+            }`}
+          >
+            Supporters
+          </div>
+        )}
+        <div
+          onClick={() => changeTab("supporting")}
+          className={`talent-table-tab${
+            pageInDisplay == "supporting" ? " active-talent-table-tab" : ""
+          }`}
+        >
+          Supporting
+        </div>
+      </div>
       <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
         <div
           className={`col-12${
-            pageInDisplay != "supporters" ? " col-lg-8" : ""
+            pageInDisplay != "supporters" && pageInDisplay != "supporting"
+              ? " col-lg-8"
+              : ""
           } p-0`}
         >
           {pageInDisplay == "overview" && (
-            <Overview sharedState={sharedState} mode={theme.mode()} />
+            <Overview
+              user={sharedState.user}
+              profile={sharedState.talent.profile}
+              careerGoal={sharedState.careerGoal}
+              mode={theme.mode()}
+            />
           )}
           {pageInDisplay == "timeline" && (
             <Timeline sharedState={sharedState} mode={theme.mode()} />
@@ -350,8 +363,19 @@ const TalentShow = ({
               railsContext={railsContext}
             />
           )}
+          {pageInDisplay == "supporting" && (
+            <div className="mt-5">
+              <Supporting
+                wallet={user.wallet_id}
+                publicPageViewer={publicPageViewer}
+                withOptions={false}
+                listMode={true}
+                railsContext={railsContext}
+              />
+            </div>
+          )}
         </div>
-        {pageInDisplay != "supporters" && (
+        {pageInDisplay != "supporters" && pageInDisplay != "supporting" && (
           <div className="col-12 col-lg-4 p-0 mt-4">
             <SimpleTokenDetails
               ticker={ticker()}

@@ -1,6 +1,6 @@
 class Talent < ApplicationRecord
   include ::ProfilePictureUploader::Attachment(:profile_picture)
-  include ::TalentBannerUploader::Attachment(:banner)
+  include ::BannerUploader::Attachment(:banner)
 
   store :profile, accessors: %i[
     pronouns
@@ -26,8 +26,6 @@ class Talent < ApplicationRecord
   has_one :career_goal
   has_many :perks
   has_many :milestones
-  has_many :talent_tags
-  has_many :tags, through: :talent_tags
 
   scope :base, -> { where(public: true).includes([:user, :token]) }
   scope :active, -> { joins(:token).where.not(tokens: {contract_id: nil}) }

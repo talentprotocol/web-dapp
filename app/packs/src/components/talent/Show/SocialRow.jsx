@@ -10,66 +10,66 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const SocialRow = ({ sharedState }) => {
+const SocialRow = ({ profile }) => {
   return (
     <div className="d-flex flex-row flex-wrap mt-3 mt-lg-0 ml-lg-4 text-primary-03">
-      {sharedState.talent.profile.website && (
+      {profile.website && (
         <a
-          href={sharedState.talent.profile.website}
+          href={profile.website}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faGlobeEurope} />
         </a>
       )}
-      {sharedState.talent.profile.github && (
+      {profile.github && (
         <a
-          href={sharedState.talent.profile.github}
+          href={profile.github}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faGithub} />
         </a>
       )}
-      {sharedState.talent.profile.linkedin && (
+      {profile.linkedin && (
         <a
-          href={sharedState.talent.profile.linkedin}
+          href={profile.linkedin}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faLinkedin} />
         </a>
       )}
-      {sharedState.talent.profile.twitter && (
+      {profile.twitter && (
         <a
-          href={sharedState.talent.profile.twitter}
+          href={profile.twitter}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faTwitter} />
         </a>
       )}
-      {sharedState.talent.profile.instagram && (
+      {profile.instagram && (
         <a
-          href={sharedState.talent.profile.instagram}
+          href={profile.instagram}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faInstagram} />
         </a>
       )}
-      {sharedState.talent.profile.telegram && (
+      {profile.telegram && (
         <a
-          href={`https://t.me/${sharedState.talent.profile.telegram}`}
+          href={`https://t.me/${profile.telegram}`}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faTelegram} />
         </a>
       )}
-      {sharedState.talent.profile.discord && (
+      {profile.discord && (
         <a
-          href={`https://discordapp.com/users/${sharedState.talent.profile.discord}`}
+          href={`https://discordapp.com/users/${profile.discord}`}
           target="self"
           className="mr-4 text-reset hover-primary"
         >

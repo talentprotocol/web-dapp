@@ -18,10 +18,7 @@ Rails.application.routes.draw do
     end
 
     # Talent pages & search
-    resources :talent, only: [:index] do
-      get :edit_profile
-    end
-
+    resources :talent, only: [:index]
     # Portfolio
     resource :portfolio, only: [:show]
 
@@ -40,7 +37,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
-        resources :users, only: [:index, :show, :update, :destroy]
+        resources :users, only: [:index, :update, :destroy]
         resources :follows, only: [:index, :create]
         delete "follows", to: "follows#destroy"
         resources :notifications, only: [] do
@@ -51,7 +48,7 @@ Rails.application.routes.draw do
         resources :career_goals, only: [] do
           resources :goals, only: [:update, :create, :destroy], module: "career_goals"
         end
-        resources :talent, only: [:index, :show, :update] do
+        resources :talent, only: [:index, :update] do
           resources :milestones, only: [:create, :update, :destroy], module: "talent"
           resources :perks, only: [:create, :update, :destroy], module: "talent"
           resources :tokens, only: [:update], module: "talent"
@@ -75,7 +72,6 @@ Rails.application.routes.draw do
       controller: "passwords",
       only: [:edit, :update]
   end
-  resources :talent, only: [:show]
 
   get "/sign_up" => "pages#home", :as => :sign_up
   get "/" => "sessions#new", :as => "sign_in"
@@ -85,6 +81,19 @@ Rails.application.routes.draw do
   # end Auth
 
   resources :wait_list, only: [:create, :index]
+
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :talent, only: [:show]
+      resources :users, only: [:show]
+    end
+  end
+
+  get "/u/:username" => "users#show", :as => "user"
+  # redirect /talent to /u so we have the old route still working
+  get "/talent/:username", to: redirect("/u/%{username}")
+
+  get "/u/:username/edit_profile", to: "users#edit_profile"
 
   root to: "sessions#new", as: :root
 

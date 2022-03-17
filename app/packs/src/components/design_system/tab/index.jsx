@@ -10,13 +10,37 @@ const Tab = ({
   text,
   type,
   onClick,
+  href,
+  target,
   className,
   children,
   active,
   disabled,
 }) => {
+  if (!!onClick) {
+    return (
+      <button
+        className={cx(
+          "tab-container",
+          "button-link",
+          type,
+          active && "active",
+          className
+        )}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {Icon && <Icon pathClassName="tab-icon" color="current-color" />}
+        {text && (
+          <P2 className={cx("tab-text", "current-color")} text={text} bold />
+        )}
+        {children}
+      </button>
+    );
+  }
+
   return (
-    <button
+    <a
       className={cx(
         "tab-container",
         "button-link",
@@ -24,15 +48,15 @@ const Tab = ({
         active && "active",
         className
       )}
-      onClick={onClick}
-      disabled={disabled}
+      href={disabled ? null : href}
+      target={target}
     >
       {Icon && <Icon pathClassName="tab-icon" color="current-color" />}
       {text && (
         <P2 className={cx("tab-text", "current-color")} text={text} bold />
       )}
       {children}
-    </button>
+    </a>
   );
 };
 
@@ -41,6 +65,8 @@ Tab.defaultProps = {
   text: null,
   type: "primary",
   onClick: null,
+  href: null,
+  target: null,
   className: "",
   children: null,
   active: false,
@@ -52,6 +78,8 @@ Tab.propTypes = {
   text: string,
   type: oneOf(["primary", "white"]),
   onClick: func,
+  href: string,
+  target: string,
   className: string,
   children: node,
   active: bool,
