@@ -1,7 +1,7 @@
 class SendCommunityNFTToUser < ApplicationJob
   queue_as :default
 
-  def perform(user_id)
+  def perform(user_id:)
     if ENV["ENABLE_COMMUNITY_USER_NFT"] != "enable"
       return
     end
