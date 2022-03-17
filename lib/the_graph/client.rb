@@ -37,11 +37,7 @@ module TheGraph
       if response.errors.any?
         raise QueryError.new(response.errors[:data].join(", "))
       else
-<<<<<<< HEAD
         response.data
-=======
-        response
->>>>>>> 401a1ff (Add the graph client)
       end
     end
   end
