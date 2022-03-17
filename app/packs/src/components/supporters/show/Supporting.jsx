@@ -179,7 +179,7 @@ const Supporting = ({
       desiredTalent = localTalents.filter((talent) => talent.isFollowing);
     }
     if (nameSearch) {
-      desiredTalent = localTalents.filter(
+      desiredTalent = desiredTalent.filter(
         (talent) =>
           talent.user.displayName
             .toLowerCase()
@@ -249,40 +249,44 @@ const Supporting = ({
 
   const supportingTalent = () => (
     <>
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
-        <H5 bold text="Supporting" />
-        {withOptions && (
-          <SupportingOptions
-            changeTab={changeTab}
-            listModeOnly={listModeOnly}
-            setListModeOnly={setListModeOnly}
-            setNameSearch={setNameSearch}
-            publicPageViewer={publicPageViewer}
-          />
-        )}
-      </div>
-      {listModeOnly ? (
-        <TalentTableListMode
-          theme={theme}
-          talents={filteredTalents}
-          getProgress={getProgress}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
-          updateFollow={updateFollow}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
-          sortDirection={sortDirection}
-          setSortDirection={setSortDirection}
-          publicPageViewer={publicPageViewer}
-        />
-      ) : (
-        <TalentTableCardMode
-          talents={filteredTalents}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
-          updateFollow={updateFollow}
-          publicPageViewer={publicPageViewer}
-        />
+      {localTalents.length > 0 && (
+        <>
+          <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
+            <H5 bold text="Supporting" />
+            {withOptions && (
+              <SupportingOptions
+                changeTab={changeTab}
+                listModeOnly={listModeOnly}
+                setListModeOnly={setListModeOnly}
+                setNameSearch={setNameSearch}
+                publicPageViewer={publicPageViewer}
+              />
+            )}
+          </div>
+          {listModeOnly ? (
+            <TalentTableListMode
+              theme={theme}
+              talents={filteredTalents}
+              getProgress={getProgress}
+              getMarketCap={getMarketCap}
+              getSupporterCount={getSupporterCount}
+              updateFollow={updateFollow}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+              sortDirection={sortDirection}
+              setSortDirection={setSortDirection}
+              publicPageViewer={publicPageViewer}
+            />
+          ) : (
+            <TalentTableCardMode
+              talents={filteredTalents}
+              getMarketCap={getMarketCap}
+              getSupporterCount={getSupporterCount}
+              updateFollow={updateFollow}
+              publicPageViewer={publicPageViewer}
+            />
+          )}
+        </>
       )}
     </>
   );
@@ -303,7 +307,11 @@ const Supporting = ({
   }
 
   return (
-    <>{localTalents.length > 0 ? supportingTalent() : notSupportingTalent()}</>
+    <>
+      {data?.supporter?.talents?.length > 0
+        ? supportingTalent()
+        : notSupportingTalent()}
+    </>
   );
 };
 
