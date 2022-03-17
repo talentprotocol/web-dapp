@@ -186,7 +186,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   if (!loading && sortedSupporters().length == 0) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
-        <H5 text="There's no supporters" bold />
+        <H5 text="This user has no supporters yet" bold />
         <P2 text="All supporters will be listed here" bold />
       </div>
     );
