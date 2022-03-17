@@ -29,12 +29,13 @@ import ResetPassword from "src/components/login/ResetPassword";
 import ChangePassword from "src/components/login/ChangePassword";
 import BottomNav from "src/components/design_system/bottom_nav";
 import TopBar from "src/components/top_bar";
-import Profile from "src/components/talent/Edit/Profile";
+import EditTalent from "src/components/talent/Edit/Profile";
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
-import EditSupporter from "src/components/supporters/EditSupporter";
+import EditSupporter from "src/components/supporters/edit/Profile";
 import Discovery from "src/components/discovery";
 import TalentPage from "src/components/talent/TalentPage";
 import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
+import SupporterProfile from "src/components/supporters/show/Profile";
 
 import "stylesheets/application.scss";
 
@@ -55,7 +56,7 @@ ReactOnRails.register({
   WelcomePopup,
   BottomNav,
   TopBar,
-  Profile,
+  EditTalent,
   NewPortfolio,
   EditSupporter,
   ResetPassword,
@@ -63,6 +64,7 @@ ReactOnRails.register({
   Discovery,
   TalentPage,
   LoggedOutTopBar,
+  SupporterProfile,
 });
 
 Rails.start();

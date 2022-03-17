@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import TextInput from "src/components/design_system/fields/textinput";
 import { Search } from "src/components/icons";
 
-const TalentNameSearch = ({ name, setName, filter }) => {
+const TalentNameSearch = ({ name, setName, filter, className }) => {
   return (
-    <form onSubmit={(e) => filter(e, "name", name)}>
+    <form onSubmit={(e) => filter(e, "name", name)} className={className}>
       <div className="position-relative">
         <TextInput
           value={name}

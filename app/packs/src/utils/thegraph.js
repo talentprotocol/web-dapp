@@ -45,6 +45,7 @@ const GET_SUPPORTER_PORTFOLIO = gql`
           symbol
           name
           totalSupply
+          maxSupply
           supporterCounter
           owner
         }

@@ -9,9 +9,12 @@ import TalentToken from "../abis/recent/TalentToken.json";
 import Staking from "../abis/recent/Staking.json";
 import TalentFactory from "../abis/recent/TalentFactory.json";
 import StableToken from "../abis/recent/StableToken.json";
+import CommunityUser from "../abis/recent/CommunityUser.json";
 
 import Addresses from "./addresses.json";
 import { ERROR_MESSAGES } from "../utils/constants";
+import { ipfsToURL } from "./utils";
+import { externalGet } from "src/utils/requests";
 
 const ALFAJORES_PARAMS = {
   chainId: "0xaef3",
@@ -131,6 +134,14 @@ class OnChain {
       return CELO_PARAMS.rpcUrls;
     } else {
       return ALFAJORES_PARAMS.rpcUrls;
+    }
+  };
+
+  getEnvBlockExplorerUrls = () => {
+    if (this.env == "production") {
+      return CELO_PARAMS.blockExplorerUrls;
+    } else {
+      return ALFAJORES_PARAMS.blockExplorerUrls;
     }
   };
 
@@ -484,6 +495,27 @@ class OnChain {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async getNFTImg(contract_id, token_id) {
+    const web3ModalInstance = await this.web3Modal.connect();
+    let provider;
+
+    if (web3ModalInstance !== undefined) {
+      provider = new ethers.providers.Web3Provider(web3ModalInstance);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+    }
+
+    const nft = new ethers.Contract(contract_id, CommunityUser.abi, provider);
+    const uri = await nft.tokenURI(token_id);
+
+    const url = ipfsToURL(uri);
+    const result = await externalGet(url);
+
+    const imageUrl = ipfsToURL(result.image);
+
+    return imageUrl;
   }
 }
 

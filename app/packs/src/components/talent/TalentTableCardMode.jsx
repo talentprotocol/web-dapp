@@ -9,6 +9,7 @@ const TalentTableCardMode = ({
   getMarketCap,
   getSupporterCount,
   talents,
+  publicPageViewer = { publicPageViewer },
 }) => {
   const { mobile } = useWindowDimensionsHook();
 
@@ -30,9 +31,10 @@ const TalentTableCardMode = ({
             headline={talent.headline}
             isFollowing={talent.isFollowing}
             updateFollow={() => updateFollow(talent)}
-            talentLink={`/talent/${talent.user.username}`}
+            talentLink={`/u/${talent.user.username}`}
             marketCap={getMarketCap(talent.token.contractId)}
             supporterCount={getSupporterCount(talent.token.contractId)}
+            publicPageViewer={publicPageViewer}
           />
         </div>
       ))}

@@ -6,9 +6,8 @@ class DiscoveryController < ApplicationController
       ids = Talent
         .base
         .active
-        .joins(:tags, :user)
-        .where(tags: {id: row.tags.pluck(:id)})
-        .where(users: {role: "basic"})
+        .joins(user: :tags)
+        .where(users: {role: "basic"}, tags: {id: row.tags.pluck(:id)})
         .distinct
         .order(:id)
         .pluck(:id)
@@ -19,6 +18,7 @@ class DiscoveryController < ApplicationController
         badge: row.badge,
         badge_link: row.badge_link,
         talents: Talent
+          .includes(:user, :token)
           .where(id: ids)
           .select("setseed(0.#{Date.today.jd}), talent.*")
           .order("random()")

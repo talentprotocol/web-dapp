@@ -1,4 +1,6 @@
 .tab-container {
+  text-decoration: none !important;
+
   &.primary {
     color: $primary;
   }

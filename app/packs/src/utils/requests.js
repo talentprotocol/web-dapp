@@ -74,6 +74,15 @@ const get = (url) => {
   });
 };
 
+const externalGet = (url, params = {}) => {
+  return fetch(url).then((response) => {
+    if (params.ignoreJSON) {
+      return response;
+    }
+    return response.json();
+  });
+};
+
 const destroy = (url, content) => {
   const headers = { "Content-Type": "application/json" };
 
@@ -101,4 +110,4 @@ const destroy = (url, content) => {
   });
 };
 
-export { post, put, get, destroy, patch, getAuthToken };
+export { post, put, get, destroy, patch, getAuthToken, externalGet };

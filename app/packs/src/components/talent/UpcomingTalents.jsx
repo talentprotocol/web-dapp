@@ -99,7 +99,7 @@ const UpcomingTalents = ({ talents }) => {
             name={talent.name}
             title={talent.occupation}
             key={`upcoming_talent_list_${talent.id}_${index}`}
-            href={`/talent/${talent.username}`}
+            href={`/u/${talent.username}`}
           />
         ))}
       </div>

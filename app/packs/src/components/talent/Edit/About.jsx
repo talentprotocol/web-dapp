@@ -204,6 +204,9 @@ const About = (props) => {
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
+  const cannotSaveProfile =
+    !props.talent.profile.headline || !props.talent.profile.occupation;
+
   return (
     <>
       <H5
@@ -253,7 +256,7 @@ const About = (props) => {
           straight
           className="image-fit align-self-start"
           height={80}
-          width={277}
+          width={270}
         />
         <div className={cx("d-flex flex-column", mobile ? "mt-4" : "ml-4")}>
           <div className="d-flex align-items-center">
@@ -444,7 +447,7 @@ const About = (props) => {
           onClick={() => onProfileSave()}
           type="primary-default"
           mode={mode}
-          disabled={saving["loading"]}
+          disabled={cannotSaveProfile || saving["loading"]}
           loading={saving["loading"]}
           success={saving["profile"]}
         >

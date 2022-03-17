@@ -4,11 +4,14 @@ class User < ApplicationRecord
   validate :role_is_valid, if: -> { role.present? }
   validate :email_and_password
   validate :validate_notification_preferences
+  validate :username_is_valid
 
   has_one :talent
   has_one :investor
   has_many :invites
   belongs_to :invited, class_name: "Invite", foreign_key: "invite_id", optional: true
+  has_many :user_tags
+  has_many :tags, through: :user_tags
 
   # Chat
   has_many :messagee, foreign_key: :receiver_id, class_name: "Message"
@@ -137,6 +140,12 @@ class User < ApplicationRecord
   def role_is_valid
     unless role.in?(VALID_ROLES)
       errors.add(:base, "The role #{role} isn't supported.")
+    end
+  end
+
+  def username_is_valid
+    unless username.match?(/^[a-z0-9]*$/)
+      errors.add(:base, "The username has invalid characters.")
     end
   end
 

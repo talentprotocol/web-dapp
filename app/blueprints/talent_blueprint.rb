@@ -17,7 +17,7 @@ class TalentBlueprint < Blueprinter::Base
     association :user, blueprint: UserBlueprint, view: :extended
     association :perks, blueprint: PerkBlueprint
     association :tags, blueprint: TagBlueprint do |talent, options|
-      options[:tags] || talent.tags
+      options[:tags] || talent.user.tags
     end
     association :milestones, blueprint: MilestoneBlueprint, view: :normal
     association :career_goal, blueprint: CareerGoalBlueprint, view: :normal

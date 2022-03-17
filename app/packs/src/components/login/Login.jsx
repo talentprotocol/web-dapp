@@ -22,10 +22,8 @@ const Login = () => {
     setErrors({ email: false, password: false });
 
     post("/session", { session: { email, password } }).then((res) => {
-      if (res.error === "email") {
-        setErrors((prev) => ({ ...prev, email: true }));
-      } else if (res.error === "password") {
-        setErrors((prev) => ({ ...prev, password: true }));
+      if (res.error) {
+        setErrors((prev) => ({ ...prev, email: true, password: true }));
       } else {
         window.location.replace("/");
       }
@@ -54,11 +52,7 @@ const Login = () => {
             ariaDescribedBy="emailHelp"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            error={errors["email"]}
           />
-          {errors["email"] && (
-            <P3 className="mt-2 text-danger" text="Wrong email" />
-          )}
           <div className="d-flex justify-content-between mt-4">
             <label htmlFor="inputPassword">
               <P2 className="text-black" text="Password" bold />
@@ -72,10 +66,9 @@ const Login = () => {
             ariaDescribedBy="passwordHelp"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            error={errors["password"]}
           />
           {errors["password"] && (
-            <P3 className="mt-2 text-danger" text="Wrong password" />
+            <P3 className="mt-2 text-danger" text="Wrong password or email" />
           )}
           <button
             type="submit"

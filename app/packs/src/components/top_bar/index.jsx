@@ -242,21 +242,21 @@ export const TopBar = ({
             )}
           </a>
           <Tab
-            onClick={() => (window.location.href = "/talent")}
+            href="/talent"
             text="Talent"
             type="white"
             active={activeTab.includes("/talent")}
             className="mr-4"
           />
           <Tab
-            onClick={() => (window.location.href = "/portfolio")}
+            href="/portfolio"
             text="Portfolio"
             type="white"
             active={activeTab === "/portfolio"}
             className="mr-4"
           />
           <Tab
-            onClick={() => (window.location.href = "/messages")}
+            href="/messages"
             text="Messages"
             type="white"
             active={activeTab === "/messages"}
