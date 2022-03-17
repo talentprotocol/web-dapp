@@ -5,6 +5,7 @@ import { OnChain } from "src/onchain";
 import MetamaskFox from "images/metamask-fox.svg";
 import { patch } from "src/utils/requests";
 import { TALENT_PROTOCOL_DISCORD } from "src/utils/constants";
+import { shortenAddress } from "src/utils/viewHelpers";
 
 import Button from "src/components/design_system/button";
 
@@ -107,7 +108,7 @@ const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
         className="mr-2"
         disabled={!allowConnect()}
       >
-        {account == "" ? "Connect Wallet" : `${account.substring(0, 10)}...`}{" "}
+        {account == "" ? "Connect Wallet" : `${shortenAddress(account)}`}{" "}
       </Button>
     </>
   );

@@ -4,7 +4,7 @@ import NFTCard from "src/components/design_system/cards/NFTCard";
 
 import { LoadingPortfolio } from "../NewPortfolio";
 
-const NFTs = ({ userNFT, chainAPI }) => {
+const NFTs = ({ userNFT, chainAPI, mode }) => {
   const [loading, setLoading] = useState(true);
   const [nftImages, setNFTImages] = useState({});
 
@@ -31,8 +31,8 @@ const NFTs = ({ userNFT, chainAPI }) => {
         imageUrl={nftImages.userNFT}
         address={userNFT.tokenAddress}
         tokenId={userNFT.id}
-        creator={"Talent Protocol"}
-        onClick={() => window.open(linkToNFT(userNFT))}
+        href={linkToNFT(userNFT)}
+        mode={mode}
       />
     </div>
   );

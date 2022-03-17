@@ -1,6 +1,8 @@
 class UserMailer < ApplicationMailer
   def send_sign_up_email
-    @user = params[:user]
+    @user_id = params[:user_id]
+    @user = User.find(@user_id)
+
     bootstrap_mail(to: @user.email, subject: "Welcome to Talent Protocol")
   end
 

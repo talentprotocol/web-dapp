@@ -1,36 +1,54 @@
 import React from "react";
 
-import { Caption, P1 } from "src/components/design_system/typography";
+import { P1, P3 } from "src/components/design_system/typography";
+import { Caret, Copy } from "src/components/icons";
+import Link from "src/components/design_system/link";
 import Button from "src/components/design_system/button";
+import Tooltip from "src/components/design_system/tooltip";
 
-const NFTCard = ({ imageUrl, address, tokenId, creator, onClick }) => {
+import { shortenAddress } from "src/utils/viewHelpers";
+
+const NFTCard = ({ imageUrl, address, tokenId, href, mode }) => {
+  const copyAddress = () => navigator.clipboard.writeText(address);
   return (
     <div className="d-flex flex-column position-relative nft-card width-fit mr-lg-4">
       <img src={imageUrl} className="nft-image m-1" />
-      <div className="d-flex flex-row align-items-center mx-4 mb-3">
+      <div className="d-flex flex-row align-items-center mx-4 mb-2">
         <div className="d-flex flex-column mr-4">
-          <Caption className="text-primary mt-4 mb-1" text="Contract Address" />
-          <P1 bold className="text-black mb-4">
-            {`${address.substring(0, 10)}...`}
-          </P1>
+          <P3 className="text-primary-04 mt-4 mb-1" text="Contract Address" />
+          <div className="d-flex flex-row align-items-center">
+            <P1 bold className="text-black">
+              {shortenAddress(address)}
+            </P1>
+            <Tooltip
+              body={"Copied!"}
+              popOverAccessibilityId={"coppy_address_success"}
+              mode={mode}
+              placement="top"
+            >
+              <Button type="white-ghost" className="ml-2" onClick={copyAddress}>
+                <Copy color="currentColor" />
+              </Button>
+            </Tooltip>
+          </div>
         </div>
+      </div>
+      <div className="d-flex flex-row justify-content-between align-items-end mx-4 mb-4">
         <div className="d-flex flex-column">
-          <Caption className="text-primary mt-4 mb-1 mx-4" text="Token ID" />
-          <P1 bold className="text-black mb-4 mx-4">
+          <P3 className="text-primary-04 mb-1" text="Token ID" />
+          <P1 bold className="text-black">
             {tokenId}
           </P1>
         </div>
-      </div>
-      <div className="d-flex flex-row justify-content-between align-items-end mx-4 mb-3">
-        <div className="d-flex flex-column">
-          <Caption className="text-primary mb-1" text="Creator" />
-          <P1 bold className="text-black">
-            {creator}
-          </P1>
-        </div>
-        <Button onClick={onClick} type="white-ghost" className="text-primary">
-          See Details {">"}
-        </Button>
+        <Link
+          className="d-flex align-items-center"
+          bold
+          href={href}
+          target="_blank"
+          text="See Details"
+        >
+          <Caret size={12} color="currentColor" className="rotate-270 ml-2" />
+        </Link>
       </div>
     </div>
   );

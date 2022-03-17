@@ -6,6 +6,7 @@ import currency from "currency.js";
 import { parseAndCommify } from "src/onchain/utils";
 import { useQuery, GET_TALENT_PORTFOLIO_FOR_ID } from "src/utils/thegraph";
 import { get } from "src/utils/requests";
+import { shortenAddress } from "src/utils/viewHelpers";
 
 import {
   H4,
@@ -498,7 +499,7 @@ const Supporters = ({
     if (supporterInfo[supporter.id]?.username) {
       return supporterInfo[supporter.id]?.username;
     } else {
-      return `(${supporter.id.substring(0, 10)}...)`;
+      return `(${shortenAddress(supporter.id)})`;
     }
   };
 
@@ -651,7 +652,7 @@ const Supporters = ({
                     />
                   )}
                   <P2
-                    text={`(${supporter.id.substring(0, 10)}...)`}
+                    text={`(${shortenAddress(supporter.id)})`}
                     className="ml-2"
                   />
                 </div>
