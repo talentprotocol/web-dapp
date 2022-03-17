@@ -12,3 +12,7 @@
   sync_talent_with_notion:
     cron: '0 20 * * *' # Runs once every day at 8pm
     class: SyncTalentWithNotionJob
+  sync_on_chain_talent_supporters:
+    cron: '0 * * * *' # Runs every hour
+    class: TriggerTalentSupportersRefreshJob
+    
