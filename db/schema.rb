@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_152458) do
+ActiveRecord::Schema.define(version: 2022_03_17_215201) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -199,6 +200,17 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"
+  end
+
+  create_table "talent_supporters", force: :cascade do |t|
+    t.string "amount"
+    t.string "tal_amount"
+    t.string "supporter_wallet_id", null: false
+    t.string "talent_contract_id", null: false
+    t.datetime "synced_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["supporter_wallet_id", "talent_contract_id"], name: "talent_supporters_wallet_token_contract_uidx", unique: true
   end
 
   create_table "tokens", force: :cascade do |t|
