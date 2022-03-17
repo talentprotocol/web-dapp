@@ -18,6 +18,12 @@ module Web3
             user_nft_token_id: response["body"]["tokenId"],
             user_nft_tx: response["body"]["tx"]
           )
+        elsif response["statusCode"] == 400 && response["errorId"] == 2
+          user.update!(
+            user_nft_minted: true,
+            user_nft_address: response["body"]["tokenAddress"],
+            user_nft_token_id: response["body"]["tokenId"]
+          )
         else
           log_error(user)
           false
