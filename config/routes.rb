@@ -27,9 +27,6 @@ Rails.application.routes.draw do
     mount ActionCable.server => "/cable"
 
     # Profile
-    resources :settings, only: [:index]
-    resources :investors, only: [:update]
-
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end

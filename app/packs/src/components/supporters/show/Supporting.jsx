@@ -10,7 +10,7 @@ import {
 import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
-import { H5 } from "src/components/design_system/typography";
+import { H5, P2 } from "src/components/design_system/typography";
 import { Spinner } from "src/components/icons";
 import TalentTableListMode from "src/components/talent/TalentTableListMode";
 import TalentTableCardMode from "src/components/talent/TalentTableCardMode";
@@ -32,6 +32,7 @@ const Supporting = ({
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [nameSearch, setNameSearch] = useState(urlParams.get("name") || "");
+  const [localLoading, setLocalLoading] = useState(true);
 
   const { loading, data } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: { id: wallet?.toLowerCase() },
@@ -179,7 +180,7 @@ const Supporting = ({
       desiredTalent = localTalents.filter((talent) => talent.isFollowing);
     }
     if (nameSearch) {
-      desiredTalent = localTalents.filter(
+      desiredTalent = desiredTalent.filter(
         (talent) =>
           talent.user.displayName
             .toLowerCase()
@@ -235,19 +236,75 @@ const Supporting = ({
       }
     }
     setLocalTalents(newLocalTalents);
+    setLocalLoading(false);
   };
 
   useEffect(() => {
-    if (data?.supporter !== undefined) {
+    if (!loading && (data?.supporter == undefined || data?.supporter == null)) {
+      setLocalLoading(false);
+    }
+
+    if (data?.supporter !== undefined && data?.supporter !== null) {
       if (setSupportingCount) {
         setSupportingCount(data.supporter.talents.length);
       }
 
       populateTalents();
     }
-  }, [data?.supporter]);
+  }, [loading, data?.supporter]);
 
-  if (loading) {
+  const supportingTalent = () => (
+    <>
+      {localTalents.length > 0 && (
+        <>
+          <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
+            <H5 bold text="Supporting" />
+            {withOptions && (
+              <SupportingOptions
+                changeTab={changeTab}
+                listModeOnly={listModeOnly}
+                setListModeOnly={setListModeOnly}
+                setNameSearch={setNameSearch}
+                publicPageViewer={publicPageViewer}
+              />
+            )}
+          </div>
+          {listModeOnly ? (
+            <TalentTableListMode
+              theme={theme}
+              talents={filteredTalents}
+              getProgress={getProgress}
+              getMarketCap={getMarketCap}
+              getSupporterCount={getSupporterCount}
+              updateFollow={updateFollow}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+              sortDirection={sortDirection}
+              setSortDirection={setSortDirection}
+              publicPageViewer={publicPageViewer}
+            />
+          ) : (
+            <TalentTableCardMode
+              talents={filteredTalents}
+              getMarketCap={getMarketCap}
+              getSupporterCount={getSupporterCount}
+              updateFollow={updateFollow}
+              publicPageViewer={publicPageViewer}
+            />
+          )}
+        </>
+      )}
+    </>
+  );
+
+  const notSupportingTalent = () => (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+      <H5 text="This user doesn't support any Talent yet" bold />
+      <P2 text="All supported talents will be listed here" bold />
+    </div>
+  );
+
+  if (localLoading || loading) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <Spinner />
@@ -257,41 +314,9 @@ const Supporting = ({
 
   return (
     <>
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
-        <H5 bold text="Supporting" />
-        {withOptions && (
-          <SupportingOptions
-            changeTab={changeTab}
-            listModeOnly={listModeOnly}
-            setListModeOnly={setListModeOnly}
-            setNameSearch={setNameSearch}
-            publicPageViewer={publicPageViewer}
-          />
-        )}
-      </div>
-      {listModeOnly ? (
-        <TalentTableListMode
-          theme={theme}
-          talents={filteredTalents}
-          getProgress={getProgress}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
-          updateFollow={updateFollow}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
-          sortDirection={sortDirection}
-          setSortDirection={setSortDirection}
-          publicPageViewer={publicPageViewer}
-        />
-      ) : (
-        <TalentTableCardMode
-          talents={filteredTalents}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
-          updateFollow={updateFollow}
-          publicPageViewer={publicPageViewer}
-        />
-      )}
+      {data?.supporter?.talents?.length > 0
+        ? supportingTalent()
+        : notSupportingTalent()}
     </>
   );
 };
