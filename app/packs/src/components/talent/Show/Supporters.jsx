@@ -183,8 +183,8 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   if (!loading && sortedSupporters().length == 0) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
-        <H5 text="You don't have any Supporter" bold />
-        <P2 text="All your supporters will be listed here" bold />
+        <H5 text="There's no supporters" bold />
+        <P2 text="All supporters will be listed here" bold />
       </div>
     );
   }
@@ -240,8 +240,12 @@ const Supporters = ({ mobile, mode, sharedState }) => {
             {sortedSupporters().map((supporter) => (
               <Table.Tr
                 key={`supporter-${supporter.id}`}
-                className="px-2"
-                onClick={() => console.log("SHOW SUPPORTER DETAILS")}
+                className="px-2 cursor-pointer"
+                onClick={() =>
+                  (window.location.href = `/u/${
+                    supporterInfo[supporter.id]?.username
+                  }`)
+                }
               >
                 <Table.Td>
                   <div className="d-flex cursor-pointer py-2">
@@ -269,10 +273,10 @@ const Supporters = ({ mobile, mode, sharedState }) => {
 
   return (
     <>
-      <P1 className="mt-5" bold>
+      <H5 className="mt-5 mb-6" bold>
         Supporters
-      </P1>
-      <Table mode={mode} className="px-3 horizontal-scroll mt-3 mb-4">
+      </H5>
+      <Table mode={mode} className="px-3 horizontal-scroll mb-4">
         <Table.Head>
           <Table.Th>
             <Caption
@@ -295,7 +299,12 @@ const Supporters = ({ mobile, mode, sharedState }) => {
           {sortedSupporters().map((supporter) => (
             <Table.Tr
               key={`supporter-${supporter.id}`}
-              className="reset-cursor"
+              className="cursor-pointer"
+              onClick={() =>
+                (window.location.href = `/u/${
+                  supporterInfo[supporter.id]?.username
+                }`)
+              }
             >
               <Table.Td>
                 <div className="d-flex flex-row">
