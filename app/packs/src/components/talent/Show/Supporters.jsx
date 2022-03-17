@@ -10,6 +10,7 @@ import {
   GET_TALENT_PORTFOLIO_FOR_ID,
   client,
 } from "src/utils/thegraph";
+import { shortenAddress } from "src/utils/viewHelpers";
 
 import { Spinner, OrderBy } from "src/components/icons";
 import { P1, P2, H5 } from "src/components/design_system/typography";
@@ -209,7 +210,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     if (supporterInfo[supporter.id]?.username) {
       fullName += `@${supporterInfo[supporter.id]?.username}\n`;
     }
-    fullName += `(${supporter.id.substring(0, 10)}...)`;
+    fullName += `(${shortenAddress(supporter.id)})`;
     return fullName;
   };
 
@@ -329,7 +330,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
                     />
                   )}
                   <P2
-                    text={`(${supporter.id.substring(0, 10)}...)`}
+                    text={`(${shortenAddress(supporter.id)})`}
                     className="ml-2 text-gray-300"
                   />
                 </div>

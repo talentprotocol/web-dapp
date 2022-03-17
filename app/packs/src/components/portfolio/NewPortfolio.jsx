@@ -492,7 +492,9 @@ const NewPortfolio = ({
           messagingDisabled={messagingDisabled}
         />
       )}
-      {activeTab == "NFTs" && <NFTs userNFT={userNFT} chainAPI={chainAPI} />}
+      {activeTab == "NFTs" && (
+        <NFTs userNFT={userNFT} chainAPI={chainAPI} mode={theme.mode()} />
+      )}
     </div>
   );
 };

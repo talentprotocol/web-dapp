@@ -10,6 +10,7 @@ import { H4, P2 } from "src/components/design_system/typography";
 import { Copy } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
+import { shortenAddress } from "src/utils/viewHelpers";
 
 import {
   ApolloProvider,
@@ -104,7 +105,7 @@ const SimpleTokenDetails = ({
                 <P2
                   bold
                   className="text-black"
-                  text={`${token.contract_id.substring(0, 10)}...`}
+                  text={shortenAddress(token.contract_id)}
                 />
                 <Tooltip
                   body={"Copied!"}
