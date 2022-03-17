@@ -17,6 +17,8 @@ const client = (env) => {
   });
 };
 
+export const PAGE_SIZE = 1;
+
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!]) {
     talentTokens(first: 500, where: { id_in: $ids }) {
@@ -67,7 +69,7 @@ const GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE = gql`
 `;
 
 const GET_TALENT_PORTFOLIO_FOR_ID = gql`
-  query GetTalentPortfolio($id: String!) {
+  query GetTalentPortfolio($id: String!, $skip: Int!, $first: Int!) {
     talentToken(id: $id) {
       id
       totalValueLocked
@@ -76,7 +78,12 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
       marketCap
       rewardsReady
       rewardsClaimed
-      supporters(first: 300) {
+      supporters(
+        skip: $skip
+        first: $first
+        orderBy: amount
+        orderDirection: desc
+      ) {
         id
         amount
         talAmount
