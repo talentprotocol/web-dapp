@@ -10,7 +10,7 @@ import {
 import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
-import { H5 } from "src/components/design_system/typography";
+import { H5, P2 } from "src/components/design_system/typography";
 import { Spinner } from "src/components/icons";
 import TalentTableListMode from "src/components/talent/TalentTableListMode";
 import TalentTableCardMode from "src/components/talent/TalentTableCardMode";
@@ -238,7 +238,7 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    if (data?.supporter !== undefined) {
+    if (data?.supporter !== undefined && data?.supporter !== null) {
       if (setSupportingCount) {
         setSupportingCount(data.supporter.talents.length);
       }
@@ -247,15 +247,7 @@ const Supporting = ({
     }
   }, [data?.supporter]);
 
-  if (loading) {
-    return (
-      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
-        <Spinner />
-      </div>
-    );
-  }
-
-  return (
+  const supportingTalent = () => (
     <>
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
         <H5 bold text="Supporting" />
@@ -293,6 +285,25 @@ const Supporting = ({
         />
       )}
     </>
+  );
+
+  const notSupportingTalent = () => (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+      <H5 text="This user doesn't support any Talent yet" bold />
+      <P2 text="All supported talents will be listed here" bold />
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
+        <Spinner />
+      </div>
+    );
+  }
+
+  return (
+    <>{localTalents.length > 0 ? supportingTalent() : notSupportingTalent()}</>
   );
 };
 
