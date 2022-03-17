@@ -238,7 +238,7 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    if (data?.supporter !== undefined) {
+    if (data?.supporter !== undefined && data?.supporter !== null) {
       if (setSupportingCount) {
         setSupportingCount(data.supporter.talents.length);
       }
