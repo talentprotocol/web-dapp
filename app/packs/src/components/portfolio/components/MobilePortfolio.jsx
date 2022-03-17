@@ -200,7 +200,9 @@ const MobilePortfolio = ({
           currentUserId={currentUserId}
         />
       )}
-      {activeTab == "NFTs" && <NFTs userNFT={userNFT} chainAPI={chainAPI} />}
+      {activeTab == "NFTs" && (
+        <NFTs userNFT={userNFT} chainAPI={chainAPI} mode={mode} />
+      )}
     </div>
   );
 };
