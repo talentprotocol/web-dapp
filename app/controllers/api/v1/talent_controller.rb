@@ -6,6 +6,7 @@ class API::V1::TalentController < ApplicationController
     render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
   end
 
+  # Public endpoint
   def show
     talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 

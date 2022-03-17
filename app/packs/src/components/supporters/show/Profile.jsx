@@ -14,7 +14,6 @@ import SocialRow from "src/components/talent/Show/SocialRow";
 import Divider from "src/components/design_system/other/Divider";
 
 import Button from "src/components/design_system/button";
-import { Chat } from "src/components/icons";
 import { H2, H5 } from "src/components/design_system/typography";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
