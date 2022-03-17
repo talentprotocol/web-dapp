@@ -16,6 +16,7 @@ class API::V1::UsersController < ApplicationController
     }, status: :ok
   end
 
+  # Public endpoint
   def show
     @user = User.find_by(wallet_id: params[:id])
 

@@ -18,6 +18,8 @@ import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
 import Button from "src/components/design_system/button";
 
+import cx from "classnames";
+
 const MobileSupportersDropdown = ({
   show,
   hide,
@@ -211,6 +213,12 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     return fullName;
   };
 
+  const goToSupporterProfile = (supporter) => {
+    if (supporterInfo[supporter.id]?.username) {
+      window.location.href = `/u/${supporterInfo[supporter.id]?.username}`;
+    }
+  };
+
   if (mobile) {
     return (
       <>
@@ -240,14 +248,15 @@ const Supporters = ({ mobile, mode, sharedState }) => {
             {sortedSupporters().map((supporter) => (
               <Table.Tr
                 key={`supporter-${supporter.id}`}
-                className="px-2 cursor-pointer"
-                onClick={() =>
-                  (window.location.href = `/u/${
-                    supporterInfo[supporter.id]?.username
-                  }`)
-                }
+                className={cx(
+                  "px-2",
+                  supporterInfo[supporter.id]?.username
+                    ? "cursor-pointer"
+                    : "reset-cursor"
+                )}
+                onClick={() => goToSupporterProfile(supporter)}
               >
-                <Table.Td>
+                <Table.Td href="/">
                   <div className="d-flex cursor-pointer py-2">
                     <TalentProfilePicture
                       src={supporterInfo[supporter.id]?.profilePictureUrl}
@@ -299,12 +308,12 @@ const Supporters = ({ mobile, mode, sharedState }) => {
           {sortedSupporters().map((supporter) => (
             <Table.Tr
               key={`supporter-${supporter.id}`}
-              className="cursor-pointer"
-              onClick={() =>
-                (window.location.href = `/u/${
-                  supporterInfo[supporter.id]?.username
-                }`)
-              }
+              className={cx(
+                supporterInfo[supporter.id]?.username
+                  ? "cursor-pointer"
+                  : "reset-cursor"
+              )}
+              onClick={() => goToSupporterProfile(supporter)}
             >
               <Table.Td>
                 <div className="d-flex flex-row">
