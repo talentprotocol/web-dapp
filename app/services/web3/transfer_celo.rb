@@ -11,7 +11,7 @@ module Web3
         transfer.user = user
         transfer.amount = DEFAULT_AMOUNT
         transfer.tx_hash = tx_hash
-        transfer.wallet_id = wallet_id
+        transfer.wallet_id = user.wallet_id
         transfer.save!
       end
     end
