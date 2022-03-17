@@ -37,7 +37,7 @@ module TheGraph
       if response.errors.any?
         raise QueryError.new(response.errors[:data].join(", "))
       else
-        response
+        response.data
       end
     end
   end

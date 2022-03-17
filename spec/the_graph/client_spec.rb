@@ -9,8 +9,13 @@ RSpec.describe TheGraph::Client do
   describe "#talent_supporters" do
     let(:talent_address) { SecureRandom.hex }
 
-    let(:response) { instance_double(GraphQL::Client::Response, errors: errors) }
+    let(:response) { instance_double(GraphQL::Client::Response, data: data, errors: errors) }
     let(:errors) { [] }
+    let(:data) do
+      OpenStruct.new(
+        talent_token: {}
+      )
+    end
 
     subject(:get_talent_supporters) do
       the_graph_client.talent_supporters(params)
@@ -35,8 +40,8 @@ RSpec.describe TheGraph::Client do
       )
     end
 
-    it "returns the api client response" do
-      expect(get_talent_supporters).to eq response
+    it "returns the api client response data" do
+      expect(get_talent_supporters).to eq data
     end
 
     context "when the offset variable is passed" do
