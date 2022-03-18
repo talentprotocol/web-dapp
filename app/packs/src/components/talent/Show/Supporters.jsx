@@ -95,7 +95,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
 
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: {
-      id: sharedState.token.contract_id.toLowerCase(),
+      id: sharedState?.token?.contract_id?.toLowerCase(),
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },

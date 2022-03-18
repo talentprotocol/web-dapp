@@ -270,8 +270,8 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    if (!data?.supporter) {
-      if (!loading && !!data) {
+    if (!data?.supporter || loading) {
+      if (!loading) {
         setLocalLoading(false);
       }
       return;
@@ -296,7 +296,7 @@ const Supporting = ({
     if (localLoading) {
       setLocalLoading(false);
     }
-  }, [data]);
+  }, [data, loading]);
 
   const supportingTalent = () => (
     <>
