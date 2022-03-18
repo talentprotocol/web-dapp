@@ -11,7 +11,6 @@ import "channels";
 import "@fontsource/plus-jakarta-sans";
 
 import ReactOnRails from "react-on-rails";
-import Pagination from "src/components/pagination";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
@@ -43,7 +42,6 @@ require.context("../images", true);
 
 ReactOnRails.register({
   UpcomingTalents,
-  Pagination,
   TalentShow,
   MessageUserList,
   Chat,

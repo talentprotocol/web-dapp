@@ -16,6 +16,7 @@ import {
   useQuery,
   GET_SUPPORTER_PORTFOLIO,
   client,
+  PAGE_SIZE,
 } from "src/utils/thegraph";
 import { OnChain } from "src/onchain";
 import { useWindowDimensionsHook } from "src/utils/window";
@@ -121,9 +122,6 @@ const NewPortfolio = ({
 }) => {
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState(address || "");
-  const { loading, error, data, refetch } = useQuery(GET_SUPPORTER_PORTFOLIO, {
-    variables: { id: localAccount.toLowerCase() },
-  });
 
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
@@ -131,6 +129,17 @@ const NewPortfolio = ({
   const [activeContract, setActiveContract] = useState(null);
   const [loadingRewards, setLoadingRewards] = useState(false);
   const [wrongChain, setWrongChain] = useState(false);
+  const [page, setPage] = useState(0);
+  const [supportedTalents, setSupportedTalents] = useState([]);
+  const [localLoading, setLocalLoading] = useState(true);
+
+  const { loading, data, refetch, error } = useQuery(GET_SUPPORTER_PORTFOLIO, {
+    variables: {
+      id: localAccount.toLowerCase(),
+      skip: page * PAGE_SIZE,
+      first: PAGE_SIZE,
+    },
+  });
 
   // --- Interface variables ---
   const { height, width } = useWindowDimensionsHook();
@@ -172,22 +181,46 @@ const NewPortfolio = ({
 
   // --- On chain functions ---
 
-  const supportedTalents = useMemo(() => {
-    if (!data || data.supporter == null) {
-      return [];
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+  };
+
+  useEffect(() => {
+    if (loading) {
+      return;
     }
 
-    return data.supporter.talents.map(({ amount, talAmount, talent }) => ({
-      id: talent.owner,
-      symbol: talent.symbol,
-      name: talent.name,
-      amount: ethers.utils.formatUnits(amount),
-      talAmount: ethers.utils.formatUnits(talAmount),
-      totalSupply: ethers.utils.formatUnits(talent.totalSupply),
-      nrOfSupporters: talent.supporterCounter,
-      contract_id: talent.id,
-    }));
-  }, [data]);
+    if (!data || data.supporter == null) {
+      if (!loading) {
+        setLocalLoading(false);
+      }
+      return;
+    }
+
+    if (localLoading) {
+      setLocalLoading(false);
+    }
+
+    const newTalent = data.supporter.talents.map(
+      ({ amount, talAmount, talent }) => ({
+        id: talent.owner,
+        symbol: talent.symbol,
+        name: talent.name,
+        amount: ethers.utils.formatUnits(amount),
+        talAmount: ethers.utils.formatUnits(talAmount),
+        totalSupply: ethers.utils.formatUnits(talent.totalSupply),
+        nrOfSupporters: talent.supporterCounter,
+        contract_id: talent.id,
+      })
+    );
+
+    if (data.supporter.talents.length == PAGE_SIZE) {
+      loadMore();
+    }
+
+    setSupportedTalents((prev) => [...prev, ...newTalent]);
+  }, [data, loading]);
 
   const rewardsClaimed = () => {
     if (!data || data.supporter == null) {
@@ -303,7 +336,7 @@ const NewPortfolio = ({
   const overallCUSD = cUSDBalance + talentTokensInCUSD;
   const overallTAL = cUSDBalanceInTAL + talentTokensInTAL;
 
-  if (loading || chainAPI === null) {
+  if (localLoading || chainAPI === null) {
     return <LoadingPortfolio />;
   }
 
@@ -479,6 +512,7 @@ const NewPortfolio = ({
           talents={supportedTalents}
           returnValues={returnValues}
           onClaim={onClaim}
+          loading={loading}
         />
       )}
       {activeTab == "Supporters" && (

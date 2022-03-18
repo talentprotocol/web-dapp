@@ -7,6 +7,11 @@ class DestroyUser
 
   def call
     user = User.find(@user_id)
+
+    if user.talent? && user.talent.token.contract_id.present?
+      return false
+    end
+
     ActiveRecord::Base.transaction do
       if user.invites.count > 0
         user.invites.update_all(user_id: 1, max_uses: 0)

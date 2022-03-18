@@ -17,6 +17,15 @@ const client = (env) => {
   });
 };
 
+// the limit of chars on a query string is 2048
+// since each wallet id is 42 chars long
+// that means we can only request 48 wallet ids
+// we we include the param name ex:
+// ?tokens[]= that is 10 extra chars
+// ?supporters[]= that is 14 extra chars
+// 2048 / (42 + 14) = ~36
+export const PAGE_SIZE = 30;
+
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!]) {
     talentTokens(first: 500, where: { id_in: $ids }) {
@@ -31,12 +40,17 @@ const GET_TALENT_PORTFOLIO = gql`
 `;
 
 const GET_SUPPORTER_PORTFOLIO = gql`
-  query GetSupporterPortfolio($id: String!) {
+  query GetSupporterPortfolio($id: String!, $skip: Int!, $first: Int!) {
     supporter(id: $id) {
       id
       totalAmount
       rewardsClaimed
-      talents(first: 300) {
+      talents(
+        skip: $skip
+        first: $first
+        orderBy: amount
+        orderDirection: desc
+      ) {
         id
         amount
         talAmount
@@ -67,7 +81,7 @@ const GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE = gql`
 `;
 
 const GET_TALENT_PORTFOLIO_FOR_ID = gql`
-  query GetTalentPortfolio($id: String!) {
+  query GetTalentPortfolio($id: String!, $skip: Int!, $first: Int!) {
     talentToken(id: $id) {
       id
       totalValueLocked
@@ -76,7 +90,12 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
       marketCap
       rewardsReady
       rewardsClaimed
-      supporters(first: 300) {
+      supporters(
+        skip: $skip
+        first: $first
+        orderBy: amount
+        orderDirection: desc
+      ) {
         id
         amount
         talAmount

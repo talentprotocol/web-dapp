@@ -4,7 +4,11 @@ import { ethers } from "ethers";
 import currency from "currency.js";
 
 import { parseAndCommify } from "src/onchain/utils";
-import { useQuery, GET_TALENT_PORTFOLIO_FOR_ID } from "src/utils/thegraph";
+import {
+  useQuery,
+  GET_TALENT_PORTFOLIO_FOR_ID,
+  PAGE_SIZE,
+} from "src/utils/thegraph";
 import { get } from "src/utils/requests";
 import { shortenAddress } from "src/utils/viewHelpers";
 
@@ -21,6 +25,17 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Link from "src/components/design_system/link";
 import { Spinner, OrderBy, ArrowLeft } from "src/components/icons";
+
+const arrayToObject = (inputArray, key) => {
+  const obj = {};
+
+  inputArray.forEach((element) => (obj[element[key]] = element));
+
+  return obj;
+};
+
+const concatenateSupporterAddresses = (supporters) =>
+  `?supporters[]=${supporters.map((s) => s.id).join("&supporters[]=")}`;
 
 const MobileSupporterAction = ({
   show,
@@ -272,16 +287,23 @@ const Supporters = ({
   currentUserId,
   messagingDisabled,
 }) => {
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
-    variables: { id: tokenAddress?.toLowerCase() },
-  });
-
   const [supporterInfo, setSupporterInfo] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const [sortDirection, setSortDirection] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
   const [returnValues, setReturnValues] = useState({});
   const [activeSupporter, setActiveSupporter] = useState(null);
+  const [page, setPage] = useState(0);
+  const [supporters, setSupporters] = useState([]);
+  const [localLoading, setLocalLoading] = useState(true);
+
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
+    variables: {
+      id: tokenAddress?.toLowerCase(),
+      skip: page * PAGE_SIZE,
+      first: PAGE_SIZE,
+    },
+  });
 
   const toggleDirection = () => {
     if (sortDirection == "asc") {
@@ -314,31 +336,62 @@ const Supporters = ({
     return "0";
   };
 
-  const supporters = useMemo(() => {
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+  };
+
+  useEffect(() => {
     if (!data || data.talentToken == null) {
       return [];
     }
 
-    return data.talentToken.supporters.map(({ amount, supporter }) => ({
-      id: supporter.id,
-      amount: ethers.utils.formatUnits(amount),
-    }));
+    if (localLoading) {
+      setLocalLoading(false);
+    }
+
+    const newSupporters = data.talentToken.supporters.map(
+      ({ amount, supporter }) => ({
+        id: supporter.id,
+        amount: ethers.utils.formatUnits(amount),
+      })
+    );
+
+    if (data.talentToken.supporters.length == PAGE_SIZE) {
+      loadMore();
+    }
+
+    setSupporters((prev) => [...prev, ...newSupporters]);
   }, [data]);
 
-  useEffect(() => {
-    supporters.forEach((supporter) => {
-      get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
+  const populateNewSupporters = (newSupporters) => {
+    if (newSupporters.length === 0) {
+      return;
+    }
+
+    get(
+      `/api/v1/supporters/${concatenateSupporterAddresses(newSupporters)}`
+    ).then((response) => {
+      if (response.supporters.length > 0) {
+        const supportersTransformed = arrayToObject(
+          response.supporters,
+          "wallet_id"
+        );
+
         setSupporterInfo((prev) => ({
           ...prev,
-          [supporter.id]: {
-            profilePictureUrl: response.profilePictureUrl,
-            messagingDisabled: response.messagingDisabled,
-            username: response.username,
-            id: response.id,
-          },
+          ...supportersTransformed,
         }));
-      });
+      }
     });
+  };
+
+  useEffect(() => {
+    const supportersWithNoInfo = supporters.filter(
+      (item) => !supporterInfo[item.id]
+    );
+
+    populateNewSupporters(supportersWithNoInfo);
   }, [supporters]);
 
   const updateAll = async () => {
@@ -456,7 +509,7 @@ const Supporters = ({
     }
   };
 
-  if (loading) {
+  if (localLoading) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <Spinner />
@@ -464,7 +517,7 @@ const Supporters = ({
     );
   }
 
-  if (!loading && sortedSupporters().length == 0) {
+  if (!localLoading && sortedSupporters().length == 0) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <H5 mode={mode} text="You don't have any Supporter" bold />
@@ -698,6 +751,13 @@ const Supporters = ({
               </Table.Td>
             </Table.Tr>
           ))}
+          {loading && (
+            <Table.Tr>
+              <Table.Td>
+                <P2>Checking for more supporters...</P2>
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table.Body>
       </Table>
     </>

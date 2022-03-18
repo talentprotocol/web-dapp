@@ -8,6 +8,17 @@ Rails.application.routes.draw do
   end
   # end Admin
 
+  # Public API
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :supporters, only: [:index]
+      resources :talent, only: [:show]
+      get "/public_talent" => "talent#public_index"
+      resources :users, only: [:show]
+    end
+  end
+  # end Public API
+
   # Business - require log-in
   constraints Clearance::Constraints::SignedIn.new do
     root to: "discovery#index", as: :user_root
@@ -30,6 +41,9 @@ Rails.application.routes.draw do
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
+
+    # Edit profile
+    get "/u/:username/edit_profile", to: "users#edit_profile"
 
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
@@ -79,18 +93,9 @@ Rails.application.routes.draw do
 
   resources :wait_list, only: [:create, :index]
 
-  namespace :api, defaults: {format: :json} do
-    namespace :v1 do
-      resources :talent, only: [:show]
-      resources :users, only: [:show]
-    end
-  end
-
   get "/u/:username" => "users#show", :as => "user"
   # redirect /talent to /u so we have the old route still working
   get "/talent/:username", to: redirect("/u/%{username}")
-
-  get "/u/:username/edit_profile", to: "users#edit_profile"
 
   root to: "sessions#new", as: :root
 
