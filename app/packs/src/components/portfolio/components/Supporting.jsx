@@ -125,7 +125,7 @@ const Supporting = ({
         response.forEach((element) => {
           setTalentProfilePictures((prev) => ({
             ...prev,
-            [element.token.contract_id]: element.profilePictureUrl,
+            [element.token.contract_id]: element.profile_picture_url,
           }));
         });
       }
