@@ -65,7 +65,7 @@ const Supporting = ({
   };
 
   const getMarketCap = (contractId) => {
-    if (localLoading || !data) {
+    if (localLoading || localTalent.length == 0) {
       return "0";
     }
 
@@ -77,13 +77,14 @@ const Supporting = ({
       const totalSupply = ethers.utils.formatUnits(
         chosenTalent.talent.totalSupply
       );
+
       return parseAndCommify(totalSupply * 0.1);
     }
     return "-1";
   };
 
   const getProgress = (contractId) => {
-    if (localLoading || !data) {
+    if (localLoading || localTalent.length == 0) {
       return 0;
     }
 
