@@ -20,7 +20,7 @@ import Link from "src/components/design_system/link";
 import { OrderBy } from "src/components/icons";
 
 const concatenateSupportingAddresses = (supporting) =>
-  `?tokens[]=${supporting.map((s) => s.id).join("&tokens[]=")}`;
+  `?tokens[]=${supporting.map((s) => s.contract_id).join("&tokens[]=")}`;
 
 const MobileSupportingDropdown = ({
   show,
@@ -125,7 +125,7 @@ const Supporting = ({
         response.forEach((element) => {
           setTalentProfilePictures((prev) => ({
             ...prev,
-            [element.token.contract_id]: element.profilePictureUrl,
+            [element.token.contract_id]: element.profile_picture_url,
           }));
         });
       }
