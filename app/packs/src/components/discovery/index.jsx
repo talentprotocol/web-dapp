@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import { post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "src/utils/window";
@@ -24,6 +24,13 @@ import cx from "classnames";
 const Discovery = ({ discoveryRows, marketingArticles }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
+
+  const talentIdsPerRow = discoveryRows.reduce((acc, curr) => {
+    if (curr.talents.length > 0) {
+      return { ...acc, [curr.title]: curr.talents.map((t) => t.id) };
+    }
+    return { ...acc };
+  }, {});
 
   const addTokenDetails = useCallback((talents, talentsFromChain) => {
     const newArray = talents.map((talent) => {
@@ -103,6 +110,43 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const orderedArray = Object.keys(talentIdsPerRow).map((k, index) => {
+      let ids = talentIdsPerRow[k];
+      if (index !== 0) {
+        for (let i = index - 1; i > -1; i--) {
+          const prevIndex = Object.keys(talentIdsPerRow)[i];
+          const prevIds = talentIdsPerRow[prevIndex];
+
+          ids.slice(0, 4).map((id, idIndex) => {
+            if (prevIds.slice(0, 4).includes(id)) {
+              ids.push(ids.splice(idIndex, 1)[0]);
+            }
+          });
+        }
+      }
+      return { [k]: ids };
+    });
+    let orderedObject = {};
+    orderedArray.forEach(
+      (_cena, index) =>
+        (orderedObject[Object.keys(talentIdsPerRow)[index]] =
+          talentIdsPerRow[Object.keys(talentIdsPerRow)[index]])
+    );
+    const newRows = localDiscoveryRows.map((row) => {
+      return {
+        ...row,
+        talents: row.talents.sort(
+          (x, y) =>
+            orderedObject[row.title].indexOf(x.id) -
+            orderedObject[row.title].indexOf(y.id)
+        ),
+      };
+    });
+
+    setLocalDiscoveryRows([...newRows]);
+  }, []);
 
   return (
     <div className="d-flex flex-column">
