@@ -9,6 +9,7 @@ import {
   useQuery,
   GET_TALENT_PORTFOLIO_FOR_ID,
   client,
+  PAGE_SIZE,
 } from "src/utils/thegraph";
 import { shortenAddress } from "src/utils/viewHelpers";
 
@@ -20,6 +21,17 @@ import Caption from "src/components/design_system/typography/caption";
 import Button from "src/components/design_system/button";
 
 import cx from "classnames";
+
+const arrayToObject = (inputArray, key) => {
+  const obj = {};
+
+  inputArray.forEach((element) => (obj[element[key]] = element));
+
+  return obj;
+};
+
+const concatenateSupporterAddresses = (supporters) =>
+  `?supporters[]=${supporters.map((s) => s.id).join("&supporters[]=")}`;
 
 const MobileSupportersDropdown = ({
   show,
@@ -73,13 +85,21 @@ const MobileSupportersDropdown = ({
 };
 
 const Supporters = ({ mobile, mode, sharedState }) => {
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
-    variables: { id: sharedState.token.contract_id.toLowerCase() },
-  });
   const [supporterInfo, setSupporterInfo] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const [sortDirection, setSortDirection] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [localLoading, setLocalLoading] = useState(true);
+  const [supporters, setSupporters] = useState([]);
+  const [page, setPage] = useState(0);
+
+  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
+    variables: {
+      id: sharedState?.token?.contract_id?.toLowerCase(),
+      skip: page * PAGE_SIZE,
+      first: PAGE_SIZE,
+    },
+  });
 
   const toggleDirection = () => {
     if (sortDirection == "asc") {
@@ -99,30 +119,62 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     setShowDropdown(false);
   };
 
-  const supporters = useMemo(() => {
+  const populateNewSupporters = (newSupporters) => {
+    if (newSupporters.length === 0) {
+      return;
+    }
+
+    get(
+      `/api/v1/supporters/${concatenateSupporterAddresses(newSupporters)}`
+    ).then((response) => {
+      if (response.supporters.length > 0) {
+        const supportersTransformed = arrayToObject(
+          response.supporters,
+          "wallet_id"
+        );
+
+        setSupporterInfo((prev) => ({
+          ...prev,
+          ...supportersTransformed,
+        }));
+      }
+    });
+  };
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+  };
+
+  useEffect(() => {
     if (!data || data.talentToken == null) {
       return [];
     }
 
-    return data.talentToken.supporters.map(({ amount, supporter }) => ({
-      id: supporter.id,
-      amount: ethers.utils.formatUnits(amount),
-    }));
+    if (localLoading) {
+      setLocalLoading(false);
+    }
+
+    const newSupporters = data.talentToken.supporters.map(
+      ({ amount, supporter }) => ({
+        id: supporter.id,
+        amount: ethers.utils.formatUnits(amount),
+      })
+    );
+
+    if (data.talentToken.supporters.length == PAGE_SIZE) {
+      loadMore();
+    }
+
+    setSupporters((prev) => [...prev, ...newSupporters]);
   }, [data]);
 
   useEffect(() => {
-    supporters.forEach((supporter) => {
-      get(`/api/v1/users/${supporter.id.toLowerCase()}`).then((response) => {
-        setSupporterInfo((prev) => ({
-          ...prev,
-          [supporter.id]: {
-            profilePictureUrl: response.profilePictureUrl,
-            username: response.username,
-            id: response.id,
-          },
-        }));
-      });
-    });
+    const supportersWithNoInfo = supporters.filter(
+      (item) => !supporterInfo[item.id]
+    );
+
+    populateNewSupporters(supportersWithNoInfo);
   }, [supporters]);
 
   const compareName = (supporter1, supporter2) => {
@@ -145,8 +197,8 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     }
   };
 
-  const sortedSupporters = () => {
-    let desiredSupporters = supporters;
+  const sortedSupporters = useMemo(() => {
+    let desiredSupporters = [...supporters];
 
     let comparisonFunction;
 
@@ -165,7 +217,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     }
 
     return desiredSupporters;
-  };
+  }, [supporters, sortDirection, selectedSort]);
 
   const sortIcon = (option) => {
     if (option == selectedSort) {
@@ -175,7 +227,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     }
   };
 
-  if (loading) {
+  if (localLoading) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <Spinner />
@@ -183,7 +235,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     );
   }
 
-  if (!loading && sortedSupporters().length == 0) {
+  if (!localLoading && sortedSupporters.length == 0) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <H5 text="This user has no supporters yet" bold />
@@ -246,7 +298,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
         <div className={`divider ${mode} my-2`}></div>
         <Table mode={mode} className="horizontal-scroll mb-4">
           <Table.Body>
-            {sortedSupporters().map((supporter) => (
+            {sortedSupporters.map((supporter) => (
               <Table.Tr
                 key={`supporter-${supporter.id}`}
                 className={cx(
@@ -306,7 +358,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
           </Table.Th>
         </Table.Head>
         <Table.Body>
-          {sortedSupporters().map((supporter) => (
+          {sortedSupporters.map((supporter) => (
             <Table.Tr
               key={`supporter-${supporter.id}`}
               className={cx(
@@ -340,6 +392,13 @@ const Supporters = ({ mobile, mode, sharedState }) => {
               </Table.Td>
             </Table.Tr>
           ))}
+          {loading && (
+            <Table.Tr>
+              <Table.Td>
+                <P2>Checking for more supporters...</P2>
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table.Body>
       </Table>
     </>

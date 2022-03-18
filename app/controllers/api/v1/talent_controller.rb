@@ -6,6 +6,18 @@ class API::V1::TalentController < ApplicationController
     render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
   end
 
+  # public /
+  def public_index
+    talents =
+      if token_id_params.present?
+        Talent.joins(:token).includes(:user).where(tokens: {contract_id: token_id_params})
+      else
+        []
+      end
+
+    render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
+  end
+
   # Public endpoint
   def show
     talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
@@ -42,6 +54,10 @@ class API::V1::TalentController < ApplicationController
       else
         Talent.find_by!(public_key: params[:talent_id])
       end
+  end
+
+  def token_id_params
+    params.require(:tokens)
   end
 
   def filter_params

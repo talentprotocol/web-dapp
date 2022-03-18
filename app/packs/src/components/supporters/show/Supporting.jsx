@@ -6,6 +6,7 @@ import {
   useQuery,
   GET_SUPPORTER_PORTFOLIO,
   client,
+  PAGE_SIZE,
 } from "src/utils/thegraph";
 import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
@@ -15,6 +16,9 @@ import { Spinner } from "src/components/icons";
 import TalentTableListMode from "src/components/talent/TalentTableListMode";
 import TalentTableCardMode from "src/components/talent/TalentTableCardMode";
 import SupportingOptions from "./SupportingOptions";
+
+const concatenateTokenAddresses = (tokens) =>
+  `?tokens[]=${tokens.map((t) => t.talent.id).join("&tokens[]=")}`;
 
 const Supporting = ({
   wallet,
@@ -26,24 +30,29 @@ const Supporting = ({
   const urlParams = new URLSearchParams(document.location.search);
   const theme = useContext(ThemeContext);
 
-  const [localTalents, setLocalTalents] = useState([]);
   const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(listMode);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [nameSearch, setNameSearch] = useState(urlParams.get("name") || "");
   const [localLoading, setLocalLoading] = useState(true);
+  const [localTalent, setlocalTalent] = useState([]);
+  const [page, setPage] = useState(0);
 
   const { loading, data } = useQuery(GET_SUPPORTER_PORTFOLIO, {
-    variables: { id: wallet?.toLowerCase() },
+    variables: {
+      id: wallet?.toLowerCase(),
+      skip: page * PAGE_SIZE,
+      first: PAGE_SIZE,
+    },
   });
 
   const getSupporterCount = (contractId) => {
-    if (loading || !data) {
+    if (localLoading || localTalent.length == 0) {
       return "0";
     }
 
-    const chosenTalent = data.supporter.talents.find(
+    const chosenTalent = localTalent.find(
       (element) => element.talent.id == contractId?.toLowerCase()
     );
 
@@ -54,11 +63,11 @@ const Supporting = ({
   };
 
   const getMarketCap = (contractId) => {
-    if (loading || !data) {
+    if (localLoading || !data) {
       return "0";
     }
 
-    const chosenTalent = data.supporter.talents.find(
+    const chosenTalent = localTalent.find(
       (element) => element.talent.id == contractId?.toLowerCase()
     );
 
@@ -72,12 +81,12 @@ const Supporting = ({
   };
 
   const getProgress = (contractId) => {
-    if (loading || !data) {
+    if (localLoading || !data) {
       return 0;
     }
 
-    const chosenTalent = data.supporter.talents.find(
-      (element) => element.talent.id == contractId?.toLowerCase()
+    const chosenTalent = localTalent.find(
+      (element) => element.id == contractId?.toLowerCase()
     );
 
     if (chosenTalent) {
@@ -100,7 +109,7 @@ const Supporting = ({
   };
 
   const updateFollow = async (talent) => {
-    const newLocalTalents = localTalents.map((currTalent) => {
+    const newLocalTalents = localTalent.map((currTalent) => {
       if (currTalent.id === talent.id) {
         return { ...currTalent, isFollowing: !talent.isFollowing };
       } else {
@@ -114,7 +123,7 @@ const Supporting = ({
       );
 
       if (response.success) {
-        setLocalTalents([...newLocalTalents]);
+        setlocalTalent([...newLocalTalents]);
       }
     } else {
       const response = await post(`/api/v1/follows`, {
@@ -122,7 +131,7 @@ const Supporting = ({
       });
 
       if (response.success) {
-        setLocalTalents([...newLocalTalents]);
+        setlocalTalent([...newLocalTalents]);
       }
     }
   };
@@ -175,9 +184,9 @@ const Supporting = ({
   };
 
   const filteredTalents = useMemo(() => {
-    let desiredTalent = [...localTalents];
+    let desiredTalent = [...localTalent];
     if (watchlistOnly) {
-      desiredTalent = localTalents.filter((talent) => talent.isFollowing);
+      desiredTalent = localTalent.filter((talent) => talent.isFollowing);
     }
     if (nameSearch) {
       desiredTalent = desiredTalent.filter(
@@ -214,48 +223,84 @@ const Supporting = ({
       desiredTalent.sort(comparisonFunction);
     }
 
-    return desiredTalent;
-  }, [localTalents, watchlistOnly, selectedSort, sortDirection, nameSearch]);
+    return desiredTalent.filter((t) => t.hasInfo);
+  }, [localTalent, watchlistOnly, selectedSort, sortDirection, nameSearch]);
 
-  const populateTalents = async () => {
-    const newLocalTalents = [...localTalents];
-
-    for (const talent of data.supporter.talents) {
-      const response = await get(
-        `/api/v1/talent/${talent.talent.id.toLowerCase()}`
-      );
-      if (response) {
-        const index = localTalents.findIndex(
-          (localTalent) => localTalent.id === response.id
-        );
-        if (index > -1) {
-          newLocalTalents[index] = camelCaseObject(response);
-        } else {
-          newLocalTalents.push(camelCaseObject(response));
-        }
-      }
+  const populateTalent = async (talentsWithNoInfo) => {
+    if (talentsWithNoInfo.length == 0) {
+      return;
     }
-    setLocalTalents(newLocalTalents);
-    setLocalLoading(false);
+
+    const newLocalTalents = [...localTalent];
+
+    const response = await get(
+      `/api/v1/public_talent${concatenateTokenAddresses(talentsWithNoInfo)}`
+    );
+
+    if (response.length > 0) {
+      response.forEach((element) => {
+        const index = localTalent.findIndex(
+          (localTalent) => localTalent.talent.id === element.token.contract_id
+        );
+
+        if (index > -1) {
+          newLocalTalents[index] = {
+            ...newLocalTalents[index],
+            ...camelCaseObject(element),
+            hasInfo: true,
+          };
+        } else {
+          newLocalTalents.push({ ...camelCaseObject(element), hasInfo: true });
+        }
+      });
+    }
+
+    setlocalTalent(newLocalTalents.map((t) => ({ ...t, loaded: true })));
   };
 
   useEffect(() => {
-    if (!loading && (data?.supporter == undefined || data?.supporter == null)) {
+    const talentsWithNoInfo = localTalent.filter((item) => !item.loaded);
+
+    populateTalent(talentsWithNoInfo);
+  }, [localTalent]);
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+  };
+
+  useEffect(() => {
+    if (!data?.supporter || loading) {
+      if (!loading) {
+        setLocalLoading(false);
+      }
+      return;
+    }
+
+    if (setSupportingCount) {
+      setSupportingCount(localTalent.length);
+    }
+
+    const newTalent = data.supporter.talents.map((t) => ({
+      ...t,
+      user: {},
+      token: {},
+    }));
+
+    if (data.supporter.talents.length == PAGE_SIZE) {
+      loadMore();
+    }
+
+    setlocalTalent((prev) => [...prev, ...newTalent]);
+
+    if (localLoading) {
       setLocalLoading(false);
     }
-
-    if (data?.supporter !== undefined && data?.supporter !== null) {
-      if (setSupportingCount) {
-        setSupportingCount(data.supporter.talents.length);
-      }
-
-      populateTalents();
-    }
-  }, [loading, data?.supporter]);
+  }, [data, loading]);
 
   const supportingTalent = () => (
     <>
-      {localTalents.length > 0 && (
+      {localTalent.length > 0 && (
         <>
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
             <H5 bold text="Supporting" />
@@ -304,7 +349,7 @@ const Supporting = ({
     </div>
   );
 
-  if (localLoading || loading) {
+  if (localLoading) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
         <Spinner />
@@ -313,11 +358,7 @@ const Supporting = ({
   }
 
   return (
-    <>
-      {data?.supporter?.talents?.length > 0
-        ? supportingTalent()
-        : notSupportingTalent()}
-    </>
+    <>{localTalent.length > 0 ? supportingTalent() : notSupportingTalent()}</>
   );
 };
 

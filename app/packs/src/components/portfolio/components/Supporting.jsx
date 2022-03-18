@@ -19,6 +19,9 @@ import Table from "src/components/design_system/table";
 import Link from "src/components/design_system/link";
 import { OrderBy } from "src/components/icons";
 
+const concatenateSupportingAddresses = (supporting) =>
+  `?tokens[]=${supporting.map((s) => s.id).join("&tokens[]=")}`;
+
 const MobileSupportingDropdown = ({
   show,
   hide,
@@ -91,6 +94,7 @@ const Supporting = ({
   onClaim,
   talentTokensInCUSD,
   talentTokensInTAL,
+  loading,
 }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
@@ -116,16 +120,16 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    talents.forEach((talent) => {
-      get(`api/v1/talent/${talent.contract_id.toLowerCase()}`).then(
-        (response) => {
+    get(`api/v1/public_talent/${concatenateSupportingAddresses(talents)}`).then(
+      (response) => {
+        response.forEach((element) => {
           setTalentProfilePictures((prev) => ({
             ...prev,
-            [talent.contract_id]: response.profilePictureUrl,
+            [element.token.contract_id]: element.profilePictureUrl,
           }));
-        }
-      );
-    });
+        });
+      }
+    );
   }, [talents]);
 
   const compareName = (talent1, talent2) => {
@@ -437,6 +441,13 @@ const Supporting = ({
               </Table.Td>
             </Table.Tr>
           ))}
+          {loading && (
+            <Table.Tr>
+              <Table.Td>
+                <P2>Checking for more talent...</P2>
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table.Body>
       </Table>
     </>
