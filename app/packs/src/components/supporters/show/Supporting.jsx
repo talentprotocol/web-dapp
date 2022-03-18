@@ -277,10 +277,6 @@ const Supporting = ({
       return;
     }
 
-    if (setSupportingCount) {
-      setSupportingCount(localTalent.length);
-    }
-
     const newTalent = data.supporter.talents.map((t) => ({
       ...t,
       user: {},
@@ -297,6 +293,12 @@ const Supporting = ({
       setLocalLoading(false);
     }
   }, [data, loading]);
+
+  useEffect(() => {
+    if (setSupportingCount && localTalent.length > 0) {
+      setSupportingCount(localTalent.length);
+    }
+  }, [setSupportingCount, localTalent.length]);
 
   const supportingTalent = () => (
     <>
