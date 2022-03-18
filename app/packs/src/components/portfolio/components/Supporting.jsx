@@ -120,7 +120,7 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    get(`api/v1/talent/${concatenateSupportingAddresses(talents)}`).then(
+    get(`api/v1/public_talent/${concatenateSupportingAddresses(talents)}`).then(
       (response) => {
         response.forEach((element) => {
           setTalentProfilePictures((prev) => ({

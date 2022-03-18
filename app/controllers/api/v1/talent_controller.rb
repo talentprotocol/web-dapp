@@ -1,11 +1,18 @@
 class API::V1::TalentController < ApplicationController
   def index
+    service = Talents::Search.new(filter_params: filter_params.to_h)
+    talents = service.call
+
+    render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
+  end
+
+  # public /
+  def public_index
     talents =
       if token_id_params.present?
         Talent.joins(:token).includes(:user).where(tokens: {contract_id: token_id_params})
       else
-        service = Talents::Search.new(filter_params: filter_params.to_h)
-        service.call
+        []
       end
 
     render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok

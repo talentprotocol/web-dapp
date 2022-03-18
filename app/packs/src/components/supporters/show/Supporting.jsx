@@ -234,7 +234,7 @@ const Supporting = ({
     const newLocalTalents = [...localTalent];
 
     const response = await get(
-      `/api/v1/talent${concatenateTokenAddresses(talentsWithNoInfo)}`
+      `/api/v1/public_talent${concatenateTokenAddresses(talentsWithNoInfo)}`
     );
 
     if (response.length > 0) {
@@ -271,6 +271,9 @@ const Supporting = ({
 
   useEffect(() => {
     if (!data?.supporter) {
+      if (!loading && !!data) {
+        setLocalLoading(false);
+      }
       return;
     }
 
