@@ -17,7 +17,7 @@ const client = (env) => {
   });
 };
 
-export const PAGE_SIZE = 1;
+export const PAGE_SIZE = 50;
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!]) {
@@ -33,12 +33,17 @@ const GET_TALENT_PORTFOLIO = gql`
 `;
 
 const GET_SUPPORTER_PORTFOLIO = gql`
-  query GetSupporterPortfolio($id: String!) {
+  query GetSupporterPortfolio($id: String!, $skip: Int!, $first: Int!) {
     supporter(id: $id) {
       id
       totalAmount
       rewardsClaimed
-      talents(first: 300) {
+      talents(
+        skip: $skip
+        first: $first
+        orderBy: amount
+        orderDirection: desc
+      ) {
         id
         amount
         talAmount
