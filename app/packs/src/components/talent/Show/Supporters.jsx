@@ -198,7 +198,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   };
 
   const sortedSupporters = useMemo(() => {
-    let desiredSupporters = supporters;
+    let desiredSupporters = [...supporters];
 
     let comparisonFunction;
 
