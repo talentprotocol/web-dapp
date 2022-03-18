@@ -187,8 +187,15 @@ const NewPortfolio = ({
   };
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+
     if (!data || data.supporter == null) {
-      return [];
+      if (!loading) {
+        setLocalLoading(false);
+      }
+      return;
     }
 
     if (localLoading) {
@@ -213,7 +220,7 @@ const NewPortfolio = ({
     }
 
     setSupportedTalents((prev) => [...prev, ...newTalent]);
-  }, [data]);
+  }, [data, loading]);
 
   const rewardsClaimed = () => {
     if (!data || data.supporter == null) {
