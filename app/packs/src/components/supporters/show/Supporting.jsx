@@ -38,6 +38,7 @@ const Supporting = ({
   const [localLoading, setLocalLoading] = useState(true);
   const [localTalent, setlocalTalent] = useState([]);
   const [page, setPage] = useState(0);
+  const [listLoaded, setListLoaded] = useState(false);
 
   const { loading, data } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: {
@@ -45,6 +46,7 @@ const Supporting = ({
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
+    skip: listLoaded,
   });
 
   const getSupporterCount = (contractId) => {
@@ -63,7 +65,7 @@ const Supporting = ({
   };
 
   const getMarketCap = (contractId) => {
-    if (localLoading || !data) {
+    if (localLoading || localTalent.length == 0) {
       return "0";
     }
 
@@ -75,13 +77,14 @@ const Supporting = ({
       const totalSupply = ethers.utils.formatUnits(
         chosenTalent.talent.totalSupply
       );
+
       return parseAndCommify(totalSupply * 0.1);
     }
     return "-1";
   };
 
   const getProgress = (contractId) => {
-    if (localLoading || !data) {
+    if (localLoading || localTalent.length == 0) {
       return 0;
     }
 
@@ -189,16 +192,19 @@ const Supporting = ({
       desiredTalent = localTalent.filter((talent) => talent.isFollowing);
     }
     if (nameSearch) {
-      desiredTalent = desiredTalent.filter(
-        (talent) =>
-          talent.user.displayName
-            .toLowerCase()
-            .includes(nameSearch.toLowerCase()) ||
-          talent.user.username
-            .toLowerCase()
-            .includes(nameSearch.toLowerCase()) ||
-          talent.token.ticker.toLowerCase().includes(nameSearch.toLowerCase())
-      );
+      desiredTalent = desiredTalent.filter((talent) => {
+        if (talent.loaded) {
+          return (
+            talent.user.displayName
+              .toLowerCase()
+              .includes(nameSearch.toLowerCase()) ||
+            talent.user.username
+              .toLowerCase()
+              .includes(nameSearch.toLowerCase()) ||
+            talent.token.ticker.toLowerCase().includes(nameSearch.toLowerCase())
+          );
+        }
+      });
     }
     let comparisonFunction;
 
@@ -277,10 +283,6 @@ const Supporting = ({
       return;
     }
 
-    if (setSupportingCount) {
-      setSupportingCount(localTalent.length);
-    }
-
     const newTalent = data.supporter.talents.map((t) => ({
       ...t,
       user: {},
@@ -289,6 +291,8 @@ const Supporting = ({
 
     if (data.supporter.talents.length == PAGE_SIZE) {
       loadMore();
+    } else {
+      setListLoaded(true);
     }
 
     setlocalTalent((prev) => [...prev, ...newTalent]);
@@ -297,6 +301,12 @@ const Supporting = ({
       setLocalLoading(false);
     }
   }, [data, loading]);
+
+  useEffect(() => {
+    if (setSupportingCount && localTalent.length > 0) {
+      setSupportingCount(localTalent.length);
+    }
+  }, [setSupportingCount, localTalent.length]);
 
   const supportingTalent = () => (
     <>

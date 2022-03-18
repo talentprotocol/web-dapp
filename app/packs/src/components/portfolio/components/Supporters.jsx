@@ -296,6 +296,7 @@ const Supporters = ({
   const [page, setPage] = useState(0);
   const [supporters, setSupporters] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
+  const [listLoaded, setListLoaded] = useState(false);
 
   const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: {
@@ -303,6 +304,7 @@ const Supporters = ({
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
+    skip: listLoaded,
   });
 
   const toggleDirection = () => {
@@ -342,7 +344,7 @@ const Supporters = ({
   };
 
   useEffect(() => {
-    if (!data || data.talentToken == null) {
+    if (listLoaded || !data || data.talentToken == null) {
       return [];
     }
 
@@ -359,6 +361,8 @@ const Supporters = ({
 
     if (data.talentToken.supporters.length == PAGE_SIZE) {
       loadMore();
+    } else {
+      setListLoaded(true);
     }
 
     setSupporters((prev) => [...prev, ...newSupporters]);
