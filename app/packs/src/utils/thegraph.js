@@ -17,7 +17,14 @@ const client = (env) => {
   });
 };
 
-export const PAGE_SIZE = 50;
+// the limit of chars on a query string is 2048
+// since each wallet id is 42 chars long
+// that means we can only request 48 wallet ids
+// we we include the param name ex:
+// ?tokens[]= that is 10 extra chars
+// ?supporters[]= that is 14 extra chars
+// 2048 / (42 + 14) = ~36
+export const PAGE_SIZE = 30;
 
 const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!]) {

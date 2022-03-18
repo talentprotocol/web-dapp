@@ -223,7 +223,7 @@ const Supporting = ({
       desiredTalent.sort(comparisonFunction);
     }
 
-    return desiredTalent;
+    return desiredTalent.filter((t) => t.hasInfo);
   }, [localTalent, watchlistOnly, selectedSort, sortDirection, nameSearch]);
 
   const populateTalent = async (talentsWithNoInfo) => {
@@ -247,18 +247,19 @@ const Supporting = ({
           newLocalTalents[index] = {
             ...newLocalTalents[index],
             ...camelCaseObject(element),
+            hasInfo: true,
           };
         } else {
-          newLocalTalents.push(camelCaseObject(element));
+          newLocalTalents.push({ ...camelCaseObject(element), hasInfo: true });
         }
       });
     }
 
-    setlocalTalent(newLocalTalents);
+    setlocalTalent(newLocalTalents.map((t) => ({ ...t, loaded: true })));
   };
 
   useEffect(() => {
-    const talentsWithNoInfo = localTalent.filter((item) => !item.user.id);
+    const talentsWithNoInfo = localTalent.filter((item) => !item.loaded);
 
     populateTalent(talentsWithNoInfo);
   }, [localTalent]);
@@ -354,11 +355,7 @@ const Supporting = ({
   }
 
   return (
-    <>
-      {data?.supporter?.talents?.length > 0
-        ? supportingTalent()
-        : notSupportingTalent()}
-    </>
+    <>{localTalent.length > 0 ? supportingTalent() : notSupportingTalent()}</>
   );
 };
 
