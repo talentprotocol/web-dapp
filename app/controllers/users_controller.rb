@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   end
 
   def send_confirmation_email
-    UserMailer.with(user: User.find(params[:user_id])).send_sign_up_email.deliver_later
+    UserMailer.with(user_id: params[:user_id]).send_sign_up_email.deliver_later
 
     render json: {id: params[:user_id]}, status: :ok
   end
