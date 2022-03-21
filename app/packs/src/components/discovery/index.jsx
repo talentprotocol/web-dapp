@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 
 import { post, destroy } from "src/utils/requests";
 import { useWindowDimensionsHook } from "src/utils/window";
@@ -27,12 +27,16 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
   const [loading, setLoading] = useState(true);
 
-  const talentIdsPerRow = discoveryRows.reduce((acc, curr) => {
-    if (curr.talents.length > 0) {
-      return { ...acc, [curr.title]: curr.talents.map((t) => t.id) };
-    }
-    return { ...acc };
-  }, {});
+  const talentIdsPerRow = useMemo(
+    () =>
+      discoveryRows.reduce((acc, curr) => {
+        if (curr.talents.length > 0) {
+          return { ...acc, [curr.title]: curr.talents.map((t) => t.id) };
+        }
+        return { ...acc };
+      }, {}),
+    [discoveryRows]
+  );
 
   const addTokenDetails = useCallback((talents, talentsFromChain) => {
     const newArray = talents.map((talent) => {
