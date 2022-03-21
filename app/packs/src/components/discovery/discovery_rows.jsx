@@ -132,7 +132,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
               </div>
               <div
                 className={cx(
-                  "w-100 d-flex horizontal-scroll hide-scrollbar talents-cards-container justify-start pb-6",
+                  "w-100 d-flex hide-scrollbar talents-cards-container justify-start pb-6",
                   mobile && "pl-4"
                 )}
               >

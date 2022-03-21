@@ -13,6 +13,7 @@ import {
 
 import { COMMUNITY_S01_NFT_AIRDROP } from "src/utils/constants";
 import { H3, P1, Caption } from "src/components/design_system/typography";
+import { Spinner } from "src/components/icons";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
 
@@ -24,6 +25,7 @@ import cx from "classnames";
 const Discovery = ({ discoveryRows, marketingArticles }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
+  const [loading, setLoading] = useState(true);
 
   const talentIdsPerRow = discoveryRows.reduce((acc, curr) => {
     if (curr.talents.length > 0) {
@@ -112,40 +114,39 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
   };
 
   useEffect(() => {
-    const orderedArray = Object.keys(talentIdsPerRow).map((k, index) => {
-      let ids = talentIdsPerRow[k];
-      if (index !== 0) {
-        for (let i = index - 1; i > -1; i--) {
-          const prevIndex = Object.keys(talentIdsPerRow)[i];
-          const prevIds = talentIdsPerRow[prevIndex];
+    let idsInUse = [];
+    let newOrderOfTalents = {};
 
-          ids.slice(0, 4).map((id, idIndex) => {
-            if (prevIds.slice(0, 4).includes(id)) {
-              ids.push(ids.splice(idIndex, 1)[0]);
-            }
-          });
-        }
-      }
-      return { [k]: ids };
+    // the goal is to find in each row 4 talent that aren't already picked
+    Object.entries(talentIdsPerRow).forEach((ids) => {
+      const difference = ids[1].filter((x) => !idsInUse.includes(x));
+      const intersection = ids[1].filter((x) => idsInUse.includes(x));
+      // difference is the array with the values that are different
+      // intersection has the duplicates
+      // so now we just pick the first 4 and move it to the front
+
+      // add the difference before the intersection
+      newOrderOfTalents = {
+        ...newOrderOfTalents,
+        [ids[0]]: [...difference, ...intersection],
+      };
+
+      idsInUse = [...idsInUse, ...newOrderOfTalents[ids[0]].slice(0, 4)];
     });
-    let orderedObject = {};
-    orderedArray.forEach(
-      (_cena, index) =>
-        (orderedObject[Object.keys(talentIdsPerRow)[index]] =
-          talentIdsPerRow[Object.keys(talentIdsPerRow)[index]])
-    );
+
     const newRows = localDiscoveryRows.map((row) => {
       return {
         ...row,
         talents: row.talents.sort(
-          (x, y) =>
-            orderedObject[row.title].indexOf(x.id) -
-            orderedObject[row.title].indexOf(y.id)
+          (talent1, talent2) =>
+            newOrderOfTalents[row.title].indexOf(talent1.id) -
+            newOrderOfTalents[row.title].indexOf(talent2.id)
         ),
       };
     });
 
     setLocalDiscoveryRows([...newRows]);
+    setLoading(false);
   }, []);
 
   return (
@@ -198,10 +199,16 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
           link="/talent?status=Launching+soon"
         />
       </div>
-      <DiscoveryRows
-        discoveryRows={localDiscoveryRows}
-        updateFollow={updateFollow}
-      />
+      {loading ? (
+        <div className="w-100 d-flex flex-row my-2 justify-content-center">
+          <Spinner />
+        </div>
+      ) : (
+        <DiscoveryRows
+          discoveryRows={localDiscoveryRows}
+          updateFollow={updateFollow}
+        />
+      )}
       {marketingArticles.length > 0 && (
         <div className="mt-3 mb-4">
           <DiscoveryMarketingArticles marketingArticles={marketingArticles} />
