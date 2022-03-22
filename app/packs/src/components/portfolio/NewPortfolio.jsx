@@ -158,7 +158,7 @@ const NewPortfolio = ({
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
-    skip: !localAccount,
+    skip: !localAccount || wrongChain,
   });
 
   // --- Interface variables ---
@@ -381,10 +381,6 @@ const NewPortfolio = ({
     return <Error mode={theme.mode()} />;
   }
 
-  if (wrongChain) {
-    return <ChangeNetwork mode={theme.mode()} networkChange={networkChange} />;
-  }
-
   if (!walletConnected) {
     return (
       <ConnectWallet
@@ -393,6 +389,10 @@ const NewPortfolio = ({
         railsContext={railsContext}
       />
     );
+  }
+
+  if (wrongChain) {
+    return <ChangeNetwork mode={theme.mode()} networkChange={networkChange} />;
   }
 
   if (mobile) {

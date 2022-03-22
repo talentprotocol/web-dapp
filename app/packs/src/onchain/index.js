@@ -191,11 +191,16 @@ class OnChain {
   }
 
   async recognizedChain() {
-    const chainId = await this.getChainID();
-    const chainBN = ethers.BigNumber.from(chainId);
+    const web3ModalInstance = await this.web3ModalConnect();
+    if (web3ModalInstance !== undefined) {
+      const chainId = await this.getChainID();
+      const chainBN = ethers.BigNumber.from(chainId);
 
-    if (chainBN.eq(ethers.BigNumber.from(this.getEnvChainID()))) {
-      return true;
+      if (chainBN.eq(ethers.BigNumber.from(this.getEnvChainID()))) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
