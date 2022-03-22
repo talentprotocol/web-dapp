@@ -149,12 +149,12 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   };
 
   useEffect(() => {
-    if (listLoaded || !data || data.talentToken == null) {
-      return [];
-    }
-
-    if (localLoading) {
-      setLocalLoading(false);
+    if (loading || !data?.talentToken) {
+      if (!loading) {
+        setLocalLoading(false);
+        setListLoaded(true);
+      }
+      return;
     }
 
     const newSupporters = data.talentToken.supporters.map(
@@ -164,13 +164,14 @@ const Supporters = ({ mobile, mode, sharedState }) => {
       })
     );
 
+    setSupporters((prev) => [...prev, ...newSupporters]);
+
     if (data.talentToken.supporters.length == PAGE_SIZE) {
       loadMore();
     } else {
       setListLoaded(true);
     }
-
-    setSupporters((prev) => [...prev, ...newSupporters]);
+    setLocalLoading(false);
   }, [data]);
 
   useEffect(() => {

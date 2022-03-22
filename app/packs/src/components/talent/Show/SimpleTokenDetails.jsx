@@ -26,8 +26,10 @@ const SimpleTokenDetails = ({
   mode,
   railsContext,
 }) => {
+  const [listLoaded, setListLoaded] = useState(false);
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID_SIMPLE, {
     variables: { id: token?.contract_id?.toLowerCase() },
+    skip: listLoaded,
   });
 
   const [tokenData, setTokenData] = useState({
@@ -38,9 +40,13 @@ const SimpleTokenDetails = ({
 
   useEffect(() => {
     if (loading || !data || !data.talentToken) {
+      if (!loading) {
+        setListLoaded(true);
+      }
       return;
     }
 
+    setListLoaded(true);
     setTokenData({
       ...tokenData,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply || 0),

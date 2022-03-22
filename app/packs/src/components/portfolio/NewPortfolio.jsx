@@ -150,6 +150,7 @@ const NewPortfolio = ({
   const [page, setPage] = useState(0);
   const [supportedTalents, setSupportedTalents] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
+  const [listLoaded, setListLoaded] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
 
   const { loading, data, refetch, error } = useQuery(GET_SUPPORTER_PORTFOLIO, {
@@ -207,19 +208,16 @@ const NewPortfolio = ({
   };
 
   useEffect(() => {
-    if (loading) {
+    if (!localAccount || wrongChain) {
       return;
     }
 
-    if (!data || data.supporter == null) {
+    if (loading || !data?.supporter) {
       if (!loading) {
         setLocalLoading(false);
+        setListLoaded(true);
       }
       return;
-    }
-
-    if (localLoading) {
-      setLocalLoading(false);
     }
 
     const newTalents = data.supporter.talents.map(
@@ -235,10 +233,6 @@ const NewPortfolio = ({
       })
     );
 
-    if (data.supporter.talents.length == PAGE_SIZE) {
-      loadMore();
-    }
-
     setSupportedTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce((result, { id, ...rest }) => {
@@ -248,6 +242,13 @@ const NewPortfolio = ({
         }, {})
       )
     );
+
+    if (data.supporter.talents.length == PAGE_SIZE) {
+      loadMore();
+    } else {
+      setListLoaded(true);
+    }
+    setLocalLoading(false);
   }, [data, loading]);
 
   const rewardsClaimed = () => {
@@ -410,28 +411,32 @@ const NewPortfolio = ({
           supportedTalents={supportedTalents}
         />
         <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
-        <MobilePortfolio
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          mode={theme.mode()}
-          overallCUSD={overallCUSD}
-          overallTAL={overallTAL}
-          totalRewardsInCUSD={totalRewardsInCUSD}
-          rewardsClaimed={rewardsClaimed}
-          cUSDBalance={cUSDBalance}
-          cUSDBalanceInTAL={cUSDBalanceInTAL}
-          supportedTalents={supportedTalents}
-          talentTokensInTAL={talentTokensInTAL}
-          talentTokensInCUSD={talentTokensInCUSD}
-          returnValues={returnValues}
-          onClaim={onClaim}
-          tokenAddress={tokenAddress}
-          chainAPI={chainAPI}
-          onClickTransak={onClickTransak}
-          ticker={ticker}
-          currentUserId={currentUserId}
-          userNFT={userNFT}
-        />
+        {listLoaded ? (
+          <MobilePortfolio
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            mode={theme.mode()}
+            overallCUSD={overallCUSD}
+            overallTAL={overallTAL}
+            totalRewardsInCUSD={totalRewardsInCUSD}
+            rewardsClaimed={rewardsClaimed}
+            cUSDBalance={cUSDBalance}
+            cUSDBalanceInTAL={cUSDBalanceInTAL}
+            supportedTalents={supportedTalents}
+            talentTokensInTAL={talentTokensInTAL}
+            talentTokensInCUSD={talentTokensInCUSD}
+            returnValues={returnValues}
+            onClaim={onClaim}
+            tokenAddress={tokenAddress}
+            chainAPI={chainAPI}
+            onClickTransak={onClickTransak}
+            ticker={ticker}
+            currentUserId={currentUserId}
+            userNFT={userNFT}
+          />
+        ) : (
+          <LoadingPortfolio />
+        )}
       </>
     );
   }
@@ -453,53 +458,67 @@ const NewPortfolio = ({
       <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview p-4">
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Balance"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(overallCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(overallTAL).format().substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(overallCUSD).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(overallTAL).format().substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Rewards Claimed"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(totalRewardsInCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(parseFloat(rewardsClaimed()))
-                .format()
-                .substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(totalRewardsInCUSD).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(parseFloat(rewardsClaimed()))
+                  .format()
+                  .substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Wallet Balance"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(cUSDBalance).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(cUSDBalanceInTAL).format().substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(cUSDBalance).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(cUSDBalanceInTAL)
+                  .format()
+                  .substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-row align-items-end">
           <div className="d-flex flex-row">
