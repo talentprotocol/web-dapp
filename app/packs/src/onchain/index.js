@@ -76,12 +76,22 @@ class OnChain {
 
   // LOAD WEB3
 
+  async web3ModalConnect() {
+    try {
+      const web3ModalInstance = await this.web3Modal.connect();
+
+      return web3ModalInstance;
+    } catch {
+      return undefined;
+    }
+  }
+
   async connectedAccount() {
     try {
       let web3ModalInstance;
 
       if (this.web3Modal.cachedProvider) {
-        web3ModalInstance = await this.web3Modal.connect();
+        web3ModalInstance = await this.web3ModalConnect();
       } else {
         return false;
       }
@@ -109,7 +119,7 @@ class OnChain {
 
   async getChainID() {
     let provider;
-    const web3ModalInstance = await this.web3Modal.connect();
+    const web3ModalInstance = await this.web3ModalConnect();
 
     if (web3ModalInstance !== undefined) {
       provider = new ethers.providers.Web3Provider(web3ModalInstance);
@@ -155,7 +165,7 @@ class OnChain {
 
   async switchChain() {
     try {
-      const web3ModalInstance = await this.web3Modal.connect();
+      const web3ModalInstance = await this.web3ModalConnect();
 
       await web3ModalInstance.request({
         method: "wallet_switchEthereumChain",
@@ -191,7 +201,7 @@ class OnChain {
 
   async retrieveAccount() {
     try {
-      const web3ModalInstance = await this.web3Modal.connect();
+      const web3ModalInstance = await this.web3ModalConnect();
 
       if (web3ModalInstance !== undefined) {
         const provider = new ethers.providers.Web3Provider(web3ModalInstance);
@@ -241,53 +251,63 @@ class OnChain {
   }
 
   async loadStaking() {
-    const web3ModalInstance = await this.web3Modal.connect();
-    let provider;
+    try {
+      const web3ModalInstance = await this.web3ModalConnect();
+      let provider;
 
-    if (web3ModalInstance !== undefined) {
-      provider = new ethers.providers.Web3Provider(web3ModalInstance);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
-    }
+      if (web3ModalInstance !== undefined) {
+        provider = new ethers.providers.Web3Provider(web3ModalInstance);
+      } else {
+        provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      }
 
-    if (await this.recognizedChain()) {
-      this.staking = new ethers.Contract(
-        this.stakingAddress,
-        Staking.abi,
-        provider
-      );
+      if (await this.recognizedChain()) {
+        this.staking = new ethers.Contract(
+          this.stakingAddress,
+          Staking.abi,
+          provider
+        );
 
-      return true;
-    } else {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
       return false;
     }
   }
 
   async loadStableToken() {
-    const web3ModalInstance = await this.web3Modal.connect();
-    let provider;
+    try {
+      const web3ModalInstance = await this.web3ModalConnect();
+      let provider;
 
-    if (web3ModalInstance !== undefined) {
-      provider = new ethers.providers.Web3Provider(web3ModalInstance);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
-    }
+      if (web3ModalInstance !== undefined) {
+        provider = new ethers.providers.Web3Provider(web3ModalInstance);
+      } else {
+        provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      }
 
-    if (await this.recognizedChain()) {
-      this.celoKit = newKit(this.fornoURI);
+      if (await this.recognizedChain()) {
+        this.celoKit = newKit(this.fornoURI);
 
-      const stableTokenAddress = await this.celoKit.registry.addressFor(
-        CeloContract.StableToken
-      );
+        const stableTokenAddress = await this.celoKit.registry.addressFor(
+          CeloContract.StableToken
+        );
 
-      this.stabletoken = new ethers.Contract(
-        stableTokenAddress,
-        StableToken.abi,
-        provider
-      );
+        this.stabletoken = new ethers.Contract(
+          stableTokenAddress,
+          StableToken.abi,
+          provider
+        );
 
-      return true;
-    } else {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
       return false;
     }
   }
@@ -341,7 +361,7 @@ class OnChain {
   }
 
   async getToken(address) {
-    const web3ModalInstance = await this.web3Modal.connect();
+    const web3ModalInstance = await this.web3ModalConnect();
     let provider;
 
     if (web3ModalInstance !== undefined) {
@@ -468,7 +488,7 @@ class OnChain {
   // ONCHAIN UTILS
 
   async addTokenToWallet(contract_id, symbol) {
-    const web3ModalInstance = await this.web3Modal.connect();
+    const web3ModalInstance = await this.web3ModalConnect();
 
     if (!web3ModalInstance) {
       return;
@@ -498,7 +518,7 @@ class OnChain {
   }
 
   async getNFTImg(contract_id, token_id) {
-    const web3ModalInstance = await this.web3Modal.connect();
+    const web3ModalInstance = await this.web3ModalConnect();
     let provider;
 
     if (web3ModalInstance !== undefined) {
