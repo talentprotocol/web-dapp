@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_17_215201) do
-
+ActiveRecord::Schema.define(version: 2022_03_22_204400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -196,6 +195,8 @@ ActiveRecord::Schema.define(version: 2022_03_17_215201) do
     t.text "banner_data"
     t.boolean "token_launch_reminder_sent", default: false
     t.string "notion_page_id"
+    t.integer "supporters_count"
+    t.string "total_supply"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true

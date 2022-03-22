@@ -1,9 +1,11 @@
 require "rails_helper"
 
 RSpec.describe Talents::RefreshSupporters do
-  let(:talent_contract_id) { SecureRandom.hex }
+  let(:token) { create :token, talent: talent }
+  let(:talent) { create :talent }
+  let(:talent_contract_id) { token.contract_id }
 
-  subject(:refresh_supporters) { described_class.new(talent_contract_id: talent_contract_id).call }
+  subject(:refresh_supporters) { described_class.new(token: token).call }
 
   let(:the_graph_client_class) { TheGraph::Client }
   let(:the_graph_client_instance) { instance_double(the_graph_client_class) }
@@ -15,6 +17,7 @@ RSpec.describe Talents::RefreshSupporters do
   let(:talent_token_data) do
     OpenStruct.new(
       supporter_counter: supporter_counter,
+      total_supply: "70000",
       supporters: supporters_data
     )
   end
@@ -52,6 +55,17 @@ RSpec.describe Talents::RefreshSupporters do
 
   it "creates 2 talent supporter records" do
     expect { refresh_supporters }.to change(TalentSupporter, :count).from(0).to(2)
+  end
+
+  it "updates the talent information with the correct data" do
+    refresh_supporters
+
+    talent.reload
+
+    aggregate_failures do
+      expect(talent.total_supply).to eq "70000"
+      expect(talent.supporters_count).to eq 2
+    end
   end
 
   context "when the talent supporter records already exist in the database" do

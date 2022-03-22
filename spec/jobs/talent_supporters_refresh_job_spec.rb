@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe TalentSupportersRefreshJob, type: :job do
-  let(:talent_contract_id) { SecureRandom.hex }
+  let(:token) { create :token, deployed: true }
+  let(:talent_contract_id) { token.contract_id }
 
   subject(:talent_supporters_refresh) { TalentSupportersRefreshJob.perform_now(talent_contract_id) }
 
@@ -17,7 +18,7 @@ RSpec.describe TalentSupportersRefreshJob, type: :job do
 
     aggregate_failures do
       expect(refresh_supporters_class).to have_received(:new).with(
-        talent_contract_id: talent_contract_id
+        token: token
       )
       expect(refresh_supporters_service).to have_received(:call)
     end
