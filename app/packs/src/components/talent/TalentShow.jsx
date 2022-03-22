@@ -125,7 +125,7 @@ const TalentShow = ({
     if (searchParams.get("tab")) {
       setPageInDisplay(searchParams.get("tab"));
     } else {
-      window.history.pushState(
+      window.history.replaceState(
         {},
         document.title,
         `${url.pathname}?tab=overview`
@@ -135,7 +135,9 @@ const TalentShow = ({
 
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(document.location.search);
-    setPageInDisplay(params.get("tab"));
+    if (document.location.search !== "") {
+      setPageInDisplay(params.get("tab"));
+    }
   });
 
   const copyLinkToProfile = () => {

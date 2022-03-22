@@ -27,6 +27,7 @@ import Supporting from "./components/Supporting";
 import Supporters from "./components/Supporters";
 import MobilePortfolio from "./components/MobilePortfolio";
 import NFTs from "./components/NFTs";
+import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
@@ -93,6 +94,24 @@ const Error = ({ mode }) => {
   );
 };
 
+const ConnectWallet = ({ userId, onConnect, railsContext }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4 p-lg-0">
+      <H5 className="mb-2" text="Please connect your wallet" bold />
+      <P2
+        className="mb-4"
+        text="To see your portfolio you need to connect your wallet."
+        bold
+      />
+      <Web3ModalConnect
+        user_id={userId}
+        onConnect={onConnect}
+        railsContext={railsContext}
+      />
+    </div>
+  );
+};
+
 const newTransak = (width, height, env, apiKey) => {
   const envName = env ? env.toUpperCase() : "STAGING";
 
@@ -112,7 +131,6 @@ const newTransak = (width, height, env, apiKey) => {
 };
 
 const NewPortfolio = ({
-  address,
   tokenAddress,
   ticker,
   currentUserId,
@@ -121,7 +139,7 @@ const NewPortfolio = ({
   railsContext,
 }) => {
   // --- On chain variables ---
-  const [localAccount, setLocalAccount] = useState(address || "");
+  const [localAccount, setLocalAccount] = useState("");
 
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
@@ -132,6 +150,7 @@ const NewPortfolio = ({
   const [page, setPage] = useState(0);
   const [supportedTalents, setSupportedTalents] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
+  const [walletConnected, setWalletConnected] = useState(false);
 
   const { loading, data, refetch, error } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: {
@@ -139,6 +158,7 @@ const NewPortfolio = ({
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
+    skip: !localAccount || wrongChain,
   });
 
   // --- Interface variables ---
@@ -202,7 +222,7 @@ const NewPortfolio = ({
       setLocalLoading(false);
     }
 
-    const newTalent = data.supporter.talents.map(
+    const newTalents = data.supporter.talents.map(
       ({ amount, talAmount, talent }) => ({
         id: talent.owner,
         symbol: talent.symbol,
@@ -219,7 +239,15 @@ const NewPortfolio = ({
       loadMore();
     }
 
-    setSupportedTalents((prev) => [...prev, ...newTalent]);
+    setSupportedTalents((prev) =>
+      Object.values(
+        [...prev, ...newTalents].reduce((result, { id, ...rest }) => {
+          result[id] = { ...(result[id] || {}), id, ...rest };
+
+          return result;
+        }, {})
+      )
+    );
   }, [data, loading]);
 
   const rewardsClaimed = () => {
@@ -233,7 +261,8 @@ const NewPortfolio = ({
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
 
-    await newOnChain.connectedAccount();
+    const walletConnected = await newOnChain.connectedAccount();
+
     await newOnChain.loadStaking();
     await newOnChain.loadStableToken();
     const balance = await newOnChain.getStableBalance(true);
@@ -242,13 +271,16 @@ const NewPortfolio = ({
       setStableBalance(balance);
     }
 
-    if (localAccount != "" && newOnChain.account) {
+    if (newOnChain.account) {
       setLocalAccount(newOnChain.account);
-      refetch();
+    } else {
+      setLocalLoading(false);
     }
 
     if (newOnChain) {
       const chainAvailable = await newOnChain.recognizedChain();
+
+      setWalletConnected(!!walletConnected);
       setWrongChain(!chainAvailable);
       setChainAPI(newOnChain);
     }
@@ -325,6 +357,11 @@ const NewPortfolio = ({
     }
   };
 
+  const onWalletConnect = (account) => {
+    setLocalAccount(account);
+    setWalletConnected(!!account);
+  };
+
   // --- Overview calculations ---
   const cUSDBalance = parseFloat(stableBalance);
   const talentTokensTotal = parseFloat(talentTokensSum);
@@ -342,6 +379,16 @@ const NewPortfolio = ({
 
   if (error !== undefined) {
     return <Error mode={theme.mode()} />;
+  }
+
+  if (!walletConnected) {
+    return (
+      <ConnectWallet
+        userId={currentUserId}
+        onConnect={onWalletConnect}
+        railsContext={railsContext}
+      />
+    );
   }
 
   if (wrongChain) {
@@ -506,7 +553,7 @@ const NewPortfolio = ({
           </div>
         )}
       </div>
-      {activeTab == "Supporting" && (
+      {activeTab == "Supporting" && !localLoading && (
         <Supporting
           mode={theme.mode()}
           talents={supportedTalents}
