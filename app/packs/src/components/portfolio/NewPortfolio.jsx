@@ -281,9 +281,13 @@ const NewPortfolio = ({
     if (newOnChain) {
       const chainAvailable = await newOnChain.recognizedChain();
 
-      setWalletConnected(!!walletConnected);
       setWrongChain(!chainAvailable);
+      setWalletConnected(!!walletConnected);
       setChainAPI(newOnChain);
+
+      if (!chainAvailable) {
+        setLocalLoading(false);
+      }
     }
   });
 
