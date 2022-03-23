@@ -276,11 +276,15 @@ const Supporting = ({
   };
 
   useEffect(() => {
-    if (!data?.supporter || loading) {
+    if (loading || !data?.supporter) {
       if (!loading) {
         setLocalLoading(false);
       }
       return;
+    }
+
+    if (localLoading) {
+      setLocalLoading(false);
     }
 
     const newTalent = data.supporter.talents.map((t) => ({
@@ -289,16 +293,12 @@ const Supporting = ({
       token: {},
     }));
 
+    setlocalTalent((prev) => [...prev, ...newTalent]);
+
     if (data.supporter.talents.length == PAGE_SIZE) {
       loadMore();
     } else {
       setListLoaded(true);
-    }
-
-    setlocalTalent((prev) => [...prev, ...newTalent]);
-
-    if (localLoading) {
-      setLocalLoading(false);
     }
   }, [data, loading]);
 

@@ -32,65 +32,10 @@ const NewTalentCard = ({
     updateFollow();
   };
 
-  return (
-    <div
-      className="talent-card"
-      onMouseEnter={() => setShowUserDetails(true)}
-      onMouseLeave={() => setShowUserDetails(false)}
-    >
-      {!showUserDetails || mobile ? (
-        <a className="talent-card-title talent-link" href={talentLink}>
-          <div className="d-flex flex-column align-items-center">
-            <TalentProfilePicture src={profilePictureUrl} height={120} />
-            <H5 className="text-black mt-3 talent-card-name" bold text={name} />
-            <P2
-              className="text-primary-03 talent-card-occupation"
-              text={occupation}
-            />
-          </div>
-          {contractId ? (
-            <P2 className="text-primary" bold text={`$${ticker}`} />
-          ) : (
-            <Tag className="coming-soon-tag">
-              <P3 className="current-color" bold text="Coming Soon" />
-            </Tag>
-          )}
-        </a>
-      ) : (
-        <a className="talent-card-details talent-link" href={talentLink}>
-          <div className="d-flex justify-content-between align-items-start w-100">
-            <div className="d-flex align-items-center">
-              <TalentProfilePicture src={profilePictureUrl} height={32} />
-              <div className="d-flex flex-column ml-3">
-                <P2
-                  className="text-black talent-card-details-title"
-                  bold
-                  text={name}
-                />
-                <P3
-                  className="text-primary-03 talent-card-details-title"
-                  text={occupation}
-                />
-              </div>
-            </div>
-            {!publicPageViewer && (
-              <button
-                className="button-link ml-2"
-                onClick={(e) => updateFollowing(e)}
-              >
-                <Star pathClassName={isFollowing ? "star" : "star-outline"} />
-              </button>
-            )}
-          </div>
-          <P1
-            className="text-black talent-card-details-headline mt-3"
-            bold
-            text={headline}
-          />
-        </a>
-      )}
+  const talentCardFooter = () => (
+    <>
       <Divider />
-      <div className="talent-card-body">
+      <div className="talent-card-footer">
         <div className="d-flex justify-content-between">
           <P3 className="text-primary-04" text="Market cap" />
           <P3 className="text-primary-04" text="Supporters" />
@@ -106,6 +51,76 @@ const NewTalentCard = ({
           />
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <div
+      className="talent-card"
+      onMouseEnter={() => setShowUserDetails(true)}
+      onMouseLeave={() => setShowUserDetails(false)}
+    >
+      {!showUserDetails || mobile ? (
+        <a className="talent-link" href={talentLink}>
+          <div className="talent-card-title">
+            <div className="d-flex flex-column align-items-center">
+              <TalentProfilePicture src={profilePictureUrl} height={120} />
+              <H5
+                className="text-black mt-3 talent-card-name"
+                bold
+                text={name}
+              />
+              <P2
+                className="text-primary-03 talent-card-occupation"
+                text={occupation}
+              />
+            </div>
+            {contractId ? (
+              <P2 className="text-primary" bold text={`$${ticker}`} />
+            ) : (
+              <Tag className="coming-soon-tag">
+                <P3 className="current-color" bold text="Coming Soon" />
+              </Tag>
+            )}
+          </div>
+          {talentCardFooter()}
+        </a>
+      ) : (
+        <a className="talent-link" href={talentLink}>
+          <div className="talent-card-details">
+            <div className="d-flex justify-content-between align-items-start w-100">
+              <div className="d-flex align-items-center">
+                <TalentProfilePicture src={profilePictureUrl} height={32} />
+                <div className="d-flex flex-column ml-3">
+                  <P2
+                    className="text-black talent-card-details-title"
+                    bold
+                    text={name}
+                  />
+                  <P3
+                    className="text-primary-03 talent-card-details-title"
+                    text={occupation}
+                  />
+                </div>
+              </div>
+              {!publicPageViewer && (
+                <button
+                  className="button-link ml-2"
+                  onClick={(e) => updateFollowing(e)}
+                >
+                  <Star pathClassName={isFollowing ? "star" : "star-outline"} />
+                </button>
+              )}
+            </div>
+            <P1
+              className="text-black talent-card-details-headline mt-3"
+              bold
+              text={headline}
+            />
+          </div>
+          {talentCardFooter()}
+        </a>
+      )}
     </div>
   );
 };

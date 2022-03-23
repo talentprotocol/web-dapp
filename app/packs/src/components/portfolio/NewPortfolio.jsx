@@ -27,6 +27,7 @@ import Supporting from "./components/Supporting";
 import Supporters from "./components/Supporters";
 import MobilePortfolio from "./components/MobilePortfolio";
 import NFTs from "./components/NFTs";
+import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 
 import P3 from "src/components/design_system/typography/p3";
 import P2 from "src/components/design_system/typography/p2";
@@ -93,6 +94,24 @@ const Error = ({ mode }) => {
   );
 };
 
+const ConnectWallet = ({ userId, onConnect, railsContext }) => {
+  return (
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4 p-lg-0">
+      <H5 className="mb-2" text="Please connect your wallet" bold />
+      <P2
+        className="mb-4"
+        text="To see your portfolio you need to connect your wallet."
+        bold
+      />
+      <Web3ModalConnect
+        user_id={userId}
+        onConnect={onConnect}
+        railsContext={railsContext}
+      />
+    </div>
+  );
+};
+
 const newTransak = (width, height, env, apiKey) => {
   const envName = env ? env.toUpperCase() : "STAGING";
 
@@ -112,7 +131,6 @@ const newTransak = (width, height, env, apiKey) => {
 };
 
 const NewPortfolio = ({
-  address,
   tokenAddress,
   ticker,
   currentUserId,
@@ -121,7 +139,7 @@ const NewPortfolio = ({
   railsContext,
 }) => {
   // --- On chain variables ---
-  const [localAccount, setLocalAccount] = useState(address || "");
+  const [localAccount, setLocalAccount] = useState("");
 
   const [chainAPI, setChainAPI] = useState(null);
   const [stableBalance, setStableBalance] = useState(0);
@@ -132,6 +150,8 @@ const NewPortfolio = ({
   const [page, setPage] = useState(0);
   const [supportedTalents, setSupportedTalents] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
+  const [listLoaded, setListLoaded] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
 
   const { loading, data, refetch, error } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: {
@@ -139,6 +159,7 @@ const NewPortfolio = ({
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
+    skip: !localAccount || wrongChain,
   });
 
   // --- Interface variables ---
@@ -187,22 +208,19 @@ const NewPortfolio = ({
   };
 
   useEffect(() => {
-    if (loading) {
+    if (!localAccount || wrongChain) {
       return;
     }
 
-    if (!data || data.supporter == null) {
+    if (loading || !data?.supporter) {
       if (!loading) {
         setLocalLoading(false);
+        setListLoaded(true);
       }
       return;
     }
 
-    if (localLoading) {
-      setLocalLoading(false);
-    }
-
-    const newTalent = data.supporter.talents.map(
+    const newTalents = data.supporter.talents.map(
       ({ amount, talAmount, talent }) => ({
         id: talent.owner,
         symbol: talent.symbol,
@@ -215,11 +233,22 @@ const NewPortfolio = ({
       })
     );
 
+    setSupportedTalents((prev) =>
+      Object.values(
+        [...prev, ...newTalents].reduce((result, { id, ...rest }) => {
+          result[id] = { ...(result[id] || {}), id, ...rest };
+
+          return result;
+        }, {})
+      )
+    );
+
     if (data.supporter.talents.length == PAGE_SIZE) {
       loadMore();
+    } else {
+      setListLoaded(true);
     }
-
-    setSupportedTalents((prev) => [...prev, ...newTalent]);
+    setLocalLoading(false);
   }, [data, loading]);
 
   const rewardsClaimed = () => {
@@ -233,7 +262,8 @@ const NewPortfolio = ({
   const setupChain = useCallback(async () => {
     const newOnChain = new OnChain(railsContext.contractsEnv);
 
-    await newOnChain.connectedAccount();
+    const walletConnected = await newOnChain.connectedAccount();
+
     await newOnChain.loadStaking();
     await newOnChain.loadStableToken();
     const balance = await newOnChain.getStableBalance(true);
@@ -242,13 +272,16 @@ const NewPortfolio = ({
       setStableBalance(balance);
     }
 
-    if (localAccount != "" && newOnChain.account) {
+    if (newOnChain.account) {
       setLocalAccount(newOnChain.account);
-      refetch();
+    } else {
+      setLocalLoading(false);
     }
 
     if (newOnChain) {
       const chainAvailable = await newOnChain.recognizedChain();
+
+      setWalletConnected(!!walletConnected);
       setWrongChain(!chainAvailable);
       setChainAPI(newOnChain);
     }
@@ -325,6 +358,11 @@ const NewPortfolio = ({
     }
   };
 
+  const onWalletConnect = (account) => {
+    setLocalAccount(account);
+    setWalletConnected(!!account);
+  };
+
   // --- Overview calculations ---
   const cUSDBalance = parseFloat(stableBalance);
   const talentTokensTotal = parseFloat(talentTokensSum);
@@ -342,6 +380,16 @@ const NewPortfolio = ({
 
   if (error !== undefined) {
     return <Error mode={theme.mode()} />;
+  }
+
+  if (!walletConnected) {
+    return (
+      <ConnectWallet
+        userId={currentUserId}
+        onConnect={onWalletConnect}
+        railsContext={railsContext}
+      />
+    );
   }
 
   if (wrongChain) {
@@ -363,28 +411,32 @@ const NewPortfolio = ({
           supportedTalents={supportedTalents}
         />
         <TransakDone show={transakDone} hide={() => setTransakDone(false)} />
-        <MobilePortfolio
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          mode={theme.mode()}
-          overallCUSD={overallCUSD}
-          overallTAL={overallTAL}
-          totalRewardsInCUSD={totalRewardsInCUSD}
-          rewardsClaimed={rewardsClaimed}
-          cUSDBalance={cUSDBalance}
-          cUSDBalanceInTAL={cUSDBalanceInTAL}
-          supportedTalents={supportedTalents}
-          talentTokensInTAL={talentTokensInTAL}
-          talentTokensInCUSD={talentTokensInCUSD}
-          returnValues={returnValues}
-          onClaim={onClaim}
-          tokenAddress={tokenAddress}
-          chainAPI={chainAPI}
-          onClickTransak={onClickTransak}
-          ticker={ticker}
-          currentUserId={currentUserId}
-          userNFT={userNFT}
-        />
+        {listLoaded ? (
+          <MobilePortfolio
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            mode={theme.mode()}
+            overallCUSD={overallCUSD}
+            overallTAL={overallTAL}
+            totalRewardsInCUSD={totalRewardsInCUSD}
+            rewardsClaimed={rewardsClaimed}
+            cUSDBalance={cUSDBalance}
+            cUSDBalanceInTAL={cUSDBalanceInTAL}
+            supportedTalents={supportedTalents}
+            talentTokensInTAL={talentTokensInTAL}
+            talentTokensInCUSD={talentTokensInCUSD}
+            returnValues={returnValues}
+            onClaim={onClaim}
+            tokenAddress={tokenAddress}
+            chainAPI={chainAPI}
+            onClickTransak={onClickTransak}
+            ticker={ticker}
+            currentUserId={currentUserId}
+            userNFT={userNFT}
+          />
+        ) : (
+          <LoadingPortfolio />
+        )}
       </>
     );
   }
@@ -406,53 +458,67 @@ const NewPortfolio = ({
       <div className="d-flex flex-row justify-content-between flex-wrap w-100 portfolio-amounts-overview p-4">
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Balance"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(overallCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(overallTAL).format().substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(overallCUSD).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(overallTAL).format().substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Total Rewards Claimed"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(totalRewardsInCUSD).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(parseFloat(rewardsClaimed()))
-                .format()
-                .substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(totalRewardsInCUSD).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(parseFloat(rewardsClaimed()))
+                  .format()
+                  .substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-column mt-3">
           <P3 mode={theme.mode()} text={"Wallet Balance"} />
-          <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
-            <H4
-              mode={theme.mode()}
-              text={currency(cUSDBalance).format()}
-              bold
-              className="mb-0 mr-2"
-            />
-            <P2
-              mode={theme.mode()}
-              text={`${currency(cUSDBalanceInTAL).format().substring(1)} $TAL`}
-              bold
-            />
-          </div>
+          {listLoaded ? (
+            <div className="d-flex flex-row flex-wrap mt-3 align-items-end">
+              <H4
+                mode={theme.mode()}
+                text={currency(cUSDBalance).format()}
+                bold
+                className="mb-0 mr-2"
+              />
+              <P2
+                mode={theme.mode()}
+                text={`${currency(cUSDBalanceInTAL)
+                  .format()
+                  .substring(1)} $TAL`}
+                bold
+              />
+            </div>
+          ) : (
+            <Spinner className="mt-3" width={30} />
+          )}
         </div>
         <div className="d-flex flex-row align-items-end">
           <div className="d-flex flex-row">
@@ -506,7 +572,7 @@ const NewPortfolio = ({
           </div>
         )}
       </div>
-      {activeTab == "Supporting" && (
+      {activeTab == "Supporting" && !localLoading && (
         <Supporting
           mode={theme.mode()}
           talents={supportedTalents}

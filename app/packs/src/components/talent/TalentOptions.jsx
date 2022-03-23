@@ -74,7 +74,7 @@ const TalentOptions = ({
           />
         </div>
         <Button
-          className="ml-2 text-black"
+          className="ml-2 text-black d-flex align-items-center justify-content-center"
           size="icon"
           type="white-subtle"
           onClick={() => setListModeOnly(false)}
@@ -85,7 +85,7 @@ const TalentOptions = ({
           />
         </Button>
         <Button
-          className="ml-2"
+          className="ml-2 d-flex align-items-center justify-content-center"
           size="icon"
           type="white-subtle"
           onClick={() => setListModeOnly(true)}

@@ -288,6 +288,13 @@ const Supporters = ({
   messagingDisabled,
 }) => {
   const [supporterInfo, setSupporterInfo] = useState({});
+  const [talentData, setTalentData] = useState({
+    totalValueLocked: 0,
+    supporterCounter: 0,
+    totalSupply: 0,
+    marketCap: 0,
+    rewardsReady: 0,
+  });
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const [sortDirection, setSortDirection] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -296,15 +303,13 @@ const Supporters = ({
   const [page, setPage] = useState(0);
   const [supporters, setSupporters] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
-  const [listLoaded, setListLoaded] = useState(false);
 
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
+  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: {
       id: tokenAddress?.toLowerCase(),
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
     },
-    skip: listLoaded,
   });
 
   const toggleDirection = () => {
@@ -344,13 +349,22 @@ const Supporters = ({
   };
 
   useEffect(() => {
-    if (listLoaded || !data || data.talentToken == null) {
-      return [];
+    if (loading || !data?.talentToken) {
+      if (!loading) {
+        setLocalLoading(false);
+      }
+      return;
     }
 
-    if (localLoading) {
-      setLocalLoading(false);
-    }
+    const newTalentData = {
+      totalValueLocked: ethers.utils.formatUnits(
+        data.talentToken.totalValueLocked
+      ),
+      supporterCounter: data.talentToken.supporterCounter,
+      totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
+      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
+      rewardsReady: ethers.utils.formatUnits(data.talentToken.rewardsReady),
+    };
 
     const newSupporters = data.talentToken.supporters.map(
       ({ amount, supporter }) => ({
@@ -359,13 +373,14 @@ const Supporters = ({
       })
     );
 
+    setTalentData((prev) => ({ ...prev, ...newTalentData }));
+    setSupporters((prev) => [...prev, ...newSupporters]);
+
     if (data.talentToken.supporters.length == PAGE_SIZE) {
       loadMore();
-    } else {
-      setListLoaded(true);
     }
 
-    setSupporters((prev) => [...prev, ...newSupporters]);
+    setLocalLoading(false);
   }, [data]);
 
   const populateNewSupporters = (newSupporters) => {
@@ -412,28 +427,6 @@ const Supporters = ({
   useEffect(() => {
     updateAll();
   }, [supporters, chainAPI]);
-
-  const talentData = useMemo(() => {
-    if (!data || data.talentToken == null) {
-      return {
-        totalValueLocked: 0,
-        supporterCounter: 0,
-        totalSupply: 0,
-        marketCap: 0,
-        rewardsReady: 0,
-      };
-    }
-
-    return {
-      totalValueLocked: ethers.utils.formatUnits(
-        data.talentToken.totalValueLocked
-      ),
-      supporterCounter: data.talentToken.supporterCounter,
-      totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply),
-      marketCap: ethers.utils.formatUnits(data.talentToken.marketCap),
-      rewardsReady: ethers.utils.formatUnits(data.talentToken.rewardsReady),
-    };
-  }, [data]);
 
   const compareName = (talent1, talent2) => {
     if (talent1.name > talent2.name) {
@@ -595,7 +588,7 @@ const Supporters = ({
         />
         <SupporterOverview
           supporterCount={supporters.length}
-          loading={loading}
+          loading={localLoading}
           reserve={talentData.totalValueLocked}
           talentRewards={talentData.rewardsReady}
           marketCap={talentData.marketCap}
@@ -652,7 +645,7 @@ const Supporters = ({
     <>
       <SupporterOverview
         supporterCount={supporters.length}
-        loading={loading}
+        loading={localLoading}
         reserve={talentData.totalValueLocked}
         talentRewards={talentData.rewardsReady}
         marketCap={talentData.marketCap}
