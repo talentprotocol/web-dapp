@@ -33,6 +33,7 @@ const MobilePortfolio = ({
   ticker,
   currentUserId,
   userNFT,
+  memberNFT,
 }) => {
   return (
     <div className={`d-flex flex-column`}>
@@ -201,7 +202,12 @@ const MobilePortfolio = ({
         />
       )}
       {activeTab == "NFTs" && (
-        <NFTs userNFT={userNFT} chainAPI={chainAPI} mode={mode} />
+        <NFTs
+          userNFT={userNFT}
+          memberNFT={memberNFT}
+          chainAPI={chainAPI}
+          mode={mode}
+        />
       )}
     </div>
   );
