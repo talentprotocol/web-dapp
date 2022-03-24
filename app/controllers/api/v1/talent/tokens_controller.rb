@@ -15,6 +15,7 @@ class API::V1::Talent::TokensController < ApplicationController
         service = CreateInvite.new(user_id: current_user.id, single_use: true, talent_invite: true)
         invite = service.call
         AddUsersToMailerliteJob.perform_later(current_user.id)
+        SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
       end
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
       render json: token.as_json.merge(code: invite&.code), status: :ok
