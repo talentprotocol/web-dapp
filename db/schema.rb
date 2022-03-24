@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_22_204400) do
+ActiveRecord::Schema.define(version: 2022_03_23_112924) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -269,14 +269,18 @@ ActiveRecord::Schema.define(version: 2022_03_22_204400) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
     t.boolean "user_nft_minted", default: false
     t.integer "user_nft_token_id"
     t.string "user_nft_tx"
+    t.string "member_nft_address"
+    t.boolean "member_nft_minted", default: false
+    t.integer "member_nft_token_id"
+    t.string "member_nft_tx"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
