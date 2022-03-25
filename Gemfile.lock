@@ -338,6 +338,7 @@ GEM
     regexp_parser (2.1.1)
     rexml (3.2.5)
     rlp (0.7.3)
+    rmagick (4.2.4)
     roda (3.46.0)
       rack
     rollbar (3.2.0)
@@ -496,6 +497,7 @@ DEPENDENCIES
   rails (~> 6.1.4, >= 6.1.4.6)
   react_on_rails (= 12.2.0)
   redis (~> 4.3)
+  rmagick
   rollbar
   rspec-rails (~> 5.0.1)
   sass-rails (>= 6)

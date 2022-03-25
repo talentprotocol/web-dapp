@@ -136,6 +136,7 @@ const NewPortfolio = ({
   currentUserId,
   messagingDisabled,
   userNFT,
+  memberNFT,
   railsContext,
 }) => {
   // --- On chain variables ---
@@ -437,6 +438,7 @@ const NewPortfolio = ({
             ticker={ticker}
             currentUserId={currentUserId}
             userNFT={userNFT}
+            memberNFT={memberNFT}
           />
         ) : (
           <LoadingPortfolio />
@@ -597,7 +599,12 @@ const NewPortfolio = ({
         />
       )}
       {activeTab == "NFTs" && (
-        <NFTs userNFT={userNFT} chainAPI={chainAPI} mode={theme.mode()} />
+        <NFTs
+          userNFT={userNFT}
+          memberNFT={memberNFT}
+          chainAPI={chainAPI}
+          mode={theme.mode()}
+        />
       )}
     </div>
   );
