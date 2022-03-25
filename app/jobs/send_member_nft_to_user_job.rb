@@ -2,9 +2,7 @@ class SendMemberNFTToUserJob < ApplicationJob
   queue_as :default
 
   def perform(user_id:)
-    if ENV["ENABLE_MEMBER_USER_NFT"] != "enable"
-      return
-    end
+    return if ENV["ENABLE_MEMBER_USER_NFT"] != "enable"
 
     user = User.find(user_id)
 

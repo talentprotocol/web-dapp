@@ -2,7 +2,7 @@ module NFT
   class GenerateMemberNFT
     def initialize(user:)
       @user = user
-      @image_path = ENV["ENABLE_COMMUNITY_MEMBER_NFT"] == "enable" ? "public/Member_NFT02.jpg" : "public/Member_NFT01.jpg"
+      @image_path = ENV["ENABLE_COMMUNITY_MEMBER_NFT"] == "enable" ? "public/member_nft02.jpg" : "public/member_nft01.jpg"
     end
 
     def call
