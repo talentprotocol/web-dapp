@@ -6,10 +6,8 @@ import cx from "classnames";
 
 const TalentTableCardMode = ({
   updateFollow,
-  getMarketCap,
-  getSupporterCount,
   talents,
-  publicPageViewer = { publicPageViewer },
+  publicPageViewer = false,
 }) => {
   const { mobile } = useWindowDimensionsHook();
 
@@ -32,8 +30,8 @@ const TalentTableCardMode = ({
             isFollowing={talent.isFollowing}
             updateFollow={() => updateFollow(talent)}
             talentLink={`/u/${talent.user.username}`}
-            marketCap={getMarketCap(talent.token.contractId)}
-            supporterCount={getSupporterCount(talent.token.contractId)}
+            marketCap={talent.marketCap}
+            supporterCount={talent.supporterCounter}
             publicPageViewer={publicPageViewer}
           />
         </div>

@@ -84,7 +84,7 @@ const GoalForm = ({
             value={goal["due_date"]}
             onChange={(e) => changeAttribute("due_date", e.target.value)}
           />
-          <p className={`short-caption ${mode}`}>MM/YYYY</p>
+          <p className={`short-caption ${mode}`}>YYYY-MM</p>
         </div>
       </div>
       {showAddNew && (

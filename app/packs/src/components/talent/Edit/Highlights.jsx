@@ -119,7 +119,7 @@ const HighlightForm = ({
             value={highlight["start_date"]}
             onChange={(e) => changeAttribute("start_date", e.target.value)}
           />
-          <p className={`short-caption ${mode}`}>MM/YYYY</p>
+          <p className={`short-caption ${mode}`}>YYYY-MM</p>
         </div>
         {/* <div className={`d-flex flex-column ${mobile ? "w-100" : "w-50 pl-2"}`}>
           <h6 className={`title-field ${mode}`}>End Date</h6>
