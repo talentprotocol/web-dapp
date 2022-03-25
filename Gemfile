@@ -37,6 +37,9 @@ gem "pagy", "~> 4.8"
 gem "redis", "~> 4.3"
 gem "bcrypt"
 
+# Image manipulation
+gem "rmagick"
+
 # File Attachment toolkit
 gem "shrine", "~> 3.0"
 gem "marcel", "~> 1.0" # mime-type analyzer

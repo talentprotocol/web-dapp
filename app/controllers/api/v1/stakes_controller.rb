@@ -8,6 +8,7 @@ class API::V1::StakesController < ApplicationController
       CreateNotification.new.call(recipient: token.talent.user,
                                   type: TokenAcquiredNotification,
                                   source_id: current_user.id)
+      SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
       # add_follow(token.talent.user_id)
     end
 

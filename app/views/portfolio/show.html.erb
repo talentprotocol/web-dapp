@@ -6,7 +6,8 @@
         ticker: current_user.talent&.token&.ticker,
         currentUserId: current_user.id,
         messagingDisabled: current_user.messaging_disabled,
-        userNFT: { id: current_user.user_nft_token_id, tokenAddress: current_user.user_nft_address }
+        userNFT: { id: current_user.user_nft_token_id, tokenAddress: current_user.user_nft_address },
+        memberNFT: { id: current_user.member_nft_token_id, tokenAddress: current_user.member_nft_address }
       }, prerender: false, html_options: { class: "h-100"}) %>
     </div>
   </div>

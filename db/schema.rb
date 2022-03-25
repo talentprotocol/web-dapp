@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_152458) do
+ActiveRecord::Schema.define(version: 2022_03_23_112924) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -195,10 +195,23 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.text "banner_data"
     t.boolean "token_launch_reminder_sent", default: false
     t.string "notion_page_id"
+    t.integer "supporters_count"
+    t.string "total_supply"
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
     t.index ["user_id"], name: "index_talent_on_user_id"
+  end
+
+  create_table "talent_supporters", force: :cascade do |t|
+    t.string "amount"
+    t.string "tal_amount"
+    t.string "supporter_wallet_id", null: false
+    t.string "talent_contract_id", null: false
+    t.datetime "synced_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["supporter_wallet_id", "talent_contract_id"], name: "talent_supporters_wallet_token_contract_uidx", unique: true
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -256,14 +269,18 @@ ActiveRecord::Schema.define(version: 2022_03_16_152458) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
     t.boolean "user_nft_minted", default: false
     t.integer "user_nft_token_id"
     t.string "user_nft_tx"
+    t.string "member_nft_address"
+    t.boolean "member_nft_minted", default: false
+    t.integer "member_nft_token_id"
+    t.string "member_nft_tx"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
