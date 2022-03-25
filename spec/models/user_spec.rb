@@ -52,6 +52,41 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#supporters" do
+    let(:user) { create :user, talent: talent }
+    let(:talent) { create :talent }
+    let(:token) { create :token, talent: talent }
+
+    context "when the user does not have any supporter" do
+      it "returns an empty array" do
+        expect(user.supporters).to be_empty
+      end
+    end
+
+    context "when the user has some supporters" do
+      let(:supporter_one) { create :user }
+      let(:supporter_two) { create :user }
+      let(:supporter_three) { create :user }
+
+      before do
+        create :talent_supporter, supporter_wallet_id: supporter_one.wallet_id, talent_contract_id: token.contract_id
+        create :talent_supporter, supporter_wallet_id: supporter_two.wallet_id, talent_contract_id: token.contract_id
+        create :talent_supporter, supporter_wallet_id: supporter_three.wallet_id, talent_contract_id: SecureRandom.hex
+        create :talent_supporter, supporter_wallet_id: user.wallet_id, talent_contract_id: token.contract_id
+      end
+
+      it "returns the users that support him" do
+        expect(user.supporters).to match_array([user, supporter_one, supporter_two])
+      end
+
+      context "when including_self is passed as false" do
+        it "returns the users that support him expect himself" do
+          expect(user.supporters(including_self: false)).to match_array([supporter_one, supporter_two])
+        end
+      end
+    end
+  end
+
   describe "helper methods" do
     it "shortens the wallet id for displaying" do
       user = build(:user, wallet_id: "0x123456789101234567890")

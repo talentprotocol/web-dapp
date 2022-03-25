@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SendMessageToAllSupportersJob, :type => :job do
+RSpec.describe SendMessageToAllSupportersJob, type: :job do
   let(:sender) { create :user, talent: talent }
   let(:talent) { create :talent }
   let(:token) { create :token, talent: talent }
@@ -13,13 +13,12 @@ RSpec.describe SendMessageToAllSupportersJob, :type => :job do
   let(:send_message_instance) { instance_double(send_message_class, call: created_message) }
   let(:created_message) { build :message }
 
-  let(:investor_user_one) { create :user, :with_investor }
-  let(:investor_user_two) { create :user, :with_investor }
+  let(:investor_user_one) { create :user }
+  let(:investor_user_two) { create :user }
 
   before do
-    create :transaction, investor: investor_user_one.investor, token: token
-    create :transaction, investor: investor_user_one.investor, token: token
-    create :transaction, investor: investor_user_two.investor, token: token
+    create :talent_supporter, supporter_wallet_id: investor_user_one.wallet_id, talent_contract_id: token.contract_id
+    create :talent_supporter, supporter_wallet_id: investor_user_two.wallet_id, talent_contract_id: token.contract_id
 
     allow(send_message_class).to receive(:new).and_return(send_message_instance)
   end
@@ -40,24 +39,24 @@ RSpec.describe SendMessageToAllSupportersJob, :type => :job do
     )
   end
 
-  context 'when the job is triggered asynchronously' do
+  context "when the job is triggered asynchronously" do
     subject(:send_message) { SendMessageToAllSupportersJob.perform_later(sender.id, message) }
 
     it "queues of the job" do
       job = send_message
 
-      expect(Sidekiq::Status::complete?(job.job_id)).to eq false
+      expect(Sidekiq::Status.complete?(job.job_id)).to eq false
     end
   end
 
-  context 'when the user has invested in himself' do
+  context "when the user has invested in himself" do
     let(:sender) { create :user, :with_investor, talent: talent }
 
     before do
-      create :transaction, investor: sender.investor, token: token
+      create :talent_supporter, supporter_wallet_id: sender.wallet_id, talent_contract_id: token.contract_id
     end
 
-    it "does not create a message to himself" do
+    it "does not send a message to himself" do
       send_message
 
       expect(send_message_instance).not_to have_received(:call).with(

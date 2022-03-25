@@ -1,5 +1,5 @@
-require 'sidekiq'
-require 'sidekiq-status'
+require "sidekiq"
+require "sidekiq-status"
 
 Sidekiq.configure_client do |config|
   # accepts :expiration (optional)
