@@ -37,6 +37,8 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
+  ActiveJob::Base.queue_adapter = :test
+
   config.before(:each) do |example|
     Capybara.current_driver = JS_DRIVER if example.metadata[:js]
     Capybara.current_driver = :selenium if example.metadata[:selenium]

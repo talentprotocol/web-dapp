@@ -8,7 +8,7 @@ FactoryBot.define do
 
   factory :user do
     sequence :username do |n|
-      "User_#{n}"
+      "user#{n}"
     end
     sequence :email do |n|
       "user_#{n}@talentprotocol.com"
