@@ -9,6 +9,10 @@ const NFTs = ({ userNFT, memberNFT, chainAPI, mode }) => {
   const [nftImages, setNFTImages] = useState({});
 
   useEffect(() => {
+    if (!userNFT.id) {
+      return;
+    }
+
     chainAPI.getNFTImg(userNFT.tokenAddress, userNFT.id).then((imageURL) => {
       setNFTImages((prev) => ({ ...prev, userNFT: imageURL }));
       setLoading(false);
@@ -16,6 +20,10 @@ const NFTs = ({ userNFT, memberNFT, chainAPI, mode }) => {
   }, [userNFT]);
 
   useEffect(() => {
+    if (!memberNFT.id) {
+      return;
+    }
+
     chainAPI
       .getNFTImg(memberNFT.tokenAddress, memberNFT.id)
       .then((imageURL) => {
@@ -36,20 +44,24 @@ const NFTs = ({ userNFT, memberNFT, chainAPI, mode }) => {
 
   return (
     <div className="d-flex flex-row flex-wrap py-4 nfts-wrapper">
-      <NFTCard
-        imageUrl={nftImages.userNFT}
-        address={userNFT.tokenAddress}
-        tokenId={userNFT.id}
-        href={linkToNFT(userNFT)}
-        mode={mode}
-      />
-      <NFTCard
-        imageUrl={nftImages.memberNFT}
-        address={memberNFT.tokenAddress}
-        tokenId={memberNFT.id}
-        href={linkToNFT(memberNFT)}
-        mode={mode}
-      />
+      {!!userNFT.id && (
+        <NFTCard
+          imageUrl={nftImages.userNFT}
+          address={userNFT.tokenAddress}
+          tokenId={userNFT.id}
+          href={linkToNFT(userNFT)}
+          mode={mode}
+        />
+      )}
+      {!!memberNFT.id && (
+        <NFTCard
+          imageUrl={nftImages.memberNFT}
+          address={memberNFT.tokenAddress}
+          tokenId={memberNFT.id}
+          href={linkToNFT(memberNFT)}
+          mode={mode}
+        />
+      )}
     </div>
   );
 };
