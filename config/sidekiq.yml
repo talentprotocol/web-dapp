@@ -15,4 +15,5 @@
   sync_on_chain_talent_supporters:
     cron: '0 * * * *' # Runs every hour
     class: TriggerTalentSupportersRefreshJob
+    enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
     
