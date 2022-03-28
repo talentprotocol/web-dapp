@@ -42,6 +42,7 @@ class API::V1::UsersController < ApplicationController
         @user.update!(wallet_id: params[:wallet_id]&.downcase)
 
         SendCommunityNFTToUser.perform_later(user_id: @user.id)
+        AddUsersToMailerliteJob.perform_later(@user.id)
 
         service = Web3::TransferCelo.new
         service.call(user: @user)
