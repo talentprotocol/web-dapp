@@ -54,6 +54,8 @@ const GET_SUPPORTER_PORTFOLIO = gql`
         id
         amount
         talAmount
+        firstTimeBoughtAt
+        lastTimeBoughtAt
         talent {
           id
           symbol
@@ -99,6 +101,8 @@ const GET_TALENT_PORTFOLIO_FOR_ID = gql`
         id
         amount
         talAmount
+        firstTimeBoughtAt
+        lastTimeBoughtAt
         supporter {
           id
         }

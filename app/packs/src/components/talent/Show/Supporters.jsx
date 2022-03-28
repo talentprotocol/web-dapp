@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import dayjs from "dayjs";
 import { ethers } from "ethers";
 
 import { parseAndCommify } from "src/onchain/utils";
@@ -12,6 +13,11 @@ import {
   PAGE_SIZE,
 } from "src/utils/thegraph";
 import { shortenAddress } from "src/utils/viewHelpers";
+import {
+  compareStrings,
+  compareNumbers,
+  compareDates,
+} from "src/utils/compareHelpers";
 
 import { Spinner, OrderBy } from "src/components/icons";
 import { P1, P2, H5 } from "src/components/design_system/typography";
@@ -79,6 +85,19 @@ const MobileSupportersDropdown = ({
             <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
+        <Button
+          onClick={() => onOptionClick("Last Buy")}
+          type="white-ghost"
+          mode={mode}
+          className={`d-flex flex-row justify-content-between px-4 my-2${selectedClass(
+            "Last Buy"
+          )}`}
+        >
+          Last Buy
+          {selectedOption == "Last Buy" && (
+            <OrderBy className={order == "asc" ? "" : "rotate-180"} />
+          )}
+        </Button>
       </Modal.Body>
     </Modal>
   );
@@ -94,7 +113,7 @@ const Supporters = ({ mobile, mode, sharedState }) => {
   const [page, setPage] = useState(0);
   const [listLoaded, setListLoaded] = useState(false);
 
-  const { loading, error, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
+  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO_FOR_ID, {
     variables: {
       id: sharedState?.token?.contract_id?.toLowerCase(),
       skip: page * PAGE_SIZE,
@@ -158,9 +177,10 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     }
 
     const newSupporters = data.talentToken.supporters.map(
-      ({ amount, supporter }) => ({
+      ({ amount, supporter, lastTimeBoughtAt }) => ({
         id: supporter.id,
         amount: ethers.utils.formatUnits(amount),
+        lastTimeBoughtAt: dayjs.unix(lastTimeBoughtAt).format("DD MMM, YYYY"),
       })
     );
 
@@ -182,25 +202,17 @@ const Supporters = ({ mobile, mode, sharedState }) => {
     populateNewSupporters(supportersWithNoInfo);
   }, [supporters]);
 
-  const compareName = (supporter1, supporter2) => {
-    if (supporter1.name > supporter2.name) {
-      return 1;
-    } else if (supporter1.name < supporter2.name) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareName = (supporter1, supporter2) =>
+    compareStrings(
+      supporterInfo[supporter1.id]?.username,
+      supporterInfo[supporter2.id]?.username
+    );
 
-  const compareAmount = (user1, user2) => {
-    if (parseFloat(user1.amount) < parseFloat(user2.amount)) {
-      return 1;
-    } else if (parseFloat(user1.amount) > parseFloat(user2.amount)) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareAmount = (user1, user2) =>
+    compareNumbers(user1.amount, user2.amount);
+
+  const compareDate = (user1, user2) =>
+    compareDates(user1.lastTimeBoughtAt, user2.lastTimeBoughtAt);
 
   const sortedSupporters = useMemo(() => {
     let desiredSupporters = [...supporters];
@@ -214,11 +226,15 @@ const Supporters = ({ mobile, mode, sharedState }) => {
       case "Alphabetical Order":
         comparisonFunction = compareName;
         break;
+      case "Last Buy":
+        comparisonFunction = compareDate;
+        break;
     }
 
-    desiredSupporters.sort(comparisonFunction);
-    if (sortDirection != "asc") {
-      desiredSupporters.reverse();
+    if (sortDirection === "asc") {
+      desiredSupporters.sort(comparisonFunction).reverse();
+    } else if (sortDirection === "desc") {
+      desiredSupporters.sort(comparisonFunction);
     }
 
     return desiredSupporters;
@@ -259,6 +275,8 @@ const Supporters = ({ mobile, mode, sharedState }) => {
         return `${parseAndCommify(supporter.amount)} ${
           sharedState.token.ticker
         }`;
+      case "Last Buy":
+        return `${supporter.lastTimeBoughtAt}`;
     }
   };
 
@@ -361,6 +379,14 @@ const Supporters = ({ mobile, mode, sharedState }) => {
               className="cursor-pointer"
             />
           </Table.Th>
+          <Table.Th>
+            <Caption
+              onClick={() => onOptionClick("Last Buy")}
+              bold
+              text={`LAST BUY${sortIcon("Last Buy")}`}
+              className="cursor-pointer"
+            />
+          </Table.Th>
         </Table.Head>
         <Table.Body>
           {sortedSupporters.map((supporter) => (
@@ -393,7 +419,14 @@ const Supporters = ({ mobile, mode, sharedState }) => {
                 </div>
               </Table.Td>
               <Table.Td>
-                <P2 text={getSelectedOptionValue(supporter)} />
+                <P2
+                  text={`${parseAndCommify(supporter.amount)} ${
+                    sharedState.token.ticker
+                  }`}
+                />
+              </Table.Td>
+              <Table.Td>
+                <P2 text={supporter.lastTimeBoughtAt} />
               </Table.Td>
             </Table.Tr>
           ))}

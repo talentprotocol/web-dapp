@@ -22,6 +22,7 @@ const MobileTalentTableDropdown = ({
   selectedOption,
   order,
   onOptionClick,
+  showFirstBoughtField,
 }) => {
   const selectedClass = (option) =>
     option == selectedOption ? " text-primary" : "text-black";
@@ -95,6 +96,19 @@ const MobileTalentTableDropdown = ({
             <OrderBy className={order == "asc" ? "" : "rotate-180"} />
           )}
         </Button>
+        {showFirstBoughtField && (
+          <Button
+            onClick={() => onOptionClick("First Buy")}
+            type="white-ghost"
+            mode={mode}
+            className="d-flex flex-row justify-content-between px-4"
+          >
+            <P1 className={cx(selectedClass("First Buy"))} bold text="Since" />
+            {selectedOption == "First Buy" && (
+              <OrderBy className={order == "asc" ? "" : "rotate-180"} />
+            )}
+          </Button>
+        )}
       </Modal.Body>
     </Modal>
   );
@@ -103,15 +117,13 @@ const MobileTalentTableDropdown = ({
 const TalentTableListMode = ({
   talents,
   theme,
-  getProgress,
-  getMarketCap,
-  getSupporterCount,
   updateFollow,
   selectedSort,
   setSelectedSort,
   sortDirection,
   setSortDirection,
   publicPageViewer,
+  showFirstBoughtField = true,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -138,13 +150,15 @@ const TalentTableListMode = ({
     const contractId = talent.token.contractId;
     switch (selectedSort) {
       case "Supporters":
-        return contractId ? getSupporterCount(talent.token.contractId) : "-";
+        return contractId ? talent.supporterCounter : "-";
       case "Occupation":
         return talent.occupation;
       case "Market Cap":
-        return contractId ? getMarketCap(talent.token.contractId) : "";
+        return contractId ? `$${talent.marketCap}` : "-";
       case "Alphabetical Order":
         return talent.occupation;
+      case "First Buy":
+        return talent.firstTimeBoughtAt;
       default:
         return talent.occupation;
     }
@@ -168,6 +182,7 @@ const TalentTableListMode = ({
           selectedOption={selectedSort}
           order={sortDirection}
           onOptionClick={onOptionClick}
+          showFirstBoughtField={showFirstBoughtField}
         />
         <div className="w-100 talent-table-tabs mt-3 d-flex flex-row justify-content-between align-items-center">
           <P2 text="Talent" className="text-black ml-2" bold />
@@ -263,6 +278,16 @@ const TalentTableListMode = ({
             className="cursor-pointer"
           />
         </Table.Th>
+        {showFirstBoughtField && (
+          <Table.Th>
+            <Caption
+              onClick={() => onOptionClick("First Buy")}
+              bold
+              text={`SINCE${sortIcon("First Buy")}`}
+              className="cursor-pointer"
+            />
+          </Table.Th>
+        )}
       </Table.Head>
       <Table.Body>
         {talents.map((talent) => (
@@ -320,7 +345,7 @@ const TalentTableListMode = ({
               <P2
                 text={
                   talent.token.contractId
-                    ? `${getSupporterCount(talent.token.contractId)}`
+                    ? `${talent.supporterCounter || 0}`
                     : "-"
                 }
               />
@@ -337,9 +362,7 @@ const TalentTableListMode = ({
               <P2
                 text={
                   talent.token.contractId
-                    ? `${currency(
-                        getMarketCap(talent.token.contractId)
-                      ).format()}`
+                    ? `${currency(talent.marketCap).format()}`
                     : "-"
                 }
               />
@@ -347,13 +370,18 @@ const TalentTableListMode = ({
                 <div
                   className="progress-bar bg-secondary"
                   role="progressbar"
-                  aria-valuenow={getProgress(talent.token.contractId)}
-                  style={{ width: `${getProgress(talent.token.contractId)}%` }}
+                  aria-valuenow={talent.progress || 0}
+                  style={{ width: `${talent.progress || 0}%` }}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 ></div>
               </div>
             </Table.Td>
+            {showFirstBoughtField && (
+              <Table.Td>
+                <P2 text={talent.firstTimeBoughtAt} />
+              </Table.Td>
+            )}
           </Table.Tr>
         ))}
       </Table.Body>
