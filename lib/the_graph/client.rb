@@ -14,6 +14,9 @@ module TheGraph
         ) {
           id
           amount
+          supporter {
+            id
+          }
           talAmount
         }
       }
