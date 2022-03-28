@@ -29,6 +29,7 @@ RSpec.describe Talents::RefreshSupporters do
     supporter_counter.to_i.times do
       result << OpenStruct.new(
         id: SecureRandom.hex,
+        supporter: OpenStruct.new(id: SecureRandom.hex),
         amount: "30000000000000000000",
         tal_amount: "150000000000000000000"
       )
@@ -72,12 +73,14 @@ RSpec.describe Talents::RefreshSupporters do
     let(:supporters_data) do
       [
         OpenStruct.new(
-          id: "99asn",
+          id: SecureRandom.hex,
+          supporter: OpenStruct.new(id: "99asn"),
           amount: "60000000000000000000",
           tal_amount: "300000000000000000000"
         ),
         OpenStruct.new(
-          id: "01ksh",
+          id: SecureRandom.hex,
+          supporter: OpenStruct.new(id: "01ksh"),
           amount: "90000000000000000000",
           tal_amount: "450000000000000000000"
         )
@@ -112,6 +115,7 @@ RSpec.describe Talents::RefreshSupporters do
       [
         OpenStruct.new(
           id: SecureRandom.hex,
+          supporter: OpenStruct.new(id: SecureRandom.hex),
           amount: "60000000000000000000",
           tal_amount: "300000000000000000000"
         )
