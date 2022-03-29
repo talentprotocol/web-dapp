@@ -1,6 +1,6 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { ethers } from "ethers";
-import { parseAndCommify } from "src/onchain/utils";
+
 import { useWindowDimensionsHook } from "src/utils/window";
 
 import {
@@ -9,6 +9,12 @@ import {
   GET_TALENT_PORTFOLIO,
   client,
 } from "src/utils/thegraph";
+import {
+  getSupporterCount,
+  getMarketCap,
+  getProgress,
+} from "src/utils/viewHelpers";
+import { compareStrings, compareNumbers } from "src/utils/compareHelpers";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 
@@ -34,61 +40,6 @@ const TalentPage = ({ talents }) => {
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-
-  const getSupporterCount = (contractId) => {
-    if (loading || !data) {
-      return "0";
-    }
-
-    const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      return ethers.utils.commify(chosenTalent.supporterCounter);
-    }
-    return "-1";
-  };
-
-  const getMarketCap = (contractId) => {
-    if (loading || !data) {
-      return "0";
-    }
-
-    const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      const totalSupply = ethers.utils.formatUnits(chosenTalent.totalSupply);
-      return parseAndCommify(totalSupply * 0.1);
-    }
-    return "-1";
-  };
-
-  const getProgress = (contractId) => {
-    if (loading || !data) {
-      return 0;
-    }
-
-    const chosenTalent = data.talentTokens.find(
-      (element) => element.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      const value = ethers.BigNumber.from(chosenTalent.totalSupply)
-        .mul(100)
-        .div(chosenTalent.maxSupply)
-        .toNumber();
-
-      if (value < 1) {
-        return 1;
-      } else {
-        return value;
-      }
-    }
-    return 0;
-  };
 
   const changeTab = (tab) => {
     setWatchlistOnly(tab === "Watchlist" ? true : false);
@@ -122,51 +73,24 @@ const TalentPage = ({ talents }) => {
     }
   };
 
-  const compareName = (talent1, talent2) => {
-    const name1 = talent1.user.name.toLowerCase() || "";
-    const name2 = talent2.user.name.toLowerCase() || "";
+  const compareName = (talent1, talent2) =>
+    compareStrings(talent1.user.name, talent2.user.name);
 
-    if (name1 > name2) {
-      return 1;
-    } else if (name1 < name2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareOccupation = (talent1, talent2) => {
-    const occupation1 = talent1.occupation?.toLowerCase() || "";
-    const occupation2 = talent2.occupation?.toLowerCase() || "";
-
-    if (occupation1 < occupation2) {
-      return 1;
-    } else if (occupation1 > occupation2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareOccupation = (talent1, talent2) =>
+    compareStrings(talent1.occupation, talent2.occupation);
 
   const compareSupporters = (talent1, talent2) =>
-    getSupporterCount(talent1.token.contractId) -
-    getSupporterCount(talent2.token.contractId);
+    compareNumbers(talent1.supporterCounter, talent2.supporterCounter);
 
   const compareMarketCap = (talent1, talent2) => {
     const talent1Amount = ethers.utils.parseUnits(
-      getMarketCap(talent1.token.contractId).replaceAll(",", "")
+      talent1.marketCap?.replaceAll(",", "") || "0"
     );
     const talent2Amount = ethers.utils.parseUnits(
-      getMarketCap(talent2.token.contractId).replaceAll(",", "")
+      talent2.marketCap?.replaceAll(",", "") || "0"
     );
 
-    if (talent1Amount.gt(talent2Amount)) {
-      return 1;
-    } else if (talent1Amount.lt(talent2Amount)) {
-      return -1;
-    } else {
-      return 0;
-    }
+    return compareNumbers(talent1Amount, talent2Amount);
   };
 
   const filteredTalents = useMemo(() => {
@@ -200,6 +124,42 @@ const TalentPage = ({ talents }) => {
     return desiredTalent;
   }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
 
+  useEffect(() => {
+    if (loading || !data?.talentTokens) {
+      return;
+    }
+
+    const newTalents = data.talentTokens.map(
+      ({ id, totalSupply, maxSupply, supporterCounter, ...rest }) => ({
+        ...rest,
+        token: { contractId: id },
+        progress: getProgress(totalSupply, maxSupply),
+        marketCap: getMarketCap(totalSupply),
+        supporterCounter: getSupporterCount(supporterCounter),
+      })
+    );
+
+    setLocalTalents((prev) =>
+      Object.values(
+        [...prev, ...newTalents].reduce(
+          (result, { id, token, marketCap, supporterCounter, ...rest }) => {
+            result[token.contractId || id] = {
+              ...(result[token.contractId || id] || {}),
+              id: result[token.contractId || id]?.id || id,
+              token: { ...result[token.contractId]?.token, ...token },
+              marketCap: marketCap || "-1",
+              supporterCounter: supporterCounter || "-1",
+              ...rest,
+            };
+
+            return result;
+          },
+          {}
+        )
+      )
+    );
+  }, [data, loading]);
+
   return (
     <div className={cx("pb-6", mobile && "p-4")}>
       <div className="mb-5">
@@ -230,20 +190,16 @@ const TalentPage = ({ talents }) => {
         <TalentTableListMode
           theme={theme}
           talents={filteredTalents}
-          getProgress={getProgress}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
           updateFollow={updateFollow}
           selectedSort={selectedSort}
           setSelectedSort={setSelectedSort}
           sortDirection={sortDirection}
           setSortDirection={setSortDirection}
+          showFirstBoughtField={false}
         />
       ) : (
         <TalentTableCardMode
           talents={filteredTalents}
-          getMarketCap={getMarketCap}
-          getSupporterCount={getSupporterCount}
           updateFollow={updateFollow}
         />
       )}

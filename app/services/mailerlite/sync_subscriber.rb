@@ -62,6 +62,8 @@ class Mailerlite::SyncSubscriber
       end
     elsif !user.talent? && user.tokens_purchased?
       "Active"
+    elsif user.wallet_id.present?
+      "Connected"
     else
       "Registered"
     end

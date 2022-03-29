@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState, useContext } from "react";
 import { ethers } from "ethers";
-import { parseAndCommify } from "src/onchain/utils";
+import dayjs from "dayjs";
+
 import {
   ApolloProvider,
   useQuery,
@@ -8,6 +9,16 @@ import {
   client,
   PAGE_SIZE,
 } from "src/utils/thegraph";
+import {
+  getSupporterCount,
+  getMarketCap,
+  getProgress,
+} from "src/utils/viewHelpers";
+import {
+  compareStrings,
+  compareNumbers,
+  compareDates,
+} from "src/utils/compareHelpers";
 import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -36,7 +47,7 @@ const Supporting = ({
   const [sortDirection, setSortDirection] = useState("asc");
   const [nameSearch, setNameSearch] = useState(urlParams.get("name") || "");
   const [localLoading, setLocalLoading] = useState(true);
-  const [localTalent, setlocalTalent] = useState([]);
+  const [localTalents, setLocalTalents] = useState([]);
   const [page, setPage] = useState(0);
   const [listLoaded, setListLoaded] = useState(false);
 
@@ -49,70 +60,12 @@ const Supporting = ({
     skip: listLoaded,
   });
 
-  const getSupporterCount = (contractId) => {
-    if (localLoading || localTalent.length == 0) {
-      return "0";
-    }
-
-    const chosenTalent = localTalent.find(
-      (element) => element.talent.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      return ethers.utils.commify(chosenTalent.talent.supporterCounter);
-    }
-    return "-1";
-  };
-
-  const getMarketCap = (contractId) => {
-    if (localLoading || localTalent.length == 0) {
-      return "0";
-    }
-
-    const chosenTalent = localTalent.find(
-      (element) => element.talent.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      const totalSupply = ethers.utils.formatUnits(
-        chosenTalent.talent.totalSupply
-      );
-
-      return parseAndCommify(totalSupply * 0.1);
-    }
-    return "-1";
-  };
-
-  const getProgress = (contractId) => {
-    if (localLoading || localTalent.length == 0) {
-      return 0;
-    }
-
-    const chosenTalent = localTalent.find(
-      (element) => element.id == contractId?.toLowerCase()
-    );
-
-    if (chosenTalent) {
-      const value = ethers.BigNumber.from(chosenTalent.talent.totalSupply)
-        .mul(100)
-        .div(chosenTalent.talent.maxSupply)
-        .toNumber();
-
-      if (value < 1) {
-        return 1;
-      } else {
-        return value;
-      }
-    }
-    return 0;
-  };
-
   const changeTab = (tab) => {
     setWatchlistOnly(tab === "Watchlist" ? true : false);
   };
 
   const updateFollow = async (talent) => {
-    const newLocalTalents = localTalent.map((currTalent) => {
+    const newLocalTalents = localTalents.map((currTalent) => {
       if (currTalent.id === talent.id) {
         return { ...currTalent, isFollowing: !talent.isFollowing };
       } else {
@@ -126,7 +79,7 @@ const Supporting = ({
       );
 
       if (response.success) {
-        setlocalTalent([...newLocalTalents]);
+        setLocalTalents([...newLocalTalents]);
       }
     } else {
       const response = await post(`/api/v1/follows`, {
@@ -134,7 +87,7 @@ const Supporting = ({
       });
 
       if (response.success) {
-        setlocalTalent([...newLocalTalents]);
+        setLocalTalents([...newLocalTalents]);
       }
     }
   };
@@ -152,44 +105,30 @@ const Supporting = ({
     }
   };
 
-  const compareOccupation = (talent1, talent2) => {
-    const occupation1 = talent1.occupation?.toLowerCase() || "";
-    const occupation2 = talent2.occupation?.toLowerCase() || "";
-
-    if (occupation1 < occupation2) {
-      return 1;
-    } else if (occupation1 > occupation2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareOccupation = (talent1, talent2) =>
+    compareStrings(talent1.occupation, talent2.occupation);
 
   const compareSupporters = (talent1, talent2) =>
-    getSupporterCount(talent1.token.contractId) -
-    getSupporterCount(talent2.token.contractId);
+    compareStrings(talent1.supporterCounter, talent2.supporterCounter);
 
   const compareMarketCap = (talent1, talent2) => {
     const talent1Amount = ethers.utils.parseUnits(
-      getMarketCap(talent1.token.contractId).replaceAll(",", "")
+      getMarketCap(talent1.totalSupply)?.replaceAll(",", "") || "0"
     );
     const talent2Amount = ethers.utils.parseUnits(
-      getMarketCap(talent2.token.contractId).replaceAll(",", "")
+      getMarketCap(talent2.totalSupply)?.replaceAll(",", "") || "0"
     );
 
-    if (talent1Amount.gt(talent2Amount)) {
-      return 1;
-    } else if (talent1Amount.lt(talent2Amount)) {
-      return -1;
-    } else {
-      return 0;
-    }
+    compareNumbers(talent1Amount, talent2Amount);
   };
 
+  const compareDate = (talent1, talent2) =>
+    compareDates(talent1.lastTimeBoughtAt, talent2.lastTimeBoughtAt);
+
   const filteredTalents = useMemo(() => {
-    let desiredTalent = [...localTalent];
+    let desiredTalent = [...localTalents];
     if (watchlistOnly) {
-      desiredTalent = localTalent.filter((talent) => talent.isFollowing);
+      desiredTalent = localTalents.filter((talent) => talent.isFollowing);
     }
     if (nameSearch) {
       desiredTalent = desiredTalent.filter((talent) => {
@@ -221,6 +160,9 @@ const Supporting = ({
       case "Alphabetical Order":
         comparisonFunction = compareName;
         break;
+      case "First Buy":
+        comparisonFunction = compareDate;
+        break;
     }
 
     if (sortDirection === "asc") {
@@ -230,14 +172,14 @@ const Supporting = ({
     }
 
     return desiredTalent.filter((t) => t.hasInfo);
-  }, [localTalent, watchlistOnly, selectedSort, sortDirection, nameSearch]);
+  }, [localTalents, watchlistOnly, selectedSort, sortDirection, nameSearch]);
 
   const populateTalent = async (talentsWithNoInfo) => {
     if (talentsWithNoInfo.length == 0) {
       return;
     }
 
-    const newLocalTalents = [...localTalent];
+    const newLocalTalents = [...localTalents];
 
     const response = await get(
       `/api/v1/public_talent${concatenateTokenAddresses(talentsWithNoInfo)}`
@@ -245,7 +187,7 @@ const Supporting = ({
 
     if (response.length > 0) {
       response.forEach((element) => {
-        const index = localTalent.findIndex(
+        const index = localTalents.findIndex(
           (localTalent) => localTalent.talent.id === element.token.contract_id
         );
 
@@ -261,14 +203,14 @@ const Supporting = ({
       });
     }
 
-    setlocalTalent(newLocalTalents.map((t) => ({ ...t, loaded: true })));
+    setLocalTalents(newLocalTalents.map((t) => ({ ...t, loaded: true })));
   };
 
   useEffect(() => {
-    const talentsWithNoInfo = localTalent.filter((item) => !item.loaded);
+    const talentsWithNoInfo = localTalents.filter((item) => !item.loaded);
 
     populateTalent(talentsWithNoInfo);
-  }, [localTalent]);
+  }, [localTalents]);
 
   const loadMore = () => {
     const nextPage = page + 1;
@@ -287,13 +229,18 @@ const Supporting = ({
       setLocalLoading(false);
     }
 
-    const newTalent = data.supporter.talents.map((t) => ({
-      ...t,
-      user: {},
-      token: {},
-    }));
+    const newTalents = data.supporter.talents.map(
+      ({ firstTimeBoughtAt, talent, ...rest }) => ({
+        ...rest,
+        progress: getProgress(talent.totalSupply, talent.maxSupply),
+        marketCap: getMarketCap(talent.totalSupply),
+        supporterCounter: getSupporterCount(talent.supporterCounter),
+        firstTimeBoughtAt: dayjs.unix(firstTimeBoughtAt).format("DD MMM, YYYY"),
+        talent,
+      })
+    );
 
-    setlocalTalent((prev) => [...prev, ...newTalent]);
+    setLocalTalents((prev) => [...prev, ...newTalents]);
 
     if (data.supporter.talents.length == PAGE_SIZE) {
       loadMore();
@@ -303,14 +250,15 @@ const Supporting = ({
   }, [data, loading]);
 
   useEffect(() => {
-    if (setSupportingCount && localTalent.length > 0) {
-      setSupportingCount(localTalent.length);
+    if (setSupportingCount && localTalents.length > 0) {
+      setSupportingCount(localTalents.length);
     }
-  }, [setSupportingCount, localTalent.length]);
+  }, [setSupportingCount, localTalents.length]);
+
 
   const supportingTalent = () => (
     <>
-      {localTalent.length > 0 && (
+      {localTalents.length > 0 && (
         <>
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-6">
             <H5 bold text="Supporting" />
@@ -328,9 +276,6 @@ const Supporting = ({
             <TalentTableListMode
               theme={theme}
               talents={filteredTalents}
-              getProgress={getProgress}
-              getMarketCap={getMarketCap}
-              getSupporterCount={getSupporterCount}
               updateFollow={updateFollow}
               selectedSort={selectedSort}
               setSelectedSort={setSelectedSort}
@@ -341,8 +286,6 @@ const Supporting = ({
           ) : (
             <TalentTableCardMode
               talents={filteredTalents}
-              getMarketCap={getMarketCap}
-              getSupporterCount={getSupporterCount}
               updateFollow={updateFollow}
               publicPageViewer={publicPageViewer}
             />
@@ -368,7 +311,7 @@ const Supporting = ({
   }
 
   return (
-    <>{localTalent.length > 0 ? supportingTalent() : notSupportingTalent()}</>
+    <>{localTalents.length > 0 ? supportingTalent() : notSupportingTalent()}</>
   );
 };
 

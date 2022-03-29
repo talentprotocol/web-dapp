@@ -51,7 +51,7 @@ module Talents
       supporters.each do |supporter|
         talent_supporter = TalentSupporter.find_or_initialize_by(
           talent_contract_id: token.contract_id,
-          supporter_wallet_id: supporter.id
+          supporter_wallet_id: supporter.supporter.id
         )
 
         talent_supporter.update!(
