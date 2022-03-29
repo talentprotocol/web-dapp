@@ -270,7 +270,7 @@ const TalentTableListMode = ({
             className="cursor-pointer"
           />
         </Table.Th>
-        <Table.Th className="col-2">
+        <Table.Th className="col-2 px-0">
           <Caption
             onClick={() => onOptionClick("Market Cap")}
             bold
