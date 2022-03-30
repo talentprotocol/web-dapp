@@ -2,6 +2,7 @@ import React from "react";
 import Talent from "src/components/icons/Talent";
 import Chat from "src/components/icons/Chat";
 import Wallet from "src/components/icons/Wallet";
+import Rocket from "src/components/icons/Rocket";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -24,6 +25,7 @@ export const BottomNav = ({
   talentPath,
   portfolioPath,
   messagesPath,
+  rewardsPath,
   hasUnreadMessages,
 }) => {
   const { height, width } = useWindowDimensionsHook();
@@ -53,6 +55,9 @@ export const BottomNav = ({
         <div className="navbar-bottom-menu-option">
           <BottomNavItem url={messagesPath} routeName="Messages" Icon={Chat} />
           {hasUnreadMessages && <UnreadMessagesIndicator />}
+        </div>
+        <div className="navbar-bottom-menu-option">
+          <BottomNavItem url={rewardsPath} routeName="Rewards" Icon={Rocket} />
         </div>
       </div>
     </nav>

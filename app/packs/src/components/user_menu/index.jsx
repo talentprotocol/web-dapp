@@ -34,11 +34,6 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           height={20}
           className="mr-2"
         />
-        <P2
-          bold
-          text={user.username}
-          className="mr-2 align-middle text-black"
-        />
         <Caret size={12} color="currentColor" />
       </Dropdown.Toggle>
 

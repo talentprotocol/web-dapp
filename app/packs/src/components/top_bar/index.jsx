@@ -260,8 +260,16 @@ export const TopBar = ({
             text="Messages"
             type="white"
             active={activeTab === "/messages"}
+            className="mr-4"
           />
           {hasUnreadMessages && <UnreadMessagesIndicator />}
+          <Tab
+            href="/rewards"
+            text="Rewards"
+            type="white"
+            active={activeTab === "/rewards"}
+            newTab={true}
+          />
         </div>
         <div className="d-flex" style={{ height: 34 }}>
           {!showConnectButton() && connectedButton("mr-2")}

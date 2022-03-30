@@ -37,7 +37,10 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :show, :create]
     mount ActionCable.server => "/cable"
 
-    # Profile
+    # Rewards
+    resources :rewards, only: [:index]
+
+    # Feed
     resources :posts, only: [:show, :create, :destroy] do
       resources :comments, only: [:index, :create, :destroy], module: "posts"
     end
