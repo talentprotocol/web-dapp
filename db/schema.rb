@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_23_112924) do
-
+ActiveRecord::Schema.define(version: 2022_03_30_145115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +102,8 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "races_id"
+    t.index ["races_id"], name: "index_invites_on_races_id"
     t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
@@ -170,6 +171,22 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "races", force: :cascade do |t|
+    t.date "started_at"
+    t.date "ends_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "reason"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_rewards_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -308,11 +325,13 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "invites", "races", column: "races_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
+  add_foreign_key "rewards", "users"
   add_foreign_key "tags", "discovery_rows"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"

@@ -1,9 +1,9 @@
 class CreateRewards < ActiveRecord::Migration[6.1]
   def change
     create_table :rewards do |t|
-      t.integer :required_amount
-      t.text :description
-      t.references :talent, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
+      t.string :reason
+      t.integer :amount
 
       t.timestamps
     end
