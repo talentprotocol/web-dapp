@@ -2,7 +2,7 @@ class API::V1::Talent::TokensController < ApplicationController
   after_action :notify_of_change
 
   def update
-    if talent.id != current_user.talent.id
+    if current_user.nil? || talent.id != current_user.talent.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
