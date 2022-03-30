@@ -3,12 +3,16 @@ class API::V1::StakesController < ApplicationController
     token = Token.find_by(id: stake_params[:token_id])
 
     if token.talent.user_id != current_user.id
-      current_user.update!(tokens_purchased: true)
-      AddUsersToMailerliteJob.perform_later(current_user.id)
+      TalentSupportersRefreshJob.perform_later(token.contract_id)
       CreateNotification.new.call(recipient: token.talent.user,
                                   type: TokenAcquiredNotification,
                                   source_id: current_user.id)
-      SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
+
+      if !current_user.tokens_purchased
+        current_user.update!(tokens_purchased: true)
+        AddUsersToMailerliteJob.perform_later(current_user.id)
+        SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
+      end
       # add_follow(token.talent.user_id)
     end
 
