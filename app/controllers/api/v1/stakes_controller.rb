@@ -2,7 +2,7 @@ class API::V1::StakesController < ApplicationController
   def create
     token = Token.find_by(id: stake_params[:token_id])
 
-    if token.talent.user_id != current_user.id && !current_user.tokens_purchased
+    if token.talent.user_id != current_user.id
       TalentSupportersRefreshJob.perform_later(token.contract_id)
       CreateNotification.new.call(recipient: token.talent.user,
                                   type: TokenAcquiredNotification,
