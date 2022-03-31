@@ -6,17 +6,17 @@ module ViralLoops
     end
 
     def call(email:)
-      return unless ENV["ENABLE_VIRAL_LOOPS_API"]
-
       remove_email_from_waitlist(email)
     end
 
     private
 
+    attr_reader :url, :token
+
     def remove_email_from_waitlist(email)
       Faraday.post(
-        @url,
-        {apiToken: @token, params: {participants: [{email: email}]}}.to_json,
+        url,
+        {apiToken: token, params: {participants: [{email: email}]}}.to_json,
         {"Content-Type": "application/json"}
       )
     end
