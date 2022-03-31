@@ -11,8 +11,8 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { COMMUNITY_S01_NFT_AIRDROP } from "src/utils/constants";
-import { H3, P1, Caption } from "src/components/design_system/typography";
+import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
+import { H3, Caption } from "src/components/design_system/typography";
 import { Spinner } from "src/components/icons";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
@@ -162,21 +162,22 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
             <div style={{ width: "420px" }}>
               <Caption
                 className="mb-2 text-yellow"
-                text="NFT AIRDROP - SEASON 1"
+                text="TALENT TOKEN APPLICATION"
                 bold
               />
               <H3
                 className="pb-4"
-                text="Community contributors just earned a special NFT!"
+                text="Launch your own token and create your on-chain CV."
                 bold
               />
               <Button
-                type="dark-mode-static-white-default"
+                type="primary-default"
                 size="extra-big"
-                onClick={() => window.open(COMMUNITY_S01_NFT_AIRDROP, "_blank")}
-              >
-                <P1 className="text-primary" bold text="Learn More" />
-              </Button>
+                onClick={() =>
+                  window.open(TALENT_TOKEN_APPLICATION_FORM, "_blank")
+                }
+                text="Apply Now"
+              />
             </div>
           </div>
         </div>
