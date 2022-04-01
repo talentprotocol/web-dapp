@@ -28,6 +28,9 @@ class User < ApplicationRecord
   has_many :posts
   has_many :notifications, as: :recipient
 
+  # Rewards
+  has_many :rewards
+
   VALID_ROLES = ["admin", "basic"].freeze
 
   module Delivery

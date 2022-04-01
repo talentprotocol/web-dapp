@@ -51,6 +51,10 @@
   border-bottom: 1px solid $surface-hover;
 }
 
+.dark-body .talent-table-tabs {
+  border-bottom: 1px solid $gray-800;
+}
+
 .talent-table-tab {
   cursor: pointer;
   padding-bottom: 16px;
@@ -62,16 +66,18 @@
   }
 }
 
-.dark-body .talent-table-tabs {
-  border-bottom: 1px solid $gray-800;
-}
-
 .dark-body .talent-table-tab {
   color: $gray-300;
 
   &:hover {
     color: $white;
   }
+}
+
+.disabled-talent-table-tab {
+  padding-bottom: 16px;
+  margin-right: 24px;
+  color: $surface-hover-02;
 }
 
 .table-hover {

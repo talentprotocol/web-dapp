@@ -2,7 +2,15 @@
   <div class="container-grid">
     <div class="secondary-content">
       <%= react_component("Rewards",
-        props: {},
+        props: {
+          user: {
+            isTalent: current_user.talent.present?,
+            isActiveSupporter: current_user.tokens_purchased?,
+            rewards: current_user.rewards,
+          },
+          talentInvites: @talent_invites,
+          supporterInvites: @supporter_invites,
+        },
         prerender: false) %>
     </div>
   </div>

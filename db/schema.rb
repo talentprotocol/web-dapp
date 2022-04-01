@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2022_03_30_145115) do
   create_table "rewards", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason"
+    t.string "category"
     t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -335,6 +335,14 @@
   overflow-y: scroll;
 }
 
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
+}
+
 @keyframes rotate {
   from {
     transform: rotateZ(0deg);
