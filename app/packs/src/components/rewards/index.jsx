@@ -44,7 +44,8 @@ const Rewards = ({ user, talentInvites, supporterInvites }) => {
     <>
       <RewardsHeader rewards={user.rewards} />
       <Tabs activeTab={activeTab} changeTab={changeTab} />
-      <ReferralRace />
+      {activeTab == "race" && <ReferralRace />}
+      {activeTab == "talent" && <TalentInvites />}
     </>
   );
 };

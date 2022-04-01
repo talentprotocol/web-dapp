@@ -448,6 +448,10 @@
   margin-bottom: 40px !important;
 }
 
+.p-6 {
+  padding: 40px !important;
+}
+
 .pb-6 {
   padding-bottom: 40px !important;
 }
@@ -472,6 +476,12 @@
 .py-6 {
   padding-top: 40px !important;
   padding-bottom: 40px !important;
+}
+
+@media (min-width: 992px) {
+  .mt-lg-7 {
+    margin-top: 64px;
+  }
 }
 
 .talent-background {
