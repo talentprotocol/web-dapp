@@ -1,0 +1,15 @@
+{
+  "address": "0xfdc01e02a12d5ed6f3f9f680dc4kajsd87320230s",
+  "decimals": "8",
+  "name": "TALENT",
+  "symbol": "TALENT",
+  "totalSupply": "100000000000",
+  "transfersCount": 60,
+  "lastUpdated": 1646079423,
+  "issuancesCount": 0,
+  "holdersCount": 500,
+  "ethTransfersCount": 0,
+  "price": false,
+  "owner": "0x",
+  "countOps": 50
+}
