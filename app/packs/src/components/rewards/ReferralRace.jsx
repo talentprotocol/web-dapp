@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+
+import { Copy, OrderBy } from "src/components/icons";
 
 import {
   P1,
@@ -9,9 +12,10 @@ import {
   H5,
 } from "src/components/design_system/typography";
 import Caption from "src/components/design_system/typography/caption";
-import { Copy } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
+import Table from "src/components/design_system/table";
+import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 
 const RaceHeader = ({ isEligible }) => {
   if (!isEligible) {
@@ -162,6 +166,156 @@ const Overview = ({ copyCode, copyLink }) => {
   );
 };
 
+const RaceDropdown = ({ race, setRace }) => {
+  const options = ["Current Race", "Race #2", "Race #1"];
+
+  const selectedClass = (option) =>
+    option == race ? " text-primary" : "text-black";
+
+  return (
+    <Dropdown>
+      <Dropdown.Toggle
+        className="talent-button white-subtle-button normal-size-button no-caret d-flex justify-content-between align-items-center"
+        id="referral-race-dropdown"
+        bsPrefix=""
+        as="div"
+        style={{ height: 34, width: 150 }}
+      >
+        <P2 bold text={race} className="mr-2 align-middle text-black" />
+        <OrderBy black />
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        {options.map((option) => (
+          <Dropdown.Item
+            key={`tab-dropdown-${option}`}
+            className="d-flex flex-row justify-content-between"
+            onClick={() => setRace(option)}
+          >
+            <P3 bold text={option} className={selectedClass(option)} />
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
+
+const RaceTable = () => {
+  const [selectedRace, setSelectedRace] = useState("Current Race");
+  const [topInviters, setTopInviters] = useState([
+    { id: 1, position: 1, name: "ABC", username: "ABC", invites: 15 },
+    { id: 2, position: 2, name: "DEF", username: "ABC", invites: 10 },
+    { id: 3, position: 3, name: "GHI", username: "ABC", invites: 5 },
+    { id: 4, position: 4, name: "JKL", username: "ABC", invites: 4 },
+    { id: 5, position: 5, name: "MNO", username: "ABC", invites: 3 },
+    { id: 6, position: 40, name: "PQR", username: "ABC", invites: 1 },
+  ]);
+
+  const getRewardsForPosition = (position) => {
+    if (position === 1) {
+      return "1,200 $TAL";
+    } else if (position === 2) {
+      return "500 $TAL";
+    } else if (position === 3) {
+      return "300 $TAL";
+    } else {
+      return "0 $TAL";
+    }
+  };
+
+  const getPositionCircle = (position) => {
+    if (position <= 3) {
+      return (
+        <div
+          style={{ width: 24, height: 24 }}
+          className="bg-primary rounded-circle mr-4 text-center permanent-text-white"
+        >
+          <P2 bold>{position}</P2>
+        </div>
+      );
+    } else if (position <= 5) {
+      return (
+        <div
+          style={{ width: 24, height: 24 }}
+          className="bg-surface-hover text-primary-03 rounded-circle mr-4 text-center"
+        >
+          <P2 bold>{position}</P2>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          style={{ width: 24, height: 24 }}
+          className="text-primary-03 text-center mr-4"
+        >
+          <P2>{position}</P2>
+        </div>
+      );
+    }
+  };
+
+  return (
+    <>
+      <div className="d-flex flex-row justify-content-between align-items-center px-4 px-lg-0">
+        <H4 bold>Ranking</H4>
+        <RaceDropdown race={selectedRace} setRace={setSelectedRace} />
+      </div>
+      <Table mode={"dark"} className="px-3 horizontal-scroll mb-5">
+        <Table.Head>
+          <Table.Th className="w-100 pl-4 pl-lg-3">
+            <Caption bold text={"POSITION"} />
+          </Table.Th>
+          <Table.Th className="pr-4 pr-lg-0">
+            <Caption bold text={"INVITES"} />
+          </Table.Th>
+          <Table.Th className="hide-content-in-mobile">
+            <Caption bold text={"REWARDS"} />
+          </Table.Th>
+        </Table.Head>
+        <Table.Body>
+          {topInviters.map((inviter) => (
+            <Table.Tr key={`inviter-${inviter.id}`}>
+              <td
+                className="w-100 pl-4 pl-lg-3"
+                onClick={() =>
+                  (window.location.href = `/u/${inviter.username}`)
+                }
+              >
+                <div className="d-flex align-items-center">
+                  {getPositionCircle(inviter.position)}
+                  <TalentProfilePicture
+                    src={inviter.profilePictureUrl}
+                    height="32"
+                  />
+                  <P2 text={inviter.name} bold className="ml-2" />
+                </div>
+              </td>
+              <Table.Td
+                className="race-table-invites-cell"
+                onClick={() =>
+                  (window.location.href = `/u/${inviter.username}`)
+                }
+              >
+                <P2 text={inviter.invites} />
+              </Table.Td>
+              <Table.Td
+                className={`race-table-rewards-cell hide-content-in-mobile ${
+                  inviter.position < 3 ? "text-black" : "text-primary-03"
+                }`}
+                onClick={() =>
+                  (window.location.href = `/u/${talent.user.username}`)
+                }
+              >
+                <P2 text={getRewardsForPosition(inviter.position)} />
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Body>
+      </Table>
+    </>
+  );
+};
+
 const ReferralRace = (props) => {
   const copyCode = () => navigator.clipboard.writeText("TAL-janecooper");
 
@@ -172,7 +326,7 @@ const ReferralRace = (props) => {
     <div className="mt-6 mt-lg-7 d-flex flex-column">
       <RaceHeader isEligible={true} />
       <Overview copyCode={copyCode} copyLink={copyLink} />
-      <div></div>
+      <RaceTable />
     </div>
   );
 };

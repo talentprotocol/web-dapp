@@ -125,6 +125,14 @@
   color: $primary !important;
 }
 
+.text-primary-03 {
+  color: $gray-400 !important;
+}
+
+.dark-body .text-primary-03 {
+  color: $gray-300 !important;
+}
+
 .text-yellow {
   color: $yellow !important;
 }
@@ -297,6 +305,14 @@
 
 .dark-body .bg-light {
   background-color: $gray-900 !important;
+}
+
+.bg-surface-hover {
+  background-color: $surface-hover !important;
+}
+
+.dark-body .bg-surface-hover {
+  background-color: $gray-800 !important;
 }
 
 .dark-body .themed-border-top {
@@ -498,4 +514,10 @@
 
 .height-auto {
   height: auto;
+}
+
+@media (max-width: 992px) {
+  .hide-content-in-mobile {
+    display: none;
+  }
 }

@@ -46,7 +46,6 @@
   background-color: $primary-shade-01;
 }
 
-
 .race-time-counter-box {
   width: 104px;
   height: 96px;
@@ -58,7 +57,19 @@
   border-radius: 3px;
 }
 
+.race-table-invites-cell {
+  min-width: 150px;
+}
+
+.race-table-rewards-cell {
+  min-width: 100px;
+}
+
 @media (max-width: 992px) {
+  .race-table-invites-cell {
+    min-width: 0px;
+  }
+
   .race-header-row {
     flex-direction: column;
     justify-content: start;
