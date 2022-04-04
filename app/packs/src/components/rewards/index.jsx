@@ -36,15 +36,15 @@ const Tabs = ({ changeTab, activeTab }) => {
   );
 };
 
-const Rewards = ({ user, talentInvites, supporterInvites }) => {
+const Rewards = ({ user, race, rewards, talentInvites, supporterInvites }) => {
   const { isTalent, isActiveSupporter } = user;
   const [activeTab, changeTab] = useState("race");
 
   return (
     <>
-      <RewardsHeader rewards={user.rewards} />
+      <RewardsHeader rewards={rewards} />
       <Tabs activeTab={activeTab} changeTab={changeTab} />
-      {activeTab == "race" && <ReferralRace />}
+      {activeTab == "race" && <ReferralRace race={race} />}
       {activeTab == "talent" && <TalentInvites />}
     </>
   );

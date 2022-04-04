@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_one :investor
   has_many :invites
   belongs_to :invited, class_name: "Invite", foreign_key: "invite_id", optional: true
+  belongs_to :race, optional: true
   has_many :user_tags
   has_many :tags, through: :user_tags
 

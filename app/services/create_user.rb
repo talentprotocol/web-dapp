@@ -68,6 +68,7 @@ class CreateUser
     user.invited = invite
     user.theme_preference = theme_preference
     user.role = "basic"
+    user.race = Race.active_race
     user.save!
     user
   end

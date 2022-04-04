@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
+import dayjs from "dayjs";
 
 import { Copy, OrderBy } from "src/components/icons";
 
@@ -17,7 +18,40 @@ import Tooltip from "src/components/design_system/tooltip";
 import Table from "src/components/design_system/table";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 
-const RaceHeader = ({ isEligible }) => {
+const RaceHeader = ({ isEligible, race }) => {
+  const [timeUntilEnd, setTimeUntilEnd] = useState({
+    days: 7,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  const updateTimeUntilEnd = () => {
+    const currentTime = dayjs();
+    let calculatedTime = dayjs(race.ends_at).endOf("day");
+
+    const days = calculatedTime.diff(currentTime, "days");
+    calculatedTime = calculatedTime.subtract(days, "days");
+    const hours = calculatedTime.diff(currentTime, "hours");
+    calculatedTime = calculatedTime.subtract(hours, "hours");
+    const minutes = calculatedTime.diff(currentTime, "minutes");
+    calculatedTime = calculatedTime.subtract(minutes, "minutes");
+    const seconds = calculatedTime.diff(currentTime, "seconds");
+
+    setTimeUntilEnd({
+      days,
+      hours,
+      minutes,
+      seconds,
+    });
+
+    setTimeout(() => updateTimeUntilEnd(), 1000);
+  };
+
+  useEffect(() => {
+    updateTimeUntilEnd();
+  }, [race]);
+
   if (!isEligible) {
     return (
       <div className="race-header-row p-6 bg-light">
@@ -70,19 +104,19 @@ const RaceHeader = ({ isEligible }) => {
         <div className="d-flex flex-row justify-content-between col-lg-5 px-4 px-lg-0 mt-5 mt-lg-0">
           <div className="race-time-counter-box">
             <P2>Days</P2>
-            <H3 bold>3</H3>
+            <H3 bold>{timeUntilEnd.days}</H3>
           </div>
           <div className="race-time-counter-box">
             <P2>Hours</P2>
-            <H3 bold>6</H3>
+            <H3 bold>{timeUntilEnd.hours}</H3>
           </div>
           <div className="race-time-counter-box">
             <P2>Minutes</P2>
-            <H3 bold>31</H3>
+            <H3 bold>{timeUntilEnd.minutes}</H3>
           </div>
           <div className="race-time-counter-box">
             <P2>Seconds</P2>
-            <H3 bold>20</H3>
+            <H3 bold>{timeUntilEnd.seconds}</H3>
           </div>
         </div>
       </div>
@@ -316,7 +350,7 @@ const RaceTable = () => {
   );
 };
 
-const ReferralRace = (props) => {
+const ReferralRace = ({ race }) => {
   const copyCode = () => navigator.clipboard.writeText("TAL-janecooper");
 
   const copyLink = () =>
@@ -324,7 +358,7 @@ const ReferralRace = (props) => {
 
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
-      <RaceHeader isEligible={true} />
+      <RaceHeader isEligible={true} race={race} />
       <Overview copyCode={copyCode} copyLink={copyLink} />
       <RaceTable />
     </div>

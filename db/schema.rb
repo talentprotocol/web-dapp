@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_30_145115) do
+ActiveRecord::Schema.define(version: 2022_04_04_074010) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -102,8 +102,6 @@ ActiveRecord::Schema.define(version: 2022_03_30_145115) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "races_id"
-    t.index ["races_id"], name: "index_invites_on_races_id"
     t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
@@ -300,8 +298,10 @@ ActiveRecord::Schema.define(version: 2022_03_30_145115) do
     t.boolean "member_nft_minted", default: false
     t.integer "member_nft_token_id"
     t.string "member_nft_tx"
+    t.bigint "races_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
+    t.index ["races_id"], name: "index_users_on_races_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
@@ -326,7 +326,6 @@ ActiveRecord::Schema.define(version: 2022_03_30_145115) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
-  add_foreign_key "invites", "races", column: "races_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"
