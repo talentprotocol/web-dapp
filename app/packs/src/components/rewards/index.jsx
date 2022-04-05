@@ -43,6 +43,7 @@ const Rewards = ({
   race,
   rewards,
   talentInvites,
+  talentList,
   supporterInvites,
   leaderboardResults,
 }) => {
@@ -64,7 +65,11 @@ const Rewards = ({
         />
       )}
       {activeTab == "talent" && (
-        <TalentInvites invites={talentInvites} rewards={rewards} />
+        <TalentInvites
+          invites={talentInvites}
+          rewards={rewards}
+          talentList={talentList}
+        />
       )}
     </>
   );

@@ -7,6 +7,13 @@ class RewardsController < ApplicationController
     @race = Race.active_race || Race.last
     @rewards = current_user.rewards
 
+    if @talent_invites.length > 0
+      invite_ids = @talent_invites.map(&:id)
+      talents = Talent.joins(:user).where(user: {invite_id: invite_ids})
+
+      @talent_list = TalentBlueprint.render_as_json(talents, view: :short_meta, current_user: current_user)
+    end
+
     service = PrepareRaceResults.new(race: @race, user: current_user)
     @race_results = service.call
   end

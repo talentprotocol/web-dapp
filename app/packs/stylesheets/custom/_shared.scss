@@ -496,7 +496,11 @@
 
 @media (min-width: 992px) {
   .mt-lg-7 {
-    margin-top: 64px;
+    margin-top: 64px !important;
+  }
+
+  .mb-lg-7 {
+    margin-bottom: 64px !important;
   }
 }
 
@@ -518,6 +522,6 @@
 
 @media (max-width: 992px) {
   .hide-content-in-mobile {
-    display: none;
+    display: none !important;
   }
 }

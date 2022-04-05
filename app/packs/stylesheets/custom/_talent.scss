@@ -77,6 +77,10 @@
 .disabled-talent-table-tab {
   padding-bottom: 16px;
   margin-right: 24px;
+  color: $gray;
+}
+
+.dark-body .disabled-talent-table-tab {
   color: $surface-hover-02;
 }
 

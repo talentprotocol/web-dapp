@@ -22,4 +22,12 @@ class TalentBlueprint < Blueprinter::Base
     association :milestones, blueprint: MilestoneBlueprint, view: :normal
     association :career_goal, blueprint: CareerGoalBlueprint, view: :normal
   end
+
+  view :short_meta do
+    fields :occupation, :supporters_count, :total_supply
+    association :token, blueprint: TokenBlueprint, view: :normal
+    field :username do |talent, options|
+      talent.user.username
+    end
+  end
 end

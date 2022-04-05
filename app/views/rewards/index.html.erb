@@ -5,7 +5,7 @@
         props: {
           user: {
             isTalent: current_user.talent.present?,
-            isActiveSupporter: current_user.tokens_purchased?,
+            isActiveSupporter: current_user.tokens_purchased? || current_user.talent&.token&.contract_id.present?,
             currentRaceResults: @race_results[:userStats][:invites],
           },
           talentInvites: @talent_invites,
@@ -13,6 +13,7 @@
           race: @race,
           rewards: @rewards,
           leaderboardResults: @race_results,
+          talentList: @talent_list
         },
         prerender: false) %>
     </div>
