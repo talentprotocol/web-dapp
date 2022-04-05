@@ -6,11 +6,13 @@
           user: {
             isTalent: current_user.talent.present?,
             isActiveSupporter: current_user.tokens_purchased?,
+            currentRaceResults: @race_results[:userStats][:invites],
           },
           talentInvites: @talent_invites,
           supporterInvites: @supporter_invites,
           race: @race,
           rewards: @rewards,
+          leaderboardResults: @race_results,
         },
         prerender: false) %>
     </div>

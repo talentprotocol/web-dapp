@@ -7,7 +7,7 @@ import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
 import TalentInvites from "./TalentInvites";
 
-const Tabs = ({ changeTab, activeTab }) => {
+const Tabs = ({ changeTab, activeTab, isTalent }) => {
   return (
     <div className="talent-table-tabs d-flex flex-row align-items-center overflow-x-scroll hide-scrollbar">
       <div
@@ -18,14 +18,16 @@ const Tabs = ({ changeTab, activeTab }) => {
       >
         Referral Race
       </div>
-      <div
-        onClick={() => changeTab("talent")}
-        className={`text-no-wrap talent-table-tab${
-          activeTab == "talent" ? " active-talent-table-tab" : ""
-        }`}
-      >
-        Talent Invites
-      </div>
+      {!!isTalent && (
+        <div
+          onClick={() => changeTab("talent")}
+          className={`text-no-wrap talent-table-tab${
+            activeTab == "talent" ? " active-talent-table-tab" : ""
+          }`}
+        >
+          Talent Invites
+        </div>
+      )}
       <div className="d-flex disabled-talent-table-tab">
         Quests
         <Tag className="ml-2">
@@ -36,16 +38,34 @@ const Tabs = ({ changeTab, activeTab }) => {
   );
 };
 
-const Rewards = ({ user, race, rewards, talentInvites, supporterInvites }) => {
+const Rewards = ({
+  user,
+  race,
+  rewards,
+  talentInvites,
+  supporterInvites,
+  leaderboardResults,
+}) => {
   const { isTalent, isActiveSupporter } = user;
   const [activeTab, changeTab] = useState("race");
 
   return (
     <>
       <RewardsHeader rewards={rewards} />
-      <Tabs activeTab={activeTab} changeTab={changeTab} />
-      {activeTab == "race" && <ReferralRace race={race} />}
-      {activeTab == "talent" && <TalentInvites />}
+      <Tabs activeTab={activeTab} changeTab={changeTab} isTalent={isTalent} />
+      {activeTab == "race" && (
+        <ReferralRace
+          race={race}
+          supporterInvites={supporterInvites}
+          currentRaceResults={user.currentRaceResults}
+          isActiveSupporter={isActiveSupporter}
+          leaderboardResults={leaderboardResults}
+          isTalent={isTalent}
+        />
+      )}
+      {activeTab == "talent" && (
+        <TalentInvites invites={talentInvites} rewards={rewards} />
+      )}
     </>
   );
 };

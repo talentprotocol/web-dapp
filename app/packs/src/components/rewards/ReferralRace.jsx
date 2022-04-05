@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import dayjs from "dayjs";
 
 import { Copy, OrderBy } from "src/components/icons";
+import { TALENT_APPLICATION_FORM } from "src/utils/constants";
 
 import {
   P1,
@@ -18,17 +19,29 @@ import Tooltip from "src/components/design_system/tooltip";
 import Table from "src/components/design_system/table";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 
-const RaceHeader = ({ isEligible, race }) => {
+const RaceHeader = ({ isEligible, race, isTalent, username }) => {
   const [timeUntilEnd, setTimeUntilEnd] = useState({
     days: 7,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
+  let timeoutPointer;
 
   const updateTimeUntilEnd = () => {
     const currentTime = dayjs();
     let calculatedTime = dayjs(race.ends_at).endOf("day");
+
+    if (currentTime.isAfter(calculatedTime)) {
+      setTimeUntilEnd({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+
+      return;
+    }
 
     const days = calculatedTime.diff(currentTime, "days");
     calculatedTime = calculatedTime.subtract(days, "days");
@@ -45,11 +58,21 @@ const RaceHeader = ({ isEligible, race }) => {
       seconds,
     });
 
-    setTimeout(() => updateTimeUntilEnd(), 1000);
+    timeoutPointer = setTimeout(() => updateTimeUntilEnd(), 1000);
+  };
+
+  const redirectToLaunchToken = () => {
+    if (isTalent) {
+      window.location.href = `u/${username}/edit_profile`;
+    } else {
+      window.open(TALENT_APPLICATION_FORM);
+    }
   };
 
   useEffect(() => {
     updateTimeUntilEnd();
+
+    return () => clearTimeout(timeoutPointer);
   }, [race]);
 
   if (!isEligible) {
@@ -61,7 +84,7 @@ const RaceHeader = ({ isEligible, race }) => {
           </H4>
           <P1>
             Every week the 3 users with the most referrals will win a total of
-            2,000 $TAL. The 1st wins 1200, the 2nd 500 and the 3rd 300. No
+            2,000 $TAL. The 1st wins 1,200, the 2nd 500 and the 3rd 300. No
             repeat winners. You need to be an active user to unlock invites and
             enter the race. To become an active user you need to buy or launch a
             talent token.
@@ -71,7 +94,7 @@ const RaceHeader = ({ isEligible, race }) => {
           <Button
             type="primary-default"
             size="big"
-            onClick={() => console.log("1")}
+            onClick={() => (window.location.href = "/talent")}
           >
             Start Supporting
           </Button>
@@ -79,7 +102,7 @@ const RaceHeader = ({ isEligible, race }) => {
             type="primary-outline"
             className="ml-2"
             size="big"
-            onClick={() => console.log("2")}
+            onClick={redirectToLaunchToken}
           >
             Launch a Talent Token
           </Button>
@@ -129,7 +152,72 @@ const RaceHeader = ({ isEligible, race }) => {
   );
 };
 
-const Overview = ({ copyCode, copyLink }) => {
+const Overview = ({
+  supporterInvites,
+  currentRaceResults,
+  currentPosition,
+}) => {
+  const [invite, setInvite] = useState({
+    code: "N/A",
+    uses: 0,
+    usesLeft: 0,
+  });
+
+  useEffect(() => {
+    if (supporterInvites.length == 0) {
+      return;
+    }
+
+    const unlimitedCodeInvite = supporterInvites.filter(
+      (inv) => inv.max_uses === null
+    );
+    if (unlimitedCodeInvite.length > 0) {
+      setInvite({
+        code: unlimitedCodeInvite[0].code,
+        uses: unlimitedCodeInvite[0].uses,
+        usesLeft: "Unlimited",
+      });
+
+      return;
+    }
+
+    const notUnlimitedCodeInvite = supporterInvites.filter(
+      (inv) => inv.uses < inv.max_uses
+    );
+    if (notUnlimitedCodeInvite.length > 0) {
+      setInvite({
+        code: notUnlimitedCodeInvite[0].code,
+        uses: notUnlimitedCodeInvite[0].uses,
+        usesLeft:
+          notUnlimitedCodeInvite[0].max_uses - notUnlimitedCodeInvite[0].uses,
+      });
+
+      return;
+    }
+
+    setInvite({
+      code: supporterInvites[0].code,
+      uses: supporterInvites[0].uses,
+      usesLeft: supporterInvites[0].max_uses - supporterInvites[0].uses,
+    });
+  }, [supporterInvites]);
+
+  const getInviteLink = (full) => {
+    if (invite.code == "N/A") {
+      return invite.code;
+    }
+
+    if (full) {
+      return `https://beta.talentprotocol.com/sign_up?code=${invite.code}`;
+    } else {
+      return `https://beta.tal...?code=${invite.code}`;
+    }
+  };
+
+  const copyCode = () => navigator.clipboard.writeText(invite.code);
+
+  const copyLink = () => navigator.clipboard.writeText(getInviteLink(true));
+
   return (
     <div className="d-flex flex-column flex-lg-row justify-content-lg-between mt-6 mt-lg-7">
       <div className="lg-w-49 mx-4 mx-lg-0 px-0 d-flex flex-column bg-light rounded-sm mb-6 mb-lg-0">
@@ -139,7 +227,7 @@ const Overview = ({ copyCode, copyLink }) => {
         <div className="d-flex flex-column mx-4 flex-lg-row justify-content-lg-between align-items-lg-center">
           <P3 className="mb-2 mb-lg-0">Referral Code</P3>
           <div className="d-flex flex-row align-items-center justify-content-between justify-content-lg-end">
-            <P2 className="text-black">TAL-janecooper</P2>
+            <P2 className="text-black">{invite.code}</P2>
             <Tooltip
               body={"Copied!"}
               popOverAccessibilityId={"copy_code_success"}
@@ -158,9 +246,7 @@ const Overview = ({ copyCode, copyLink }) => {
         <div className="d-flex flex-column mx-4 mb-4 flex-lg-row justify-content-lg-between align-items-lg-center mt-2">
           <P3 className="mb-2 mb-lg-0">Referral Link</P3>
           <div className="d-flex flex-row align-items-center justify-content-between justify-content-lg-end">
-            <P2 className="text-black">
-              https://beta.talent.../TAL-janecooper
-            </P2>
+            <P2 className="text-black">{getInviteLink(false)}</P2>
             <Tooltip
               body={"Copied!"}
               popOverAccessibilityId={"copy_link_success"}
@@ -184,15 +270,15 @@ const Overview = ({ copyCode, copyLink }) => {
         <div className="d-flex flex-row mx-4 justify-content-between">
           <div className="d-flex flex-column">
             <P3>Your Position</P3>
-            <H5 bold>41</H5>
+            <H5 bold>{currentPosition}</H5>
           </div>
           <div className="d-flex flex-column">
             <P3>Invites Used</P3>
-            <H5 bold>4</H5>
+            <H5 bold>{currentRaceResults}</H5>
           </div>
           <div className="d-flex flex-column">
             <P3>Invites available</P3>
-            <H5 bold>Unlimited</H5>
+            <H5 bold>{invite.usesLeft}</H5>
           </div>
         </div>
       </div>
@@ -201,7 +287,8 @@ const Overview = ({ copyCode, copyLink }) => {
 };
 
 const RaceDropdown = ({ race, setRace }) => {
-  const options = ["Current Race", "Race #2", "Race #1"];
+  // @TODO: Add other options & load a different race
+  const options = ["Current Race"];
 
   const selectedClass = (option) =>
     option == race ? " text-primary" : "text-black";
@@ -234,16 +321,15 @@ const RaceDropdown = ({ race, setRace }) => {
   );
 };
 
-const RaceTable = () => {
+const RaceTable = ({ leaderboardResults }) => {
   const [selectedRace, setSelectedRace] = useState("Current Race");
-  const [topInviters, setTopInviters] = useState([
-    { id: 1, position: 1, name: "ABC", username: "ABC", invites: 15 },
-    { id: 2, position: 2, name: "DEF", username: "ABC", invites: 10 },
-    { id: 3, position: 3, name: "GHI", username: "ABC", invites: 5 },
-    { id: 4, position: 4, name: "JKL", username: "ABC", invites: 4 },
-    { id: 5, position: 5, name: "MNO", username: "ABC", invites: 3 },
-    { id: 6, position: 40, name: "PQR", username: "ABC", invites: 1 },
-  ]);
+  const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
+
+  useEffect(() => {
+    if (leaderboardResults.userStats.position > 5) {
+      setTopInviters((prev) => [...prev, userStats]);
+    }
+  }, [leaderboardResults]);
 
   const getRewardsForPosition = (position) => {
     if (position === 1) {
@@ -302,7 +388,7 @@ const RaceTable = () => {
           <Table.Th className="pr-4 pr-lg-0">
             <Caption bold text={"INVITES"} />
           </Table.Th>
-          <Table.Th className="hide-content-in-mobile">
+          <Table.Th className="hide-content-in-mobile text-black">
             <Caption bold text={"REWARDS"} />
           </Table.Th>
         </Table.Head>
@@ -330,17 +416,25 @@ const RaceTable = () => {
                   (window.location.href = `/u/${inviter.username}`)
                 }
               >
-                <P2 text={inviter.invites} />
+                <P2
+                  className={`${
+                    inviter.position <= 3 ? "text-black" : "text-primary-03"
+                  }`}
+                  text={inviter.invites}
+                />
               </Table.Td>
               <Table.Td
-                className={`race-table-rewards-cell hide-content-in-mobile ${
-                  inviter.position < 3 ? "text-black" : "text-primary-03"
-                }`}
+                className={"race-table-rewards-cell hide-content-in-mobile"}
                 onClick={() =>
                   (window.location.href = `/u/${talent.user.username}`)
                 }
               >
-                <P2 text={getRewardsForPosition(inviter.position)} />
+                <P2
+                  className={`${
+                    inviter.position <= 3 ? "text-black" : "text-primary-03"
+                  }`}
+                  text={getRewardsForPosition(inviter.position)}
+                />
               </Table.Td>
             </Table.Tr>
           ))}
@@ -350,17 +444,28 @@ const RaceTable = () => {
   );
 };
 
-const ReferralRace = ({ race }) => {
-  const copyCode = () => navigator.clipboard.writeText("TAL-janecooper");
-
-  const copyLink = () =>
-    navigator.clipboard.writeText("https://beta/TAL-janecooper");
-
+const ReferralRace = ({
+  race,
+  supporterInvites,
+  isActiveSupporter,
+  currentRaceResults,
+  leaderboardResults,
+  isTalent,
+}) => {
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
-      <RaceHeader isEligible={true} race={race} />
-      <Overview copyCode={copyCode} copyLink={copyLink} />
-      <RaceTable />
+      <RaceHeader
+        isEligible={!!isActiveSupporter}
+        race={race}
+        isTalent={isTalent}
+        username={leaderboardResults.userStats.username}
+      />
+      <Overview
+        supporterInvites={supporterInvites}
+        currentRaceResults={currentRaceResults}
+        currentPosition={leaderboardResults.userStats.position}
+      />
+      <RaceTable leaderboardResults={leaderboardResults} />
     </div>
   );
 };

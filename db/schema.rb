@@ -298,10 +298,10 @@ ActiveRecord::Schema.define(version: 2022_04_04_074010) do
     t.boolean "member_nft_minted", default: false
     t.integer "member_nft_token_id"
     t.string "member_nft_tx"
-    t.bigint "races_id"
+    t.bigint "race_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
-    t.index ["races_id"], name: "index_users_on_races_id"
+    t.index ["race_id"], name: "index_users_on_race_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
