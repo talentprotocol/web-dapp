@@ -325,6 +325,10 @@ const RaceTable = ({ leaderboardResults }) => {
   const [selectedRace, setSelectedRace] = useState("Current Race");
   const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
 
+  if (topInviters.length == 0) {
+    return;
+  }
+
   useEffect(() => {
     if (leaderboardResults.userStats.position > 5) {
       setTopInviters((prev) => [...prev, userStats]);
