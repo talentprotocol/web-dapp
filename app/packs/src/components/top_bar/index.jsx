@@ -264,10 +264,10 @@ export const TopBar = ({
           />
           {hasUnreadMessages && <UnreadMessagesIndicator />}
           <Tab
-            href="/rewards"
-            text="Rewards"
+            href="/earn"
+            text="Earn"
             type="white"
-            active={activeTab === "/rewards"}
+            active={activeTab === "/earn"}
             newTab={true}
           />
         </div>

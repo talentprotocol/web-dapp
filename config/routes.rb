@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     mount ActionCable.server => "/cable"
 
     # Rewards
-    resources :rewards, only: [:index]
+    get "earn", to: "rewards#index"
 
     # Feed
     resources :posts, only: [:show, :create, :destroy] do

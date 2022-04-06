@@ -57,7 +57,7 @@ export const BottomNav = ({
           {hasUnreadMessages && <UnreadMessagesIndicator />}
         </div>
         <div className="navbar-bottom-menu-option">
-          <BottomNavItem url={rewardsPath} routeName="Rewards" Icon={Rocket} />
+          <BottomNavItem url={rewardsPath} routeName="Earn" Icon={Rocket} />
         </div>
       </div>
     </nav>
