@@ -5,7 +5,7 @@ class PrepareRaceResults
   end
 
   def call
-    results = @race.results(user: @user)
+    results = @race.results.to_a
 
     user_stats = {
       username: @user.username,

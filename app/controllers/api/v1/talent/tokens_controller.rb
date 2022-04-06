@@ -10,10 +10,11 @@ class API::V1::Talent::TokensController < ApplicationController
 
     if token.update(token_params)
       if token.deployed? && !was_deployed
-        token.update(deployed_at: Time.current)
+        token.update!(deployed_at: Time.current)
         talent.update(public: true)
         service = CreateInvite.new(user_id: current_user.id, single_use: true, talent_invite: true)
         invite = service.call
+        AddRewardToInviterJob.perform_later(token.id)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
       end
