@@ -62,6 +62,7 @@ gem "rollbar"
 # Async jobs
 gem "sidekiq"
 gem "sidekiq-scheduler"
+gem 'sidekiq-status'
 
 # Requests
 gem "faraday"

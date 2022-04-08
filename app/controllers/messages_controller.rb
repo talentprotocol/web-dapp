@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    if message_params[:message].empty? || current_user.id == @receiver.id
+    if message_params[:message].blank? || current_user.id == @receiver.id
       return render json: {
         error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
       }, status: :bad_request
@@ -48,13 +48,40 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    message = Message.create(sender: current_user, receiver: @receiver, text: message_params[:message])
-    CreateNotification.new.call(recipient: @receiver,
-                                type: MessageReceivedNotification)
-    ActionCable.server.broadcast("message_channel_#{message.receiver_chat_id}", message: message.to_json)
-    # SendMessageJob.perform_later(message.id, message.created_at.to_s)
+    service = Messages::Send.new
+    message = service.call(
+      sender: current_user,
+      receiver: @receiver,
+      message: message_params[:message]
+    )
 
     render json: message.to_json
+  end
+
+  def send_to_all_supporters
+    if message_params[:message].blank?
+      return render json: {
+        error: "Unable to create message, the message is empty."
+      }, status: :bad_request
+    end
+
+    job = SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
+
+    render json: {job_id: job.provider_job_id}
+  end
+
+  def send_to_all_supporters_status
+    if job_id.blank?
+      return render json: {
+        error: "Unable to check the status. Missing job id"
+      }, status: :bad_request
+    end
+
+    render json: {
+      messages_sent: Sidekiq::Status.at(job_id),
+      messages_total: Sidekiq::Status.total(job_id),
+      last_receiver_id: Sidekiq::Status.get(job_id, :last_receiver_id)
+    }
   end
 
   private
@@ -71,5 +98,9 @@ class MessagesController < ApplicationController
     if params[:user]
       @user = User.find_by(id: params[:user])
     end
+  end
+
+  def job_id
+    @job_id ||= params[:job_id]
   end
 end

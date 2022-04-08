@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import TextInput from "../design_system/fields/textinput";
-import RegistrationContainer from "../registration/RegistrationContainer";
-import Link from "../design_system/link";
+import TextInput from "src/components/design_system/fields/textinput";
+import RegistrationContainer from "src/components/registration/RegistrationContainer";
+import Link from "src/components/design_system/link";
 import { useTheme } from "src/contexts/ThemeContext";
 import { useWindowDimensionsHook } from "src/utils/window";
-import { H5, P2, P3 } from "../design_system/typography";
-import { TALENT_APPLICATION_FORM, USER_GUIDE } from "src/utils/constants";
+import { H5, P2, P3 } from "src/components/design_system/typography";
+import { USER_GUIDE } from "src/utils/constants";
 import { post } from "src/utils/requests";
+import ViralLoopsButton from "src/components/design_system/button/ViralLoopsButton";
+
 import cx from "classnames";
 
 const Login = () => {
@@ -81,12 +83,7 @@ const Login = () => {
       <div className={cx("mt-6 pb-4", mobile && "align-self-center")}>
         <div className="d-flex mb-2">
           <P2 className="text-black mr-1" text="Don't have an invitation?" />
-          <Link
-            bold
-            target="_blank"
-            href={TALENT_APPLICATION_FORM}
-            text="Join the waitlist"
-          />
+          <ViralLoopsButton type="link" text="Join the waitlist" />
         </div>
         <div className="d-flex mb-2">
           <P2 className="text-black mr-1" text="Already have an invitation?" />

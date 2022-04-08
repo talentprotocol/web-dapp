@@ -201,6 +201,8 @@ const Chat = ({ users, user }) => {
                 setUsers={setLocalUsers}
                 mode={theme.mode()}
                 mobile={mobile}
+                messengerWithTalent={user.withTalent}
+                supportersCount={user.supportersCount}
               />
             </section>
           )}
@@ -221,6 +223,7 @@ const Chat = ({ users, user }) => {
                 username={messengerUsername}
                 lastOnline={lastOnline}
                 messengerWithTalent={activeUserWithTalent()}
+                supportersCount={user.supportersCount}
                 mode={theme.mode()}
               />
             </section>

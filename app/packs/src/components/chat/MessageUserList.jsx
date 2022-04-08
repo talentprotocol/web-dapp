@@ -6,6 +6,7 @@ dayjs.extend(relativeTime);
 
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import NewMessageModal from "./NewMessageModal";
+import NewMessageToAllSupportersModal from "./NewMessageToAllSupportersModal";
 import ThemedButton from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
@@ -106,9 +107,13 @@ const MessageUserList = ({
   onClick,
   mode,
   mobile,
+  messengerWithTalent,
+  supportersCount,
 }) => {
   const [search, setSearch] = useState("");
-  const [show, setShow] = useState(false);
+  const [showNewMessageModal, setShowNewMessageModal] = useState(false);
+  const [showNewMessageToAllSupporters, setShowNewMessageToAllSupporters] =
+    useState(false);
 
   const onNewMessageUser = (user) => {
     onClick(user.id);
@@ -116,17 +121,28 @@ const MessageUserList = ({
     if (index < 0) {
       setUsers((prev) => [...prev, user]);
     }
-    setShow(false);
+    setShowNewMessageModal(false);
+  };
+
+  const onSendMessageToAllSupporters = () => {
+    setShowNewMessageModal(false);
+    setShowNewMessageToAllSupporters(true);
   };
 
   const sortedUsers = users.sort(sortUsers);
-
   return (
     <>
       <NewMessageModal
-        show={show}
-        setShow={setShow}
+        show={showNewMessageModal}
+        setShow={setShowNewMessageModal}
         onUserChosen={onNewMessageUser}
+        setShowMessageToAllSupporters={onSendMessageToAllSupporters}
+        mobile={mobile}
+        showMessageToAllSupporter={messengerWithTalent && supportersCount > 0}
+      />
+      <NewMessageToAllSupportersModal
+        show={showNewMessageToAllSupporters}
+        setShow={setShowNewMessageToAllSupporters}
         mobile={mobile}
       />
       <div className="d-flex flex-column align-items-stretch lg-h-100">
@@ -146,7 +162,7 @@ const MessageUserList = ({
             />
           </div>
           <ThemedButton
-            onClick={() => setShow(true)}
+            onClick={() => setShowNewMessageModal(true)}
             type="white-subtle"
             mode={mode}
             className="ml-2 p-2"

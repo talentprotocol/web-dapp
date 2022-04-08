@@ -1,10 +1,10 @@
 import React from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { useTheme } from "src/contexts/ThemeContext";
-import { TALENT_APPLICATION_FORM } from "src/utils/constants";
 
 import { LogoLight, LogoDark, Logo } from "src/components/icons";
 import Button from "src/components/design_system/button";
+import ViralLoopsButton from "src/components/design_system/button/ViralLoopsButton";
 import { Sun, Moon } from "src/components/icons";
 
 export const LoggedOutTopBar = ({}) => {
@@ -28,11 +28,7 @@ export const LoggedOutTopBar = ({}) => {
           )}
         </div>
         <div className="d-flex" style={{ height: 34 }}>
-          <Button
-            type="primary-default"
-            onClick={() => window.open(TALENT_APPLICATION_FORM)}
-            text="Join Waitlist"
-          />
+          <ViralLoopsButton type="button" text="Join the waitlist" />
           <Button
             type="white-subtle"
             onClick={() => (window.location.href = "/")}

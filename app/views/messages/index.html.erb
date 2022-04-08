@@ -20,7 +20,8 @@
       username: current_user.username,
       profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
       messagingDisabled: current_user.messaging_disabled,
-      withTalent: current_user.talent.present?
+      withTalent: current_user.talent.present?,
+      supportersCount: current_user.talent&.supporters_count,
     }
   }, prerender: false, html_options: { class: "h-100" })
 %>

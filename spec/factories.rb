@@ -6,23 +6,6 @@ FactoryBot.define do
     role { "admin" }
   end
 
-  factory :user do
-    sequence :username do |n|
-      "user#{n}"
-    end
-    sequence :email do |n|
-      "user_#{n}@talentprotocol.com"
-    end
-    password { "password" }
-    email_confirmed_at { Date.today }
-
-    trait :metamask_login do
-      wallet_id { "0x123" }
-      password { nil }
-      email { nil }
-    end
-  end
-
   factory :message do
   end
 

@@ -20,103 +20,91 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:posts) }
   end
 
-  describe "factories" do
-    it "creates a valid admin user" do
-      user = build(:admin_user)
-
-      expect(user).to be_valid
-      expect(user).to be_admin
-    end
-
-    it "creates a valid user" do
-      user = build(:user)
-
-      expect(user).to be_valid
-      expect(user).not_to be_admin
-    end
-
-    it "creates a valid user with external id" do
-      user = build(:user, :metamask_login)
-
-      expect(user).to be_valid
-    end
-
-    it "validates the absence of email, password or external id" do
-      user = build(:user, email: nil, password: nil, wallet_id: nil)
-
-      expect(user).not_to be_valid
-    end
-  end
-
   describe "uniqueness validation" do
-    it "allows multiple users with no email" do
-      user1 = create(:user, :metamask_login, email: nil, username: "Frankie", wallet_id: "1")
-      user2 = create(:user, :metamask_login, email: nil, username: "Frank", wallet_id: "0")
-
-      expect(user1.persisted? && user2.persisted?).to be true
-    end
-
-    it "does not allow multiple users with email \"\"" do
-      create(:user, :metamask_login, email: "")
+    it "does not allow multiple users with same email" do
+      create(:user, email: "john.doe@talentprotocol.com")
 
       expect {
-        create(:user, :metamask_login, email: "")
+        create(:user, email: "john.doe@talentprotocol.com")
       }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it "does not allow multiple users with same username" do
-      create(:user, :metamask_login, username: "Frank")
+      create(:user, username: "frank")
 
       expect {
-        create(:user, :metamask_login, username: "Frank")
+        create(:user, username: "frank")
       }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it "does not allow multiple users with same wallet_id" do
-      create(:user, :metamask_login, wallet_id: "1")
+      create(:user, wallet_id: "1")
 
       expect {
-        create(:user, :metamask_login, wallet_id: "1")
+        create(:user, wallet_id: "1")
       }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it "does not allow non supported roles" do
       expect {
         create(:user, role: "Investor")
-      }.to raise_error(ActiveRecord::RecordInvalid).with_message(/The role something else isn't supported./)
+      }.to raise_error(ActiveRecord::RecordInvalid).with_message(/The role Investor isn't supported./)
+    end
+  end
+
+  describe "#supporters" do
+    let(:user) { create :user, talent: talent }
+    let(:talent) { create :talent }
+    let(:token) { create :token, talent: talent }
+
+    context "when the user does not have any supporter" do
+      it "returns an empty array" do
+        expect(user.supporters).to be_empty
+      end
+    end
+
+    context "when the user has some supporters" do
+      let(:supporter_one) { create :user }
+      let(:supporter_two) { create :user }
+      let(:supporter_three) { create :user }
+
+      before do
+        create :talent_supporter, supporter_wallet_id: supporter_one.wallet_id, talent_contract_id: token.contract_id
+        create :talent_supporter, supporter_wallet_id: supporter_two.wallet_id, talent_contract_id: token.contract_id
+        create :talent_supporter, supporter_wallet_id: supporter_three.wallet_id, talent_contract_id: SecureRandom.hex
+        create :talent_supporter, supporter_wallet_id: user.wallet_id, talent_contract_id: token.contract_id
+      end
+
+      it "returns the users that support him" do
+        expect(user.supporters).to match_array([user, supporter_one, supporter_two])
+      end
+
+      context "when including_self is passed as false" do
+        it "returns the users that support him expect himself" do
+          expect(user.supporters(including_self: false)).to match_array([supporter_one, supporter_two])
+        end
+      end
     end
   end
 
   describe "helper methods" do
-    it "uses username as the display name" do
-      user = build(:user, username: "Frank")
-
-      expect(user.display_name).to eq("Frank")
-    end
-
-    it "uses email as the display name if no username exists" do
-      user = build(:user, username: nil, email: "test@talentprotocol.com")
-
-      expect(user.display_name).to eq("test@talentprotocol.com")
-    end
-
     it "shortens the wallet id for displaying" do
       user = build(:user, wallet_id: "0x123456789101234567890")
 
-      expect(user.display_wallet_id).to eq("0x123456789..")
+      expect(user.display_wallet_id).to eq("0x123456789...")
     end
 
     it "calculates the correct chat id" do
-      user1 = create(:user, :metamask_login, wallet_id: "0", username: "0")
-      user2 = create(:user, :metamask_login, wallet_id: "1", username: "1")
+      user1 = create(:user, wallet_id: "0", username: "0")
+      user2 = create(:user, wallet_id: "1", username: "1")
 
       expect(user1.sender_chat_id(user2)).to eq(user1.id.to_s + user2.id.to_s)
       expect(user1.receiver_chat_id(user2)).to eq(user1.id.to_s + user2.id.to_s)
     end
 
     it "calculates the correct last message sent between two users" do
-      user1 = create(:user, :metamask_login, wallet_id: "0", username: "0")
-      user2 = create(:user, :metamask_login, wallet_id: "1", username: "1")
+      user1 = create(:user, wallet_id: "0", username: "0")
+      user2 = create(:user, wallet_id: "1", username: "1")
       create(:message, sender: user1, receiver: user2, text: "Hello!")
       create(:message, sender: user1, receiver: user2, text: "Bye!")
 
@@ -124,12 +112,12 @@ RSpec.describe User, type: :model do
     end
 
     it "checks if user has unread messages" do
-      user1 = build(:user, username: "A", email: "a@m.com")
-      user2 = build(:user, username: "B", email: "b@m.com")
+      user1 = build(:user, email: "a@m.com")
+      user2 = build(:user, email: "b@m.com")
       create(:message, sender: user1, receiver: user2, text: "Hello!",
-                       is_read: true)
+        is_read: true)
       create(:message, sender: user2, receiver: user1, text: "Hello!",
-                       is_read: false)
+        is_read: false)
       create(:message, sender: user2, receiver: user1, text: "Bye!", is_read:
              false)
 
