@@ -12,7 +12,8 @@ class Race < ApplicationRecord
       INNER JOIN invites ON users.invite_id = invites.id
       INNER JOIN users AS invited_by ON invited_by.id = invites.user_id
       WHERE users.race_id = '#{id}'
-      AND users.role != 'admin'
+      AND invited_by.role != 'admin'
+      AND users.email_confirmed_at IS NOT null
       GROUP BY invited_by.id
       ORDER BY overall_result DESC
     SQL
