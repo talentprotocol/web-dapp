@@ -15,5 +15,9 @@ namespace :races do
     next_race.started_at = next_start_date.beginning_of_day
     next_race.ends_at = next_start_date + 1.week - 1.second
     next_race.save!
+
+    User.where(tokens_purchased: true).find_each do |user|
+      user.invites.where(talent_invite: false).update_all(max_uses: nil)
+    end
   end
 end
