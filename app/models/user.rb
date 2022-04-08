@@ -125,6 +125,15 @@ class User < ApplicationRecord
       notification_preferences[type.name] == Delivery::IMMEDIATE
   end
 
+  def supporters(including_self: true)
+    return User.none unless talent&.token
+
+    supporters_wallet_ids = TalentSupporter.where(talent_contract_id: talent.token.contract_id).pluck(:supporter_wallet_id)
+    supporters = User.where(wallet_id: supporters_wallet_ids)
+
+    including_self ? supporters : supporters.where.not(id: id)
+  end
+
   private
 
   def validate_notification_preferences

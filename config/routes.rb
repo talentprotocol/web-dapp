@@ -34,7 +34,10 @@ Rails.application.routes.draw do
     resource :portfolio, only: [:show]
 
     # Chat
-    resources :messages, only: [:index, :show, :create]
+    resources :messages, only: [:index, :show, :create] do
+      post :send_to_all_supporters, on: :collection
+      get :send_to_all_supporters_status, on: :collection
+    end
     mount ActionCable.server => "/cable"
 
     # Rewards
