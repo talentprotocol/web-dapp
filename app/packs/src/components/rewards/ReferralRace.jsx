@@ -341,8 +341,8 @@ const RaceTable = ({ leaderboardResults }) => {
   }
 
   useEffect(() => {
-    if (leaderboardResults.userStats.position > 5) {
-      setTopInviters((prev) => [...prev, userStats]);
+    if (leaderboardResults.userStats?.position > 5) {
+      setTopInviters((prev) => [...prev, leaderboardResults.userStats]);
     }
   }, [leaderboardResults]);
 
