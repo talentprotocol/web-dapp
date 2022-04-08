@@ -25,7 +25,7 @@ const UnreadMessagesIndicator = () => {
     <div className="position-relative">
       <span
         className="position-absolute badge border border-light rounded-circle bg-danger p-1"
-        style={{ height: 0, width: 0, left: -8, top: -12 }}
+        style={{ height: 0, width: 0, left: -28, top: -12 }}
       >
         &nbsp;
       </span>
