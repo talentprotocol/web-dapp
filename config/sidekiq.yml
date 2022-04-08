@@ -17,5 +17,5 @@
     class: TriggerTalentSupportersRefreshJob
     enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
   setup_nextRace:
-    cron: '0 0 * * 0' # Runs every Sunday
+    cron: '1 0 * * 1' # Runs every Monday at 00:01
     class: SetupNextRaceJob

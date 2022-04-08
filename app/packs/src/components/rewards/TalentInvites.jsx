@@ -197,9 +197,7 @@ const TalentTable = ({ talentList }) => {
             <Table.Tr key={`talent-${talent.id}`}>
               <Table.Td
                 className="pl-3 pl-lg-0 py-3"
-                onClick={() =>
-                  (window.location.href = `/u/${talent.user.username}`)
-                }
+                onClick={() => (window.location.href = `/u/${talent.username}`)}
               >
                 <div className="d-flex align-items-center">
                   <TalentProfilePicture
@@ -270,7 +268,7 @@ const TalentInvites = ({ invites, rewards, talentList }) => {
 
   useEffect(() => {
     const talent_invites = rewards
-      .filter((item) => item.category == "TALENT_INVITE")
+      .filter((item) => item.category == "talent_invite")
       .reduce((sum, item) => sum + item.amount, 0);
 
     setUserRewards({

@@ -30,9 +30,9 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
 
   const updateTimeUntilEnd = () => {
     const currentTime = dayjs();
-    let calculatedTime = dayjs(race.ends_at).endOf("day");
+    let raceEndTime = dayjs(race.ends_at).endOf("day");
 
-    if (currentTime.isAfter(calculatedTime)) {
+    if (currentTime.isAfter(raceEndTime)) {
       setTimeUntilEnd({
         days: 0,
         hours: 0,
@@ -43,13 +43,13 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
       return;
     }
 
-    const days = calculatedTime.diff(currentTime, "days");
-    calculatedTime = calculatedTime.subtract(days, "days");
-    const hours = calculatedTime.diff(currentTime, "hours");
-    calculatedTime = calculatedTime.subtract(hours, "hours");
-    const minutes = calculatedTime.diff(currentTime, "minutes");
-    calculatedTime = calculatedTime.subtract(minutes, "minutes");
-    const seconds = calculatedTime.diff(currentTime, "seconds");
+    const days = raceEndTime.diff(currentTime, "days");
+    raceEndTime = raceEndTime.subtract(days, "days");
+    const hours = raceEndTime.diff(currentTime, "hours");
+    raceEndTime = raceEndTime.subtract(hours, "hours");
+    const minutes = raceEndTime.diff(currentTime, "minutes");
+    raceEndTime = raceEndTime.subtract(minutes, "minutes");
+    const seconds = raceEndTime.diff(currentTime, "seconds");
 
     setTimeUntilEnd({
       days,
@@ -270,7 +270,7 @@ const Overview = ({
         <div className="d-flex flex-column flex-lg-row mx-4 justify-content-lg-between">
           <div className="d-flex flex-column mb-3 mb-lg-0">
             <P3>Your Position</P3>
-            <H5 bold>{currentPosition}</H5>
+            <H5 bold>{currentRaceResults == 0 ? "N/A" : currentPosition}</H5>
           </div>
           <div className="d-flex flex-column mb-3 mb-lg-0">
             <P3>Invites Used</P3>
@@ -326,7 +326,7 @@ const RaceTable = ({ leaderboardResults }) => {
   const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
 
   if (topInviters.length == 0) {
-    return;
+    return null;
   }
 
   useEffect(() => {

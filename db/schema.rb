@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_04_04_074010) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -172,8 +173,8 @@ ActiveRecord::Schema.define(version: 2022_04_04_074010) do
   end
 
   create_table "races", force: :cascade do |t|
-    t.date "started_at"
-    t.date "ends_at"
+    t.datetime "started_at"
+    t.datetime "ends_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -181,8 +182,8 @@ ActiveRecord::Schema.define(version: 2022_04_04_074010) do
   create_table "rewards", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason"
-    t.string "category"
-    t.integer "amount"
+    t.string "category", default: "OTHER"
+    t.bigint "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_rewards_on_user_id"

@@ -29,8 +29,8 @@ class FinishActiveRace
     second_winner = User.find_by(id: winners[1]["id"])
     third_winner = User.find_by(id: winners[2]["id"])
 
-    Reward.create!(user: first_winner, amount: 1200, category: "RACE")
-    Reward.create!(user: second_winner, amount: 500, category: "RACE")
-    Reward.create!(user: third_winner, amount: 300, category: "RACE")
+    Reward.create!(user: first_winner, amount: 1200, category: "race")
+    Reward.create!(user: second_winner, amount: 500, category: "race")
+    Reward.create!(user: third_winner, amount: 300, category: "race")
   end
 end

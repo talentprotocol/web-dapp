@@ -18,16 +18,16 @@ const RewardsHeader = ({ rewards }) => {
   useEffect(() => {
     const total = rewards.reduce(sumRewardAmounts, 0);
     const referral_race = rewards
-      .filter((item) => item.category == "RACE")
+      .filter((item) => item.category == "race")
       .reduce(sumRewardAmounts, 0);
     const talent_invites = rewards
-      .filter((item) => item.category == "TALENT_INVITE")
+      .filter((item) => item.category == "talent_invite")
       .reduce(sumRewardAmounts, 0);
     const quests = rewards
-      .filter((item) => item.category == "QUEST")
+      .filter((item) => item.category == "quest")
       .reduce(sumRewardAmounts, 0);
     const others = rewards
-      .filter((item) => item.category == "OTHER")
+      .filter((item) => item.category == "other")
       .reduce(sumRewardAmounts, 0);
 
     setUserRewards({
