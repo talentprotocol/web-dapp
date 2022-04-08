@@ -1,9 +1,9 @@
 module Messages
   class Send
-    def call(sender:, receiver:, message:)
+    def call(sender:, receiver:, message:, sent_to_supporters: false)
       return if sender.id == receiver.id
 
-      message = create_message(sender, receiver, message)
+      message = create_message(sender, receiver, message, sent_to_supporters)
       create_notification_for(receiver)
       broadcast(message)
 
@@ -14,8 +14,8 @@ module Messages
 
     attr_reader :sender, :receiver, :message
 
-    def create_message(sender, receiver, message)
-      Message.create!(sender: sender, receiver: receiver, text: message)
+    def create_message(sender, receiver, message, sent_to_supporters)
+      Message.create!(sender: sender, receiver: receiver, text: message, sent_to_supporters: sent_to_supporters)
     end
 
     def create_notification_for(receiver)

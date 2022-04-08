@@ -12,7 +12,14 @@ import Link from "src/components/design_system/link";
 import { Search } from "src/components/icons";
 import { Send } from "src/components/icons";
 
-const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSupporters, mobile }) => {
+const NewMessageModal = ({
+  show,
+  setShow,
+  onUserChosen,
+  setShowMessageToAllSupporters,
+  mobile,
+  showMessageToAllSupporter,
+}) => {
   if (!show) {
     return null;
   }
@@ -70,12 +77,21 @@ const NewMessageModal = ({ show, setShow, onUserChosen, setShowMessageToAllSuppo
             className="position-absolute chat-search-icon"
           />
         </div>
-        <div className="w-100 d-flex align-items-start flex-column px-4 mb-3">
-          <button className="button-link text-primary" onClick={() => setShowMessageToAllSupporters()}>
-            <Send color="currentColor" className="mr-2" />
-            <P2 className="text-black d-inline" text="Send message to all supporters" bold />
-          </button>
-        </div>
+        {showMessageToAllSupporter && (
+          <div className="w-100 d-flex align-items-start flex-column px-4 mb-3">
+            <button
+              className="button-link text-primary"
+              onClick={() => setShowMessageToAllSupporters()}
+            >
+              <Send color="currentColor" className="mr-2" />
+              <P2
+                className="text-black d-inline"
+                text="Send message to all supporters"
+                bold
+              />
+            </button>
+          </div>
+        )}
         <div className="w-100 d-flex flex-column new-message-user-list px-4">
           {showLoadingState() && (
             <div className="w-100 d-flex flex-row my-2 justify-content-center">

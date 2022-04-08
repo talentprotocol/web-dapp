@@ -34,10 +34,7 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
       <div className="race-header-row p-4 p-lg-6 mx-4 mx-lg-0 overview-section">
         <div className="d-flex flex-column col-lg-6">
           <H4 className="mb-3 d-flex flex-row align-items-center" bold>
-            Referral Race
-            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
-              <P3 className="current-color" bold text="Hot" />
-            </Tag>
+            Talent Invite
           </H4>
           <P1>
             This is a special type of invite that allows you to refer a talented
@@ -64,10 +61,7 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
     <div className="race-header-row">
       <div className="d-flex flex-column col-lg-5 px-4 px-lg-0">
         <H4 className="mb-3 d-flex flex-row align-items-center" bold>
-          Talent invite
-          <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
-            <P3 className="current-color" bold text="Hot" />
-          </Tag>
+          Talent Invite
         </H4>
         <P1>
           This is a special type of invite that allows you to refer a talented
@@ -235,7 +229,7 @@ const TalentTable = ({ talentList }) => {
           <Table.Th className="pr-3 pr-lg-0">
             <Caption bold text={"SUPPORTERS"} />
           </Table.Th>
-          <Table.Th className="col-3 hide-content-in-mobile">
+          <Table.Th className="col-3 px-0 hide-content-in-mobile">
             <Caption bold text={"MARKET CAP"} />
           </Table.Th>
         </Table.Head>
