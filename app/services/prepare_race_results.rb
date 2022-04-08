@@ -10,7 +10,7 @@ class PrepareRaceResults
     user_stats = {
       username: @user.username,
       name: @user.display_name || @user.username,
-      profilePictureUrl: @user.talent&.profile_picture_url || @user.investor.profile_picture_url,
+      profilePictureUrl: @user&.talent&.profile_picture_url || @user&.investor&.profile_picture_url,
       id: @user.id
     }
     user_stats[:position] = results.find_index { |r| r["id"] == @user.id }
@@ -32,7 +32,7 @@ class PrepareRaceResults
         position: index + 1,
         name: leaderboard_user.display_name || leaderboard_user.username,
         username: leaderboard_user.username,
-        profilePictureUrl: leaderboard_user.talent.profile_picture_url || leaderboard_user.investor.profile_picture_url,
+        profilePictureUrl: leaderboard_user&.talent&.profile_picture_url || leaderboard_user&.investor&.profile_picture_url,
         invites: u["overall_result"]
       }
     end
