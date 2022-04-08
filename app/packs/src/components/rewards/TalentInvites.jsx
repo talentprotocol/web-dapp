@@ -169,7 +169,7 @@ const TalentTable = ({ talentList }) => {
   };
 
   if (talentList.length == 0) {
-    return;
+    return null;
   }
 
   return (
