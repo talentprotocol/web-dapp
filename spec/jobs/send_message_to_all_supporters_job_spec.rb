@@ -30,12 +30,14 @@ RSpec.describe SendMessageToAllSupportersJob, type: :job do
     expect(send_message_instance).to have_received(:call).with(
       message: message,
       sender: sender,
-      receiver: investor_user_one
+      receiver: investor_user_one,
+      sent_to_supporters: true
     )
     expect(send_message_instance).to have_received(:call).with(
       message: message,
       sender: sender,
-      receiver: investor_user_two
+      receiver: investor_user_two,
+      sent_to_supporters: true
     )
   end
 
@@ -62,7 +64,8 @@ RSpec.describe SendMessageToAllSupportersJob, type: :job do
       expect(send_message_instance).not_to have_received(:call).with(
         message: message,
         sender: sender,
-        receiver: sender
+        receiver: sender,
+        sent_to_supporters: true
       )
     end
   end

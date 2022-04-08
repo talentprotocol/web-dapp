@@ -13,7 +13,8 @@ class SendMessageToAllSupportersJob < ApplicationJob
       created_message = send_message_service.call(
         message: message,
         sender: sender,
-        receiver: investor
+        receiver: investor,
+        sent_to_supporters: true
       )
 
       store last_receiver_id: created_message.receiver_id

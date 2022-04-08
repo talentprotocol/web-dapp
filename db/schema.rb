@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_04_074010) do
+ActiveRecord::Schema.define(version: 2022_04_08_174146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2022_04_04_074010) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "text_ciphertext"
     t.boolean "is_read", default: false, null: false
+    t.boolean "sent_to_supporters", default: false
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -287,8 +288,8 @@ ActiveRecord::Schema.define(version: 2022_04_04_074010) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"

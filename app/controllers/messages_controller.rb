@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
 
     job = SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
 
-    render json: { job_id: job.provider_job_id }
+    render json: {job_id: job.provider_job_id}
   end
 
   def send_to_all_supporters_status
@@ -77,10 +77,10 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    render json: { 
-      messages_sent: Sidekiq::Status::at(job_id),
-      messages_total: Sidekiq::Status::total(job_id),
-      last_receiver_id: Sidekiq::Status::get(job_id, :last_receiver_id)
+    render json: {
+      messages_sent: Sidekiq::Status.at(job_id),
+      messages_total: Sidekiq::Status.total(job_id),
+      last_receiver_id: Sidekiq::Status.get(job_id, :last_receiver_id)
     }
   end
 

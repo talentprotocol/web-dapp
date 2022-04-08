@@ -107,10 +107,13 @@ const MessageUserList = ({
   onClick,
   mode,
   mobile,
+  messengerWithTalent,
+  supportersCount,
 }) => {
   const [search, setSearch] = useState("");
   const [showNewMessageModal, setShowNewMessageModal] = useState(false);
-  const [showNewMessageToAllSupporters, setShowNewMessageToAllSupporters] = useState(false);
+  const [showNewMessageToAllSupporters, setShowNewMessageToAllSupporters] =
+    useState(false);
 
   const onNewMessageUser = (user) => {
     onClick(user.id);
@@ -127,7 +130,6 @@ const MessageUserList = ({
   };
 
   const sortedUsers = users.sort(sortUsers);
-
   return (
     <>
       <NewMessageModal
@@ -136,6 +138,7 @@ const MessageUserList = ({
         onUserChosen={onNewMessageUser}
         setShowMessageToAllSupporters={onSendMessageToAllSupporters}
         mobile={mobile}
+        showMessageToAllSupporter={messengerWithTalent && supportersCount > 0}
       />
       <NewMessageToAllSupportersModal
         show={showNewMessageToAllSupporters}
