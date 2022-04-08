@@ -4,6 +4,8 @@ class Supporter::UpgradeToTalent
   def call(user_id:)
     user = User.find(user_id)
 
+    return false if user.talent.present?
+
     user.create_talent!
     user.talent.create_career_goal!
     user.talent.create_token!

@@ -1,7 +1,8 @@
 import React from "react";
 import { string, oneOf, bool, func, node } from "prop-types";
 
-import { P2 } from "src/components/design_system/typography";
+import { P2, P3 } from "src/components/design_system/typography";
+import Tag from "src/components/design_system/tag";
 
 import cx from "classnames";
 
@@ -16,6 +17,7 @@ const Tab = ({
   children,
   active,
   disabled,
+  newTab,
 }) => {
   if (!!onClick) {
     return (
@@ -35,6 +37,11 @@ const Tab = ({
           <P2 className={cx("tab-text", "current-color")} text={text} bold />
         )}
         {children}
+        {!!newTab && (
+          <Tag className="bg-primary text-white cursor-pointer">
+            <P3 className="current-color" bold text="New" />
+          </Tag>
+        )}
       </button>
     );
   }
@@ -53,7 +60,14 @@ const Tab = ({
     >
       {Icon && <Icon pathClassName="tab-icon" color="current-color" />}
       {text && (
-        <P2 className={cx("tab-text", "current-color")} text={text} bold />
+        <div className="d-flex flex-row">
+          <P2 className={cx("tab-text", "current-color")} text={text} bold />
+          {!!newTab && (
+            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+              <P3 className="current-color" bold text="New" />
+            </Tag>
+          )}
+        </div>
       )}
       {children}
     </a>

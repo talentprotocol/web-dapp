@@ -1,0 +1,21 @@
+<main class="main-content">
+  <div class="container-grid">
+    <div class="secondary-content">
+      <%= react_component("Rewards",
+        props: {
+          user: {
+            isTalent: current_user.talent.present?,
+            isActiveSupporter: current_user.tokens_purchased? || current_user.talent&.token&.contract_id.present?,
+            currentRaceResults: @race_results[:userStats][:invites],
+          },
+          talentInvites: @talent_invites,
+          supporterInvites: @supporter_invites,
+          race: @race,
+          rewards: @rewards,
+          leaderboardResults: @race_results,
+          talentList: @talent_list
+        },
+        prerender: false) %>
+    </div>
+  </div>
+</main>
