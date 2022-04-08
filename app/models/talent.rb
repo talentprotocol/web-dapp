@@ -33,6 +33,10 @@ class Talent < ApplicationRecord
 
   delegate :wallet_id, :username, to: :user
 
+  def self.base_supply
+    2000000000000000000000
+  end
+
   def display_wallet_id
     "#{wallet_id[0..10]}..."
   end
