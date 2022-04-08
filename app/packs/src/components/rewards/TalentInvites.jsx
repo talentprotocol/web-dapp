@@ -18,13 +18,56 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
 import Tag from "src/components/design_system/tag";
+import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
-const InviteHeader = () => {
+const InviteHeader = ({ isEligible, isTalent, username }) => {
+  const redirectToLaunchToken = () => {
+    if (isTalent) {
+      window.location.href = `u/${username}/edit_profile`;
+    } else {
+      window.open(TALENT_TOKEN_APPLICATION_FORM);
+    }
+  };
+
+  if (!isEligible) {
+    return (
+      <div className="race-header-row p-4 p-lg-6 mx-4 mx-lg-0 overview-section">
+        <div className="d-flex flex-column col-lg-6">
+          <H4 className="mb-3 d-flex flex-row align-items-center" bold>
+            Referral Race
+            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+              <P3 className="current-color" bold text="Hot" />
+            </Tag>
+          </H4>
+          <P1>
+            This is a special type of invite that allows you to refer a talented
+            friend to launch a token immediately. They skip the traditional
+            application process and receive $200, while you earn 250 $TAL per
+            talent invited (250 TAL for the first 5, 100 TAL after that). To
+            unlock Talent Invites you need to launch a talent token.
+          </P1>
+        </div>
+        <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
+          <Button
+            type="primary-default"
+            size="big"
+            onClick={redirectToLaunchToken}
+          >
+            Launch a Talent Token
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="race-header-row">
       <div className="d-flex flex-column col-lg-5 px-4 px-lg-0">
-        <H4 className="mb-3" bold>
+        <H4 className="mb-3 d-flex flex-row align-items-center" bold>
           Talent invite
+          <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+            <P3 className="current-color" bold text="Hot" />
+          </Tag>
         </H4>
         <P1>
           This is a special type of invite that allows you to refer a talented
@@ -84,7 +127,11 @@ const Overview = ({ talentInvites, rewards }) => {
     if (full) {
       return `https://beta.talentprotocol.com/sign_up?code=${invite.code}`;
     } else {
-      return `https://beta.tal...?code=${invite.code}`;
+      const start = invite.code.length > 5 ? invite.code.length - 5 : 0;
+      return `https://beta.talentprotocol...${invite.code.substring(
+        start,
+        invite.code.length
+      )}`;
     }
   };
 
@@ -168,7 +215,7 @@ const TalentTable = ({ talentList }) => {
     return ethers.utils.commify(ethers.utils.formatUnits(bignumber));
   };
 
-  if (talentList.length == 0) {
+  if (!talentList || talentList.length == 0) {
     return null;
   }
 
@@ -203,6 +250,7 @@ const TalentTable = ({ talentList }) => {
                   <TalentProfilePicture
                     src={talent.profile_picture_url}
                     height="32"
+                    className="ml-2"
                   />
                   <P2 text={talent.username} bold className="ml-3" />
                   {talent.token.contract_id ? (
@@ -261,7 +309,13 @@ const TalentTable = ({ talentList }) => {
   );
 };
 
-const TalentInvites = ({ invites, rewards, talentList }) => {
+const TalentInvites = ({
+  invites,
+  rewards,
+  talentList,
+  isTalent,
+  leaderboardResults,
+}) => {
   const [userRewards, setUserRewards] = useState({
     talent_invites: 0,
   });
@@ -278,7 +332,11 @@ const TalentInvites = ({ invites, rewards, talentList }) => {
 
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
-      <InviteHeader isEligible={true} />
+      <InviteHeader
+        isEligible={!!invites && invites.length > 0}
+        isTalent={isTalent}
+        username={leaderboardResults.userStats.username}
+      />
       <Overview talentInvites={invites} rewards={userRewards.talent_invites} />
       <TalentTable talentList={talentList} />
     </div>

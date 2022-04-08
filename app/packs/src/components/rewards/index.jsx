@@ -18,16 +18,14 @@ const Tabs = ({ changeTab, activeTab, isTalent }) => {
       >
         Referral Race
       </div>
-      {!!isTalent && (
-        <div
-          onClick={() => changeTab("talent")}
-          className={`text-no-wrap talent-table-tab${
-            activeTab == "talent" ? " active-talent-table-tab" : ""
-          }`}
-        >
-          Talent Invites
-        </div>
-      )}
+      <div
+        onClick={() => changeTab("talent")}
+        className={`text-no-wrap talent-table-tab${
+          activeTab == "talent" ? " active-talent-table-tab" : ""
+        }`}
+      >
+        Talent Invites
+      </div>
       <div className="d-flex disabled-talent-table-tab">
         Quests
         <Tag className="ml-2">
@@ -66,9 +64,12 @@ const Rewards = ({
       )}
       {activeTab == "talent" && (
         <TalentInvites
+          username={user.username}
           invites={talentInvites}
           rewards={rewards}
           talentList={talentList}
+          leaderboardResults={leaderboardResults}
+          isTalent={isTalent}
         />
       )}
     </>

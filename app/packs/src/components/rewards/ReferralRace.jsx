@@ -3,8 +3,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 import dayjs from "dayjs";
 
 import { Copy, OrderBy } from "src/components/icons";
-import { TALENT_APPLICATION_FORM } from "src/utils/constants";
+import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
+import Tag from "src/components/design_system/tag";
 import {
   P1,
   P2,
@@ -65,7 +66,7 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
     if (isTalent) {
       window.location.href = `u/${username}/edit_profile`;
     } else {
-      window.open(TALENT_APPLICATION_FORM);
+      window.open(TALENT_TOKEN_APPLICATION_FORM);
     }
   };
 
@@ -77,10 +78,13 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
 
   if (!isEligible) {
     return (
-      <div className="race-header-row p-6 overview-section">
-        <div className="d-flex flex-column col-lg-6 px-4 px-lg-0">
-          <H4 className="mb-3" bold>
+      <div className="race-header-row p-4 p-lg-6 mx-4 mx-lg-0 overview-section">
+        <div className="d-flex flex-column col-lg-6">
+          <H4 className="mb-3 d-flex flex-row align-items-center" bold>
             Referral Race
+            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+              <P3 className="current-color" bold text="Hot" />
+            </Tag>
           </H4>
           <P1>
             Every week the 3 users with the most referrals will win a total of
@@ -90,7 +94,7 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
             talent token.
           </P1>
         </div>
-        <div className="d-flex flex-row justify-content-end col-lg-5 px-4 px-lg-0">
+        <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
           <Button
             type="primary-default"
             size="big"
@@ -100,7 +104,7 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
           </Button>
           <Button
             type="primary-outline"
-            className="ml-2"
+            className="ml-0 ml-lg-2 mt-2 mt-lg-0"
             size="big"
             onClick={redirectToLaunchToken}
           >
@@ -115,8 +119,11 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
     <>
       <div className="race-header-row">
         <div className="d-flex flex-column col-lg-5 px-4 px-lg-0">
-          <H4 className="mb-3" bold>
+          <H4 className="mb-3 d-flex flex-row align-items-center" bold>
             Referral Race
+            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+              <P3 className="current-color" bold text="Hot" />
+            </Tag>
           </H4>
           <P1>
             Every week the 3 users with the most referrals will win a total of
@@ -145,7 +152,7 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
       </div>
 
       <Caption
-        className="align-self-end mr-4 mr-lg-0 mt-2"
+        className="align-self-center align-self-lg-end mt-2"
         text="TIME LEFT UNTIL THIS RACE ENDS"
       />
     </>
@@ -210,7 +217,11 @@ const Overview = ({
     if (full) {
       return `https://beta.talentprotocol.com/sign_up?code=${invite.code}`;
     } else {
-      return `https://beta.tal...?code=${invite.code}`;
+      const start = invite.code.length > 5 ? invite.code.length - 5 : 0;
+      return `https://beta.talentprotocol...${invite.code.substring(
+        start,
+        invite.code.length
+      )}`;
     }
   };
 
