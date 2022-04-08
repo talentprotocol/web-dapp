@@ -1,0 +1,109 @@
+@import "../colors";
+
+.talent-rewards-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.race-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.talent-rewards-header-box {
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+}
+
+.dark-body .talent-rewards-header-box {
+  box-shadow: none;
+}
+
+.talent-rewards-header-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+}
+
+.dark-body .talent-rewards-header-item {
+  background-color: $gray-900;
+}
+
+.talent-rewards-highlight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $primary-disabled;
+}
+.dark-body .talent-rewards-highlight {
+  background-color: $primary-shade-01;
+}
+
+.race-time-counter-box {
+  width: 104px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  margin-left: 16px;
+}
+
+.dark-body .race-time-counter-box {
+  background-color: $gray-900;
+  box-shadow: none;
+}
+
+.overview-section {
+  background-color: white;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark-body .overview-section {
+  background-color: $gray-900 !important;
+  box-shadow: none
+}
+
+.race-table-invites-cell {
+  min-width: 150px;
+}
+
+.race-table-rewards-cell {
+  min-width: 100px;
+}
+
+@media (max-width: 992px) {
+  .race-table-invites-cell {
+    min-width: 0px;
+  }
+
+  .race-header-row {
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .talent-rewards-header-row {
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .race-time-counter-box {
+    width: 80px;
+    height: 80px;
+  }
+
+  .talent-rewards-header-row {
+    flex-direction: column;
+    justify-content: start;
+  }
+}

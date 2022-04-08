@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_23_112924) do
+ActiveRecord::Schema.define(version: 2022_04_04_074010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,23 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "races", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "reason"
+    t.string "category", default: "OTHER"
+    t.bigint "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_rewards_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
@@ -282,8 +299,10 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
     t.boolean "member_nft_minted", default: false
     t.integer "member_nft_token_id"
     t.string "member_nft_tx"
+    t.bigint "race_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
+    t.index ["race_id"], name: "index_users_on_race_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
@@ -313,6 +332,7 @@ ActiveRecord::Schema.define(version: 2022_03_23_112924) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
+  add_foreign_key "rewards", "users"
   add_foreign_key "tags", "discovery_rows"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"

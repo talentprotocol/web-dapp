@@ -125,6 +125,14 @@
   color: $primary !important;
 }
 
+.text-primary-03 {
+  color: $gray-400 !important;
+}
+
+.dark-body .text-primary-03 {
+  color: $gray-300 !important;
+}
+
 .text-yellow {
   color: $yellow !important;
 }
@@ -299,6 +307,14 @@
   background-color: $gray-900 !important;
 }
 
+.bg-surface-hover {
+  background-color: $surface-hover !important;
+}
+
+.dark-body .bg-surface-hover {
+  background-color: $gray-800 !important;
+}
+
 .dark-body .themed-border-top {
   border-top: 1px solid $gray-800;
 }
@@ -333,6 +349,14 @@
 
 .overflow-y-scroll {
   overflow-y: scroll;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
 }
 
 @keyframes rotate {
@@ -440,6 +464,10 @@
   margin-bottom: 40px !important;
 }
 
+.p-6 {
+  padding: 40px !important;
+}
+
 .pb-6 {
   padding-bottom: 40px !important;
 }
@@ -466,6 +494,16 @@
   padding-bottom: 40px !important;
 }
 
+@media (min-width: 992px) {
+  .mt-lg-7 {
+    margin-top: 64px !important;
+  }
+
+  .mb-lg-7 {
+    margin-bottom: 64px !important;
+  }
+}
+
 .talent-background {
   height: 316px;
   border-radius: 8px;
@@ -480,4 +518,10 @@
 
 .height-auto {
   height: auto;
+}
+
+@media (max-width: 992px) {
+  .hide-content-in-mobile {
+    display: none !important;
+  }
 }
