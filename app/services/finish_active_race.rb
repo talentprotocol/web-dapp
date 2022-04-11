@@ -23,7 +23,7 @@ class FinishActiveRace
 
   # Reward the winners of the race that just finished
   def reward_winners
-    winners = @race.results.limit(3).to_a
+    winners = @race.results.to_a
 
     first_winner = User.find_by(id: winners[0]["id"])
     second_winner = User.find_by(id: winners[1]["id"])
