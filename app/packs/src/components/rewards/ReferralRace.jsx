@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 import { Copy, OrderBy } from "src/components/icons";
 import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
@@ -20,6 +21,8 @@ import Tooltip from "src/components/design_system/tooltip";
 import Table from "src/components/design_system/table";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 
+dayjs.extend(utc);
+
 const RaceHeader = ({ isEligible, race, isTalent, username }) => {
   const [timeUntilEnd, setTimeUntilEnd] = useState({
     days: 7,
@@ -30,8 +33,9 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
   let timeoutPointer;
 
   const updateTimeUntilEnd = () => {
-    const currentTime = dayjs();
-    let raceEndTime = dayjs(race.ends_at).endOf("day");
+    // All calculations need to be done in UTC
+    const currentTime = dayjs().utc();
+    let raceEndTime = dayjs(race.ends_at).utc().endOf("day");
 
     if (currentTime.isAfter(raceEndTime)) {
       setTimeUntilEnd({
