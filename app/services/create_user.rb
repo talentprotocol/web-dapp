@@ -21,6 +21,7 @@ class CreateUser
 
       create_investor(user)
       create_feed(user)
+      give_reward_to_inviter(invite)
 
       if invite.talent_invite?
         create_talent(user)
@@ -28,6 +29,7 @@ class CreateUser
       end
 
       create_invite(user)
+      create_quests(user)
 
       @result[:user] = user
       @result[:success] = true
@@ -107,5 +109,25 @@ class CreateUser
     service = CreateInvite.new(user_id: user.id)
 
     service.call
+  end
+
+  def create_quests(user)
+    Quests::PopulateForUser.new.call(user: user)
+  end
+
+  def give_reward_to_inviter(invite)
+    return unless invite.user
+
+    task_done = Task
+      .joins(:quest)
+      .where(title: "Get 5 people to register")
+      .where(quest: {user: invite.user})
+      .take
+      .done?
+
+    if invite.user.invites.sum(:uses) > 4 && !task_done
+      Reward.create!(user: invite.user, amount: 50, category: "quest", reason: "Got 5 people to register")
+      Quests::Update.new.call(title: "Get 5 people to register", user: invite.user)
+    end
   end
 end

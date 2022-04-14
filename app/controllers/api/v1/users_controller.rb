@@ -46,6 +46,7 @@ class API::V1::UsersController < ApplicationController
 
         service = Web3::TransferCelo.new
         service.call(user: @user)
+        Quests::Update.new.call(title: "Connect wallet", user: @user)
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
       else

@@ -30,6 +30,10 @@ module API
           investor.location = params[:profile][:location]
           investor.headline = params[:profile][:headline]
           investor.website = params[:profile][:website]
+
+          if params[:profile][:occupation]
+            Quests::Update.new.call(title: "Fill in About", user: investor.user)
+          end
         end
 
         if params[:profile][:discord]
