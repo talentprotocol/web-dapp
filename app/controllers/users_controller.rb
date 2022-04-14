@@ -21,6 +21,8 @@ class UsersController < ApplicationController
     talent = @user.talent
     investor = @user.investor
 
+    API::CreateProfilePageVisitor.new.call(ip: request.remote_ip, user: @user)
+
     if talent
       @talent = TalentBlueprint.render_as_json(
         talent,

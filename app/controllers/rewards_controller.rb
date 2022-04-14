@@ -18,5 +18,9 @@ class RewardsController < ApplicationController
 
     service = PrepareRaceResults.new(race: @race, user: current_user)
     @race_results = service.call
+
+    quests = Quest.where(user: current_user).order(:id)
+
+    @quests = QuestBlueprint.render_as_json(quests.includes(:user, :tasks), view: :normal)
   end
 end
