@@ -29,6 +29,7 @@ gem "ethereum.rb"
 
 # Crypto
 gem "lockbox" # for application level encryption
+gem "blind_index" # for searchable encryption
 
 # Pagination
 gem "pagy", "~> 4.8"
