@@ -12,6 +12,7 @@ const Icon = ({
   pathClassName,
   style,
   viewBox,
+  strokeWidth,
 }) => (
   <svg
     className={className}
@@ -29,6 +30,7 @@ const Icon = ({
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={strokeWidth}
     />
   </svg>
 );
@@ -42,6 +44,7 @@ Icon.defaultProps = {
   viewBox: "0 0 16 16",
   className: "",
   pathClassName: "",
+  strokeWidth: "",
 };
 
 Icon.propTypes = {
@@ -54,6 +57,7 @@ Icon.propTypes = {
   viewBox: string,
   className: string,
   pathClassName: string,
+  strokeWidth: string,
 };
 
 export default Icon;

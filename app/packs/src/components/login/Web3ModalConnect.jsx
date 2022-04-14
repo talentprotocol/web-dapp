@@ -53,7 +53,13 @@ export const UnableToConnect = ({ show, hide }) => (
   </Modal>
 );
 
-const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
+const Web3ModalConnect = ({
+  user_id,
+  onConnect,
+  railsContext,
+  mode,
+  buttonClassName,
+}) => {
   const [requestingWalletConnection, setRequestingWalletConnection] =
     useState(false);
   const [account, setAccount] = useState("");
@@ -103,9 +109,9 @@ const Web3ModalConnect = ({ user_id, onConnect, railsContext, mode }) => {
       <UnableToConnect show={error} hide={() => setError(false)} />
       <Button
         onClick={connectWallet}
-        type="white-subtle"
+        type={buttonClassName ? "" : "white-subtle"}
         mode={mode}
-        className="mr-2"
+        className={buttonClassName || "mr-2"}
         disabled={!allowConnect()}
       >
         {account == "" ? "Connect Wallet" : `${shortenAddress(account)}`}{" "}

@@ -271,12 +271,13 @@
 }
 
 .highlights-card {
-  width: 371px;
+  width: 370px;
   border-radius: 4px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
 }
 
 .dark-body .highlights-card {
+  background-color: $gray-900;
   box-shadow: none;
 }
 
@@ -441,9 +442,54 @@
   }
 }
 
+.quest-card-title {
+  height: 106px;
+}
+
+.quest-card-description {
+  height: 336px;
+}
+
+.task-card {
+  width: 370px;
+  height: 288px;
+  background-color: $white;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark-body .task-card {
+  background-color: $gray-900;
+  box-shadow: none;
+}
+
+.whole-ring {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ring {
+  stroke: $gray-400;
+  opacity: 0.3;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
 @media (min-width: 1240px) {
   .talents-cards-container {
     :nth-child(4n) {
+      padding-right: 0 !important;
+    }
+  }
+
+  .quest-card {
+    &:nth-child(3n) {
       padding-right: 0 !important;
     }
   }
@@ -461,6 +507,12 @@
   .talents-cards-container {
     :nth-child(4n) {
       padding-right: 0px !important;
+    }
+  }
+
+  .quest-card {
+    &:nth-child(3n) {
+      padding-right: 0 !important;
     }
   }
 }
