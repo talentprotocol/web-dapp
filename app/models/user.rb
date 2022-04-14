@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :posts
   has_many :notifications, as: :recipient
+  has_many :quests
 
   # Rewards
   has_many :rewards
