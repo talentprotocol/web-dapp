@@ -12,7 +12,7 @@ class API::V1::StakesController < ApplicationController
         current_user.update!(tokens_purchased: true)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
-        Quests::Update.new.call(title: "Buy a Talent Token", user: current_user)
+        UpdateQuestJob.perform_later(title: "Buy a Talent Token", user_id: current_user.id)
       end
       # add_follow(token.talent.user_id)
     end

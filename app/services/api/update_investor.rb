@@ -32,7 +32,7 @@ module API
           investor.website = params[:profile][:website]
 
           if params[:profile][:occupation]
-            Quests::Update.new.call(title: "Fill in About", user: investor.user)
+            UpdateQuestJob.perform_later(title: "Fill in About", user_id: investor.user.id)
           end
         end
 

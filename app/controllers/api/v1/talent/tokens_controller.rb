@@ -17,8 +17,8 @@ class API::V1::Talent::TokensController < ApplicationController
         AddRewardToInviterJob.perform_later(token.id)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
-        Quests::Update.new.call(title: "Complete Profile and set it public", user: current_user)
-        Quests::Update.new.call(title: "Launch your token", user: current_user)
+        UpdateQuestJob.perform_later(title: "Complete Profile and set it public", user_id: current_user.id)
+        UpdateQuestJob.perform_later(title: "Launch your token", user_id: current_user.id)
       end
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
       render json: token.as_json.merge(code: invite&.code), status: :ok

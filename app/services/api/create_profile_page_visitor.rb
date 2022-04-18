@@ -1,7 +1,8 @@
 module API
   class CreateProfilePageVisitor
     def call(ip:, user:)
-      ProfilePageVisitor.find_or_create_by!(user: user, ip: ip)
+      profile_page_visitor = ProfilePageVisitor.find_or_create_by!(user: user, ip: ip)
+      profile_page_visitor.update(last_visited_at: Time.current)
 
       task_done = Task
         .joins(:quest)
@@ -14,7 +15,7 @@ module API
         service = CreateInvite.new(user_id: user.id, single_use: true, talent_invite: true)
         service.call
 
-        Quests::Update.new.call(title: "Get your profile out there", user: user)
+        UpdateQuestJob.perform_later(title: "Get your profile out there", user_id: user.id)
       end
     end
   end

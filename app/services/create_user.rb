@@ -127,7 +127,7 @@ class CreateUser
 
     if invite.user.invites.sum(:uses) > 4 && !task_done
       Reward.create!(user: invite.user, amount: 50, category: "quest", reason: "Got 5 people to register")
-      Quests::Update.new.call(title: "Get 5 people to register", user: invite.user)
+      UpdateQuestJob.perform_later(title: "Get 5 people to register", user_id: invite.user.id)
     end
   end
 end

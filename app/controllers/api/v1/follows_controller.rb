@@ -23,7 +23,7 @@ class API::V1::FollowsController < ApplicationController
 
       if Follow.where(follower_id: current_user.id).count > 2 && !task_done
         current_user.invites.where(talent_invite: false).update_all(max_uses: nil)
-        Quests::Update.new.call(title: "Add 3 talent to watchlist", user: current_user)
+        UpdateQuestJob.perform_later(title: "Add 3 talent to watchlist", user_id: current_user.id)
       end
 
       render json: {success: "Follow successfully created."}, status: :created
