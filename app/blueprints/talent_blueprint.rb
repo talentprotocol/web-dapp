@@ -24,7 +24,7 @@ class TalentBlueprint < Blueprinter::Base
   end
 
   view :short_meta do
-    fields :occupation, :supporters_count, :total_supply
+    fields :occupation, :supporters_count, :total_supply, :created_at
     association :token, blueprint: TokenBlueprint, view: :normal
     field :username do |talent, options|
       talent.user.username

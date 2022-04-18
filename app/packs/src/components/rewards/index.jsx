@@ -39,6 +39,7 @@ const Tabs = ({ changeTab, activeTab, isTalent }) => {
 const Rewards = ({
   user,
   race,
+  allRaces,
   rewards,
   talentInvites,
   talentList,
@@ -55,6 +56,7 @@ const Rewards = ({
       {activeTab == "race" && (
         <ReferralRace
           race={race}
+          allRaces={allRaces}
           supporterInvites={supporterInvites}
           currentRaceResults={user.currentRaceResults}
           isActiveSupporter={isActiveSupporter}

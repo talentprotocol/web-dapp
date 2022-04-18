@@ -25,12 +25,19 @@ class FinishActiveRace
   def reward_winners
     winners = @race.results.to_a
 
-    first_winner = User.find_by(id: winners[0]["id"])
-    second_winner = User.find_by(id: winners[1]["id"])
-    third_winner = User.find_by(id: winners[2]["id"])
-
-    Reward.create!(user: first_winner, amount: 1200, category: "race")
-    Reward.create!(user: second_winner, amount: 500, category: "race")
-    Reward.create!(user: third_winner, amount: 300, category: "race")
+    ActiveRecord::Base.transaction do
+      if winners[0].present?
+        first_winner = User.find_by(id: winners[0]["id"])
+        Reward.create!(user: first_winner, amount: 1200, category: "race")
+      end
+      if winners[1].present?
+        second_winner = User.find_by(id: winners[1]["id"])
+        Reward.create!(user: second_winner, amount: 500, category: "race")
+      end
+      if winners[2].present?
+        third_winner = User.find_by(id: winners[2]["id"])
+        Reward.create!(user: third_winner, amount: 300, category: "race")
+      end
+    end
   end
 end

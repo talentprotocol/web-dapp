@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import currency from "currency.js";
 import { ethers } from "ethers";
 import cx from "classnames";
+import dayjs from "dayjs";
 
+import {
+  compareStrings,
+  compareNumbers,
+  compareDates,
+} from "src/utils/compareHelpers";
 import {
   P1,
   P2,
@@ -204,6 +210,8 @@ const Overview = ({ talentInvites, rewards }) => {
 };
 
 const TalentTable = ({ talentList }) => {
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const totalSupplyToString = (totalSupply) => {
     const bignumber = ethers.BigNumber.from(totalSupply).div(10);
     return ethers.utils.commify(ethers.utils.formatUnits(bignumber));
@@ -213,6 +221,76 @@ const TalentTable = ({ talentList }) => {
     return null;
   }
 
+  const toggleDirection = () => {
+    if (sortDirection == "asc") {
+      setSortDirection("desc");
+    } else {
+      setSortDirection("asc");
+    }
+  };
+
+  const onOptionClick = (option) => {
+    if (option == selectedSort) {
+      toggleDirection();
+    } else {
+      setSortDirection("asc");
+      setSelectedSort(option);
+    }
+  };
+
+  const compareSupporters = (talent1, talent2) =>
+    compareStrings(talent1.username, talent2.username);
+
+  const compareName = (talent1, talent2) =>
+    compareStrings(talent1.user?.name, talent2.user?.name);
+
+  const compareOccupation = (talent1, talent2) =>
+    compareStrings(talent1.occupation, talent2.occupation);
+
+  const compareMarketCap = (talent1, talent2) =>
+    compareNumbers(talent1.totalSupply, talent2.totalSupply);
+
+  const compareCreatedAt = (talent1, talent2) =>
+    compareDates(talent1.created_at, talent2.created_at);
+
+  const sortIcon = (option) => {
+    if (option == selectedSort) {
+      return sortDirection == "asc" ? " ▼" : " ▲";
+    } else {
+      return "";
+    }
+  };
+
+  const filteredTalents = useMemo(() => {
+    let desiredTalent = [...talentList];
+    let comparisonFunction;
+
+    switch (selectedSort) {
+      case "Supporters":
+        comparisonFunction = compareSupporters;
+        break;
+      case "Occupation":
+        comparisonFunction = compareOccupation;
+        break;
+      case "Market Cap":
+        comparisonFunction = compareMarketCap;
+        break;
+      case "Created At":
+        comparisonFunction = compareCreatedAt;
+        break;
+      case "Alphabetical Order":
+        comparisonFunction = compareName;
+        break;
+    }
+
+    if (sortDirection === "asc") {
+      return desiredTalent.sort(comparisonFunction).reverse();
+    } else if (sortDirection === "desc") {
+      return desiredTalent.sort(comparisonFunction);
+    }
+    return desiredTalent;
+  }, [talentList, selectedSort, sortDirection]);
+
   return (
     <>
       <H4 bold className="px-4 px-lg-0 mt-7">
@@ -221,20 +299,48 @@ const TalentTable = ({ talentList }) => {
       <Table mode={"dark"} className="px-4 mb-5 mt-4">
         <Table.Head>
           <Table.Th className="pl-4 pl-lg-0">
-            <Caption bold text={"TALENT"} />
+            <Caption
+              bold
+              onClick={() => onOptionClick("Alphabetical Order")}
+              text={`TALENT${sortIcon("Alphabetical Order")}`}
+              className="mr-lg-2 cursor-pointer"
+            />
           </Table.Th>
           <Table.Th className="hide-content-in-mobile">
-            <Caption bold text={"OCCUPATION"} />
+            <Caption
+              bold
+              onClick={() => onOptionClick("Created At")}
+              text={`JOINED AT${sortIcon("Created At")}`}
+              className="mr-lg-2 cursor-pointer"
+            />
+          </Table.Th>
+          <Table.Th className="hide-content-in-mobile">
+            <Caption
+              bold
+              onClick={() => onOptionClick("Occupation")}
+              text={`OCCUPATION${sortIcon("Occupation")}`}
+              className="mr-lg-2 cursor-pointer"
+            />
           </Table.Th>
           <Table.Th className="pr-3 pr-lg-0">
-            <Caption bold text={"SUPPORTERS"} />
+            <Caption
+              bold
+              text={`SUPPORTERS${sortIcon("Supporters")}`}
+              onClick={() => onOptionClick("Supporters")}
+              className="mr-lg-2 cursor-pointer"
+            />
           </Table.Th>
           <Table.Th className="col-3 px-0 hide-content-in-mobile">
-            <Caption bold text={"MARKET CAP"} />
+            <Caption
+              bold
+              text={`MARKET CAP${sortIcon("Market Cap")}`}
+              className="cursor-pointer"
+              onClick={() => onOptionClick("Market Cap")}
+            />
           </Table.Th>
         </Table.Head>
         <Table.Body>
-          {talentList.map((talent) => (
+          {filteredTalents.map((talent) => (
             <Table.Tr key={`talent-${talent.id}`}>
               <Table.Td
                 className="pl-3 pl-lg-0 py-3"
@@ -251,10 +357,10 @@ const TalentTable = ({ talentList }) => {
                     <P2
                       text={`$${talent.token.ticker}`}
                       bold
-                      className="text-primary-03 ml-2"
+                      className="text-primary-03 ml-2 mr-lg-2"
                     />
                   ) : (
-                    <Tag className="coming-soon-tag ml-2">
+                    <Tag className="coming-soon-tag ml-2 mr-lg-2">
                       <P3 className="current-color" bold text="Coming Soon" />
                     </Tag>
                   )}
@@ -264,13 +370,23 @@ const TalentTable = ({ talentList }) => {
                 className="py-3 hide-content-in-mobile"
                 onClick={() => (window.location.href = `/u/${talent.username}`)}
               >
-                <P2 text={talent.occupation} />
+                <P2
+                  className="mr-lg-2"
+                  text={dayjs(talent.created_at).format("MMMM D, YYYY")}
+                />
+              </Table.Td>
+              <Table.Td
+                className="py-3 hide-content-in-mobile"
+                onClick={() => (window.location.href = `/u/${talent.username}`)}
+              >
+                <P2 className="mr-lg-2" text={talent.occupation || "-"} />
               </Table.Td>
               <Table.Td
                 className="pr-3 pr-lg-0"
                 onClick={() => (window.location.href = `/u/${talent.username}`)}
               >
                 <P2
+                  className="mr-lg-2"
                   text={
                     talent.token.contract_id
                       ? `${talent.supporters_count || 0}`
@@ -279,12 +395,7 @@ const TalentTable = ({ talentList }) => {
                 />
               </Table.Td>
               <Table.Td
-                className={cx(
-                  "py-3 hide-content-in-mobile",
-                  talent.token.contract_id
-                    ? ""
-                    : "d-flex justify-content-center"
-                )}
+                className={cx("py-3 hide-content-in-mobile")}
                 onClick={() => (window.location.href = `/u/${talent.username}`)}
               >
                 <P2
