@@ -61,7 +61,7 @@ class API::V1::TalentController < ApplicationController
   end
 
   def filter_params
-    params.permit(:name, :status)
+    params.permit(:keyword, :status)
   end
 
   def user_params
