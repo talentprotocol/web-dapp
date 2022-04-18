@@ -5,6 +5,11 @@ import cx from "classnames";
 import dayjs from "dayjs";
 
 import {
+  compareStrings,
+  compareNumbers,
+  compareDates,
+} from "src/utils/compareHelpers";
+import {
   P1,
   P2,
   P3,
@@ -233,64 +238,20 @@ const TalentTable = ({ talentList }) => {
     }
   };
 
-  const compareSupporters = (talent1, talent2) => {
-    if (talent1.username > talent2.username) {
-      return 1;
-    } else if (talent1.username < talent2.username) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareSupporters = (talent1, talent2) =>
+    compareStrings(talent1.username, talent2.username);
 
-  const compareName = (talent1, talent2) => {
-    const name1 = talent1.user?.name.toLowerCase() || "";
-    const name2 = talent2.user?.name.toLowerCase() || "";
+  const compareName = (talent1, talent2) =>
+    compareStrings(talent1.user?.name, talent2.user?.name);
 
-    if (name1 > name2) {
-      return 1;
-    } else if (name1 < name2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareOccupation = (talent1, talent2) =>
+    compareStrings(talent1.occupation, talent2.occupation);
 
-  const compareOccupation = (talent1, talent2) => {
-    const occupation1 = talent1.occupation?.toLowerCase() || "";
-    const occupation2 = talent2.occupation?.toLowerCase() || "";
+  const compareMarketCap = (talent1, talent2) =>
+    compareNumbers(talent1.totalSupply, talent2.totalSupply);
 
-    if (occupation1 > occupation2) {
-      return 1;
-    } else if (occupation1 < occupation2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareMarketCap = (talent1, talent2) => {
-    if (talent1.total_supply > talent2.total_supply) {
-      return 1;
-    } else if (talent1.total_supply < talent2.total_supply) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareCreatedAt = (talent1, talent2) => {
-    const firstTalent = dayjs(talent1.created_at);
-    const secondTalent = dayjs(talent2.created_at);
-
-    if (firstTalent.isAfter(secondTalent)) {
-      return 1;
-    } else if (firstTalent.isBefore(secondTalent)) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const compareCreatedAt = (talent1, talent2) =>
+    compareDates(talent1.created_at, talent2.created_at);
 
   const sortIcon = (option) => {
     if (option == selectedSort) {
