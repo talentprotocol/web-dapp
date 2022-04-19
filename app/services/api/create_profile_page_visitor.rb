@@ -6,7 +6,7 @@ module API
 
       task_done = Task
         .joins(:quest)
-        .where(title: "Get your profile out there")
+        .where(type: "Tasks::ShareProfile")
         .where(quest: {user: user})
         .take
         .done?
@@ -15,7 +15,7 @@ module API
         service = CreateInvite.new(user_id: user.id, single_use: true, talent_invite: true)
         service.call
 
-        UpdateQuestJob.perform_later(title: "Get your profile out there", user_id: user.id)
+        UpdateQuestJob.perform_later(type: "Tasks::ShareProfile", user_id: user.id)
       end
     end
   end

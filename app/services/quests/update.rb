@@ -1,7 +1,7 @@
 module Quests
   class Update
-    def call(title:, user:, create_notif: true)
-      task = Task.joins(:quest).where(title: title).where(quest: {user: user}).take
+    def call(type:, user:, create_notif: true)
+      task = Task.joins(:quest).where(type: type).where(quest: {user: user}).take
       return if task.done?
 
       update_model(model: task)

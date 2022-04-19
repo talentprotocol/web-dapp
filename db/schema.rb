@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2022_04_12_143224) do
     t.text "ip_ciphertext", null: false
     t.string "ip_bidx"
     t.bigint "user_id", null: false
+    t.datetime "last_visited_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ip_bidx"], name: "index_profile_page_visitors_on_ip_bidx"
@@ -255,11 +256,8 @@ ActiveRecord::Schema.define(version: 2022_04_12_143224) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "reward"
     t.string "status", default: "pending"
-    t.string "link"
+    t.string "type"
     t.bigint "quest_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

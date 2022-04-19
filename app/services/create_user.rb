@@ -120,14 +120,14 @@ class CreateUser
 
     task_done = Task
       .joins(:quest)
-      .where(title: "Get 5 people to register")
+      .where(type: "Tasks::Register")
       .where(quest: {user: invite.user})
       .take
       .done?
 
     if invite.user.invites.sum(:uses) > 4 && !task_done
       Reward.create!(user: invite.user, amount: 50, category: "quest", reason: "Got 5 people to register")
-      UpdateQuestJob.perform_later(title: "Get 5 people to register", user_id: invite.user.id)
+      UpdateQuestJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
     end
   end
 end

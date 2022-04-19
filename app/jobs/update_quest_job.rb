@@ -1,10 +1,10 @@
 class UpdateQuestJob < ApplicationJob
   queue_as :default
 
-  def perform(title:, user_id:)
+  def perform(type:, user_id:)
     user = User.find(user_id)
 
     service = Quests::Update.new
-    service.call(title: title, user: user)
+    service.call(type: type, user: user)
   end
 end

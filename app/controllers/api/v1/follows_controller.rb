@@ -16,14 +16,14 @@ class API::V1::FollowsController < ApplicationController
 
       task_done = Task
         .joins(:quest)
-        .where(title: "Add 3 talent to watchlist")
+        .where(type: "Tasks::Register")
         .where(quest: {user: current_user})
         .take
         .done?
 
       if Follow.where(follower_id: current_user.id).count > 2 && !task_done
         current_user.invites.where(talent_invite: false).update_all(max_uses: nil)
-        UpdateQuestJob.perform_later(title: "Add 3 talent to watchlist", user_id: current_user.id)
+        UpdateQuestJob.perform_later(type: "Tasks::Register", user_id: current_user.id)
       end
 
       render json: {success: "Follow successfully created."}, status: :created
