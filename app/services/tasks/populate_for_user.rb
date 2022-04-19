@@ -1,14 +1,14 @@
-module Quests
+module Tasks
   class PopulateForUser
     def call(user:)
-      populate_quests_for_user(user: user)
+      populate_quests_and_tasks_for_user(user: user)
 
       user.quests
     end
 
     private
 
-    def populate_quests_for_user(user:)
+    def populate_quests_and_tasks_for_user(user:)
       quest1 = Quest.find_or_create_by!(
         title: "User",
         subtitle: "First quest for new users",

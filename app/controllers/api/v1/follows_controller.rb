@@ -14,16 +14,8 @@ class API::V1::FollowsController < ApplicationController
       #   SyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
       # end
 
-      task_done = Task
-        .joins(:quest)
-        .where(type: "Tasks::Register")
-        .where(quest: {user: current_user})
-        .take
-        .done?
-
-      if Follow.where(follower_id: current_user.id).count > 2 && !task_done
-        current_user.invites.where(talent_invite: false).update_all(max_uses: nil)
-        UpdateQuestJob.perform_later(type: "Tasks::Register", user_id: current_user.id)
+      if Follow.where(follower_id: current_user.id).count > 2
+        UpdateTasksJob.perform_later(type: "Tasks::Watchlist", user_id: current_user.id)
       end
 
       render json: {success: "Follow successfully created."}, status: :created

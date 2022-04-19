@@ -42,7 +42,7 @@ class API::UpdateTalent
       # Notify mailerlite that profile was set public
       @talent[:public] = params[:public] || false
 
-      UpdateQuestJob.perform_later(type: "Tasks::PublicProfile", user_id: @talent.user.id)
+      UpdateTasksJob.perform_later(type: "Tasks::PublicProfile", user_id: @talent.user.id)
       AddUsersToMailerliteJob.perform_later(@talent.user.id)
     end
 
@@ -63,7 +63,7 @@ class API::UpdateTalent
         @talent.wallet_address = params[:profile][:wallet_address]
 
         if params[:profile][:occupation]
-          UpdateQuestJob.perform_later(type: "Tasks::FillInAbout", user_id: @talent.user.id)
+          UpdateTasksJob.perform_later(type: "Tasks::FillInAbout", user_id: @talent.user.id)
         end
       end
 

@@ -52,6 +52,7 @@ const Rewards = ({
   const { isTalent, isEligible } = user;
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
+  const [activeTab, setTab] = useState("race");
   const [questId, setQuestId] = useState(null);
 
   const changeTab = (tab) => {

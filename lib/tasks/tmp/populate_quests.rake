@@ -4,7 +4,7 @@ namespace :quests do
 
     User.all.order(:id).find_in_batches(start: ENV["START"]) do |batch|
       batch.each do |user|
-        Quests::PopulateForUser.new.call(user: user)
+        Tasks::PopulateForUser.new.call(user: user)
       rescue
         puts "error populating quests for user #{user.username} - #{user.id}"
       end

@@ -32,7 +32,7 @@ module API
           investor.website = params[:profile][:website]
 
           if params[:profile][:occupation]
-            UpdateQuestJob.perform_later(type: "Tasks::FillInAbout", user_id: investor.user.id)
+            UpdateTasksJob.perform_later(type: "Tasks::FillInAbout", user_id: investor.user.id)
           end
         end
 

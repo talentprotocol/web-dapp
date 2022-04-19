@@ -29,7 +29,7 @@ class CreateUser
       end
 
       create_invite(user)
-      create_quests(user)
+      create_tasks(user)
 
       @result[:user] = user
       @result[:success] = true
@@ -111,23 +111,15 @@ class CreateUser
     service.call
   end
 
-  def create_quests(user)
-    Quests::PopulateForUser.new.call(user: user)
+  def create_tasks(user)
+    Tasks::PopulateForUser.new.call(user: user)
   end
 
   def give_reward_to_inviter(invite)
     return unless invite.user
 
-    task_done = Task
-      .joins(:quest)
-      .where(type: "Tasks::Register")
-      .where(quest: {user: invite.user})
-      .take
-      .done?
-
-    if invite.user.invites.sum(:uses) > 4 && !task_done
-      Reward.create!(user: invite.user, amount: 50, category: "quest", reason: "Got 5 people to register")
-      UpdateQuestJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
+    if invite.user.invites.sum(:uses) > 4
+      UpdateTasksJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
     end
   end
 end
