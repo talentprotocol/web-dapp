@@ -21,10 +21,7 @@ const TalentOptions = ({
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
-  // Kept name support for backwards compatibility
-  const [keyword, setKeyword] = useState(
-    url.searchParams.get("name") || url.searchParams.get("keyword") || ""
-  );
+  const [keyword, setKeyword] = useState(url.searchParams.get("keyword") || "");
   const [status, setStatus] = useState(url.searchParams.get("status") || "All");
 
   const filter = (e, filterType, option) => {
