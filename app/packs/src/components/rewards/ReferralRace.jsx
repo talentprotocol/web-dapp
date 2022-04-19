@@ -343,10 +343,6 @@ const RaceTable = ({ leaderboardResults, allRaces }) => {
   const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
   const [loadingResults, setLoadingResults] = useState(true);
 
-  if (topInviters.length == 0) {
-    return null;
-  }
-
   useEffect(() => {
     if (selectedRace == "Current Race") {
       let topUsers = [...leaderboardResults.top5];
@@ -446,6 +442,11 @@ const RaceTable = ({ leaderboardResults, allRaces }) => {
             </Table.Th>
           </Table.Head>
           <Table.Body>
+            {topInviters.length === 0 && (
+              <Table.Tr className="w-100 d-flex flex-row justify-content-center py-3">
+                <P2 bold>There are no participants in this race</P2>
+              </Table.Tr>
+            )}
             {topInviters.map((inviter) => (
               <Table.Tr key={`inviter-${inviter.id}`}>
                 <td
