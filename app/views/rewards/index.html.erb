@@ -5,7 +5,7 @@
         props: {
           user: {
             isTalent: current_user.talent.present?,
-            isActiveSupporter: current_user.tokens_purchased? || current_user.talent&.token&.contract_id.present?,
+            isEligible: current_user.wallet_id.present?,
             currentRaceResults: @race_results[:userStats][:invites],
           },
           talentInvites: @talent_invites,
