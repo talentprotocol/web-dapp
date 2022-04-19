@@ -46,7 +46,7 @@ const Rewards = ({
   supporterInvites,
   leaderboardResults,
 }) => {
-  const { isTalent, isActiveSupporter } = user;
+  const { isTalent, isEligible } = user;
   const [activeTab, changeTab] = useState("race");
 
   return (
@@ -59,7 +59,7 @@ const Rewards = ({
           allRaces={allRaces}
           supporterInvites={supporterInvites}
           currentRaceResults={user.currentRaceResults}
-          isActiveSupporter={isActiveSupporter}
+          isEligible={isEligible}
           leaderboardResults={leaderboardResults}
           isTalent={isTalent}
         />
