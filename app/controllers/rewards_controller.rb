@@ -5,6 +5,8 @@ class RewardsController < ApplicationController
     @supporter_invites = invites.select { |i| !i.talent_invite }
 
     @race = Race.active_race || Race.last
+    # we only want to show the current & previous race
+    @races = Race.last(2)
     @rewards = current_user.rewards
 
     if @talent_invites.length > 0

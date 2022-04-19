@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-import { Copy, OrderBy } from "src/components/icons";
+import { get } from "src/utils/requests";
 import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
 import Tag from "src/components/design_system/tag";
@@ -15,6 +15,7 @@ import {
   H4,
   H5,
 } from "src/components/design_system/typography";
+import { Copy, OrderBy, Spinner } from "src/components/icons";
 import Caption from "src/components/design_system/typography/caption";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
@@ -157,7 +158,7 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
 
       <Caption
         className="align-self-center align-self-lg-end mt-2"
-        text="TIME LEFT UNTIL THIS RACE ENDS"
+        text="TIME LEFT UNTIL THE ONGOING RACE ENDS"
       />
     </>
   );
@@ -301,9 +302,10 @@ const Overview = ({
   );
 };
 
-const RaceDropdown = ({ race, setRace }) => {
+const RaceDropdown = ({ allRaces, race, setRace }) => {
   // @TODO: Add other options & load a different race
-  const options = ["Current Race"];
+  const options =
+    allRaces.length == 2 ? ["Current Race", "Previous Race"] : ["Current Race"];
 
   const selectedClass = (option) =>
     option == race ? " text-primary" : "text-black";
@@ -336,19 +338,33 @@ const RaceDropdown = ({ race, setRace }) => {
   );
 };
 
-const RaceTable = ({ leaderboardResults }) => {
+const RaceTable = ({ leaderboardResults, allRaces }) => {
   const [selectedRace, setSelectedRace] = useState("Current Race");
   const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
-
-  if (topInviters.length == 0) {
-    return null;
-  }
+  const [loadingResults, setLoadingResults] = useState(true);
 
   useEffect(() => {
-    if (leaderboardResults.userStats?.position > 5) {
-      setTopInviters((prev) => [...prev, leaderboardResults.userStats]);
+    if (selectedRace == "Current Race") {
+      let topUsers = [...leaderboardResults.top5];
+      if (leaderboardResults.userStats?.position > 5) {
+        topUsers = [...topUsers, leaderboardResults.userStats];
+      }
+      setTopInviters(topUsers);
+      setLoadingResults(false);
+      return;
     }
-  }, [leaderboardResults]);
+
+    setLoadingResults(true);
+    get(`/api/v1/races/${allRaces[0].id}`).then((response) => {
+      let topUsers = [...response.top5];
+      if (response.userStats?.position > 5) {
+        topUsers = [...topUsers, response.userStats];
+      }
+      setTopInviters(topUsers);
+      setLoadingResults(false);
+      return;
+    });
+  }, [selectedRace]);
 
   const getRewardsForPosition = (position) => {
     if (position === 1) {
@@ -401,76 +417,93 @@ const RaceTable = ({ leaderboardResults }) => {
         <H4 className="mb-0" bold>
           Ranking
         </H4>
-        <RaceDropdown race={selectedRace} setRace={setSelectedRace} />
+        <RaceDropdown
+          race={selectedRace}
+          setRace={setSelectedRace}
+          allRaces={allRaces}
+        />
       </div>
-      <Table mode={"dark"} className="px-3 horizontal-scroll mb-5 mt-5">
-        <Table.Head>
-          <Table.Th className="w-100 pl-4 pl-lg-3">
-            <Caption bold text={"POSITION"} />
-          </Table.Th>
-          <Table.Th className="pr-4 pr-lg-0">
-            <Caption bold text={"INVITES"} />
-          </Table.Th>
-          <Table.Th className="hide-content-in-mobile text-black">
-            <Caption bold text={"REWARDS"} />
-          </Table.Th>
-        </Table.Head>
-        <Table.Body>
-          {topInviters.map((inviter) => (
-            <Table.Tr key={`inviter-${inviter.id}`}>
-              <td
-                className="w-100 pl-4 pl-lg-3 py-3"
-                onClick={() =>
-                  (window.location.href = `/u/${inviter.username}`)
-                }
-              >
-                <div className="d-flex align-items-center">
-                  {getPositionCircle(inviter.position)}
-                  <TalentProfilePicture
-                    src={inviter.profilePictureUrl}
-                    height="32"
+      {loadingResults && (
+        <div className="w-100 my-6 d-flex flex-row justify-content-center">
+          <Spinner />
+        </div>
+      )}
+      {!loadingResults && (
+        <Table mode={"dark"} className="px-3 horizontal-scroll mb-5 mt-5">
+          <Table.Head>
+            <Table.Th className="w-100 pl-4 pl-lg-3">
+              <Caption bold text={"POSITION"} />
+            </Table.Th>
+            <Table.Th className="pr-4 pr-lg-0">
+              <Caption bold text={"INVITES"} />
+            </Table.Th>
+            <Table.Th className="hide-content-in-mobile text-black">
+              <Caption bold text={"REWARDS"} />
+            </Table.Th>
+          </Table.Head>
+          <Table.Body>
+            {topInviters.length === 0 && (
+              <Table.Tr className="w-100 d-flex flex-row justify-content-center py-3">
+                <P2 bold>There are no participants in this race</P2>
+              </Table.Tr>
+            )}
+            {topInviters.map((inviter) => (
+              <Table.Tr key={`inviter-${inviter.id}`}>
+                <td
+                  className="w-100 pl-4 pl-lg-3 py-3"
+                  onClick={() =>
+                    (window.location.href = `/u/${inviter.username}`)
+                  }
+                >
+                  <div className="d-flex align-items-center">
+                    {getPositionCircle(inviter.position)}
+                    <TalentProfilePicture
+                      src={inviter.profilePictureUrl}
+                      height="32"
+                    />
+                    <P2 text={inviter.name} bold className="ml-3" />
+                  </div>
+                </td>
+                <Table.Td
+                  className="race-table-invites-cell py-3"
+                  onClick={() =>
+                    (window.location.href = `/u/${inviter.username}`)
+                  }
+                >
+                  <P2
+                    className={`${
+                      inviter.position <= 3 ? "text-black" : "text-primary-03"
+                    }`}
+                    text={inviter.invites}
                   />
-                  <P2 text={inviter.name} bold className="ml-3" />
-                </div>
-              </td>
-              <Table.Td
-                className="race-table-invites-cell py-3"
-                onClick={() =>
-                  (window.location.href = `/u/${inviter.username}`)
-                }
-              >
-                <P2
-                  className={`${
-                    inviter.position <= 3 ? "text-black" : "text-primary-03"
-                  }`}
-                  text={inviter.invites}
-                />
-              </Table.Td>
-              <Table.Td
-                className={
-                  "race-table-rewards-cell hide-content-in-mobile py-3"
-                }
-                onClick={() =>
-                  (window.location.href = `/u/${talent.user.username}`)
-                }
-              >
-                <P2
-                  className={`${
-                    inviter.position <= 3 ? "text-black" : "text-primary-03"
-                  }`}
-                  text={getRewardsForPosition(inviter.position)}
-                />
-              </Table.Td>
-            </Table.Tr>
-          ))}
-        </Table.Body>
-      </Table>
+                </Table.Td>
+                <Table.Td
+                  className={
+                    "race-table-rewards-cell hide-content-in-mobile py-3"
+                  }
+                  onClick={() =>
+                    (window.location.href = `/u/${talent.user.username}`)
+                  }
+                >
+                  <P2
+                    className={`${
+                      inviter.position <= 3 ? "text-black" : "text-primary-03"
+                    }`}
+                    text={getRewardsForPosition(inviter.position)}
+                  />
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </>
   );
 };
 
 const ReferralRace = ({
   race,
+  allRaces,
   supporterInvites,
   isActiveSupporter,
   currentRaceResults,
@@ -490,7 +523,7 @@ const ReferralRace = ({
         currentRaceResults={currentRaceResults}
         currentPosition={leaderboardResults.userStats.position}
       />
-      <RaceTable leaderboardResults={leaderboardResults} />
+      <RaceTable leaderboardResults={leaderboardResults} allRaces={allRaces} />
     </div>
   );
 };

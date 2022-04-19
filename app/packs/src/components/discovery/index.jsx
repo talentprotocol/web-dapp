@@ -159,7 +159,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
         <div className="talent-background">
           <div className="talent-background-text permanent-text-white">
             <div className="col-1"></div>
-            <div style={{ width: "420px" }}>
+            <div style={{ width: "450px" }}>
               <Caption
                 className="mb-2 text-yellow"
                 text="TALENT TOKEN APPLICATION"
@@ -167,7 +167,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
               />
               <H3
                 className="pb-4"
-                text="Launch your own token and create your on-chain CV."
+                text="Launch your own token and create your on-chain resume."
                 bold
               />
               <Button

@@ -426,9 +426,11 @@ class OnChain {
       return;
     }
 
-    const result = await this.stabletoken
+    const tx = await this.stabletoken
       .connect(this.signer)
       .approve(this.staking.address, ethers.utils.parseUnits(_amount));
+
+    const result = await tx.wait();
 
     return result;
   }
