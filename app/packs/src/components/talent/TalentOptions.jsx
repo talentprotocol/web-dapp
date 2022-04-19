@@ -3,7 +3,7 @@ import { get } from "src/utils/requests";
 
 import Button from "src/components/design_system/button";
 import TabButton from "src/components/design_system/tab/TabButton.jsx";
-import TalentNameSearch from "./TalentNameSearch";
+import TalentKeywordSearch from "./TalentKeywordSearch";
 import TalentFilters from "./TalentFilters";
 import { Grid, List } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
@@ -21,7 +21,10 @@ const TalentOptions = ({
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
-  const [name, setName] = useState(url.searchParams.get("name") || "");
+  // Kept name support for backwards compatibility
+  const [keyword, setKeyword] = useState(
+    url.searchParams.get("name") || url.searchParams.get("keyword") || ""
+  );
   const [status, setStatus] = useState(url.searchParams.get("status") || "All");
 
   const filter = (e, filterType, option) => {
@@ -65,7 +68,11 @@ const TalentOptions = ({
         onClick={(tab) => changeTab(tab)}
       />
       <div className={cx("d-flex", mobile && "mt-3")}>
-        <TalentNameSearch name={name} setName={setName} filter={filter} />
+        <TalentKeywordSearch
+          keyword={keyword}
+          setKeyword={setKeyword}
+          filter={filter}
+        />
         <div className="ml-2">
           <TalentFilters
             status={status}

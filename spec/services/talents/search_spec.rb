@@ -61,14 +61,18 @@ RSpec.describe Talents::Search do
       end
 
       before do
-        tag = create :tag, description: "web3"
+        tag_1 = create :tag, description: "web3"
+        tag_2 = create :tag, description: "design"
+        tag_3 = create :tag, description: "development"
 
-        user_1.tags << tag
-        user_3.tags << tag
+        user_1.tags << [tag_1, tag_3]
+        user_2.tags << [tag_2]
+        user_3.tags << [tag_1, tag_2]
+        user_4.tags << [tag_3]
       end
 
       it "returns all talent users with tags matching the passed keyword" do
-        expect(search_talents).to match_array([talent_1, talent_3])
+        expect(search_talents).to eq([talent_1, talent_3])
       end
     end
   end

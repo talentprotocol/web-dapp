@@ -2,13 +2,13 @@ import React from "react";
 import TextInput from "src/components/design_system/fields/textinput";
 import { Search } from "src/components/icons";
 
-const TalentNameSearch = ({ name, setName, filter, className }) => {
+const TalentKeywordSearch = ({ keyword, setKeyword, filter, className }) => {
   return (
-    <form onSubmit={(e) => filter(e, "name", name)} className={className}>
+    <form onSubmit={(e) => filter(e, "keyword", keyword)} className={className}>
       <div className="position-relative">
         <TextInput
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
           placeholder="Search"
           inputClassName="pl-5"
           className="w-100"
@@ -22,4 +22,4 @@ const TalentNameSearch = ({ name, setName, filter, className }) => {
   );
 };
 
-export default TalentNameSearch;
+export default TalentKeywordSearch;

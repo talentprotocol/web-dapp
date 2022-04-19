@@ -14,7 +14,7 @@ import ReactOnRails from "react-on-rails";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
-import TalentNameSearch from "src/components/talent/TalentNameSearch";
+import TalentKeywordSearch from "src/components/talent/TalentKeywordSearch";
 import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import Notifications from "src/components/notifications";
@@ -47,7 +47,7 @@ ReactOnRails.register({
   MessageUserList,
   Chat,
   RegistrationFlow,
-  TalentNameSearch,
+  TalentKeywordSearch,
   Login,
   Web3ModalConnect,
   TopBar,
