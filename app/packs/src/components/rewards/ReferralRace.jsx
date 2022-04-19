@@ -87,16 +87,11 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
         <div className="d-flex flex-column col-lg-6">
           <H4 className="mb-3 d-flex flex-row align-items-center" bold>
             Referral Race
-            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
-              <P3 className="current-color" bold text="Hot" />
-            </Tag>
           </H4>
           <P1>
             Every week the 3 users with the most referrals will win a total of
             2,000 $TAL. The 1st wins 1,200, the 2nd 500 and the 3rd 300. No
-            repeat winners. You need to be an active user to unlock invites and
-            enter the race. To become an active user you need to buy or launch a
-            talent token.
+            repeat winners. You must connect your wallet to be eligible.
           </P1>
         </div>
         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
@@ -126,14 +121,11 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
         <div className="d-flex flex-column col-lg-5 px-4 px-lg-0">
           <H4 className="mb-3 d-flex flex-row align-items-center" bold>
             Referral Race
-            <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
-              <P3 className="current-color" bold text="Hot" />
-            </Tag>
           </H4>
           <P1>
             Every week the 3 users with the most referrals will win a total of
             2,000 $TAL. The 1st wins 1200, the 2nd 500 and the 3rd 300. No
-            repeat winners.
+            repeat winners. You must connect your wallet to be eligible.
           </P1>
         </div>
         <div className="d-flex flex-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-5 mt-lg-0">
@@ -289,7 +281,7 @@ const Overview = ({
             <H5 bold>{currentRaceResults == 0 ? "N/A" : currentPosition}</H5>
           </div>
           <div className="d-flex flex-column mb-3 mb-lg-0">
-            <P3>Invites Used</P3>
+            <P3>Wallets connected using your invite</P3>
             <H5 bold>{currentRaceResults}</H5>
           </div>
           <div className="d-flex flex-column">
@@ -435,7 +427,7 @@ const RaceTable = ({ leaderboardResults, allRaces }) => {
               <Caption bold text={"POSITION"} />
             </Table.Th>
             <Table.Th className="pr-4 pr-lg-0">
-              <Caption bold text={"INVITES"} />
+              <Caption bold text={"WALLETS CONNECTED"} />
             </Table.Th>
             <Table.Th className="hide-content-in-mobile text-black">
               <Caption bold text={"REWARDS"} />
@@ -505,7 +497,7 @@ const ReferralRace = ({
   race,
   allRaces,
   supporterInvites,
-  isActiveSupporter,
+  isEligible,
   currentRaceResults,
   leaderboardResults,
   isTalent,
@@ -513,7 +505,7 @@ const ReferralRace = ({
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
       <RaceHeader
-        isEligible={!!isActiveSupporter}
+        isEligible={!!isEligible}
         race={race}
         isTalent={isTalent}
         username={leaderboardResults.userStats.username}
