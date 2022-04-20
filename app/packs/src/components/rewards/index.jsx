@@ -4,8 +4,6 @@ import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
 import TalentInvites from "./TalentInvites";
 import Quests from "./quests";
-import { ApolloProvider, client } from "src/utils/thegraph";
-import { Provider, railsContextStore } from "src/contexts/state";
 
 const Tabs = ({ changeTab, activeTab }) => {
   return (
@@ -112,12 +110,6 @@ const Rewards = ({
   );
 };
 
-export default (props, railsContext) => {
-  return () => (
-    <ApolloProvider client={client(railsContext.contractsEnv)}>
-      <Provider createStore={() => railsContextStore(railsContext)}>
-        <Rewards {...props} railsContext={railsContext} />
-      </Provider>
-    </ApolloProvider>
-  );
+export default (props, _railsContext) => {
+  return () => <Rewards {...props} />;
 };

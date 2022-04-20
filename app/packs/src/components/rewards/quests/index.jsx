@@ -10,15 +10,6 @@ const Quests = ({ quests, questId, setQuestId }) => {
   const searchParams = new URLSearchParams(url.search);
   const { mobile } = useWindowDimensionsHook();
 
-  const changeView = (questId) => {
-    setQuestId(questId);
-    window.history.pushState(
-      {},
-      document.title,
-      `${url.pathname}?tab=quests&quest=${questId}`
-    );
-  };
-
   useEffect(() => {
     if (searchParams.get("quest")) {
       setQuestId(searchParams.get("quest"));
@@ -55,7 +46,7 @@ const Quests = ({ quests, questId, setQuestId }) => {
                 }
                 rewards={quest.tasks.map((task) => task.reward)}
                 status={quest.status}
-                onClick={changeView}
+                onClick={() => (window.location.href = `/quests/${quest.id}`)}
               />
             </div>
           ))}

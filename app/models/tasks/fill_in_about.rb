@@ -5,7 +5,7 @@ module Tasks
     end
 
     def description
-      "To receive CELO you'll need to connect your wallet first"
+      "Add information to your profile to be eligible to receive 0.01 CELO when you connect your wallet"
     end
 
     def reward

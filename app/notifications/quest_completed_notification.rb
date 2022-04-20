@@ -8,6 +8,6 @@ class QuestCompletedNotification < BaseNotification
   end
 
   def url
-    earn_url(tab: "quests", quest: params["model_id"])
+    quest_url(params["model_id"]) if params["model_id"]
   end
 end
