@@ -4,18 +4,19 @@ module Tasks
       task = Task.joins(:quest).where(type: type).where(quest: {user: user}).take
       return if task.done?
 
-      update_model(model: task)
+      update_model(model: task, status: "done")
+      update_model(model: task.quest, status: "doing")
       give_rewards(type: type, user: user) if normal_update
       return unless task.quest.tasks.where.not(status: "done").count == 0
 
-      update_model(model: task.quest)
+      update_model(model: task.quest, status: "done")
       create_notification(user: user, quest_id: task.quest_id) if normal_update
     end
 
     private
 
-    def update_model(model:)
-      model.update(status: "done")
+    def update_model(model:, status:)
+      model.update(status: status)
     end
 
     def give_rewards(type:, user:)

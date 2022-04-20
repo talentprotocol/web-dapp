@@ -4,7 +4,7 @@ namespace :quests do
 
     User.all.order(:id).find_in_batches(start: ENV["START"]) do |batch|
       batch.each do |user|
-        user_type = user.investor || user.talent
+        user_type = user.talent || user.investor
 
         if user.wallet_id
           Tasks::Update.new.call(type: "Tasks::ConnectWallet", user: user, normal_update: false)
@@ -32,6 +32,8 @@ namespace :quests do
 
         if user.talent&.token
           Tasks::Update.new.call(type: "Tasks::LaunchToken", user: user, normal_update: false)
+          Tasks::Update.new.call(type: "Tasks::ShareProfile", user: user, normal_update: false)
+          Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
         end
 
         if user.invites.sum(:uses) > 4
