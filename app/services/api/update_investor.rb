@@ -30,6 +30,10 @@ module API
           investor.location = params[:profile][:location]
           investor.headline = params[:profile][:headline]
           investor.website = params[:profile][:website]
+
+          if params[:profile][:occupation]
+            UpdateTasksJob.perform_later(type: "Tasks::FillInAbout", user_id: investor.user.id)
+          end
         end
 
         if params[:profile][:discord]

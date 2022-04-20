@@ -1,10 +1,16 @@
 import create from "zustand";
+import createContext from "zustand/context";
 
-const useStore = create((set) => ({
+const messagesStore = create((set) => ({
   messageCount: 0,
   increaseMessageCount: () =>
     set((state) => ({ messageCount: state.messageCount + 1 })),
   clearMessageCount: () => set({ messageCount: 0 }),
 }));
 
-export { useStore };
+const railsContextStore = (railsContext) =>
+  create(() => ({ railsContext: railsContext }));
+
+const { Provider, useStore } = createContext();
+
+export { useStore, Provider, messagesStore, railsContextStore };

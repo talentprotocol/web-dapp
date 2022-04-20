@@ -21,6 +21,7 @@ class CreateUser
 
       create_investor(user)
       create_feed(user)
+      give_reward_to_inviter(invite)
 
       if invite.talent_invite?
         create_talent(user)
@@ -28,6 +29,7 @@ class CreateUser
       end
 
       create_invite(user)
+      create_tasks(user)
 
       @result[:user] = user
       @result[:success] = true
@@ -107,5 +109,17 @@ class CreateUser
     service = CreateInvite.new(user_id: user.id)
 
     service.call
+  end
+
+  def create_tasks(user)
+    Tasks::PopulateForUser.new.call(user: user)
+  end
+
+  def give_reward_to_inviter(invite)
+    return unless invite.user
+
+    if invite.user.invites.sum(:uses) > 4
+      UpdateTasksJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
+    end
   end
 end

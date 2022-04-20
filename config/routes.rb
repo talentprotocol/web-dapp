@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         resources :investor, only: [:update]
         resources :perks, only: [:show]
         resources :races, only: [:show]
+        resources :quests, only: [:show]
       end
     end
   end
