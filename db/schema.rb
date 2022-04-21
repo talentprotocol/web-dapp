@@ -196,7 +196,12 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.text "text_ciphertext"
     t.boolean "is_read", default: false, null: false
     t.boolean "sent_to_supporters", default: false
+<<<<<<< HEAD
     t.text "last_message_text_ciphertext"
+=======
+    t.bigint "chat_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+>>>>>>> 72ccbf85 (Associate chat with message model)
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -470,6 +475,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   add_foreign_key "goals", "career_goals"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
+  add_foreign_key "messages", "chats"
   add_foreign_key "milestones", "talent"
   add_foreign_key "partnerships", "invites"
   add_foreign_key "perks", "talent"
