@@ -19,8 +19,29 @@ RSpec.describe Messages::Send do
     allow(ActionCable).to receive(:server).and_return(action_cable_server)
   end
 
-  it "creates two messages" do
+  it "creates a message" do
     expect { send_message }.to change(Message, :count).from(0).to(1)
+  end
+
+  it "creates a chat" do
+    expect { send_message }.to change(Chat, :count).from(0).to(1)
+  end
+
+  it "creates a chat with the correct params" do
+    time = Time.zone.now
+
+    travel_to time do
+      send_message
+
+      created_chat = Chat.last
+
+      aggregate_failures do
+        expect(created_chat.sender).to eq sender
+        expect(created_chat.receiver).to eq receiver
+        expect(created_chat.last_message_at.iso8601).to eq time.iso8601
+        expect(created_chat.last_message_text).to eq message
+      end
+    end
   end
 
   it "returns the message sent" do
