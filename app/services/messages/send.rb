@@ -16,7 +16,8 @@ module Messages
 
     def create_message(sender, receiver, message, sent_to_supporters)
       ActiveRecord::Base.transaction do
-        chat = chat(sender, receiver, message)
+        chat = upsert_chat(sender, receiver, message)
+
         Message.create!(
           chat: chat,
           sender: sender,
@@ -27,8 +28,10 @@ module Messages
       end
     end
 
-    def chat(sender, receiver, message)
-      chat = Chat.find_or_initialize_by(sender: sender, receiver: receiver)
+    def upsert_chat(sender, receiver, message)
+      chat = Chat.between(sender, receiver)
+
+      chat ||= Chat.new(sender: sender, receiver: receiver)
 
       chat.update!(last_message_at: Time.zone.now, last_message_text: message)
 

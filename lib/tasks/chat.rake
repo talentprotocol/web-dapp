@@ -1,7 +1,7 @@
 namespace :chat do
   task create_chats: :environment do
     Message.order(created_at: :desc).find_each do |message|
-      chat = Chat.find_by(sender: message.sender, receiver: message.receiver)
+      chat = Chat.between(message.sender, message.receiver)
 
       chat ||= Chat.create!(
         sender: message.sender,
