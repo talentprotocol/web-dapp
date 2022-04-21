@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_07_13_152311) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +80,17 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "pitch"
     t.string "challenges"
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "last_message_at", null: false
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receiver_id"], name: "index_chats_on_receiver_id"
+    t.index ["sender_id", "receiver_id"], name: "index_chats_on_sender_id_and_receiver_id", unique: true
+    t.index ["sender_id"], name: "index_chats_on_sender_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -186,6 +196,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.text "text_ciphertext"
     t.boolean "is_read", default: false, null: false
     t.boolean "sent_to_supporters", default: false
+    t.text "last_message_text_ciphertext"
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -330,8 +341,11 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "reward"
     t.string "status", default: "pending"
-    t.string "type"
+    t.string "link"
     t.bigint "quest_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -443,6 +457,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   end
 
   add_foreign_key "career_goals", "talent"
+  add_foreign_key "chats", "users", column: "receiver_id"
+  add_foreign_key "chats", "users", column: "sender_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "discovery_rows", "partnerships"
