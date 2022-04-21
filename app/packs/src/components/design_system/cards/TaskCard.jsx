@@ -1,32 +1,35 @@
 import React, { useMemo } from "react";
-import { H5, P2, Caption } from "src/components/design_system/typography";
+import { H5, Caption } from "src/components/design_system/typography";
 import { Reward } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 import { useStore } from "src/contexts/state";
+import { taskDescription, taskReward } from "src/utils/questsHelpers";
 
-const TaskCard = ({ id, title, description, reward, link, status, userId }) => {
+import cx from "classnames";
+
+const TaskCard = ({ id, title, type, reward, link, status, userId }) => {
   const { railsContext } = useStore();
 
   const buttonText = useMemo(() => {
     switch (status) {
       case "pending":
-        return "Start Challenge";
+        return "Start Task";
       case "doing":
-        return "Continue Challenge";
+        return "Continue Task";
       case "claim_rewards":
         return "Claim Reward";
       case "done":
         return "Complete";
       default:
-        return "Start Challenge";
+        return "Start Task";
     }
   }, [status]);
 
   const buttonType = useMemo(() => {
     switch (status) {
       case "pending":
-        return "primary-default";
+        return "primary-outline";
       case "doing":
         return "primary-outline";
       case "claim_rewards":
@@ -42,15 +45,30 @@ const TaskCard = ({ id, title, description, reward, link, status, userId }) => {
   const disabled = completed || !link;
 
   return (
-    <div className="task-card p-4 d-flex flex-column justify-content-between">
+    <div
+      className={cx(
+        "task-card",
+        "p-4",
+        "d-flex flex-column justify-content-between",
+        completed && "disabled"
+      )}
+    >
       <div className="d-flex flex-column justify-content-between">
         <div className="d-flex flex-column justify-content-center">
-          <H5 bold text={title} />
-          <P2 className="pb-4" text={description} />
-          <Caption className="text-primary-04 pb-2" bold text="Reward" />
+          <H5
+            className={cx(completed ? "text-primary-04" : "text-black")}
+            bold
+            text={title}
+          />
+          {taskDescription(type)}
+          <Caption className="text-primary-04 pt-4 pb-2" bold text="Prize" />
           <div key={reward} className="pb-2 d-flex align-items-center">
-            <Reward style={{ minWidth: "16px" }} pathClassName="star" />
-            <P2 className="pl-2" text={reward} />
+            <Reward
+              style={{ minWidth: "16px" }}
+              className="mr-2"
+              pathClassName="star"
+            />
+            {taskReward(type, completed)}
           </div>
         </div>
       </div>

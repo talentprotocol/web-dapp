@@ -1,7 +1,7 @@
 module Tasks
   class Watchlist < Task
     def title
-      "Add 3 talent to watchlist"
+      "Add 3 talents to watchlist"
     end
 
     def description

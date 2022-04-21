@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import { P2 } from "src/components/design_system/typography";
 import { CheckBold } from "src/components/icons";
 
-const ProgressCircle = ({ id, width, progress, text, done = false }) => {
+const ProgressCircle = ({
+  id,
+  width,
+  progress,
+  completedTasks,
+  allTasks,
+  done = false,
+}) => {
   const setProgress = (circle, progress) => {
     const radius = circle.r.baseVal.value;
     const circumference = radius * 2 * Math.PI;
@@ -29,7 +36,11 @@ const ProgressCircle = ({ id, width, progress, text, done = false }) => {
       {done ? (
         <CheckBold className="position-absolute" color="#1DB954" size={21} />
       ) : (
-        <P2 className="position-absolute" bold text={text} />
+        <div className="d-flex position-absolute">
+          <P2 className="text-black" bold text={`${completedTasks}`} />
+          <P2 className="px-1 text-primary-04" bold text="/" />
+          <P2 className="text-primary-04" bold text={`${allTasks}`} />
+        </div>
       )}
       <svg width={width + 6} height={width + 6}>
         <circle

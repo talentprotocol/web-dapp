@@ -9,36 +9,21 @@ module Tasks
     private
 
     def populate_quests_and_tasks_for_user(user:)
-      quest1 = Quest.find_or_create_by!(
-        title: "User",
-        subtitle: "First quest for new users",
-        description: "Fill in your about section and connect your wallet to receive rewards",
-        user: user
-      )
+      quest1 = Quests::User.find_or_create_by!(user: user)
 
       Tasks::FillInAbout.find_or_create_by!(quest: quest1)
       Tasks::ConnectWallet.find_or_create_by!(quest: quest1)
 
       # ---------------------------------------------------
 
-      quest2 = Quest.find_or_create_by!(
-        title: "Supporter",
-        subtitle: "First quest for new supporters",
-        description: "Add 3 talent to watchlist and buy a talent token",
-        user: user
-      )
+      quest2 = Quests::Supporter.find_or_create_by!(user: user)
 
       Tasks::Watchlist.find_or_create_by!(quest: quest2)
       Tasks::BuyTalentToken.find_or_create_by!(quest: quest2)
 
       # ---------------------------------------------------
 
-      quest3 = Quest.find_or_create_by!(
-        title: "Talent",
-        subtitle: "First quest for new talents",
-        description: "Complete and share your profile",
-        user: user
-      )
+      quest3 = Quests::Talent.find_or_create_by!(user: user)
 
       Tasks::PublicProfile.find_or_create_by!(quest: quest3)
       Tasks::ShareProfile.find_or_create_by!(quest: quest3)
@@ -46,12 +31,7 @@ module Tasks
 
       # ---------------------------------------------------
 
-      quest4 = Quest.find_or_create_by!(
-        title: "Scout",
-        subtitle: "First quest for new scouts",
-        description: "Get 5 people to register using your personal invite code",
-        user: user
-      )
+      quest4 = Quests::Scout.find_or_create_by!(user: user)
 
       Tasks::Register.find_or_create_by!(quest: quest4)
     end

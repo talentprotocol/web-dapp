@@ -2,7 +2,7 @@ class TaskBlueprint < Blueprinter::Base
   fields :id
 
   view :normal do
-    fields :title, :description, :reward, :status, :link
+    fields :title, :status, :link, :type
     field :userId do |task, _options|
       task.quest.user_id
     end

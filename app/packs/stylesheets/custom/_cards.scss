@@ -273,12 +273,32 @@
 .highlights-card {
   width: 370px;
   border-radius: 4px;
+  text-decoration: none !important;
+  background-color: $white;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    background-color: $white;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  &.disabled {
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  }
 }
 
 .dark-body .highlights-card {
   background-color: $gray-900;
   box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+    background-color: $surface-02;
+  }
+
+  &.disabled {
+    background-color: $gray-900;
+  }
 }
 
 .highlights-card-title {
@@ -443,23 +463,42 @@
 }
 
 .quest-card-title {
-  height: 106px;
+  height: 140px;
 }
 
 .quest-card-description {
-  height: 336px;
+  height: 361px;
 }
 
 .task-card {
   width: 370px;
-  height: 288px;
+  height: 315px;
+  text-decoration: none !important;
   background-color: $white;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    background-color: $white;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  &.disabled {
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  }
 }
 
 .dark-body .task-card {
   background-color: $gray-900;
   box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+    background-color: $surface-02;
+  }
+
+  &.disabled {
+    background-color: $gray-900;
+  }
 }
 
 .whole-ring {

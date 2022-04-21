@@ -37,12 +37,14 @@ Button.defaultProps = {
   size: "normal",
   className: "",
   disabled: false,
+  type: "",
 };
 
 Button.propTypes = {
   text: string,
   onClick: func.isRequired,
   type: oneOf([
+    "",
     "primary-default",
     "primary-outline",
     "primary-ghost",
