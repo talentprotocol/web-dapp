@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_12_143224) do
-
+ActiveRecord::Schema.define(version: 2022_04_21_143614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +24,17 @@ ActiveRecord::Schema.define(version: 2022_04_12_143224) do
     t.string "pitch"
     t.string "challenges"
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "last_message_at", null: false
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receiver_id"], name: "index_chats_on_receiver_id"
+    t.index ["sender_id", "receiver_id"], name: "index_chats_on_sender_id_and_receiver_id", unique: true
+    t.index ["sender_id"], name: "index_chats_on_sender_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -319,8 +329,8 @@ ActiveRecord::Schema.define(version: 2022_04_12_143224) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
@@ -351,6 +361,8 @@ ActiveRecord::Schema.define(version: 2022_04_12_143224) do
   end
 
   add_foreign_key "career_goals", "talent"
+  add_foreign_key "chats", "users", column: "receiver_id"
+  add_foreign_key "chats", "users", column: "sender_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "feed_posts", "feeds"
