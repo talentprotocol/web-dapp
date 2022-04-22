@@ -11,7 +11,7 @@ import {
 } from "src/utils/constants";
 import Button from "src/components/design_system/button";
 import { P2, P3 } from "src/components/design_system/typography";
-import { Caret, Sun, Moon } from "src/components/icons";
+import { ArrowFill, Sun, Moon } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
@@ -23,7 +23,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle
-        className="talent-button white-subtle-button normal-size-button no-caret d-flex align-items-center"
+        className="talent-button white-subtle-button normal-size-button no-caret d-flex align-items-center text-primary-03"
         id="user-dropdown"
         bsPrefix=""
         as="div"
@@ -34,7 +34,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           height={20}
           className="mr-2"
         />
-        <Caret size={12} color="currentColor" />
+        <ArrowFill className="toggle-arrow" size={8} color="currentColor" />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="user-menu-dropdown">
@@ -118,7 +118,7 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
         <Button
           onClick={onClickTransak}
           type="primary-outline"
-          className="w-100"
+          className="w-100 mb-2"
         >
           <P3 bold text="Get funds" className="current-color" />
         </Button>

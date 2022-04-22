@@ -3,13 +3,13 @@ import { H5, Caption } from "src/components/design_system/typography";
 import { Reward } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Web3ModalConnect from "src/components/login/Web3ModalConnect";
-import { useStore } from "src/contexts/state";
+import { railsContextStore } from "src/contexts/state";
 import { taskDescription, taskReward } from "src/utils/questsHelpers";
 
 import cx from "classnames";
 
 const TaskCard = ({ id, title, type, reward, link, status, userId }) => {
-  const { railsContext } = useStore();
+  const railsContext = railsContextStore((state) => state.railsContext);
 
   const buttonText = useMemo(() => {
     switch (status) {

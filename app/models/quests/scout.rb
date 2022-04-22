@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quests
   class Scout < Quest
     def title

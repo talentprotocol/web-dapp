@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { railsContextStore } from "src/contexts/state";
+
 import TaskCard from "src/components/design_system/cards/TaskCard";
 import Button from "src/components/design_system/button";
 import { H3, P1 } from "src/components/design_system/typography";
 import { ArrowLeft } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { ApolloProvider, client } from "src/utils/thegraph";
-import { Provider, railsContextStore } from "src/contexts/state";
 import { questDescription } from "src/utils/questsHelpers";
 
 import cx from "classnames";
 
-const QuestShow = ({ quest }) => {
+const QuestShow = ({ quest, railsContext }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
   const { mobile } = useWindowDimensionsHook();
+
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
 
   return (
     <>
@@ -61,9 +68,7 @@ const QuestShow = ({ quest }) => {
 export default (props, railsContext) => {
   return () => (
     <ApolloProvider client={client(railsContext.contractsEnv)}>
-      <Provider createStore={() => railsContextStore(railsContext)}>
-        <QuestShow {...props} railsContext={railsContext} />
-      </Provider>
+      <QuestShow {...props} railsContext={railsContext} />
     </ApolloProvider>
   );
 };

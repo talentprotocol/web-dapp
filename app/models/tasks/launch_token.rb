@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class LaunchToken < Task
     def title
