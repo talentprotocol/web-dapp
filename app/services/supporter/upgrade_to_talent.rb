@@ -12,6 +12,8 @@ class Supporter::UpgradeToTalent
 
     create_invite(user)
 
+    copy_information_to_talent(user)
+
     service = Mailerlite::SyncSubscriber.new
     service.call(user)
 
@@ -28,5 +30,12 @@ class Supporter::UpgradeToTalent
       service = CreateInvite.new(user_id: user.id)
       service.call
     end
+  end
+
+  def copy_information_to_talent(user)
+    user.talent.profile = user.investor.profile
+    user.talent.profile_picture_data = user.investor.profile_picture_data
+    user.talent.banner_data = user.investor.banner_data
+    user.talent.save!
   end
 end
