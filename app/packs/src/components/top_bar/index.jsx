@@ -19,6 +19,7 @@ import Tab from "src/components/design_system/tab";
 import Button from "src/components/design_system/button";
 import MobileTopBar from "src/components/top_bar/MobileTopBar";
 import { Copy } from "src/components/icons";
+import EarnMenu from "src/components/menus/EarnMenu";
 
 const UnreadMessagesIndicator = () => {
   return (
@@ -263,13 +264,7 @@ export const TopBar = ({
             className="mr-4"
           />
           {hasUnreadMessages && <UnreadMessagesIndicator />}
-          <Tab
-            href="/earn"
-            text="Earn"
-            type="white"
-            active={activeTab === "/earn"}
-            newTab={true}
-          />
+          <EarnMenu />
         </div>
         <div className="d-flex" style={{ height: 34 }}>
           {!showConnectButton() && connectedButton("mr-2")}

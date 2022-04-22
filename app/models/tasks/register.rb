@@ -1,15 +1,9 @@
+# frozen_string_literal: true
+
 module Tasks
   class Register < Task
     def title
-      "Get 5 people to register"
-    end
-
-    def description
-      "Use your personal invite code so people can register"
-    end
-
-    def reward
-      "50 TAL"
+      "Invite 5 friends"
     end
 
     def link

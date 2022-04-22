@@ -1,5 +1,4 @@
 import create from "zustand";
-import createContext from "zustand/context";
 
 const messagesStore = create((set) => ({
   messageCount: 0,
@@ -8,9 +7,14 @@ const messagesStore = create((set) => ({
   clearMessageCount: () => set({ messageCount: 0 }),
 }));
 
-const railsContextStore = (railsContext) =>
-  create(() => ({ railsContext: railsContext }));
+const railsContextStore = create((set) => ({
+  railsContext: {},
+  setRailsContext: (newRailsContext) => set({ railsContext: newRailsContext }),
+}));
 
-const { Provider, useStore } = createContext();
+const urlStore = create((set) => ({
+  url: "",
+  changeURL: (newURL) => set({ url: newURL }),
+}));
 
-export { useStore, Provider, messagesStore, railsContextStore };
+export { messagesStore, railsContextStore, urlStore };

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { urlStore } from "src/contexts/state";
+
 import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
 import TalentInvites from "./TalentInvites";
@@ -47,6 +49,8 @@ const Rewards = ({
   leaderboardResults,
   quests,
 }) => {
+  const changeURL = urlStore((state) => state.changeURL);
+
   const { isTalent, isEligible } = user;
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
@@ -55,6 +59,7 @@ const Rewards = ({
 
   const changeTab = (tab) => {
     window.history.pushState({}, document.title, `${url.pathname}?tab=${tab}`);
+    changeURL(new URL(document.location));
     setTab(tab);
     setQuestId(null);
   };

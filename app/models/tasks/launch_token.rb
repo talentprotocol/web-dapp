@@ -1,15 +1,9 @@
+# frozen_string_literal: true
+
 module Tasks
   class LaunchToken < Task
     def title
       "Launch your token"
-    end
-
-    def description
-      "Launch your token so people can start investing in you"
-    end
-
-    def reward
-      "2000 talent tokens"
     end
 
     def link

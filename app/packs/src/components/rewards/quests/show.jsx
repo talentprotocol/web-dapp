@@ -1,28 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { railsContextStore } from "src/contexts/state";
+
 import TaskCard from "src/components/design_system/cards/TaskCard";
-import { H3, P2 } from "src/components/design_system/typography";
-import { Reward } from "src/components/icons";
+import Button from "src/components/design_system/button";
+import { H3, P1 } from "src/components/design_system/typography";
+import { ArrowLeft } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { ApolloProvider, client } from "src/utils/thegraph";
-import { Provider, railsContextStore } from "src/contexts/state";
+import { questDescription } from "src/utils/questsHelpers";
 
 import cx from "classnames";
 
-const QuestShow = ({ quest }) => {
+const QuestShow = ({ quest, railsContext }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
   const { mobile } = useWindowDimensionsHook();
 
-  const rewards = quest.tasks.map((task) => task.reward);
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
 
   return (
     <>
       <div className="mb-6">
+        <a className="button-link" href="/earn?tab=quests">
+          <Button
+            onClick={() => null}
+            type="white-ghost"
+            size="icon"
+            className="d-flex align-items-center justify-content-center mb-4"
+          >
+            <ArrowLeft color="currentColor" size={16} />
+          </Button>
+        </a>
         <H3 className="mb-3" bold text={quest.title} />
-        {rewards.map((reward) => (
-          <div key={reward} className="pb-2 d-flex align-items-center">
-            <Reward style={{ minWidth: "16px" }} pathClassName="star" />
-            <P2 className="pl-2 text-primary-03" text={reward} />
-          </div>
-        ))}
+        <P1 className="text-primary-03" text={questDescription(quest.type)} />
       </div>
       {quest && (
         <div
@@ -39,7 +51,7 @@ const QuestShow = ({ quest }) => {
               <TaskCard
                 id={task.id}
                 title={task.title}
-                description={task.description}
+                type={task.type}
                 reward={task.reward}
                 link={task.link}
                 status={task.status}
@@ -56,9 +68,7 @@ const QuestShow = ({ quest }) => {
 export default (props, railsContext) => {
   return () => (
     <ApolloProvider client={client(railsContext.contractsEnv)}>
-      <Provider createStore={() => railsContextStore(railsContext)}>
-        <QuestShow {...props} railsContext={railsContext} />
-      </Provider>
+      <QuestShow {...props} railsContext={railsContext} />
     </ApolloProvider>
   );
 };

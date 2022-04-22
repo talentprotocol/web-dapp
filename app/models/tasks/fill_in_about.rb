@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Tasks
   class FillInAbout < Task
     def title
-      "Fill in About"
+      "Profile: About"
     end
 
     def description
