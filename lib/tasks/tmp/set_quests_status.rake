@@ -2,7 +2,7 @@ namespace :quests do
   task set_status: :environment do
     puts "starting rake task to set quests status"
 
-    User.all.order(:id).find_in_batches(start: ENV["START"]) do |batch|
+    User.all.order(:id).find_in_batches(start: ENV["START"], finish: ENV["FINISH"]) do |batch|
       batch.each do |user|
         user_type = user.talent || user.investor
 
