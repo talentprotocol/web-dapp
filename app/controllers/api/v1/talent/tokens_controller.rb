@@ -19,7 +19,7 @@ class API::V1::Talent::TokensController < ApplicationController
         UpdateTasksJob.perform_later(type: "Tasks::LaunchToken", user_id: current_user.id)
       end
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
-      render json: token.as_json.merge(code: invite&.code), status: :ok
+      render json: token.as_json, status: :ok
     else
       render json: {error: "Unable to update Token"}, status: :unprocessable_entity
     end
