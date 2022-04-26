@@ -125,8 +125,7 @@ const WaitingForConfirmation = ({ mode }) => (
   </>
 );
 
-const SuccessConfirmation = ({ mode, hide, code }) => {
-  const link = `${window.location.origin}/sign_up?code=${code}`;
+const SuccessConfirmation = ({ mode, hide }) => {
   return (
     <>
       <Modal.Header closeButton>
@@ -136,13 +135,6 @@ const SuccessConfirmation = ({ mode, hide, code }) => {
         <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
           <P2 className="w-100 text-left">
             You've successfully deployed your token!
-          </P2>
-          <P2 className="mb-3">
-            You are now able to invite a talent to launch their token! Share
-            this link with them{" "}
-            <a href={link} target="self">
-              {link}
-            </a>
           </P2>
           <GreenCheck mode={mode} />
           <Button
@@ -173,7 +165,6 @@ const Token = (props) => {
   const [ticker, setTicker] = useState(token.ticker || "");
   const [show, setShow] = useState(false);
   const [deploying, setDeploying] = useState(false);
-  const [code, setCode] = useState("");
   const [success, setSuccess] = useState(false);
   const [validChain, setValidChain] = useState(true);
   const [walletConnected, setWalletConnected] = useState(true);
@@ -225,7 +216,6 @@ const Token = (props) => {
         );
 
         if (response) {
-          setCode(response.code);
           setSuccess(true);
           setDeploying(false);
           setContractId(contractAddress.toLowerCase());
@@ -418,7 +408,6 @@ const Token = (props) => {
           error={error}
           backdrop={false}
           setShow={setShow}
-          code={code}
         />
       </Modal>
       <H5
