@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_08_174146) do
+ActiveRecord::Schema.define(version: 2022_04_21_115233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,26 @@ ActiveRecord::Schema.define(version: 2022_04_08_174146) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "profile_page_visitors", force: :cascade do |t|
+    t.text "ip_ciphertext", null: false
+    t.string "ip_bidx"
+    t.bigint "user_id", null: false
+    t.datetime "last_visited_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ip_bidx"], name: "index_profile_page_visitors_on_ip_bidx"
+    t.index ["user_id"], name: "index_profile_page_visitors_on_user_id"
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.string "status", default: "pending"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "type"
+    t.index ["user_id"], name: "index_quests_on_user_id"
+  end
+
   create_table "races", force: :cascade do |t|
     t.datetime "started_at"
     t.datetime "ends_at"
@@ -233,6 +253,15 @@ ActiveRecord::Schema.define(version: 2022_04_08_174146) do
     t.index ["supporter_wallet_id", "talent_contract_id"], name: "talent_supporters_wallet_token_contract_uidx", unique: true
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "status", default: "pending"
+    t.string "type"
+    t.bigint "quest_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quest_id"], name: "index_tasks_on_quest_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.string "ticker"
     t.datetime "created_at", precision: 6, null: false
@@ -288,8 +317,8 @@ ActiveRecord::Schema.define(version: 2022_04_08_174146) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.boolean "disabled", default: false
     t.string "theme_preference", default: "light"
+    t.boolean "disabled", default: false
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
@@ -333,8 +362,11 @@ ActiveRecord::Schema.define(version: 2022_04_08_174146) do
   add_foreign_key "milestones", "talent"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
+  add_foreign_key "profile_page_visitors", "users"
+  add_foreign_key "quests", "users"
   add_foreign_key "rewards", "users"
   add_foreign_key "tags", "discovery_rows"
+  add_foreign_key "tasks", "quests"
   add_foreign_key "tokens", "talent"
   add_foreign_key "transfers", "users"
   add_foreign_key "user_tags", "tags"

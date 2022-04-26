@@ -7,6 +7,7 @@ import {
   Star,
   Check,
   Globe,
+  Reward,
 } from "src/components/icons";
 import { P3 } from "src/components/design_system/typography";
 import cx from "classnames";
@@ -36,6 +37,9 @@ const Notification = ({
           {type === "star" && <Star pathClassName={cx("icon-theme", mode)} />}
           {type === "check" && <Check pathClassName={cx("icon-theme", mode)} />}
           {type === "globe" && <Globe pathClassName={cx("icon-theme", mode)} />}
+          {type === "rewards" && (
+            <Reward pathClassName={cx("icon-theme", mode)} />
+          )}
         </div>
         <div className={cx("d-flex flex-column notification-right-area", mode)}>
           <div className="w-100 d-flex align-items-center">

@@ -51,6 +51,9 @@ Rails.application.routes.draw do
     # Edit profile
     get "/u/:username/edit_profile", to: "users#edit_profile"
 
+    # Quests
+    resources :quests, only: [:show]
+
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]

@@ -22,7 +22,16 @@ export const REFERRAL_RACE =
   "https://medium.com/@talentprotocol/the-talent-protocol-invite-race-438959b01b34";
 
 export const COMMUNITY_S01_NFT_AIRDROP =
-  "https://medium.com/@talentprotocol/part-of-season-1-get-ready-for-the-nft-airdrop-dd7485c2f11b";
+  "https://blog.talentprotocol.com/part-of-season-1-get-ready-for-the-nft-airdrop/";
+
+export const TOP_UP_YOUR_ACCOUNT =
+  "https://www.notion.so/talentprotocol/Top-Up-Your-Account-b4c96000187442daa126cb843e87ab1d";
+
+export const BUY_TALENT_TOKENS =
+  "https://www.notion.so/talentprotocol/Buy-Talent-Tokens-94a2358e5ae1454d81ea0ae4aecc1ed3";
+
+export const PROMOTE_YOUR_TOKENS =
+  "https://www.notion.so/talentprotocol/Promote-Your-Token-on-Social-Media-e629939ed41c48a99c4b28006b64bd94";
 
 export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
 

@@ -6,9 +6,9 @@ module Talents
     end
 
     def call
-      talents = Talent.base
+      talents = Talent.base.joins(:user, :token).left_joins(user: :tags)
 
-      talents = filter_by_name_or_ticker(talents) if filter_params.key?(:name)
+      talents = filter_by_keyword(talents) if keyword
       talents = filter_by_status(talents)
 
       sort(talents)
@@ -18,15 +18,19 @@ module Talents
 
     attr_reader :filter_params, :sort_params
 
-    def filter_by_name_or_ticker(talents)
+    def filter_by_keyword(talents)
       talents
-        .joins(:user, :token)
         .where(
-          "users.username ilike ? OR users.display_name ilike ? OR tokens.ticker ilike ?",
-          "%#{filter_params[:name]}%",
-          "%#{filter_params[:name]}%",
-          "%#{filter_params[:name]}%"
+          "users.username ilike :keyword " \
+          "OR users.display_name ilike :keyword " \
+          "OR tokens.ticker ilike :keyword " \
+          "OR tags.description ilike :keyword",
+          keyword: "%#{keyword}%"
         )
+    end
+
+    def keyword
+      @keyword ||= filter_params[:keyword]
     end
 
     def filter_by_status(talents)

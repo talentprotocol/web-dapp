@@ -1,13 +1,7 @@
 ## Summary
 
 <!--- Summarize the changes made to the platform. (Include screenshoots if applicable) -->
-<!--- Try to answer the following three questions: -->
-
-### What changed?
-
-### Why it changed?
-
-### How it changed?
+<!--- Try to answer the following three questions: What, why and how it changed? -->
 
 ## Notion link
 

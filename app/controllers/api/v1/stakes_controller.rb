@@ -10,9 +10,9 @@ class API::V1::StakesController < ApplicationController
 
       if !current_user.tokens_purchased
         current_user.update!(tokens_purchased: true)
-        current_user.invites.where(talent_invite: false).update_all(max_uses: nil)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
+        UpdateTasksJob.perform_later(type: "Tasks::BuyTalentToken", user_id: current_user.id)
       end
       # add_follow(token.talent.user_id)
     end

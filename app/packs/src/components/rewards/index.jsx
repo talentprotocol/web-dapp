@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { P3 } from "src/components/design_system/typography";
-import Tag from "src/components/design_system/tag";
+import { urlStore } from "src/contexts/state";
 
 import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
 import TalentInvites from "./TalentInvites";
+import Quests from "./quests";
 
-const Tabs = ({ changeTab, activeTab, isTalent }) => {
+const Tabs = ({ changeTab, activeTab }) => {
   return (
     <div className="talent-table-tabs d-flex flex-row align-items-center overflow-x-scroll hide-scrollbar">
       <div
@@ -26,11 +26,13 @@ const Tabs = ({ changeTab, activeTab, isTalent }) => {
       >
         Talent Invites
       </div>
-      <div className="d-flex disabled-talent-table-tab">
+      <div
+        onClick={() => changeTab("quests")}
+        className={`text-no-wrap talent-table-tab${
+          activeTab == "quests" ? " active-talent-table-tab" : ""
+        }`}
+      >
         Quests
-        <Tag className="ml-2">
-          <P3 className="text-primary-04" bold text="Coming Soon" />
-        </Tag>
       </div>
     </div>
   );
@@ -45,14 +47,46 @@ const Rewards = ({
   talentList,
   supporterInvites,
   leaderboardResults,
+  quests,
 }) => {
+  const changeURL = urlStore((state) => state.changeURL);
+
   const { isTalent, isEligible } = user;
-  const [activeTab, changeTab] = useState("race");
+  const url = new URL(window.location);
+  const searchParams = new URLSearchParams(url.search);
+  const [activeTab, setTab] = useState("race");
+  const [questId, setQuestId] = useState(null);
+
+  const changeTab = (tab) => {
+    window.history.pushState({}, document.title, `${url.pathname}?tab=${tab}`);
+    changeURL(new URL(document.location));
+    setTab(tab);
+    setQuestId(null);
+  };
+
+  useEffect(() => {
+    if (searchParams.get("tab")) {
+      setTab(searchParams.get("tab"));
+    } else {
+      window.history.replaceState(
+        {},
+        document.title,
+        `${url.pathname}?tab=race`
+      );
+    }
+  }, [searchParams]);
+
+  window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(document.location.search);
+    if (document.location.search !== "") {
+      setTab(params.get("tab"));
+    }
+  });
 
   return (
     <>
       <RewardsHeader rewards={rewards} />
-      <Tabs activeTab={activeTab} changeTab={changeTab} isTalent={isTalent} />
+      <Tabs activeTab={activeTab} changeTab={changeTab} />
       {activeTab == "race" && (
         <ReferralRace
           race={race}
@@ -74,8 +108,13 @@ const Rewards = ({
           isTalent={isTalent}
         />
       )}
+      {activeTab == "quests" && (
+        <Quests quests={quests} questId={questId} setQuestId={setQuestId} />
+      )}
     </>
   );
 };
 
-export default Rewards;
+export default (props, _railsContext) => {
+  return () => <Rewards {...props} />;
+};

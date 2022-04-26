@@ -3,113 +3,94 @@ if Rails.env.development?
     task prime: ["db:setup", "db:seed"] do
       puts "Setting up Users.."
       admin = User.create!(
-        username: "Admin",
+        username: "admin",
         email: "admin@talentprotocol.com",
         password: "password",
         role: "admin",
         email_confirmed_at: Time.zone.now
       )
 
-      investor = User.create!(
-        username: "Investor",
-        wallet_id: "0x123",
+      admin_investor = Investor.new
+      admin_investor.update!(user: admin)
+      Feed.create!(user: admin)
+      Tasks::PopulateForUser.new.call(user: admin)
+
+      investor_invite = CreateInvite.new(user_id: admin.id).call
+      talent_invite = CreateInvite.new(user_id: admin.id, talent_invite: true).call
+
+      investor_result = CreateUser.new.call(
         email: "investor@talentprotocol.com",
+        username: "investor",
         password: "password",
-        email_confirmed_at: Time.zone.now
+        invite_code: investor_invite.code,
+        theme_preference: "light"
       )
+      investor_result[:user].confirm_email
 
-      talent = User.create!(
-        username: "Elon Musk",
-        wallet_id: "0x1234444",
+      investor_result2 = CreateUser.new.call(
+        email: "investor2@talentprotocol.com",
+        username: "investor2",
+        password: "password",
+        invite_code: investor_invite.code,
+        theme_preference: "light"
+      )
+      investor_result2[:user].confirm_email
+
+      investor_result3 = CreateUser.new.call(
+        email: "investor3@talentprotocol.com",
+        username: "investor3",
+        password: "password",
+        invite_code: investor_invite.code,
+        theme_preference: "light"
+      )
+      investor_result3[:user].confirm_email
+
+      elon_result = CreateUser.new.call(
         email: "elon@talentprotocol.com",
+        username: "elon",
         password: "password",
-        email_confirmed_at: Time.zone.now
+        invite_code: talent_invite.code,
+        theme_preference: "light"
       )
+      elon_result[:user].confirm_email
 
-      talent2 = User.create!(
-        username: "Karl Marx",
-        wallet_id: "0x12345",
-        email: "talent2@talentprotocol.com",
+      karl_result = CreateUser.new.call(
+        email: "karl@talentprotocol.com",
+        username: "karl",
         password: "password",
-        email_confirmed_at: Time.zone.now
+        invite_code: talent_invite.code,
+        theme_preference: "light"
       )
+      karl_result[:user].confirm_email
 
-      puts "Setting up Investors.."
-      Investor.create!(
-        description: "I own this",
-        user: admin
+      bob_result = CreateUser.new.call(
+        email: "bob@talentprotocol.com",
+        username: "bob",
+        password: "password",
+        invite_code: talent_invite.code,
+        theme_preference: "dark"
       )
+      bob_result[:user].confirm_email
 
-      Investor.create!(
-        description: "I'm so wealthy...",
-        user: investor
+      hannah_result = CreateUser.new.call(
+        email: "hannah@talentprotocol.com",
+        username: "hannah",
+        password: "password",
+        invite_code: talent_invite.code,
+        theme_preference: "dark"
       )
-      Investor.create!(
-        description: "I'm ready to help those that didn't have the correct opportunities"
+      hannah_result[:user].confirm_email
+
+      olivia_result = CreateUser.new.call(
+        email: "olivia@talentprotocol.com",
+        username: "olivia",
+        password: "password",
+        invite_code: talent_invite.code,
+        theme_preference: "dark"
       )
+      olivia_result[:user].confirm_email
 
-      puts "Setting up .."
-      marx = Talent.create!(
-        ito_date: Time.current + 1.week,
-        activity_count: 2,
-        user: talent2,
-        public: true
-      )
-      elon = Talent.create!(
-        ito_date: Time.current - 1.week,
-        activity_count: 2,
-        user: talent,
-        public: true
-      )
-
-      puts "Setting up Tokens.."
-      Token.create!(
-        ticker: "MARX",
-        price: 2,
-        market_cap: 0,
-        talent: marx
-      )
-      Token.create!(
-        ticker: "ELON",
-        price: 1,
-        market_cap: 0,
-        talent: elon,
-        deployed: true,
-        contract_id: "12345"
-      )
-
-      puts "Setting up Career Goals.."
-      CareerGoal.create(
-        target_date: Date.today + 1.year,
-        description: "Successful launch of rocket to plutos orbit.",
-        talent: elon
-      )
-      CareerGoal.create(
-        target_date: Date.today + 6.month,
-        description: "Launch my book \"The Communist Manifesto\"",
-        talent: marx
-      )
-
-      puts "Setting up Feeds.."
-      Feed.create(user: admin)
-      Feed.create(user: investor)
-      Feed.create(user: talent)
-
-      Follow.create(user: talent, follower: admin)
-      Follow.create(user: talent, follower: investor)
-
-      post = Post.create(user: talent, text: Faker::Lorem.paragraph)
-      talent.feed.posts << post
-      investor.feed.posts << post
-      admin.feed.posts << post
-
-      Comment.create(user: investor, post: post, text: Faker::Marketing.buzzwords)
-
-      puts "Setting up invites.."
-      Invite.create(code: "SUP-#{Invite.generate_code}", max_uses: 1, talent_invite: true, user: admin)
-      Invite.create(code: "SUP-#{Invite.generate_code}", max_uses: 1, talent_invite: true, user: investor)
-      Invite.create(code: "TAL-#{Invite.generate_code}", max_uses: 5, talent_invite: true, user: talent)
-      Invite.create(code: "TAL-#{Invite.generate_code}", max_uses: 5, talent_invite: true, user: talent2)
+      puts "Done!"
     end
   end
 end

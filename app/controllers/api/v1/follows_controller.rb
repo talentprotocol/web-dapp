@@ -14,6 +14,10 @@ class API::V1::FollowsController < ApplicationController
       #   SyncFollowerPostsJob.perform_later(user_id: follow_params[:user_id], follower_id: current_user.id)
       # end
 
+      if Follow.where(follower_id: current_user.id).count > 2
+        UpdateTasksJob.perform_later(type: "Tasks::Watchlist", user_id: current_user.id)
+      end
+
       render json: {success: "Follow successfully created."}, status: :created
     else
       render json: {error: "Unable to create follow."}, status: :bad_request

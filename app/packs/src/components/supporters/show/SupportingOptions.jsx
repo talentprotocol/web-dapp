@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Button from "src/components/design_system/button";
 import TabButton from "src/components/design_system/tab/TabButton.jsx";
-import TalentNameSearch from "src/components/talent/TalentNameSearch";
+import TalentKeywordSearch from "src/components/talent/TalentKeywordSearch";
 import { Grid, List } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -46,7 +46,7 @@ const SupportingOptions = ({
         />
       )}
       <div className={cx("d-flex", mobile && "mt-3")}>
-        <TalentNameSearch
+        <TalentKeywordSearch
           className="ml-2"
           name={name}
           setName={setName}

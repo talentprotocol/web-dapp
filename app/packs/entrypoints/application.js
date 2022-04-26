@@ -14,7 +14,7 @@ import ReactOnRails from "react-on-rails";
 import TalentShow from "src/components/talent/TalentShow";
 import MessageUserList from "src/components/chat/MessageUserList";
 import Chat from "src/components/chat/Chat";
-import TalentNameSearch from "src/components/talent/TalentNameSearch";
+import TalentKeywordSearch from "src/components/talent/TalentKeywordSearch";
 import Web3ModalConnect from "src/components/login/Web3ModalConnect";
 import UpcomingTalents from "src/components/talent/UpcomingTalents";
 import Notifications from "src/components/notifications";
@@ -36,6 +36,7 @@ import TalentPage from "src/components/talent/TalentPage";
 import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
 import SupporterProfile from "src/components/supporters/show/Profile";
 import Rewards from "src/components/rewards";
+import QuestShow from "src/components/rewards/quests/show";
 
 import "stylesheets/application.scss";
 
@@ -47,7 +48,7 @@ ReactOnRails.register({
   MessageUserList,
   Chat,
   RegistrationFlow,
-  TalentNameSearch,
+  TalentKeywordSearch,
   Login,
   Web3ModalConnect,
   TopBar,
@@ -65,6 +66,7 @@ ReactOnRails.register({
   LoggedOutTopBar,
   SupporterProfile,
   Rewards,
+  QuestShow,
 });
 
 Rails.start();

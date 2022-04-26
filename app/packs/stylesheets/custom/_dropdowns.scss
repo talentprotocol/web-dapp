@@ -58,7 +58,7 @@
   background-color: $light !important;
   color: $black !important;
   min-width: 230px;
-  padding: 0px 8px 16px 8px;
+  padding: 8px 8px 8px 8px;
 }
 
 .dark-body .user-menu-dropdown {
@@ -68,7 +68,7 @@
 
 .user-menu-dropdown-item {
   padding: 8px 8px;
-  margin: 8px 0;
+  margin: 0 0;
   &:hover {
     background-color: $surface-hover !important;
   }

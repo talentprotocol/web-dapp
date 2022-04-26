@@ -26,6 +26,8 @@ const Notification = ({ notification, mode }) => {
         return "chat";
       case "TalentChangedNotification":
         return "star";
+      case "QuestCompletedNotification":
+        return "rewards";
       default:
         return "globe";
     }

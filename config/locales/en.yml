@@ -43,3 +43,6 @@ en:
       title: "Supporter"
       body: "You have a new investment by %{name}"
       button: "Check your supporters"
+    quest_completed_notification:
+      title: "Quest"
+      body: "You just completed a quest! Check your rewards"

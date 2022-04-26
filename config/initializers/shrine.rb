@@ -16,7 +16,11 @@ else
   }
 
   if Rails.env.development?
-    s3_options[:bucket] = "talentprotocol-development"
+    s3_options[:bucket] = ENV.fetch("MINIO_BUCKET") # Bucket's name
+    s3_options[:access_key_id] = ENV.fetch("MINIO_ACCESS_KEY") # RootUser value
+    s3_options[:secret_access_key] = ENV.fetch("MINIO_SECRET_KEY") # RootPass value
+    s3_options[:endpoint] = ENV.fetch("MINIO_ENDPOINT") # API endpoint value
+    s3_options[:force_path_style] = true
   end
 
   Shrine.storages = {

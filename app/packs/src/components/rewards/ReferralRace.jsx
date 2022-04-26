@@ -435,8 +435,10 @@ const RaceTable = ({ leaderboardResults, allRaces }) => {
           </Table.Head>
           <Table.Body>
             {topInviters.length === 0 && (
-              <Table.Tr className="w-100 d-flex flex-row justify-content-center py-3">
-                <P2 bold>There are no participants in this race</P2>
+              <Table.Tr>
+                <td className="w-100 d-flex flex-row justify-content-center py-3">
+                  <P2 bold>There are no participants in this race</P2>
+                </td>
               </Table.Tr>
             )}
             {topInviters.map((inviter) => (
