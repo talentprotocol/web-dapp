@@ -1,6 +1,6 @@
 import React from "react";
 import { P2 } from "src/components/design_system/typography";
-import Link from "src/components/design_system/link";
+import ParagraphLink from "src/components/design_system/link/ParagraphLink";
 import {
   COMMUNITY_S01_NFT_AIRDROP,
   TOP_UP_YOUR_ACCOUNT,
@@ -50,19 +50,19 @@ export const taskDescription = (type) => {
       );
     case "Tasks::BuyTalentToken":
       return (
-        <div className="d-flex flex-wrap">
-          <Link
+        <P2 className="text-primary-03">
+          <ParagraphLink
             text="Top up your account"
             href={TOP_UP_YOUR_ACCOUNT}
             target="_blank"
-          />
-          <P2 className="text-primary-03 px-2" text="and" />
-          <Link
+          />{" "}
+          and{" "}
+          <ParagraphLink
             text="buy at least 1 Talent Token."
             href={BUY_TALENT_TOKENS}
             target="_blank"
           />
-        </div>
+        </P2>
       );
     case "Tasks::PublicProfile":
       return (
@@ -73,17 +73,14 @@ export const taskDescription = (type) => {
       );
     case "Tasks::ShareProfile":
       return (
-        <div className="d-flex flex-wrap">
-          <P2
-            className="text-primary-03"
-            text="Get 10 people to visit your profile. Use this to"
-          />
-          <Link
+        <P2 className="text-primary-03">
+          Get 10 people to visit your profile. Use this to{" "}
+          <ParagraphLink
             text="Promote your token on Social Media"
             href={PROMOTE_YOUR_TOKENS}
             target="_blank"
           />
-        </div>
+        </P2>
       );
     case "Tasks::LaunchToken":
       return (
@@ -115,10 +112,11 @@ export const taskReward = (type, disabled) => {
       );
     case "Tasks::ConnectWallet":
       return (
-        <Link
+        <ParagraphLink
           text="User NFT"
           href={COMMUNITY_S01_NFT_AIRDROP}
           target="_blank"
+          disabled={disabled}
         />
       );
     case "Tasks::Watchlist":
@@ -130,10 +128,11 @@ export const taskReward = (type, disabled) => {
       );
     case "Tasks::BuyTalentToken":
       return (
-        <Link
+        <ParagraphLink
           text="Member NFT"
           href={COMMUNITY_S01_NFT_AIRDROP}
           target="_blank"
+          disabled={disabled}
         />
       );
     case "Tasks::PublicProfile":
