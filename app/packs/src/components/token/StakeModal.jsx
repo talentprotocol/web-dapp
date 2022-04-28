@@ -13,6 +13,7 @@ import { WalletConnectionError } from "../login/Web3ModalConnect";
 import LoadingButton from "src/components/button/LoadingButton";
 import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
+import Button from "src/components/design_system/button";
 
 const StakeModal = ({
   show,
@@ -28,7 +29,8 @@ const StakeModal = ({
   talentIsFromCurrentUser,
 }) => {
   const [amount, setAmount] = useState("");
-  const [showWalletConnectionError, setShowWalletConnectionError] = useState(false);
+  const [showWalletConnectionError, setShowWalletConnectionError] =
+    useState(false);
   const [availableAmount, setAvailableAmount] = useState("0");
   const [currentAccount, setCurrentAccount] = useState(null);
   const [maxMinting, setMaxMinting] = useState("0");
@@ -123,11 +125,10 @@ const StakeModal = ({
 
     const result = await chainData
       .createStake(targetToken.address, amount)
-      .catch(
-        (error) => {
-            console.error(error);
-           setStage("Error")
-        });
+      .catch((error) => {
+        console.error(error);
+        setStage("Error");
+      });
 
     if (result) {
       const _availableAmount = await chainData.getStableBalance(true);
@@ -226,7 +227,10 @@ const StakeModal = ({
 
   return (
     <>
-      <WalletConnectionError show={showWalletConnectionError} hide={() => setShowWalletConnectionError(false)} />
+      <WalletConnectionError
+        show={showWalletConnectionError}
+        hide={() => setShowWalletConnectionError(false)}
+      />
       <SendMessageModal
         show={showNewMessageModal}
         setShow={setShowNewMessageModal}
@@ -300,20 +304,24 @@ const StakeModal = ({
                   <div className={`divider ${mode} my-3`}></div>
                   <div className="d-flex flex-row justify-content-between align-items-center mt-3">
                     {step() == "Connect" && (
-                      <button
-                        className="btn btn-primary w-100"
+                      <Button
+                        className="w-100"
+                        type="primary-default"
+                        size="big"
                         onClick={connectWallet}
                       >
                         Connect Wallet
-                      </button>
+                      </Button>
                     )}
                     {step() == "Change network" && (
-                      <button
-                        className="btn btn-primary w-100"
+                      <Button
+                        className="w-100"
+                        type="primary-default"
+                        size="big"
                         onClick={changeNetwork}
                       >
                         Switch Network
-                      </button>
+                      </Button>
                     )}
                     {step() == "Stake" && (
                       <>
