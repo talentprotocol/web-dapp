@@ -1,17 +1,18 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  SUPPORTER_GUIDE,
-  TALENT_GUIDE,
-  TERMS_HREF,
-  PRIVACY_HREF,
-} from "src/utils/constants";
+import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 import Button from "src/components/design_system/button";
-import { P2, P3 } from "src/components/design_system/typography";
-import { ArrowFill, Sun, Moon } from "src/components/icons";
+import { P2 } from "src/components/design_system/typography";
+import {
+  ArrowFill,
+  User,
+  Edit,
+  Settings,
+  SignOut,
+  Sun,
+  Moon,
+} from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const onClickInvites = () => {
@@ -34,93 +35,81 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           height={20}
           className="mr-2"
         />
-        <ArrowFill className="toggle-arrow" size={8} color="currentColor" />
+        <ArrowFill
+          className="toggle-arrow"
+          size={8}
+          pathClassName="text-primary-04"
+          color="currentColor"
+        />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="user-menu-dropdown">
         <Dropdown.Item
           key="tab-dropdown-my-profile"
-          className="text-black user-menu-dropdown-item"
+          className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
           href={`/u/${user.username}`}
         >
-          <P3 bold text="My profile" className="text-black" />
+          <User pathClassName="icon-dropdown-item" />
+          <P2 bold text="My profile" className="text-black ml-3" />
         </Dropdown.Item>
-        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
+        <Dropdown.Item
+          key="tab-dropdown-edit-profile"
+          className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
+          href={`/u/${user.username}/edit_profile`}
+        >
+          <Edit pathClassName="icon-dropdown-item" />
+          <P2 bold text="Edit Profile" className="text-black ml-3" />
+        </Dropdown.Item>
+        <Dropdown.Item
+          key="tab-dropdown-settings"
+          className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
+          href={`/u/${user.username}/edit_profile?tab=Settings`}
+        >
+          <Settings pathClassName="icon-dropdown-item" />
+          <P2 bold text="Settings" className="text-black ml-3" />
+        </Dropdown.Item>
+        <Dropdown.Divider className="menu-divider mx-2 my-2" />
         <Dropdown.Item
           key="tab-dropdown-theme"
-          className="text-black d-flex flex-row justify-content-between align-items-center user-menu-dropdown-item"
+          className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
           onClick={toggleTheme}
         >
-          <P3
-            bold
-            text={`${mode === "light" ? "Dark" : "Light"} mode`}
-            className="text-black"
-          />
           {mode == "light" ? (
-            <Moon color="currentColor" />
+            <Moon pathClassName="icon-dropdown-item" color="currentColor" />
           ) : (
-            <Sun color="currentColor" />
+            <Sun pathClassName="icon-dropdown-item" color="currentColor" />
           )}
-        </Dropdown.Item>
-        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
-        <Dropdown.Item
-          key="tab-dropdown-t-c"
-          className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
-          onClick={() => window.open(TERMS_HREF, "_blank")}
-        >
-          <P3 bold text="Terms & Conditions" className="text-black" />
-          <FontAwesomeIcon
-            icon={faExternalLinkAlt}
-            className="ml-2"
-            size="sm"
+          <P2
+            bold
+            text={`Dark Theme: ${mode === "light" ? "Off" : "On"}`}
+            className="text-black ml-3"
           />
         </Dropdown.Item>
-        <Dropdown.Item
-          key="tab-dropdown-user-guide"
-          className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
-          target="self"
-          href={user.isTalent ? TALENT_GUIDE : SUPPORTER_GUIDE}
-        >
-          <P3 bold text="User guide" className="text-black" />
-          <FontAwesomeIcon
-            icon={faExternalLinkAlt}
-            className="ml-2"
-            size="sm"
-          />
-        </Dropdown.Item>
-        <Dropdown.Item
-          key="tab-dropdown-p-h"
-          className="text-black d-flex flex-row justify-content-between user-menu-dropdown-item"
-          onClick={() => window.open(PRIVACY_HREF, "_blank")}
-        >
-          <P3 bold text="Privacy Policy" className="text-black" />
-          <FontAwesomeIcon
-            icon={faExternalLinkAlt}
-            className="ml-2"
-            size="sm"
-          />
-        </Dropdown.Item>
-        <Dropdown.Divider className="user-menu-divider mx-2 my-0" />
+        <Dropdown.Divider className="menu-divider mx-2 my-2" />
         <Dropdown.Item
           key="tab-dropdown-sign-out"
           onClick={signOut}
-          className="text-black user-menu-dropdown-item"
+          className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
         >
-          <P3 bold text="Sign out" className="text-black" />
+          <SignOut pathClassName="icon-dropdown-item" />
+          <P2 bold text="Sign out" className="text-black ml-3" />
         </Dropdown.Item>
+        <Dropdown.Divider className="menu-divider mx-2 my-2" />
         <Button
           onClick={onClickInvites}
           type="primary-default"
+          size="big"
           className="w-100 mb-2"
         >
-          <P3 bold text="Invites" className="permanent-text-white" />
+          <P2 bold text="Invites" className="permanent-text-white" />
         </Button>
         <Button
           onClick={onClickTransak}
           type="primary-outline"
+          size="big"
           className="w-100 mb-2"
         >
-          <P3 bold text="Get funds" className="current-color" />
+          <P2 bold text="Get funds" className="current-color" />
         </Button>
       </Dropdown.Menu>
     </Dropdown>
