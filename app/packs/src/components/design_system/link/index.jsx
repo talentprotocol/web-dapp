@@ -2,7 +2,6 @@ import React from "react";
 import cx from "classnames";
 import { string, oneOf, bool, node } from "prop-types";
 
-import Button from "src/components/design_system/button";
 import { P2 } from "src/components/design_system/typography";
 
 const Link = ({

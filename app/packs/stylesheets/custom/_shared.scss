@@ -522,6 +522,24 @@
   }
 }
 
+.reward-icon {
+  stroke: none;
+  fill: $warning;
+
+  &.disabled {
+    fill: $light-primary-disabled;
+  }
+}
+
+.dark-body .reward-icon {
+  stroke: none;
+  fill: $yellow;
+
+  &.disabled {
+    fill: $gray-400;
+  }
+}
+
 @media (max-width: 992px) {
   .hide-content-in-mobile {
     display: none !important;
