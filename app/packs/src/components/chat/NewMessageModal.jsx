@@ -83,7 +83,7 @@ const NewMessageModal = ({
               className="button-link text-primary"
               onClick={() => setShowMessageToAllSupporters()}
             >
-              <Send color="currentColor" className="mr-2" />
+              <Send color="currentColor" className="mr-3" />
               <P2
                 className="text-black d-inline"
                 text="Send message to all supporters"
