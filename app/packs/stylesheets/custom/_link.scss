@@ -71,3 +71,28 @@
     }
   }
 }
+
+.paragraph-link {
+  color: $light-primary-01 !important;
+  text-decoration: underline !important;
+
+  &:hover {
+    color: $light-primary-03 !important;
+  }
+
+  &.disabled {
+    color: $light-primary-disabled !important;
+  }
+}
+
+.dark-body .paragraph-link {
+  color: $white !important;
+
+  &:hover {
+    color: $gray-300 !important;
+  }
+
+  &.disabled {
+    color: $dark-primary-disabled !important;
+  }
+}

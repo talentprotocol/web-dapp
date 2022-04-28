@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { urlStore } from "src/contexts/state";
 
+import { P3 } from "src/components/design_system/typography";
+import Tag from "src/components/design_system/tag";
 import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
 import TalentInvites from "./TalentInvites";
@@ -28,11 +30,14 @@ const Tabs = ({ changeTab, activeTab }) => {
       </div>
       <div
         onClick={() => changeTab("quests")}
-        className={`text-no-wrap talent-table-tab${
+        className={`d-flex align-items-center text-no-wrap talent-table-tab${
           activeTab == "quests" ? " active-talent-table-tab" : ""
         }`}
       >
         Quests
+        <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
+          <P3 className="current-color" bold text="New" />
+        </Tag>
       </div>
     </div>
   );

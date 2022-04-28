@@ -66,7 +66,7 @@ const TaskCard = ({ id, title, type, reward, link, status, userId }) => {
             <Reward
               style={{ minWidth: "16px" }}
               className="mr-2"
-              pathClassName="star"
+              pathClassName={cx("reward-icon", completed && "disabled")}
             />
             {taskReward(type, completed)}
           </div>

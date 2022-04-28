@@ -95,7 +95,7 @@ const QuestCard = ({
             >
               <Reward
                 style={{ minWidth: "16px" }}
-                pathClassName="star"
+                pathClassName={cx("reward-icon", completed && "disabled")}
                 className="mr-2"
               />
               {reward}
