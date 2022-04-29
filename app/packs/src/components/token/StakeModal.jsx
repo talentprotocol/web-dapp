@@ -267,7 +267,7 @@ const StakeModal = ({
                 if you need help to top up your account.
               </P2>
               <div className="d-flex flex-column">
-                <div className="form-group position-relative">
+                <div className="form-group position-relative m-0">
                   <TextInput
                     title={"Total Amount"}
                     mode={mode}
@@ -301,8 +301,8 @@ const StakeModal = ({
                       {amount * 10} {ticker}
                     </P1>
                   </div>
-                  <div className={`divider ${mode} my-3`}></div>
-                  <div className="d-flex flex-row justify-content-between align-items-center mt-3">
+                  <div className={`divider ${mode} mt-3`}></div>
+                  <div className="d-flex flex-row justify-content-between align-items-center mt-6">
                     {step() == "Connect" && (
                       <Button
                         className="w-100"

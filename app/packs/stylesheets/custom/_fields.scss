@@ -41,6 +41,7 @@
 
   &:focus {
     background-color: $surface-hover;
+    border: 1px solid $primary-400 !important;
   }
 
   &:disabled {
