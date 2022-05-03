@@ -63,7 +63,7 @@ gem "rollbar"
 # Async jobs
 gem "sidekiq"
 gem "sidekiq-scheduler"
-gem 'sidekiq-status'
+gem "sidekiq-status"
 
 # Requests
 gem "faraday"
@@ -105,4 +105,5 @@ group :test do
   gem "selenium-webdriver"
   gem "shoulda-matchers", "~> 4.5.1"
   gem "webdrivers"
+  gem "simplecov"
 end

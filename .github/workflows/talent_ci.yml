@@ -1,0 +1,165 @@
+name: Talent Protocol - CI
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+  pull_request:
+    branches:
+      - dev
+      - master
+    types: [ready_for_review, opened, reopened, synchronize]
+
+concurrency:
+  group: talent-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+    strategy:
+      matrix:
+        ruby-version: ["2.7.3"]
+        node-version: ["16.4.2"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn install
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+  talent-lint:
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: ["2.7.3"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Run linters
+        run: |
+          bundle exec standardrb --extra-details --fail-level A
+
+  talent-rspec:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-west-2
+      AWS_ACCESS_KEY: aws_access_key
+      AWS_SECRET_ACCESS_KEY: aws_secret_access_key
+      CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
+      CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+      DISABLE_SPRING: 1
+      GITHUB_ARTIFACTS: coverage
+      LOCKBOX_MASTER_KEY: 2f804f551983622029d51802a79553ed137ebd6d8e92d84656d3154066bf09c5
+      RAILS_ENV: test
+      REDIS_URL: redis://localhost:6379/0
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      THE_GRAPH_URL: https://api.thegraph.com/subgraphs/name/rubensousadinis/talent-mvp
+      WITH_COVERAGE: true
+    services:
+      postgres:
+        image: postgres:11
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:alpine
+        ports: ["6379:6379"]
+        options: --entrypoint redis-server
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ["2.7.3"]
+        node-version: ["16.4.2"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn install
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Run tests
+        run: |
+          bin/rails db:create db:migrate > /dev/null
+          bundle exec rspec
+
+      - name: Upload Code Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage/
+          retention-days: 1
+
+  finalize:
+    needs: [talent-lint, talent-rspec]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Download coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage-matrix
+
+      - name: Collate Simplecov results
+        env:
+          GITHUB_ARTIFACTS: coverage
+          GITHUB_DOWNLOADED_ARTIFACTS: coverage-matrix
+        run: |
+          bundle exec rake coverage:report
+
+      - name: Simplecov Report
+        uses: aki77/simplecov-report-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          failedThreshold: 15
