@@ -83,7 +83,7 @@ jobs:
       WITH_COVERAGE: true
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13.6
         ports: ["5432:5432"]
         env:
           POSTGRES_PASSWORD: postgres
@@ -162,4 +162,4 @@ jobs:
         uses: aki77/simplecov-report-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          failedThreshold: 15
+          failedThreshold: 6
