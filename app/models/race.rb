@@ -10,7 +10,7 @@ class Race < ApplicationRecord
     # First four races had different ways of calculating results
     # We now only want to include users that have purchased tokens
     query = if id <= 4
-      Races::ResultsThreeAndFourSql.new.call(race: self)
+      Races::ResultsWithWalletConnected.new.call(race: self)
     else
       <<~SQL
         SELECT count(users.id) as overall_result, invited_by.id FROM users
