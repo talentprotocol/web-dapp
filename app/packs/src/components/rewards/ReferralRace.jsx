@@ -6,7 +6,6 @@ import utc from "dayjs/plugin/utc";
 import { get } from "src/utils/requests";
 import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
-import Tag from "src/components/design_system/tag";
 import {
   P1,
   P2,
@@ -15,12 +14,13 @@ import {
   H4,
   H5,
 } from "src/components/design_system/typography";
-import { Copy, OrderBy, Spinner } from "src/components/icons";
+import { Copy, OrderBy, Spinner, Help } from "src/components/icons";
 import Caption from "src/components/design_system/typography/caption";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
 import Table from "src/components/design_system/table";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
+import { useWindowDimensionsHook } from "src/utils/window";
 
 dayjs.extend(utc);
 
@@ -89,9 +89,10 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
             Referral Race
           </H4>
           <P1>
-            Every week the 3 users with the most referrals will win a total of
-            2,000 $TAL. The 1st wins 1,200, the 2nd 500 and the 3rd 300. No
-            repeat winners. You must connect your wallet to be eligible.
+            Every week the 3 users with the most referrals that purchased Talent
+            Tokens will win a total of 2,000 $TAL. The 1st wins 1,200, the 2nd
+            500 and the 3rd 300. No repeat winners. You must connect your wallet
+            to be eligible.
           </P1>
         </div>
         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
@@ -123,9 +124,10 @@ const RaceHeader = ({ isEligible, race, isTalent, username }) => {
             Referral Race
           </H4>
           <P1>
-            Every week the 3 users with the most referrals will win a total of
-            2,000 $TAL. The 1st wins 1200, the 2nd 500 and the 3rd 300. No
-            repeat winners. You must connect your wallet to be eligible.
+            Every week the 3 users with the most referrals that purchased Talent
+            Tokens will win a total of 2,000 $TAL. The 1st wins 1,200, the 2nd
+            500 and the 3rd 300. No repeat winners. You must connect your wallet
+            to be eligible.
           </P1>
         </div>
         <div className="d-flex flex-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-5 mt-lg-0">
@@ -281,7 +283,18 @@ const Overview = ({
             <H5 bold>{currentRaceResults == 0 ? "N/A" : currentPosition}</H5>
           </div>
           <div className="d-flex flex-column mb-3 mb-lg-0">
-            <P3>Wallets connected using your invite</P3>
+            <Tooltip
+              body="Number of users that registered using your invite code and bought talent tokens."
+              popOverAccessibilityId={"talent_tokens_purchased"}
+              placement="top"
+            >
+              <div className="cursor-pointer d-flex align-items-center">
+                <P3 className="mr-1">
+                  Users that bought talent tokens using your invite
+                </P3>
+                <Help color="currentColor" />
+              </div>
+            </Tooltip>
             <H5 bold>{currentRaceResults}</H5>
           </div>
           <div className="d-flex flex-column">
@@ -331,6 +344,7 @@ const RaceDropdown = ({ allRaces, race, setRace }) => {
 };
 
 const RaceTable = ({ leaderboardResults, allRaces }) => {
+  const { mobile } = useWindowDimensionsHook();
   const [selectedRace, setSelectedRace] = useState("Current Race");
   const [topInviters, setTopInviters] = useState([...leaderboardResults.top5]);
   const [loadingResults, setLoadingResults] = useState(true);
@@ -427,7 +441,23 @@ const RaceTable = ({ leaderboardResults, allRaces }) => {
               <Caption bold text={"POSITION"} />
             </Table.Th>
             <Table.Th className="pr-4 pr-lg-0">
-              <Caption bold text={"WALLETS CONNECTED"} />
+              <Tooltip
+                body="Number of users that registered using your invite code and bought talent tokens."
+                popOverAccessibilityId={"talent_tokens_purchased"}
+                placement="top"
+              >
+                <div
+                  className="cursor-pointer d-flex align-items-center"
+                  style={{ minWidth: mobile ? "" : "215px" }}
+                >
+                  <Caption
+                    className="mr-1"
+                    bold
+                    text="Talent Tokens Purchased"
+                  />
+                  <Help color="currentColor" />
+                </div>
+              </Tooltip>
             </Table.Th>
             <Table.Th className="hide-content-in-mobile text-black">
               <Caption bold text={"REWARDS"} />
