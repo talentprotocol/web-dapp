@@ -1,3 +1,16 @@
+if ENV["GITHUB_ARTIFACTS"]
+  require "simplecov"
+  SimpleCov.add_filter "db/migrate"
+  SimpleCov.command_name "#{SimpleCov::CommandGuesser.guess} #{(ENV["CI_NODE_INDEX"].to_i + 1) || "1"}"
+
+  SimpleCov.formatter SimpleCov::Formatter::SimpleFormatter
+
+  dir = File.join(ENV["GITHUB_ARTIFACTS"], "simplecov-#{ENV["PROJECT_UNDER_TEST"]}-#{ENV["CI_NODE_INDEX"] || "0"}")
+  SimpleCov.coverage_dir(dir)
+
+  SimpleCov.start "rails"
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
 
