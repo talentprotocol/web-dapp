@@ -1,5 +1,5 @@
 module Races
-  class ResultsOneAndTwoSql
+  class ResultsWithBasicInvites
     def call(race:)
       <<~SQL
         SELECT count(users.id) as overall_result, invited_by.id FROM users
