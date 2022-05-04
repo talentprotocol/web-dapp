@@ -5,6 +5,7 @@ import ProgressCircle from "src/components/design_system/progress_circle";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
 import { questDescription, taskReward } from "src/utils/questsHelpers";
+import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
 import cx from "classnames";
 
@@ -17,9 +18,10 @@ const QuestCard = ({
   completedTasks,
   tasksType,
   status,
-  onClick,
+  user,
 }) => {
   const progress = completedTasks / allTasks || 0;
+  const supporterOnTalentQuest = type === "Quests::Talent" && !user.is_talent;
 
   const buttonText = useMemo(() => {
     switch (status) {
@@ -54,6 +56,14 @@ const QuestCard = ({
   const completed = status === "done";
 
   const rewards = tasksType.map((type) => taskReward(type, completed));
+
+  const onClickButton = useMemo(() => {
+    if (supporterOnTalentQuest) {
+      return TALENT_TOKEN_APPLICATION_FORM;
+    }
+
+    return `/quests/${id}`;
+  }, [supporterOnTalentQuest]);
 
   return (
     <div className={cx("highlights-card", completed && "disabled")}>
@@ -102,14 +112,20 @@ const QuestCard = ({
             </div>
           ))}
         </div>
-        <Button
-          className="w-100"
-          disabled={completed}
-          size="extra-big"
-          type={buttonType}
-          text={buttonText}
-          onClick={() => onClick(id)}
-        />
+        <a
+          className="button-link"
+          href={onClickButton}
+          target={supporterOnTalentQuest ? "_blank" : "_self"}
+        >
+          <Button
+            className="w-100"
+            disabled={completed}
+            size="extra-big"
+            type={buttonType}
+            text={buttonText}
+            onClick={() => null}
+          />
+        </a>
       </div>
     </div>
   );

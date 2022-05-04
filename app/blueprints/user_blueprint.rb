@@ -6,6 +6,9 @@ class UserBlueprint < Blueprinter::Base
     field :name do |user, _options|
       user.display_name || user.username
     end
+    field :is_talent do |user, _options|
+      user.talent.present?
+    end
   end
 
   view :extended do
