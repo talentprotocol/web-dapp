@@ -10,7 +10,7 @@ import Link from "../design_system/link";
 import { get } from "src/utils/requests";
 import { TERMS_HREF, PRIVACY_HREF, USER_GUIDE } from "src/utils/constants";
 import { useWindowDimensionsHook } from "src/utils/window";
-import { emailRegex } from "src/utils/regexes";
+import { emailRegex, emailRegexWithAliases } from "src/utils/regexes";
 import cx from "classnames";
 
 const Welcome = ({
@@ -21,6 +21,7 @@ const Welcome = ({
   changeCode,
   setCaptcha,
   captchaKey,
+  railsContext,
 }) => {
   const { width } = useWindowDimensionsHook();
   const mobile = width < 992;
@@ -35,7 +36,11 @@ const Welcome = ({
   const [localCode, setCode] = useState(url.searchParams.get("code") || "");
 
   const validEmail = () => {
-    return emailRegex.test(String(localEmail).toLowerCase());
+    if (railsContext.emailRegexWithoutAliases === "true") {
+      return emailRegex.test(String(localEmail).toLowerCase());
+    }
+
+    return emailRegexWithAliases.test(String(localEmail).toLowerCase());
   };
 
   const invalidForm =
