@@ -5,5 +5,4 @@ class SendTokenNotificationToDiscordJob < ApplicationJob
     service = Talents::SendTokenNotificationToDiscord.new
     service.call(token_id)
   end
-
 end

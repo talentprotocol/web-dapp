@@ -11,7 +11,7 @@ module Talents
       talent = token.talent
       user = talent.user
 
-      message = "_#{user.username}_ is _#{talent.profile[:occupation]}_ and just launched their Talent Token **$#{token.ticker}**. You can take a look at their profile here: #{user_url(talent)}"
+      message = "_#{user.username}_ is a _#{talent.profile[:occupation]}_ and just launched their Talent Token **$#{token.ticker}**. Take a look at their profile and become part of their career journey: #{user_url(talent)}"
       post(message)
     end
 
