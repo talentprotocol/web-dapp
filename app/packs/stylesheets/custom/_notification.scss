@@ -74,16 +74,10 @@
 
 .notifications-menu-dropdown-item {
   color: $gray-800 !important;
-  &:hover {
-    background: $surface-hover !important;
-  }
 }
 
 .dark-body .notifications-menu-dropdown-item {
   color: $white !important;
-  &:hover {
-    background: $gray-800 !important;
-  }
 }
 
 @media (max-width: 992px) {

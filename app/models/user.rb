@@ -109,7 +109,13 @@ class User < ApplicationRecord
   end
 
   def self.valid_email?(new_email)
-    new_email && new_email.length > 0 && new_email.match?(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    return false unless new_email && new_email.length > 0
+
+    if ENV["EMAIL_REGEX_WITHOUT_ALIASES"] == "true"
+      new_email.match?(/^(([^<>()\[\]\\.,;:\s@+"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    else
+      new_email.match?(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    end
   end
 
   def as_json(options = {})
