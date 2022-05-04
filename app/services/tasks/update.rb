@@ -24,13 +24,12 @@ module Tasks
     end
 
     def give_rewards(type:, user:)
-      case type
-      when "Tasks::Watchlist"
+      if type == "Tasks::Watchlist"
         user.invites.where(talent_invite: false).update_all(max_uses: nil)
-      when "Tasks::ShareProfile"
+      elsif type == "Tasks::ShareProfile" && user.talent
         service = CreateInvite.new(user_id: user.id, single_use: true, talent_invite: true)
         service.call
-      when "Tasks::Register"
+      elsif type == "Tasks::Register"
         Reward.create!(user: user, amount: 100, category: "quest", reason: "Got 5 people to register")
       end
     end
