@@ -97,6 +97,7 @@ const Supporting = ({
   loading,
 }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
+  const [talentProfileUsernames, setTalentProfileUsernames] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
   const [sortDirection, setSortDirection] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -126,6 +127,10 @@ const Supporting = ({
           setTalentProfilePictures((prev) => ({
             ...prev,
             [element.token.contract_id]: element.profile_picture_url,
+          }));
+          setTalentProfileUsernames((prev) => ({
+            ...prev,
+            [element.token.contract_id]: element.user.username,
           }));
         });
       }
@@ -321,7 +326,11 @@ const Supporting = ({
                       src={talentProfilePictures[talent.contract_id]}
                       height="24"
                     />
-                    <P2 text={`${talent.name}`} bold className="ml-2" />
+                    <P2
+                      text={`${talentProfileUsernames[talent.contract_id]}`}
+                      bold
+                      className="ml-2"
+                    />
                   </div>
                 </Table.Td>
                 <Table.Td className="d-flex flex-column justify-content-center align-items-end pr-4 py-2">
@@ -389,13 +398,21 @@ const Supporting = ({
               <Table.Td>
                 <div
                   className="d-flex cursor-pointer"
-                  onClick={() => (window.location.href = `/u/${talent.name}`)}
+                  onClick={() =>
+                    (window.location.href = `/u/${
+                      talentProfileUsernames[talent.contract_id]
+                    }`)
+                  }
                 >
                   <TalentProfilePicture
                     src={talentProfilePictures[talent.contract_id]}
                     height="24"
                   />
-                  <P2 text={`${talent.name}`} bold className="ml-2" />
+                  <P2
+                    text={`${talentProfileUsernames[talent.contract_id]}`}
+                    bold
+                    className="ml-2"
+                  />
                   <P2 text={`${talent.symbol}`} className="ml-2" />
                 </div>
               </Table.Td>
