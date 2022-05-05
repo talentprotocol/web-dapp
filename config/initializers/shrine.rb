@@ -15,11 +15,13 @@ else
     secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY")
   }
 
-  if Rails.env.development?
+  minio_endpoint = ENV.fetch("MINIO_ENDPOINT", "")
+
+  if Rails.env.development? && minio_endpoint.starts_with?("http")
     s3_options[:bucket] = ENV.fetch("MINIO_BUCKET") # Bucket's name
     s3_options[:access_key_id] = ENV.fetch("MINIO_ACCESS_KEY") # RootUser value
     s3_options[:secret_access_key] = ENV.fetch("MINIO_SECRET_KEY") # RootPass value
-    s3_options[:endpoint] = ENV.fetch("MINIO_ENDPOINT") # API endpoint value
+    s3_options[:endpoint] = minio_endpoint # API endpoint value
     s3_options[:force_path_style] = true
   end
 

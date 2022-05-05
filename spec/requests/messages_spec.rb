@@ -23,7 +23,7 @@ RSpec.describe "Messages", type: :request do
 
     it "initializes and calls the send message service" do
       post messages_path(params: params, as: user)
-  
+
       expect(send_message_class).to have_received(:new)
       expect(send_message_instance).to have_received(:call).with(
         message: "Thanks for the support!",
@@ -32,7 +32,7 @@ RSpec.describe "Messages", type: :request do
       )
     end
 
-    it 'renders a json response with the messages sent' do
+    it "renders a json response with the messages sent" do
       post messages_path(params: params, as: user)
 
       expect(json).to eq(message_sent.to_json)
@@ -72,7 +72,7 @@ RSpec.describe "Messages", type: :request do
     context "when the receiver is not passed" do
       let(:params) do
         {
-          message: "Thanks for the support!",
+          message: "Thanks for the support!"
         }
       end
 
@@ -95,14 +95,14 @@ RSpec.describe "Messages", type: :request do
 
     it "starts a job to send the message to all user supporters" do
       post send_to_all_supporters_messages_path(params: params, as: user)
-      
+
       expect(SendMessageToAllSupportersJob).to have_been_enqueued.with(
         user.id,
         "Thanks for the support!"
       )
     end
 
-    it 'renders a json response with the messages sent' do
+    it "renders a json response with the messages sent" do
       send_message_job = instance_double(SendMessageToAllSupportersJob, provider_job_id: "12345")
       allow(SendMessageToAllSupportersJob).to receive(:perform_later).and_return(send_message_job)
 
@@ -122,7 +122,7 @@ RSpec.describe "Messages", type: :request do
         post send_to_all_supporters_messages_path(params: params, as: user)
 
         expect(response).to have_http_status(:bad_request)
-        expect(json).to eq({error:  "Unable to create message, the message is empty."})
+        expect(json).to eq({error: "Unable to create message, the message is empty."})
       end
     end
 
@@ -131,7 +131,7 @@ RSpec.describe "Messages", type: :request do
         post send_to_all_supporters_messages_path(as: user)
 
         expect(response).to have_http_status(:bad_request)
-        expect(json).to eq({error:  "Unable to create message, the message is empty."})
+        expect(json).to eq({error: "Unable to create message, the message is empty."})
       end
     end
   end
@@ -149,7 +149,7 @@ RSpec.describe "Messages", type: :request do
       allow(Sidekiq::Status).to receive(:get).and_return(1)
     end
 
-    it 'renders a json response with the messages sent' do
+    it "renders a json response with the messages sent" do
       send_message_job = instance_double(SendMessageToAllSupportersJob, job_id: "12345")
       allow(SendMessageToAllSupportersJob).to receive(:perform_later).and_return(send_message_job)
 

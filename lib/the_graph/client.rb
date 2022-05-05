@@ -23,6 +23,14 @@ module TheGraph
     }
   GRAPHQL
 
+  HEALTH_CHECK_QUERY = ::TheGraphAPI::Client.parse <<-'GRAPHQL'
+    query {
+      talentTokens(first: 1) {
+        id
+      }
+    }
+  GRAPHQL
+
   class Client
     class Error < StandardError; end
 
