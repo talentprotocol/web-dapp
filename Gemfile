@@ -63,7 +63,7 @@ gem "rollbar"
 # Async jobs
 gem "sidekiq"
 gem "sidekiq-scheduler"
-gem 'sidekiq-status'
+gem "sidekiq-status"
 
 # Requests
 gem "faraday"
@@ -77,6 +77,9 @@ gem "blueprinter"
 
 # Notifications
 gem "noticed", "~> 1.5"
+
+# Perfomance monitoring
+gem "newrelic_rpm"
 
 group :development, :test do
   gem "awesome_print"
