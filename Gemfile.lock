@@ -264,6 +264,7 @@ GEM
       ffi
     msgpack (1.4.2)
     multipart-post (2.1.1)
+    newrelic_rpm (8.7.0)
     nio4r (2.5.8)
     nokogiri (1.13.4)
       mini_portile2 (~> 2.8.0)
@@ -497,6 +498,7 @@ DEPENDENCIES
   lockbox
   marcel (~> 1.0)
   mini_racer
+  newrelic_rpm
   noticed (~> 1.5)
   pagy (~> 4.8)
   pg (~> 1.1)
