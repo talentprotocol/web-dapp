@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Registration", type: :feature do
-  describe "/" do
+  xdescribe "/" do
     it "returns the registation screen", :js do
       visit root_path
 

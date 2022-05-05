@@ -45,7 +45,7 @@ RSpec.describe Messages::Send do
     expect(action_cable_server).to have_received(:broadcast)
   end
 
-  context 'when the sender and receiver are the same' do
+  context "when the sender and receiver are the same" do
     let(:receiver) { sender }
 
     it "does not send a new message" do
