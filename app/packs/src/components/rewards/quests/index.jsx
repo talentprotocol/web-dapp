@@ -55,7 +55,7 @@ const Quests = ({ quests, questId, setQuestId }) => {
                   }
                   tasksType={quest.tasks.map((task) => task.type)}
                   status={quest.status}
-                  onClick={() => (window.location.href = `/quests/${quest.id}`)}
+                  user={quest.user}
                 />
               </div>
             ))}
