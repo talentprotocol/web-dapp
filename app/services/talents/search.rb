@@ -6,7 +6,7 @@ module Talents
     end
 
     def call
-      talents = Talent.base.joins(:user, :token).left_joins(user: :tags)
+      talents = Talent.base.joins(:user, :token)
 
       talents = filter_by_keyword(talents) if keyword
       talents = filter_by_status(talents)
@@ -19,14 +19,18 @@ module Talents
     attr_reader :filter_params, :sort_params
 
     def filter_by_keyword(talents)
-      talents
-        .where(
-          "users.username ilike :keyword " \
-          "OR users.display_name ilike :keyword " \
-          "OR tokens.ticker ilike :keyword " \
-          "OR tags.description ilike :keyword",
-          keyword: "%#{keyword}%"
-        )
+      users = User.joins(talent: :token).left_joins(tags: :discovery_row)
+
+      users = users.where(
+        "users.username ilike :keyword " \
+        "OR users.display_name ilike :keyword " \
+        "OR tokens.ticker ilike :keyword " \
+        "OR tags.description ilike :keyword " \
+        "OR discovery_rows.title ilike :keyword",
+        keyword: "%#{keyword}%"
+      )
+
+      talents.where(user: users.distinct.select(:id))
     end
 
     def keyword
@@ -42,9 +46,7 @@ module Talents
           .where("tokens.deployed_at > ?", 1.month.ago)
           .order("tokens.deployed_at ASC")
       else
-        talents
-          .select("setseed(0.#{Date.today.jd}), talent.*")
-          .order("random()")
+        talents.order("random()")
       end
     end
 

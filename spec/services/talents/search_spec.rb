@@ -71,8 +71,35 @@ RSpec.describe Talents::Search do
         user_4.tags << [tag_3]
       end
 
-      fit "returns all talent users with tags matching the passed keyword" do
+      it "returns all talent users with tags matching the passed keyword" do
         expect(search_talents).to match_array([talent_1, talent_3])
+      end
+    end
+
+    context "when it matches the discovery row" do
+      let(:discovery_row) { create :discovery_row, title: "web3" }
+
+      let(:filter_params) do
+        {
+          keyword: "web"
+        }
+      end
+
+      before do
+        tag_1 = create :tag, description: "crypto"
+        tag_2 = create :tag, description: "blockchain"
+        tag_3 = create :tag, description: "developer"
+
+        discovery_row.tags << [tag_1, tag_2, tag_3]
+
+        user_1.tags << [tag_1, tag_3]
+        user_2.tags << [tag_2]
+        user_3.tags << [tag_1, tag_2]
+        private_user.tags << [tag_1]
+      end
+
+      it "returns all talent users with tags matching the passed keyword" do
+        expect(search_talents).to match_array([talent_1, talent_2, talent_3])
       end
     end
   end
