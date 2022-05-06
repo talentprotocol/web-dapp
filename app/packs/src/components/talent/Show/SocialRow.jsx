@@ -10,9 +10,16 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const SocialRow = ({ profile }) => {
+import cx from "classnames";
+
+const SocialRow = ({ profile, className }) => {
   return (
-    <div className="d-flex flex-row flex-wrap mt-3 mt-lg-0 ml-lg-4 text-primary-03">
+    <div
+      className={cx(
+        "d-flex flex-row flex-wrap text-primary-03",
+        className ? className : "mt-3 mt-lg-0 ml-lg-4"
+      )}
+    >
       {profile.website && (
         <a
           href={profile.website}
@@ -60,7 +67,7 @@ const SocialRow = ({ profile }) => {
       )}
       {profile.telegram && (
         <a
-          href={`https://t.me/${profile.telegram}`}
+          href={profile.telegram}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
@@ -69,9 +76,9 @@ const SocialRow = ({ profile }) => {
       )}
       {profile.discord && (
         <a
-          href={`https://discordapp.com/users/${profile.discord}`}
+          href={profile.discord}
           target="self"
-          className="mr-4 text-reset hover-primary"
+          className="text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faDiscord} />
         </a>
