@@ -81,6 +81,9 @@ gem "noticed", "~> 1.5"
 # Perfomance monitoring
 gem "newrelic_rpm"
 
+# Slug generation
+gem "friendly_id", "~> 5.4.0"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"

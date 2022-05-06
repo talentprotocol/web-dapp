@@ -204,6 +204,8 @@ GEM
       ffi (>= 1.0.0)
       rake
     foreman (0.87.2)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -497,6 +499,7 @@ DEPENDENCIES
   faker
   faraday
   foreman
+  friendly_id (~> 5.4.0)
   graphql-client
   image_processing (~> 1.12)
   jbuilder (~> 2.7)
