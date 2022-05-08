@@ -68,7 +68,9 @@ const Perks = ({
 
     if (contract) {
       const _token = await newOnChain.getToken(contract);
-      if (_token) {
+      const chainId = await newOnChain.getChainID();
+      // REPLACE 44787 with the chain of the token we're calling
+      if (_token && chainId === 44787) {
         const balance = await _token.balanceOf(newOnChain.account);
         setAvailableBalance(balance);
       }

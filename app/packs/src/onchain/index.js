@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import detectEthereumProvider from "@metamask/detect-provider";
 import { newKit, CeloContract } from "@celo/contractkit";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -16,24 +15,6 @@ import { ERROR_MESSAGES } from "../utils/constants";
 import { ipfsToURL } from "./utils";
 import { externalGet } from "src/utils/requests";
 
-const ALFAJORES_PARAMS = {
-  chainId: "0xaef3",
-  chainName: "Alfajores Testnet",
-  nativeCurrency: { name: "Alfajores Celo", symbol: "A-CELO", decimals: 18 },
-  rpcUrls: ["https://alfajores-forno.celo-testnet.org"],
-  blockExplorerUrls: ["https://alfajores-blockscout.celo-testnet.org/"],
-  iconUrls: ["future"],
-};
-
-const CELO_PARAMS = {
-  chainId: "0xa4ec",
-  chainName: "Celo",
-  nativeCurrency: { name: "Celo", symbol: "CELO", decimals: 18 },
-  rpcUrls: ["https://forno.celo.org"],
-  blockExplorerUrls: ["https://explorer.celo.org/"],
-  iconUrls: ["future"],
-};
-
 class OnChain {
   constructor(env) {
     this.account = null;
@@ -43,41 +24,24 @@ class OnChain {
     this.celoKit = null;
     this.signer = null;
     this.env = env || "development";
-
-    if (this.env) {
-      this.factoryAddress = Addresses[this.env]["factory"];
-      this.stakingAddress = Addresses[this.env]["staking"];
-      this.fornoURI = Addresses[this.env]["forno"];
-    } else {
-      this.factoryAddress = Addresses["production"]["factory"];
-      this.stakingAddress = Addresses["production"]["staking"];
-      this.fornoURI = Addresses["production"]["forno"];
-    }
-    this.web3Modal = this.initializeWeb3Modal();
   }
 
-  initializeWeb3Modal = () => {
-    const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider, // required
-        options: {
-          rpc: {
-            [parseInt(this.getEnvChainID())]: this.getEnvRpcURls()[0],
-          },
-        },
-      },
-    };
-
+  initializeWeb3Modal() {
     return new Web3Modal({
       cacheProvider: true,
-      providerOptions,
+      providerOptions: {
+        package: WalletConnectProvider,
+      },
     });
-  };
+  }
 
   // LOAD WEB3
 
   async web3ModalConnect() {
     try {
+      if (!this.web3Modal) {
+        this.web3Modal = await this.initializeWeb3Modal();
+      }
       const web3ModalInstance = await this.web3Modal.connect();
 
       return web3ModalInstance;
@@ -88,13 +52,7 @@ class OnChain {
 
   async connectedAccount() {
     try {
-      let web3ModalInstance;
-
-      if (this.web3Modal.cachedProvider) {
-        web3ModalInstance = await this.web3ModalConnect();
-      } else {
-        return false;
-      }
+      const web3ModalInstance = await this.web3ModalConnect();
 
       if (web3ModalInstance !== undefined) {
         const provider = new ethers.providers.Web3Provider(web3ModalInstance);
@@ -118,58 +76,22 @@ class OnChain {
   }
 
   async getChainID() {
-    let provider;
     const web3ModalInstance = await this.web3ModalConnect();
 
-    if (web3ModalInstance !== undefined) {
-      provider = new ethers.providers.Web3Provider(web3ModalInstance);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
-    }
+    const provider = new ethers.providers.Web3Provider(web3ModalInstance);
+
     const network = await provider.getNetwork();
 
     return network.chainId;
   }
 
-  getEnvChainID = () => {
-    if (this.env == "production") {
-      return CELO_PARAMS.chainId;
-    } else {
-      return ALFAJORES_PARAMS.chainId;
-    }
-  };
-
-  getEnvRpcURls = () => {
-    if (this.env == "production") {
-      return CELO_PARAMS.rpcUrls;
-    } else {
-      return ALFAJORES_PARAMS.rpcUrls;
-    }
-  };
-
-  getEnvBlockExplorerUrls = () => {
-    if (this.env == "production") {
-      return CELO_PARAMS.blockExplorerUrls;
-    } else {
-      return ALFAJORES_PARAMS.blockExplorerUrls;
-    }
-  };
-
-  getEnvNetworkParams = () => {
-    if (this.env == "production") {
-      return CELO_PARAMS;
-    } else {
-      return ALFAJORES_PARAMS;
-    }
-  };
-
-  async switchChain() {
+  async switchChain(chainId = 42220) {
     try {
       const web3ModalInstance = await this.web3ModalConnect();
 
       await web3ModalInstance.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: this.getEnvChainID() }],
+        params: [{ chainId: chainId }],
       });
     } catch (error) {
       console.log(error);
@@ -180,11 +102,11 @@ class OnChain {
 
         await web3ModalInstance.request({
           method: "wallet_addEthereumChain",
-          params: [this.getEnvNetworkParams()],
+          params: [Addresses[this.env][chainId]["paramsForMetamask"]],
         });
         await web3ModalInstance.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: this.getEnvChainID() }],
+          params: [{ chainId: chainId }],
         });
       }
     }
@@ -194,9 +116,8 @@ class OnChain {
     const web3ModalInstance = await this.web3ModalConnect();
     if (web3ModalInstance !== undefined) {
       const chainId = await this.getChainID();
-      const chainBN = ethers.BigNumber.from(chainId);
 
-      if (chainBN.eq(ethers.BigNumber.from(this.getEnvChainID()))) {
+      if (!!Addresses[this.env][chainId]) {
         return true;
       } else {
         return false;
@@ -239,22 +160,36 @@ class OnChain {
   // CONTRACT INTERACTION
 
   async loadFactory() {
-    await detectEthereumProvider();
+    try {
+      const web3ModalInstance = await this.web3ModalConnect();
+      let provider, chainId;
 
-    let provider;
-    if (window.ethereum !== undefined) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      if (web3ModalInstance !== undefined) {
+        provider = new ethers.providers.Web3Provider(web3ModalInstance);
+      } else {
+        chainId = await this.getChainID();
+        provider = new ethers.providers.JsonRpcProvider(
+          Addresses[this.env][chainId]["rpcURL"]
+        );
+      }
+
+      if (await this.recognizedChain()) {
+        const factoryAddress = Addresses[this.env][chainId]["factory"];
+
+        this.talentFactory = new ethers.Contract(
+          factoryAddress,
+          TalentFactory.abi,
+          provider
+        );
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
     }
-
-    this.talentFactory = new ethers.Contract(
-      this.factoryAddress,
-      TalentFactory.abi,
-      provider
-    );
-
-    return true;
   }
 
   async loadStaking() {
@@ -265,12 +200,17 @@ class OnChain {
       if (web3ModalInstance !== undefined) {
         provider = new ethers.providers.Web3Provider(web3ModalInstance);
       } else {
-        provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+        provider = new ethers.providers.JsonRpcProvider(
+          Addresses[this.env][chainId]["rpcURL"]
+        );
       }
+      const chainId = await this.getChainID();
 
       if (await this.recognizedChain()) {
+        const stakingAddress = Addresses[this.env][chainId]["staking"];
+
         this.staking = new ethers.Contract(
-          this.stakingAddress,
+          stakingAddress,
           Staking.abi,
           provider
         );
@@ -293,15 +233,25 @@ class OnChain {
       if (web3ModalInstance !== undefined) {
         provider = new ethers.providers.Web3Provider(web3ModalInstance);
       } else {
-        provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+        const chainId = await this.getChainID();
+        provider = new ethers.providers.JsonRpcProvider(
+          Addresses[this.env][chainId]["rpcURL"]
+        );
       }
 
       if (await this.recognizedChain()) {
-        this.celoKit = newKit(this.fornoURI);
+        const chainId = await this.getChainID();
+        this.celoKit = newKit(Addresses[this.env][chainId]["rpcURL"]);
 
-        const stableTokenAddress = await this.celoKit.registry.addressFor(
-          CeloContract.StableToken
-        );
+        let stableTokenAddress;
+
+        if (!Addresses[this.env][chainId]["stableAddress"]) {
+          stableTokenAddress = await this.celoKit.registry.addressFor(
+            CeloContract.StableToken
+          );
+        } else {
+          stableTokenAddress = Addresses[this.env][chainId]["stableAddress"];
+        }
 
         this.stabletoken = new ethers.Contract(
           stableTokenAddress,
@@ -374,7 +324,10 @@ class OnChain {
     if (web3ModalInstance !== undefined) {
       provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      const chainId = await this.getChainID();
+      provider = new ethers.providers.JsonRpcProvider(
+        Addresses[this.env][chainId]["rpcURL"]
+      );
     }
     if (await this.recognizedChain()) {
       return new ethers.Contract(address, TalentToken.abi, provider);
@@ -480,8 +433,8 @@ class OnChain {
     }
   }
 
-  async getTokenAvailability(token, formatted = false) {
-    if (!token) {
+  async getTokenAvailability(token, chainId = 44787, formatted = false) {
+    if (!token || chainId !== (await this.getChainID())) {
       return;
     }
 
@@ -533,7 +486,10 @@ class OnChain {
     if (web3ModalInstance !== undefined) {
       provider = new ethers.providers.Web3Provider(web3ModalInstance);
     } else {
-      provider = new ethers.providers.JsonRpcProvider(this.fornoURI);
+      const chainId = await this.getChainID();
+      provider = new ethers.providers.JsonRpcProvider(
+        Addresses[this.env][chainId]["rpcURL"]
+      );
     }
 
     const nft = new ethers.Contract(contract_id, CommunityUser.abi, provider);
