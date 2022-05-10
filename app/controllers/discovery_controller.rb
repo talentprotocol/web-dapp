@@ -33,4 +33,19 @@ class DiscoveryController < ApplicationController
     marketing_articles = MarketingArticle.all.order(created_at: :desc).limit(3)
     @marketing_articles = MarketingArticleBlueprint.render_as_json(marketing_articles, view: :normal)
   end
+
+  def show
+    @discovery_row = DiscoveryRow.find_by!(slug: params[:slug])
+
+    service = Talents::Search.new(filter_params: filter_params.to_h, discovery_row: @discovery_row)
+    talents = service.call
+
+    @talents = TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user: current_user)
+  end
+
+  private
+
+  def filter_params
+    params.permit(:keyword, :status)
+  end
 end
