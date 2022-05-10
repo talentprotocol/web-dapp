@@ -6,20 +6,27 @@ class CreateNotification
       source_id: source_id,
       model_id: model_id
     )
-    if notification.present?
-      notification.updated_at = Time.current
-      notification.save!
+
+    if notification.present? && notification.unread_for_more_than_a_week?
+      send(notification.to_notification, recipient)
+
+      notification.mark_as_read!
+    elsif notification.present?
+      notification.update!(updated_at: Time.current)
     else
-      params = {}
-      params["source_id"] = source_id if source_id.present?
-      params["model_id"] = model_id if model_id.present?
-      params = params.stringify_keys
-      notification = type.with(params)
-      notification.deliver_later(recipient)
+      notification = type.with(notification_params(source_id, model_id))
+      send(notification, recipient)
     end
   end
 
   private
+
+  def notification_params(source_id, model_id)
+    params = {}
+    params["source_id"] = source_id if source_id.present?
+    params["model_id"] = model_id if model_id.present?
+    params.stringify_keys
+  end
 
   def get_existing_unread(recipient:, type:, source_id:, model_id:)
     notifications = Notification.where(type: type.name, recipient: recipient, read_at: nil)
@@ -30,5 +37,9 @@ class CreateNotification
       notifications = notifications.find_by_source_id(source_id)
     end
     notifications.last
+  end
+
+  def send(notification, recipient)
+    notification.deliver_later(recipient)
   end
 end

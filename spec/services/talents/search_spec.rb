@@ -71,7 +71,7 @@ RSpec.describe Talents::Search do
         user_4.tags << [tag_3]
       end
 
-      fit "returns all talent users with tags matching the passed keyword" do
+      it "returns all talent users with tags matching the passed keyword" do
         expect(search_talents).to match_array([talent_1, talent_3])
       end
     end
