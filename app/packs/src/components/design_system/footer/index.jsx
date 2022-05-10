@@ -31,7 +31,8 @@ const Footer = () => {
 
   return (
     <div className="footer mt-lg-7 mt-0 d-flex flex-column justify-content-lg-between">
-      <div className="d-flex flex-lg-row flex-column">
+      <Divider />
+      <div className="d-flex flex-lg-row flex-column mt-4">
         <div className="col-lg-3">
           <a href="/" style={{ height: 30 }}>
             {theme.mode() == "light" ? (
@@ -119,7 +120,7 @@ const Footer = () => {
             target="self"
             className="mr-4 text-primary-03"
           >
-            contact@talentprotocol.com
+            Contact us
           </a>
         </div>
       </div>
