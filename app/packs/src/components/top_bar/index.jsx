@@ -126,26 +126,29 @@ export const TopBar = ({
     });
   };
 
-  const setupChain = useCallback(async () => {
-    const onChain = new OnChain(railsContext.contractsEnv);
+  const setupChain = useCallback(
+    async (forceConnect = false) => {
+      const onChain = new OnChain(railsContext.contractsEnv);
 
-    const account = await onChain.connectedAccount();
+      const account = await onChain.connectedAccount(forceConnect);
 
-    if (account) {
-      setAccount(account.toLowerCase());
-      setWalletConnected(true);
+      if (account) {
+        setAccount(account.toLowerCase());
+        setWalletConnected(true);
 
-      await onChain.loadStableToken();
-      const balance = await onChain.getStableBalance(true);
+        await onChain.loadStableToken();
+        const balance = await onChain.getStableBalance(true);
 
-      if (balance) {
-        setStableBalance(balance);
+        if (balance) {
+          setStableBalance(balance);
+        }
       }
-    }
-  }, [walletConnected]);
+    },
+    [walletConnected]
+  );
 
   const onWalletConnect = async (account) => {
-    await setupChain();
+    await setupChain(true);
 
     if (account) {
       setAccount(account.toLowerCase());

@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 import { patch } from "src/utils/requests";
 import { OnChain } from "src/onchain";
+import { chainIdToName, chainNameToId } from "src/onchain/utils";
 
 import H5 from "src/components/design_system/typography/h5";
 import P2 from "src/components/design_system/typography/p2";
@@ -10,69 +11,86 @@ import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
 import TokenDetails from "src/components/talent/Show/TokenDetails";
 import Caption from "src/components/design_system/typography/caption";
-import Link from "src/components/design_system/link";
+import ChainSelectionDropdown from "src/components/design_system/dropdowns/chain_selection_dropdown";
 import {
   ArrowRight,
   ArrowLeft,
   Spinner,
   GreenCheck,
+  Celo,
+  Polygon,
 } from "src/components/icons";
 
-const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
-  <>
-    <Modal.Header closeButton>
-      <Modal.Title className="px-3">Launch your Talent Token</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <div className="d-flex flex-column w-100 p-3">
-        <P2 mode={mode}>
-          All Talent Tokens have a 1,000,000.00 maximum Supply. Until your token
-          reaches the maximum supply it will have a fixed price of 5 TAL.
-        </P2>
-        <TextInput
-          title={"Ticker Name"}
-          mode={mode}
-          placeholder={"TAL"}
-          shortCaption={"Upcase letters only. 3 to 8 characters"}
-          onChange={(e) => setTicker(e.target.value)}
-          value={ticker || ""}
-          className="w-100 mt-3"
-          maxLength={8}
-          required={true}
-          error={error?.length || error?.characters || error?.tickerTaken}
-        />
-        {error?.length && (
-          <P2 className="text-danger">
-            Your ticker needs to be between 3 and 8 characters.
+const LaunchTokenModal = ({
+  mode,
+  ticker,
+  setTicker,
+  setSelectedChain,
+  error,
+}) => {
+  const [selectedNetwork, setSelectedNetwork] = useState("Polygon");
+
+  return (
+    <>
+      <Modal.Header closeButton>
+        <Modal.Title className="px-3">Launch your Talent Token</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="d-flex flex-column w-100 p-3">
+          <P2 mode={mode}>
+            All Talent Tokens have a 1,000,000.00 maximum Supply. Until your
+            token reaches the maximum supply it will have a fixed price of 5
+            TAL.
           </P2>
-        )}
-        {error?.characters && (
-          <P2 className="text-danger">
-            Your ticker can only have uppercase characters.
+          <TextInput
+            title={"Ticker Name"}
+            mode={mode}
+            placeholder={"TAL"}
+            shortCaption={"Upcase letters only. 3 to 8 characters"}
+            onChange={(e) => setTicker(e.target.value)}
+            value={ticker || ""}
+            className="w-100 mt-3"
+            maxLength={8}
+            required={true}
+            error={error?.length || error?.characters || error?.tickerTaken}
+          />
+          {error?.length && (
+            <P2 className="text-danger">
+              Your ticker needs to be between 3 and 8 characters.
+            </P2>
+          )}
+          {error?.characters && (
+            <P2 className="text-danger">
+              Your ticker can only have uppercase characters.
+            </P2>
+          )}
+          {error?.tickerTaken && (
+            <P2 className="text-danger">Your ticker is already taken.</P2>
+          )}
+          <ChainSelectionDropdown
+            className="mb-2"
+            selectedNetwork={selectedNetwork}
+            setSelectedNetwork={setSelectedNetwork}
+          />
+          <div className={`divider ${mode} my-3`}></div>
+          <P2 className="mb-2">
+            Deploying a Talent Token requires you to confirm a transaction and
+            pay a small transaction fee. After you launch your token we'll send
+            you 2,000 of your own token!
           </P2>
-        )}
-        {error?.tickerTaken && (
-          <P2 className="text-danger">Your ticker is already taken.</P2>
-        )}
-        <div className={`divider ${mode} my-3`}></div>
-        <P2 className="mb-2">
-          In order to deploy a Talent Token you'll need to have CELO in your
-          wallet. If you have connected your wallet already we should have
-          transfered 0.01 CELO to you. Once you deploy you'll automatically
-          receive 2,000.00 Talent Tokens of your own token.
-        </P2>
-        <Button
-          onClick={() => deployToken()}
-          type="primary-default"
-          className="w-100"
-          mode={mode}
-        >
-          Deploy your Talent Token
-        </Button>
-      </div>
-    </Modal.Body>
-  </>
-);
+          <Button
+            onClick={() => setSelectedChain(selectedNetwork)}
+            type="primary-default"
+            className="w-100"
+            mode={mode}
+          >
+            Create your Talent Token
+          </Button>
+        </div>
+      </Modal.Body>
+    </>
+  );
+};
 
 const WalletNotConnected = ({ mode }) => (
   <>
@@ -90,22 +108,46 @@ const WalletNotConnected = ({ mode }) => (
   </>
 );
 
-const WrongNetwork = ({ mode }) => (
-  <>
-    <Modal.Header closeButton>
-      <Modal.Title className="px-3">Launch your Talent Token</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-        <P2 className="mb-3">
-          You need to change you network on metamask to CELO before you are able
-          to deploy your own Talent Token.
-        </P2>
-        <Spinner />
-      </div>
-    </Modal.Body>
-  </>
-);
+const WrongNetwork = ({ chainId, mode, hide, switchNetwork, env }) => {
+  const chainName = chainIdToName(chainId, env);
+  return (
+    <>
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+        <div className="d-flex flex-column justify-content-center align-items-center w-100 px-3 pb-3">
+          {chainName == "Polygon" ? (
+            <Polygon width="48" />
+          ) : (
+            <Celo width="48" />
+          )}
+          <H5 className="mt-4">Switch Network</H5>
+          <P2 className="mb-3 text-center">
+            To launch your talent token on the {chainName} network please change
+            your current network.
+          </P2>
+          <div className="d-flex flex-row justify-content-between w-100 align-items-center">
+            <Button
+              onClick={hide}
+              type="white-subtle"
+              mode={mode}
+              className="w-100 mt-3 mr-2"
+            >
+              Back
+            </Button>
+            <Button
+              onClick={() => switchNetwork(chainId)}
+              mode={mode}
+              type="primary-default"
+              className="w-100 mt-3"
+            >
+              Switch to {chainName}
+            </Button>
+          </div>
+        </div>
+      </Modal.Body>
+    </>
+  );
+};
 
 const WaitingForConfirmation = ({ mode }) => (
   <>
@@ -133,7 +175,7 @@ const SuccessConfirmation = ({ mode, hide }) => {
       </Modal.Header>
       <Modal.Body>
         <div className="d-flex flex-column justify-content-center align-items-center w-100 p-3">
-          <P2 className="w-100 text-left">
+          <P2 className="w-100 text-center mb-3">
             You've successfully deployed your token!
           </P2>
           <GreenCheck mode={mode} />
@@ -171,6 +213,8 @@ const Token = (props) => {
   const [error, setError] = useState({});
   const [factory, setFactory] = useState(null);
   const [contractId, setContractId] = useState(token.contract_id || "");
+  const [selectedChain, setSelectedChain] = useState("");
+  const [currentChain, setCurrentChain] = useState("");
 
   const changeTicker = (value) => {
     if (error["length"]) {
@@ -184,6 +228,12 @@ const Token = (props) => {
     }
 
     setTicker(value.toUpperCase());
+  };
+
+  const switchNetwork = async (networkId) => {
+    const newOnChain = new OnChain(railsContext.contractsEnv);
+
+    await newOnChain.switchChain(networkId);
   };
 
   const createToken = async () => {
@@ -245,6 +295,9 @@ const Token = (props) => {
       return;
     }
 
+    const chainId = await newOnChain.getChainID();
+    setCurrentChain(chainId);
+
     const validChain = await newOnChain.recognizedChain();
     setValidChain(validChain);
 
@@ -268,6 +321,7 @@ const Token = (props) => {
       {
         token: {
           ticker,
+          chain_id: currentChain,
         },
       }
     ).catch(() => {
@@ -372,12 +426,15 @@ const Token = (props) => {
       return SuccessConfirmation;
     }
 
-    if (!validChain) {
-      return WrongNetwork;
-    }
-
     if (!walletConnected) {
       return WalletNotConnected;
+    }
+
+    if (
+      !validChain ||
+      (selectedChain !== "" && selectedChain !== currentChain)
+    ) {
+      return WrongNetwork;
     }
 
     return LaunchTokenModal;
@@ -388,6 +445,14 @@ const Token = (props) => {
   const readyForLaunch = () =>
     requiredFields.length == 0 ||
     (requiredFields.length == 1 && requiredFields[0] == "Ticker");
+
+  const deployOrChangeNetwork = (network) => {
+    if (chainNameToId(network, railsContext.contractsEnv) == currentChain) {
+      handleDeploy();
+    } else {
+      setSelectedChain(chainNameToId(network, railsContext.contractsEnv));
+    }
+  };
 
   return (
     <>
@@ -408,6 +473,10 @@ const Token = (props) => {
           error={error}
           backdrop={false}
           setShow={setShow}
+          chainId={selectedChain}
+          setSelectedChain={deployOrChangeNetwork}
+          switchNetwork={switchNetwork}
+          env={railsContext.contractsEnv}
         />
       </Modal>
       <H5
@@ -419,8 +488,9 @@ const Token = (props) => {
       <div className="d-flex flex-row w-100 justify-content-between mt-2">
         <div className="col-8 d-flex flex-column p-0">
           <P2 className="p2 w-100 text-left p-0" mode={mode}>
-            Please be sure you have an active Metamask wallet. If you don't have
-            one, please create it using{" "}
+            We recommend using Metamask to deploy your token although other
+            wallets are also supported. If you don't have a metamask wallet you
+            can create it using{" "}
             <a href="https://www.metamask.io" target="_blank">
               Metamask.io
             </a>
@@ -432,14 +502,16 @@ const Token = (props) => {
             </P2>
           )}
         </div>
-        <Button
-          onClick={() => setShow(true)}
-          type="primary-default"
-          mode={mode}
-          disabled={!readyForLaunch()}
-        >
-          Launch Talent Token
-        </Button>
+        <div>
+          <Button
+            onClick={() => setShow(true)}
+            type="primary-default"
+            mode={mode}
+            disabled={!readyForLaunch()}
+          >
+            Launch Talent Token
+          </Button>
+        </div>
       </div>
       <div className={`divider ${mode} my-3`}></div>
       <TextInput

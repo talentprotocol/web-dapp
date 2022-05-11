@@ -48,6 +48,7 @@ class API::V1::Talent::TokensController < ApplicationController
   def token_params
     params.require(:token).permit(
       :ticker,
+      :chain_id,
       :contract_id,
       :deployed
     )

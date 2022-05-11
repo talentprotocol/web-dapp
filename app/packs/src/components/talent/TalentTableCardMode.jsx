@@ -7,6 +7,7 @@ import cx from "classnames";
 const TalentTableCardMode = ({
   updateFollow,
   talents,
+  env,
   publicPageViewer = false,
 }) => {
   const { mobile } = useWindowDimensionsHook();
@@ -23,6 +24,7 @@ const TalentTableCardMode = ({
           <NewTalentCard
             name={talent.user.name}
             ticker={talent.token.ticker}
+            chainId={talent.token.chainId}
             contractId={talent.token.contractId}
             occupation={talent.occupation}
             profilePictureUrl={talent.profilePictureUrl}
@@ -33,6 +35,7 @@ const TalentTableCardMode = ({
             marketCap={talent.marketCap}
             supporterCount={talent.supporterCounter}
             publicPageViewer={publicPageViewer}
+            env={env}
           />
         </div>
       ))}

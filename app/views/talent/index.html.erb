@@ -9,9 +9,13 @@
               profilePictureUrl: talent.profile_picture_url,
               occupation: talent.occupation,
               headline: talent.headline,
+              supporterCounter: talent.supporters_count.to_s,
+              totalSupply: talent.total_supply.to_s,
+              maxSupply: Talent.max_supply.to_s,
               token: {
                 ticker: talent.token.ticker,
-                contractId: talent.token.contract_id
+                contractId: talent.token.contract_id,
+                chainId: talent.token.chain_id
               },
               user: {
                 username: talent.user.username,

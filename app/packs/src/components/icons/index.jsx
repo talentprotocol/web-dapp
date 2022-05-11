@@ -54,3 +54,5 @@ export { default as Quest } from "src/components/icons/Quest";
 export { default as User } from "src/components/icons/User";
 export { default as Spinner } from "src/components/icons/Spinner";
 export { default as GreenCheck } from "src/components/icons/GreenCheck";
+export { default as Celo } from "src/components/icons/Celo";
+export { default as Polygon } from "src/components/icons/Polygon";

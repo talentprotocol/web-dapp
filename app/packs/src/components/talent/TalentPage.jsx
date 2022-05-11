@@ -3,17 +3,7 @@ import { ethers } from "ethers";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
-import {
-  ApolloProvider,
-  useQuery,
-  GET_TALENT_PORTFOLIO,
-  client,
-} from "src/utils/thegraph";
-import {
-  getSupporterCount,
-  getMarketCap,
-  getProgress,
-} from "src/utils/viewHelpers";
+import { getMarketCap, getProgress } from "src/utils/viewHelpers";
 import { compareStrings, compareNumbers } from "src/utils/compareHelpers";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -25,17 +15,10 @@ import TalentOptions from "./TalentOptions";
 
 import cx from "classnames";
 
-const TalentPage = ({ talents }) => {
+const TalentPage = ({ talents, env }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
-  const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
-    variables: {
-      ids: localTalents
-        .map((talent) => talent.token.contractId)
-        .filter((id) => id),
-    },
-  });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
@@ -122,43 +105,21 @@ const TalentPage = ({ talents }) => {
     }
 
     return desiredTalent;
-  }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
+  }, [localTalents, watchlistOnly, selectedSort, sortDirection]);
 
   useEffect(() => {
-    if (loading || !data?.talentTokens) {
-      return;
-    }
+    const newTalents = talents.map((talent) => ({
+      ...talent,
+      marketCap: getMarketCap(talent.totalSupply),
+      progress: getProgress(
+        talent.totalSupply || "0",
+        talent.maxSupply,
+        talent.id
+      ),
+    }));
 
-    const newTalents = data.talentTokens.map(
-      ({ id, totalSupply, maxSupply, supporterCounter, ...rest }) => ({
-        ...rest,
-        token: { contractId: id },
-        progress: getProgress(totalSupply, maxSupply),
-        marketCap: getMarketCap(totalSupply),
-        supporterCounter: getSupporterCount(supporterCounter),
-      })
-    );
-
-    setLocalTalents((prev) =>
-      Object.values(
-        [...prev, ...newTalents].reduce(
-          (result, { id, token, marketCap, supporterCounter, ...rest }) => {
-            result[token.contractId || id] = {
-              ...(result[token.contractId || id] || {}),
-              id: result[token.contractId || id]?.id || id,
-              token: { ...result[token.contractId]?.token, ...token },
-              marketCap: marketCap || "-1",
-              supporterCounter: supporterCounter || "-1",
-              ...rest,
-            };
-
-            return result;
-          },
-          {}
-        )
-      )
-    );
-  }, [data, loading]);
+    setLocalTalents(newTalents);
+  }, [talents]);
 
   return (
     <div className={cx("pb-6", mobile && "p-4")}>
@@ -201,6 +162,7 @@ const TalentPage = ({ talents }) => {
         <TalentTableCardMode
           talents={filteredTalents}
           updateFollow={updateFollow}
+          env={env}
         />
       )}
     </div>
@@ -210,9 +172,7 @@ const TalentPage = ({ talents }) => {
 export default (props, railsContext) => {
   return () => (
     <ThemeContainer {...props}>
-      <ApolloProvider client={client(railsContext.contractsEnv)}>
-        <TalentPage {...props} />
-      </ApolloProvider>
+      <TalentPage {...props} env={railsContext.contractsEnv} />
     </ThemeContainer>
   );
 };

@@ -1,11 +1,12 @@
 {
   "development": {
     "44787": {
-      "chainId": "44787",
-      "chainName": "Celo (Alfajores)",
+      "chainId": 44787,
+      "chainName": "Celo",
       "factory": "0x8ee4f3044Ef0166A6DB12b0e9Eeb1735f1Fc7cc9",
       "staking": "0xC0349e63C1250b408eA11F5492D70A8E5e202B93",
       "rpcURL": "https://alfajores-forno.celo-testnet.org",
+      "icon": "celo",
       "paramsForMetamask": {
         "chainId": "0xaef3",
         "chainName": "Alfajores Testnet",
@@ -18,13 +19,14 @@
   },
   "staging": {
     "44787": {
-      "chainId": "44787",
-      "chainName": "Celo (Alfajores)",
+      "chainId": 44787,
+      "chainName": "Celo",
       "factory": "0x8ee4f3044Ef0166A6DB12b0e9Eeb1735f1Fc7cc9",
       "staking": "0xC0349e63C1250b408eA11F5492D70A8E5e202B93",
       "rpcURL": "https://alfajores-forno.celo-testnet.org",
+      "icon": "celo",
       "paramsForMetamask": {
-        "chainId": "44787",
+        "chainId": "0xaef3",
         "chainName": "Alfajores Testnet",
         "nativeCurrency": { "name": "Alfajores Celo", "symbol": "A-CELO", "decimals": 18 },
         "rpcUrls": ["https://alfajores-forno.celo-testnet.org"],
@@ -33,23 +35,33 @@
       }
     },
     "80001": {
-      "chainId": "80001",
-      "chainName": "Polygon (Mumbai)",
+      "chainId": 80001,
+      "chainName": "Polygon",
       "factory": "0x2Babf6286E91056e8D4B2e589352A4fFb896BFa3",
       "staking": "0x5a9AfCBaf22c6bAC0f4495C9112D507AABbe6Eb7",
       "rpcURL": "https://rpc-mumbai.matic.today",
-      "stableAddress": "0xe11A86849d99F524cAC3E7A0Ec1241828e332C62"
+      "stableAddress": "0xe11A86849d99F524cAC3E7A0Ec1241828e332C62",
+      "icon": "polygon",
+      "paramsForMetamask": {
+        "chainId": "0x13881",
+        "chainName": "MATIC",
+        "nativeCurrency": { "name": "MATIC", "symbol": "MATIC", "decimals": 18 },
+        "rpcUrls": ["https://rpc-mumbai.matic.today"],
+        "blockExplorerUrls": ["https://mumbai.polygonscan.com/"],
+        "iconUrls": ["future"]
+      }
     }
   },
   "production": {
     "42220": {
-      "chainId": "42220",
+      "chainId": 42220,
       "chainName": "Celo",
       "factory": "0xa902DA7a40a671B84bA3Dd0BdBA6FD9d2D888246",
       "staking": "0x8ea91a982d93836415CE3abbaf12d59fb8cE3Ff8",
       "rpcURL": "https://forno.celo.org",
+      "icon": "celo",
       "paramsForMetamask": {
-        "chainId": "42220",
+        "chainId": "0xa4ec",
         "chainName": "Celo",
         "nativeCurrency": { "name": "Celo", "symbol": "CELO", "decimals": 18 },
         "rpcUrls": ["https://forno.celo.org"],
@@ -58,11 +70,20 @@
       }
     },
     "137": {
-      "chainId": "137",
-      "chainName": "Polygon (MATIC)",
+      "chainId": 137,
+      "chainName": "Polygon",
       "factory": "",
       "staking": "",
-      "rpcURL": "https://polygon-rpc.com/"
+      "rpcURL": "https://polygon-rpc.com/",
+      "icon": "polygon",
+      "paramsForMetamask": {
+        "chainId": "0x89",
+        "chainName": "Polygon",
+        "nativeCurrency": { "name": "MATIC", "symbol": "MATIC", "decimals": 18 },
+        "rpcUrls": ["https://polygon-rpc.com/"],
+        "blockExplorerUrls": ["https://polygonscan.com/"],
+        "iconUrls": ["future"]
+      }
     }
   }
 }

@@ -2,7 +2,7 @@ class TalentBlueprint < Blueprinter::Base
   fields :id, :profile_picture_url
 
   view :normal do
-    fields :occupation, :headline, :user_id
+    fields :occupation, :headline, :user_id, :supporters_count, :total_supply
     association :token, blueprint: TokenBlueprint, view: :normal
     association :user, blueprint: UserBlueprint, view: :normal
 

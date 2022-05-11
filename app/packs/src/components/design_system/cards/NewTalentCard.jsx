@@ -7,8 +7,9 @@ import Divider from "src/components/design_system/other/Divider";
 import Tag from "src/components/design_system/tag";
 import { H5, P1, P2, P3 } from "src/components/design_system/typography";
 import { useWindowDimensionsHook } from "src/utils/window";
-import { Star } from "src/components/icons";
+import { Star, Polygon, Celo } from "src/components/icons";
 import { func } from "prop-types";
+import { chainIdToName } from "src/onchain/utils";
 
 const NewTalentCard = ({
   name,
@@ -23,9 +24,12 @@ const NewTalentCard = ({
   marketCap,
   supporterCount,
   publicPageViewer,
+  chainId,
+  env,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const chainName = chainIdToName(chainId, env);
 
   const updateFollowing = (e) => {
     e.preventDefault();
@@ -76,7 +80,10 @@ const NewTalentCard = ({
               />
             </div>
             {contractId ? (
-              <P2 className="text-primary" bold text={`$${ticker}`} />
+              <div className="d-flex flex-row align-items-center">
+                {chainName == "Polygon" ? <Polygon /> : <Celo />}
+                <P2 className="text-primary ml-1" bold text={`$${ticker}`} />
+              </div>
             ) : (
               <Tag className="coming-soon-tag">
                 <P3 className="current-color" bold text="Coming Soon" />

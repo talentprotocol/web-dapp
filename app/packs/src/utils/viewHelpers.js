@@ -17,8 +17,8 @@ export const getSupporterCount = (supporterCounter) => {
 
 export const getMarketCap = (totalSupply) => {
   if (totalSupply) {
-    const formattedTotalSupply = ethers.utils.formatUnits(totalSupply);
-
+    const totalSupplyBigNum = ethers.BigNumber.from(totalSupply);
+    const formattedTotalSupply = ethers.utils.formatUnits(totalSupplyBigNum);
     return parseAndCommify(formattedTotalSupply * 0.1);
   }
   return "-1";
@@ -27,7 +27,7 @@ export const getMarketCap = (totalSupply) => {
 export const getProgress = (totalSupply, maxSupply) => {
   const value = ethers.BigNumber.from(totalSupply)
     .mul(100)
-    .div(maxSupply)
+    .div(ethers.BigNumber.from(maxSupply))
     .toNumber();
 
   if (value < 1) {

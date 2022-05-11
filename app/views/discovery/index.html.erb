@@ -17,6 +17,9 @@
             name: talent["user"]["name"],
             username: talent["user"]["username"],
             userId: talent["user_id"],
+            supporterCounter: talent["supporters_count"],
+            totalSupply: talent["total_supply"],
+            chainId: talent["token"]["chain_id"],
           }}
         }},
         marketingArticles: @marketing_articles.map { |article| {

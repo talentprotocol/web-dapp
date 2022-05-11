@@ -37,12 +37,20 @@ class OnChain {
 
   // LOAD WEB3
 
-  async web3ModalConnect() {
+  async web3ModalConnect(forceConnect = false) {
     try {
       if (!this.web3Modal) {
         this.web3Modal = await this.initializeWeb3Modal();
       }
-      const web3ModalInstance = await this.web3Modal.connect();
+
+      let web3ModalInstance;
+      if (forceConnect) {
+        web3ModalInstance = await this.web3Modal.connect();
+      } else if (this.web3Modal && this.web3Modal.cachedProvider) {
+        web3ModalInstance = await this.web3Modal.connect();
+      } else {
+        return undefined;
+      }
 
       return web3ModalInstance;
     } catch {
@@ -50,9 +58,9 @@ class OnChain {
     }
   }
 
-  async connectedAccount() {
+  async connectedAccount(forceConnect = false) {
     try {
-      const web3ModalInstance = await this.web3ModalConnect();
+      const web3ModalInstance = await this.web3ModalConnect(forceConnect);
 
       if (web3ModalInstance !== undefined) {
         const provider = new ethers.providers.Web3Provider(web3ModalInstance);
@@ -86,12 +94,14 @@ class OnChain {
   }
 
   async switchChain(chainId = 42220) {
+    const chainHex = ethers.utils.hexValue(ethers.utils.hexlify(chainId));
+
     try {
       const web3ModalInstance = await this.web3ModalConnect();
 
       await web3ModalInstance.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainId }],
+        params: [{ chainId: chainHex }],
       });
     } catch (error) {
       console.log(error);
@@ -106,7 +116,7 @@ class OnChain {
         });
         await web3ModalInstance.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: chainId }],
+          params: [{ chainId: chainHex }],
         });
       }
     }
@@ -129,7 +139,7 @@ class OnChain {
 
   async retrieveAccount() {
     try {
-      const web3ModalInstance = await this.web3ModalConnect();
+      const web3ModalInstance = await this.web3ModalConnect(true);
 
       if (web3ModalInstance !== undefined) {
         const provider = new ethers.providers.Web3Provider(web3ModalInstance);
@@ -162,12 +172,12 @@ class OnChain {
   async loadFactory() {
     try {
       const web3ModalInstance = await this.web3ModalConnect();
-      let provider, chainId;
+      let provider;
 
+      const chainId = await this.getChainID();
       if (web3ModalInstance !== undefined) {
         provider = new ethers.providers.Web3Provider(web3ModalInstance);
       } else {
-        chainId = await this.getChainID();
         provider = new ethers.providers.JsonRpcProvider(
           Addresses[this.env][chainId]["rpcURL"]
         );
