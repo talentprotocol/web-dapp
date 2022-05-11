@@ -230,6 +230,15 @@
   stroke: $gray-300;
 }
 
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  padding-bottom: $footer-height;
+}
+
 .main-content {
   display: flex;
   flex-direction: column;
@@ -260,6 +269,10 @@
 }
 
 @media (max-width: 992px) {
+  .content-wrapper {
+    padding-bottom: $footer-mobile-height;
+  }
+
   .main-content {
     padding-bottom: 56px !important;
     padding-top: 64px !important;
@@ -484,13 +497,91 @@
   padding-bottom: 40px !important;
 }
 
+.mb-7 {
+  margin-bottom: 64px !important;
+}
+
+.ml-7 {
+  margin-left: 64px !important;
+}
+
+.mt-7 {
+  margin-top: 64px !important;
+}
+
+.mr-7 {
+  margin-right: 64px !important;
+}
+
+.mx-7 {
+  margin-left: 64px !important;
+  margin-right: 64px !important;
+}
+
+.my-7 {
+  margin-top: 64px !important;
+  margin-bottom: 64px !important;
+}
+
+.p-7 {
+  padding: 64px !important;
+}
+
+.pb-7 {
+  padding-bottom: 64px !important;
+}
+
+.pl-7 {
+  padding-left: 64px !important;
+}
+
+.pt-7 {
+  padding-top: 64px !important;
+}
+
+.pr-7 {
+  padding-right: 64px !important;
+}
+
+.px-7 {
+  padding-left: 64px !important;
+  padding-right: 64px !important;
+}
+
+.py-7 {
+  padding-top: 64px !important;
+  padding-bottom: 64px !important;
+}
+
 @media (min-width: 992px) {
+  .mt-lg-0 {
+    margin-top: 0 !important;
+  }
+
   .mt-lg-7 {
     margin-top: 64px !important;
   }
 
   .mb-lg-7 {
     margin-bottom: 64px !important;
+  }
+
+  .my-lg-7 {
+    margin-top: 64px !important;
+    margin-bottom: 64px !important;
+  }
+
+  .mt-lg-6 {
+    margin-top: 40px !important;
+  }
+
+  .mb-lg-6 {
+    margin-bottom: 40px !important;
+  }
+
+  .my-lg-6 {
+    margin-bottom: 40px !important;
+    margin-top: 40px !important;
   }
 
   .p-lg-6 {

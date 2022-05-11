@@ -37,14 +37,19 @@
   margin-left: auto;
 }
 
+.footer-container {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  height: $footer-height;
+}
+
 .footer {
   max-width: 1240px;
-  height: 332px;
   width: 100%;
   padding-right: 40px;
   padding-left: 40px;
-  padding-top: 16px;
-  padding-bottom: 16px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -57,7 +62,7 @@
     padding-bottom: 20px;
   }
 
-  .footer {
-    height: 720px;
+  .footer-container {
+    height: $footer-mobile-height;
   }
 }
