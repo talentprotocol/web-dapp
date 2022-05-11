@@ -35,12 +35,14 @@ class DiscoveryController < ApplicationController
   end
 
   def show
-    @discovery_row = DiscoveryRow.find_by!(slug: params[:slug])
+    discovery_row = DiscoveryRow.find_by!(slug: params[:slug])
 
-    service = Talents::Search.new(filter_params: filter_params.to_h, discovery_row: @discovery_row)
+    service = Talents::Search.new(filter_params: filter_params.to_h, discovery_row: discovery_row)
     talents = service.call
 
-    @talents = TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user: current_user)
+    @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row, current_user: current_user)
+
+    @talents = TalentBlueprint.render_as_json(talents.includes(:user, :token), view: :normal, current_user: current_user)
   end
 
   private

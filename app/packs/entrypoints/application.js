@@ -32,6 +32,7 @@ import EditTalent from "src/components/talent/Edit/Profile";
 import NewPortfolio from "src/components/portfolio/NewPortfolio";
 import EditSupporter from "src/components/supporters/edit/Profile";
 import Discovery from "src/components/discovery";
+import DiscoveryShow from "src/components/discovery/show";
 import TalentPage from "src/components/talent/TalentPage";
 import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
 import SupporterProfile from "src/components/supporters/show/Profile";
@@ -44,31 +45,32 @@ import "stylesheets/application.scss";
 require.context("../images", true);
 
 ReactOnRails.register({
-  UpcomingTalents,
-  TalentShow,
-  MessageUserList,
-  Chat,
-  RegistrationFlow,
-  TalentKeywordSearch,
-  Login,
-  Web3ModalConnect,
-  TopBar,
-  Notifications,
-  WelcomePopup,
   BottomNav,
-  TopBar,
-  EditTalent,
-  NewPortfolio,
-  EditSupporter,
-  ResetPassword,
   ChangePassword,
+  Chat,
   Discovery,
-  TalentPage,
-  LoggedOutTopBar,
-  SupporterProfile,
-  Rewards,
-  QuestShow,
+  DiscoveryShow,
+  EditSupporter,
+  EditTalent,
   Footer,
+  LoggedOutTopBar,
+  Login,
+  MessageUserList,
+  NewPortfolio,
+  Notifications,
+  QuestShow,
+  RegistrationFlow,
+  ResetPassword,
+  Rewards,
+  SupporterProfile,
+  TalentKeywordSearch,
+  TalentPage,
+  TalentShow,
+  TopBar,
+  TopBar,
+  UpcomingTalents,
+  Web3ModalConnect,
+  WelcomePopup,
 });
 
 Rails.start();

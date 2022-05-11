@@ -1,5 +1,33 @@
 <main class="main-content">
   <div class="container-grid">
-    
+    <div class="secondary-content">
+      <%= react_component("DiscoveryShow",
+        props: {
+          talents: @talents.map { |talent|
+            {
+              id: talent["id"],
+              profilePictureUrl: talent["profile_picture_url"],
+              occupation: talent["occupation"],
+              headline: talent["headline"],
+              token: {
+                ticker: talent["token"]["ticker"],
+                contractId: talent["token"]["contract_id"]
+              },
+              user: {
+                username: talent["user"]["username"],
+                name: talent["user"]["display_name"] || talent["user"]["username"]
+              },
+              userId: talent["user_id"]
+            }
+          },
+          discoveryRow: {
+            id: @discovery_row["id"],
+            title: @discovery_row["title"],
+            badge: @discovery_row["badge"],
+            badge_link: @discovery_row["badge_link"],
+          }
+        },
+        prerender: false) %>
+    </div>
   </div>
 </main>

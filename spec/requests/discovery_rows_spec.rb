@@ -1,8 +1,11 @@
 require "rails_helper"
 
 RSpec.shared_examples "a discovery row get endpoint request" do
-  let!(:talent_one) { create :talent }
-  let!(:talent_two) { create :talent }
+  let!(:talent_one) { create :talent, user: create(:user) }
+  let!(:talent_two) { create :talent, user: create(:user) }
+
+  let!(:token_one) { create :token, talent: talent_one }
+  let!(:token_two) { create :token, talent: talent_two }
 
   let(:search_talents_class) { Talents::Search }
   let(:search_talents_instance) { instance_double(Talents::Search, call: Talent.all) }
@@ -15,7 +18,7 @@ RSpec.shared_examples "a discovery row get endpoint request" do
     let!(:discovery_row) { create :discovery_row }
     let(:slug) { discovery_row.slug }
 
-    it "returns a successful response" do
+    fit "returns a successful response" do
       get_discovery_row
 
       expect(response).to have_http_status(:ok)

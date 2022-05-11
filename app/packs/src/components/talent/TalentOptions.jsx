@@ -13,6 +13,7 @@ import cx from "classnames";
 
 const TalentOptions = ({
   changeTab,
+  discoveryRowId,
   listModeOnly,
   setListModeOnly,
   setLocalTalents,
@@ -29,6 +30,7 @@ const TalentOptions = ({
 
     const params = new URLSearchParams(document.location.search);
     params.set(filterType, option);
+    params.set("discovery_row_id", discoveryRowId);
 
     get(`/api/v1/talent?${params.toString()}`).then((response) => {
       const talents = response.map((talent) => camelCaseObject(talent));
@@ -59,12 +61,14 @@ const TalentOptions = ({
       className="mt-5 mb-6 d-flex flex-wrap justify-content-between"
       style={{ height: mobile ? "" : 34 }}
     >
-      <TabButton
-        textTabPrimary="All Talent"
-        textTabSecondary="Watchlist"
-        onClick={(tab) => changeTab(tab)}
-      />
-      <div className={cx("d-flex", mobile && "mt-3")}>
+      {changeTab && (
+        <TabButton
+          textTabPrimary="All Talent"
+          textTabSecondary="Watchlist"
+          onClick={(tab) => changeTab(tab)}
+        />
+      )}
+      <div className={cx("d-flex ml-auto", mobile && "mt-3")}>
         <TalentKeywordSearch
           keyword={keyword}
           setKeyword={setKeyword}
