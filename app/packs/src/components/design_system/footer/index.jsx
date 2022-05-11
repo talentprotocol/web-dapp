@@ -30,10 +30,10 @@ const Footer = () => {
   };
 
   return (
-    <>
-      <Divider />
-      <div className="footer mt-0 mt-lg-7 d-flex flex-column justify-content-lg-between">
-        <div className="d-flex flex-lg-row flex-column mt-4">
+    <div className="footer-container">
+      <Divider className="my-lg-7 mb-7 mt-0" />
+      <div className="footer d-flex flex-column">
+        <div className="d-flex flex-lg-row flex-column mb-0 mb-lg-7">
           <div className="col-lg-3">
             <a href="/" style={{ height: 30 }}>
               {theme.mode() == "light" ? (
@@ -108,7 +108,7 @@ const Footer = () => {
             <SocialRow className="ml-lg-0" profile={profile} />
           </div>
         </div>
-        <div class="mt-5 mt-lg-0 px-2 px-lg-0">
+        <div class="my-5 mt-lg-0 px-2 px-lg-0">
           <Divider />
           <div className="mt-4 d-flex flex-lg-row flex-column">
             <P2
@@ -126,7 +126,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
