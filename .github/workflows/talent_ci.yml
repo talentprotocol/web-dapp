@@ -18,7 +18,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ !github.event.pull_request.draft }}
+    if: ${{ !github.event.pull_request.draft }} && ${{ github.head_ref == 'master' || github.head_ref == 'dev' }}
     strategy:
       matrix:
         ruby-version: ["2.7.3"]
