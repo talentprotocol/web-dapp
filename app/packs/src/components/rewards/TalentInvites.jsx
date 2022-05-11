@@ -46,8 +46,8 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
             This is a special type of invite that allows you to refer a talented
             friend to launch a token immediately. They skip the traditional
             application process and receive $200, while you earn 250 $TAL per
-            talent invited (250 TAL for the first 5, 100 TAL after that). To
-            unlock Talent Invites you must have launched a talent token.
+            talent invited. To unlock Talent Invites you must have launched a
+            talent token.
           </P1>
         </div>
         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
@@ -73,7 +73,7 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
           This is a special type of invite that allows you to refer a talented
           friend to launch a token immediately. They skip the traditional
           application process and receive $200, while you earn 250 $TAL per
-          talent invited (250 TAL for the first 5, 100 TAL after that).
+          talent invited.
         </P1>
       </div>
     </div>

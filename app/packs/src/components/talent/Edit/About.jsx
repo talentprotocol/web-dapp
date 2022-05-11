@@ -205,7 +205,7 @@ const About = (props) => {
   };
 
   const cannotSaveProfile =
-    !props.talent.profile.headline || !props.talent.profile.occupation;
+    !props.talent.profile.headline || !props.talent.profile.occupation || !props.profilePictureUrl;
 
   return (
     <>
@@ -230,7 +230,7 @@ const About = (props) => {
               inputName="files[]"
               locale={{
                 strings: {
-                  chooseFiles: "Choose Profile Picture",
+                  chooseFiles: "Choose Profile Picture *",
                 },
               }}
             />

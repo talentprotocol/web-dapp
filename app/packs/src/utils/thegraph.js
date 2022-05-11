@@ -17,6 +17,8 @@ const client = (env) => {
   });
 };
 
+console.log('apollo client:', client, THE_GRAPH_ENDPOINTS);
+
 // the limit of chars on a query string is 2048
 // since each wallet id is 42 chars long
 // that means we can only request 48 wallet ids

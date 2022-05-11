@@ -29,8 +29,6 @@ module Tasks
       elsif type == "Tasks::ShareProfile" && user.talent
         service = CreateInvite.new(user_id: user.id, single_use: true, talent_invite: true)
         service.call
-      elsif type == "Tasks::Register"
-        Reward.create!(user: user, amount: 100, category: "quest", reason: "Got 5 people to register")
       end
     end
 

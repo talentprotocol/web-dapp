@@ -27,7 +27,7 @@ const Quests = ({ quests, questId, setQuestId }) => {
       <div className="mb-6 mb-lg-6">
         <H4 bold text="Quests" className="text-black mb-3" />
         <P1
-          text="Get rewards by completing quests"
+          text="Get to know Talent Protocol through investing in Talent, set up your profile and be rewarded"
           className="text-primary-03"
         />
       </div>

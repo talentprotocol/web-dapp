@@ -11,7 +11,7 @@ module Tasks
     end
 
     def reward
-      "Unlimited supporter invites"
+      "Unlimited user invites"
     end
 
     def link

@@ -25,9 +25,9 @@ module Tasks
 
       quest3 = Quests::Talent.find_or_create_by!(user: user)
 
+      Tasks::LaunchToken.find_or_create_by!(quest: quest3)
       Tasks::PublicProfile.find_or_create_by!(quest: quest3)
       Tasks::ShareProfile.find_or_create_by!(quest: quest3)
-      Tasks::LaunchToken.find_or_create_by!(quest: quest3)
 
       # ---------------------------------------------------
 

@@ -19,7 +19,7 @@ export const questDescription = (type) => {
     case "Quests::Talent":
       return "Complete your profile and share it with your network";
     case "Quests::Scout":
-      return "Share your personal invite code and get at least 5 talented friends to join Talent Protocol";
+      return "Share your personal talent invite code to allow your talented friends to join Talent Protocol. When they launch their token you'll be rewarded for it!";
     default:
       return "";
   }
@@ -93,7 +93,7 @@ export const taskDescription = (type) => {
       return (
         <P2
           className="text-primary-03"
-          text="Use your personal invite code so people can register"
+          text="Use your personal talent invite code to invite new users."
         />
       );
     default:
@@ -123,7 +123,7 @@ export const taskReward = (type, disabled) => {
       return (
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="Unlimited supporter invites"
+          text="Unlimited user invites"
         />
       );
     case "Tasks::BuyTalentToken":
@@ -139,7 +139,7 @@ export const taskReward = (type, disabled) => {
       return (
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="Unlimited supporter invites"
+          text="Unlimited user invites"
         />
       );
     case "Tasks::ShareProfile":
@@ -160,10 +160,25 @@ export const taskReward = (type, disabled) => {
       return (
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="100 TAL"
+          text="250 TAL"
         />
       );
     default:
       return "";
   }
 };
+
+
+export const questRewards = (type, disabled) => {
+  switch (type) {
+    case "Quests::User":
+      return([
+        <P2
+          className={cx(disabled ? "text-primary-04" : "text-black")}
+          text="Referral Race"
+        />
+      ]);
+    default:
+      return null;
+  }
+}

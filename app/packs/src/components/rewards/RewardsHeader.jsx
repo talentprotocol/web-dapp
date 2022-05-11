@@ -65,12 +65,12 @@ const RewardsHeader = ({ rewards }) => {
           </P2>
         </div>
         <div className="talent-rewards-header-item px-4 pb-3">
-          <P2>Others</P2>
-          <P2 className="text-black">{amountToTal(userRewards.others)}</P2>
-        </div>
-        <div className="talent-rewards-header-item px-4 pb-4">
           <P2>Quest Earnings</P2>
           <P2 className="text-black">{amountToTal(userRewards.quests)}</P2>
+        </div>
+        <div className="talent-rewards-header-item px-4 pb-4">
+          <P2>Others</P2>
+          <P2 className="text-black">{amountToTal(userRewards.others)}</P2>
         </div>
       </div>
     </div>

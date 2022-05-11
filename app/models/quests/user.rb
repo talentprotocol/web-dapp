@@ -3,7 +3,7 @@
 module Quests
   class User < Quest
     def title
-      "Start here"
+      "Beginner"
     end
 
     def subtitle

@@ -6,6 +6,9 @@ namespace :quests do
       batch.each do |user|
         user_type = user.talent || user.investor
 
+        talent_invite = user.invites.find_by(talent_invite: true)
+        invitees_token_count = talent_invite.present? ? talent_invite.invitees.joins(talent: [:token]).where(tokens: {deployed: true}).count : 0
+        
         if user.wallet_id
           Tasks::Update.new.call(type: "Tasks::ConnectWallet", user: user, normal_update: false)
 
@@ -36,10 +39,10 @@ namespace :quests do
           Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
         end
 
-        if user.invites.sum(:uses) > 4
-          Reward.create!(user: user, amount: 50, category: "quest", reason: "Got 5 people to register")
-          Tasks::Update.new.call(type: "Tasks::Register", user: user, normal_update: false)
+        if invitees_token_count >= 5
+          Tasks::Update.new.call(type: "Tasks::Register", user: user, normal_update: true)
         end
+
       rescue
         puts "error updating quests for user #{user.username} - #{user.id}"
       end
