@@ -7,15 +7,12 @@
   - low
 :schedule:
   send_notification_digests:
-    cron: '0 10 * * *' # runs once every day at 10am
+    cron: "0 10 * * *" # runs once every day at 10am
     class: SendNotificationDigestsJob
   sync_talent_with_notion:
-    cron: '0 20 * * *' # Runs once every day at 8pm
+    cron: "0 20 * * *" # Runs once every day at 8pm
     class: SyncTalentWithNotionJob
   sync_on_chain_talent_supporters:
-    cron: '0 * * * *' # Runs every hour
+    cron: "0 * * * *" # Runs every hour
     class: TriggerTalentSupportersRefreshJob
     enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
-  setup_nextRace:
-    cron: '1 0 * * 1' # Runs every Monday at 00:01
-    class: SetupNextRaceJob
