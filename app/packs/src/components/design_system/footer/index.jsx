@@ -30,101 +30,103 @@ const Footer = () => {
   };
 
   return (
-    <div className="footer mt-lg-7 mt-0 d-flex flex-column justify-content-lg-between">
+    <>
       <Divider />
-      <div className="d-flex flex-lg-row flex-column mt-4">
-        <div className="col-lg-3">
-          <a href="/" style={{ height: 30 }}>
-            {theme.mode() == "light" ? (
-              <LogoLight width={128} height={20} />
-            ) : (
-              <LogoDark width={128} height={20} />
-            )}
-          </a>
-          <P2
-            className="text-primary-03 mt-2"
-            text="The web3 professional network for high-potential talent."
-          />
+      <div className="footer mt-0 mt-lg-7 d-flex flex-column justify-content-lg-between">
+        <div className="d-flex flex-lg-row flex-column mt-4">
+          <div className="col-lg-3">
+            <a href="/" style={{ height: 30 }}>
+              {theme.mode() == "light" ? (
+                <LogoLight width={128} height={20} />
+              ) : (
+                <LogoDark width={128} height={20} />
+              )}
+            </a>
+            <P2
+              className="text-primary-03 mt-2"
+              text="The web3 professional network for high-potential talent."
+            />
+          </div>
+          <div className="col-lg-3"></div>
+          <div className="col-lg-2 d-flex flex-column mt-5 mt-lg-0">
+            <P2 className="text-black mb-2" bold text="Project" />
+            <Tab
+              href={ABOUT}
+              text="About"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+            <Tab
+              href={BLOG}
+              text="Blog"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+            <Tab
+              href={PARTNERSHIPS}
+              text="Partnerships"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+          </div>
+          <div className="col-lg-2 d-flex flex-column mt-5 mt-lg-0">
+            <P2 className="text-black mb-2" bold text="Help" />
+            <Tab
+              href={FAQ}
+              text="FAQ"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+            <Tab
+              href={USER_GUIDE}
+              text="User Guide"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+            <Tab
+              href={TERMS_HREF}
+              text="Terms of Service"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+            <Tab
+              href={PRIVACY_HREF}
+              text="Privacy Policy"
+              type="white"
+              className="mb-2"
+              target="_blank"
+            />
+          </div>
+          <div className="col-lg-2 d-flex flex-column mt-5 mt-lg-0">
+            <P2 className="text-black mb-2" bold text="Socials" />
+            <SocialRow className="ml-lg-0" profile={profile} />
+          </div>
         </div>
-        <div className="col-lg-3"></div>
-        <div className="col-lg-2 d-flex flex-column mt-lg-0 mt-5">
-          <P2 className="text-black mb-2" bold text="Project" />
-          <Tab
-            href={ABOUT}
-            text="About"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-          <Tab
-            href={BLOG}
-            text="Blog"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-          <Tab
-            href={PARTNERSHIPS}
-            text="Partnerships"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-        </div>
-        <div className="col-lg-2 d-flex flex-column mt-lg-0 mt-5">
-          <P2 className="text-black mb-2" bold text="Help" />
-          <Tab
-            href={FAQ}
-            text="FAQ"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-          <Tab
-            href={USER_GUIDE}
-            text="User Guide"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-          <Tab
-            href={TERMS_HREF}
-            text="Terms of Service"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-          <Tab
-            href={PRIVACY_HREF}
-            text="Privacy Policy"
-            type="white"
-            className="mb-2"
-            target="_blank"
-          />
-        </div>
-        <div className="col-lg-2 d-flex flex-column mt-lg-0 mt-5">
-          <P2 className="text-black mb-2" bold text="Socials" />
-          <SocialRow className="ml-lg-0" profile={profile} />
+        <div class="mt-5 mt-lg-0 px-2 px-lg-0">
+          <Divider />
+          <div className="mt-4 d-flex flex-lg-row flex-column">
+            <P2
+              className="text-primary-03 mb-3 mb-lg-0 mr-4"
+              text="Talent Protocol MTU © 2022"
+            />
+            <P2 className="text-primary-03 mr-4 d-lg-block d-none" text="|" />
+            <a
+              href="mailto:contact@talentprotocol.com"
+              target="self"
+              className="mr-4 text-primary-03"
+            >
+              Contact us
+            </a>
+          </div>
         </div>
       </div>
-      <div class="mt-lg-0 mt-5 px-2 px-lg-0">
-        <Divider />
-        <div className="mt-4 d-flex flex-lg-row flex-column">
-          <P2
-            className="text-primary-03 mb-3 mb-lg-0 mr-4"
-            text="Talent Protocol MTU © 2022"
-          />
-          <P2 className="text-primary-03 mr-4 d-lg-block d-none" text="|" />
-          <a
-            href="mailto: contact@talentprotocol.com"
-            target="self"
-            className="mr-4 text-primary-03"
-          >
-            Contact us
-          </a>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

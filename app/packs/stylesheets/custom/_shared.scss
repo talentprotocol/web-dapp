@@ -485,12 +485,20 @@
 }
 
 @media (min-width: 992px) {
+  .mt-lg-0 {
+    margin-top: 0 !important;
+  }
+
   .mt-lg-7 {
     margin-top: 64px !important;
   }
 
   .mb-lg-7 {
     margin-bottom: 64px !important;
+  }
+
+  .mt-lg-6 {
+    margin-top: 40px !important;
   }
 
   .p-lg-6 {
