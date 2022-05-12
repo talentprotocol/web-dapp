@@ -14,6 +14,7 @@ class DiscoveryController < ApplicationController
 
       discovery_rows << {
         id: row.id,
+        slug: row.slug,
         title: row.title,
         badge: row.badge,
         badge_link: row.badge_link,
@@ -30,6 +31,7 @@ class DiscoveryController < ApplicationController
       view: :normal,
       current_user_watchlist: current_user_watchlist
     )
+
     marketing_articles = MarketingArticle.all.order(created_at: :desc).limit(3)
     @marketing_articles = MarketingArticleBlueprint.render_as_json(marketing_articles, view: :normal)
   end

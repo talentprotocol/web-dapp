@@ -1,5 +1,11 @@
 <main class="main-content">
   <div class="container-grid">
+    <% if current_user.nil? %>
+      <%= react_component("LoggedOutTopBar", props:
+        {
+        }, prerender: false)
+      %>
+    <% end %>
     <div class="secondary-content">
       <%= react_component("DiscoveryShow",
         props: {
@@ -26,7 +32,8 @@
             badge_link: @discovery_row["badge_link"],
             slug: @discovery_row["slug"],
             title: @discovery_row["title"],
-          }
+          },
+          userLoggedIn: current_user.present?
         },
         prerender: false) %>
     </div>

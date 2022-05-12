@@ -30,7 +30,7 @@ import TalentOptions from "src/components/talent/TalentOptions";
 
 import cx from "classnames";
 
-const DiscoveryShow = ({ discoveryRow, talents }) => {
+const DiscoveryShow = ({ discoveryRow, talents, userLoggedIn }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
@@ -41,9 +41,42 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
         .filter((id) => id),
     },
   });
+  const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+
+  const changeTab = (tab) => {
+    setWatchlistOnly(tab === "Watchlist" ? true : false);
+  };
+
+  const updateFollow = async (talent) => {
+    const newLocalTalents = localTalents.map((currTalent) => {
+      if (currTalent.id === talent.id) {
+        return { ...currTalent, isFollowing: !talent.isFollowing };
+      } else {
+        return { ...currTalent };
+      }
+    });
+
+    if (talent.isFollowing) {
+      const response = await destroy(
+        `/api/v1/follows?user_id=${talent.userId}`
+      );
+
+      if (response.success) {
+        setLocalTalents([...newLocalTalents]);
+      }
+    } else {
+      const response = await post(`/api/v1/follows`, {
+        user_id: talent.userId,
+      });
+
+      if (response.success) {
+        setLocalTalents([...newLocalTalents]);
+      }
+    }
+  };
 
   const filteredTalents = useMemo(() => {
     let desiredTalent = [...localTalents];
@@ -72,7 +105,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     }
 
     return desiredTalent;
-  }, [localTalents, selectedSort, sortDirection, data]);
+  }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
 
   useEffect(() => {
     if (loading || !data?.talentTokens) {
@@ -124,12 +157,14 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
         />
       </div>
       <TalentOptions
+        changeTab={changeTab}
         listModeOnly={listModeOnly}
         searchUrl={`/discovery/${discoveryRow.slug}`}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}
         setSortDirection={setSortDirection}
+        userLoggedIn={userLoggedIn}
       />
       {localTalents.length === 0 && (
         <div className="d-flex justify-content-center mt-6">
@@ -149,9 +184,13 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
           sortDirection={sortDirection}
           setSortDirection={setSortDirection}
           showFirstBoughtField={false}
+          updateFollow={updateFollow}
         />
       ) : (
-        <TalentTableCardMode talents={filteredTalents} />
+        <TalentTableCardMode
+          talents={filteredTalents}
+          updateFollow={updateFollow}
+        />
       )}
     </div>
   );

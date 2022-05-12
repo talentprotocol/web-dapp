@@ -19,6 +19,7 @@ const TalentOptions = ({
   setLocalTalents,
   setSelectedSort,
   setSortDirection,
+  userLoggedIn,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
@@ -60,7 +61,7 @@ const TalentOptions = ({
       className="mt-5 mb-6 d-flex flex-wrap justify-content-between"
       style={{ height: mobile ? "" : 34 }}
     >
-      {changeTab && (
+      {userLoggedIn && (
         <TabButton
           textTabPrimary="All Talent"
           textTabSecondary="Watchlist"

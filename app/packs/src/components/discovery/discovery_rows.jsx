@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { P1, P3 } from "src/components/design_system/typography";
+import Link from "src/components/design_system/link";
 import { Caret } from "src/components/icons";
 import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
 import Button from "src/components/design_system/button";
@@ -89,7 +90,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
   return (
     <>
       {discoveryRows.map((row) => (
-        <div key={row.title}>
+        <div key={row.title} className="discovery-row">
           {row.talents.length > 0 ? (
             <>
               <div className="d-flex justify-content-between">
@@ -99,6 +100,18 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     text={row.title}
                     className={cx("text-black", mobile && "pl-4")}
                   />
+                  <Link
+                    className="ml-5 d-flex align-items-center discover-all-link"
+                    bold
+                    href={`discovery/${row.slug}`}
+                    text="Discover all"
+                  >
+                    <Caret
+                      size={12}
+                      color="currentColor"
+                      className="rotate-270 ml-2"
+                    />
+                  </Link>
 
                   {!!row.badge && discoveryBadge(row)}
                 </div>
