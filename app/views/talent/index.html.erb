@@ -3,22 +3,22 @@
     <div class="secondary-content">
       <%= react_component("TalentPage",
         props: {
-          talents: @talents.map { |talent|
+           talents: @talents.map { |talent|
             {
-              id: talent.id,
-              profilePictureUrl: talent.profile_picture_url,
-              occupation: talent.occupation,
-              headline: talent.headline,
+              id: talent["id"],
+              profilePictureUrl: talent["profile_picture_url"],
+              occupation: talent["occupation"],
+              headline: talent["headline"],
               token: {
-                ticker: talent.token.ticker,
-                contractId: talent.token.contract_id
+                ticker: talent["token"]["ticker"],
+                contractId: talent["token"]["contract_id"]
               },
               user: {
-                username: talent.user.username,
-                name: talent.user.display_name || talent.user.username
+                username: talent["user"]["username"],
+                name: talent["user"]["display_name"] || talent["user"]["username"]
               },
-              isFollowing: current_user.following.where(user_id: talent.user_id).exists?,
-              userId: talent.user_id
+              isFollowing: talent['is_following'],
+              userId: talent["user_id"]
             }
           }
         },

@@ -28,7 +28,7 @@ class DiscoveryController < ApplicationController
     @discovery_rows = DiscoveryRowBlueprint.render_as_json(
       discovery_rows,
       view: :normal,
-      current_user: current_user
+      current_user_watchlist: current_user_watchlist
     )
     marketing_articles = MarketingArticle.all.order(created_at: :desc).limit(3)
     @marketing_articles = MarketingArticleBlueprint.render_as_json(marketing_articles, view: :normal)
@@ -40,8 +40,8 @@ class DiscoveryController < ApplicationController
     service = Talents::Search.new(filter_params: filter_params.to_h, discovery_row: discovery_row)
     talents = service.call
 
-    @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row, current_user: current_user)
-    @talents = TalentBlueprint.render_as_json(talents.includes(:user, :token), view: :normal, current_user: current_user)
+    @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row)
+    @talents = TalentBlueprint.render_as_json(talents.includes(:user, :token), view: :normal, current_user_watchlist: current_user_watchlist)
 
     respond_to do |format|
       format.html
