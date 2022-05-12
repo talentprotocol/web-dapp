@@ -13,12 +13,12 @@ const Tabs = ({ changeTab, activeTab }) => {
   return (
     <div className="talent-table-tabs d-flex flex-row align-items-center overflow-x-scroll hide-scrollbar">
       <div
-        onClick={() => changeTab("race")}
-        className={`text-no-wrap talent-table-tab ml-4 ml-lg-0${
-          activeTab == "race" ? " active-talent-table-tab" : ""
+        onClick={() => changeTab("quests")}
+        className={`d-flex align-items-center text-no-wrap talent-table-tab ml-4 ml-lg-0${
+          activeTab == "quests" ? " active-talent-table-tab" : ""
         }`}
       >
-        Referral Race
+        Quests
       </div>
       <div
         onClick={() => changeTab("talent")}
@@ -29,15 +29,12 @@ const Tabs = ({ changeTab, activeTab }) => {
         Talent Invites
       </div>
       <div
-        onClick={() => changeTab("quests")}
-        className={`d-flex align-items-center text-no-wrap talent-table-tab${
-          activeTab == "quests" ? " active-talent-table-tab" : ""
+        onClick={() => changeTab("race")}
+        className={`text-no-wrap talent-table-tab${
+          activeTab == "race" ? " active-talent-table-tab" : ""
         }`}
       >
-        Quests
-        <Tag className="bg-primary permanent-text-white cursor-pointer ml-1">
-          <P3 className="current-color" bold text="New" />
-        </Tag>
+        Referral Race
       </div>
     </div>
   );
@@ -59,7 +56,7 @@ const Rewards = ({
   const { isTalent, isEligible } = user;
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
-  const [activeTab, setTab] = useState("race");
+  const [activeTab, setTab] = useState("quests");
   const [questId, setQuestId] = useState(null);
 
   const changeTab = (tab) => {
@@ -76,7 +73,7 @@ const Rewards = ({
       window.history.replaceState(
         {},
         document.title,
-        `${url.pathname}?tab=race`
+        `${url.pathname}?tab=quests`
       );
     }
   }, [searchParams]);

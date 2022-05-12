@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import currency from "currency.js";
 
-import { H3, H5, P1, P2, P3 } from "src/components/design_system/typography";
-import Tag from "src/components/design_system/tag";
+import { H3, H5, P1, P2 } from "src/components/design_system/typography";
+import Tooltip from "src/components/design_system/tooltip";
+import { Help } from "src/components/icons";
 
 const sumRewardAmounts = (total, reward) => total + reward.amount;
 
@@ -17,9 +18,6 @@ const RewardsHeader = ({ rewards }) => {
 
   useEffect(() => {
     const total = rewards.reduce(sumRewardAmounts, 0);
-    const referral_race = rewards
-      .filter((item) => item.category == "race")
-      .reduce(sumRewardAmounts, 0);
     const talent_invites = rewards
       .filter((item) => item.category == "talent_invite")
       .reduce(sumRewardAmounts, 0);
@@ -27,12 +25,11 @@ const RewardsHeader = ({ rewards }) => {
       .filter((item) => item.category == "quest")
       .reduce(sumRewardAmounts, 0);
     const others = rewards
-      .filter((item) => item.category == "other")
+      .filter((item) => item.category == "other" || item.category == "race")
       .reduce(sumRewardAmounts, 0);
 
     setUserRewards({
       total,
-      referral_race,
       talent_invites,
       quests,
       others,
@@ -52,25 +49,30 @@ const RewardsHeader = ({ rewards }) => {
           <P2 bold>Total Earnings</P2>
           <H5 bold>{amountToTal(userRewards.total)}</H5>
         </div>
+
         <div className="talent-rewards-header-item px-4 pt-4 pb-3">
-          <P2>Referral Race Earnings</P2>
-          <P2 className="text-black">
-            {amountToTal(userRewards.referral_race)}
-          </P2>
+          <P2>Quest Earnings</P2>
+          <P2 className="text-black">{amountToTal(userRewards.quests)}</P2>
         </div>
+
         <div className="talent-rewards-header-item px-4 pb-3">
           <P2>Talent Invites Earnings</P2>
           <P2 className="text-black">
             {amountToTal(userRewards.talent_invites)}
           </P2>
         </div>
-        <div className="talent-rewards-header-item px-4 pb-3">
-          <P2>Others</P2>
-          <P2 className="text-black">{amountToTal(userRewards.others)}</P2>
-        </div>
         <div className="talent-rewards-header-item px-4 pb-4">
-          <P2>Quest Earnings</P2>
-          <P2 className="text-black">{amountToTal(userRewards.quests)}</P2>
+          <Tooltip
+            body="Referral Races, bounties, etc."
+            popOverAccessibilityId={"others_rewards"}
+            placement="top"
+          >
+            <div className="cursor-pointer d-flex align-items-center">
+              <P2 className="mr-1">Others</P2>
+              <Help color="currentColor" />
+            </div>
+          </Tooltip>
+          <P2 className="text-black">{amountToTal(userRewards.others)}</P2>
         </div>
       </div>
     </div>

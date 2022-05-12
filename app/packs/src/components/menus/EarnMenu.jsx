@@ -50,13 +50,13 @@ const EarnMenu = () => {
 
       <Dropdown.Menu className="user-menu-dropdown">
         <Dropdown.Item
-          key="races-dropdown-theme"
+          key="quests-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
-          href="/earn?tab=race"
+          href="/earn?tab=quests"
         >
-          <Rocket pathClassName="icon-dropdown-item" />
-          <P2 bold text="Referral Race" className="text-black ml-3" />
-        </Dropdown.Item>
+          <Quest pathClassName="icon-dropdown-item" />
+          <P2 bold text="Quests" className="text-black ml-3" />
+        </Dropdown.Item>{" "}
         <Dropdown.Item
           key="invites-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
@@ -66,15 +66,12 @@ const EarnMenu = () => {
           <P2 bold text="Talent Invites" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Item
-          key="quests-dropdown-theme"
+          key="races-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
-          href="/earn?tab=quests"
+          href="/earn?tab=race"
         >
-          <Quest pathClassName="icon-dropdown-item" />
-          <P2 bold text="Quests" className="text-black ml-3 mr-1" />
-          <Tag className="bg-primary permanent-text-white cursor-pointer">
-            <P3 className="current-color" bold text="New" />
-          </Tag>
+          <Rocket pathClassName="icon-dropdown-item" />
+          <P2 bold text="Referral Race" className="text-black ml-3" />
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
