@@ -18,7 +18,7 @@ RSpec.shared_examples "a discovery row get endpoint request" do
     let!(:discovery_row) { create :discovery_row }
     let(:slug) { discovery_row.slug }
 
-    fit "returns a successful response" do
+    it "returns a successful response" do
       get_discovery_row
 
       expect(response).to have_http_status(:ok)
@@ -36,8 +36,8 @@ RSpec.shared_examples "a discovery row get endpoint request" do
     it "assigns the correct objects to be passed to the view" do
       get_discovery_row
 
-      expect(assigns(:discovery_row)).to eq(discovery_row)
-      expect(assigns(:talents)).to eq(discovery_row)
+      expect(assigns(:discovery_row)).to eq(DiscoveryRowBlueprint.render_as_json(discovery_row))
+      expect(assigns(:talents)).to eq(TalentBlueprint.render_as_json([talent_one, talent_two], view: :normal))
     end
   end
 

@@ -125,7 +125,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
       </div>
       <TalentOptions
         listModeOnly={listModeOnly}
-        discoveryRowId={discoveryRow.id}
+        searchUrl={`/discovery/${discoveryRow.slug}`}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}

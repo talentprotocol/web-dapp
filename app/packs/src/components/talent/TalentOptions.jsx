@@ -13,7 +13,7 @@ import cx from "classnames";
 
 const TalentOptions = ({
   changeTab,
-  discoveryRowId,
+  searchUrl,
   listModeOnly,
   setListModeOnly,
   setLocalTalents,
@@ -30,9 +30,8 @@ const TalentOptions = ({
 
     const params = new URLSearchParams(document.location.search);
     params.set(filterType, option);
-    params.set("discovery_row_id", discoveryRowId);
 
-    get(`/api/v1/talent?${params.toString()}`).then((response) => {
+    get(`${searchUrl}?${params.toString()}`).then((response) => {
       const talents = response.map((talent) => camelCaseObject(talent));
 
       if (option === "Trending") {

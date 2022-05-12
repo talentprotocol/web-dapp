@@ -157,6 +157,7 @@ const TalentPage = ({ talents }) => {
       <TalentOptions
         changeTab={changeTab}
         listModeOnly={listModeOnly}
+        searchUrl="/api/v1/talent"
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}

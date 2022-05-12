@@ -41,8 +41,17 @@ class DiscoveryController < ApplicationController
     talents = service.call
 
     @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row, current_user: current_user)
-
     @talents = TalentBlueprint.render_as_json(talents.includes(:user, :token), view: :normal, current_user: current_user)
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render(
+          json: @talents,
+          status: :ok
+        )
+      }
+    end
   end
 
   private
