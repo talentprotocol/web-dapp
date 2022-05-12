@@ -8,7 +8,7 @@ namespace :quests do
 
         talent_invite = user.invites.find_by(talent_invite: true)
         invitees_token_count = talent_invite.present? ? talent_invite.invitees.joins(talent: [:token]).where(tokens: {deployed: true}).count : 0
-        
+
         if user.wallet_id
           Tasks::Update.new.call(type: "Tasks::ConnectWallet", user: user, normal_update: false)
 
