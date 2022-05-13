@@ -40,14 +40,15 @@ const Tabs = ({ changeTab, activeTab }) => {
 
 const Rewards = ({
   user,
-  race,
-  allRaces,
-  rewards,
+  racesCount,
+  userRewards,
+  raceRewards,
   talentInvites,
   talentList,
   supporterInvites,
-  leaderboardResults,
   quests,
+  raceRegisteredUsersCount,
+  usersThatBoughtTokensCount,
 }) => {
   const changeURL = urlStore((state) => state.changeURL);
 
@@ -85,16 +86,15 @@ const Rewards = ({
 
   return (
     <>
-      <RewardsHeader rewards={rewards} />
+      <RewardsHeader rewards={userRewards} />
       <Tabs activeTab={activeTab} changeTab={changeTab} />
       {activeTab == "race" && (
         <ReferralRace
-          race={race}
-          allRaces={allRaces}
-          supporterInvites={supporterInvites}
-          currentRaceResults={user.currentRaceResults}
+          raceRewards={raceRewards}
+          raceRegisteredUsersCount={raceRegisteredUsersCount}
+          usersThatBoughtTokensCount={usersThatBoughtTokensCount}
+          racesCount={racesCount}
           isEligible={isEligible}
-          leaderboardResults={leaderboardResults}
           isTalent={isTalent}
         />
       )}
@@ -103,9 +103,7 @@ const Rewards = ({
           username={user.username}
           talentInvites={talentInvites}
           supporterInvites={supporterInvites}
-          rewards={rewards}
           talentList={talentList}
-          leaderboardResults={leaderboardResults}
           isTalent={isTalent}
         />
       )}

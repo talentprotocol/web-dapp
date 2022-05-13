@@ -8,14 +8,7 @@ import {
   compareNumbers,
   compareDates,
 } from "src/utils/compareHelpers";
-import {
-  P1,
-  P2,
-  P3,
-  H3,
-  H4,
-  H5,
-} from "src/components/design_system/typography";
+import { P1, P2, P3, H4, H5 } from "src/components/design_system/typography";
 import { Copy, Help } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
@@ -415,11 +408,14 @@ const Invites = ({
           "Invite a friend to join Talent Protocol and support high-potential talent."
         }
         popOverAccessibilityId={"talent_invites"}
-        placement="left"
+        placement="top"
       >
-        <div className="mx-4 mx-lg-0 cursor-pointer d-flex align-items-center">
-          <H3 bold className="mr-2" text="Supporter Invite"></H3>
-          <Help color="currentColor" />
+        <div
+          className="mx-4 mx-lg-0 d-flex align-items-center"
+          style={{ width: "fit-content" }}
+        >
+          <H4 bold className="mr-2 d-inline" text="Supporter Invite"></H4>
+          <Help color="currentColor" className="cursor-pointer" />
         </div>
       </Tooltip>
       <Overview inviteType="Supporter" invites={supporterInvites} />
@@ -430,11 +426,14 @@ const Invites = ({
               "Invite a friend to launch a token. They'll skip the application process and become able to launch their talent token. After launching it, they'll receive $200 and you'll earn 250 $TAL for the first 5 who do it. After that, you'll get 100$TAL for each friend that you invite and that launches a token."
             }
             popOverAccessibilityId={"talent_invites"}
-            placement="left"
+            placement="top"
           >
-            <div className="mx-4 mx-lg-0 mt-7 cursor-pointer d-flex align-items-center">
-              <H3 bold className="mr-2" text="Talent Invite"></H3>
-              <Help color="currentColor" />
+            <div
+              className="mx-4 mx-lg-0 mt-7 d-flex align-items-center"
+              style={{ width: "fit-content" }}
+            >
+              <H4 bold className="mr-2 d-inline" text="Talent Invite"></H4>
+              <Help color="currentColor" className="cursor-pointer" />
             </div>
           </Tooltip>
           <Overview inviteType="Talent" invites={talentInvites} />

@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 import { urlStore } from "src/contexts/state";
 
 import Dropdown from "react-bootstrap/Dropdown";
-import { P2, P3 } from "src/components/design_system/typography";
-import Tag from "src/components/design_system/tag";
+import { P2 } from "src/components/design_system/typography";
 import Tab from "src/components/design_system/tab";
 import { ArrowFill, Rocket, Invite, Quest } from "src/components/icons";
 
@@ -56,7 +55,7 @@ const EarnMenu = () => {
         >
           <Quest pathClassName="icon-dropdown-item" />
           <P2 bold text="Quests" className="text-black ml-3" />
-        </Dropdown.Item>{" "}
+        </Dropdown.Item>
         <Dropdown.Item
           key="invites-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
