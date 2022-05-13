@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { urlStore } from "src/contexts/state";
 
-import { P3 } from "src/components/design_system/typography";
-import Tag from "src/components/design_system/tag";
 import ReferralRace from "./ReferralRace";
 import RewardsHeader from "./RewardsHeader";
-import TalentInvites from "./TalentInvites";
+import Invites from "./Invites";
 import Quests from "./quests";
 
 const Tabs = ({ changeTab, activeTab }) => {
@@ -26,7 +24,7 @@ const Tabs = ({ changeTab, activeTab }) => {
           activeTab == "talent" ? " active-talent-table-tab" : ""
         }`}
       >
-        Talent Invites
+        Invites
       </div>
       <div
         onClick={() => changeTab("race")}
@@ -101,9 +99,10 @@ const Rewards = ({
         />
       )}
       {activeTab == "talent" && (
-        <TalentInvites
+        <Invites
           username={user.username}
-          invites={talentInvites}
+          talentInvites={talentInvites}
+          supporterInvites={supporterInvites}
           rewards={rewards}
           talentList={talentList}
           leaderboardResults={leaderboardResults}

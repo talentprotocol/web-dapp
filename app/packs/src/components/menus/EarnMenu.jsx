@@ -63,7 +63,7 @@ const EarnMenu = () => {
           href="/earn?tab=talent"
         >
           <Invite pathClassName="icon-dropdown-item" />
-          <P2 bold text="Talent Invites" className="text-black ml-3" />
+          <P2 bold text="Invites" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Item
           key="races-dropdown-theme"

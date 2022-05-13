@@ -108,7 +108,7 @@ const Footer = () => {
             <SocialRow className="ml-lg-0" profile={profile} />
           </div>
         </div>
-        <div class="my-5 mt-lg-0 px-2 px-lg-0">
+        <div className="my-5 mt-lg-0 px-2 px-lg-0">
           <Divider />
           <div className="mt-4 d-flex flex-lg-row flex-column">
             <P2
