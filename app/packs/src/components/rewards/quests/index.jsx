@@ -23,7 +23,7 @@ const Quests = ({ quests, questId, setQuestId }) => {
   });
 
   return (
-    <div className="w-100 mt-6 mt-lg-7 pb-6">
+    <div className="w-100 mt-6 mt-lg-7 pb-6 px-4 px-lg-0">
       <div className="mb-6 mb-lg-6">
         <H4 bold text="Quests" className="text-black mb-3" />
         <P1

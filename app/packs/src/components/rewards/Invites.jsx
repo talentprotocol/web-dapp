@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import currency from "currency.js";
 import { ethers } from "ethers";
 import cx from "classnames";
 import dayjs from "dayjs";
@@ -9,15 +8,8 @@ import {
   compareNumbers,
   compareDates,
 } from "src/utils/compareHelpers";
-import {
-  P1,
-  P2,
-  P3,
-  H3,
-  H4,
-  H5,
-} from "src/components/design_system/typography";
-import { Copy } from "src/components/icons";
+import { P1, P2, P3, H4, H5 } from "src/components/design_system/typography";
+import { Copy, Help } from "src/components/icons";
 import Button from "src/components/design_system/button";
 import Tooltip from "src/components/design_system/tooltip";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -26,7 +18,7 @@ import Caption from "src/components/design_system/typography/caption";
 import Tag from "src/components/design_system/tag";
 import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
-const InviteHeader = ({ isEligible, isTalent, username }) => {
+const InviteHeader = ({ isTalent, username }) => {
   const redirectToLaunchToken = () => {
     if (isTalent) {
       window.location.href = `u/${username}/edit_profile`;
@@ -35,37 +27,9 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
     }
   };
 
-  if (!isEligible) {
-    return (
-      <div className="race-header-row p-4 p-lg-6 mx-4 mx-lg-0 overview-section">
-        <div className="d-flex flex-column col-lg-6">
-          <H4 className="mb-3 d-flex flex-row align-items-center" bold>
-            Talent Invite
-          </H4>
-          <P1>
-            This is a special type of invite that allows you to refer a talented
-            friend to launch a token immediately. They skip the traditional
-            application process and receive $200, while you earn 250 $TAL per
-            talent invited. To unlock Talent Invites you must have launched a
-            talent token.
-          </P1>
-        </div>
-        <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
-          <Button
-            type="primary-default"
-            size="big"
-            onClick={redirectToLaunchToken}
-          >
-            Launch a Talent Token
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="race-header-row">
-      <div className="d-flex flex-column col-lg-5 px-4 px-lg-0">
+    <div className="race-header-row p-4 p-lg-6 mb-7 mx-4 mx-lg-0 overview-section">
+      <div className="d-flex flex-column col-lg-6">
         <H4 className="mb-3 d-flex flex-row align-items-center" bold>
           Talent Invite
         </H4>
@@ -73,14 +37,24 @@ const InviteHeader = ({ isEligible, isTalent, username }) => {
           This is a special type of invite that allows you to refer a talented
           friend to launch a token immediately. They skip the traditional
           application process and receive $200, while you earn 250 $TAL per
-          talent invited.
+          talent invited. To unlock Talent Invites you must have launched a 
+          talent token.
         </P1>
+      </div>
+      <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
+        <Button
+          type="primary-default"
+          size="big"
+          onClick={redirectToLaunchToken}
+        >
+          Launch a Talent Token
+        </Button>
       </div>
     </div>
   );
 };
 
-const Overview = ({ talentInvites, rewards }) => {
+const Overview = ({ inviteType, invites }) => {
   const [invite, setInvite] = useState({
     code: "N/A",
     uses: 0,
@@ -88,15 +62,13 @@ const Overview = ({ talentInvites, rewards }) => {
   });
 
   useEffect(() => {
-    if (talentInvites.length == 0) {
+    if (invites.length == 0) {
       return;
     }
 
-    const uses = talentInvites.reduce((sum, invite) => sum + invite.uses, 0);
+    const uses = invites.reduce((sum, invite) => sum + invite.uses, 0);
 
-    const unlimitedCodeInvite = talentInvites.filter(
-      (inv) => inv.max_uses === null
-    );
+    const unlimitedCodeInvite = invites.filter((inv) => inv.max_uses === null);
     if (unlimitedCodeInvite.length > 0) {
       setInvite({
         code: unlimitedCodeInvite[0].code,
@@ -107,17 +79,14 @@ const Overview = ({ talentInvites, rewards }) => {
       return;
     }
 
-    const max_uses = talentInvites.reduce(
-      (sum, invite) => sum + invite.max_uses,
-      0
-    );
+    const max_uses = invites.reduce((sum, invite) => sum + invite.max_uses, 0);
 
     setInvite({
-      code: talentInvites[0].code,
+      code: invites[0].code,
       uses,
       usesLeft: max_uses - uses,
     });
-  }, [talentInvites]);
+  }, [invites]);
 
   const getInviteLink = (full) => {
     if (invite.code == "N/A") {
@@ -139,16 +108,39 @@ const Overview = ({ talentInvites, rewards }) => {
 
   const copyLink = () => navigator.clipboard.writeText(getInviteLink(true));
 
-  const amountToTal = (amount) => `${currency(amount).dollars()} $TAL`;
-
   return (
-    <div className="d-flex flex-column flex-lg-row justify-content-lg-between mt-6 mt-lg-7">
-      <div className="lg-w-49 mx-4 mx-lg-0 px-0 d-flex flex-column overview-section rounded-sm mb-6 mb-lg-7">
-        <P1 bold className="m-4 text-black">
-          Talent Invite Link
-        </P1>
-        <div className="d-flex flex-column mx-4 flex-lg-row justify-content-lg-between align-items-lg-center">
-          <P3 className="mb-0">Referral Code</P3>
+    <div className="d-flex flex-column mt-5">
+      <div className="mx-4 mx-lg-0 py-6 d-flex flex-column flex-lg-row justify-content-between overview-section rounded-sm">
+        <div className="d-flex flex-column mx-4 mb-4 mb-lg-0">
+          <div className="d-flex flex-column">
+            <P3 className="mb-2">{`${inviteType} Invites Used`}</P3>
+            <H5 bold>{invite.uses}</H5>
+          </div>
+        </div>
+        <div className="d-flex flex-column mx-4 mb-4 mb-lg-0">
+          <div className="d-flex flex-column">
+            {inviteType == "Talent" ? (
+              <Tooltip
+                body={
+                  "You have 1 invite available. As soon as your friend signs up and launches their token, you'll get a new invite to send and a new opportunity to earn 250 $TAL."
+                }
+                popOverAccessibilityId={"talent_invites_available"}
+                placement="top"
+              >
+                <div className="mb-2 cursor-pointer d-flex align-items-center">
+                  <P3 className="mr-2">{`${inviteType} Invites Available`}</P3>
+                  <Help color="currentColor" />
+                </div>
+              </Tooltip>
+            ) : (
+              <P3 className="mb-2">{`${inviteType} Invites Available`}</P3>
+            )}
+
+            <H5 bold>{invite.usesLeft}</H5>
+          </div>
+        </div>
+        <div className="d-flex flex-column mx-4 mb-4 mb-lg-0">
+          <P3 className="mb-2">Referral Code</P3>
           <div className="d-flex flex-row align-items-center justify-content-between justify-content-lg-end">
             <P2 className="text-black">{invite.code}</P2>
             <Tooltip
@@ -166,8 +158,8 @@ const Overview = ({ talentInvites, rewards }) => {
             </Tooltip>
           </div>
         </div>
-        <div className="d-flex flex-column mx-4 mb-4 flex-lg-row justify-content-lg-between align-items-lg-center mt-2">
-          <P3 className="mb-0">Referral Link</P3>
+        <div className="d-flex flex-column mx-4 mb-4 mb-lg-0">
+          <P3 className="mb-2">Referral Link</P3>
           <div className="d-flex flex-row align-items-center justify-content-between justify-content-lg-end">
             <P2 className="text-black">{getInviteLink(false)}</P2>
             <Tooltip
@@ -183,25 +175,6 @@ const Overview = ({ talentInvites, rewards }) => {
                 <Copy color="currentColor" />
               </Button>
             </Tooltip>
-          </div>
-        </div>
-      </div>
-      <div className="lg-w-49 mx-4 mx-lg-0 px-0 d-flex flex-column justify-content-between overview-section rounded-sm pb-4  mb-6 mb-lg-7">
-        <P1 bold className="m-4 text-black">
-          Overview
-        </P1>
-        <div className="d-flex flex-column flex-lg-row mx-4 justify-content-between">
-          <div className="d-flex flex-column mb-3 mb-lg-0">
-            <P3>Total Earnigs</P3>
-            <H5 bold>{amountToTal(rewards)}</H5>
-          </div>
-          <div className="d-flex flex-column mb-3 mb-lg-0">
-            <P3>Talent Invites Used</P3>
-            <H5 bold>{invite.uses}</H5>
-          </div>
-          <div className="d-flex flex-column mb-3 mb-lg-0">
-            <P3>Talent Invites Available</P3>
-            <H5 bold>{invite.usesLeft}</H5>
           </div>
         </div>
       </div>
@@ -294,7 +267,7 @@ const TalentTable = ({ talentList }) => {
   return (
     <>
       <H4 bold className="px-4 px-lg-0 mt-7">
-        My Referrals
+        Talent Referrals
       </H4>
       <Table mode={"dark"} className="px-4 mb-5 mt-4">
         <Table.Head>
@@ -410,42 +383,65 @@ const TalentTable = ({ talentList }) => {
           ))}
         </Table.Body>
       </Table>
+      <P3 className="text-center">You’ve reached the end of the list</P3>
     </>
   );
 };
 
-const TalentInvites = ({
-  invites,
-  rewards,
+const Invites = ({
+  talentInvites,
+  supporterInvites,
   talentList,
   isTalent,
-  leaderboardResults,
+  username,
 }) => {
-  const [userRewards, setUserRewards] = useState({
-    talent_invites: 0,
-  });
-
-  useEffect(() => {
-    const talent_invites = rewards
-      .filter((item) => item.category == "talent_invite")
-      .reduce((sum, item) => sum + item.amount, 0);
-
-    setUserRewards({
-      talent_invites,
-    });
-  }, [rewards]);
+  const talentInvitesEligible = () =>
+    !!talentInvites && talentInvites.length > 0;
 
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
-      <InviteHeader
-        isEligible={!!invites && invites.length > 0}
-        isTalent={isTalent}
-        username={leaderboardResults.userStats.username}
-      />
-      <Overview talentInvites={invites} rewards={userRewards.talent_invites} />
-      <TalentTable talentList={talentList} />
+      {!talentInvitesEligible() && (
+        <InviteHeader isTalent={isTalent} username={username} />
+      )}
+      <Tooltip
+        body={
+          "Invite a friend to join Talent Protocol and support high-potential talent."
+        }
+        popOverAccessibilityId={"talent_invites"}
+        placement="top"
+      >
+        <div
+          className="mx-4 mx-lg-0 d-flex align-items-center"
+          style={{ width: "fit-content" }}
+        >
+          <H4 bold className="mr-2 d-inline" text="Supporter Invite"></H4>
+          <Help color="currentColor" className="cursor-pointer" />
+        </div>
+      </Tooltip>
+      <Overview inviteType="Supporter" invites={supporterInvites} />
+      {talentInvitesEligible() && (
+        <>
+          <Tooltip
+            body={
+              "Invite a friend to launch a token. They'll skip the application process and become able to launch their talent token. After launching it, they'll receive $200 and you'll earn 250 $TAL for the first 5 who do it. After that, you'll get 100$TAL for each friend that you invite and that launches a token."
+            }
+            popOverAccessibilityId={"talent_invites"}
+            placement="top"
+          >
+            <div
+              className="mx-4 mx-lg-0 mt-7 d-flex align-items-center"
+              style={{ width: "fit-content" }}
+            >
+              <H4 bold className="mr-2 d-inline" text="Talent Invite"></H4>
+              <Help color="currentColor" className="cursor-pointer" />
+            </div>
+          </Tooltip>
+          <Overview inviteType="Talent" invites={talentInvites} />
+          <TalentTable talentList={talentList} />
+        </>
+      )}
     </div>
   );
 };
 
-export default TalentInvites;
+export default Invites;

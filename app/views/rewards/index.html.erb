@@ -6,14 +6,15 @@
           user: {
             isTalent: current_user.talent.present?,
             isEligible: current_user.wallet_id.present?,
-            currentRaceResults: @race_results[:userStats][:invites],
+            username: current_user.username
           },
           talentInvites: @talent_invites,
           supporterInvites: @supporter_invites,
-          race: @race,
-          allRaces: @races,
-          rewards: @rewards,
-          leaderboardResults: @race_results,
+          racesCount: @races_count,
+          userRewards: @user_rewards,
+          raceRewards: @race_rewards,
+          raceRegisteredUsersCount: @race_registered_users_count,
+          usersThatBoughtTokensCount: @users_that_bought_tokens_count,
           talentList: @talent_list,
           quests: @quests
         },

@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 import { urlStore } from "src/contexts/state";
 
 import Dropdown from "react-bootstrap/Dropdown";
-import { P2, P3 } from "src/components/design_system/typography";
-import Tag from "src/components/design_system/tag";
+import { P2 } from "src/components/design_system/typography";
 import Tab from "src/components/design_system/tab";
 import { ArrowFill, Rocket, Invite, Quest } from "src/components/icons";
 
@@ -50,12 +49,12 @@ const EarnMenu = () => {
 
       <Dropdown.Menu className="user-menu-dropdown">
         <Dropdown.Item
-          key="races-dropdown-theme"
+          key="quests-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
-          href="/earn?tab=race"
+          href="/earn?tab=quests"
         >
-          <Rocket pathClassName="icon-dropdown-item" />
-          <P2 bold text="Referral Race" className="text-black ml-3" />
+          <Quest pathClassName="icon-dropdown-item" />
+          <P2 bold text="Quests" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Item
           key="invites-dropdown-theme"
@@ -63,18 +62,15 @@ const EarnMenu = () => {
           href="/earn?tab=talent"
         >
           <Invite pathClassName="icon-dropdown-item" />
-          <P2 bold text="Talent Invites" className="text-black ml-3" />
+          <P2 bold text="Invites" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Item
-          key="quests-dropdown-theme"
+          key="races-dropdown-theme"
           className="text-black d-flex flex-row align-items-center user-menu-dropdown-item"
-          href="/earn?tab=quests"
+          href="/earn?tab=race"
         >
-          <Quest pathClassName="icon-dropdown-item" />
-          <P2 bold text="Quests" className="text-black ml-3 mr-1" />
-          <Tag className="bg-primary permanent-text-white cursor-pointer">
-            <P3 className="current-color" bold text="New" />
-          </Tag>
+          <Rocket pathClassName="icon-dropdown-item" />
+          <P2 bold text="Referral Race" className="text-black ml-3" />
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
