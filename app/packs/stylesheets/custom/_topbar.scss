@@ -37,11 +37,32 @@
   margin-left: auto;
 }
 
+.footer-container {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  height: $footer-height;
+}
+
+.footer {
+  max-width: 1240px;
+  width: 100%;
+  padding-right: 40px;
+  padding-left: 40px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 @media (max-width: 992px) {
   .navbar {
     padding-right: 24px;
     padding-left: 24px;
     padding-top: 20px;
     padding-bottom: 20px;
+  }
+
+  .footer-container {
+    height: $footer-mobile-height;
   }
 }

@@ -1,6 +1,7 @@
 @import "fonts";
 @import "bootstrap/overrides";
 @import "libs";
+@import "sizes";
 @import "custom/button";
 @import "custom/slider";
 @import "custom/tooltip";
@@ -41,7 +42,7 @@
   background-clip: padding-box;
 }
 
-.dark-body ::-webkit-scrollbar-thumb {
+.dark-body::-webkit-scrollbar-thumb {
   background-color: $surface-hover-02;
 }
 
@@ -53,6 +54,8 @@ body {
   -webkit-font-smoothing: antialiased;
   margin: 0;
   height: 100%;
+  min-height: 100vh;
+  overflow-y: overlay;
 }
 
 .dark-body {

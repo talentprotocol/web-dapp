@@ -33,11 +33,25 @@ export const BUY_TALENT_TOKENS =
 export const PROMOTE_YOUR_TOKENS =
   "https://www.notion.so/talentprotocol/Promote-Your-Token-on-Social-Media-e629939ed41c48a99c4b28006b64bd94";
 
+export const ABOUT =
+  "https://talentprotocol.notion.site/Talent-Protocol-101-26a6c4b9f8284e5e8f55603a38629e76";
+
+export const PARTNERSHIPS =
+  "https://talentprotocol.notion.site/Official-Partnerships-8569a066554c41b197e113d977932f9f";
+
+export const BLOG = "https://blog.talentprotocol.com/";
+
+export const FAQ = "https://help.talentprotocol.com/";
+
 export const TALENT_PROTOCOL_DISCORD = "https://discord.gg/talentprotocol";
 
 export const TALENT_PROTOCOL_TWITTER = "https://twitter.com/talentprotocol";
 
 export const TALENT_PROTOCOL_WEBSITE = "https://www.talentprotocol.com";
+
+export const TALENT_PROTOCOL_GITHUB = "https://github.com/talentprotocol";
+
+export const TALENT_PROTOCOL_TELEGRAM = "https://t.me/talentprotocol";
 
 export const TALENT_APPLICATION_FORM =
   "https://talentprotocol.typeform.com/waitlist";

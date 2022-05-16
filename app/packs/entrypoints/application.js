@@ -37,6 +37,7 @@ import LoggedOutTopBar from "src/components/top_bar/LoggedOutTopBar";
 import SupporterProfile from "src/components/supporters/show/Profile";
 import Rewards from "src/components/rewards";
 import QuestShow from "src/components/rewards/quests/show";
+import Footer from "src/components/design_system/footer";
 
 import "stylesheets/application.scss";
 
@@ -67,6 +68,7 @@ ReactOnRails.register({
   SupporterProfile,
   Rewards,
   QuestShow,
+  Footer,
 });
 
 Rails.start();

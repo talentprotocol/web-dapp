@@ -24,17 +24,22 @@
 
   <% if current_user.present? %>
     <body class=<%= current_user&.active_theme || "light-body" %> id="user-logged">
-      <% if !current_user.welcome_pop_up %>
-        <%=
-          react_component("WelcomePopup",
-          props: {
-            talent: current_user.talent?,
-            user_id: current_user.id
-          },
-          prerender: false)%>
-      <% end %>
-      <%= render "shared/navbar" %>
-      <%= yield %>
+      <div class="page-container">
+        <div class="content-wrapper">
+          <% if !current_user.welcome_pop_up %>
+            <%=
+              react_component("WelcomePopup",
+              props: {
+                talent: current_user.talent?,
+                user_id: current_user.id
+              },
+              prerender: false)%>
+          <% end %>
+          <%= render "shared/navbar" %>
+          <%= yield %>
+        </div>
+        <%= render "shared/footer" %>
+      </div>
     </body>
   <% else %>
     <body class="light-body" id="user-not-logged">

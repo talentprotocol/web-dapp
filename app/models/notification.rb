@@ -14,4 +14,8 @@ class Notification < ApplicationRecord
   def mark_as_emailed
     update_column(:emailed_at, Time.current)
   end
+
+  def unread_for_more_than_a_week?
+    unread? && created_at <= (Time.current - 7.days)
+  end
 end
