@@ -4,6 +4,6 @@ class RewardBlueprint < Blueprinter::Base
   view :normal do
     fields :amount, :created_at
 
-    association :user, blueprint: UserBlueprint, view: :normal
+    association :user, blueprint: UserBlueprint, view: :with_pictures
   end
 end
