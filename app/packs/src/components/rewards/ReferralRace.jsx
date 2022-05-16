@@ -36,8 +36,9 @@ const RaceHeader = ({ isEligible, isTalent, username }) => {
             </Tag>
           </H4>
           <P1>
-            We ran a race every week in order to reward users that actively
-            invited others to join Talent Protocol
+            From the 4th of April to the 15th of May we ran a different race
+            every week in order to reward users that helped Talent Protocol
+            grow, you can check the results below.
           </P1>
         </div>
         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
@@ -73,8 +74,9 @@ const RaceHeader = ({ isEligible, isTalent, username }) => {
           </Tag>
         </H4>
         <P1>
-          We ran a race every week in order to reward users that actively
-          invited others to join Talent Protocol.
+          From the 4th of April to the 15th of May we ran a different race every
+          week in order to reward users that helped Talent Protocol grow, you
+          can check the results below.
         </P1>
       </div>
     </div>
