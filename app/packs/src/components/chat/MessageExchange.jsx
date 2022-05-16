@@ -117,7 +117,7 @@ const MessageExchange = (props) => {
   };
 
   return (
-    <div className="h-100 d-flex flex-column">
+    <div className="d-flex flex-column">
       {props.smallScreen && (
         <>
           <div className="d-flex flex-row align-items-center w-100 py-2">
