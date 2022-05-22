@@ -144,7 +144,7 @@ const TalentPage = ({ talents }) => {
         progress: getProgress(totalSupply, maxSupply),
         marketCap: getMarketCap(totalSupply),
         supporterCounter: getSupporterCount(supporterCounter),
-        marketCapVariance: getMarketCapVariance(tokenDayData),
+        marketCapVariance: getMarketCapVariance(tokenDayData || []),
       })
     );
 
