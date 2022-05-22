@@ -13,6 +13,7 @@ import {
   getSupporterCount,
   getMarketCap,
   getProgress,
+  getMarketCapVariance,
 } from "src/utils/viewHelpers";
 import { compareStrings, compareNumbers } from "src/utils/compareHelpers";
 import { post, destroy } from "src/utils/requests";
@@ -130,25 +131,44 @@ const TalentPage = ({ talents }) => {
     }
 
     const newTalents = data.talentTokens.map(
-      ({ id, totalSupply, maxSupply, supporterCounter, ...rest }) => ({
+      ({
+        id,
+        totalSupply,
+        maxSupply,
+        supporterCounter,
+        tokenDayData,
+        ...rest
+      }) => ({
         ...rest,
         token: { contractId: id },
         progress: getProgress(totalSupply, maxSupply),
         marketCap: getMarketCap(totalSupply),
         supporterCounter: getSupporterCount(supporterCounter),
+        marketCapVariance: getMarketCapVariance(tokenDayData),
       })
     );
 
     setLocalTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce(
-          (result, { id, token, marketCap, supporterCounter, ...rest }) => {
+          (
+            result,
+            {
+              id,
+              token,
+              marketCap,
+              supporterCounter,
+              marketCapVariance,
+              ...rest
+            }
+          ) => {
             result[token.contractId || id] = {
               ...(result[token.contractId || id] || {}),
               id: result[token.contractId || id]?.id || id,
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
               supporterCounter: supporterCounter || "-1",
+              marketCapVariance: marketCapVariance || "-1",
               ...rest,
             };
 

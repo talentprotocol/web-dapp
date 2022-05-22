@@ -36,3 +36,20 @@ export const getProgress = (totalSupply, maxSupply) => {
     return value;
   }
 };
+
+export const getMarketCapVariance = (tokenDayData) => {
+  const supplies = tokenDayData.map((data) =>
+    parseFloat(ethers.utils.formatUnits(data.dailySupply))
+  );
+
+  const totalSupply = supplies.reduce((prev, current) => prev + current, 0);
+  const mean = totalSupply / supplies.length;
+
+  const sumForVariance = supplies.reduce(
+    (prev, current) => prev + Math.pow(current - mean, 2),
+    0
+  );
+  const variance = sumForVariance / supplies.length;
+  const marketCapVariance = parseAndCommify(variance * 0.1);
+  return marketCapVariance;
+};

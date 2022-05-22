@@ -35,6 +35,11 @@ const GET_TALENT_PORTFOLIO = gql`
       maxSupply
       marketCap
       name
+      tokenDayData(orderBy: date, orderDirection: desc, first: 30) {
+        id
+        date
+        dailySupply
+      }
     }
   }
 `;
