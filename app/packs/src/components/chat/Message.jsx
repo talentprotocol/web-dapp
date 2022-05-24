@@ -49,7 +49,7 @@ const MessageLinkified = (props) => {
     }
     e.preventDefault();
     setShowPishingModal(true);
-    setUrl(e.target.origin);
+    setUrl(e.target.href);
   };
 
   return (
