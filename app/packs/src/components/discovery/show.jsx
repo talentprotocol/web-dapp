@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { ethers } from "ethers";
+import { ArrowLeft } from "src/components/icons";
+import Button from "src/components/design_system/button";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -45,10 +47,6 @@ const DiscoveryShow = ({ discoveryRow, talents, userLoggedIn }) => {
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-
-  const changeTab = (tab) => {
-    setWatchlistOnly(tab === "Watchlist" ? true : false);
-  };
 
   const updateFollow = async (talent) => {
     const newLocalTalents = localTalents.map((currTalent) => {
@@ -144,27 +142,34 @@ const DiscoveryShow = ({ discoveryRow, talents, userLoggedIn }) => {
   }, [data, loading]);
 
   return (
-    <div className={cx("pb-6", mobile && "p-4")}>
-      <div className="mb-5">
-        <H3
-          className="text-black mb-3"
-          bold
-          text={`${discoveryRow.title} Discovery Row`}
-        />
-        <P1
-          className="text-primary-03"
-          text="Support undiscovered talent and be rewarded as they grow."
-        />
+    <div className={cx(mobile && "p-4")}>
+      <div className="talent-list-header  d-flex flex-column justify-content-center">
+        <a className="button-link mb-5" href="/">
+          <ArrowLeft color="white" size={16} />
+        </a>
+        <H3 className="text-black mb-3" bold text={discoveryRow.title} />
+        {discoveryRow.description && (
+          <P1
+            className="text-primary-03 mb-3"
+            text={discoveryRow.description}
+          />
+        )}
+        <div className="d-flex">
+          <P1
+            bold
+            className="text-black d-inline mr-2"
+            text={discoveryRow.talentsCount}
+          />
+          <P1 className="text-primary-03 d-inline" text="talents" />
+        </div>
       </div>
       <TalentOptions
-        changeTab={changeTab}
+        headerDescription={`${discoveryRow.title} Talent List`}
         listModeOnly={listModeOnly}
-        searchUrl={`/discovery/${discoveryRow.slug}`}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}
         setSortDirection={setSortDirection}
-        userLoggedIn={userLoggedIn}
       />
       {localTalents.length === 0 && (
         <div className="d-flex justify-content-center mt-6">

@@ -147,7 +147,7 @@ const TalentPage = ({ talents }) => {
 
   return (
     <div className={cx("pb-6", mobile && "p-4")}>
-      <div className="mb-5">
+      <div className="mb-5 talent-list-header d-flex flex-column justify-content-center">
         <H3 className="text-black mb-3" bold text="Explore All Talent" />
         <P1
           className="text-primary-03"

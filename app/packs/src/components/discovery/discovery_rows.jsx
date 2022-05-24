@@ -101,7 +101,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     className={cx("text-black", mobile && "pl-4")}
                   />
                   <Link
-                    className="ml-5 d-flex align-items-center discover-all-link"
+                    className="mb-2 ml-5 d-flex align-items-center discover-all-link"
                     bold
                     href={`discovery/${row.slug}`}
                     text="Discover all"
@@ -112,7 +112,6 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                       className="rotate-270 ml-2"
                     />
                   </Link>
-
                   {!!row.badge && discoveryBadge(row)}
                 </div>
                 {row.talents.length > itemsPerRow(row.talents) && (

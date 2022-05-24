@@ -8,6 +8,7 @@ import TalentFilters from "./TalentFilters";
 import { Grid, List } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { camelCaseObject } from "src/utils/transformObjects";
+import { P1 } from "src/components/design_system/typography";
 
 import cx from "classnames";
 
@@ -15,11 +16,11 @@ const TalentOptions = ({
   changeTab,
   searchUrl,
   listModeOnly,
+  headerDescription,
   setListModeOnly,
   setLocalTalents,
   setSelectedSort,
   setSortDirection,
-  userLoggedIn,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
@@ -58,10 +59,12 @@ const TalentOptions = ({
 
   return (
     <div
-      className="mt-5 mb-6 d-flex flex-wrap justify-content-between"
+      className="mt-5 mb-6 d-flex flex-wrap justify-content-between align-items-center"
       style={{ height: mobile ? "" : 34 }}
     >
-      {userLoggedIn && (
+      {headerDescription ? (
+        <P1 bold className="text-black" text={headerDescription} />
+      ) : (
         <TabButton
           textTabPrimary="All Talent"
           textTabSecondary="Watchlist"

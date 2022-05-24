@@ -29,11 +29,13 @@
           },
           discoveryRow: {
             badge: @discovery_row["badge"],
-            badge_link: @discovery_row["badge_link"],
+            badgeLink: @discovery_row["badge_link"],
+            description: @discovery_row["description"],
+            logoUrl: @discovery_row["logo_url"],
+            talentsCount: @discovery_row["talents_count"],
             slug: @discovery_row["slug"],
             title: @discovery_row["title"],
-          },
-          userLoggedIn: current_user.present?
+          }
         },
         prerender: false) %>
     </div>
