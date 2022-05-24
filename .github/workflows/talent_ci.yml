@@ -10,6 +10,11 @@ on:
       - dev
       - master
     types: [ready_for_review, opened, reopened, synchronize]
+  pull_request_target:
+    branches:
+      - dev
+      - master
+    types: [ready_for_review, opened, reopened, synchronize]
 
 concurrency:
   group: talent-${{ github.head_ref || github.run_id }}
