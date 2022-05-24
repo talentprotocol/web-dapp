@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import { ethers } from "ethers";
 import { ArrowLeft } from "src/components/icons";
-import Button from "src/components/design_system/button";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -32,7 +30,7 @@ import TalentOptions from "src/components/talent/TalentOptions";
 
 import cx from "classnames";
 
-const DiscoveryShow = ({ discoveryRow, talents, userLoggedIn }) => {
+const DiscoveryShow = ({ discoveryRow, talents }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
@@ -145,7 +143,10 @@ const DiscoveryShow = ({ discoveryRow, talents, userLoggedIn }) => {
     <div className={cx(mobile && "p-4")}>
       <div className="talent-list-header  d-flex flex-column justify-content-center">
         <a className="button-link mb-5" href="/">
-          <ArrowLeft color="white" size={16} />
+          <ArrowLeft
+            color={theme.mode() == "light" ? "black" : "white"}
+            size={16}
+          />
         </a>
         <H3 className="text-black mb-3" bold text={discoveryRow.title} />
         {discoveryRow.description && (
