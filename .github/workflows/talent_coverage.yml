@@ -26,10 +26,12 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - name: Download coverage
-        uses: actions/download-artifact@v2
+        uses: dawidd6/action-download-artifact@v2
         with:
           name: code-coverage
           path: coverage-matrix
+          workflow: ${{ github.event.workflow.id }}
+          pr: ${{ github.event.pull_request.number }}
 
       - name: Collate Simplecov results
         env:
