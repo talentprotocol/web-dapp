@@ -7,7 +7,7 @@
   width: fit-content;
   padding: 2px 8px;
   border-radius: 4px;
-  background-color: $surface-hover;
+  background-color: $primary-disabled;
 
   &.primary {
     background-color: $primary-200;
@@ -15,7 +15,7 @@
 }
 
 .dark-body .tag-container {
-  background-color: $gray-800;
+  background-color: $primary-shade-01;
 }
 
 .optional-tag-container {

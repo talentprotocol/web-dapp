@@ -70,17 +70,17 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
       return (
         <a
           href={row.badge_link}
-          className="cursor-pointer ml-2 "
+          className="cursor-pointer ml-2"
           target="_blank"
         >
-          <Tag className="bg-primary text-white cursor-pointer">
+          <Tag className=" cursor-pointer">
             <P3 className="current-color" bold text={row.badge} />
           </Tag>
         </a>
       );
     } else {
       return (
-        <Tag className="ml-2 bg-primary text-white">
+        <Tag className="ml-2">
           <P3 className="current-color" bold text={row.badge} />
         </Tag>
       );
