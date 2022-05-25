@@ -30,11 +30,29 @@ const TalentPage = ({ talents }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
+
+  const varianceDays = 30;
+  const msDividend = 1000;
+  const dayInSeconds = 86400;
+  const currentDate = new Date();
+  const endDate =
+    Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      0,
+      0,
+      0
+    ) / msDividend;
+  const startDate = endDate - varianceDays * dayInSeconds;
+
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: {
       ids: localTalents
         .map((talent) => talent.token.contractId)
         .filter((id) => id),
+      startDate,
+      endDate
     },
   });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
@@ -138,14 +156,34 @@ const TalentPage = ({ talents }) => {
         supporterCounter,
         tokenDayData,
         ...rest
-      }) => ({
-        ...rest,
-        token: { contractId: id },
-        progress: getProgress(totalSupply, maxSupply),
-        marketCap: getMarketCap(totalSupply),
-        supporterCounter: getSupporterCount(supporterCounter),
-        marketCapVariance: getMarketCapVariance(tokenDayData || []),
-      })
+      }) => {
+        const localTalent = localTalents.find(
+          (talent) => talent.token.contractId == id
+        );
+        const deployDate = new Date(localTalent.token.deployedAt);
+        const deployDateUTC =
+          Date.UTC(
+            deployDate.getUTCFullYear(),
+            deployDate.getUTCMonth(),
+            deployDate.getUTCDate(),
+            0,
+            0,
+            0
+          ) / msDividend;
+        return {
+          ...rest,
+          token: { contractId: id },
+          progress: getProgress(totalSupply, maxSupply),
+          marketCap: getMarketCap(totalSupply),
+          supporterCounter: getSupporterCount(supporterCounter),
+          marketCapVariance: getMarketCapVariance(
+            tokenDayData || [],
+            deployDateUTC,
+            startDate,
+            endDate
+          ),
+        };
+      }
     );
 
     setLocalTalents((prev) =>

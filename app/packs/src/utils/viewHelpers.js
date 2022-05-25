@@ -37,11 +37,30 @@ export const getProgress = (totalSupply, maxSupply) => {
   }
 };
 
-export const getMarketCapVariance = (tokenDayData) => {
-  const supplies = tokenDayData.map((data) =>
-    parseFloat(ethers.utils.formatUnits(data.dailySupply))
-  );
+export const getMarketCapVariance = (
+  tokenDayData,
+  deployDate,
+  startDate,
+  endDate
+) => {
+  const supplies = [];
+  const dayData = {};
+  const dayInSeconds = 86400;
 
+  tokenDayData.forEach((data) => {
+    dayData[data.date] = parseFloat(ethers.utils.formatUnits(data.dailySupply));
+  });
+
+  for (let date = startDate, i = 0; date < endDate; date += dayInSeconds) {
+    if (date < deployDate) {
+      supplies.push(0);
+    } else if (dayData[date]) {
+      supplies.push(dayData[date]);
+    } else {
+      supplies.push(supplies[i - 1]);
+    }
+    i++;
+  }
   const totalSupply = supplies.reduce((prev, current) => prev + current, 0);
   const mean = totalSupply / supplies.length;
 
