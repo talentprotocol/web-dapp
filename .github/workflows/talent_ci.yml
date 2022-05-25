@@ -10,11 +10,6 @@ on:
       - dev
       - master
     types: [ready_for_review, opened, reopened, synchronize]
-  pull_request_target:
-    branches:
-      - dev
-      - master
-    types: [ready_for_review, opened, reopened, synchronize]
 
 concurrency:
   group: talent-${{ github.head_ref || github.run_id }}
@@ -136,35 +131,3 @@ jobs:
           name: code-coverage
           path: coverage/
           retention-days: 1
-
-  finalize:
-    needs: [talent-lint, talent-rspec]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-
-      - name: Download coverage
-        uses: actions/download-artifact@v2
-        with:
-          name: code-coverage
-          path: coverage-matrix
-
-      - name: Collate Simplecov results
-        env:
-          GITHUB_ARTIFACTS: coverage
-          GITHUB_DOWNLOADED_ARTIFACTS: coverage-matrix
-        run: |
-          bundle exec rake coverage:report
-
-      - name: Simplecov Report
-        uses: aki77/simplecov-report-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          failedThreshold: 6
