@@ -28,7 +28,7 @@ class DiscoveryController < ApplicationController
 
     @discovery_rows = DiscoveryRowBlueprint.render_as_json(
       discovery_rows,
-      view: :normal,
+      view: :with_talents,
       current_user_watchlist: current_user_watchlist
     )
 
@@ -42,7 +42,7 @@ class DiscoveryController < ApplicationController
     service = Talents::Search.new(filter_params: filter_params.to_h, discovery_row: discovery_row)
     talents = service.call
 
-    @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row)
+    @discovery_row = DiscoveryRowBlueprint.render_as_json(discovery_row, view: :normal)
     @talents = TalentBlueprint.render_as_json(talents.includes(:user, :token), view: :normal, current_user_watchlist: current_user_watchlist)
 
     respond_to do |format|

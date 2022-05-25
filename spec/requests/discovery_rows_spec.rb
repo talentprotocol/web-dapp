@@ -36,7 +36,7 @@ RSpec.shared_examples "a discovery row get endpoint request" do
     it "assigns the correct objects to be passed to the view" do
       get_discovery_row
 
-      expect(assigns(:discovery_row)).to eq(DiscoveryRowBlueprint.render_as_json(discovery_row))
+      expect(assigns(:discovery_row)).to eq(DiscoveryRowBlueprint.render_as_json(discovery_row, view: :normal))
       expect(assigns(:talents)).to eq(TalentBlueprint.render_as_json([talent_one, talent_two], view: :normal))
     end
   end
