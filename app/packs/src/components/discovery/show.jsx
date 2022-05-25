@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import { ArrowLeft } from "src/components/icons";
+import { ArrowLeft, Help } from "src/components/icons";
+import Tooltip from "src/components/design_system/tooltip";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -148,7 +149,18 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             size={16}
           />
         </a>
-        <H3 className="text-black mb-3" bold text={discoveryRow.title} />
+        <div className="d-flex align-items-center mb-3">
+          <H3 className="text-black mr-2" bold text={discoveryRow.title} />
+          <Tooltip
+            body={discoveryRow.tags}
+            popOverAccessibilityId={"discovery_row_tags"}
+            placement="top"
+          >
+            <div className="cursor-pointer d-flex align-items-center">
+              <Help color="currentColor" />
+            </div>
+          </Tooltip>
+        </div>
         {discoveryRow.description && (
           <P1
             className="text-primary-03 mb-3"

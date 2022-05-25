@@ -3,6 +3,8 @@ class DiscoveryRowBlueprint < Blueprinter::Base
 
   view :normal do
     fields :badge, :badge_link, :title, :description, :logo_url, :talents_count
+
+    association :tags, blueprint: TagBlueprint
   end
 
   view :with_talents do

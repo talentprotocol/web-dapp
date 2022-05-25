@@ -34,6 +34,7 @@
             logoUrl: @discovery_row["logo_url"],
             talentsCount: @discovery_row["talents_count"],
             slug: @discovery_row["slug"],
+            tags: @discovery_row["tags"].map { |tag| tag["description"] }.join(", "),
             title: @discovery_row["title"],
           }
         },
