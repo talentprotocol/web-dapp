@@ -13,6 +13,15 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to validate_presence_of(:description) }
   end
 
+  describe ".visible" do
+    let!(:tag_one) { create :tag, hidden: false }
+    let!(:tag_two) { create :tag, hidden: true }
+
+    it "returns only visible tags" do
+      expect(Tag.visible).to match_array [tag_one]
+    end
+  end
+
   describe "#to_s" do
     let(:tag) { build :tag, description: "Web3" }
 

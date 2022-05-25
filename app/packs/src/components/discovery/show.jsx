@@ -151,15 +151,17 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
         </a>
         <div className="d-flex align-items-center mb-3">
           <H3 className="text-black mr-2" bold text={discoveryRow.title} />
-          <Tooltip
-            body={discoveryRow.tags}
-            popOverAccessibilityId={"discovery_row_tags"}
-            placement="top"
-          >
-            <div className="cursor-pointer d-flex align-items-center">
-              <Help color="currentColor" />
-            </div>
-          </Tooltip>
+          {discoveryRow.tags && (
+            <Tooltip
+              body={discoveryRow.tags}
+              popOverAccessibilityId={"discovery_row_tags"}
+              placement="top"
+            >
+              <div className="cursor-pointer d-flex align-items-center">
+                <Help color="currentColor" />
+              </div>
+            </Tooltip>
+          )}
         </div>
         {discoveryRow.description && (
           <P1

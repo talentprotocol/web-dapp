@@ -5,6 +5,8 @@ class Tag < ApplicationRecord
 
   validates :description, presence: true
 
+  scope :visible, -> { where(hidden: false) }
+
   def to_s
     description
   end
