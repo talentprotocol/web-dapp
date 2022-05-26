@@ -41,7 +41,8 @@ export const getMarketCapVariance = (
   tokenDayData,
   deployDate,
   startDate,
-  endDate
+  endDate,
+  totalSupply
 ) => {
   const supplies = [];
   const dayData = {};
@@ -56,13 +57,15 @@ export const getMarketCapVariance = (
       supplies.push(0);
     } else if (dayData[date]) {
       supplies.push(dayData[date]);
+    } else if (i == 0) {
+      supplies.push(parseFloat(ethers.utils.formatUnits(totalSupply)));
     } else {
       supplies.push(supplies[i - 1]);
     }
     i++;
   }
-  const totalSupply = supplies.reduce((prev, current) => prev + current, 0);
-  const mean = totalSupply / supplies.length;
+  const totalDailySupply = supplies.reduce((prev, current) => prev + current, 0);
+  const mean = totalDailySupply / supplies.length;
 
   const sumForVariance = supplies.reduce(
     (prev, current) => prev + Math.pow(current - mean, 2),
