@@ -2,7 +2,9 @@ class SessionsController < Clearance::SessionsController
   protect_from_forgery
 
   def create
-    if User.find_by(email: params[:session][:email])
+    email = params[:session][:email]
+
+    if User.find_by(email: email&.downcase)
       @user = authenticate(params)
 
       if @user&.disabled?
