@@ -69,7 +69,7 @@ const RewardsHeader = ({ rewards }) => {
           >
             <div className="cursor-pointer d-flex align-items-center">
               <P2 className="mr-1">Others</P2>
-              <Help color="currentColor" />
+              <Help color="#536471" />
             </div>
           </Tooltip>
           <P2 className="text-black">{amountToTal(userRewards.others)}</P2>

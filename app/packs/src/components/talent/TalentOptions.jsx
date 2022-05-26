@@ -59,7 +59,7 @@ const TalentOptions = ({
 
   return (
     <div
-      className="mt-5 mb-6 d-flex flex-wrap justify-content-between align-items-center"
+      className="my-6 d-flex flex-wrap justify-content-between align-items-center"
       style={{ height: mobile ? "" : 34 }}
     >
       {headerDescription ? (
