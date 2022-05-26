@@ -36,10 +36,6 @@ class DestroyUser
           user.talent.perks.destroy_all
         end
 
-        if user.talent.tags.exists?
-          user.talent.tags.destroy_all
-        end
-
         if user.talent.milestones.exists?
           user.talent.milestones.destroy_all
         end
@@ -51,6 +47,7 @@ class DestroyUser
       Message.where(sender_id: user.id).destroy_all
       Message.where(receiver_id: user.id).destroy_all
       Quest.where(user: user).destroy_all
+      UserTag.where(user: user).destroy_all
 
       user.destroy!
     end

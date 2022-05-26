@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Supporter::UpgradeToTalent
-  def call(user_id:)
+  def call(user_id:, applying: false)
     user = User.find(user_id)
 
     return false if user.talent.present?
@@ -9,6 +9,7 @@ class Supporter::UpgradeToTalent
     user.create_talent!
     user.talent.create_career_goal!
     user.talent.create_token!
+    update_profile_type(user, applying)
 
     create_invite(user)
 
@@ -37,5 +38,13 @@ class Supporter::UpgradeToTalent
     user.talent.profile_picture_data = user.investor.profile_picture_data
     user.talent.banner_data = user.investor.banner_data
     user.talent.save!
+  end
+
+  def update_profile_type(user, applying)
+    if applying
+      user.update(profile_type: "applying")
+    else
+      user.update(profile_type: "talent")
+    end
   end
 end
