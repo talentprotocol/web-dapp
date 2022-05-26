@@ -158,7 +158,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
               placement="top"
             >
               <div className="cursor-pointer d-flex align-items-center">
-                <Help color="currentColor" />
+                <Help color="#536471" />
               </div>
             </Tooltip>
           )}
