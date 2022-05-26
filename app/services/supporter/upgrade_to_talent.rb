@@ -41,10 +41,6 @@ class Supporter::UpgradeToTalent
   end
 
   def update_profile_type(user, applying)
-    if applying
-      user.update(profile_type: "applying")
-    else
-      user.update(profile_type: "talent")
-    end
+    user.update(profile_type: applying ? "applying" : "talent")
   end
 end
