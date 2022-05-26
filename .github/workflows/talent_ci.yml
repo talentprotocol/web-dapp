@@ -80,7 +80,6 @@ jobs:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       THE_GRAPH_URL: https://api.thegraph.com/subgraphs/name/rubensousadinis/talent-mvp
-      WITH_COVERAGE: true
     services:
       postgres:
         image: postgres:13.6
@@ -124,42 +123,3 @@ jobs:
         run: |
           bin/rails db:create db:migrate > /dev/null
           bundle exec rspec
-
-      - name: Upload Code Coverage
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage
-          path: coverage/
-          retention-days: 1
-
-  finalize:
-    needs: [talent-lint, talent-rspec]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-
-      - name: Download coverage
-        uses: actions/download-artifact@v2
-        with:
-          name: code-coverage
-          path: coverage-matrix
-
-      - name: Collate Simplecov results
-        env:
-          GITHUB_ARTIFACTS: coverage
-          GITHUB_DOWNLOADED_ARTIFACTS: coverage-matrix
-        run: |
-          bundle exec rake coverage:report
-
-      - name: Simplecov Report
-        uses: aki77/simplecov-report-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          failedThreshold: 6

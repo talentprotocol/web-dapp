@@ -81,6 +81,9 @@ gem "noticed", "~> 1.5"
 # Perfomance monitoring
 gem "newrelic_rpm"
 
+# Slug generation
+gem "friendly_id", "~> 5.4.0"
+
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit"
@@ -104,6 +107,7 @@ end
 
 group :test do
   gem "capybara", ">= 3.26"
+  gem "rails-controller-testing"
   gem "rspec-rails", "~> 5.0.1"
   gem "selenium-webdriver"
   gem "shoulda-matchers", "~> 4.5.1"

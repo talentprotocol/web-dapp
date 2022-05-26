@@ -3,7 +3,7 @@ class API::V1::TalentController < ApplicationController
     service = Talents::Search.new(filter_params: filter_params.to_h)
     talents = service.call
 
-    render json: TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user: current_user), status: :ok
+    render json: TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
   end
 
   # public /
@@ -15,7 +15,7 @@ class API::V1::TalentController < ApplicationController
         []
       end
 
-    render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
+    render json: TalentBlueprint.render(talents, view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
   end
 
   # Public endpoint
@@ -23,7 +23,7 @@ class API::V1::TalentController < ApplicationController
     talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 
     if talent
-      render json: TalentBlueprint.render(talent, view: :normal, current_user: current_user), status: :ok
+      render json: TalentBlueprint.render(talent, view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end

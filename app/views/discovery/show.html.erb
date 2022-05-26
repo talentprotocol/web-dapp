@@ -1,0 +1,44 @@
+<main class="main-content">
+  <div class="container-grid">
+    <% if current_user.nil? %>
+      <%= react_component("LoggedOutTopBar", props:
+        {
+        }, prerender: false)
+      %>
+    <% end %>
+    <div class="secondary-content">
+      <%= react_component("DiscoveryShow",
+        props: {
+          talents: @talents.map { |talent|
+            {
+              id: talent["id"],
+              profilePictureUrl: talent["profile_picture_url"],
+              occupation: talent["occupation"],
+              headline: talent["headline"],
+              token: {
+                ticker: talent["token"]["ticker"],
+                contractId: talent["token"]["contract_id"]
+              },
+              user: {
+                username: talent["user"]["username"],
+                name: talent["user"]["display_name"] || talent["user"]["username"]
+              },
+              isFollowing: talent['is_following'],
+              userId: talent["user_id"]
+            }
+          },
+          discoveryRow: {
+            badge: @discovery_row["badge"],
+            badgeLink: @discovery_row["badge_link"],
+            description: @discovery_row["description"],
+            logoUrl: @discovery_row["logo_url"],
+            talentsCount: @discovery_row["talents_count"],
+            slug: @discovery_row["slug"],
+            tags: @discovery_row["visible_tags"].map { |tag| tag["description"] }.join(", "),
+            title: @discovery_row["title"],
+          }
+        },
+        prerender: false) %>
+    </div>
+  </div>
+</main>

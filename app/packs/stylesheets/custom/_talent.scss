@@ -24,6 +24,24 @@
   border: 8px solid $dark-bg-01;
 }
 
+.dark-body .talent-list-header {
+  height: 277px;
+  margin-top: -40px;
+
+  &::before {
+    background-color: $gray-900;
+    content: "";
+    height: inherit;
+    z-index: -1;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    border-bottom: 1px solid $gray-800;
+    margin-top: 66px;
+  }
+}
+
 .pull-bottom-content {
   margin-bottom: -40px;
 }
@@ -168,5 +186,22 @@
     margin-left: 0;
     padding-left: 0;
     padding-right: 8px;
+  }
+
+  .dark-body .talent-list-header {
+    height: 240px;
+
+    &::before {
+      background-color: $gray-900;
+      content: "";
+      height: inherit;
+      z-index: -1;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100vw;
+      border-bottom: 1px solid $gray-800;
+      margin-top: 66px;
+    }
   }
 }
