@@ -12,6 +12,7 @@ class API::V1::Talent::TokensController < ApplicationController
       if token.deployed? && !was_deployed
         token.update!(deployed_at: Time.current)
         talent.update(public: true, supporters_count: 0, total_supply: Talent.base_supply)
+        current_user.update(profile_type: "talent")
         AddRewardToInviterJob.perform_later(token.id)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)

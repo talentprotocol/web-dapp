@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     CreateProfilePageVisitorJob.perform_later(ip: request.remote_ip, user_id: @user.id)
 
-    if talent
+    if (current_user.id == talent.user_id && talent.user.profile_type != "supporter") || talent.user.profile_type == "talent"
       @talent = TalentBlueprint.render_as_json(
         talent,
         view: :extended,

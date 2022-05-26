@@ -64,8 +64,9 @@ const About = (props) => {
     saveProfile,
     publicButtonType,
     disablePublicButton,
-    togglePublicProfile,
+    onProfileButtonClick,
     trackChanges,
+    buttonText,
   } = props;
   const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
@@ -200,7 +201,7 @@ const About = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -221,7 +222,10 @@ const About = (props) => {
         text="Let's start with the basics"
       />
       <div className="d-flex flex-row w-100 align-items-center mt-4">
-        <TalentProfilePicture src={props.profilePictureUrl} height={80} />
+        <div className="d-flex">
+          <TalentProfilePicture src={props.profilePictureUrl} height={80} />
+          <span className="text-danger bold">*</span>
+        </div>
         <div className="ml-4 d-flex flex-column">
           <div className="d-flex align-items-center">
             <FileInput
@@ -440,7 +444,7 @@ const About = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         )}
         <LoadingButton

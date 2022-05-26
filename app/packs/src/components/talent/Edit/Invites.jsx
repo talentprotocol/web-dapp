@@ -49,10 +49,11 @@ const Invites = (props) => {
     mobile,
     changeTab,
     mode,
-    togglePublicProfile,
+    onProfileButtonClick,
     publicButtonType,
     disablePublicButton,
     invites,
+    buttonText,
   } = props;
   const [copied, setCopied] = useState({});
   const [saving, setSaving] = useState({
@@ -63,7 +64,7 @@ const Invites = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -144,7 +145,7 @@ const Invites = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         </div>
       )}

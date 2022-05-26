@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { post, destroy } from "src/utils/requests";
+import { post, patch, destroy } from "src/utils/requests";
 
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +23,7 @@ import SocialRow from "./Show/SocialRow";
 
 import Button from "src/components/design_system/button";
 import { Chat } from "src/components/icons";
-import { H2, H5 } from "src/components/design_system/typography";
+import { H2, H5, P3 } from "src/components/design_system/typography";
 import Tooltip from "src/components/design_system/tooltip";
 
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -230,8 +230,112 @@ const TalentShow = ({
     </div>
   );
 
+  const alertBarColor = () => {
+    if (user.profile_type == "approved") {
+      return "green";
+    } else if (
+      (sharedState.user.profile_type == "waiting_for_approval" ||
+        sharedState.user.profile_type == "talent") &&
+      !sharedState.talent.public
+    ) {
+      return "primary";
+    }
+  };
+
+  const alertBarText = () => {
+    if (user.profile_type == "approved") {
+      return "Your profile has been approved! You can now launch your Talent Token";
+    } else if (
+      (sharedState.user.profile_type == "waiting_for_approval" ||
+        sharedState.user.profile_type == "talent") &&
+      !sharedState.talent.public
+    ) {
+      return "Your profile is Private";
+    }
+  };
+
+  const buttonText = () => {
+    if (user.profile_type == "approved") {
+      return "Launch Your Talent Token";
+    } else if (
+      (sharedState.user.profile_type == "waiting_for_approval" ||
+        sharedState.user.profile_type == "talent") &&
+      !sharedState.talent.public
+    ) {
+      return "Publish Profile";
+    }
+  };
+
+  const buttonType = () => {
+    if (user.profile_type == "approved") {
+      return "positive-outline";
+    } else if (
+      (sharedState.user.profile_type == "waiting_for_approval" ||
+        sharedState.user.profile_type == "talent") &&
+      !sharedState.talent.public
+    ) {
+      return "primary-outline";
+    }
+  };
+
+  const buttonClick = async () => {
+    if (sharedState.user.profile_type == "approved") {
+      window.location.href = `/u/${sharedState.user.username}/edit_profile?tab=Token`;
+    }
+    if (!sharedState.talent.public) {
+      const params = {
+        talent: {
+          public: !sharedState.talent.public,
+        },
+        user: { id: sharedState.user.id },
+      };
+      const response = await patch(`/api/v1/talent/${talent.id}`, params).catch(
+        () => {
+          return false;
+        }
+      );
+      if (response && !response.error) {
+        setSharedState((prev) => ({
+          ...prev,
+          talent: {
+            ...prev.talent,
+            public: true,
+          },
+        }));
+      }
+    }
+  };
+
+  const showAlert =
+    currentUserId == sharedState.user.id &&
+    (sharedState.user.profile_type == "approved" ||
+      (!sharedState.talent.public &&
+        (sharedState.user.profile_type == "waiting_for_approval" ||
+          sharedState.user.profile_type == "talent")));
+
   return (
     <div className="d-flex flex-column lg-h-100 p-0">
+      {showAlert && (
+        <div
+          className="edit-profile-fixed-bar"
+          style={{ height: mobile ? "75px" : "50px" }}
+        >
+          <div
+            className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-6 h-100`}
+          >
+            <div className="d-flex flex-row w-100 h-100 justify-content-between align-items-center">
+              {/* below is required so the justify-content-between aligns properly */}
+              <P3 text="" />
+              <P3 text={alertBarText()} bold className="current-color" />
+              <Button
+                text={buttonText()}
+                type={buttonType()}
+                onClick={() => buttonClick()}
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {!sharedState.bannerUrl && sharedState.profilePictureUrl && (
         <TalentProfilePicture
           src={sharedState.profilePictureUrl}
@@ -345,6 +449,7 @@ const TalentShow = ({
               ? " col-lg-8"
               : ""
           } p-0`}
+          style={{ position: "unset" }}
         >
           {pageInDisplay == "overview" && (
             <Overview

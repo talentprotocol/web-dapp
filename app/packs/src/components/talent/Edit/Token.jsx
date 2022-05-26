@@ -318,6 +318,15 @@ const Token = (props) => {
 
   const onClose = () => setShow(false);
 
+  if (
+    user.profile_type === "applying" ||
+    user.profile_type === "waiting_for_approval"
+  ) {
+    window.location.replace(`/u/${user.username}/edit_profile`);
+
+    return <></>;
+  }
+
   if (contractId && !show) {
     return (
       <>
