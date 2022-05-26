@@ -1,3 +1,6 @@
+import { compareStrings, compareNumbers } from "src/utils/compareHelpers";
+import { ethers } from "ethers";
+
 export const completeProfile = (args) => {
   return missingFields(args).length == 0;
 };
@@ -69,4 +72,24 @@ export const profileProgress = ({
   }
 
   return total - fields.length * 10;
+};
+
+export const compareName = (talent1, talent2) =>
+  compareStrings(talent1.user.name, talent2.user.name);
+
+export const compareOccupation = (talent1, talent2) =>
+  compareStrings(talent1.occupation, talent2.occupation);
+
+export const compareSupporters = (talent1, talent2) =>
+  compareNumbers(talent1.supporterCounter, talent2.supporterCounter);
+
+export const compareMarketCap = (talent1, talent2) => {
+  const talent1Amount = ethers.utils.parseUnits(
+    talent1.marketCap?.replaceAll(",", "") || "0"
+  );
+  const talent2Amount = ethers.utils.parseUnits(
+    talent2.marketCap?.replaceAll(",", "") || "0"
+  );
+
+  return compareNumbers(talent1Amount, talent2Amount);
 };

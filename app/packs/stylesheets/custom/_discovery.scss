@@ -1,0 +1,18 @@
+@import "../bootstrap/overrides";
+
+// Discovery page
+
+.discovery-row {
+  .discover-all-link {
+    display: none;
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+  }
+
+  &:hover {
+    .discover-all-link {
+      opacity: 1;
+      display: flex;
+    }
+  }
+}

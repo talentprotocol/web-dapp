@@ -60,3 +60,5 @@ yarn-debug.log*
 
 # Ignore minIO data folder
 /data
+
+/vendor/ruby

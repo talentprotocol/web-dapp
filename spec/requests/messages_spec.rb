@@ -76,7 +76,7 @@ RSpec.describe "Messages", type: :request do
         }
       end
 
-      it "returns a bad request response" do
+      it "returns a not found response" do
         post messages_path(params: params, as: user)
 
         expect(response).to have_http_status(:not_found)

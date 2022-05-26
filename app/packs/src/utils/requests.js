@@ -1,8 +1,15 @@
 const getAuthToken = () =>
   document.querySelector('meta[name="csrf-token"]')?.content;
 
+const defaultHeaders = () => {
+  return {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+};
+
 const post = (url, content) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = defaultHeaders();
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();
@@ -21,7 +28,7 @@ const post = (url, content) => {
 };
 
 const put = (url, content) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = defaultHeaders();
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();
@@ -40,7 +47,7 @@ const put = (url, content) => {
 };
 
 const patch = (url, content) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = defaultHeaders();
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();
@@ -59,7 +66,7 @@ const patch = (url, content) => {
 };
 
 const get = (url) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = defaultHeaders();
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();
@@ -84,7 +91,7 @@ const externalGet = (url, params = {}) => {
 };
 
 const destroy = (url, content) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = defaultHeaders();
 
   if (getAuthToken) {
     headers["X-CSRF-Token"] = getAuthToken();

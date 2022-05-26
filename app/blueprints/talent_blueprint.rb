@@ -7,7 +7,7 @@ class TalentBlueprint < Blueprinter::Base
     association :user, blueprint: UserBlueprint, view: :normal
 
     field :is_following do |talent, options|
-      options[:current_user]&.following&.where(user_id: talent.user_id)&.exists? || false
+      options[:current_user_watchlist]&.include?(talent.user_id) || false
     end
   end
 

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { P1, P3 } from "src/components/design_system/typography";
+import Link from "src/components/design_system/link";
 import { Caret } from "src/components/icons";
 import NewTalentCard from "src/components/design_system/cards/NewTalentCard";
 import Button from "src/components/design_system/button";
@@ -69,17 +70,17 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
       return (
         <a
           href={row.badge_link}
-          className="cursor-pointer ml-2 "
+          className="cursor-pointer ml-2"
           target="_blank"
         >
-          <Tag className="bg-primary text-white cursor-pointer">
+          <Tag className=" cursor-pointer">
             <P3 className="current-color" bold text={row.badge} />
           </Tag>
         </a>
       );
     } else {
       return (
-        <Tag className="ml-2 bg-primary text-white">
+        <Tag className="ml-2">
           <P3 className="current-color" bold text={row.badge} />
         </Tag>
       );
@@ -89,7 +90,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
   return (
     <>
       {discoveryRows.map((row) => (
-        <div key={row.title}>
+        <div key={row.title} className="discovery-row">
           {row.talents.length > 0 ? (
             <>
               <div className="d-flex justify-content-between">
@@ -99,8 +100,19 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                     text={row.title}
                     className={cx("text-black", mobile && "pl-4")}
                   />
-
                   {!!row.badge && discoveryBadge(row)}
+                  <Link
+                    className="mb-2 ml-3 d-flex align-items-center discover-all-link"
+                    bold
+                    href={`discovery/${row.slug}`}
+                    text="Discover all"
+                  >
+                    <Caret
+                      size={12}
+                      color="currentColor"
+                      className="rotate-270 ml-2"
+                    />
+                  </Link>
                 </div>
                 {row.talents.length > itemsPerRow(row.talents) && (
                   <div className="d-flex flex-row">
