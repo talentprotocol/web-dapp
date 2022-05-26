@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useMemo } from "react";
 import { ArrowLeft, Help } from "src/components/icons";
 import Tooltip from "src/components/design_system/tooltip";
 import Button from "src/components/design_system/button";
+import { ethers } from "ethers";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -47,6 +48,11 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+
+  const totalSupplyToString = (totalSupply) => {
+    const bignumber = ethers.BigNumber.from(totalSupply).div(10);
+    return ethers.utils.commify(ethers.utils.formatUnits(bignumber));
+  };
 
   const updateFollow = async (talent) => {
     const newLocalTalents = localTalents.map((currTalent) => {
@@ -151,13 +157,10 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             size="icon"
             className="d-flex align-items-center justify-content-center"
           >
-            <ArrowLeft
-              color={theme.mode() == "light" ? "black" : "white"}
-              size={16}
-            />
+            <ArrowLeft color="currentColor" size={16} />
           </Button>
         </a>
-        <div className="d-flex align-items-center mb-3">
+        <div className="d-flex align-items-center">
           <H3 className="text-black mr-2" bold text={discoveryRow.title} />
           {discoveryRow.tags && (
             <Tooltip
@@ -173,11 +176,20 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
         </div>
         {discoveryRow.description && (
           <P1
-            className="text-primary-03 mb-3"
+            className="text-primary-03 mb-4"
             text={discoveryRow.description}
           />
         )}
         <div className="d-flex">
+          <P1
+            bold
+            className="text-black d-inline mr-2"
+            text={`$${totalSupplyToString(discoveryRow.talentsTotalSupply)}`}
+          />
+          <P1
+            className="text-primary-03 mr-4 d-inline"
+            text={`${discoveryRow.title} Market Cap`}
+          />
           <P1
             bold
             className="text-black d-inline mr-2"
