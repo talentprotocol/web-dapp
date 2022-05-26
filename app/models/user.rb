@@ -35,6 +35,14 @@ class User < ApplicationRecord
 
   VALID_ROLES = ["admin", "basic"].freeze
 
+  enum profile_type: {
+    supporter: "supporter",
+    applying: "applying",
+    waiting_for_approval: "waiting_for_approval",
+    approved: "approved",
+    talent: "talent"
+  }
+
   module Delivery
     TYPES = [
       MessageReceivedNotification,

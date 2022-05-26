@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_122951) do
+ActiveRecord::Schema.define(version: 2022_05_24_112720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -333,6 +333,7 @@ ActiveRecord::Schema.define(version: 2022_05_06_122951) do
     t.integer "member_nft_token_id"
     t.string "member_nft_tx"
     t.bigint "race_id"
+    t.string "profile_type", default: "supporter", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
