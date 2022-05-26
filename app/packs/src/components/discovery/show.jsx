@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { ArrowLeft, Help } from "src/components/icons";
 import Tooltip from "src/components/design_system/tooltip";
+import Button from "src/components/design_system/button";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -144,10 +145,17 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     <div className={cx(mobile && "p-4")}>
       <div className="talent-list-header  d-flex flex-column justify-content-center">
         <a className="button-link mb-5" href="/">
-          <ArrowLeft
-            color={theme.mode() == "light" ? "black" : "white"}
-            size={16}
-          />
+          <Button
+            onClick={() => null}
+            type="white-ghost"
+            size="icon"
+            className="d-flex align-items-center justify-content-center"
+          >
+            <ArrowLeft
+              color={theme.mode() == "light" ? "black" : "white"}
+              size={16}
+            />
+          </Button>
         </a>
         <div className="d-flex align-items-center mb-3">
           <H3 className="text-black mr-2" bold text={discoveryRow.title} />
