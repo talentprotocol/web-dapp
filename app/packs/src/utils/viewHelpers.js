@@ -48,6 +48,10 @@ export const getMarketCapVariance = (
   const dayData = {};
   const dayInSeconds = 86400;
 
+  if (tokenDayData.length == 0) {
+    return '0';
+  }
+
   tokenDayData.forEach((data) => {
     dayData[data.date] = parseFloat(ethers.utils.formatUnits(data.dailySupply));
   });
