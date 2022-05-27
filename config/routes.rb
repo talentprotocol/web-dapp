@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   resources :discovery, only: [:show], param: :slug
 
   # Auth - Clearance generated routes
+
   resources :passwords, controller: "passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
 
@@ -97,11 +98,13 @@ Rails.application.routes.draw do
       only: [:edit, :update]
   end
 
-  get "/sign_up" => "pages#home", :as => :sign_up
-  get "/" => "sessions#new", :as => "sign_in"
-  delete "/" => "sessions#new", :as => "sign_in_redirect"
-  delete "/sign_out" => "sessions#destroy", :as => "sign_out"
-  get "/confirm_email(/:token)" => "email_confirmations#update", :as => "confirm_email"
+  constraints(format: :html) do
+    get "/sign_up" => "pages#home", :as => :sign_up
+    get "/" => "sessions#new", :as => "sign_in"
+    delete "/" => "sessions#new", :as => "sign_in_redirect"
+    delete "/sign_out" => "sessions#destroy", :as => "sign_out"
+    get "/confirm_email(/:token)" => "email_confirmations#update", :as => "confirm_email"
+  end
   # end Auth
 
   resources :wait_list, only: [:create, :index]
@@ -110,7 +113,9 @@ Rails.application.routes.draw do
   # redirect /talent to /u so we have the old route still working
   get "/talent/:username", to: redirect("/u/%{username}")
 
-  root to: "sessions#new", as: :root
+  constraints(format: :html) do
+    root to: "sessions#new", as: :root
+  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
