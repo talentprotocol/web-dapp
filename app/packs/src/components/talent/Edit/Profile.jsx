@@ -78,16 +78,19 @@ const Profile = (props) => {
   }, [activeTab]);
 
   const alertBarText = () => {
-    if (sharedState.user.profile_type == "applying") {
-      return "Complete your profile to apply for a Talent Token";
-    } else if (sharedState.user.profile_type == "waiting_for_approval") {
-      return "Pending Approval to launch your Talent Token";
-    } else if (sharedState.user.profile_type == "approved") {
-      return "Your profile has been approved! You can now launch your Talent Token";
-    } else if (sharedState.user.profile_type == "talent") {
-      return progress == 100
-        ? "Your profile is complete!"
-        : "Complete your profile to appeal to more supporters and earn rewards.";
+    switch (sharedState.user.profile_type) {
+      case "applying":
+        return "Complete your profile to apply for a Talent Token";
+      case "waiting_for_approval":
+        return "Pending Approval to launch your Talent Token";
+      case "approved":
+        return "Your profile has been approved! You can now launch your Talent Token";
+      case "talent":
+        return progress == 100
+          ? "Your profile is complete!"
+          : "Complete your profile to appeal to more supporters and earn rewards.";
+      default:
+        return "Complete your profile to apply for a Talent Token";
     }
   };
 
@@ -122,15 +125,16 @@ const Profile = (props) => {
   };
 
   const buttonText = () => {
-    if (sharedState.user.profile_type == "applying") {
-      return "Send Profile for Approval";
-    } else if (sharedState.user.profile_type == "waiting_for_approval") {
-      return "Cancel Submission";
-    } else if (
-      sharedState.user.profile_type == "approved" ||
-      sharedState.user.profile_type == "talent"
-    ) {
-      return sharedState.talent.public ? "Public" : "Publish Profile";
+    switch (sharedState.user.profile_type) {
+      case "applying":
+        return "Send Profile for Approval";
+      case "waiting_for_approval":
+        return "Cancel Submission";
+      case "approved":
+      case "talent":
+        return sharedState.talent.public ? "Public" : "Publish Profile";
+      default:
+        return "Send Profile for Approval";
     }
   };
 

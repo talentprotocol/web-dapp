@@ -16,7 +16,7 @@ class API::V1::SupportersController < ApplicationController
   end
 
   def upgrade_profile_to_talent
-    investor = Investor.find_by(id: params[:supporter_id])
+    investor = Investor.find(params[:supporter_id])
     if investor.id != current_user.investor.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
