@@ -113,9 +113,7 @@ Rails.application.routes.draw do
   # redirect /talent to /u so we have the old route still working
   get "/talent/:username", to: redirect("/u/%{username}")
 
-  constraints(format: :html) do
-    root to: "sessions#new", as: :root
-  end
+  root to: "sessions#new", as: :root
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
