@@ -102,9 +102,10 @@ Rails.application.routes.draw do
     get "/sign_up" => "pages#home", :as => :sign_up
     get "/" => "sessions#new", :as => "sign_in"
     delete "/" => "sessions#new", :as => "sign_in_redirect"
-    delete "/sign_out" => "sessions#destroy", :as => "sign_out"
     get "/confirm_email(/:token)" => "email_confirmations#update", :as => "confirm_email"
   end
+
+  delete "/sign_out" => "sessions#destroy", :as => "sign_out"
   # end Auth
 
   resources :wait_list, only: [:create, :index]
