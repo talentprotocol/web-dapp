@@ -1,6 +1,10 @@
 class SessionsController < Clearance::SessionsController
   protect_from_forgery
 
+  # def new
+  #   respond_to :html
+  # end
+
   def create
     email = params[:session][:email]
 

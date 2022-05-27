@@ -24,12 +24,12 @@
   border: 8px solid $dark-bg-01;
 }
 
-.dark-body .talent-list-header {
+.talent-list-header {
   height: 277px;
   margin-top: -40px;
 
   &::before {
-    background-color: $gray-900;
+    background-color: $surface-01;
     content: "";
     height: inherit;
     z-index: -1;
@@ -37,8 +37,15 @@
     position: absolute;
     top: 0;
     width: 100vw;
-    border-bottom: 1px solid $gray-800;
+    border-bottom: 1px solid $surface-01-hover;
     margin-top: 66px;
+  }
+}
+
+.dark-body .talent-list-header {
+  &::before {
+    background-color: $gray-900;
+    border-bottom: 1px solid $gray-800;
   }
 }
 
@@ -188,20 +195,7 @@
     padding-right: 8px;
   }
 
-  .dark-body .talent-list-header {
+  .talent-list-header {
     height: 240px;
-
-    &::before {
-      background-color: $gray-900;
-      content: "";
-      height: inherit;
-      z-index: -1;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100vw;
-      border-bottom: 1px solid $gray-800;
-      margin-top: 66px;
-    }
   }
 }
