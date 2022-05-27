@@ -1,13 +1,15 @@
 module Talents
   class Search
-    def initialize(filter_params: {}, sort_params: {})
+    def initialize(filter_params: {}, sort_params: {}, discovery_row: nil)
       @filter_params = filter_params
       @sort_params = sort_params
+      @discovery_row = discovery_row
     end
 
     def call
-      talents = Talent.base.joins(:user, :token).left_joins(user: :tags)
+      talents = Talent.base.joins(:user, :token)
 
+      talents = filter_by_discovery_row(talents) if discovery_row
       talents = filter_by_keyword(talents) if keyword
       talents = filter_by_status(talents)
 
@@ -16,17 +18,31 @@ module Talents
 
     private
 
-    attr_reader :filter_params, :sort_params
+    attr_reader :discovery_row, :filter_params, :sort_params
+
+    def filter_by_discovery_row(talents)
+      users = User.joins(tags: :discovery_row)
+
+      users = users.where(
+        "discovery_rows.id = ?",
+        discovery_row.id
+      )
+
+      talents.where(user_id: users.distinct.pluck(:id))
+    end
 
     def filter_by_keyword(talents)
-      talents
-        .where(
-          "users.username ilike :keyword " \
-          "OR users.display_name ilike :keyword " \
-          "OR tokens.ticker ilike :keyword " \
-          "OR tags.description ilike :keyword",
-          keyword: "%#{keyword}%"
-        )
+      users = User.joins(talent: :token).left_joins(:tags)
+
+      users = users.where(
+        "users.username ilike :keyword " \
+        "OR users.display_name ilike :keyword " \
+        "OR tokens.ticker ilike :keyword " \
+        "OR tags.description ilike :keyword ",
+        keyword: "%#{keyword}%"
+      )
+
+      talents.where(user: users.distinct.select(:id))
     end
 
     def keyword

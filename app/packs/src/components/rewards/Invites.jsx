@@ -129,7 +129,7 @@ const Overview = ({ inviteType, invites }) => {
               >
                 <div className="mb-2 cursor-pointer d-flex align-items-center">
                   <P3 className="mr-2">{`${inviteType} Invites Available`}</P3>
-                  <Help color="currentColor" />
+                  <Help color="#536471" />
                 </div>
               </Tooltip>
             ) : (
@@ -415,7 +415,7 @@ const Invites = ({
           style={{ width: "fit-content" }}
         >
           <H4 bold className="mr-2 d-inline" text="Supporter Invite"></H4>
-          <Help color="currentColor" className="cursor-pointer" />
+          <Help color="#536471" className="cursor-pointer" />
         </div>
       </Tooltip>
       <Overview inviteType="Supporter" invites={supporterInvites} />
@@ -433,7 +433,7 @@ const Invites = ({
               style={{ width: "fit-content" }}
             >
               <H4 bold className="mr-2 d-inline" text="Talent Invite"></H4>
-              <Help color="currentColor" className="cursor-pointer" />
+              <Help color="#536471" className="cursor-pointer" />
             </div>
           </Tooltip>
           <Overview inviteType="Talent" invites={talentInvites} />

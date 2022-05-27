@@ -19,7 +19,7 @@ const TalentTableCardMode = ({
       )}
     >
       {talents.map((talent) => (
-        <div key={talent.id} className={cx("mt-3", !mobile && "pr-4")}>
+        <div key={talent.id} className={cx("mb-3", !mobile && "pr-4")}>
           <NewTalentCard
             name={talent.user.name}
             ticker={talent.token.ticker}

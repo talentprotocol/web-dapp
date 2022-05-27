@@ -40,4 +40,8 @@ class ApplicationController < ActionController::Base
   rescue
     0
   end
+
+  def current_user_watchlist
+    current_user ? current_user.following.pluck(:user_id) : []
+  end
 end

@@ -27,7 +27,7 @@ class UsersController < ApplicationController
       @talent = TalentBlueprint.render_as_json(
         talent,
         view: :extended,
-        current_user: current_user,
+        current_user_watchlist: current_user_watchlist,
         tags: @user.tags.where(hidden: false)
       )
     else

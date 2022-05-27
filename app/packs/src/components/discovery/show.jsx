@@ -1,4 +1,8 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
+import { ArrowLeft, Help } from "src/components/icons";
+import Tooltip from "src/components/design_system/tooltip";
+import Button from "src/components/design_system/button";
+import { ethers } from "ethers";
 
 import { useWindowDimensionsHook } from "src/utils/window";
 
@@ -13,24 +17,23 @@ import {
   getMarketCap,
   getProgress,
 } from "src/utils/viewHelpers";
-import { post, destroy } from "src/utils/requests";
-import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
-
-import { H3, P1, P2 } from "src/components/design_system/typography";
-import TalentTableListMode from "./TalentTableListMode";
-import TalentTableCardMode from "./TalentTableCardMode";
-import TalentOptions from "./TalentOptions";
-
 import {
   compareName,
   compareOccupation,
   compareSupporters,
   compareMarketCap,
 } from "src/components/talent/utils/talent";
+import { post, destroy } from "src/utils/requests";
+import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+
+import { H3, P1, P2 } from "src/components/design_system/typography";
+import TalentTableListMode from "src/components/talent/TalentTableListMode";
+import TalentTableCardMode from "src/components/talent/TalentTableCardMode";
+import TalentOptions from "src/components/talent/TalentOptions";
 
 import cx from "classnames";
 
-const TalentPage = ({ talents }) => {
+const DiscoveryShow = ({ discoveryRow, talents }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
@@ -46,8 +49,9 @@ const TalentPage = ({ talents }) => {
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
 
-  const changeTab = (tab) => {
-    setWatchlistOnly(tab === "Watchlist" ? true : false);
+  const totalSupplyToString = (totalSupply) => {
+    const bignumber = ethers.BigNumber.from(totalSupply).div(10);
+    return ethers.utils.commify(ethers.utils.formatUnits(bignumber));
   };
 
   const updateFollow = async (talent) => {
@@ -80,9 +84,7 @@ const TalentPage = ({ talents }) => {
 
   const filteredTalents = useMemo(() => {
     let desiredTalent = [...localTalents];
-    if (watchlistOnly) {
-      desiredTalent = localTalents.filter((talent) => talent.isFollowing);
-    }
+
     let comparisonFunction;
 
     switch (selectedSort) {
@@ -146,18 +148,60 @@ const TalentPage = ({ talents }) => {
   }, [data, loading]);
 
   return (
-    <div className={cx("pb-6", mobile && "p-4")}>
-      <div className="mb-5 talent-list-header d-flex flex-column justify-content-center">
-        <H3 className="text-black mb-3" bold text="Explore All Talent" />
-        <P1
-          className="text-primary-03"
-          text="Support undiscovered talent and be rewarded as they grow."
-        />
+    <div className={cx(mobile && "p-4")}>
+      <div className="talent-list-header  d-flex flex-column justify-content-center">
+        <a className="button-link mb-5" href="/">
+          <Button
+            onClick={() => null}
+            type="white-ghost"
+            size="icon"
+            className="d-flex align-items-center justify-content-center"
+          >
+            <ArrowLeft color="currentColor" size={16} />
+          </Button>
+        </a>
+        <div className="d-flex align-items-center">
+          <H3 className="text-black mr-2" bold text={discoveryRow.title} />
+          {discoveryRow.tags && (
+            <Tooltip
+              body={discoveryRow.tags}
+              popOverAccessibilityId={"discovery_row_tags"}
+              placement="top"
+            >
+              <div className="cursor-pointer d-flex align-items-center">
+                <Help color="#536471" />
+              </div>
+            </Tooltip>
+          )}
+        </div>
+        {discoveryRow.description && (
+          <P1
+            className="text-primary-03 mb-4"
+            text={discoveryRow.description}
+          />
+        )}
+        <div className="d-flex">
+          <P1
+            bold
+            className="text-black d-inline mr-2"
+            text={`$${totalSupplyToString(discoveryRow.talentsTotalSupply)}`}
+          />
+          <P1
+            className="text-primary-03 mr-4 d-inline"
+            text={`${discoveryRow.title} Market Cap`}
+          />
+          <P1
+            bold
+            className="text-black d-inline mr-2"
+            text={discoveryRow.talentsCount}
+          />
+          <P1 className="text-primary-03 d-inline" text="talents" />
+        </div>
       </div>
       <TalentOptions
-        changeTab={changeTab}
+        headerDescription={`${discoveryRow.title} Talent List`}
         listModeOnly={listModeOnly}
-        searchUrl="/api/v1/talent"
+        searchUrl={`/discovery/${discoveryRow.slug}`}
         setListModeOnly={setListModeOnly}
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}
@@ -176,12 +220,12 @@ const TalentPage = ({ talents }) => {
         <TalentTableListMode
           theme={theme}
           talents={filteredTalents}
-          updateFollow={updateFollow}
           selectedSort={selectedSort}
           setSelectedSort={setSelectedSort}
           sortDirection={sortDirection}
           setSortDirection={setSortDirection}
           showFirstBoughtField={false}
+          updateFollow={updateFollow}
         />
       ) : (
         <TalentTableCardMode
@@ -197,7 +241,7 @@ export default (props, railsContext) => {
   return () => (
     <ThemeContainer {...props}>
       <ApolloProvider client={client(railsContext.contractsEnv)}>
-        <TalentPage {...props} />
+        <DiscoveryShow {...props} />
       </ApolloProvider>
     </ThemeContainer>
   );
