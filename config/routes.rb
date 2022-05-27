@@ -98,7 +98,7 @@ Rails.application.routes.draw do
       only: [:edit, :update]
   end
 
-  constraints(format: :html) do
+  constraints Routes::FormatConstraints.new(:html) do
     get "/sign_up" => "pages#home", :as => :sign_up
     get "/" => "sessions#new", :as => "sign_in"
     delete "/" => "sessions#new", :as => "sign_in_redirect"
@@ -113,7 +113,9 @@ Rails.application.routes.draw do
   # redirect /talent to /u so we have the old route still working
   get "/talent/:username", to: redirect("/u/%{username}")
 
-  root to: "sessions#new", as: :root
+  constraints Routes::FormatConstraints.new(:html) do
+    root to: "sessions#new", as: :root
+  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
