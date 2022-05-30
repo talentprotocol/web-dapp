@@ -4,6 +4,8 @@ class Invite < ApplicationRecord
   has_many :invitees, class_name: "User", inverse_of: :invited
   has_one :partnership
 
+  validates :code, presence: true
+
   INVITE_CODE_SIZE = 8
 
   def active?
