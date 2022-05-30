@@ -1,6 +1,8 @@
 class Invite < ApplicationRecord
   belongs_to :user
+
   has_many :invitees, class_name: "User", inverse_of: :invited
+  has_one :partnership
 
   INVITE_CODE_SIZE = 8
 

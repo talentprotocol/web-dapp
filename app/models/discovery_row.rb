@@ -1,9 +1,9 @@
 class DiscoveryRow < ApplicationRecord
-  include ::ProfilePictureUploader::Attachment(:logo)
   extend FriendlyId
 
-  has_many :tags
+  belongs_to :partnership, optional: true
 
+  has_many :tags
   has_many :visible_tags, -> { visible }, class_name: "Tag"
 
   validates :title, :slug, presence: true, uniqueness: true
