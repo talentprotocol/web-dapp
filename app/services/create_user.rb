@@ -98,7 +98,7 @@ class CreateUser
   end
 
   def create_invite(user)
-    service = CreateInvite.new(user_id: user.id)
+    service = Invites::Create.new(user_id: user.id)
 
     service.call
   end
