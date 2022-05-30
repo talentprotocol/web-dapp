@@ -30,7 +30,7 @@ import {
 
 import cx from "classnames";
 
-const TalentPage = ({ talents }) => {
+const TalentPage = ({ talents, isAdmin }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
@@ -162,6 +162,7 @@ const TalentPage = ({ talents }) => {
         setLocalTalents={setLocalTalents}
         setSelectedSort={setSelectedSort}
         setSortDirection={setSortDirection}
+        isAdmin={isAdmin}
       />
       {localTalents.length === 0 && (
         <div className="d-flex justify-content-center mt-6">

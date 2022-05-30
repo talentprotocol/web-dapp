@@ -57,6 +57,8 @@ module Talents
           .active
           .where("tokens.deployed_at > ?", 1.month.ago)
           .order("tokens.deployed_at ASC")
+      elsif filter_params[:status] == "Pending approval"
+        Talent.joins(:user).where(user: {profile_type: "waiting_for_approval"})
       else
         talents
           .select("setseed(0.#{Date.today.jd}), talent.*")

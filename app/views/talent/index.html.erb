@@ -20,7 +20,8 @@
               isFollowing: talent['is_following'],
               userId: talent["user_id"]
             }
-          }
+          },
+          isAdmin: current_user.admin?
         },
         prerender: false) %>
     </div>

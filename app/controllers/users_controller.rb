@@ -105,6 +105,7 @@ class UsersController < ApplicationController
   end
 
   def should_see_talent_page?(talent)
-    (current_user.id == talent.user_id && talent.user.profile_type != "supporter") || talent.user.profile_type == "talent"
+    (current_user.id == talent.user_id && !talent.user.supporter?) ||
+      talent.user.talent? || current_user.admin?
   end
 end
