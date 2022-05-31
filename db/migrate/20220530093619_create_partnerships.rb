@@ -4,6 +4,7 @@ class CreatePartnerships < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.text :logo_data
       t.string :website_url
+      t.string :description
       t.string :twitter_url
       t.references :invite, foreign_key: true
 

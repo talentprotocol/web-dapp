@@ -36,6 +36,7 @@
             slug: @discovery_row["slug"],
             tags: @discovery_row["visible_tags"].map { |tag| tag["description"] }.join(", "),
             title: @discovery_row["title"],
+            partnership: @discovery_row["partnership"]
           }
         },
         prerender: false) %>

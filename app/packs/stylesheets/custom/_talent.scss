@@ -28,6 +28,10 @@
   height: 277px;
   margin-top: -40px;
 
+  &.partnership {
+    height: 420px;
+  }
+
   &::before {
     background-color: $surface-01;
     content: "";

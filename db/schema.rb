@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 2022_05_30_100649) do
     t.string "name", null: false
     t.text "logo_data"
     t.string "website_url"
+    t.string "description"
     t.string "twitter_url"
     t.bigint "invite_id"
     t.datetime "created_at", precision: 6, null: false
@@ -332,8 +333,8 @@ ActiveRecord::Schema.define(version: 2022_05_30_100649) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"

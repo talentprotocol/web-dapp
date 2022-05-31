@@ -16,6 +16,7 @@ RSpec.describe Invites::CreatePartnership do
   let(:partnership_params) do
     {
       name: "Talent Protocol Core Team",
+      description: "Team building Talent Protocol.",
       website_url: "https://www.talentprotocol.com",
       twitter_url: "https://twitter.com/talentprotocol"
     }
@@ -51,6 +52,7 @@ RSpec.describe Invites::CreatePartnership do
     aggregate_failures do
       expect(partnership.invite).to eq invite
       expect(partnership.name).to eq "Talent Protocol Core Team"
+      expect(partnership.description).to eq "Team building Talent Protocol."
       expect(partnership.website_url).to eq "https://www.talentprotocol.com"
       expect(partnership.twitter_url).to eq "https://twitter.com/talentprotocol"
     end
