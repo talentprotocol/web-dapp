@@ -27,11 +27,11 @@ const Perk = ({
 
         <div className={`text-right ${mode}`}>
           {tokensLeftToRedeem === 0 ? (
-            <Tag className="tag-available" mode={mode}>
+            <Tag className="tag-available">
               <P3 bold text="Available" className="tag-available-label" />
             </Tag>
           ) : (
-            <Tag className="tag-unavailable" mode={mode}>
+            <Tag className="tag-unavailable">
               <P3 bold className="tag-unavailable-label">
                 Hold more {ethers.utils.commify(tokensLeftToRedeem)} {ticker}
               </P3>

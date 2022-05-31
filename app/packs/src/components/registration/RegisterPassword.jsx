@@ -62,7 +62,6 @@ const RegisterPassword = ({ themePreference, changePassword, changeStep }) => {
           <div className="d-flex flex-wrap">
             {tags.map((tag) => (
               <Tag
-                mode={themePreference}
                 className={`mr-2 mt-2${errors[tag] ? "" : " bg-success"}`}
                 key={tag}
               >

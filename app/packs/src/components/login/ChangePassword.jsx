@@ -46,7 +46,7 @@ const ChangePasswordForm = ({
         />
         <div className="d-flex flex-wrap">
           {tags.map((tag) => (
-            <Tag mode={themePreference} className="mr-2  mt-2" key={tag}>
+            <Tag className="mr-2 mt-2" key={tag}>
               <P3 mode={themePreference} text={tag} bold />
             </Tag>
           ))}
