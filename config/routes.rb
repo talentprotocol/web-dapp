@@ -78,6 +78,9 @@ Rails.application.routes.draw do
         resources :investor, only: [:update]
         resources :perks, only: [:show]
         resources :races, only: [:show]
+        resources :supporters do
+          patch :upgrade_profile_to_talent
+        end
       end
     end
   end

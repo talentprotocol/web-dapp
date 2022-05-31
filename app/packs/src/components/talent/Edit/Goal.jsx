@@ -112,7 +112,7 @@ const Goal = (props) => {
   const {
     career_goal,
     mode,
-    togglePublicProfile,
+    onProfileButtonClick,
     publicButtonType,
     disablePublicButton,
     talent,
@@ -120,6 +120,7 @@ const Goal = (props) => {
     goals,
     changeTab,
     changeSharedState,
+    buttonText,
   } = props;
   const [allGoals, setAllGoals] = useState({
     new: emptyGoal("new"),
@@ -364,7 +365,7 @@ const Goal = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -474,7 +475,7 @@ const Goal = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         )}
         <LoadingButton

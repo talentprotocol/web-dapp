@@ -160,9 +160,10 @@ const Highlights = (props) => {
     changeTab,
     mode,
     changeSharedState,
-    togglePublicProfile,
+    onProfileButtonClick,
     publicButtonType,
     disablePublicButton,
+    buttonText,
   } = props;
   const [allMilestones, setAllMilestones] = useState({
     new: emptyHighlight("new"),
@@ -332,7 +333,7 @@ const Highlights = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -406,7 +407,7 @@ const Highlights = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         )}
         <LoadingButton

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 import Button from "src/components/design_system/button";
-import { P2 } from "src/components/design_system/typography";
+import { H5, P2 } from "src/components/design_system/typography";
+import Modal from "react-bootstrap/Modal";
+import { patch } from "src/utils/requests";
 import {
+  Alert,
   ArrowFill,
   User,
   Edit,
@@ -14,7 +16,65 @@ import {
   Moon,
 } from "src/components/icons";
 
+export const ApplyToLaunchTokenModal = ({ show, hide, user }) => {
+  const upgradeToTalent = async () => {
+    const response = await patch(
+      `/api/v1/supporters/${user.investorId}/upgrade_profile_to_talent`
+    )
+      .then(() => window.location.replace(`/u/${user.username}/edit_profile`))
+      .catch(() => setLoading(false));
+
+    if (response.users) {
+      setUsers(response.users);
+    }
+  };
+
+  return (
+    <Modal
+      show={show}
+      onHide={hide}
+      centered
+      dialogClassName="remove-background"
+    >
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body className="d-flex flex-column align-items-center p-4">
+        <Alert width={40} height={40} />
+        <H5
+          className="text-black mt-4 mb-1"
+          bold
+          text="Apply to launch your Talent Token"
+        />
+        <P2
+          className="text-primary-03 text-center"
+          text="Launching your token requires an application and validation by the community.
+            It's important that all talents are a good fit with the platform and motivated to participate.
+            By clicking “Let's do this” your profile will have additional information you'll need to fill out to apply."
+        />
+        <div className="d-flex mt-6 w-100">
+          <Button
+            className="mr-2 w-100"
+            onClick={hide}
+            text="Cancel"
+            type="white-subtle"
+            size="big"
+          />
+          <Button
+            className="w-100"
+            onClick={upgradeToTalent}
+            text="Let's do this!"
+            type="primary-default"
+            size="big"
+          />
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
+
   const onClickInvites = () => {
     const url = `/u/${user.username}/edit_profile?tab=Invites`;
 
@@ -95,14 +155,29 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <P2 bold text="Sign out" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Divider className="menu-divider mx-2 my-2" />
-        <Button
-          onClick={onClickInvites}
-          type="primary-default"
-          size="big"
-          className="w-100 mb-2"
-        >
-          <P2 bold text="Invites" className="permanent-text-white" />
-        </Button>
+        {user.isTalent ? (
+          <Button
+            onClick={onClickInvites}
+            type="primary-default"
+            size="big"
+            className="w-100 mb-2"
+          >
+            <P2 bold text="Invites" className="permanent-text-white" />
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setShowApplyToLaunchTokenModal(true)}
+            type="primary-default"
+            size="big"
+            className="w-100 mb-2"
+          >
+            <P2
+              bold
+              text="Apply to Launch Token"
+              className="permanent-text-white"
+            />
+          </Button>
+        )}
         <Button
           onClick={onClickTransak}
           type="primary-outline"
@@ -112,6 +187,11 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <P2 bold text="Get funds" className="current-color" />
         </Button>
       </Dropdown.Menu>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        user={user}
+      />
     </Dropdown>
   );
 };
