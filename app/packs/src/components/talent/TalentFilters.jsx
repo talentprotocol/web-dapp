@@ -1,12 +1,23 @@
-import React, { useState } from "react";
-import { get } from "src/utils/requests";
+import React, { useMemo } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import { P2, P3 } from "src/components/design_system/typography";
 import { OrderBy } from "src/components/icons";
 
-const TalentFilters = ({ status, setStatus, filter }) => {
-  const options = ["All", "Trending", "Latest added", "Launching soon"];
+const TalentFilters = ({ status, setStatus, filter, isAdmin = false }) => {
+  const options = useMemo(() => {
+    if (isAdmin) {
+      return [
+        "All",
+        "Trending",
+        "Latest added",
+        "Launching soon",
+        "Pending approval",
+      ];
+    }
+
+    return ["All", "Trending", "Latest added", "Launching soon"];
+  }, []);
 
   const selectedClass = (option) =>
     option == status ? " text-primary" : "text-black";

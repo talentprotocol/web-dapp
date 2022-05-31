@@ -41,6 +41,7 @@
           currentUserId: current_user&.id,
           tokenLive: @talent["token"]["deployed"],
           isFollowing: @talent["is_following"],
+          admin: current_user.admin?,
           user: {
             id: @talent["user_id"],
             email: @talent["user"]["email"],

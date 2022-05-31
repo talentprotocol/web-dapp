@@ -30,6 +30,7 @@ import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
 
 const TalentShow = ({
+  admin,
   talent,
   token,
   perks,
@@ -56,6 +57,7 @@ const TalentShow = ({
   const [changingFollow, setChangingFollow] = useState(false);
   const { mobile, width } = useWindowDimensionsHook();
   const [sharedState, setSharedState] = useState({
+    admin,
     talent,
     token,
     perks,
@@ -116,6 +118,31 @@ const TalentShow = ({
     setChangingFollow(false);
   };
 
+  const approveUser = async () => {
+    const params = {
+      user: {
+        id: sharedState.user.id,
+        profile_type: "approved",
+      },
+    };
+
+    const response = await patch(
+      `/api/v1/talent/${sharedState.talent.id}`,
+      params
+    ).catch(() => {
+      return false;
+    });
+
+    if (response && !response.error) {
+      setSharedState((prev) => ({
+        ...prev,
+        user: { ...prev.user, profile_type: "approved" },
+      }));
+
+      return true;
+    }
+  };
+
   const changeTab = (tab) => {
     window.history.pushState({}, document.title, `${url.pathname}?tab=${tab}`);
     setPageInDisplay(tab);
@@ -148,15 +175,25 @@ const TalentShow = ({
 
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
-      <Button
-        onClick={() => setShow(true)}
-        disabled={!sharedState.token.contract_id}
-        type={currentUserId == user.id ? "white-subtle" : "primary-default"}
-        mode={theme.mode()}
-        className="mr-2"
-      >
-        Buy {ticker() || "Token"}
-      </Button>
+      {sharedState.admin &&
+      sharedState.user.profile_type == "waiting_for_approval" ? (
+        <Button
+          onClick={() => approveUser()}
+          type="primary-default"
+          className="mr-2"
+        >
+          Approve
+        </Button>
+      ) : (
+        <Button
+          onClick={() => setShow(true)}
+          disabled={!sharedState.token.contract_id}
+          type={currentUserId == user.id ? "white-subtle" : "primary-default"}
+          className="mr-2"
+        >
+          Buy {ticker() || "Token"}
+        </Button>
+      )}
       {sharedState.token.contract_id && (
         <StakeModal
           show={show}
