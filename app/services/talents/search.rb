@@ -1,13 +1,14 @@
 module Talents
   class Search
-    def initialize(filter_params: {}, sort_params: {}, discovery_row: nil)
+    def initialize(filter_params: {}, sort_params: {}, discovery_row: nil, admin: false)
       @filter_params = filter_params
       @sort_params = sort_params
       @discovery_row = discovery_row
+      @admin = admin
     end
 
     def call
-      talents = Talent.base.joins(:user, :token)
+      talents = admin ? Talent.joins(:user, :token) : Talent.base.joins(:user, :token)
 
       talents = filter_by_discovery_row(talents) if discovery_row
       talents = filter_by_keyword(talents) if keyword
@@ -18,7 +19,7 @@ module Talents
 
     private
 
-    attr_reader :discovery_row, :filter_params, :sort_params
+    attr_reader :discovery_row, :filter_params, :sort_params, :admin
 
     def filter_by_discovery_row(talents)
       users = User.joins(tags: :discovery_row)
@@ -57,8 +58,8 @@ module Talents
           .active
           .where("tokens.deployed_at > ?", 1.month.ago)
           .order("tokens.deployed_at ASC")
-      elsif filter_params[:status] == "Pending approval"
-        Talent.joins(:user).where(user: {profile_type: "waiting_for_approval"})
+      elsif filter_params[:status] == "Pending approval" && admin
+        talents.where(user: {profile_type: "waiting_for_approval"})
       else
         talents
           .select("setseed(0.#{Date.today.jd}), talent.*")
