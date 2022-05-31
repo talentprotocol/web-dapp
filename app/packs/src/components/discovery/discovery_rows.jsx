@@ -73,14 +73,14 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
           className="cursor-pointer ml-2"
           target="_blank"
         >
-          <Tag className="cursor-pointer tag-container-secondary">
+          <Tag className="cursor-pointer secondary">
             <P3 className="current-color" bold text={row.badge} />
           </Tag>
         </a>
       );
     } else {
       return (
-        <Tag className="ml-2 tag-container-secondary">
+        <Tag className="ml-2 secondary">
           <P3 className="current-color" bold text={row.badge} />
         </Tag>
       );
