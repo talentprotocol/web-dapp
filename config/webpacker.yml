@@ -10,7 +10,7 @@ default: &default
 
   # Additional paths webpack should look up modules
   # ['app/assets', 'engine/foo/app/assets']
-  additional_paths: ['app/packs/images']
+  additional_paths: ["app/packs/images"]
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
@@ -24,8 +24,8 @@ development:
   dev_server:
     https: false
     host: localhost
-    port: 3035
-    public: localhost:3035
+    port: 8080
+    public: localhost:8080
     # Inject browserside javascript that is required by both HMR and Live (full) reload
     inject_client: true
     # Hot Module Replacement updates modules while the application is running without a full reload
@@ -45,9 +45,9 @@ development:
     quiet: false
     pretty: false
     headers:
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*"
     watch_options:
-      ignored: '**/node_modules/**'
+      ignored: "**/node_modules/**"
 
 test:
   <<: *default
