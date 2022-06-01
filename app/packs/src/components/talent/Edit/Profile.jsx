@@ -170,7 +170,8 @@ const Profile = (props) => {
     if (response && !response.error) {
       setSharedState((prev) => ({
         ...prev,
-        talent: { ...prev.talent, public: !prev.talent.public },
+        talent: { ...prev.talent, public: !response.public },
+        user: { ...prev.user, profile_type: response.user.profile_type },
       }));
       setSaving((prev) => ({ ...prev, loading: false, public: true }));
 
@@ -319,8 +320,6 @@ const Profile = (props) => {
                   disabled={requiredFields.length > 0 || saving["loading"]}
                   mode={theme.mode()}
                   loading={saving["loading"]}
-                  success={sharedState.talent.public}
-                  checkClassName="edit-profile-public-check"
                 >
                   {buttonText()}
                 </LoadingButton>
