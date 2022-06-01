@@ -80,6 +80,7 @@ jobs:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       THE_GRAPH_URL: https://api.thegraph.com/subgraphs/name/rubensousadinis/talent-mvp
+      WITH_COVERAGE: true
     services:
       postgres:
         image: postgres:13.6
@@ -123,3 +124,6 @@ jobs:
         run: |
           bin/rails db:create db:migrate > /dev/null
           bundle exec rspec
+
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v3
