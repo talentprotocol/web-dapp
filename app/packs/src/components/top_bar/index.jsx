@@ -74,6 +74,7 @@ export const TopBar = ({
   railsContext,
   notifications,
   hasUnreadMessages,
+  userIsImpersonated,
 }) => {
   const url = new URL(document.location);
   const [walletConnected, setWalletConnected] = useState(false);
@@ -211,6 +212,11 @@ export const TopBar = ({
     />
   );
 
+  const stopImpersonation = () => {
+    console.log('stopImpersonation');
+    window.history.pushState({}, document.title, `/impersonations/end_session`)
+  }
+
   if (width < 992) {
     return (
       <MobileTopBar
@@ -267,6 +273,18 @@ export const TopBar = ({
           <EarnMenu />
         </div>
         <div className="d-flex" style={{ height: 34 }}>
+          {userIsImpersonated && (
+            <Button
+              onClick={stopImpersonation}
+              type="white-subtle"
+              mode={theme.mode()}
+              className="mr-2"
+            >
+              <strong>
+                Stop Impersonation
+              </strong>
+            </Button>
+          )}
           {!showConnectButton() && connectedButton("mr-2")}
           {showConnectButton() && walletConnectButton()}
           <UserMenu

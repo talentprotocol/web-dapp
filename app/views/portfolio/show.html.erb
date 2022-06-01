@@ -2,12 +2,12 @@
   <div class="container-grid">
     <div class="secondary-content">
       <%= react_component("NewPortfolio", props: {
-        tokenAddress: current_user.talent&.token&.contract_id,
-        ticker: current_user.talent&.token&.ticker,
-        currentUserId: current_user.id,
-        messagingDisabled: current_user.messaging_disabled,
-        userNFT: { id: current_user.user_nft_token_id, tokenAddress: current_user.user_nft_address },
-        memberNFT: { id: current_user.member_nft_token_id, tokenAddress: current_user.member_nft_address }
+        tokenAddress: current_acting_user.talent&.token&.contract_id,
+        ticker: current_acting_user.talent&.token&.ticker,
+        currentUserId: current_acting_user.id,
+        messagingDisabled: current_acting_user.messaging_disabled,
+        userNFT: { id: current_acting_user.user_nft_token_id, tokenAddress: current_acting_user.user_nft_address },
+        memberNFT: { id: current_acting_user.member_nft_token_id, tokenAddress: current_acting_user.member_nft_address }
       }, prerender: false, html_options: { class: "h-100"}) %>
     </div>
   </div>

@@ -10,7 +10,7 @@ class API::V1::TalentController < ApplicationController
   def public_index
     talents =
       if token_id_params.present?
-        Talent.joins(:token).includes(:user).where(tokens: {contract_id: token_id_params})
+        Talent.includes(:token, :user).where(tokens: {contract_id: token_id_params})
       else
         []
       end
@@ -30,7 +30,7 @@ class API::V1::TalentController < ApplicationController
   end
 
   def update
-    if talent.id != current_user.talent.id
+    if talent.id != current_user.try(:talent).try(:id)
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 

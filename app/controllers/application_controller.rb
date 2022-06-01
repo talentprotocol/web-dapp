@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
+  helper_method :user_is_impersonated?, :current_acting_user
+  
   def render_404
     render "errors/404", status: :not_found
   end
@@ -21,6 +23,20 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+  
+  def current_impersonated_user
+    @current_impersonated_user ||= user_from_impersonated_cookie
+    @current_impersonated_user
+  end
+
+  def user_is_impersonated?
+    current_impersonated_user.present?
+  end
+
+  def current_acting_user
+    user_is_impersonated? ? current_impersonated_user : current_user 
+  end
+
 
   private
 
@@ -42,6 +58,18 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_watchlist
-    current_user ? current_user.following.pluck(:user_id) : []
+    current_acting_user ? current_acting_user.following.pluck(:user_id) : []
   end
+
+
+  def set_impersonated_user user
+    cookies.signed[:impersonated] = {
+      value: user.username
+    }
+  end
+
+  def user_from_impersonated_cookie
+    User.where(username: cookies.signed[:impersonated]).first
+  end
+
 end

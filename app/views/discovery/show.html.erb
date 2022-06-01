@@ -1,6 +1,6 @@
 <main class="main-content">
   <div class="container-grid">
-    <% if current_user.nil? %>
+    <% if current_acting_user.nil? %>
       <%= react_component("LoggedOutTopBar", props:
         {
         }, prerender: false)
