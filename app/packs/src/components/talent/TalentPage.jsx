@@ -12,6 +12,7 @@ import {
   getSupporterCount,
   getMarketCap,
   getProgress,
+  getMarketCapVariance,
 } from "src/utils/viewHelpers";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -34,11 +35,29 @@ const TalentPage = ({ talents, isAdmin }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
+
+  const varianceDays = 30;
+  const msDividend = 1000;
+  const dayInSeconds = 86400;
+  const currentDate = new Date();
+  const endDate =
+    Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      0,
+      0,
+      0
+    ) / msDividend;
+  const startDate = endDate - varianceDays * dayInSeconds;
+
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: {
       ids: localTalents
         .map((talent) => talent.token.contractId)
         .filter((id) => id),
+      startDate,
+      endDate
     },
   });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
@@ -115,25 +134,65 @@ const TalentPage = ({ talents, isAdmin }) => {
     }
 
     const newTalents = data.talentTokens.map(
-      ({ id, totalSupply, maxSupply, supporterCounter, ...rest }) => ({
-        ...rest,
-        token: { contractId: id },
-        progress: getProgress(totalSupply, maxSupply),
-        marketCap: getMarketCap(totalSupply),
-        supporterCounter: getSupporterCount(supporterCounter),
-      })
+      ({
+        id,
+        totalSupply,
+        maxSupply,
+        supporterCounter,
+        tokenDayData,
+        ...rest
+      }) => {
+        const localTalent = localTalents.find(
+          (talent) => talent.token.contractId == id
+        );
+        const deployDate = new Date(localTalent.token.deployedAt);
+        const deployDateUTC =
+          Date.UTC(
+            deployDate.getUTCFullYear(),
+            deployDate.getUTCMonth(),
+            deployDate.getUTCDate(),
+            0,
+            0,
+            0
+          ) / msDividend;
+        return {
+          ...rest,
+          token: { contractId: id },
+          progress: getProgress(totalSupply, maxSupply),
+          marketCap: getMarketCap(totalSupply),
+          supporterCounter: getSupporterCount(supporterCounter),
+          marketCapVariance: getMarketCapVariance(
+            tokenDayData || [],
+            deployDateUTC,
+            startDate,
+            endDate,
+            totalSupply
+          ),
+        };
+      }
     );
 
     setLocalTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce(
-          (result, { id, token, marketCap, supporterCounter, ...rest }) => {
+          (
+            result,
+            {
+              id,
+              token,
+              marketCap,
+              supporterCounter,
+              marketCapVariance,
+              ...rest
+            }
+          ) => {
             result[token.contractId || id] = {
               ...(result[token.contractId || id] || {}),
               id: result[token.contractId || id]?.id || id,
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
               supporterCounter: supporterCounter || "-1",
+              marketCapVariance: marketCapVariance || "-1",
               ...rest,
             };
 
