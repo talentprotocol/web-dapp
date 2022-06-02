@@ -1,3 +1,4 @@
+export { default as Alert } from "src/components/icons/Alert";
 export { default as ArrowLeft } from "src/components/icons/ArrowLeft";
 export { default as ArrowRight } from "src/components/icons/ArrowRight";
 export { default as ArrowForward } from "src/components/icons/ArrowForward";

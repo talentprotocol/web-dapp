@@ -4,13 +4,13 @@ import P2 from "src/components/design_system/typography/p2";
 import P3 from "src/components/design_system/typography/p3";
 import cx from "classnames";
 
-const Tag = ({ text, mode, size, children, className }) => {
+const Tag = ({ text, size, children, className }) => {
   return (
-    <div className={cx("tag-container", mode, className)}>
+    <div className={cx("tag-container", className)}>
       {text && (
         <>
-          {size === "normal" && <P2 mode={mode} text={text} />}
-          {size === "small" && <P3 mode={mode} text={text} />}
+          {size === "normal" && <P2 text={text} />}
+          {size === "small" && <P3 text={text} />}
         </>
       )}
       {children}
@@ -20,14 +20,12 @@ const Tag = ({ text, mode, size, children, className }) => {
 
 Tag.defaultProps = {
   text: null,
-  mode: "light",
   size: "normal",
   children: null,
 };
 
 Tag.propTypes = {
   text: string,
-  mode: oneOf(["light", "dark"]),
   size: string,
   children: node,
 };

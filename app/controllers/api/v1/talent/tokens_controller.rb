@@ -2,7 +2,7 @@ class API::V1::Talent::TokensController < ApplicationController
   after_action :notify_of_change
 
   def update
-    if current_user.nil? || talent.id != current_user.talent.id
+    if current_user.nil? || talent.id != current_user.talent.id || cannot_launch_token
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
@@ -11,7 +11,8 @@ class API::V1::Talent::TokensController < ApplicationController
     if token.update(token_params)
       if token.deployed? && !was_deployed
         token.update!(deployed_at: Time.current)
-        talent.update(public: true, supporters_count: 0, total_supply: Talent.base_supply)
+        talent.update!(public: true, supporters_count: 0, total_supply: Talent.base_supply)
+        current_user.update!(profile_type: "talent")
         AddRewardToInviterJob.perform_later(token.id)
         AddUsersToMailerliteJob.perform_later(current_user.id)
         SendMemberNFTToUserJob.perform_later(user_id: current_user.id)
@@ -51,5 +52,9 @@ class API::V1::Talent::TokensController < ApplicationController
       :contract_id,
       :deployed
     )
+  end
+
+  def cannot_launch_token
+    !current_user.approved && !current_user.profile_type.talent
   end
 end

@@ -14,7 +14,7 @@ const UserTags = ({ tags, talent_id, className, mode }) => {
         }`}
       >
         {validTags.map((tag) => (
-          <Tag mode={mode} className="mr-2 mt-2" key={`${talent_id}_${tag}`}>
+          <Tag className="mr-2 mt-2" key={`${talent_id}_${tag}`}>
             <a href={`/talent?keyword=${tag}`} className="text-decoration-none">
               <P2 mode={mode} text={tag} bold role="button" />
             </a>
