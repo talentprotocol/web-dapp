@@ -4,7 +4,6 @@ import ThemeContainer, { useTheme } from "src/contexts/ThemeContext";
 
 import { LogoLight, LogoDark, Logo } from "src/components/icons";
 import Button from "src/components/design_system/button";
-import ViralLoopsButton from "src/components/design_system/button/ViralLoopsButton";
 import { Sun, Moon } from "src/components/icons";
 
 export const LoggedOutTopBar = ({}) => {
@@ -28,7 +27,11 @@ export const LoggedOutTopBar = ({}) => {
           )}
         </div>
         <div className="d-flex" style={{ height: 34 }}>
-          <ViralLoopsButton type="button" text="Join the waitlist" />
+          <Button
+            text="Sign up"
+            type="primary-default"
+            onClick={() => (window.location.href = "/sign_up")}
+          />
           <Button
             type="white-subtle"
             onClick={() => (window.location.href = "/")}
