@@ -55,6 +55,6 @@ class API::V1::Talent::TokensController < ApplicationController
   end
 
   def cannot_launch_token
-    !current_user.approved && !current_user.profile_type.talent
+    !current_user.approved? && !current_user.talent?
   end
 end

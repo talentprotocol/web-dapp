@@ -44,22 +44,15 @@ const Welcome = ({
   };
 
   const invalidForm =
-    !validEmail() ||
-    !emailValidated ||
-    localCode.length < 1 ||
-    !acceptedTerms ||
-    !localCaptcha;
+    !validEmail() || !emailValidated || !acceptedTerms || !localCaptcha;
 
   const submitWelcomeForm = (e) => {
     e.preventDefault();
-    if (
-      localEmail != "" &&
-      validEmail() &&
-      localCode.length > 0 &&
-      localCaptcha
-    ) {
+    if (localEmail != "" && validEmail() && localCaptcha) {
       changeEmail(localEmail);
-      changeCode(localCode);
+      if (localCode.length > 0) {
+        changeCode(localCode);
+      }
       setCaptcha(localCaptcha);
       changeStep(2);
     }
