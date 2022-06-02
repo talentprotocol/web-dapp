@@ -9,21 +9,14 @@ class CreateUser
     ActiveRecord::Base.transaction do
       invite = Invite.find_by(code: invite_code)
 
-      if invite.nil? || !invite.active?
-        @result[:success] = false
-        @result[:field] = "invite"
-        @result[:error] = "no valid invite provided"
-        return @result
-      end
-
-      invite.update(uses: invite.uses + 1)
+      invite&.update(uses: invite.uses + 1)
       user = create_user(email, username, password, invite, theme_preference)
 
       create_investor(user)
       create_feed(user)
-      give_reward_to_inviter(invite)
+      give_reward_to_inviter(invite) if invite
 
-      if invite.talent_invite?
+      if invite&.talent_invite?
         create_talent(user)
         create_token(user)
       end
@@ -67,12 +60,10 @@ class CreateUser
     user.password = password
     user.username = username.downcase.delete(" ", "")
     user.email_confirmation_token = Clearance::Token.new
-    user.invited = invite
+    user.invited = invite if invite
     user.theme_preference = theme_preference
     user.role = "basic"
-    if !invite.talent_invite?
-      user.race = Race.active_race
-    end
+
     user.save!
     user
   end
