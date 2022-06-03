@@ -41,17 +41,41 @@ export const getMarketCapVariance = (
   tokenDayData,
   deployDate,
   startDate,
+  endDate,
   totalSupply
 ) => {
+  const supplies = [];
+  const dayData = {};
+  const dayInSeconds = 86400;
 
-  if (startDate < deployDate) {
-    return "0%";
-  } else if (tokenDayData[0]) {
-      const startSupply = parseFloat(ethers.utils.formatUnits(tokenDayData[0].dailySupply));
-      const lastSupply = parseFloat(ethers.utils.formatUnits(totalSupply));
-      const variance = (startSupply - lastSupply) / lastSupply;
-      return `${variance > 0 ? '+' : ''}${parseAndCommify(variance)}%`
-  } else {
-    return "0%";
+  if (tokenDayData.length == 0) {
+    return '0';
   }
+
+  tokenDayData.forEach((data) => {
+    dayData[data.date] = parseFloat(ethers.utils.formatUnits(data.dailySupply));
+  });
+
+  for (let date = startDate, i = 0; date < endDate; date += dayInSeconds) {
+    if (date < deployDate) {
+      supplies.push(0);
+    } else if (dayData[date]) {
+      supplies.push(dayData[date]);
+    } else if (i == 0) {
+      supplies.push(parseFloat(ethers.utils.formatUnits(totalSupply)));
+    } else {
+      supplies.push(supplies[i - 1]);
+    }
+    i++;
+  }
+  const totalDailySupply = supplies.reduce((prev, current) => prev + current, 0);
+  const mean = totalDailySupply / supplies.length;
+
+  const sumForVariance = supplies.reduce(
+    (prev, current) => prev + Math.pow(current - mean, 2),
+    0
+  );
+  const variance = sumForVariance / supplies.length;
+  const marketCapVariance = parseAndCommify(variance * 0.1);
+  return marketCapVariance;
 };

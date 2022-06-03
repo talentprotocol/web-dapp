@@ -284,7 +284,9 @@ const TalentTableListMode = ({
           <Caption
             onClick={() => onOptionClick("Market Cap Variance")}
             bold
-            text={`30 DAYS MARKET CAP${sortIcon("Market Cap Variance")}`}
+            text={`30 DAY MARKET CAP VARIANCE${sortIcon(
+              "Market Cap Variance"
+            )}`}
             className="cursor-pointer"
           />
         </Table.Th>
@@ -389,23 +391,18 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               className={cx(
-                "pr-5",
-                talent.token.contractId ? "text-right" : "text-center"
+                "pr-3",
+                talent.token.contractId ? "" : "d-flex justify-content-center"
               )}
               onClick={() =>
                 (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2
-                className={
-                  talent.token.contractId
-                    ? talent.marketCapVariance.startsWith("-")
-                      ? "text-danger"
-                      : "text-success"
-                    : ""
-                }
                 text={
-                  talent.token.contractId ? `${talent.marketCapVariance}` : "-"
+                  talent.token.contractId
+                    ? `${currency(talent.marketCapVariance).format()}`
+                    : "-"
                 }
               />
             </Table.Td>
