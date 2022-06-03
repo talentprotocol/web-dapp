@@ -15,6 +15,7 @@ end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
+require "sidekiq/testing"
 
 ENV["RAILS_ENV"] ||= "test"
 
@@ -53,6 +54,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   ActiveJob::Base.queue_adapter = :test
+
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
 
   config.before(:each) do |example|
     Capybara.current_driver = JS_DRIVER if example.metadata[:js]
