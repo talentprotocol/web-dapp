@@ -109,7 +109,7 @@ class CreateUser
   def give_reward_to_inviter(invite)
     return unless invite.user
 
-    if invite.user.invites.sum(:uses) > 4
+    if invite.user.invites.where(talent_invite: true).sum(:uses) > 4
       UpdateTasksJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
     end
   end
