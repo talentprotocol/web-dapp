@@ -45,13 +45,13 @@ export const getMarketCapVariance = (
 ) => {
 
   if (startDate < deployDate) {
-    return 0;
+    return "0%";
   } else if (tokenDayData[0]) {
       const startSupply = parseFloat(ethers.utils.formatUnits(tokenDayData[0].dailySupply));
       const lastSupply = parseFloat(ethers.utils.formatUnits(totalSupply));
       const variance = (startSupply - lastSupply) / lastSupply;
-      return `${variance < 0 ? '-' : '+'}${parseAndCommify(variance)}%`
+      return `${variance > 0 ? '+' : ''}${parseAndCommify(variance)}%`
   } else {
-    return 0;
+    return "0%";
   }
 };
