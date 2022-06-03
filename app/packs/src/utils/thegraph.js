@@ -27,7 +27,7 @@ const client = (env) => {
 export const PAGE_SIZE = 30;
 
 const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList($ids: [String!], $startDate: Int!, $endDate: Int!) {
+  query GetTalentList($ids: [String!], $startDate: Int!) {
     talentTokens(first: 500, where: { id_in: $ids }) {
       id
       supporterCounter
@@ -35,10 +35,7 @@ const GET_TALENT_PORTFOLIO = gql`
       maxSupply
       marketCap
       name
-      tokenDayData(
-        where: { date_gte: $startDate, date_lt: $endDate }
-        orderBy: date
-      ) {
+      tokenDayData(where: { date_lte: $startDate }, orderBy: date, orderDirection: desc, first: 1) {
         id
         date
         dailySupply

@@ -56,8 +56,7 @@ const TalentPage = ({ talents, isAdmin }) => {
       ids: localTalents
         .map((talent) => talent.token.contractId)
         .filter((id) => id),
-      startDate,
-      endDate
+      startDate
     },
   });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
@@ -165,7 +164,6 @@ const TalentPage = ({ talents, isAdmin }) => {
             tokenDayData || [],
             deployDateUTC,
             startDate,
-            endDate,
             totalSupply
           ),
         };
@@ -192,7 +190,7 @@ const TalentPage = ({ talents, isAdmin }) => {
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
               supporterCounter: supporterCounter || "-1",
-              marketCapVariance: marketCapVariance || "-1",
+              marketCapVariance: marketCapVariance || "0%",
               ...rest,
             };
 
