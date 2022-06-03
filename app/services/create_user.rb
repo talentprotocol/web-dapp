@@ -19,6 +19,7 @@ class CreateUser
       if invite&.talent_invite?
         create_talent(user)
         create_token(user)
+        update_profile_type(user)
       end
 
       create_invite(user)
@@ -112,5 +113,9 @@ class CreateUser
     if invite.user.invites.where(talent_invite: true).sum(:uses) > 4
       UpdateTasksJob.perform_later(type: "Tasks::Register", user_id: invite.user.id)
     end
+  end
+
+  def update_profile_type(user)
+    user.talent!
   end
 end
