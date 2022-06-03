@@ -50,4 +50,24 @@ RSpec.describe CreateUser do
       end
     end
   end
+
+  context "when it is a talent invite" do
+    let(:invite) { create(:invite, user: user, talent_invite: true) }
+    let(:user_creation_params) {
+      {
+        email: "talent@talentprotocol.com",
+        username: "talent",
+        password: "password",
+        invite_code: invite.code,
+        theme_preference: "light"
+      }
+    }
+
+    it "creates a new user with talent as profile type" do
+      create_user.call(user_creation_params)
+      user = User.find_by(email: "talent@talentprotocol.com")
+
+      expect(user.profile_type).to eq("talent")
+    end
+  end
 end
