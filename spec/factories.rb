@@ -19,4 +19,9 @@ FactoryBot.define do
   factory :notification do
     type { MessageReceivedNotification.name }
   end
+
+  factory :invite do
+    code { SecureRandom.hex(8) }
+    max_uses { 5 }
+  end
 end
