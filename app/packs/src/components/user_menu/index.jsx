@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
 import Button from "src/components/design_system/button";
-import { H5, P2 } from "src/components/design_system/typography";
-import Modal from "react-bootstrap/Modal";
-import { patch } from "src/utils/requests";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
+import { P2 } from "src/components/design_system/typography";
+
 import {
-  Alert,
   ArrowFill,
   User,
   Edit,
@@ -15,61 +14,6 @@ import {
   Sun,
   Moon,
 } from "src/components/icons";
-
-export const ApplyToLaunchTokenModal = ({ show, hide, user }) => {
-  const upgradeToTalent = async () => {
-    const response = await patch(
-      `/api/v1/supporters/${user.investorId}/upgrade_profile_to_talent`
-    )
-      .then(() => window.location.replace(`/u/${user.username}/edit_profile`))
-      .catch(() => setLoading(false));
-
-    if (response.users) {
-      setUsers(response.users);
-    }
-  };
-
-  return (
-    <Modal
-      show={show}
-      onHide={hide}
-      centered
-      dialogClassName="remove-background"
-    >
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Body className="d-flex flex-column align-items-center p-4">
-        <Alert width={40} height={40} />
-        <H5
-          className="text-black mt-4 mb-1"
-          bold
-          text="Apply to launch your Talent Token"
-        />
-        <P2
-          className="text-primary-03 text-center"
-          text="Launching your token requires an application and validation by the community.
-            It's important that all talents are a good fit with the platform and motivated to participate.
-            By clicking “Let's do this” your profile will have additional information you'll need to fill out to apply."
-        />
-        <div className="d-flex mt-6 w-100">
-          <Button
-            className="mr-2 w-100"
-            onClick={hide}
-            text="Cancel"
-            type="white-subtle"
-            size="big"
-          />
-          <Button
-            className="w-100"
-            onClick={upgradeToTalent}
-            text="Let's do this!"
-            type="primary-default"
-            size="big"
-          />
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
-};
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
   const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
@@ -190,7 +134,8 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
       <ApplyToLaunchTokenModal
         show={showApplyToLaunchTokenModal}
         hide={() => setShowApplyToLaunchTokenModal(false)}
-        user={user}
+        investorId={user.investorId}
+        username={user.username}
       />
     </Dropdown>
   );

@@ -95,20 +95,27 @@ const Rewards = ({
           usersThatBoughtTokensCount={usersThatBoughtTokensCount}
           racesCount={racesCount}
           isEligible={isEligible}
-          isTalent={isTalent}
+          investorId={user.investorId}
+          username={user.username}
         />
       )}
       {activeTab == "talent" && (
         <Invites
           username={user.username}
+          investorId={user.investorId}
           talentInvites={talentInvites}
           supporterInvites={supporterInvites}
           talentList={talentList}
-          isTalent={isTalent}
         />
       )}
       {activeTab == "quests" && (
-        <Quests quests={quests} questId={questId} setQuestId={setQuestId} />
+        <Quests
+          quests={quests}
+          questId={questId}
+          setQuestId={setQuestId}
+          investorId={user.investorId}
+          username={user.username}
+        />
       )}
     </>
   );

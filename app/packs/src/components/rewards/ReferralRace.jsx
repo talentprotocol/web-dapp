@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import currency from "currency.js";
-
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 
 import { P1, P2, P3, H4 } from "src/components/design_system/typography";
 import Tag from "src/components/design_system/tag";
@@ -9,19 +7,15 @@ import Caption from "src/components/design_system/typography/caption";
 import Button from "src/components/design_system/button";
 import Table from "src/components/design_system/table";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 const sumRewardAmounts = (total, reward) => total + reward.amount;
 
 const amountToTal = (amount) => `${currency(amount).dollars()} $TAL`;
 
-const RaceHeader = ({ isEligible, isTalent, username }) => {
-  const redirectToLaunchToken = () => {
-    if (isTalent) {
-      window.location.href = `u/${username}/edit_profile`;
-    } else {
-      window.open(TALENT_TOKEN_APPLICATION_FORM);
-    }
-  };
+const RaceHeader = ({ isEligible, investorId, username }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
 
   if (!isEligible) {
     return (
@@ -53,11 +47,17 @@ const RaceHeader = ({ isEligible, isTalent, username }) => {
             type="primary-outline"
             className="ml-0 ml-lg-2 mt-2 mt-lg-0"
             size="big"
-            onClick={redirectToLaunchToken}
+            onClick={() => setShowApplyToLaunchTokenModal(true)}
           >
             Launch a Talent Token
           </Button>
         </div>
+        <ApplyToLaunchTokenModal
+          show={showApplyToLaunchTokenModal}
+          hide={() => setShowApplyToLaunchTokenModal(false)}
+          investorId={investorId}
+          username={username}
+        />
       </div>
     );
   }
@@ -170,8 +170,8 @@ const ReferralRace = ({
   racesCount,
   raceRewards,
   username,
+  investorId,
   isEligible,
-  isTalent,
   raceRegisteredUsersCount,
   usersThatBoughtTokensCount,
 }) => {
@@ -185,8 +185,8 @@ const ReferralRace = ({
     <div className="mt-6 mt-lg-7 d-flex flex-column">
       <RaceHeader
         isEligible={!!isEligible}
-        isTalent={isTalent}
         username={username}
+        investorId={investorId}
       />
       <Overview
         raceRegisteredUsersCount={raceRegisteredUsersCount}

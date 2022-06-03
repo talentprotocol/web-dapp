@@ -26,7 +26,8 @@
           title: article["title"],
           description: article["description"],
           imgUrl: article["image_url"]
-        }}
+        }},
+        user: { id: current_user.id, investorId: current_user.investor&.id, username: current_user.username }
       },
       prerender: false) %>
   </div>
