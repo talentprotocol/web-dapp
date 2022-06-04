@@ -123,6 +123,8 @@ const StakeModal = ({
 
     setStage("Confirm");
 
+    console.log('chainData', chainData);
+
     const result = await chainData
       .createStake(targetToken.address, amount)
       .catch((error) => {

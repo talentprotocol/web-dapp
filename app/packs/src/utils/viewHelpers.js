@@ -44,12 +44,17 @@ export const getMarketCapVariance = (
   endDate,
   totalSupply
 ) => {
-  const supplies = [];
-  const dayData = {};
-  const dayInSeconds = 86400;
-
-  if (tokenDayData.length == 0) {
-    return '0';
+  if (startDate < deployDate) {
+    return "0%";
+  } else if (tokenDayData[0]) {
+    const startSupply = parseFloat(
+      ethers.utils.formatUnits(tokenDayData[0].dailySupply)
+    );
+    const lastSupply = parseFloat(ethers.utils.formatUnits(totalSupply));
+    const variance = (lastSupply - startSupply) / startSupply;
+    return `${variance < 0 ? "" : "+"}${parseAndCommify(variance)}%`;
+  } else {
+    return "0%";
   }
 
   tokenDayData.forEach((data) => {
@@ -78,4 +83,38 @@ export const getMarketCapVariance = (
   const variance = sumForVariance / supplies.length;
   const marketCapVariance = parseAndCommify(variance * 0.1);
   return marketCapVariance;
+};
+
+export const getStartDateForVariance = () => {
+  const varianceDays = 1;
+  const msDividend = 1000;
+  const dayInSeconds = 86400;
+  const currentDate = new Date();
+  const endDate =
+    Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      0,
+      0,
+      0
+    ) / msDividend;
+  const startDate = endDate - varianceDays * dayInSeconds;
+  return startDate;
+};
+
+export const getUTCDate = (date) => {
+  const msDividend = 1000;
+  const deployDate = new Date(date);
+  const deployDateUTC =
+    Date.UTC(
+      deployDate.getUTCFullYear(),
+      deployDate.getUTCMonth(),
+      deployDate.getUTCDate(),
+      0,
+      0,
+      0
+    ) / msDividend;
+
+  return deployDateUTC;
 };

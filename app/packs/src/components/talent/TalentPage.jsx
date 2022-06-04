@@ -13,6 +13,8 @@ import {
   getMarketCap,
   getProgress,
   getMarketCapVariance,
+  getStartDateForVariance,
+  getUTCDate,
 } from "src/utils/viewHelpers";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -36,28 +38,13 @@ const TalentPage = ({ talents, isAdmin }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
 
-  const varianceDays = 30;
-  const msDividend = 1000;
-  const dayInSeconds = 86400;
-  const currentDate = new Date();
-  const endDate =
-    Date.UTC(
-      currentDate.getUTCFullYear(),
-      currentDate.getUTCMonth(),
-      currentDate.getUTCDate(),
-      0,
-      0,
-      0
-    ) / msDividend;
-  const startDate = endDate - varianceDays * dayInSeconds;
-
+  const startDate = getStartDateForVariance();
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: {
       ids: localTalents
         .map((talent) => talent.token.contractId)
         .filter((id) => id),
       startDate,
-      endDate
     },
   });
   const [watchlistOnly, setWatchlistOnly] = useState(false);
@@ -140,21 +127,20 @@ const TalentPage = ({ talents, isAdmin }) => {
         maxSupply,
         supporterCounter,
         tokenDayData,
+        createdAtTimestamp,
         ...rest
       }) => {
-        const localTalent = localTalents.find(
-          (talent) => talent.token.contractId == id
-        );
-        const deployDate = new Date(localTalent.token.deployedAt);
-        const deployDateUTC =
-          Date.UTC(
-            deployDate.getUTCFullYear(),
-            deployDate.getUTCMonth(),
-            deployDate.getUTCDate(),
-            0,
-            0,
-            0
-          ) / msDividend;
+        let deployDateUTC;
+        if (!!createdAtTimestamp) {
+          const msDividend = 1000;
+          deployDateUTC = getUTCDate(parseInt(createdAtTimestamp) * msDividend);
+        } else {
+          const localTalent = localTalents.find(
+            (talent) => talent.token.contractId == talent.id
+          );
+          deployDateUTC =
+            localTalent && getUTCDate(localTalent.token.deployedAt);
+        }
         return {
           ...rest,
           token: { contractId: id },
