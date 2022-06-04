@@ -151,7 +151,6 @@ const TalentPage = ({ talents, isAdmin }) => {
             tokenDayData || [],
             deployDateUTC || 0,
             startDate,
-            endDate,
             totalSupply
           ),
         };
