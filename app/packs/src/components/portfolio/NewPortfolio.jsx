@@ -247,14 +247,12 @@ const NewPortfolio = ({
           totalSupply: ethers.utils.formatUnits(talent.totalSupply),
           nrOfSupporters: talent.supporterCounter,
           contract_id: talent.id,
-          marketCapVariance: deployDateUTC
-            ? getMarketCapVariance(
-                talent.tokenDayData || [],
-                deployDateUTC,
-                startDate,
-                talent.totalSupply
-              )
-            : "0%",
+          marketCapVariance: getMarketCapVariance(
+            talent.tokenDayData || [],
+            deployDateUTC || 0,
+            startDate,
+            talent.totalSupply
+          ),
         };
       }
     );

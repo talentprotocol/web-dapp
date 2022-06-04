@@ -152,7 +152,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
           supporterCounter: getSupporterCount(supporterCounter),
           marketCapVariance: getMarketCapVariance(
             tokenDayData || [],
-            deployDateUTC,
+            deployDateUTC || 0,
             startDate,
             totalSupply
           ),

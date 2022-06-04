@@ -149,7 +149,7 @@ const TalentPage = ({ talents, isAdmin }) => {
           supporterCounter: getSupporterCount(supporterCounter),
           marketCapVariance: getMarketCapVariance(
             tokenDayData || [],
-            deployDateUTC,
+            deployDateUTC || 0,
             startDate,
             endDate,
             totalSupply

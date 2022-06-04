@@ -257,14 +257,12 @@ const Supporting = ({
           firstTimeBoughtAt: dayjs
             .unix(firstTimeBoughtAt)
             .format("DD MMM, YYYY"),
-          marketCapVariance: deployDateUTC
-            ? getMarketCapVariance(
-                talent.tokenDayData || [],
-                deployDateUTC,
-                startDate,
-                talent.totalSupply
-              )
-            : "0%",
+          marketCapVariance: getMarketCapVariance(
+            talent.tokenDayData || [],
+            deployDateUTC || 0,
+            startDate,
+            talent.totalSupply
+          ),
           talent,
         };
       }

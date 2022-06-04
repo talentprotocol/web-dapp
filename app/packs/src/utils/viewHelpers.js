@@ -41,7 +41,6 @@ export const getMarketCapVariance = (
   tokenDayData,
   deployDate,
   startDate,
-  endDate,
   totalSupply
 ) => {
   if (startDate < deployDate) {
@@ -56,33 +55,6 @@ export const getMarketCapVariance = (
   } else {
     return "0%";
   }
-
-  tokenDayData.forEach((data) => {
-    dayData[data.date] = parseFloat(ethers.utils.formatUnits(data.dailySupply));
-  });
-
-  for (let date = startDate, i = 0; date < endDate; date += dayInSeconds) {
-    if (date < deployDate) {
-      supplies.push(0);
-    } else if (dayData[date]) {
-      supplies.push(dayData[date]);
-    } else if (i == 0) {
-      supplies.push(parseFloat(ethers.utils.formatUnits(totalSupply)));
-    } else {
-      supplies.push(supplies[i - 1]);
-    }
-    i++;
-  }
-  const totalDailySupply = supplies.reduce((prev, current) => prev + current, 0);
-  const mean = totalDailySupply / supplies.length;
-
-  const sumForVariance = supplies.reduce(
-    (prev, current) => prev + Math.pow(current - mean, 2),
-    0
-  );
-  const variance = sumForVariance / supplies.length;
-  const marketCapVariance = parseAndCommify(variance * 0.1);
-  return marketCapVariance;
 };
 
 export const getStartDateForVariance = () => {

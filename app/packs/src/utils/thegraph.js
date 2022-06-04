@@ -27,7 +27,7 @@ const client = (env) => {
 export const PAGE_SIZE = 30;
 
 const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList($ids: [String!], $startDate: Int!, $endDate: Int!) {
+  query GetTalentList($ids: [String!], $startDate: Int!) {
     talentTokens(first: 500, where: { id_in: $ids }) {
       id
       supporterCounter
