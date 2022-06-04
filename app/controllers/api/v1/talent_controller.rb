@@ -1,9 +1,9 @@
 class API::V1::TalentController < ApplicationController
   def index
-    service = Talents::Search.new(filter_params: filter_params.to_h)
+    service = Talents::Search.new(filter_params: filter_params.to_h, admin: current_user.admin?)
     talents = service.call
 
-    render json: TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user: current_user), status: :ok
+    render json: TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
   end
 
   # public /
@@ -15,7 +15,7 @@ class API::V1::TalentController < ApplicationController
         []
       end
 
-    render json: TalentBlueprint.render(talents, view: :normal, current_user: current_user), status: :ok
+    render json: TalentBlueprint.render(talents, view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
   end
 
   # Public endpoint
@@ -23,14 +23,14 @@ class API::V1::TalentController < ApplicationController
     talent = Talent.joins(:token).find_by(token: {contract_id: params[:id]})
 
     if talent
-      render json: TalentBlueprint.render(talent, view: :normal, current_user: current_user), status: :ok
+      render json: TalentBlueprint.render(talent, view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end
   end
 
   def update
-    if talent.id != current_user.talent.id
+    if !current_user.admin? && talent.id != current_user.talent&.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
@@ -39,7 +39,7 @@ class API::V1::TalentController < ApplicationController
 
     if service.success
       CreateNotificationTalentChangedJob.perform_later(talent.user.followers.pluck(:follower_id), talent.user_id)
-      render json: service.talent, status: :ok
+      render json: TalentBlueprint.render(talent, view: :extended, current_user_watchlist: current_user_watchlist), status: :ok
     else
       render json: {error: "Unable to update Talent."}, status: :unprocessable_entity
     end
@@ -67,7 +67,8 @@ class API::V1::TalentController < ApplicationController
   def user_params
     params.require(:user).permit(
       :display_name,
-      :username
+      :username,
+      :profile_type
     )
   end
 

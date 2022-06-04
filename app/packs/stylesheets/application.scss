@@ -2,10 +2,12 @@
 @import "bootstrap/overrides";
 @import "libs";
 @import "sizes";
+@import "colors";
 @import "custom/button";
 @import "custom/slider";
 @import "custom/tooltip";
 @import "custom/checkbox";
+@import "custom/discovery";
 @import "custom/fields";
 @import "custom/chat";
 @import "custom/talent";
@@ -28,7 +30,6 @@
 @import "custom/placeholder";
 @import "custom/portfolio";
 @import "custom/rewards";
-@import "colors";
 @import "types";
 
 ::-webkit-scrollbar {

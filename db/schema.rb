@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_21_115233) do
+ActiveRecord::Schema.define(version: 2022_05_24_112720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,9 @@ ActiveRecord::Schema.define(version: 2022_04_21_115233) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "badge"
     t.string "badge_link"
+    t.string "slug"
+    t.text "description"
+    t.text "logo_data"
   end
 
   create_table "feed_posts", force: :cascade do |t|
@@ -317,8 +320,8 @@ ActiveRecord::Schema.define(version: 2022_04_21_115233) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
@@ -330,6 +333,7 @@ ActiveRecord::Schema.define(version: 2022_04_21_115233) do
     t.integer "member_nft_token_id"
     t.string "member_nft_tx"
     t.bigint "race_id"
+    t.string "profile_type", default: "supporter", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"

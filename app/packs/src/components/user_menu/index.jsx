@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import TalentProfilePicture from "../talent/TalentProfilePicture";
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 import Button from "src/components/design_system/button";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 import { P2 } from "src/components/design_system/typography";
+
 import {
   ArrowFill,
   User,
@@ -15,6 +16,9 @@ import {
 } from "src/components/icons";
 
 const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
+
   const onClickInvites = () => {
     const url = `/u/${user.username}/edit_profile?tab=Invites`;
 
@@ -95,14 +99,29 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <P2 bold text="Sign out" className="text-black ml-3" />
         </Dropdown.Item>
         <Dropdown.Divider className="menu-divider mx-2 my-2" />
-        <Button
-          onClick={onClickInvites}
-          type="primary-default"
-          size="big"
-          className="w-100 mb-2"
-        >
-          <P2 bold text="Invites" className="permanent-text-white" />
-        </Button>
+        {user.isTalent ? (
+          <Button
+            onClick={onClickInvites}
+            type="primary-default"
+            size="big"
+            className="w-100 mb-2"
+          >
+            <P2 bold text="Invites" className="permanent-text-white" />
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setShowApplyToLaunchTokenModal(true)}
+            type="primary-default"
+            size="big"
+            className="w-100 mb-2"
+          >
+            <P2
+              bold
+              text="Apply to Launch Token"
+              className="permanent-text-white"
+            />
+          </Button>
+        )}
         <Button
           onClick={onClickTransak}
           type="primary-outline"
@@ -112,6 +131,12 @@ const UserMenu = ({ user, toggleTheme, mode, onClickTransak, signOut }) => {
           <P2 bold text="Get funds" className="current-color" />
         </Button>
       </Dropdown.Menu>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={user.investorId}
+        username={user.username}
+      />
     </Dropdown>
   );
 };

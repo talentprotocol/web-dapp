@@ -155,6 +155,8 @@ const TalentTableListMode = ({
         return talent.occupation;
       case "Market Cap":
         return contractId ? `$${talent.marketCap}` : "-";
+      case "Market Cap Variance":
+        return contractId ? `$${talent.marketCapVariance}` : "-";
       case "Alphabetical Order":
         return talent.occupation;
       case "First Buy":
@@ -278,6 +280,16 @@ const TalentTableListMode = ({
             className="cursor-pointer"
           />
         </Table.Th>
+        <Table.Th className="col-2 px-0">
+          <Caption
+            onClick={() => onOptionClick("Market Cap Variance")}
+            bold
+            text={`30 DAY MARKET CAP VARIANCE${sortIcon(
+              "Market Cap Variance"
+            )}`}
+            className="cursor-pointer"
+          />
+        </Table.Th>
         {showFirstBoughtField && (
           <Table.Th>
             <Caption
@@ -376,6 +388,23 @@ const TalentTableListMode = ({
                   aria-valuemax="100"
                 ></div>
               </div>
+            </Table.Td>
+            <Table.Td
+              className={cx(
+                "pr-3",
+                talent.token.contractId ? "" : "d-flex justify-content-center"
+              )}
+              onClick={() =>
+                (window.location.href = `/u/${talent.user.username}`)
+              }
+            >
+              <P2
+                text={
+                  talent.token.contractId
+                    ? `${currency(talent.marketCapVariance).format()}`
+                    : "-"
+                }
+              />
             </Table.Td>
             {showFirstBoughtField && (
               <Table.Td>

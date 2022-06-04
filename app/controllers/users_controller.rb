@@ -23,11 +23,11 @@ class UsersController < ApplicationController
 
     CreateProfilePageVisitorJob.perform_later(ip: request.remote_ip, user_id: @user.id)
 
-    if talent
+    if should_see_talent_page?(talent)
       @talent = TalentBlueprint.render_as_json(
         talent,
         view: :extended,
-        current_user: current_user,
+        current_user_watchlist: current_user_watchlist,
         tags: @user.tags.where(hidden: false)
       )
     else
@@ -102,5 +102,9 @@ class UsersController < ApplicationController
 
     result = JSON.parse(request.body)
     result["success"]
+  end
+
+  def should_see_talent_page?(talent)
+    talent || current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
   end
 end

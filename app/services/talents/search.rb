@@ -1,13 +1,16 @@
 module Talents
   class Search
-    def initialize(filter_params: {}, sort_params: {})
+    def initialize(filter_params: {}, sort_params: {}, discovery_row: nil, admin: false)
       @filter_params = filter_params
       @sort_params = sort_params
+      @discovery_row = discovery_row
+      @admin = admin
     end
 
     def call
-      talents = Talent.base.joins(:user, :token).left_joins(user: :tags)
+      talents = admin ? Talent.joins(:user, :token) : Talent.base.joins(:user, :token)
 
+      talents = filter_by_discovery_row(talents) if discovery_row
       talents = filter_by_keyword(talents) if keyword
       talents = filter_by_status(talents)
 
@@ -16,17 +19,31 @@ module Talents
 
     private
 
-    attr_reader :filter_params, :sort_params
+    attr_reader :discovery_row, :filter_params, :sort_params, :admin
+
+    def filter_by_discovery_row(talents)
+      users = User.joins(tags: :discovery_row)
+
+      users = users.where(
+        "discovery_rows.id = ?",
+        discovery_row.id
+      )
+
+      talents.where(user_id: users.distinct.pluck(:id))
+    end
 
     def filter_by_keyword(talents)
-      talents
-        .where(
-          "users.username ilike :keyword " \
-          "OR users.display_name ilike :keyword " \
-          "OR tokens.ticker ilike :keyword " \
-          "OR tags.description ilike :keyword",
-          keyword: "%#{keyword}%"
-        )
+      users = User.joins(talent: :token).left_joins(:tags)
+
+      users = users.where(
+        "users.username ilike :keyword " \
+        "OR users.display_name ilike :keyword " \
+        "OR tokens.ticker ilike :keyword " \
+        "OR tags.description ilike :keyword ",
+        keyword: "%#{keyword}%"
+      )
+
+      talents.where(user: users.distinct.select(:id))
     end
 
     def keyword
@@ -41,6 +58,8 @@ module Talents
           .active
           .where("tokens.deployed_at > ?", 1.month.ago)
           .order("tokens.deployed_at ASC")
+      elsif filter_params[:status] == "Pending approval" && admin
+        talents.where(user: {profile_type: "waiting_for_approval"})
       else
         talents
           .select("setseed(0.#{Date.today.jd}), talent.*")

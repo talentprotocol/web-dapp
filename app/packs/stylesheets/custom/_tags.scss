@@ -12,10 +12,18 @@
   &.primary {
     background-color: $primary-200;
   }
+
+  &.secondary {
+    background-color: $primary-disabled;
+  }
 }
 
 .dark-body .tag-container {
   background-color: $gray-800;
+
+  &.secondary {
+    background-color: $primary-shade-01;
+  }
 }
 
 .optional-tag-container {

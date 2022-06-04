@@ -34,9 +34,10 @@ const Settings = (props) => {
     changeTab,
     mode,
     changeSharedState,
-    togglePublicProfile,
+    onProfileButtonClick,
     publicButtonType,
     disablePublicButton,
+    buttonText,
   } = props;
   const [settings, setSettings] = useState({
     username: user.username || "",
@@ -141,7 +142,7 @@ const Settings = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -340,7 +341,7 @@ const Settings = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         )}
         <LoadingButton

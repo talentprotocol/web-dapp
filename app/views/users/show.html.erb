@@ -41,12 +41,14 @@
           currentUserId: current_user&.id,
           tokenLive: @talent["token"]["deployed"],
           isFollowing: @talent["is_following"],
+          admin: current_user ? current_user.admin? : false,
           user: {
             id: @talent["user_id"],
             email: @talent["user"]["email"],
             username: @talent["user"]["username"],
             display_name: @talent["user"]["display_name"],
-            wallet_id: @talent["user"]["wallet_id"]
+            wallet_id: @talent["user"]["wallet_id"],
+            profile_type: @talent["user"]["profile_type"],
           },
         }, prerender: false)
       %>

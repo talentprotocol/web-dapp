@@ -9,10 +9,20 @@ class UserBlueprint < Blueprinter::Base
     field :is_talent do |user, _options|
       user.talent.present?
     end
+    field :investor_id do |user, _options|
+      user.investor&.id
+    end
   end
 
   view :extended do
     include_view :normal
-    fields :email, :wallet_id
+    fields :email, :wallet_id, :profile_type, :admin?
+  end
+
+  view :with_pictures do
+    include_view :normal
+    field :profilePictureUrl do |user, _options|
+      user.talent&.profile_picture_url || user.investor.profile_picture_url
+    end
   end
 end

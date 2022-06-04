@@ -8,16 +8,20 @@ import TalentFilters from "./TalentFilters";
 import { Grid, List } from "src/components/icons";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { camelCaseObject } from "src/utils/transformObjects";
+import { P1 } from "src/components/design_system/typography";
 
 import cx from "classnames";
 
 const TalentOptions = ({
   changeTab,
+  searchUrl,
   listModeOnly,
+  headerDescription,
   setListModeOnly,
   setLocalTalents,
   setSelectedSort,
   setSortDirection,
+  isAdmin,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
@@ -30,7 +34,7 @@ const TalentOptions = ({
     const params = new URLSearchParams(document.location.search);
     params.set(filterType, option);
 
-    get(`/api/v1/talent?${params.toString()}`).then((response) => {
+    get(`${searchUrl}?${params.toString()}`).then((response) => {
       const talents = response.map((talent) => camelCaseObject(talent));
 
       if (option === "Trending") {
@@ -56,15 +60,19 @@ const TalentOptions = ({
 
   return (
     <div
-      className="mt-5 mb-6 d-flex flex-wrap justify-content-between"
+      className="my-6 d-flex flex-wrap justify-content-between align-items-center"
       style={{ height: mobile ? "" : 34 }}
     >
-      <TabButton
-        textTabPrimary="All Talent"
-        textTabSecondary="Watchlist"
-        onClick={(tab) => changeTab(tab)}
-      />
-      <div className={cx("d-flex", mobile && "mt-3")}>
+      {headerDescription ? (
+        <P1 bold className="text-black" text={headerDescription} />
+      ) : (
+        <TabButton
+          textTabPrimary="All Talent"
+          textTabSecondary="Watchlist"
+          onClick={(tab) => changeTab(tab)}
+        />
+      )}
+      <div className={cx("d-flex ml-auto", mobile && "mt-3")}>
         <TalentKeywordSearch
           keyword={keyword}
           setKeyword={setKeyword}
@@ -75,6 +83,7 @@ const TalentOptions = ({
             status={status}
             setStatus={setStatus}
             filter={filter}
+            isAdmin={isAdmin}
           />
         </div>
         <Button

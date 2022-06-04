@@ -3,9 +3,10 @@
     <%= react_component("Discovery",
       props: {
         discoveryRows: @discovery_rows.map { |row| {
-          title: row["title"],
           badge: row["badge"],
           badge_link: row["badge_link"],
+          slug: row["slug"],
+          title: row["title"],
           talents: row["talents"].map { |talent| {
             id: talent["id"],
             profilePictureUrl: talent["profile_picture_url"],
@@ -25,7 +26,8 @@
           title: article["title"],
           description: article["description"],
           imgUrl: article["image_url"]
-        }}
+        }},
+        user: { id: current_user.id, investorId: current_user.investor&.id, username: current_user.username }
       },
       prerender: false) %>
   </div>

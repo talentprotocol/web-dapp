@@ -16,16 +16,11 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
 import Tag from "src/components/design_system/tag";
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
-const InviteHeader = ({ isTalent, username }) => {
-  const redirectToLaunchToken = () => {
-    if (isTalent) {
-      window.location.href = `u/${username}/edit_profile`;
-    } else {
-      window.open(TALENT_TOKEN_APPLICATION_FORM);
-    }
-  };
+const InviteHeader = ({ investorId, username }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
 
   return (
     <div className="race-header-row p-4 p-lg-6 mb-7 mx-4 mx-lg-0 overview-section">
@@ -45,11 +40,17 @@ const InviteHeader = ({ isTalent, username }) => {
         <Button
           type="primary-default"
           size="big"
-          onClick={redirectToLaunchToken}
+          onClick={() => setShowApplyToLaunchTokenModal(true)}
         >
           Launch a Talent Token
         </Button>
       </div>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={investorId}
+        username={username}
+      />
     </div>
   );
 };
@@ -129,7 +130,7 @@ const Overview = ({ inviteType, invites }) => {
               >
                 <div className="mb-2 cursor-pointer d-flex align-items-center">
                   <P3 className="mr-2">{`${inviteType} Invites Available`}</P3>
-                  <Help color="currentColor" />
+                  <Help color="#536471" />
                 </div>
               </Tooltip>
             ) : (
@@ -392,7 +393,7 @@ const Invites = ({
   talentInvites,
   supporterInvites,
   talentList,
-  isTalent,
+  investorId,
   username,
 }) => {
   const talentInvitesEligible = () =>
@@ -401,7 +402,7 @@ const Invites = ({
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
       {!talentInvitesEligible() && (
-        <InviteHeader isTalent={isTalent} username={username} />
+        <InviteHeader investorId={investorId} username={username} />
       )}
       <Tooltip
         body={
@@ -415,7 +416,7 @@ const Invites = ({
           style={{ width: "fit-content" }}
         >
           <H4 bold className="mr-2 d-inline" text="Supporter Invite"></H4>
-          <Help color="currentColor" className="cursor-pointer" />
+          <Help color="#536471" className="cursor-pointer" />
         </div>
       </Tooltip>
       <Overview inviteType="Supporter" invites={supporterInvites} />
@@ -433,7 +434,7 @@ const Invites = ({
               style={{ width: "fit-content" }}
             >
               <H4 bold className="mr-2 d-inline" text="Talent Invite"></H4>
-              <Help color="currentColor" className="cursor-pointer" />
+              <Help color="#536471" className="cursor-pointer" />
             </div>
           </Tooltip>
           <Overview inviteType="Talent" invites={talentInvites} />

@@ -1,9 +1,16 @@
 require "rails_helper"
 
 RSpec.describe Talents::Search do
-  subject(:search_talents) { described_class.new(filter_params: filter_params, sort_params: sort_params).call }
+  subject(:search_talents) do
+    described_class.new(
+      filter_params: filter_params,
+      sort_params: sort_params,
+      discovery_row: discovery_row
+    ).call
+  end
 
   let(:sort_params) { {} }
+  let(:discovery_row) { nil }
 
   let!(:user_1) { create :user, talent: talent_1, username: "jonas" }
   let(:talent_1) { create :talent, :with_token, public: true }
@@ -72,6 +79,41 @@ RSpec.describe Talents::Search do
       end
 
       it "returns all talent users with tags matching the passed keyword" do
+        expect(search_talents).to match_array([talent_1, talent_3])
+      end
+    end
+  end
+
+  context "when the discovery row is passed" do
+    let(:discovery_row) { create :discovery_row, title: "web3" }
+
+    let(:filter_params) { {} }
+
+    before do
+      tag_1 = create :tag, description: "crypto"
+      tag_2 = create :tag, description: "blockchain"
+      tag_3 = create :tag, description: "developer"
+
+      discovery_row.tags << [tag_1, tag_2, tag_3]
+
+      user_1.tags << [tag_1, tag_3]
+      user_2.tags << [tag_2]
+      user_3.tags << [tag_1, tag_2]
+      private_user.tags << [tag_1]
+    end
+
+    it "returns all talent users that are part of the discovery row" do
+      expect(search_talents).to match_array([talent_1, talent_2, talent_3])
+    end
+
+    context "when the keyword filter is passed" do
+      let(:filter_params) do
+        {
+          keyword: "jona"
+        }
+      end
+
+      it "returns all talent users part of the discovery row with username matching the passed keyword" do
         expect(search_talents).to match_array([talent_1, talent_3])
       end
     end

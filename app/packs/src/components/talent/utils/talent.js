@@ -1,13 +1,11 @@
+import { compareStrings, compareNumbers } from "src/utils/compareHelpers";
+import { ethers } from "ethers";
+
 export const completeProfile = (args) => {
   return missingFields(args).length == 0;
 };
 
-export const missingFields = ({
-  talent,
-  profilePictureUrl,
-  token,
-  career_goal,
-}) => {
+export const missingFields = ({ talent, profilePictureUrl, career_goal }) => {
   const fields = [];
 
   if (!talent.profile?.occupation || talent.profile.occupation == "") {
@@ -18,9 +16,6 @@ export const missingFields = ({
   }
   if (!profilePictureUrl || profilePictureUrl == "") {
     fields.push("Profile picture");
-  }
-  if (!token.ticker || token.ticker == "") {
-    fields.push("Ticker");
   }
   if (!career_goal?.pitch || career_goal.pitch == "") {
     fields.push("Pitch");
@@ -69,4 +64,24 @@ export const profileProgress = ({
   }
 
   return total - fields.length * 10;
+};
+
+export const compareName = (talent1, talent2) =>
+  compareStrings(talent1.user.name, talent2.user.name);
+
+export const compareOccupation = (talent1, talent2) =>
+  compareStrings(talent1.occupation, talent2.occupation);
+
+export const compareSupporters = (talent1, talent2) =>
+  compareNumbers(talent1.supporterCounter, talent2.supporterCounter);
+
+export const compareMarketCap = (talent1, talent2) => {
+  const talent1Amount = ethers.utils.parseUnits(
+    talent1.marketCap?.replaceAll(",", "") || "0"
+  );
+  const talent2Amount = ethers.utils.parseUnits(
+    talent2.marketCap?.replaceAll(",", "") || "0"
+  );
+
+  return compareNumbers(talent1Amount, talent2Amount);
 };

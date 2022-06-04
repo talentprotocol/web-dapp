@@ -16,7 +16,7 @@ class RewardsController < ApplicationController
       invite_ids = @talent_invites.map(&:id)
       talents = Talent.joins(:user).where(user: {invite_id: invite_ids})
 
-      @talent_list = TalentBlueprint.render_as_json(talents, view: :short_meta, current_user: current_user)
+      @talent_list = TalentBlueprint.render_as_json(talents, view: :short_meta, current_user_watchlist: current_user_watchlist)
     end
 
     quests = Quest.where(user: current_user).order(:id)

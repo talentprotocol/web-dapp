@@ -18,7 +18,16 @@ class ApplicationController < ActionController::Base
     if Rails.env.development? || Rails.env.test?
       raise ActionController::RoutingError.new("We didn't find any routes that match your request.")
     else
-      redirect_to root_path
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json {
+          render(
+            json: {message: "We didn't find any routes that match your request."},
+            status: :not_found
+          )
+        }
+      end
+
     end
   end
 
@@ -39,5 +48,9 @@ class ApplicationController < ActionController::Base
     Integer(params[:talent_id])
   rescue
     0
+  end
+
+  def current_user_watchlist
+    current_user ? current_user.following.pluck(:user_id) : []
   end
 end

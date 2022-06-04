@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { faSpinner, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReCAPTCHA from "react-google-recaptcha";
-import { H5, P2 } from "../design_system/typography";
-import TextInput from "../design_system/fields/textinput";
-import Checkbox from "../design_system/checkbox";
-import Link from "../design_system/link";
+import { H5, P2 } from "src/components/design_system/typography";
+import TextInput from "src/components/design_system/fields/textinput";
+import Checkbox from "src/components/design_system/checkbox";
+import Link from "src/components/design_system/link";
 
 import { get } from "src/utils/requests";
 import { TERMS_HREF, PRIVACY_HREF, USER_GUIDE } from "src/utils/constants";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { emailRegex, emailRegexWithAliases } from "src/utils/regexes";
+import Tooltip from "src/components/design_system/tooltip";
+import { Help } from "src/components/icons";
+
 import cx from "classnames";
 
 const Welcome = ({
@@ -44,22 +47,15 @@ const Welcome = ({
   };
 
   const invalidForm =
-    !validEmail() ||
-    !emailValidated ||
-    localCode.length < 1 ||
-    !acceptedTerms ||
-    !localCaptcha;
+    !validEmail() || !emailValidated || !acceptedTerms || !localCaptcha;
 
   const submitWelcomeForm = (e) => {
     e.preventDefault();
-    if (
-      localEmail != "" &&
-      validEmail() &&
-      localCode.length > 0 &&
-      localCaptcha
-    ) {
+    if (localEmail != "" && validEmail() && localCaptcha) {
       changeEmail(localEmail);
-      changeCode(localCode);
+      if (localCode.length > 0) {
+        changeCode(localCode);
+      }
       setCaptcha(localCaptcha);
       changeStep(2);
     }
@@ -107,9 +103,7 @@ const Welcome = ({
         <H5 text="Welcome to Talent Protocol!" bold />
         <P2
           className="text-primary-03"
-          text="We're still still invite-only and in early beta, but already
-            live on Celo mainnet. Enter the information requestes below to create
-            your supporter account."
+          text="Sign up with your email to start building your web3 resume and launch a talent token."
         />
       </div>
       <form onSubmit={submitWelcomeForm} className="d-flex flex-column w-100">
@@ -164,8 +158,18 @@ const Welcome = ({
               We already have that email in the system.
             </small>
           )}
-          <label htmlFor="inputCode" className="mt-4">
+          <label htmlFor="inputCode" className="d-flex mt-4">
             <P2 className="text-black" text="Invite Code" bold />
+            <Tooltip
+              body="If you have a referral code insert it here to access additional feature.
+                If you don't have one, you can leave this blank."
+              popOverAccessibilityId={"invite_code_tooltip"}
+              placement="top"
+            >
+              <div className="cursor-pointer d-flex align-items-center ml-2">
+                <Help color="#536471" />
+              </div>
+            </Tooltip>
           </label>
           <TextInput
             mode={themePreference}

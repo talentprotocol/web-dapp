@@ -35,6 +35,19 @@ const allowedTabs = [
   "Invites",
 ];
 
+const IncompleteTabIndicator = () => {
+  return (
+    <div className="position-relative">
+      <span
+        className="position-absolute badge rounded-circle bg-danger p-1"
+        style={{ height: 0, width: 0, right: -8, top: -23 }}
+      >
+        &nbsp;
+      </span>
+    </div>
+  );
+};
+
 const Profile = (props) => {
   const theme = useContext(ThemeContext);
   const url = new URL(window.location);
@@ -64,33 +77,101 @@ const Profile = (props) => {
     }
   }, [activeTab]);
 
+  const alertBarText = () => {
+    switch (sharedState.user.profile_type) {
+      case "applying":
+        return "Complete your profile to apply for a Talent Token";
+      case "waiting_for_approval":
+        return "Pending Approval to launch your Talent Token";
+      case "approved":
+        return "Your profile has been approved! You can now launch your Talent Token";
+      case "talent":
+        return progress == 100
+          ? "Your profile is complete!"
+          : "Complete your profile to appeal to more supporters and earn rewards.";
+      default:
+        return "Complete your profile to apply for a Talent Token";
+    }
+  };
+
+  const alertBarColor = () => {
+    if (
+      sharedState.user.profile_type == "applying" ||
+      sharedState.user.profile_type == "talent"
+    ) {
+      return "primary";
+    } else if (sharedState.user.profile_type == "waiting_for_approval") {
+      return "yellow";
+    } else if (sharedState.user.profile_type == "approved") {
+      return "green";
+    }
+  };
+
   const buttonType = () => {
     if (requiredFields.length == 0) {
-      if (sharedState.talent.public) {
-        return "white-subtle";
-      } else {
+      if (sharedState.user.profile_type == "applying") {
         return "positive-default";
+      } else if (sharedState.user.profile_type == "waiting_for_approval") {
+        return "danger-outline";
+      } else if (
+        sharedState.user.profile_type == "approved" ||
+        sharedState.user.profile_type == "talent"
+      ) {
+        return sharedState.talent.public ? "white-subtle" : "positive-default";
       }
     } else {
       return "positive-subtle";
     }
   };
 
-  const togglePublicProfile = async () => {
+  const buttonText = () => {
+    switch (sharedState.user.profile_type) {
+      case "applying":
+        return "Send Profile for Approval";
+      case "waiting_for_approval":
+        return "Cancel Submission";
+      case "approved":
+      case "talent":
+        return sharedState.talent.public ? "Public" : "Publish Profile";
+      default:
+        return "Send Profile for Approval";
+    }
+  };
+
+  const onProfileButtonClick = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    const response = await patch(`/api/v1/talent/${props.talent.id}`, {
-      talent: {
-        public: !sharedState.talent.public,
-      },
-      user: { id: props.user.id },
-    }).catch(() => {
+    let params = {};
+    if (sharedState.user.profile_type == "talent") {
+      params = {
+        talent: {
+          public: !sharedState.talent.public,
+        },
+        user: { id: props.user.id },
+      };
+    } else {
+      params = {
+        user: {
+          id: props.user.id,
+          profile_type:
+            sharedState.user.profile_type == "applying"
+              ? "waiting_for_approval"
+              : "applying",
+        },
+      };
+    }
+
+    const response = await patch(
+      `/api/v1/talent/${props.talent.id}`,
+      params
+    ).catch(() => {
       return false;
     });
 
     if (response && !response.error) {
       setSharedState((prev) => ({
         ...prev,
-        talent: { ...prev.talent, public: !prev.talent.public },
+        talent: { ...prev.talent, public: !response.public },
+        user: { ...prev.user, profile_type: response.user.profile_type },
       }));
       setSaving((prev) => ({ ...prev, loading: false, public: true }));
 
@@ -135,21 +216,19 @@ const Profile = (props) => {
           mode={theme.mode()}
           hide={requiredFields.length == 0}
         >
-          <div className="edit-profile-talent-progress-container py-2 px-3">
-            <div className="d-flex flex-row w-100 justify-content-between text-primary edit-profile-talent-progress">
+          <div
+            className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-3`}
+          >
+            <div className="d-flex flex-row w-100 justify-content-between edit-profile-talent-progress">
               {/* below is required so the justify-content-between aligns properly */}
               <P3 text="" />
               <P3
                 mode={theme.mode()}
-                text={
-                  progress == 100
-                    ? "Your profile is complete!"
-                    : "Complete your profile to appeal to more supporters and earn rewards."
-                }
+                text={alertBarText()}
                 bold
-                className="text-primary"
+                className="current-color"
               />
-              <P3 mode={theme.mode()} className="text-primary">
+              <P3 mode={theme.mode()} className="current-color">
                 <strong>{progress}</strong>/100%
               </P3>
             </div>
@@ -170,6 +249,9 @@ const Profile = (props) => {
                 }`}
               >
                 About
+                {requiredFields.some((f) =>
+                  ["Occupation", "Bio", "Profile picture"].includes(f)
+                ) && <IncompleteTabIndicator />}
               </div>
               <div
                 onClick={() => changeTab("Highlights")}
@@ -186,14 +268,24 @@ const Profile = (props) => {
                 }`}
               >
                 Goal
+                {requiredFields.includes("Pitch") && <IncompleteTabIndicator />}
               </div>
               <div
                 onClick={() => changeTab("Token")}
                 className={`talent-table-tab${
                   activeTab == "Token" ? " active-talent-table-tab" : ""
+                } ${
+                  sharedState.user.profile_type !== "approved" &&
+                  sharedState.user.profile_type !== "talent" &&
+                  "disabled-talent-table-tab"
                 }`}
               >
                 Token
+                {sharedState.user.profile_type === "approved" &&
+                  sharedState.user.profile_type === "talent" &&
+                  requiredFields.includes("Ticker") && (
+                    <IncompleteTabIndicator />
+                  )}
               </div>
               <div
                 onClick={() => changeTab("Perks")}
@@ -223,15 +315,13 @@ const Profile = (props) => {
             {!mobile && (
               <>
                 <LoadingButton
-                  onClick={() => togglePublicProfile()}
+                  onClick={() => onProfileButtonClick()}
                   type={buttonType()}
                   disabled={requiredFields.length > 0 || saving["loading"]}
                   mode={theme.mode()}
                   loading={saving["loading"]}
-                  success={sharedState.talent.public}
-                  checkClassName="edit-profile-public-check"
                 >
-                  {sharedState.talent.public ? "Public" : "Publish Profile"}
+                  {buttonText()}
                 </LoadingButton>
               </>
             )}
@@ -289,8 +379,9 @@ const Profile = (props) => {
               saveProfile={() => saveAbout()}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
             />
           )}
           {activeTab == "Highlights" && (
@@ -302,8 +393,9 @@ const Profile = (props) => {
               changeSharedState={setSharedState}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
             />
           )}
           {activeTab == "Goal" && (
@@ -315,8 +407,9 @@ const Profile = (props) => {
               changeSharedState={setSharedState}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
             />
           )}
           {activeTab == "Token" && (
@@ -328,8 +421,9 @@ const Profile = (props) => {
               changeSharedState={setSharedState}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
               requiredFields={requiredFields}
             />
           )}
@@ -342,8 +436,9 @@ const Profile = (props) => {
               changeSharedState={setSharedState}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
             />
           )}
           {activeTab == "Invites" && (
@@ -354,8 +449,9 @@ const Profile = (props) => {
               changeTab={(tab) => changeTab(tab)}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
               invites={props.invites}
             />
           )}
@@ -368,8 +464,9 @@ const Profile = (props) => {
               changeSharedState={setSharedState}
               publicButtonType={buttonType()}
               disablePublicButton={requiredFields.length > 0}
-              togglePublicProfile={() => togglePublicProfile()}
+              onProfileButtonClick={() => onProfileButtonClick()}
               trackChanges={setTabHasChanges}
+              buttonText={buttonText()}
             />
           )}
         </div>

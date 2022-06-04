@@ -138,6 +138,8 @@ GEM
       bcrypt (>= 3.1.1)
       email_validator (~> 2.0)
       railties (>= 5.0)
+    codecov (0.6.0)
+      simplecov (>= 0.15, < 0.22)
     coderay (1.1.3)
     concurrent-ruby (1.1.9)
     connection_pool (2.2.5)
@@ -204,6 +206,8 @@ GEM
       ffi (>= 1.0.0)
       rake
     foreman (0.87.2)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -320,6 +324,10 @@ GEM
       bundler (>= 1.15.0)
       railties (= 6.1.4.6)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -489,6 +497,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   clearance
+  codecov
   dotenv-rails
   down
   eth
@@ -497,6 +506,7 @@ DEPENDENCIES
   faker
   faraday
   foreman
+  friendly_id (~> 5.4.0)
   graphql-client
   image_processing (~> 1.12)
   jbuilder (~> 2.7)
@@ -515,6 +525,7 @@ DEPENDENCIES
   rack-attack
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4, >= 6.1.4.6)
+  rails-controller-testing
   react_on_rails (= 12.2.0)
   redis (~> 4.3)
   rmagick
