@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     elsif !User.valid_email?(user_params[:email])
       render json: {error: "Email is not valid.", field: "email"}, status: :conflict
     else
-      service = CreateUser.new
+      service = Users::Create.new
       @result = service.call(
         email: user_params[:email],
         username: user_params[:username],

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_24_112720) do
+ActiveRecord::Schema.define(version: 2022_05_30_100649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,8 @@ ActiveRecord::Schema.define(version: 2022_05_24_112720) do
     t.string "badge_link"
     t.string "slug"
     t.text "description"
-    t.text "logo_data"
+    t.bigint "partnership_id"
+    t.index ["partnership_id"], name: "index_discovery_rows_on_partnership_id"
   end
 
   create_table "feed_posts", force: :cascade do |t|
@@ -157,6 +158,18 @@ ActiveRecord::Schema.define(version: 2022_05_24_112720) do
     t.datetime "emailed_at"
     t.index ["read_at"], name: "index_notifications_on_read_at"
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
+  end
+
+  create_table "partnerships", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "logo_data"
+    t.string "website_url"
+    t.string "description"
+    t.string "twitter_url"
+    t.bigint "invite_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invite_id"], name: "index_partnerships_on_invite_id"
   end
 
   create_table "perks", force: :cascade do |t|
@@ -355,6 +368,7 @@ ActiveRecord::Schema.define(version: 2022_05_24_112720) do
   add_foreign_key "career_goals", "talent"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "discovery_rows", "partnerships"
   add_foreign_key "feed_posts", "feeds"
   add_foreign_key "feed_posts", "posts"
   add_foreign_key "feeds", "users"
@@ -364,6 +378,7 @@ ActiveRecord::Schema.define(version: 2022_05_24_112720) do
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"
+  add_foreign_key "partnerships", "invites"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "profile_page_visitors", "users"

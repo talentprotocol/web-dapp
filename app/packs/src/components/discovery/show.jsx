@@ -4,6 +4,10 @@ import Tooltip from "src/components/design_system/tooltip";
 import Button from "src/components/design_system/button";
 import { ethers } from "ethers";
 
+import { faGlobeEurope } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useWindowDimensionsHook } from "src/utils/window";
 
 import {
@@ -44,10 +48,12 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
         .filter((id) => id),
     },
   });
-  const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  const partnership = discoveryRow.partnership;
+  const partnershipSocialLinks =
+    partnership && (partnership.website_url || partnership.twitter_url);
 
   const totalSupplyToString = (totalSupply) => {
     const bignumber = ethers.BigNumber.from(totalSupply).div(10);
@@ -109,7 +115,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     }
 
     return desiredTalent;
-  }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
+  }, [localTalents, selectedSort, sortDirection, data]);
 
   useEffect(() => {
     if (loading || !data?.talentTokens) {
@@ -149,7 +155,12 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
 
   return (
     <div className={cx(mobile && "p-4")}>
-      <div className="talent-list-header  d-flex flex-column justify-content-center">
+      <div
+        className={cx(
+          "talent-list-header d-flex flex-column justify-content-center",
+          partnership && "partnership"
+        )}
+      >
         <a className="button-link mb-5" href="/">
           <Button
             onClick={() => null}
@@ -160,6 +171,14 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             <ArrowLeft color="currentColor" size={16} />
           </Button>
         </a>
+        {partnership && partnership.logo_url && (
+          <img
+            className="rounded-circle image-fit mb-4"
+            src={partnership.logo_url}
+            width={"72px"}
+            alt="Partnership Picture"
+          />
+        )}
         <div className="d-flex align-items-center">
           <H3 className="text-black mr-2" bold text={discoveryRow.title} />
           {discoveryRow.tags && (
@@ -179,6 +198,29 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             className="text-primary-03 mb-4"
             text={discoveryRow.description}
           />
+        )}
+
+        {partnershipSocialLinks && (
+          <div className="d-flex flex-row flex-wrap text-primary-03 mb-4">
+            {partnership.website_url && (
+              <a
+                href={partnership.website_url}
+                target="self"
+                className="mr-4 text-reset hover-primary"
+              >
+                <FontAwesomeIcon icon={faGlobeEurope} />
+              </a>
+            )}
+            {partnership.twitter_url && (
+              <a
+                href={partnership.twitter_url}
+                target="self"
+                className="mr-4 text-reset hover-primary"
+              >
+                <FontAwesomeIcon icon={faTwitter} />
+              </a>
+            )}
+          </div>
         )}
         <div className="d-flex">
           <P1
