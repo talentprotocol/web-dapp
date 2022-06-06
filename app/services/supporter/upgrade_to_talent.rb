@@ -31,7 +31,7 @@ class Supporter::UpgradeToTalent
     if supporter_invite
       supporter_invite.update!(max_uses: nil)
     else
-      service = CreateInvite.new(user_id: user.id)
+      service = Invites::Create.new(user_id: user.id)
       service.call
     end
   end
