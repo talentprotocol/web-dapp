@@ -58,8 +58,7 @@ namespace :quests do
         Tasks::InviteTokenLaunch.find_or_create_by!(quest: scout_quest)
         service.call(type: "Tasks::InviteTokenLaunch", user: user) if invitees_token_count > 4
 
-
-      rescue StandardError
+      rescue
         puts "error populating quests for user #{user.username} - #{user.id}"
       end
     end

@@ -5,7 +5,7 @@ module Quests
     def title
       "Ambassador"
     end
-    
+
     def subtitle
       "Spreading the word about Talent Protocol"
     end
