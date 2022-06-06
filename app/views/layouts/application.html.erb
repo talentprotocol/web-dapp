@@ -34,6 +34,11 @@
                 user_id: current_user.id
               },
               prerender: false)%>
+          <% elsif !current_user.first_quest_popup %>
+            <%=
+              react_component("FirstQuestPopup",
+              props: { userId: current_user.id },
+              prerender: false)%>
           <% end %>
           <%= render "shared/navbar" %>
           <%= yield %>
