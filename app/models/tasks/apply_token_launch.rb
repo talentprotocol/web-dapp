@@ -2,13 +2,12 @@
 
 module Tasks
     class ApplyTokenLaunch < Task
-      def title
-        "Apply to launch a token"
-      end
-  
-      def link
-        "/talent"
-      end
+        def title
+            "Apply to launch a token"
+        end
+        
+        def link
+            "/talent"
+        end
     end
 end
-  

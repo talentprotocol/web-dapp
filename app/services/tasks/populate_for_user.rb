@@ -33,10 +33,10 @@ module Tasks
       quest4 = Quests::TalentToken.find_or_create_by!(user: user)
 
       Tasks::ApplyTokenLaunch.find_or_create_by!(quest: quest4)
-      
+
       service = Tasks::Update.new
-      service.call(type: 'Tasks::ApplyTokenLaunch', user: user) unless user.profile_type == 'supporter'
-      
+      service.call(type: "Tasks::ApplyTokenLaunch", user: user) unless user.profile_type == "supporter"
+
       Tasks::LaunchToken.find_or_create_by!(quest: quest4)
       Tasks::Perks.find_or_create_by!(quest: quest4)
 

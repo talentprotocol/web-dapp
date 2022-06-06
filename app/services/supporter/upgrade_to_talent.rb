@@ -14,12 +14,12 @@ class Supporter::UpgradeToTalent
     create_invite(user)
 
     copy_information_to_talent(user)
-    
+
     service = Mailerlite::SyncSubscriber.new
     service.call(user)
-    
+
     task_service = Tasks::Update.new
-    task_service.call(type: 'Tasks::ApplyTokenLaunch', user: user)
+    task_service.call(type: "Tasks::ApplyTokenLaunch", user: user)
 
     user.talent
   end
