@@ -23,17 +23,34 @@ module Tasks
 
       # ---------------------------------------------------
 
-      quest3 = Quests::Talent.find_or_create_by!(user: user)
+      quest3 = Quests::TalentProfile.find_or_create_by!(user: user)
 
-      Tasks::LaunchToken.find_or_create_by!(quest: quest3)
-      Tasks::PublicProfile.find_or_create_by!(quest: quest3)
-      Tasks::ShareProfile.find_or_create_by!(quest: quest3)
+      Tasks::Highlights.find_or_create_by!(quest: quest3)
+      Tasks::Goals.find_or_create_by!(quest: quest3)
 
       # ---------------------------------------------------
 
-      quest4 = Quests::Scout.find_or_create_by!(user: user)
+      quest4 = Quests::TalentToken.find_or_create_by!(user: user)
 
-      Tasks::Register.find_or_create_by!(quest: quest4)
+      Tasks::ApplyTokenLaunch.find_or_create_by!(quest: quest4)
+      
+      service = Tasks::Update.new
+      service.call(type: 'Tasks::ApplyTokenLaunch', user: user) unless user.profile_type == 'supporter'
+      
+      Tasks::LaunchToken.find_or_create_by!(quest: quest4)
+      Tasks::Perks.find_or_create_by!(quest: quest4)
+
+      # ---------------------------------------------------
+
+      quest5 = Quests::Ambassador.find_or_create_by!(user: user)
+
+      Tasks::Register.find_or_create_by!(quest: quest5)
+
+      # ---------------------------------------------------
+
+      quest6 = Quests::Scout.find_or_create_by!(user: user)
+
+      Tasks::InviteTokenLaunch.find_or_create_by!(quest: quest6)
     end
   end
 end

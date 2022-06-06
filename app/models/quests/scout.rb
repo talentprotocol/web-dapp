@@ -7,7 +7,7 @@ module Quests
     end
 
     def subtitle
-      "Start spotting high-potential talent"
+      "Spot high-potential talent and referred them to launch a token"
     end
   end
 end

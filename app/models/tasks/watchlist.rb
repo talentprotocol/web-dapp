@@ -10,10 +10,6 @@ module Tasks
       "Use the watchlist to save your favourite talents"
     end
 
-    def reward
-      "Unlimited user invites"
-    end
-
     def link
       "/talent"
     end

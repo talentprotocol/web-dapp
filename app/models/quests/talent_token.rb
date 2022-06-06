@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Quests
-  class Supporter < Quest
+  class TalentToken < Quest
     def title
-      "New Supporter"
+      "Talent Token"
     end
 
     def subtitle
-      "Start supporting talent and earn"
+      "Build your talent profile"
     end
   end
 end
