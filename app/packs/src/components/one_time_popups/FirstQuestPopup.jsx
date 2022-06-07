@@ -34,11 +34,15 @@ const FirstQuestPopup = ({ userId }) => {
       <Modal.Body className="d-flex flex-column align-items-center justify-content-between pt-0 px-4 pb-4">
         {mobile && <div></div>}
         <div>
-          <H5 className="text-black mb-2 text-center" bold text="Quests" />
+          <H5
+            className="text-black mb-2 text-center"
+            bold
+            text="Earn rewards"
+          />
           <P2
             className="text-primary-03 text-center"
-            text="You're ready to go! Get rewarded by completing quests,
-          complete your profile and launch your token, or simply explore talent."
+            text="Now that you're set, it's time for your first quest. Complete the 'About' section
+                  on your profile and connect your wallet to earn your first reward."
           />
         </div>
         <div className="d-flex mt-6 w-100">
