@@ -85,3 +85,9 @@ export const compareMarketCap = (talent1, talent2) => {
 
   return compareNumbers(talent1Amount, talent2Amount);
 };
+
+export const compareMarketCapVariance = (talent1, talent2) =>
+  compareNumbers(talent1.marketCapVariance, talent2.marketCapVariance);
+
+export const compareDate = (talent1, talent2) =>
+  compareDates(talent1.lastTimeBoughtAt, talent2.lastTimeBoughtAt);
