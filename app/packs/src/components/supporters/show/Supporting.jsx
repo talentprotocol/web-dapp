@@ -15,13 +15,17 @@ import {
   getProgress,
   getMarketCapVariance,
   getStartDateForVariance,
-  getUTCDate
+  getUTCDate,
 } from "src/utils/viewHelpers";
+
 import {
-  compareStrings,
-  compareNumbers,
-  compareDates,
-} from "src/utils/compareHelpers";
+  compareName,
+  compareOccupation,
+  compareSupporters,
+  compareMarketCap,
+  compareMarketCapVariance,
+  compareDate,
+} from "src/components/talent/utils/talent";
 import { get, post, destroy } from "src/utils/requests";
 import { camelCaseObject } from "src/utils/transformObjects";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -97,39 +101,6 @@ const Supporting = ({
     }
   };
 
-  const compareName = (talent1, talent2) => {
-    const name1 = talent1.user.name.toLowerCase() || "";
-    const name2 = talent2.user.name.toLowerCase() || "";
-
-    if (name1 > name2) {
-      return 1;
-    } else if (name1 < name2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
-  const compareOccupation = (talent1, talent2) =>
-    compareStrings(talent1.occupation, talent2.occupation);
-
-  const compareSupporters = (talent1, talent2) =>
-    compareStrings(talent1.supporterCounter, talent2.supporterCounter);
-
-  const compareMarketCap = (talent1, talent2) => {
-    const talent1Amount = ethers.utils.parseUnits(
-      getMarketCap(talent1.totalSupply)?.replaceAll(",", "") || "0"
-    );
-    const talent2Amount = ethers.utils.parseUnits(
-      getMarketCap(talent2.totalSupply)?.replaceAll(",", "") || "0"
-    );
-
-    compareNumbers(talent1Amount, talent2Amount);
-  };
-
-  const compareDate = (talent1, talent2) =>
-    compareDates(talent1.lastTimeBoughtAt, talent2.lastTimeBoughtAt);
-
   const filteredTalents = useMemo(() => {
     let desiredTalent = [...localTalents];
     if (watchlistOnly) {
@@ -167,6 +138,9 @@ const Supporting = ({
         break;
       case "First Buy":
         comparisonFunction = compareDate;
+        break;
+      case "Market Cap Variance":
+        comparisonFunction = compareMarketCapVariance;
         break;
     }
 
@@ -282,7 +256,6 @@ const Supporting = ({
       setSupportingCount(localTalents.length);
     }
   }, [setSupportingCount, localTalents.length]);
-
 
   const supportingTalent = () => (
     <>

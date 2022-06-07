@@ -55,12 +55,12 @@ export const getMarketCapVariance = (
 };
 
 export const parsedVariance = (variance) => {
+  if (Math.abs(variance) < 0.01) return "0%";
+
   let parsedVariance = `${parseAndCommify(variance)}%`;
 
   if (variance > 0) {
     parsedVariance = `+${parsedVariance}`;
-  } else if (variance < 0) {
-    parsedVariance = `-${parsedVariance}`;
   }
 
   return parsedVariance;
