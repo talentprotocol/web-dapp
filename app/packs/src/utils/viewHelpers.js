@@ -44,15 +44,26 @@ export const getMarketCapVariance = (
   totalSupply
 ) => {
   if (startDate < deployDate || !tokenDayData[0]) {
-    return "0%";
+    return 0;
   }
 
   const startSupply = parseFloat(
     ethers.utils.formatUnits(tokenDayData[0].dailySupply)
   );
   const lastSupply = parseFloat(ethers.utils.formatUnits(totalSupply));
-  const variance = (lastSupply - startSupply) / startSupply;
-  return `${variance < 0 ? "" : "+"}${parseAndCommify(variance)}%`;
+  return (lastSupply - startSupply) / startSupply;
+};
+
+export const parsedVariance = (variance) => {
+  let parsedVariance = `${parseAndCommify(variance)}%`;
+
+  if (variance > 0) {
+    parsedVariance = `+${parsedVariance}`;
+  } else if (variance < 0) {
+    parsedVariance = `-${parsedVariance}`;
+  }
+
+  return parsedVariance;
 };
 
 export const getStartDateForVariance = () => {
