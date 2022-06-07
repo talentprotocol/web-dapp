@@ -13,6 +13,9 @@ import {
   getSupporterCount,
   getMarketCap,
   getProgress,
+  getMarketCapVariance,
+  getStartDateForVariance,
+  getUTCDate
 } from "src/utils/viewHelpers";
 import {
   compareStrings,
@@ -51,11 +54,13 @@ const Supporting = ({
   const [page, setPage] = useState(0);
   const [listLoaded, setListLoaded] = useState(false);
 
+  const startDate = getStartDateForVariance();
   const { loading, data } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: {
       id: wallet?.toLowerCase(),
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
+      startDate,
     },
     skip: listLoaded,
   });
@@ -230,14 +235,37 @@ const Supporting = ({
     }
 
     const newTalents = data.supporter.talents.map(
-      ({ firstTimeBoughtAt, talent, ...rest }) => ({
-        ...rest,
-        progress: getProgress(talent.totalSupply, talent.maxSupply),
-        marketCap: getMarketCap(talent.totalSupply),
-        supporterCounter: getSupporterCount(talent.supporterCounter),
-        firstTimeBoughtAt: dayjs.unix(firstTimeBoughtAt).format("DD MMM, YYYY"),
-        talent,
-      })
+      ({ firstTimeBoughtAt, talent, ...rest }) => {
+        let deployDateUTC;
+        if (!!talent.createdAtTimestamp) {
+          const msDividend = 1000;
+          deployDateUTC = getUTCDate(
+            parseInt(talent.createdAtTimestamp) * msDividend
+          );
+        } else {
+          const localTalent = localTalents.find(
+            (talent) => talent.token.contractId == talent.id
+          );
+          deployDateUTC =
+            localTalent && getUTCDate(localTalent.token.deployedAt);
+        }
+        return {
+          ...rest,
+          progress: getProgress(talent.totalSupply, talent.maxSupply),
+          marketCap: getMarketCap(talent.totalSupply),
+          supporterCounter: getSupporterCount(talent.supporterCounter),
+          firstTimeBoughtAt: dayjs
+            .unix(firstTimeBoughtAt)
+            .format("DD MMM, YYYY"),
+          marketCapVariance: getMarketCapVariance(
+            talent.tokenDayData || [],
+            deployDateUTC || 0,
+            startDate,
+            talent.totalSupply
+          ),
+          talent,
+        };
+      }
     );
 
     setLocalTalents((prev) => [...prev, ...newTalents]);

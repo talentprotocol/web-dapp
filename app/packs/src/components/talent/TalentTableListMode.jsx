@@ -391,18 +391,23 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               className={cx(
-                "pr-3",
-                talent.token.contractId ? "" : "d-flex justify-content-center"
+                "pr-5",
+                talent.token.contractId && talent.marketCapVariance ? "text-right" : "text-center"
               )}
               onClick={() =>
                 (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2
+                className={
+                  talent.token.contractId && talent.marketCapVariance
+                    ? talent.marketCapVariance.startsWith("-")
+                      ? "text-danger"
+                      : "text-success"
+                    : ""
+                }
                 text={
-                  talent.token.contractId
-                    ? `${currency(talent.marketCapVariance).format()}`
-                    : "-"
+                  talent.token.contractId && talent.marketCapVariance ? `${talent.marketCapVariance}` : "-"
                 }
               />
             </Table.Td>
