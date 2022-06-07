@@ -169,9 +169,7 @@ const TalentTableListMode = ({
       case "Market Cap":
         return contractId ? `$${talent.marketCap}` : "-";
       case "Market Cap Variance":
-        return contractId
-          ? `$${parsedVariance(talent.marketCapVariance)}`
-          : "-";
+        return contractId ? parsedVariance(talent.marketCapVariance) : "-";
       case "Alphabetical Order":
         return talent.occupation;
       case "First Buy":
@@ -405,9 +403,7 @@ const TalentTableListMode = ({
             <Table.Td
               className={cx(
                 "pr-5",
-                talent.token.contractId && talent.marketCapVariance
-                  ? "text-right"
-                  : "text-center"
+                talent.token.contractId ? "" : "d-flex justify-content-center"
               )}
               onClick={() =>
                 (window.location.href = `/u/${talent.user.username}`)
@@ -416,7 +412,7 @@ const TalentTableListMode = ({
               <P2
                 className={varianceClassNames(talent)}
                 text={
-                  talent.token.contractId && talent.marketCapVariance
+                  talent.token.contractId
                     ? `${parsedVariance(talent.marketCapVariance)}`
                     : "-"
                 }

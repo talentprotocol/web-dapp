@@ -29,6 +29,7 @@ import {
   compareOccupation,
   compareSupporters,
   compareMarketCap,
+  compareMarketCapVariance,
 } from "src/components/talent/utils/talent";
 
 import cx from "classnames";
@@ -103,6 +104,9 @@ const TalentPage = ({ talents, isAdmin }) => {
         break;
       case "Alphabetical Order":
         comparisonFunction = compareName;
+        break;
+      case "Market Cap Variance":
+        comparisonFunction = compareMarketCapVariance;
         break;
     }
 

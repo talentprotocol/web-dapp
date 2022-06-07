@@ -29,6 +29,7 @@ import {
   compareOccupation,
   compareSupporters,
   compareMarketCap,
+  compareMarketCapVariance,
 } from "src/components/talent/utils/talent";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -112,6 +113,9 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
       case "Alphabetical Order":
         comparisonFunction = compareName;
         break;
+      case "Market Cap Variance":
+        comparisonFunction = compareMarketCapVariance;
+        break;
     }
 
     if (sortDirection === "asc") {
@@ -169,7 +173,17 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     setLocalTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce(
-          (result, { id, token, marketCap, supporterCounter, marketCapVariance, ...rest }) => {
+          (
+            result,
+            {
+              id,
+              token,
+              marketCap,
+              supporterCounter,
+              marketCapVariance,
+              ...rest
+            }
+          ) => {
             result[token.contractId || id] = {
               ...(result[token.contractId || id] || {}),
               id: result[token.contractId || id]?.id || id,
