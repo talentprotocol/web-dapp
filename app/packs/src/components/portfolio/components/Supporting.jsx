@@ -254,7 +254,7 @@ const Supporting = ({
   };
 
   const varianceClassNames = (variance) => {
-    if (!variance || Math.abs(variance) < 0.009) return "";
+    if (!variance || Math.abs(variance) < 0.01) return "";
 
     return variance < 0 ? "text-danger" : "text-success";
   };

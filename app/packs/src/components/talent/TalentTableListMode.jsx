@@ -152,7 +152,7 @@ const TalentTableListMode = ({
     if (
       !talent.token.contractId ||
       !talent.marketCapVariance ||
-      Math.abs(talent.marketCapVariance) < 0.009
+      Math.abs(talent.marketCapVariance) < 0.01
     )
       return "";
 
