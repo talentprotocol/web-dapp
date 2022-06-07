@@ -13,6 +13,8 @@ import Tag from "src/components/design_system/tag";
 import Button from "src/components/design_system/button";
 import { P1, P2, P3, Caption } from "src/components/design_system/typography";
 
+import { parsedVariance } from "src/utils/viewHelpers";
+
 import cx from "classnames";
 
 const MobileTalentTableDropdown = ({
@@ -146,6 +148,17 @@ const TalentTableListMode = ({
     setShowDropdown(false);
   };
 
+  const varianceClassNames = (talent) => {
+    if (
+      !talent.token.contractId ||
+      !talent.marketCapVariance ||
+      Math.abs(talent.marketCapVariance) < 0.01
+    )
+      return "";
+
+    return talent.marketCapVariance < 0 ? "text-danger" : "text-success";
+  };
+
   const getSelectedOptionValue = (talent) => {
     const contractId = talent.token.contractId;
     switch (selectedSort) {
@@ -156,7 +169,9 @@ const TalentTableListMode = ({
       case "Market Cap":
         return contractId ? `$${talent.marketCap}` : "-";
       case "Market Cap Variance":
-        return contractId ? `$${talent.marketCapVariance}` : "-";
+        return contractId
+          ? `$${parsedVariance(talent.marketCapVariance)}`
+          : "-";
       case "Alphabetical Order":
         return talent.occupation;
       case "First Buy":
@@ -284,9 +299,7 @@ const TalentTableListMode = ({
           <Caption
             onClick={() => onOptionClick("Market Cap Variance")}
             bold
-            text={`30 DAY MARKET CAP VARIANCE${sortIcon(
-              "Market Cap Variance"
-            )}`}
+            text={`30 DAY MARKET CAP${sortIcon("Market Cap Variance")}`}
             className="cursor-pointer"
           />
         </Table.Th>
@@ -391,17 +404,20 @@ const TalentTableListMode = ({
             </Table.Td>
             <Table.Td
               className={cx(
-                "pr-3",
-                talent.token.contractId ? "" : "d-flex justify-content-center"
+                "pr-5",
+                talent.token.contractId && talent.marketCapVariance
+                  ? "text-right"
+                  : "text-center"
               )}
               onClick={() =>
                 (window.location.href = `/u/${talent.user.username}`)
               }
             >
               <P2
+                className={varianceClassNames(talent)}
                 text={
-                  talent.token.contractId
-                    ? `${currency(talent.marketCapVariance).format()}`
+                  talent.token.contractId && talent.marketCapVariance
+                    ? `${parsedVariance(talent.marketCapVariance)}`
                     : "-"
                 }
               />

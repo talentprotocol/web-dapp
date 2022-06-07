@@ -15,10 +15,10 @@ if Rails.env.development?
       Feed.create!(user: admin)
       Tasks::PopulateForUser.new.call(user: admin)
 
-      investor_invite = CreateInvite.new(user_id: admin.id).call
-      talent_invite = CreateInvite.new(user_id: admin.id, talent_invite: true).call
+      investor_invite = Invites::Create.new(user_id: admin.id).call
+      talent_invite = Invites::Create.new(user_id: admin.id, talent_invite: true).call
 
-      investor_result = CreateUser.new.call(
+      investor_result = Users::Create.new.call(
         email: "investor@talentprotocol.com",
         username: "investor",
         password: "password",
@@ -27,7 +27,7 @@ if Rails.env.development?
       )
       investor_result[:user].confirm_email
 
-      investor_result2 = CreateUser.new.call(
+      investor_result2 = Users::Create.new.call(
         email: "investor2@talentprotocol.com",
         username: "investor2",
         password: "password",
@@ -36,7 +36,7 @@ if Rails.env.development?
       )
       investor_result2[:user].confirm_email
 
-      investor_result3 = CreateUser.new.call(
+      investor_result3 = Users::Create.new.call(
         email: "investor3@talentprotocol.com",
         username: "investor3",
         password: "password",
@@ -45,7 +45,7 @@ if Rails.env.development?
       )
       investor_result3[:user].confirm_email
 
-      elon_result = CreateUser.new.call(
+      elon_result = Users::Create.new.call(
         email: "elon@talentprotocol.com",
         username: "elon",
         password: "password",
@@ -54,7 +54,7 @@ if Rails.env.development?
       )
       elon_result[:user].confirm_email
 
-      karl_result = CreateUser.new.call(
+      karl_result = Users::Create.new.call(
         email: "karl@talentprotocol.com",
         username: "karl",
         password: "password",
@@ -63,7 +63,7 @@ if Rails.env.development?
       )
       karl_result[:user].confirm_email
 
-      bob_result = CreateUser.new.call(
+      bob_result = Users::Create.new.call(
         email: "bob@talentprotocol.com",
         username: "bob",
         password: "password",
@@ -72,7 +72,7 @@ if Rails.env.development?
       )
       bob_result[:user].confirm_email
 
-      hannah_result = CreateUser.new.call(
+      hannah_result = Users::Create.new.call(
         email: "hannah@talentprotocol.com",
         username: "hannah",
         password: "password",
@@ -81,7 +81,7 @@ if Rails.env.development?
       )
       hannah_result[:user].confirm_email
 
-      olivia_result = CreateUser.new.call(
+      olivia_result = Users::Create.new.call(
         email: "olivia@talentprotocol.com",
         username: "olivia",
         password: "password",

@@ -36,6 +36,12 @@ import H5 from "src/components/design_system/typography/h5";
 import Button from "src/components/design_system/button";
 import { Spinner } from "src/components/icons";
 
+import {
+  getStartDateForVariance,
+  getUTCDate,
+  getMarketCapVariance,
+} from "src/utils/viewHelpers";
+
 const TransakDone = ({ show, hide }) => (
   <Modal show={show} onHide={hide} centered>
     <Modal.Header closeButton>
@@ -154,11 +160,13 @@ const NewPortfolio = ({
   const [listLoaded, setListLoaded] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
 
+  const startDate = getStartDateForVariance();
   const { loading, data, refetch, error } = useQuery(GET_SUPPORTER_PORTFOLIO, {
     variables: {
       id: localAccount.toLowerCase(),
       skip: page * PAGE_SIZE,
       first: PAGE_SIZE,
+      startDate,
     },
     skip: !localAccount || wrongChain,
   });
@@ -222,16 +230,31 @@ const NewPortfolio = ({
     }
 
     const newTalents = data.supporter.talents.map(
-      ({ amount, talAmount, talent }) => ({
-        id: talent.owner,
-        symbol: talent.symbol,
-        name: talent.name,
-        amount: ethers.utils.formatUnits(amount),
-        talAmount: ethers.utils.formatUnits(talAmount),
-        totalSupply: ethers.utils.formatUnits(talent.totalSupply),
-        nrOfSupporters: talent.supporterCounter,
-        contract_id: talent.id,
-      })
+      ({ amount, talAmount, talent }) => {
+        let deployDateUTC;
+        if (!!talent.createdAtTimestamp) {
+          const msDividend = 1000;
+          deployDateUTC = getUTCDate(
+            parseInt(talent.createdAtTimestamp) * msDividend
+          );
+        }
+        return {
+          id: talent.owner,
+          symbol: talent.symbol,
+          name: talent.name,
+          amount: ethers.utils.formatUnits(amount),
+          talAmount: ethers.utils.formatUnits(talAmount),
+          totalSupply: ethers.utils.formatUnits(talent.totalSupply),
+          nrOfSupporters: talent.supporterCounter,
+          contract_id: talent.id,
+          marketCapVariance: getMarketCapVariance(
+            talent.tokenDayData || [],
+            deployDateUTC || 0,
+            startDate,
+            talent.totalSupply
+          ),
+        };
+      }
     );
 
     setSupportedTalents((prev) =>

@@ -3,7 +3,7 @@ class API::V1::TalentController < ApplicationController
     service = Talents::Search.new(filter_params: filter_params.to_h, admin: current_user.admin?)
     talents = service.call
 
-    render json: TalentBlueprint.render(talents.includes(:user, :token), view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
+    render json: TalentBlueprint.render(talents.includes(:token, user: :investor), view: :normal, current_user_watchlist: current_user_watchlist), status: :ok
   end
 
   # public /

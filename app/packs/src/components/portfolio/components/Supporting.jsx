@@ -19,6 +19,8 @@ import Table from "src/components/design_system/table";
 import Link from "src/components/design_system/link";
 import { OrderBy } from "src/components/icons";
 
+import { parsedVariance } from "src/utils/viewHelpers";
+
 const concatenateSupportingAddresses = (supporting) =>
   `?tokens[]=${supporting.map((s) => s.contract_id).join("&tokens[]=")}`;
 
@@ -251,6 +253,12 @@ const Supporting = ({
     }
   };
 
+  const varianceClassNames = (variance) => {
+    if (!variance || Math.abs(variance) < 0.01) return "";
+
+    return variance < 0 ? "text-danger" : "text-success";
+  };
+
   if (sortedTalents().length == 0) {
     return (
       <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center mt-3">
@@ -379,6 +387,14 @@ const Supporting = ({
           </Table.Th>
           <Table.Th>
             <Caption
+              onClick={() => onOptionClick("Variance")}
+              bold
+              text={`30 DAYS MARKET CAP${sortIcon("Variance")}`}
+              className="cursor-pointer"
+            />
+          </Table.Th>
+          <Table.Th>
+            <Caption
               onClick={() => onOptionClick("Rewards")}
               bold
               text={`REWARDS${sortIcon("Rewards")}`}
@@ -436,6 +452,15 @@ const Supporting = ({
                     className="text-black"
                   />
                   <P2 text={`${parseAndCommify(talent.amount * 5)} TAL`} />
+                </div>
+              </Table.Td>
+              <Table.Td>
+                <div className="d-flex flex-column justify-content-center align-items-start">
+                  <P2
+                    bold
+                    text={parsedVariance(talent.marketCapVariance)}
+                    className={varianceClassNames(talent.marketCapVariance)}
+                  />
                 </div>
               </Table.Td>
               <Table.Td>
