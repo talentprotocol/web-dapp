@@ -30,7 +30,7 @@ module Tasks
         service = Invites::Create.new(user_id: user.id, single_use: true, talent_invite: true)
         service.call
       elsif type == "Tasks::Register"
-        Reward.create!(user: user, amount: 250, category: "quest", reason: "Got 5 people to register")
+        Reward.create!(user: user, amount: 1500, category: "quest", reason: "Got 5 people to register")
       end
     end
 

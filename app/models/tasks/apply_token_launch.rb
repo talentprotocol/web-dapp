@@ -7,7 +7,7 @@ module Tasks
     end
 
     def link
-      "/talent"
+      nil
     end
   end
 end
