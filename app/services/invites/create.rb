@@ -39,10 +39,6 @@ module Invites
     def number_of_invites(user)
       if @single_use
         1
-      elsif user.talent?
-        nil
-      else
-        5
       end
     end
 
