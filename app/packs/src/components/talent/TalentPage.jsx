@@ -181,7 +181,7 @@ const TalentPage = ({ talents, isAdmin }) => {
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
               supporterCounter: supporterCounter || "-1",
-              marketCapVariance: marketCapVariance || "-1",
+              marketCapVariance: marketCapVariance || 0,
               ...rest,
             };
 
