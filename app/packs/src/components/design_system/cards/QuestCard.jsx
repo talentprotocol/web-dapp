@@ -1,11 +1,15 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { H5, P1, P2, Caption } from "src/components/design_system/typography";
 import { Reward } from "src/components/icons";
 import ProgressCircle from "src/components/design_system/progress_circle";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
-import { questDescription, taskReward } from "src/utils/questsHelpers";
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
+import {
+  questDescription,
+  taskReward,
+  questRewards,
+} from "src/utils/questsHelpers";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 import cx from "classnames";
 
@@ -20,6 +24,9 @@ const QuestCard = ({
   status,
   user,
 }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
+
   const progress = completedTasks / allTasks || 0;
   const supporterOnTalentQuest = type === "Quests::Talent" && !user.is_talent;
 
@@ -55,11 +62,12 @@ const QuestCard = ({
 
   const completed = status === "done";
 
-  const rewards = tasksType.map((type) => taskReward(type, completed));
+  const taskRewards = tasksType.map((type) => taskReward(type, completed));
+  const rewards = taskRewards.concat(questRewards(type, completed));
 
   const onClickButton = useMemo(() => {
     if (supporterOnTalentQuest) {
-      return TALENT_TOKEN_APPLICATION_FORM;
+      return null;
     }
 
     return `/quests/${id}`;
@@ -98,19 +106,22 @@ const QuestCard = ({
             text={questDescription(type)}
           />
           <Caption className="text-primary-04 pb-2" bold text="Prizes" />
-          {rewards.map((reward) => (
-            <div
-              key={reward.props.text}
-              className="pb-2 d-flex align-items-center"
-            >
-              <Reward
-                style={{ minWidth: "16px" }}
-                pathClassName={cx("reward-icon", completed && "disabled")}
-                className="mr-2"
-              />
-              {reward}
-            </div>
-          ))}
+          {rewards.map(
+            (reward) =>
+              reward && (
+                <div
+                  key={reward.props.text}
+                  className="pb-2 d-flex align-items-center"
+                >
+                  <Reward
+                    style={{ minWidth: "16px" }}
+                    pathClassName={cx("reward-icon", completed && "disabled")}
+                    className="mr-2"
+                  />
+                  {reward}
+                </div>
+              )
+          )}
         </div>
         <a
           className="button-link"
@@ -123,10 +134,20 @@ const QuestCard = ({
             size="extra-big"
             type={buttonType}
             text={buttonText}
-            onClick={() => null}
+            onClick={() =>
+              supporterOnTalentQuest
+                ? setShowApplyToLaunchTokenModal(true)
+                : null
+            }
           />
         </a>
       </div>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={user.investor_id}
+        username={user.username}
+      />
     </div>
   );
 };

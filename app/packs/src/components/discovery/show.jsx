@@ -4,6 +4,10 @@ import Tooltip from "src/components/design_system/tooltip";
 import Button from "src/components/design_system/button";
 import { ethers } from "ethers";
 
+import { faGlobeEurope } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useWindowDimensionsHook } from "src/utils/window";
 
 import {
@@ -16,12 +20,16 @@ import {
   getSupporterCount,
   getMarketCap,
   getProgress,
+  getStartDateForVariance,
+  getUTCDate,
+  getMarketCapVariance,
 } from "src/utils/viewHelpers";
 import {
   compareName,
   compareOccupation,
   compareSupporters,
   compareMarketCap,
+  compareMarketCapVariance,
 } from "src/components/talent/utils/talent";
 import { post, destroy } from "src/utils/requests";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
@@ -37,17 +45,22 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
   const theme = useContext(ThemeContext);
   const { mobile } = useWindowDimensionsHook();
   const [localTalents, setLocalTalents] = useState(talents);
+
+  const startDate = getStartDateForVariance();
   const { loading, data } = useQuery(GET_TALENT_PORTFOLIO, {
     variables: {
       ids: localTalents
         .map((talent) => talent.token.contractId)
         .filter((id) => id),
+      startDate,
     },
   });
-  const [watchlistOnly, setWatchlistOnly] = useState(false);
   const [listModeOnly, setListModeOnly] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  const partnership = discoveryRow.partnership;
+  const partnershipSocialLinks =
+    partnership && (partnership.website_url || partnership.twitter_url);
 
   const totalSupplyToString = (totalSupply) => {
     const bignumber = ethers.BigNumber.from(totalSupply).div(10);
@@ -100,6 +113,9 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
       case "Alphabetical Order":
         comparisonFunction = compareName;
         break;
+      case "Market Cap Variance":
+        comparisonFunction = compareMarketCapVariance;
+        break;
     }
 
     if (sortDirection === "asc") {
@@ -109,7 +125,7 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     }
 
     return desiredTalent;
-  }, [localTalents, watchlistOnly, selectedSort, sortDirection, data]);
+  }, [localTalents, selectedSort, sortDirection, data]);
 
   useEffect(() => {
     if (loading || !data?.talentTokens) {
@@ -117,25 +133,64 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
     }
 
     const newTalents = data.talentTokens.map(
-      ({ id, totalSupply, maxSupply, supporterCounter, ...rest }) => ({
-        ...rest,
-        token: { contractId: id },
-        progress: getProgress(totalSupply, maxSupply),
-        marketCap: getMarketCap(totalSupply),
-        supporterCounter: getSupporterCount(supporterCounter),
-      })
+      ({
+        id,
+        totalSupply,
+        maxSupply,
+        supporterCounter,
+        tokenDayData,
+        createdAtTimestamp,
+        ...rest
+      }) => {
+        let deployDateUTC;
+        if (!!createdAtTimestamp) {
+          const msDividend = 1000;
+          deployDateUTC = getUTCDate(parseInt(createdAtTimestamp) * msDividend);
+        } else {
+          const localTalent = localTalents.find(
+            (talent) => talent.token.contractId == talent.id
+          );
+          deployDateUTC =
+            localTalent && getUTCDate(localTalent.token.deployedAt);
+        }
+
+        return {
+          ...rest,
+          token: { contractId: id },
+          progress: getProgress(totalSupply, maxSupply),
+          marketCap: getMarketCap(totalSupply),
+          supporterCounter: getSupporterCount(supporterCounter),
+          marketCapVariance: getMarketCapVariance(
+            tokenDayData || [],
+            deployDateUTC || 0,
+            startDate,
+            totalSupply
+          ),
+        };
+      }
     );
 
     setLocalTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce(
-          (result, { id, token, marketCap, supporterCounter, ...rest }) => {
+          (
+            result,
+            {
+              id,
+              token,
+              marketCap,
+              supporterCounter,
+              marketCapVariance,
+              ...rest
+            }
+          ) => {
             result[token.contractId || id] = {
               ...(result[token.contractId || id] || {}),
               id: result[token.contractId || id]?.id || id,
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
               supporterCounter: supporterCounter || "-1",
+              marketCapVariance: marketCapVariance || "0%",
               ...rest,
             };
 
@@ -149,7 +204,12 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
 
   return (
     <div className={cx(mobile && "p-4")}>
-      <div className="talent-list-header  d-flex flex-column justify-content-center">
+      <div
+        className={cx(
+          "talent-list-header d-flex flex-column justify-content-center",
+          partnership && "partnership"
+        )}
+      >
         <a className="button-link mb-5" href="/">
           <Button
             onClick={() => null}
@@ -160,6 +220,14 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             <ArrowLeft color="currentColor" size={16} />
           </Button>
         </a>
+        {partnership && partnership.logo_url && (
+          <img
+            className="rounded-circle image-fit mb-4"
+            src={partnership.logo_url}
+            width={"72px"}
+            alt="Partnership Picture"
+          />
+        )}
         <div className="d-flex align-items-center">
           <H3 className="text-black mr-2" bold text={discoveryRow.title} />
           {discoveryRow.tags && (
@@ -179,6 +247,29 @@ const DiscoveryShow = ({ discoveryRow, talents }) => {
             className="text-primary-03 mb-4"
             text={discoveryRow.description}
           />
+        )}
+
+        {partnershipSocialLinks && (
+          <div className="d-flex flex-row flex-wrap text-primary-03 mb-4">
+            {partnership.website_url && (
+              <a
+                href={partnership.website_url}
+                target="self"
+                className="mr-4 text-reset hover-primary"
+              >
+                <FontAwesomeIcon icon={faGlobeEurope} />
+              </a>
+            )}
+            {partnership.twitter_url && (
+              <a
+                href={partnership.twitter_url}
+                target="self"
+                className="mr-4 text-reset hover-primary"
+              >
+                <FontAwesomeIcon icon={faTwitter} />
+              </a>
+            )}
+          </div>
         )}
         <div className="d-flex">
           <P1

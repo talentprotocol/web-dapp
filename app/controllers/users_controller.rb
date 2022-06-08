@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     CreateProfilePageVisitorJob.perform_later(ip: request.remote_ip, user_id: @user.id)
 
-    if talent
+    if should_see_talent_page?(talent)
       @talent = TalentBlueprint.render_as_json(
         talent,
         view: :extended,
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     elsif !User.valid_email?(user_params[:email])
       render json: {error: "Email is not valid.", field: "email"}, status: :conflict
     else
-      service = CreateUser.new
+      service = Users::Create.new
       @result = service.call(
         email: user_params[:email],
         username: user_params[:username],
@@ -102,5 +102,9 @@ class UsersController < ApplicationController
 
     result = JSON.parse(request.body)
     result["success"]
+  end
+
+  def should_see_talent_page?(talent)
+    talent || current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
   end
 end

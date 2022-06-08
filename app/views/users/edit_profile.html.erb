@@ -14,7 +14,7 @@
           milestones: @talent.milestones.as_json,
           current_user_id: current_acting_user.id,
           token_live: @talent.token.deployed?,
-          user: { id: current_acting_user.id, email: current_acting_user.email, username: current_acting_user.username, display_name: current_acting_user.display_name, messaging_disabled: current_acting_user.messaging_disabled, wallet_id: current_acting_user.wallet_id },
+          user: { id: current_acting_user.id, email: current_acting_user.email, username: current_acting_user.username, display_name: current_acting_user.display_name, messaging_disabled: current_acting_user.messaging_disabled, wallet_id: current_acting_user.wallet_id, profile_type: current_acting_user.profile_type },
           notificationPreferences: User::Delivery::TYPES.map do |type|
             [type, @talent.user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
           end.to_h,

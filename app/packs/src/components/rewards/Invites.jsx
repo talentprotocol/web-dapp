@@ -16,16 +16,11 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Caption from "src/components/design_system/typography/caption";
 import Tag from "src/components/design_system/tag";
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
-const InviteHeader = ({ isTalent, username }) => {
-  const redirectToLaunchToken = () => {
-    if (isTalent) {
-      window.location.href = `u/${username}/edit_profile`;
-    } else {
-      window.open(TALENT_TOKEN_APPLICATION_FORM);
-    }
-  };
+const InviteHeader = ({ investorId, username }) => {
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
 
   return (
     <div className="race-header-row p-4 p-lg-6 mb-7 mx-4 mx-lg-0 overview-section">
@@ -37,19 +32,25 @@ const InviteHeader = ({ isTalent, username }) => {
           This is a special type of invite that allows you to refer a talented
           friend to launch a token immediately. They skip the traditional
           application process and receive $200, while you earn 250 $TAL per
-          talent invited (250 TAL for the first 5, 100 TAL after that). To
-          unlock Talent Invites you must have launched a talent token.
+          talent invited. To unlock Talent Invites you must have launched a 
+          talent token.
         </P1>
       </div>
       <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end col-lg-5 px-4 px-lg-0 mt-4 mt-lg-0">
         <Button
           type="primary-default"
           size="big"
-          onClick={redirectToLaunchToken}
+          onClick={() => setShowApplyToLaunchTokenModal(true)}
         >
           Launch a Talent Token
         </Button>
       </div>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={investorId}
+        username={username}
+      />
     </div>
   );
 };
@@ -392,7 +393,7 @@ const Invites = ({
   talentInvites,
   supporterInvites,
   talentList,
-  isTalent,
+  investorId,
   username,
 }) => {
   const talentInvitesEligible = () =>
@@ -401,7 +402,7 @@ const Invites = ({
   return (
     <div className="mt-6 mt-lg-7 d-flex flex-column">
       {!talentInvitesEligible() && (
-        <InviteHeader isTalent={isTalent} username={username} />
+        <InviteHeader investorId={investorId} username={username} />
       )}
       <Tooltip
         body={

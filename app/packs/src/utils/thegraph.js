@@ -27,7 +27,7 @@ const client = (env) => {
 export const PAGE_SIZE = 30;
 
 const GET_TALENT_PORTFOLIO = gql`
-  query GetTalentList($ids: [String!]) {
+  query GetTalentList($ids: [String!], $startDate: Int!) {
     talentTokens(first: 500, where: { id_in: $ids }) {
       id
       supporterCounter
@@ -35,12 +35,28 @@ const GET_TALENT_PORTFOLIO = gql`
       maxSupply
       marketCap
       name
+      createdAtTimestamp
+      tokenDayData(
+        where: { date_lte: $startDate }
+        orderBy: date
+        orderDirection: desc
+        first: 1
+      ) {
+        id
+        date
+        dailySupply
+      }
     }
   }
 `;
 
 const GET_SUPPORTER_PORTFOLIO = gql`
-  query GetSupporterPortfolio($id: String!, $skip: Int!, $first: Int!) {
+  query GetSupporterPortfolio(
+    $id: String!
+    $skip: Int!
+    $first: Int!
+    $startDate: Int!
+  ) {
     supporter(id: $id) {
       id
       totalAmount
@@ -64,6 +80,17 @@ const GET_SUPPORTER_PORTFOLIO = gql`
           maxSupply
           supporterCounter
           owner
+          createdAtTimestamp
+          tokenDayData(
+            where: { date_lte: $startDate }
+            orderBy: date
+            orderDirection: desc
+            first: 1
+          ) {
+            id
+            date
+            dailySupply
+          }
         }
       }
     }

@@ -27,7 +27,7 @@ class Talent < ApplicationRecord
   has_many :perks
   has_many :milestones
 
-  scope :base, -> { where(public: true) }
+  scope :base, -> { where(public: true, hide_profile: false) }
   scope :active, -> { joins(:token).where.not(tokens: {contract_id: nil}) }
   scope :upcoming, -> { joins(:token).where(tokens: {contract_id: nil}) }
 

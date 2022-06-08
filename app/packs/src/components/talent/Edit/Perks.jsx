@@ -111,9 +111,10 @@ const Perks = (props) => {
     mobile,
     changeTab,
     changeSharedState,
-    togglePublicProfile,
+    onProfileButtonClick,
     publicButtonType,
     disablePublicButton,
+    buttonText,
   } = props;
   const [allPerks, setAllPerks] = useState({
     new: emptyPerk("new"),
@@ -268,7 +269,7 @@ const Perks = (props) => {
 
   const onTogglePublic = async () => {
     setSaving((prev) => ({ ...prev, loading: true }));
-    await togglePublicProfile();
+    await onProfileButtonClick();
     setSaving((prev) => ({ ...prev, loading: false, public: true }));
   };
 
@@ -336,7 +337,7 @@ const Perks = (props) => {
             className="ml-auto mr-3"
             checkClassName="edit-profile-public-check"
           >
-            {props.talent.public ? "Public" : "Publish Profile"}
+            {buttonText}
           </LoadingButton>
         )}
         <LoadingButton

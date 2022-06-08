@@ -53,12 +53,6 @@ export const TALENT_PROTOCOL_GITHUB = "https://github.com/talentprotocol";
 
 export const TALENT_PROTOCOL_TELEGRAM = "https://t.me/talentprotocol";
 
-export const TALENT_APPLICATION_FORM =
-  "https://talentprotocol.typeform.com/waitlist";
-
-export const TALENT_TOKEN_APPLICATION_FORM =
-  "https://talentprotocol.typeform.com/application";
-
 export const ERROR_MESSAGES = {
   ticker_reserved: "talent token with this symbol already exists",
   action_canceled: "User denied transaction signature",

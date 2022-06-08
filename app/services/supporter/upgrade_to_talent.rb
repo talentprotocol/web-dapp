@@ -18,6 +18,9 @@ class Supporter::UpgradeToTalent
     service = Mailerlite::SyncSubscriber.new
     service.call(user)
 
+    task_service = Tasks::Update.new
+    task_service.call(type: "Tasks::ApplyTokenLaunch", user: user)
+
     user.talent
   end
 
@@ -28,7 +31,7 @@ class Supporter::UpgradeToTalent
     if supporter_invite
       supporter_invite.update!(max_uses: nil)
     else
-      service = CreateInvite.new(user_id: user.id)
+      service = Invites::Create.new(user_id: user.id)
       service.call
     end
   end

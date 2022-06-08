@@ -7,7 +7,7 @@ module Quests
     end
 
     def subtitle
-      "Earn your first rewards!"
+      "Build your talent profile"
     end
   end
 end

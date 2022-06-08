@@ -3,7 +3,7 @@
 module Quests
   class Supporter < Quest
     def title
-      "Supporter"
+      "New Supporter"
     end
 
     def subtitle

@@ -11,21 +11,23 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { TALENT_TOKEN_APPLICATION_FORM } from "src/utils/constants";
 import { H3, Caption } from "src/components/design_system/typography";
 import { Spinner } from "src/components/icons";
 import HighlightsCard from "src/components/design_system/highlights_card";
 import Button from "src/components/design_system/button";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 import DiscoveryRows from "./discovery_rows";
 import DiscoveryMarketingArticles from "./discovery_marketing_articles";
 
 import cx from "classnames";
 
-const Discovery = ({ discoveryRows, marketingArticles }) => {
+const Discovery = ({ discoveryRows, marketingArticles, user }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
   const [loading, setLoading] = useState(true);
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
 
   const talentIdsPerRow = useMemo(
     () =>
@@ -173,9 +175,7 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
               <Button
                 type="primary-default"
                 size="extra-big"
-                onClick={() =>
-                  window.open(TALENT_TOKEN_APPLICATION_FORM, "_blank")
-                }
+                onClick={() => setShowApplyToLaunchTokenModal(true)}
                 text="Apply Now"
               />
             </div>
@@ -219,6 +219,12 @@ const Discovery = ({ discoveryRows, marketingArticles }) => {
           <DiscoveryMarketingArticles marketingArticles={marketingArticles} />
         </div>
       )}
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={user.investorId}
+        username={user.username}
+      />
     </div>
   );
 };

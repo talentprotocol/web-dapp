@@ -21,6 +21,7 @@ const TalentOptions = ({
   setLocalTalents,
   setSelectedSort,
   setSortDirection,
+  isAdmin,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const url = new URL(document.location);
@@ -82,6 +83,7 @@ const TalentOptions = ({
             status={status}
             setStatus={setStatus}
             filter={filter}
+            isAdmin={isAdmin}
           />
         </div>
         <Button

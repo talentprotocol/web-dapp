@@ -113,4 +113,5 @@ group :test do
   gem "shoulda-matchers", "~> 4.5.1"
   gem "webdrivers"
   gem "simplecov"
+  gem "codecov"
 end

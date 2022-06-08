@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_29_153133) do
+ActiveRecord::Schema.define(version: 2022_06_07_144915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,8 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
     t.string "badge_link"
     t.string "slug"
     t.text "description"
-    t.text "logo_data"
+    t.bigint "partnership_id"
+    t.index ["partnership_id"], name: "index_discovery_rows_on_partnership_id"
   end
 
   create_table "feed_posts", force: :cascade do |t|
@@ -170,6 +171,18 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
 
+  create_table "partnerships", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "logo_data"
+    t.string "website_url"
+    t.string "description"
+    t.string "twitter_url"
+    t.bigint "invite_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invite_id"], name: "index_partnerships_on_invite_id"
+  end
+
   create_table "perks", force: :cascade do |t|
     t.integer "price", null: false
     t.string "title", null: false
@@ -250,6 +263,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
     t.string "notion_page_id"
     t.integer "supporters_count"
     t.string "total_supply"
+    t.boolean "hide_profile", default: false, null: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
@@ -345,6 +359,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
     t.string "member_nft_tx"
     t.bigint "race_id"
     t.string "profile_type", default: "supporter", null: false
+    t.boolean "first_quest_popup", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
@@ -366,6 +381,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
   add_foreign_key "career_goals", "talent"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "discovery_rows", "partnerships"
   add_foreign_key "feed_posts", "feeds"
   add_foreign_key "feed_posts", "posts"
   add_foreign_key "feeds", "users"
@@ -375,6 +391,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_153133) do
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"
+  add_foreign_key "partnerships", "invites"
   add_foreign_key "perks", "talent"
   add_foreign_key "posts", "users"
   add_foreign_key "profile_page_visitors", "users"

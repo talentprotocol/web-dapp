@@ -121,7 +121,7 @@ const Profile = ({
         {!mobile && !publicPageViewer && actionButtons()}
       </section>
       <div className={cx("d-flex flex-row flex-wrap", mobile && "px-4")}>
-        <div className="col-12 col-lg-8 p-0">
+        <div className="col-12 col-lg-8 p-0" style={{ position: "unset" }}>
           <Overview
             user={user}
             profile={investor.profile}

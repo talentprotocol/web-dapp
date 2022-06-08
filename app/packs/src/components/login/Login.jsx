@@ -7,7 +7,6 @@ import { useWindowDimensionsHook } from "src/utils/window";
 import { H5, P2, P3 } from "src/components/design_system/typography";
 import { USER_GUIDE } from "src/utils/constants";
 import { post } from "src/utils/requests";
-import ViralLoopsButton from "src/components/design_system/button/ViralLoopsButton";
 
 import cx from "classnames";
 
@@ -82,12 +81,8 @@ const Login = () => {
       </div>
       <div className={cx("mt-6 pb-4", mobile && "align-self-center")}>
         <div className="d-flex mb-2">
-          <P2 className="text-black mr-1" text="Don't have an invitation?" />
-          <ViralLoopsButton type="link" text="Join the waitlist" />
-        </div>
-        <div className="d-flex mb-2">
-          <P2 className="text-black mr-1" text="Already have an invitation?" />
-          <Link bold href="/sign_up" text="Register here" />
+          <P2 className="text-black mr-1" text="Don't have an account yet?" />
+          <Link bold href="/sign_up" text="Sign up here" />
         </div>
         <div className="d-flex">
           <P2 className="text-black mr-1" text="Want more info?" />

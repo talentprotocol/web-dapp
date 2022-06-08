@@ -19,7 +19,7 @@ class DiscoveryController < ApplicationController
         badge: row.badge,
         badge_link: row.badge_link,
         talents: Talent
-          .includes(:user, :token)
+          .includes(:token, user: :investor)
           .where(id: ids)
           .select("setseed(0.#{Date.today.jd}), talent.*")
           .order("random()")

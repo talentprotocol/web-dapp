@@ -6,7 +6,8 @@
           user: {
             isTalent: current_user.talent.present?,
             isEligible: current_user.wallet_id.present?,
-            username: current_user.username
+            username: current_user.username,
+            investorId: current_user.investor&.id
           },
           talentInvites: @talent_invites,
           supporterInvites: @supporter_invites,
