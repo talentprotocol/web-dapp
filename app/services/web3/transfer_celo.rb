@@ -1,7 +1,7 @@
 module Web3
   class TransferCelo
-    # 0.1 CELO
-    DEFAULT_AMOUNT = 10000000000000000
+    # 0.001 CELO
+    DEFAULT_AMOUNT = 1000000000000000
 
     def call(user:)
       if user.wallet_id && no_previous_transfer(user) && key

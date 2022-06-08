@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Quests
-  class Talent < Quest
+  class TalentToken < Quest
     def title
-      "Talent"
+      "Talent Token"
     end
 
     def subtitle

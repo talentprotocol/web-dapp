@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Quests
-  class Talent < Quest
+  class Ambassador < Quest
     def title
-      "Talent"
+      "Ambassador"
     end
 
     def subtitle
-      "Build your talent profile"
+      "Spreading the word about Talent Protocol"
     end
   end
 end

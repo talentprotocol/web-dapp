@@ -4,7 +4,11 @@ import { Reward } from "src/components/icons";
 import ProgressCircle from "src/components/design_system/progress_circle";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
-import { questDescription, taskReward } from "src/utils/questsHelpers";
+import {
+  questDescription,
+  taskReward,
+  questRewards,
+} from "src/utils/questsHelpers";
 import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 import cx from "classnames";
@@ -58,7 +62,8 @@ const QuestCard = ({
 
   const completed = status === "done";
 
-  const rewards = tasksType.map((type) => taskReward(type, completed));
+  const taskRewards = tasksType.map((type) => taskReward(type, completed));
+  const rewards = taskRewards.concat(questRewards(type, completed));
 
   const onClickButton = useMemo(() => {
     if (supporterOnTalentQuest) {
@@ -101,19 +106,22 @@ const QuestCard = ({
             text={questDescription(type)}
           />
           <Caption className="text-primary-04 pb-2" bold text="Prizes" />
-          {rewards.map((reward) => (
-            <div
-              key={reward.props.text}
-              className="pb-2 d-flex align-items-center"
-            >
-              <Reward
-                style={{ minWidth: "16px" }}
-                pathClassName={cx("reward-icon", completed && "disabled")}
-                className="mr-2"
-              />
-              {reward}
-            </div>
-          ))}
+          {rewards.map(
+            (reward) =>
+              reward && (
+                <div
+                  key={reward.props.text}
+                  className="pb-2 d-flex align-items-center"
+                >
+                  <Reward
+                    style={{ minWidth: "16px" }}
+                    pathClassName={cx("reward-icon", completed && "disabled")}
+                    className="mr-2"
+                  />
+                  {reward}
+                </div>
+              )
+          )}
         </div>
         <a
           className="button-link"
