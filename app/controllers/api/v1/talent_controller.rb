@@ -34,7 +34,7 @@ class API::V1::TalentController < ApplicationController
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
-    service = API::UpdateTalent.new(talent)
+    service = API::UpdateTalent.new(talent, current_user)
     service.call(talent_params, user_params, tag_params)
 
     if service.success

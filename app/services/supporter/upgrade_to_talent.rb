@@ -44,6 +44,9 @@ class Supporter::UpgradeToTalent
   end
 
   def update_profile_type(user, applying)
-    user.update(profile_type: applying ? "applying" : "talent")
+    Users::UpdateProfileType.new.call(
+      user_id: user.id,
+      new_profile_type: applying ? "applying" : "talent"
+    )
   end
 end

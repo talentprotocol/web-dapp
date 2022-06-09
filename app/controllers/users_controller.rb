@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     CreateProfilePageVisitorJob.perform_later(ip: request.remote_ip, user_id: @user.id)
 
-    if should_see_talent_page?(talent)
+    if talent && should_see_talent_page?(talent)
       @talent = TalentBlueprint.render_as_json(
         talent,
         view: :extended,
@@ -105,6 +105,6 @@ class UsersController < ApplicationController
   end
 
   def should_see_talent_page?(talent)
-    talent || current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
+    current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
   end
 end

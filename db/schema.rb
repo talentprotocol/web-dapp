@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_09_160644) do
-
+ActiveRecord::Schema.define(version: 2022_06_09_162621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -357,6 +356,17 @@ ActiveRecord::Schema.define(version: 2022_06_09_160644) do
     t.string "wallet_id"
     t.index ["user_id"], name: "index_transfers_on_user_id"
     t.index ["wallet_id"], name: "index_transfers_on_wallet_id"
+  end
+
+  create_table "user_profile_type_changes", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "who_dunnit_id"
+    t.string "previous_profile_type"
+    t.string "new_profile_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_profile_type_changes_on_user_id"
+    t.index ["who_dunnit_id"], name: "index_user_profile_type_changes_on_who_dunnit_id"
   end
 
   create_table "user_tags", force: :cascade do |t|
