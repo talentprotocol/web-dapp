@@ -610,6 +610,7 @@ const NewPortfolio = ({
           talents={supportedTalents}
           returnValues={returnValues}
           onClaim={onClaim}
+          isCurrentUserImpersonated={isCurrentUserImpersonated}
           loading={loading}
         />
       )}
