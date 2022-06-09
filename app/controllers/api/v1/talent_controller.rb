@@ -30,7 +30,7 @@ class API::V1::TalentController < ApplicationController
   end
 
   def update
-    if !current_user.admin? && talent.id != current_user.talent&.id
+    if !current_user.admin? && talent.id != current_acting_user.talent&.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 

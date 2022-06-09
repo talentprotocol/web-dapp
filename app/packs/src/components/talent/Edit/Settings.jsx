@@ -104,7 +104,7 @@ const Settings = (props) => {
     }).catch(() => setValidationErrors((prev) => ({ ...prev, saving: true })));
 
     if (response) {
-      if (!response.errors) {
+      if (!response.errors && !response.error) {
         changeSharedState((prev) => ({
           ...prev,
           user: {

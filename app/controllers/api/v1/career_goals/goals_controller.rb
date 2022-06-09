@@ -55,7 +55,7 @@ class API::V1::CareerGoals::GoalsController < ApplicationController
   end
 
   def validate_access
-    if career_goal.id != current_user.talent.career_goal.id
+    if !current_user.admin? && career_goal.id != current_acting_user.talent.career_goal.id
       render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
   end

@@ -2,7 +2,7 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
   after_action :notify_of_change
 
   def update
-    if current_user.nil? || talent.id != current_user.talent.id
+    if current_user.nil? || (!current_user.admin? && talent.id != current_acting_user.talent&.id)
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
@@ -18,7 +18,7 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
   end
 
   def create
-    if talent.id != current_user.talent.id
+    if !current_user.admin? && talent.id != current_acting_user.talent&.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 

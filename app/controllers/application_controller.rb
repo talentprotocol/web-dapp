@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   before_action :track_user_activity
+  before_action :set_paper_trail_whodunnit
 
   layout "application"
 
@@ -68,13 +69,6 @@ class ApplicationController < ActionController::Base
 
   def current_user_watchlist
     current_acting_user ? current_acting_user.following.pluck(:user_id) : []
-  end
-
-
-  def set_impersonated_user user
-    cookies.signed[:impersonated] = {
-      value: user.username
-    }
   end
 
   def user_from_impersonated_cookie

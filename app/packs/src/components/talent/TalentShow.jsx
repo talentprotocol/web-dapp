@@ -46,6 +46,7 @@ const TalentShow = ({
   posts,
   isFollowing,
   railsContext,
+  isCurrentUserImpersonated,
 }) => {
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
@@ -173,6 +174,8 @@ const TalentShow = ({
     );
   };
 
+  console.log('isCurrentUserImpersonated', isCurrentUserImpersonated);
+
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
       {sharedState.admin &&
@@ -187,7 +190,7 @@ const TalentShow = ({
       ) : (
         <Button
           onClick={() => setShow(true)}
-          disabled={!sharedState.token.contract_id}
+          disabled={isCurrentUserImpersonated || !sharedState.token.contract_id}
           type={currentUserId == user.id ? "white-subtle" : "primary-default"}
           className="mr-2"
         >
