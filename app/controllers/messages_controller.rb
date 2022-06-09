@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    if message_params[:message].blank? || current_user.id == @receiver.id || user_is_impersonated?
+    if message_params[:message].blank? || current_user.id == @receiver.id || is_user_impersonated?
       return render json: {
         error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
       }, status: :bad_request
@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
   end
 
   def send_to_all_supporters
-    if message_params[:message].blank? || user_is_impersonated?
+    if message_params[:message].blank? || is_user_impersonated?
       return render json: {
         error: "Unable to create message, the message is empty."
       }, status: :bad_request

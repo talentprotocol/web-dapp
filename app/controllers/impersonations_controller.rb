@@ -20,7 +20,7 @@ class ImpersonationsController < ApplicationController
     def set_impersonated_user user
         cookies.signed[:impersonated] = {
             value: user.username,
-            expires: 1.hour.from_now
+            expires: 30.minutes.from_now
         }
     end
     

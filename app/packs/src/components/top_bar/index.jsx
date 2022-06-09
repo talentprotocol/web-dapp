@@ -21,6 +21,8 @@ import MobileTopBar from "src/components/top_bar/MobileTopBar";
 import { Copy } from "src/components/icons";
 import EarnMenu from "src/components/menus/EarnMenu";
 
+import { P2 } from "src/components/design_system/typography";
+
 const UnreadMessagesIndicator = () => {
   return (
     <div className="position-relative">
@@ -74,7 +76,8 @@ export const TopBar = ({
   railsContext,
   notifications,
   hasUnreadMessages,
-  userIsImpersonated,
+  isUserImpersonated,
+  impersonatedUsername,
 }) => {
   const url = new URL(document.location);
   const [walletConnected, setWalletConnected] = useState(false);
@@ -212,11 +215,6 @@ export const TopBar = ({
     />
   );
 
-  const stopImpersonation = () => {
-    console.log('stopImpersonation');
-    window.history.pushState({}, document.title, `/impersonations/end_session`)
-  }
-
   if (width < 992) {
     return (
       <MobileTopBar
@@ -273,18 +271,7 @@ export const TopBar = ({
           <EarnMenu />
         </div>
         <div className="d-flex" style={{ height: 34 }}>
-          {userIsImpersonated && (
-            <Button
-              onClick={stopImpersonation}
-              type="white-subtle"
-              mode={theme.mode()}
-              className="mr-2"
-            >
-              <strong>
-                Stop Impersonation
-              </strong>
-            </Button>
-          )}
+          { isUserImpersonated && (<P2 className="mr-2 p-1">Impersonating {impersonatedUsername}</P2>) }
           {!showConnectButton() && connectedButton("mr-2")}
           {showConnectButton() && walletConnectButton()}
           <UserMenu

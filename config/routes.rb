@@ -56,7 +56,6 @@ Rails.application.routes.draw do
 
     # Impersonation
     get "/impersonate/:username", to: "impersonations#show"
-    patch "/impersonate/end_session", to: "impersonations#end_session"
 
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
