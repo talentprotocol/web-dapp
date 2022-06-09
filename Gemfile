@@ -85,7 +85,7 @@ gem "newrelic_rpm"
 gem "friendly_id", "~> 5.4.0"
 
 # Audits
-gem 'paper_trail'
+gem "paper_trail"
 
 # Data analytics
 gem "blazer"
