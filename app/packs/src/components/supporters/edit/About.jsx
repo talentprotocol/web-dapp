@@ -200,7 +200,7 @@ const About = ({
   };
 
   const cannotSaveProfile =
-    !investor.profile.headline || !investor.profile.occupation;
+    !investor.profile.headline || !investor.profile.occupation || !profilePictureUrl;
 
   return (
     <>
@@ -216,7 +216,7 @@ const About = ({
               inputName="files[]"
               locale={{
                 strings: {
-                  chooseFiles: "Choose Profile Picture",
+                  chooseFiles: "Choose Profile Picture *",
                 },
               }}
             />

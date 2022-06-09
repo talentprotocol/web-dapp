@@ -40,7 +40,7 @@ RSpec.describe Users::Create do
       Sidekiq::Testing.inline! do
         create_user
 
-        expect(enqueued_jobs.size).to eq 1
+        expect(enqueued_jobs.size).to eq 2
         job = enqueued_jobs[0]
         expect(job["arguments"][0]["type"]).to eq("Tasks::Register")
         expect(job["arguments"][0]["user_id"]).to eq(user.id)

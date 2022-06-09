@@ -18,6 +18,9 @@ class Supporter::UpgradeToTalent
     service = Mailerlite::SyncSubscriber.new
     service.call(user)
 
+    task_service = Tasks::Update.new
+    task_service.call(type: "Tasks::ApplyTokenLaunch", user: user)
+
     user.talent
   end
 

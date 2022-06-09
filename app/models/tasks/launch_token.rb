@@ -7,7 +7,7 @@ module Tasks
     end
 
     def link
-      quest.user.talent ? "/u/#{quest.user.username}/edit_profile?tab=Token" : "https://talentprotocol.typeform.com/application"
+      quest.user.talent ? "/u/#{quest.user.username}/edit_profile?tab=Token" : nil
     end
   end
 end

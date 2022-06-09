@@ -4,8 +4,11 @@ import { Reward } from "src/components/icons";
 import ProgressCircle from "src/components/design_system/progress_circle";
 import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
-import { questDescription, taskReward } from "src/utils/questsHelpers";
-import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
+import {
+  questDescription,
+  taskReward,
+  questRewards,
+} from "src/utils/questsHelpers";
 
 import cx from "classnames";
 
@@ -18,13 +21,8 @@ const QuestCard = ({
   completedTasks,
   tasksType,
   status,
-  user,
 }) => {
-  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
-    useState(false);
-
   const progress = completedTasks / allTasks || 0;
-  const supporterOnTalentQuest = type === "Quests::Talent" && !user.is_talent;
 
   const buttonText = useMemo(() => {
     switch (status) {
@@ -58,15 +56,8 @@ const QuestCard = ({
 
   const completed = status === "done";
 
-  const rewards = tasksType.map((type) => taskReward(type, completed));
-
-  const onClickButton = useMemo(() => {
-    if (supporterOnTalentQuest) {
-      return null;
-    }
-
-    return `/quests/${id}`;
-  }, [supporterOnTalentQuest]);
+  const taskRewards = tasksType.map((type) => taskReward(type, completed));
+  const rewards = taskRewards.concat(questRewards(type, completed));
 
   return (
     <div className={cx("highlights-card", completed && "disabled")}>
@@ -101,45 +92,34 @@ const QuestCard = ({
             text={questDescription(type)}
           />
           <Caption className="text-primary-04 pb-2" bold text="Prizes" />
-          {rewards.map((reward) => (
-            <div
-              key={reward.props.text}
-              className="pb-2 d-flex align-items-center"
-            >
-              <Reward
-                style={{ minWidth: "16px" }}
-                pathClassName={cx("reward-icon", completed && "disabled")}
-                className="mr-2"
-              />
-              {reward}
-            </div>
-          ))}
+          {rewards.map(
+            (reward) =>
+              reward && (
+                <div
+                  key={reward.props.text}
+                  className="pb-2 d-flex align-items-center"
+                >
+                  <Reward
+                    style={{ minWidth: "16px" }}
+                    pathClassName={cx("reward-icon", completed && "disabled")}
+                    className="mr-2"
+                  />
+                  {reward}
+                </div>
+              )
+          )}
         </div>
-        <a
-          className="button-link"
-          href={onClickButton}
-          target={supporterOnTalentQuest ? "_blank" : "_self"}
-        >
+        <a className="button-link" href={`/quests/${id}`}>
           <Button
             className="w-100"
             disabled={completed}
             size="extra-big"
             type={buttonType}
             text={buttonText}
-            onClick={() =>
-              supporterOnTalentQuest
-                ? setShowApplyToLaunchTokenModal(true)
-                : null
-            }
+            onClick={() => null}
           />
         </a>
       </div>
-      <ApplyToLaunchTokenModal
-        show={showApplyToLaunchTokenModal}
-        hide={() => setShowApplyToLaunchTokenModal(false)}
-        investorId={user.investor_id}
-        username={user.username}
-      />
     </div>
   );
 };
