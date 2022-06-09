@@ -1,11 +1,8 @@
 class API::V1::Talent::CareerGoalsController < ApplicationController
   after_action :notify_of_change
+  before_action :validate_user
 
   def update
-    if current_user.nil? || (!current_user.admin? && talent.id != current_acting_user.talent&.id)
-      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
-    end
-
     if talent_params.present?
       talent.profile["video"] = talent_params[:video]
     end
@@ -18,10 +15,6 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
   end
 
   def create
-    if !current_user.admin? && talent.id != current_acting_user.talent&.id
-      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
-    end
-
     @career_goal = CareerGoal.new(career_goal_params)
     @career_goal.talent = talent
 
@@ -61,5 +54,11 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
 
   def talent_params
     params.require(:talent).permit(:video)
+  end
+
+  def validate_user
+    if current_user.nil? || (!current_user.admin? && talent.id != current_acting_user.talent&.id)
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
   end
 end

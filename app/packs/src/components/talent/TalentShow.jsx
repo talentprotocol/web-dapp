@@ -174,8 +174,6 @@ const TalentShow = ({
     );
   };
 
-  console.log('isCurrentUserImpersonated', isCurrentUserImpersonated);
-
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
       {sharedState.admin &&

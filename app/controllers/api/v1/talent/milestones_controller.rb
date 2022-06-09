@@ -15,8 +15,6 @@ class API::V1::Talent::MilestonesController < ApplicationController
   end
 
   def create
-    
-
     @milestone = Milestone.new(milestone_params)
 
     parsed_date = milestone_params[:start_date].split("-").map(&:to_i)

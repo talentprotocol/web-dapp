@@ -57,7 +57,7 @@ class API::V1::Talent::PerksController < ApplicationController
   end
 
   def validate_access
-    if talent.id != current_user.try(:talent).try(:id)
+    if talent.id != current_user.talent&.id
       render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
   end

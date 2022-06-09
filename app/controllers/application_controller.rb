@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 
     end
   end
-  
+
   def current_impersonated_user
     @current_impersonated_user ||= user_from_impersonated_cookie
     @current_impersonated_user
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_acting_user
-    is_user_impersonated? ? current_impersonated_user : current_user 
+    is_user_impersonated? ? current_impersonated_user : current_user
   end
 
   private
@@ -73,5 +73,4 @@ class ApplicationController < ActionController::Base
   def user_from_impersonated_cookie
     User.where(username: cookies.signed[:impersonated]).first
   end
-
 end
