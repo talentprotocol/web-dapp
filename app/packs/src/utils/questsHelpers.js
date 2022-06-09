@@ -16,12 +16,10 @@ export const questDescription = (type) => {
       return "Complete your 'About' section and connect your wallet";
     case "Quests::Supporter":
       return "Add 3 talent to your Watchlist and buy at least 1 Talent Token";
-    case "Quests::Talent":
-      return "Complete your profile and share it with your network";
     case "Quests::TalentProfile":
       return "Complete the mandatory fields of your profile and share it with your network.";
     case "Quests::TalentToken":
-      return "Complete the mandatory fields of your profile and share it with your network.";
+      return "Complete the mandatory fields of your profile and apply to be verified.";
     case "Quests::Ambassador":
       return "Share your personal invite code and get 5 talented friends to join Talent Protocol";
     case "Quests::Scout":
