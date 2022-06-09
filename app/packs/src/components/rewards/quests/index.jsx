@@ -6,7 +6,7 @@ import QuestShow from "./show";
 
 import cx from "classnames";
 
-const Quests = ({ quests, questId, setQuestId, investorId, username }) => {
+const Quests = ({ quests, questId, setQuestId }) => {
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
   const { mobile } = useWindowDimensionsHook();

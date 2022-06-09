@@ -114,7 +114,9 @@ const Overview = ({ inviteType, invites }) => {
       <div className="mx-4 mx-lg-0 py-6 d-flex flex-column flex-lg-row justify-content-between overview-section rounded-sm">
         <div className="d-flex flex-column mx-4 mb-4 mb-lg-0">
           <div className="d-flex flex-column">
-            <P3 className="mb-2">{`${inviteType} Invites Used`}</P3>
+            <P3 className="mb-2">{`${
+              inviteType == "Talent" ? "Talent" : ""
+            } Invites Used`}</P3>
             <H5 bold>{invite.uses}</H5>
           </div>
         </div>
@@ -134,7 +136,7 @@ const Overview = ({ inviteType, invites }) => {
                 </div>
               </Tooltip>
             ) : (
-              <P3 className="mb-2">{`${inviteType} Invites Available`}</P3>
+              <P3 className="mb-2">{`Invites Available`}</P3>
             )}
 
             <H5 bold>{invite.usesLeft}</H5>
@@ -406,7 +408,7 @@ const Invites = ({
       )}
       <Tooltip
         body={
-          "Invite a friend to join Talent Protocol and support high-potential talent."
+          "Use this referral link to invite your friends so we can keep track of who referred them."
         }
         popOverAccessibilityId={"talent_invites"}
         placement="top"
@@ -415,11 +417,11 @@ const Invites = ({
           className="mx-4 mx-lg-0 d-flex align-items-center"
           style={{ width: "fit-content" }}
         >
-          <H4 bold className="mr-2 d-inline" text="Supporter Invite"></H4>
+          <H4 bold className="mr-2 d-inline" text="Invite Your Friends"></H4>
           <Help color="#536471" className="cursor-pointer" />
         </div>
       </Tooltip>
-      <Overview inviteType="Supporter" invites={supporterInvites} />
+      <Overview inviteType="User" invites={supporterInvites} />
       {talentInvitesEligible() && (
         <>
           <Tooltip

@@ -12,7 +12,7 @@ import { questDescription } from "src/utils/questsHelpers";
 
 import cx from "classnames";
 
-const QuestShow = ({ quest, railsContext }) => {
+const QuestShow = ({ quest, user, railsContext }) => {
   const setRailsContext = railsContextStore((state) => state.setRailsContext);
   const { mobile } = useWindowDimensionsHook();
 
@@ -56,6 +56,7 @@ const QuestShow = ({ quest, railsContext }) => {
                 link={task.link}
                 status={task.status}
                 userId={task.userId}
+                user={user}
               />
             </div>
           ))}

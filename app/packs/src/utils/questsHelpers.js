@@ -16,12 +16,10 @@ export const questDescription = (type) => {
       return "Complete your 'About' section and connect your wallet";
     case "Quests::Supporter":
       return "Add 3 talent to your Watchlist and buy at least 1 Talent Token";
-    case "Quests::Talent":
-      return "Complete your profile and share it with your network";
     case "Quests::TalentProfile":
       return "Complete the mandatory fields of your profile and share it with your network.";
     case "Quests::TalentToken":
-      return "Complete the mandatory fields of your profile and share it with your network.";
+      return "Complete the mandatory fields of your profile and apply to be verified.";
     case "Quests::Ambassador":
       return "Share your personal invite code and get 5 talented friends to join Talent Protocol";
     case "Quests::Scout":
@@ -111,10 +109,7 @@ export const taskDescription = (type) => {
       );
     case "Tasks::Goals":
       return (
-        <P2
-          className="text-primary-03"
-          text="Add goals to your profile."
-        />
+        <P2 className="text-primary-03" text="Add goals to your profile." />
       );
     case "Tasks::ApplyTokenLaunch":
       return (
@@ -125,10 +120,7 @@ export const taskDescription = (type) => {
       );
     case "Tasks::Perks":
       return (
-        <P2
-          className="text-primary-03"
-          text="Add perks to your profile."
-        />
+        <P2 className="text-primary-03" text="Add perks to your profile." />
       );
     case "Tasks::InviteTokenLaunch":
       return (
@@ -194,7 +186,7 @@ export const taskReward = (type, disabled) => {
       return (
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="250 TAL"
+          text="1500 TAL"
         />
       );
     case "Tasks::InviteTokenLaunch":
@@ -209,33 +201,32 @@ export const taskReward = (type, disabled) => {
   }
 };
 
-
 export const questRewards = (type, disabled) => {
   switch (type) {
     case "Quests::User":
-      return([
+      return [
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
           text="Referral Race"
-        />
-      ]);
+        />,
+      ];
     case "Quests::TalentProfile":
-      return([
+      return [
         <ParagraphLink
           text="Member NFT"
           href={COMMUNITY_S01_NFT_AIRDROP}
           target="_blank"
           disabled={disabled}
-        />
-      ]);
+        />,
+      ];
     case "Quests::TalentToken":
-      return([
+      return [
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
           text="1 Talent Invite (and get extra invites once every time your friends launch a token)"
-        />
-      ]);
+        />,
+      ];
     default:
       return null;
   }
-}
+};

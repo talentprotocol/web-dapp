@@ -7,7 +7,7 @@ module Quests
     end
 
     def subtitle
-      "Build your talent profile"
+      "Launch your own token"
     end
   end
 end

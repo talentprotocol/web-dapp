@@ -9,7 +9,6 @@ import {
   taskReward,
   questRewards,
 } from "src/utils/questsHelpers";
-import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 import cx from "classnames";
 
@@ -22,13 +21,8 @@ const QuestCard = ({
   completedTasks,
   tasksType,
   status,
-  user,
 }) => {
-  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
-    useState(false);
-
   const progress = completedTasks / allTasks || 0;
-  const supporterOnTalentQuest = type === "Quests::Talent" && !user.is_talent;
 
   const buttonText = useMemo(() => {
     switch (status) {
@@ -64,14 +58,6 @@ const QuestCard = ({
 
   const taskRewards = tasksType.map((type) => taskReward(type, completed));
   const rewards = taskRewards.concat(questRewards(type, completed));
-
-  const onClickButton = useMemo(() => {
-    if (supporterOnTalentQuest) {
-      return null;
-    }
-
-    return `/quests/${id}`;
-  }, [supporterOnTalentQuest]);
 
   return (
     <div className={cx("highlights-card", completed && "disabled")}>
@@ -123,31 +109,17 @@ const QuestCard = ({
               )
           )}
         </div>
-        <a
-          className="button-link"
-          href={onClickButton}
-          target={supporterOnTalentQuest ? "_blank" : "_self"}
-        >
+        <a className="button-link" href={`/quests/${id}`}>
           <Button
             className="w-100"
             disabled={completed}
             size="extra-big"
             type={buttonType}
             text={buttonText}
-            onClick={() =>
-              supporterOnTalentQuest
-                ? setShowApplyToLaunchTokenModal(true)
-                : null
-            }
+            onClick={() => null}
           />
         </a>
       </div>
-      <ApplyToLaunchTokenModal
-        show={showApplyToLaunchTokenModal}
-        hide={() => setShowApplyToLaunchTokenModal(false)}
-        investorId={user.investor_id}
-        username={user.username}
-      />
     </div>
   );
 };
