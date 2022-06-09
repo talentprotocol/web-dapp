@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # Admin area
   constraints Clearance::Constraints::SignedIn.new { |user| user.admin? } do
     mount Sidekiq::Web => "/sidekiq"
+    mount Blazer::Engine, at: "data-analytics"
   end
   # end Admin
 
