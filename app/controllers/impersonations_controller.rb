@@ -8,7 +8,7 @@ class ImpersonationsController < ApplicationController
                 set_impersonated_user(user_to_impersonate)
                 redirect_to user_path(user_to_impersonate.username)
             else
-                redirect_to user_root_path, flash: {error: "Unauthorized."} 
+                redirect_to user_root_path, flash: {error: "User to impersonate not found."} 
             end
         else
             redirect_to user_root_path, flash: {error: "Unauthorized."} 
