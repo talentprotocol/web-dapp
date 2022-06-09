@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   helper_method :is_user_impersonated?, :current_acting_user, :current_impersonated_user
-  
+
   def render_404
     render "errors/404", status: :not_found
   end

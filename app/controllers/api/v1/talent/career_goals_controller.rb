@@ -58,7 +58,7 @@ class API::V1::Talent::CareerGoalsController < ApplicationController
 
   def validate_user
     if current_user.nil? || (!current_user.admin? && talent.id != current_acting_user.talent&.id)
-      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+      render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
   end
 end

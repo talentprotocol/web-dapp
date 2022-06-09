@@ -1,5 +1,5 @@
-class User < ApplicationRecord  
-  has_paper_trail :ignore => [:updated_at]
+class User < ApplicationRecord
+  has_paper_trail ignore: [:updated_at]
 
   include Clearance::User
 

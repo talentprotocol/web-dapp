@@ -1,5 +1,4 @@
 class ImpersonationsController < ApplicationController
-  
   def show
     if current_user.admin?
       user_to_impersonate = User.find_by(username: params[:username])
@@ -23,5 +22,4 @@ class ImpersonationsController < ApplicationController
       expires: 30.minutes.from_now
     }
   end
-  
 end
