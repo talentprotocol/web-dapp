@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_07_144915) do
+ActiveRecord::Schema.define(version: 2022_06_09_153523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 2022_06_07_144915) do
     t.string "ip_bidx"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "ended_at"
     t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
@@ -366,6 +365,17 @@ ActiveRecord::Schema.define(version: 2022_06_07_144915) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "wait_list", force: :cascade do |t|

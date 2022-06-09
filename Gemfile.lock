@@ -279,6 +279,9 @@ GEM
       rails (>= 5.2.0)
     numerizer (0.1.1)
     pagy (4.8.0)
+    paper_trail (12.3.0)
+      activerecord (>= 5.2)
+      request_store (~> 1.1)
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
@@ -353,6 +356,8 @@ GEM
       webpacker (>= 4.0)
     redis (4.3.1)
     regexp_parser (2.1.1)
+    request_store (1.5.1)
+      rack (>= 1.4)
     rexml (3.2.5)
     rlp (0.7.3)
     rmagick (4.2.4)
@@ -518,6 +523,7 @@ DEPENDENCIES
   newrelic_rpm
   noticed (~> 1.5)
   pagy (~> 4.8)
+  paper_trail
   pg (~> 1.1)
   pry-byebug
   pry-rails

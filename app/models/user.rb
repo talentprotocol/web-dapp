@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  
+  has_paper_trail
+  
   include Clearance::User
 
   validate :role_is_valid, if: -> { role.present? }

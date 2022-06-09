@@ -4,7 +4,7 @@
   portfolioPath: portfolio_path,
   messagesPath: messages_path,
   rewardsPath: earn_path,
-  hasUnreadMessages: current_user&.has_unread_messages?,
+  hasUnreadMessages: current_acting_user&.has_unread_messages?,
 }, prerender: false) %>
 
 <%= react_component("TopBar", props: {
@@ -35,5 +35,4 @@
     }
   end,
   signOutPath: sign_out_path,
-  userIsImpersonated: user_is_impersonated?,
 }, prerender: false) %>
