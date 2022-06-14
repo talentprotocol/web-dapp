@@ -1,9 +1,9 @@
 class API::UpdateTalent
-  attr_reader :talent, :current_user, :success
+  attr_reader :talent, :user, :success
 
-  def initialize(talent, current_user)
+  def initialize(talent, user)
     @talent = talent
-    @current_user = current_user
+    @user = user
     @success = false
   end
 
@@ -38,7 +38,7 @@ class API::UpdateTalent
     if params[:profile_type]
       Users::UpdateProfileType.new.call(
         user_id: talent.user.id,
-        who_dunnit_id: current_user.id,
+        who_dunnit_id: user.id,
         new_profile_type: params[:profile_type]
       )
     else

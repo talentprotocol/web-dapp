@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Users::UpdateProfileType do
-  include ActiveJob::TestHelper
-
   subject(:update_profile_type) { described_class.new.call(params) }
 
   let(:user) { create :user }
@@ -33,7 +31,7 @@ RSpec.describe Users::UpdateProfileType do
   context "when an invalid profile_type is provided" do
     let(:new_profile_type) { "gibberish" }
 
-    it "it updates the profile_type" do
+    it "it fails to update the profile_type" do
       expect { update_profile_type }.to raise_error(ArgumentError)
     end
   end
