@@ -82,11 +82,25 @@ class API::V1::TalentController < ApplicationController
       :display_name,
       :public,
       :disable_messages,
+      :open_to_job_offers,
       profile: [
         :pronouns,
         :occupation,
         :location,
-        :headline, :website, :video, :wallet_address, :email, :linkedin, :twitter, :telegram, :discord, :github
+        :headline,
+        :website,
+        :video,
+        :wallet_address,
+        :email,
+        :linkedin,
+        :twitter,
+        :telegram,
+        :discord,
+        :github,
+        :gender,
+        :ethnicity,
+        :nationality,
+        :based_in
       ],
       profile_picture_data: {},
       banner_data: {}
