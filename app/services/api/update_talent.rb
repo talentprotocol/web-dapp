@@ -61,6 +61,10 @@ class API::UpdateTalent
         @talent.website = params[:profile][:website]
         @talent.video = params[:profile][:video]
         @talent.wallet_address = params[:profile][:wallet_address]
+        @talent.gender = params[:profile][:gender]
+        @talent.nationality = params[:profile][:nationality]
+        @talent.ethnicity = params[:profile][:ethnicity]
+        @talent.based_in = params[:profile][:based_in]
 
         if params[:profile][:occupation]
           UpdateTasksJob.perform_later(type: "Tasks::FillInAbout", user_id: @talent.user.id)
@@ -85,6 +89,10 @@ class API::UpdateTalent
       if params[:profile][:twitter]
         @talent.twitter = params[:profile][:twitter]
       end
+    end
+
+    if params.key?(:open_to_job_offers)
+      @talent.open_to_job_offers = params[:open_to_job_offers]
     end
 
     if params[:banner_data]
