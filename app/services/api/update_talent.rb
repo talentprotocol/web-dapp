@@ -1,8 +1,9 @@
 class API::UpdateTalent
-  attr_reader :talent, :success
+  attr_reader :talent, :user, :success
 
-  def initialize(talent)
+  def initialize(talent, user)
     @talent = talent
+    @user = user
     @success = false
   end
 
@@ -34,7 +35,15 @@ class API::UpdateTalent
   private
 
   def update_user(params)
-    @talent.user.update!(params)
+    if params[:profile_type]
+      Users::UpdateProfileType.new.call(
+        user_id: talent.user.id,
+        who_dunnit_id: user.id,
+        new_profile_type: params[:profile_type]
+      )
+    else
+      @talent.user.update!(params)
+    end
   end
 
   def update_talent(params)
@@ -61,6 +70,10 @@ class API::UpdateTalent
         @talent.website = params[:profile][:website]
         @talent.video = params[:profile][:video]
         @talent.wallet_address = params[:profile][:wallet_address]
+        @talent.gender = params[:profile][:gender]
+        @talent.nationality = params[:profile][:nationality]
+        @talent.ethnicity = params[:profile][:ethnicity]
+        @talent.based_in = params[:profile][:based_in]
 
         if params[:profile][:occupation]
           UpdateTasksJob.perform_later(type: "Tasks::FillInAbout", user_id: @talent.user.id)
@@ -85,6 +98,10 @@ class API::UpdateTalent
       if params[:profile][:twitter]
         @talent.twitter = params[:profile][:twitter]
       end
+    end
+
+    if params.key?(:open_to_job_offers)
+      @talent.open_to_job_offers = params[:open_to_job_offers]
     end
 
     if params[:banner_data]

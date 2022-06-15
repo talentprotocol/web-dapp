@@ -135,7 +135,8 @@ module Users
     end
 
     def update_profile_type(user)
-      user.talent!
+      Users::UpdateProfileType.new.call(user_id: user.id, new_profile_type: "talent")
+      user.reload
     end
   end
 end
