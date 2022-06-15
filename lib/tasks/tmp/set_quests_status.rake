@@ -29,13 +29,8 @@ namespace :quests do
           Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
         end
 
-        if ProfilePageVisitor.where(user: user).count > 9
-          Tasks::Update.new.call(type: "Tasks::ShareProfile", user: user, normal_update: false)
-        end
-
         if user.talent&.token
           Tasks::Update.new.call(type: "Tasks::LaunchToken", user: user, normal_update: false)
-          Tasks::Update.new.call(type: "Tasks::ShareProfile", user: user, normal_update: false)
           Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
         end
 
