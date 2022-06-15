@@ -9,7 +9,7 @@ module Tasks
           update_model(model: task, status: "done")
           update_model(model: task.quest, status: "doing")
           give_rewards(type: type, user: user) if normal_update
-          next unless task.quest.tasks.where.not(status: "done").count == 0
+          next unless task.reload.quest.tasks.where.not(status: "done").count == 0
 
           update_model(model: task.quest, status: "done")
           create_notification(user: user, quest_id: task.quest_id) if normal_update
@@ -20,15 +20,12 @@ module Tasks
     private
 
     def update_model(model:, status:)
-      model.update(status: status)
+      model.update!(status: status)
     end
 
     def give_rewards(type:, user:)
       if type == "Tasks::Watchlist"
         user.invites.where(talent_invite: false).update_all(max_uses: nil)
-      elsif type == "Tasks::ShareProfile" && user.talent
-        service = Invites::Create.new(user_id: user.id, single_use: true, talent_invite: true)
-        service.call
       elsif type == "Tasks::Register"
         Reward.create!(user: user, amount: 1500, category: "quest", reason: "Got 5 people to register")
       end

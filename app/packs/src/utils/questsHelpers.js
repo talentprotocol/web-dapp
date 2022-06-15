@@ -5,7 +5,6 @@ import {
   COMMUNITY_S01_NFT_AIRDROP,
   TOP_UP_YOUR_ACCOUNT,
   BUY_TALENT_TOKENS,
-  PROMOTE_YOUR_TOKENS,
 } from "src/utils/constants";
 
 import cx from "classnames";
@@ -74,17 +73,6 @@ export const taskDescription = (type) => {
           className="text-primary-03"
           text="Complete your profile until it reaches 100% and set it to public, so everyone can see it."
         />
-      );
-    case "Tasks::ShareProfile":
-      return (
-        <P2 className="text-primary-03">
-          Get 10 people to visit your profile. Use this to{" "}
-          <ParagraphLink
-            text="Promote your token on Social Media"
-            href={PROMOTE_YOUR_TOKENS}
-            target="_blank"
-          />
-        </P2>
       );
     case "Tasks::LaunchToken":
       return (
@@ -166,13 +154,6 @@ export const taskReward = (type, disabled) => {
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
           text="Unlimited user invites"
-        />
-      );
-    case "Tasks::ShareProfile":
-      return (
-        <P2
-          className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="1 Talent Invite (and get extra invites once every time your friends launch a token)"
         />
       );
     case "Tasks::LaunchToken":
