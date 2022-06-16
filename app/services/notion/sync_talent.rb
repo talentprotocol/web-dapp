@@ -5,7 +5,7 @@ class Notion::SyncTalent
     @notion_key = ENV["NOTION_API_KEY"]
     @database_id = ENV["NOTION_TALENT_DATABASE_ID"]
     @url = "https://api.notion.com/v1/pages"
-    @version = "2021-08-16"
+    @version = "2022-02-22"
   end
 
   def call
@@ -18,6 +18,8 @@ class Notion::SyncTalent
       if request.status == 200
         content = JSON.parse(request.body)
         talent.update!(notion_page_id: content["id"])
+      else
+        raise request.body
       end
     end
   end
@@ -38,6 +40,11 @@ class Notion::SyncTalent
             }
           ]
         },
+        Status: {
+          select: {
+            name: talent_status(talent)
+          }
+        },
         "Display Name": {
           rich_text: [
             {
@@ -47,91 +54,143 @@ class Notion::SyncTalent
             }
           ]
         },
-        Status: {
-          select: {
-            name: talent.public? ? "Public" : "Private"
-          }
+        "Profile URL": {
+          url: user_url(username: talent.user.username)
         },
         Email: {
           email: talent.user.email || ""
         },
-        Discord: {
+        "Based in": {
           rich_text: [
             {
               text: {
-                content: talent.discord || ""
+                content: talent.based_in || ""
               }
             }
           ]
         },
-        Github: {
+        Ethnicity: {
           rich_text: [
             {
               text: {
-                content: talent.github || ""
+                content: talent.ethnicity || ""
               }
             }
           ]
         },
-        Linkedin: {
+        Gender: {
           rich_text: [
             {
               text: {
-                content: talent.linkedin || ""
+                content: talent.gender || ""
               }
             }
           ]
         },
-        "Profile URL": {
-          url: user_path(talent, only_path: true)
-        },
-        Telegram: {
+        Nationality: {
           rich_text: [
             {
               text: {
-                content: talent.telegram || ""
+                content: talent.nationality || ""
               }
             }
           ]
+        },
+        "Open to Job Offers": {
+          checkbox: talent.open_to_job_offers
+        },
+        "Wallet Address": {
+          rich_text: [
+            {
+              text: {
+                content: talent.user.wallet_id || ""
+              }
+            }
+          ]
+        },
+        Joined: {
+          date: {start: talent.user.created_at.iso8601}
+        },
+        "Referred by": {
+          rich_text: [
+            {
+              text: {
+                content: talent.user&.invited&.user&.email || ""
+              }
+            }
+          ]
+        },
+        "Engaged User?": {
+          checkbox: engaged?(talent)
+        },
+        "Token Launch Date": {
+          date: {start: talent&.token&.deployed_at&.iso8601}
         },
         Ticker: {
           rich_text: [
             {
               text: {
-                content: talent.token.ticker || ""
+                content: talent&.token&.ticker || ""
               }
             }
           ]
         },
-        "Token Address": {
-          rich_text: [
-            {
-              text: {
-                content: talent.token.contract_id || ""
-              }
-            }
-          ]
+        "Has Perks?": {
+          checkbox: talent.perks.any?
         },
-        Twitter: {
-          rich_text: [
-            {
-              text: {
-                content: talent.twitter || ""
-              }
-            }
-          ]
+        "Total Invested": {
+          number: total_invested(talent)
         },
-        Website: {
+        "User Referrals": {
+          number: total_invested(talent)
+        },
+        "Talents Invited": {
+          number: approved_by(talent)
+        },
+        "Approved by": {
           rich_text: [
             {
               text: {
-                content: talent.website || ""
+                content: "TBD"
               }
             }
           ]
         }
       }
     }.to_json
+  end
+
+  def engaged?(talent)
+    monthago = 1.month.ago.beginning_of_day
+    engaged = talent.updated_at > monthago ||
+      talent.token.updated_at > monthago ||
+      talent.career_goal.updated_at > monthago ||
+      talent.perks.where("created_at > ? or updated_at > ?", monthago, monthago).exists? ||
+      talent.milestones.where("created_at > ? or updated_at > ?", monthago, monthago).exists? ||
+      talent.career_goal.goals.where("created_at > ? or updated_at > ?", monthago, monthago).exists?
+
+    engaged && TalentSupporter.where(talent_contract_id: talent.token.contract_id).where("created_at > ?", monthago).exists?
+  end
+
+  def total_invested(talent)
+    TalentSupporter.where(supporter_wallet_id: talent.user.wallet_id).map { |tp| tp.amount.to_i }.sum / 1000000000000000000
+  end
+
+  def talents_invited_by(talent)
+    # User.where(invite_id: talent.user.invites.pluck(:id)).pluck(:username).join(", ")
+    User.where(invite_id: talent.user.invites.pluck(:id)).count
+  end
+
+  def talent_status(talent)
+    user = talent.user
+
+    return talent.public? ? "Token Public" : "Token Private" if user.talent?
+
+    user.profile_type.humanize
+  end
+
+  def approved_by(talent)
+    UserProfileTypeChange.find_by(user: talent.user, new_profile_type: "approved")&.who_dunnit&.username || ""
   end
 
   def post(talent)

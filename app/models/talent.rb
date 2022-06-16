@@ -5,19 +5,23 @@ class Talent < ApplicationRecord
   include ::BannerUploader::Attachment(:banner)
 
   store :profile, accessors: %i[
-    pronouns
-    location
+    based_in
+    discord
+    email
+    ethnicity
+    gender
+    github
     headline
-    website
+    linkedin
+    location
+    occupation
+    nationality
+    pronouns
+    telegram
+    twitter
     video
     wallet_address
-    email
-    linkedin
-    twitter
-    telegram
-    discord
-    github
-    occupation
+    website
   ], coder: JSON
 
   validate :public_key_is_valid

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Uppy from "@uppy/core";
 import { FileInput } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
+import Form from "react-bootstrap/Form";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
@@ -15,11 +16,18 @@ import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
 import Caption from "src/components/design_system/typography/caption";
+import Checkbox from "src/components/design_system/checkbox";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Divider from "src/components/design_system/other/Divider";
 
 import cx from "classnames";
+
+import {
+  nationalityOptions,
+  ethnicityOptions,
+  genderOptions,
+} from "./dropdownValues";
 
 const uppyProfile = new Uppy({
   meta: { type: "avatar" },
@@ -76,6 +84,9 @@ const About = (props) => {
     profile: false,
     public: false,
   });
+  const [opentoJobOffers, setOpentoJobOffers] = useState(
+    props.talent.open_to_job_offers
+  );
 
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
@@ -157,7 +168,22 @@ const About = (props) => {
     }
   };
 
-  const changeTalentAttribute = (attribute, value) => {
+  const changeOpenToOffersAttribute = (attribute, value) => {
+    trackChanges(true);
+    validateWebsite(attribute, value);
+
+    setOpentoJobOffers(value);
+
+    changeSharedState((prev) => ({
+      ...prev,
+      talent: {
+        open_to_job_offers: value,
+        ...prev.talent,
+      },
+    }));
+  };
+
+  const changeTalentProfileAttribute = (attribute, value) => {
     trackChanges(true);
     validateWebsite(attribute, value);
 
@@ -206,7 +232,9 @@ const About = (props) => {
   };
 
   const cannotSaveProfile =
-    !props.talent.profile.headline || !props.talent.profile.occupation || !props.profilePictureUrl;
+    !props.talent.profile.headline ||
+    !props.talent.profile.occupation ||
+    !props.profilePictureUrl;
 
   return (
     <>
@@ -303,7 +331,9 @@ const About = (props) => {
         <TextInput
           title={"Location"}
           mode={mode}
-          onChange={(e) => changeTalentAttribute("location", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("location", e.target.value)
+          }
           value={props.talent.profile.location || ""}
           className={mobile ? "w-100" : "w-50 pl-2"}
         />
@@ -313,7 +343,9 @@ const About = (props) => {
           title={"Occupation"}
           mode={mode}
           shortCaption="We know you are a lot of things, but let us know your main occupation"
-          onChange={(e) => changeTalentAttribute("occupation", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("occupation", e.target.value)
+          }
           value={props.talent.profile.occupation || ""}
           className="w-100"
           required={true}
@@ -338,12 +370,111 @@ const About = (props) => {
           title={"Intro"}
           mode={mode}
           shortCaption="Tell supporters where you come from, what you do, and how you got to be who you are today."
-          onChange={(e) => changeTalentAttribute("headline", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("headline", e.target.value)
+          }
           value={props.talent.profile.headline || ""}
           className="w-100"
           maxLength="240"
           required={true}
           rows={3}
+        />
+      </div>
+      <div className="d-flex flex-column w-100 justify-content-between mt-4">
+        <P2 bold className="text-black mb-2">
+          Employment Status
+        </P2>
+        <Checkbox
+          className="form-check-input mt-4"
+          checked={opentoJobOffers}
+          onChange={() => changeOpenToOffersAttribute(!opentoJobOffers)}
+        >
+          <div className="d-flex flex-wrap">
+            <P2 className="mr-1" text="I'm open to new job offers" />
+          </div>
+        </Checkbox>
+      </div>
+      <Divider className="my-5" />
+      <H5 className="w-100 text-left" text="Diversity & Inclusion" bold />
+      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
+        <div
+          className={cx("d-flex flex-column", mobile ? "w-100" : "w-50 pr-2")}
+        >
+          <div className="d-flex flex-row justify-content-between align-items-end">
+            <P2 bold className="text-black mb-2">
+              Gender
+            </P2>
+          </div>
+          <Form.Control
+            as="select"
+            onChange={(e) =>
+              changeTalentProfileAttribute("gender", e.target.value)
+            }
+            value={props.talent.profile.gender || ""}
+            className="height-auto"
+          >
+            <option value=""></option>
+            {genderOptions.map((gender) => (
+              <option value={gender}>{gender}</option>
+            ))}
+          </Form.Control>
+          <p className="short-caption">What gender do you identify as?</p>
+        </div>
+        <div
+          className={cx("d-flex flex-column", mobile ? "w-100" : "w-50 pl-2")}
+        >
+          <div className="d-flex flex-row justify-content-between align-items-end">
+            <P2 bold className="text-black mb-2">
+              Ethnicity
+            </P2>
+          </div>
+          <Form.Control
+            as="select"
+            onChange={(e) =>
+              changeTalentProfileAttribute("ethnicity", e.target.value)
+            }
+            value={props.talent.profile.ethnicity || ""}
+            className="height-auto"
+          >
+            <option value=""></option>
+            {ethnicityOptions.map((ethnicity) => (
+              <option value={ethnicity}>{ethnicity}</option>
+            ))}
+          </Form.Control>
+          <p className="short-caption">What ethnicity do you identify as?</p>
+        </div>
+      </div>
+      <div className="d-flex flex-row w-100 justify-content-between mt-4 flex-wrap">
+        <div
+          className={cx("d-flex flex-column", mobile ? "w-100" : "w-50 pr-2")}
+        >
+          <div className="d-flex flex-row justify-content-between align-items-end">
+            <P2 bold className="text-black mb-2">
+              Nationality
+            </P2>
+          </div>
+          <Form.Control
+            as="select"
+            onChange={(e) =>
+              changeTalentProfileAttribute("nationality", e.target.value)
+            }
+            value={props.talent.profile.nationality || ""}
+            className="height-auto"
+          >
+            <option value=""></option>
+            {nationalityOptions.map((nationality) => (
+              <option value={nationality}>{nationality}</option>
+            ))}
+          </Form.Control>
+        </div>
+        <TextInput
+          title={"Based in"}
+          mode={mode}
+          onChange={(e) =>
+            changeTalentProfileAttribute("based_in", e.target.value)
+          }
+          value={props.talent.profile.based_in || ""}
+          className={cx(mobile ? "w-100" : "w-50 pl-2")}
         />
       </div>
       <Divider className="my-5" />
@@ -358,7 +489,9 @@ const About = (props) => {
           title={"Website"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("website", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("website", e.target.value)
+          }
           value={props.talent.profile.website || ""}
           className="w-100"
         />
@@ -374,7 +507,9 @@ const About = (props) => {
           title={"Linkedin"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("linkedin", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("linkedin", e.target.value)
+          }
           value={props.talent.profile.linkedin || ""}
           className="w-100"
         />
@@ -384,7 +519,9 @@ const About = (props) => {
           title={"Twitter"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("twitter", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("twitter", e.target.value)
+          }
           value={props.talent.profile.twitter || ""}
           className="w-100"
         />
@@ -394,7 +531,9 @@ const About = (props) => {
           title={"Telegram"}
           mode={mode}
           placeholder={"@"}
-          onChange={(e) => changeTalentAttribute("telegram", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("telegram", e.target.value)
+          }
           value={props.talent.profile.telegram || ""}
           className="w-100"
         />
@@ -404,7 +543,9 @@ const About = (props) => {
           title={"Discord"}
           mode={mode}
           placeholder={"#"}
-          onChange={(e) => changeTalentAttribute("discord", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("discord", e.target.value)
+          }
           value={props.talent.profile.discord || ""}
           className="w-100"
         />
@@ -414,7 +555,9 @@ const About = (props) => {
           title={"Github"}
           mode={mode}
           placeholder={"https://"}
-          onChange={(e) => changeTalentAttribute("github", e.target.value)}
+          onChange={(e) =>
+            changeTalentProfileAttribute("github", e.target.value)
+          }
           value={props.talent.profile.github || ""}
           className="w-100"
         />
