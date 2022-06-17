@@ -25,13 +25,8 @@ namespace :quests do
           Tasks::Update.new.call(type: "Tasks::BuyTalentToken", user: user, normal_update: false)
         end
 
-        if user.talent&.public
-          Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
-        end
-
         if user.talent&.token
           Tasks::Update.new.call(type: "Tasks::LaunchToken", user: user, normal_update: false)
-          Tasks::Update.new.call(type: "Tasks::PublicProfile", user: user, normal_update: false)
         end
 
         if invitees_token_count >= 5
