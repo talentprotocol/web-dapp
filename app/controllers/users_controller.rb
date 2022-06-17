@@ -105,6 +105,14 @@ class UsersController < ApplicationController
   end
 
   def should_see_talent_page?(talent)
-    current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
+    admin?(current_user) || talent_owner?(talent, current_user) || talent.user.public_displayable?
+  end
+
+  def admin?(user)
+    user&.admin?
+  end
+
+  def talent_owner?(talent, user)
+    user && user.id == talent&.user_id
   end
 end
