@@ -9,18 +9,54 @@
   </head>
   <body>
     <div class="bg-white">
-      <div class="container">
-        <div class="row my-10 max-w-80 ax-center">
-          <div class="col-2 ay-middle">
-            <img class="img-fluid ay-middle" alt="talent protocol logo" src="https://beta.talentprotocol.com/brand_logo.png" />
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-6 ay-middle text-left">
+            <%= render "layouts/email_assets/logo" %>
           </div>
-          <div class="col-10 ay-middle">
-            <img class="img-fluid ay-middle" alt="talent protocol name" src="https://beta.talentprotocol.com/brand_name.png" />
+          <div class="col-6 ay-middle">
+            <p class="text-primary text-right text-sm">Success is Colective</p>
           </div>
         </div>
+        <div class="row border-bottom border-primary mt-5"></div>
+      <div>
+      <div class="container my-5">
         <%= yield %>
-        <p class="ax-center text-center text-primary"><a href="https://www.talentprotocol.com/">@talentprotocol</a></p>
-        <p class="ax-center text-center text-primary"><small><a href="https://twitter.com/talentprotocol">twitter</a> | <a href="https://discord.gg/talentprotocol">discord</a> | <a href="https://t.me/talentprotocol">telegram</a></small></p>
+      </div>
+      <div class="container">
+        <div class="row border-bottom border-secondary mb-5"></div>
+        <div class="row my-5">
+          <div class="col-3"/>
+          <div class="col-2 ay-middle text-center">
+            <%= render "layouts/email_assets/twitter" %>
+          </div>
+          <div class="col-2 ay-middle text-center">
+            <%= render "layouts/email_assets/telegram" %>
+          </div>
+          <div class="col-2 ay-middle text-center">
+            <%= render "layouts/email_assets/discord" %>
+          </div>
+          <div class="col-3"/>
+        </div>
+        <div class="row my-5">
+          <p class="text-center text-secondary">The Talent Protocol community is here to help you. You can help us improve by providing feedback and also back other talents by supporting them!</p>
+        </div>
+        <div class="row my-5">
+          <p class="text-center text-xs">© 2022 Talent Protocol MTU</p>
+        </div>
+        <div class="row">
+          <div class="col-3"/>
+          <div class="col-3 ay-middle text-center">
+            <a class="text-xs" href="https://help.talentprotocol.com/">FAQ</a>
+          </div>
+          <div class="col-3 ay-middle text-center">
+            <a class="text-xs" href="https://drive.google.com/file/d/1Pcf_sa6fvUItxVMiUzuOt41aCbRRFVrh/view">Terms of Service</a>
+          </div>
+          <div class="col-3 ay-middle text-center">
+            <a class="text-xs" href="https://drive.google.com/file/d/1Cts7FcmstLa_IISHFeO6vizy8Um5rKZE/view">Privacy Policy</a>
+          </div>
+          <div class="col-3"/>
+        </div>
       </div>
     </div>
   </body>
