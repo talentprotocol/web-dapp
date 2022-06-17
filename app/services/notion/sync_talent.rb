@@ -109,7 +109,10 @@ class Notion::SyncTalent
           ]
         },
         Joined: {
-          date: {start: talent.user.created_at.iso8601}
+          date: {
+            start: talent.user&.created_at&.iso8601 || "",
+            end: nil
+          }
         },
         "Referred by": {
           rich_text: [
@@ -124,7 +127,7 @@ class Notion::SyncTalent
           checkbox: engaged?(talent)
         },
         "Token Launch Date": {
-          date: {start: talent&.token&.deployed_at&.iso8601}
+          date: token_launch_date(talent)
         },
         Ticker: {
           rich_text: [
@@ -138,20 +141,20 @@ class Notion::SyncTalent
         "Has Perks?": {
           checkbox: talent.perks.any?
         },
-        "Total Invested": {
-          number: total_invested(talent)
+        "Total TAL Invested": {
+          number: total_tal_invested(talent)
         },
         "User Referrals": {
-          number: total_invested(talent)
+          number: users_invited_by(talent)
         },
         "Talents Invited": {
-          number: approved_by(talent)
+          number: talents_invited_by(talent)
         },
         "Approved by": {
           rich_text: [
             {
               text: {
-                content: "TBD"
+                content: approved_by(talent)
               }
             }
           ]
@@ -172,21 +175,34 @@ class Notion::SyncTalent
     engaged && TalentSupporter.where(talent_contract_id: talent.token.contract_id).where("created_at > ?", monthago).exists?
   end
 
-  def total_invested(talent)
-    TalentSupporter.where(supporter_wallet_id: talent.user.wallet_id).map { |tp| tp.amount.to_i }.sum / 1000000000000000000
+  def total_tal_invested(talent)
+    TalentSupporter.where(supporter_wallet_id: talent.user.wallet_id).map { |tp| tp.tal_amount.to_i }.sum / 1000000000000000000
   end
 
   def talents_invited_by(talent)
-    # User.where(invite_id: talent.user.invites.pluck(:id)).pluck(:username).join(", ")
+    User.where(invite_id: talent.user.invites.where(talent_invite: true).pluck(:id)).count
+  end
+
+  def users_invited_by(talent)
     User.where(invite_id: talent.user.invites.pluck(:id)).count
   end
 
   def talent_status(talent)
     user = talent.user
 
-    return talent.public? ? "Token Public" : "Token Private" if user.talent?
+    return "Profile Disabled" if talent.hide_profile || user.disabled
+
+    if user.profile_type == "talent"
+      return talent.public? ? "Token Public" : "Token Private"
+    end
 
     user.profile_type.humanize
+  end
+
+  def token_launch_date(talent)
+    return {start: talent&.token&.deployed_at&.iso8601} if talent.token&.deployed_at
+
+    nil
   end
 
   def approved_by(talent)

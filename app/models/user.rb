@@ -74,6 +74,10 @@ class User < ApplicationRecord
     investor.present?
   end
 
+  def public_displayable?
+    profile_type == "talent"
+  end
+
   def display_wallet_id
     wallet_id ? "#{wallet_id[0..10]}..." : ""
   end
