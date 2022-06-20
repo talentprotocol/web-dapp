@@ -10,7 +10,7 @@ import { P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Link from "src/components/design_system/link";
 import { Search } from "src/components/icons";
-import { Send } from "src/components/icons";
+import { Send, ChatLight, ChatDark } from "src/components/icons";
 
 const NewMessageModal = ({
   show,
@@ -19,6 +19,7 @@ const NewMessageModal = ({
   setShowMessageToAllSupporters,
   mobile,
   showMessageToAllSupporter,
+  mode,
 }) => {
   if (!show) {
     return null;
@@ -78,19 +79,26 @@ const NewMessageModal = ({
           />
         </div>
         {showMessageToAllSupporter && (
-          <div className="w-100 d-flex align-items-start flex-column px-4 mb-3">
-            <button
-              className="button-link text-primary"
-              onClick={() => setShowMessageToAllSupporters()}
-            >
-              <Send color="currentColor" className="mr-3" />
-              <P2
-                className="text-black d-inline"
-                text="Send message to all supporters"
-                bold
-              />
-            </button>
-          </div>
+          <>
+            <div className="w-100 d-flex align-items-start flex-column px-4 mb-2">
+              <button
+                className="button-link text-primary w-100 d-flex flex-row align-items-center my-2"
+                onClick={() => setShowMessageToAllSupporters()}
+              >
+                {mode == "light" ? (
+                  <ChatLight height="40" width="40" />
+                ) : (
+                  <ChatDark height="40" width="40" />
+                )}
+                <P2
+                  className="text-black d-inline mb-0 ml-3"
+                  text="Send message to all supporters"
+                  bold
+                />
+              </button>
+            </div>
+            <P2 className="w-100 px-4 mb-3">Supporters</P2>
+          </>
         )}
         <div className="w-100 d-flex flex-column new-message-user-list px-4">
           {showLoadingState() && (
