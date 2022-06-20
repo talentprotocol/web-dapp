@@ -192,7 +192,7 @@ class Notion::SyncTalent
 
     return "Profile Disabled" if talent.hide_profile || user.disabled
 
-    if user.profile_type == "talent"
+    if user.profile_type == "talent" && talent&.token&.contract_id.present?
       return talent.public? ? "Token Public" : "Token Private"
     end
 
