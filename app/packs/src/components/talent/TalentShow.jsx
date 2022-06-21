@@ -45,6 +45,7 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
+  followersCount,
   railsContext,
 }) => {
   const url = new URL(window.location);
@@ -69,6 +70,7 @@ const TalentShow = ({
     profilePictureUrl,
     tags,
     isFollowing,
+    followersCount,
     careerGoal,
     goals,
     posts,
@@ -230,12 +232,13 @@ const TalentShow = ({
           className={cx(talentIsFromCurrentUser && "mr-2")}
         >
           {sharedState.isFollowing ? (
-            <FontAwesomeIcon icon={faStar} className="text-warning" />
+            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span> &nbsp; Starred&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{22}</span></>
           ) : (
-            <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /> &nbsp;<span class="badge bg-light rounded-pill visually-hidden">0</span> </>
           )}
         </Button>
-      )}
+      )
+      }
       {talentIsFromCurrentUser && (
         <Button
           onClick={() =>
