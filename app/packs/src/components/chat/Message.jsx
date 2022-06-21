@@ -8,7 +8,7 @@ import { P1, P2, P3 } from "src/components/design_system/typography";
 
 export const PhisingAwarenessModal = ({ show, hide, url }) => (
   <Modal show={show} onHide={hide} centered dialogClassName="remove-background">
-    <Modal.Body className="p-4">
+    <Modal.Body className="p-4" style={{ "word-wrap": "break-word" }}>
       <P1 bold text="Before you go" className="mb-4"></P1>
       <P2
         text="Always double check that the links that were sent to you are legitimate. It's a dangerous world out there."
