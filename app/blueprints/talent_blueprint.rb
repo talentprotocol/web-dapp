@@ -19,6 +19,10 @@ class TalentBlueprint < Blueprinter::Base
     association :tags, blueprint: TagBlueprint do |talent, options|
       options[:tags] || talent.user.tags
     end
+
+    field :followers_count do |talent, _options|
+      talent.user.following.count
+    end
     association :milestones, blueprint: MilestoneBlueprint, view: :normal
     association :career_goal, blueprint: CareerGoalBlueprint, view: :normal
   end

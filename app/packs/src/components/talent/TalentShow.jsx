@@ -45,6 +45,7 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
+  followersCount,
   railsContext,
 }) => {
   const url = new URL(window.location);
@@ -69,6 +70,7 @@ const TalentShow = ({
     profilePictureUrl,
     tags,
     isFollowing,
+    followersCount,
     careerGoal,
     goals,
     posts,
