@@ -10,33 +10,34 @@
   <body>
     <div class="row my-10">
       <div class="col-3"></div>
-      <div class="col-4 bg-white rounded-xl">
+      <div class="col-6 bg-white rounded-xl pr-0">
         <div class="container py-8">
           <div class="row">
             <div class="col-6 ay-middle text-left">
-              <img class="img-fluid h-7 w-auto" src="/email_assets/logo.png" alt="Talent Protocol Logo" />
+              <img class="img-fluid h-7 w-auto" src=<%= image_url("/email_assets/logo.png") %> alt="Talent Protocol Logo" />
             </div>
             <div class="col-6 ay-middle">
               <p class="text-primary text-right text-sm">Success is Colective.</p>
             </div>
           </div>
         </div>
-        <div class="row border-bottom border-primary mb-5"></div>
+        <div class="border-bottom border-primary mb-5">
+        </div>
         <div class="container my-5">
           <%= yield %>
         </div>
-        <div class="row mb-5 border-bottom" style="border: 1px bottom #EBEDF0;"></div>
+        <div class="mb-5 border-bottom footer-border"></div>
         <div class="container pb-5">
           <div class="row my-5">
             <div class="col-3"/>
             <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="/email_assets/twitter.png" alt="Twitter Logo" />
+              <img class="img-fluid h-6 w-auto" src=<%= image_url("/email_assets/twitter.png") %> alt="Twitter Logo" />
             </div>
             <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="/email_assets/telegram.png" alt="Telegram Logo" />
+              <img class="img-fluid h-6 w-auto" src=<%= image_url("/email_assets/telegram.png") %> alt="Telegram Logo" />
             </div>
             <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="/email_assets/discord.png" alt="Discord Logo" />
+              <img class="img-fluid h-6 w-auto" src=<%= image_url("/email_assets/discord.png") %> alt="Discord Logo" />
             </div>
             <div class="col-3"/>
           </div>
