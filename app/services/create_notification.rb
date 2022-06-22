@@ -1,5 +1,5 @@
 class CreateNotification
-  def call(recipient:, type:, source_id: nil, model_id: nil)
+  def call(recipient:, type:, source_id: nil, model_id: nil, extra_params: {})
     notification = get_existing_unread(
       recipient: recipient,
       type: type,
@@ -14,7 +14,7 @@ class CreateNotification
     elsif notification.present?
       notification.update!(updated_at: Time.current)
     else
-      notification = type.with(notification_params(source_id, model_id))
+      notification = type.with(notification_params(source_id, model_id, extra_params))
       send(notification, recipient)
     end
   end
@@ -22,7 +22,7 @@ class CreateNotification
   private
 
   def notification_params(source_id, model_id)
-    params = {}
+    params = {}.merge(extra_params)
     params["source_id"] = source_id if source_id.present?
     params["model_id"] = model_id if model_id.present?
     params.stringify_keys
