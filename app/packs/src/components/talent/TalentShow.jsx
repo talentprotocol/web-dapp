@@ -105,7 +105,6 @@ const TalentShow = ({
           isFollowing: false,
           followersCount: followersCount - 1
         }));
-        // return followersCount
       }
     } else {
       const response = await post(`/api/v1/follows`, {
@@ -118,7 +117,6 @@ const TalentShow = ({
           isFollowing: true,
           followersCount: followersCount + 1
         }));
-        // return followersCount
       }
     }
     setChangingFollow(false);
@@ -155,7 +153,6 @@ const TalentShow = ({
   };
 
   useEffect(() => {
-    console.log(sharedState.talent)
     if (searchParams.get("tab")) {
       setPageInDisplay(searchParams.get("tab"));
     } else {
