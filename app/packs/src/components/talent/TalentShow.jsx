@@ -103,7 +103,9 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: false,
+          followersCount: followersCount
         }));
+        // return followersCount
       }
     } else {
       const response = await post(`/api/v1/follows`, {
@@ -114,7 +116,9 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: true,
+          followersCount: followersCount + 1
         }));
+        // return followersCount
       }
     }
     setChangingFollow(false);
@@ -151,6 +155,7 @@ const TalentShow = ({
   };
 
   useEffect(() => {
+    console.log(sharedState.talent)
     if (searchParams.get("tab")) {
       setPageInDisplay(searchParams.get("tab"));
     } else {
@@ -232,9 +237,9 @@ const TalentShow = ({
           className={cx(talentIsFromCurrentUser && "mr-2")}
         >
           {sharedState.isFollowing ? (
-            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span> &nbsp; Starred&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{22}</span></>
+            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span> &nbsp; Starred&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount}</span></>
           ) : (
-            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /> &nbsp;<span class="badge bg-light rounded-pill visually-hidden">0</span> </>
+            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span> &nbsp; Star&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount}</span> </>
           )}
         </Button>
       )

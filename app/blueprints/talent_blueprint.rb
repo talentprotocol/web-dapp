@@ -20,7 +20,7 @@ class TalentBlueprint < Blueprinter::Base
       options[:tags] || talent.user.tags
     end
     field :followers_count do |talent, _options|
-      talent.user.following.count
+      talent.user.followers.count
     end
     association :milestones, blueprint: MilestoneBlueprint, view: :normal
     association :career_goal, blueprint: CareerGoalBlueprint, view: :normal
