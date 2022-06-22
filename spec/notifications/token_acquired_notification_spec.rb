@@ -16,16 +16,40 @@ RSpec.describe TokenAcquiredNotification do
   let(:staking_user) { create :user }
   let(:reinvestment) { false }
 
-  it "enqueues the job to send the email to the recepient" do
-    Sidekiq::Testing.inline! do
-      deliver_token_acquired_notification
+  context "when the user is buying the token for the first time" do
+    let(:reinvestment) { false }
 
-      binding.pry
-      job = enqueued_jobs[0]
+    it "sends the new supporter email" do
+      Sidekiq::Testing.inline! do
+        deliver_token_acquired_notification
 
-      aggregate_failures do
-        expect(job["job_class"]).to eq("Noticed::DeliveryMethods::Email")
-        expect(job["arguments"][0]).to eq(staking_user.id)
+        perform_enqueued_jobs
+
+        mail = ActionMailer::Base.deliveries.first
+
+        aggregate_failures do
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+          expect(mail.subject).to eq "You have a new supporter in Talent Protocol!"
+        end
+      end
+    end
+  end
+
+  context "when the user is buying the token again" do
+    let(:reinvestment) { true }
+
+    it "sends the existing supporter email" do
+      Sidekiq::Testing.inline! do
+        deliver_token_acquired_notification
+
+        perform_enqueued_jobs
+
+        mail = ActionMailer::Base.deliveries.first
+
+        aggregate_failures do
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+          expect(mail.subject).to eq "Someone really believes in you - You have a new investment by #{staking_user.display_name}"
+        end
       end
     end
   end

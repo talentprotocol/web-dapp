@@ -33,6 +33,10 @@ $light-grey: #a9acb7 !default;
   text-decoration: underline;
 }
 
+.content-link {
+  text-decoration: underline;
+}
+
 .footer-border {
   border-color: #ebedf0;
 }
@@ -47,4 +51,18 @@ $light-grey: #a9acb7 !default;
 
 .rounded-image {
   border-radius: 50%;
+}
+
+@media screen and (max-width: 600px) {
+  .gap-column {
+    width: 5% !important;
+    padding-right: 0 !important;
+  }
+  .main-content {
+    width: 90% !important;
+    padding-right: 0 !important;
+  }
+  .main-row {
+    margin-right: 0 !important;
+  }
 }
