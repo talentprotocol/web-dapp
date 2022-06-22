@@ -1,8 +1,10 @@
 class TokenAcquiredMailer < ApplicationMailer
-  def immediate
+  def new_supporter
+    record = params[:record]
+    @staking_user = User.find(record.params["source_id"])
     @user = params[:recipient]
-    @notification = params[:record].to_notification
-    @notification.record.mark_as_emailed
+    @notification = record.to_notification
+    record.mark_as_emailed
 
     subject = "Talent Protocol - #{@notification.title}"
 
@@ -14,21 +16,13 @@ class TokenAcquiredMailer < ApplicationMailer
     bootstrap_mail(to: @user.email, subject: subject) if should_sent
   end
 
-  def investment_by_existing_supporter
-  end
+  def existing_supporter
+    @staking_user = User.find(params["source_id"])
+    @user = params[:recipient]
+    @notification = params[:record].to_notification
+    @notification.record.mark_as_emailed
 
-  def digest(user_id, notification_ids)
-    @user = User.find(user_id)
-    @notifications =
-      Notification.unread.unemailed.where(id: notification_ids)
-        .order(created_at: :desc).map(&:to_notification)
-    @notifications = @notifications.filter do |notification|
-      notification.should_deliver_digest_email?
-    end
-
-    if @notifications.present?
-      Notification.where(id: @notifications.map { |n| n.record.id })
-        .update_all(emailed_at: Time.current)
+    subject = "Someone really believes in you - You have a new investment by #{@staking_user.display_name}"
 
       subject = "Talent Protocol - Here's what you missed"
       bootstrap_mail(to: @user.email, subject: subject)

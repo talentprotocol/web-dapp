@@ -21,7 +21,7 @@ class CreateNotification
 
   private
 
-  def notification_params(source_id, model_id)
+  def notification_params(source_id, model_id, extra_params)
     params = {}.merge(extra_params)
     params["source_id"] = source_id if source_id.present?
     params["model_id"] = model_id if model_id.present?
