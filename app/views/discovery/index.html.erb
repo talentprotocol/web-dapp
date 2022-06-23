@@ -27,7 +27,18 @@
           description: article["description"],
           imgUrl: article["image_url"]
         }},
-        user: { id: current_user.id, investorId: current_user.investor&.id, username: current_user.username }
+        user: {
+          id: current_user.id,
+          investorId: current_user.investor&.id,
+          username: current_user.username,
+          beginnerQuestId: current_user.quests.find_by(type: "Quests::User").id,
+          supporterQuestId: current_user.quests.find_by(type: "Quests::Supporter").id,
+          walletId: current_user.wallet_id,
+          profileType: current_user.profile_type,
+          talent: current_user.talent.present?,
+          tokenLaunched: current_user.talent&.token&.deployed,
+          activeSupporter: current_user.active_supporter?
+        }
       },
       prerender: false) %>
   </div>
