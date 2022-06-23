@@ -113,6 +113,10 @@
   color: $white !important;
 }
 
+.permanent-text-black {
+  color: $gray-800 !important;
+}
+
 .text-white {
   color: $white !important;
 }
@@ -592,7 +596,30 @@
 .talent-background {
   height: 316px;
   border-radius: 8px;
-  background-image: url(images/banner-bg.png);
+}
+
+.connect-wallet-banner-background {
+  background-image: url(images/connect-wallet-banner-background.png);
+}
+
+.browse-talent-banner-background {
+  background-image: url(images/browse-talent-banner-background.png);
+}
+
+.launch-my-token-banner-background {
+  background-image: url(images/launch-my-token-banner-background.png);
+}
+
+.invite-talent-banner-background {
+  background-image: url(images/invite-talent-banner-background.png);
+}
+
+.join-community-banner-background {
+  background-image: url(images/join-community-banner-background.png);
+}
+
+.launch-token-banner-background {
+  background-image: url(images/launch-token-banner-background.png);
 }
 
 .talent-background-text {

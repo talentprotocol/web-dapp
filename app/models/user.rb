@@ -153,6 +153,10 @@ class User < ApplicationRecord
     including_self ? supporters : supporters.where.not(id: id)
   end
 
+  def active_supporter?
+    TalentSupporter.where(supporter_wallet_id: wallet_id).present?
+  end
+
   private
 
   def validate_notification_preferences
