@@ -47,6 +47,12 @@ class ApplicationController < ActionController::Base
     is_user_impersonated? ? current_impersonated_user : current_user
   end
 
+  protected
+
+  def check_user_impersonation
+    redirect_to user_root_path, flash: {error: "Unauthorized."} if is_user_impersonated?
+  end
+
   private
 
   def track_user_activity

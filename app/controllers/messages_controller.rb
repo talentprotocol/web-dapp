@@ -1,29 +1,30 @@
 class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
   before_action :set_user, only: [:index]
+  before_action :check_user_impersonation
 
   def index
-    user_ids = Message.where(sender_id: current_acting_user.id).pluck(:receiver_id)
-    user_ids << Message.where(receiver_id: current_acting_user.id).pluck(:sender_id)
+    user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)
+    user_ids << Message.where(receiver_id: current_user.id).pluck(:sender_id)
 
     if @user
       user_ids << @user.id
     end
     @users = User.where(id: user_ids.flatten).includes([talent: :token])
-    @unread_messages_counts = current_acting_user.messagee.unread.where(sender: @users)
+    @unread_messages_counts = current_user.messagee.unread.where(sender: @users)
       .group(:sender).count
   end
 
   def show
     # required for frontend show
-    @sender = current_acting_user
+    @sender = current_user
 
-    sent = Message.where(sender_id: current_acting_user.id, receiver_id: @receiver.id)
-    received = Message.where(sender_id: @receiver.id, receiver_id: current_acting_user.id)
+    sent = Message.where(sender_id: current_user.id, receiver_id: @receiver.id)
+    received = Message.where(sender_id: @receiver.id, receiver_id: current_user.id)
     @messages = sent.or(received).order(:created_at)
     received.update_all(is_read: true)
 
-    @chat_id = current_acting_user.sender_chat_id(@receiver)
+    @chat_id = current_user.sender_chat_id(@receiver)
 
     render json: {
       messages: @messages.map(&:to_json),
@@ -36,7 +37,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    if message_params[:message].blank? || current_user.id == @receiver.id || is_user_impersonated?
+    if message_params[:message].blank? || current_user.id == @receiver.id
       return render json: {
         error: "Unable to create message, either the message is empty or the sender is the same as the receiver."
       }, status: :bad_request
@@ -59,7 +60,7 @@ class MessagesController < ApplicationController
   end
 
   def send_to_all_supporters
-    if message_params[:message].blank? || is_user_impersonated?
+    if message_params[:message].blank?
       return render json: {
         error: "Unable to create message, the message is empty."
       }, status: :bad_request

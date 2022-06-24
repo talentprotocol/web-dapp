@@ -78,6 +78,7 @@ export const TopBar = ({
   hasUnreadMessages,
   isUserImpersonated,
   impersonatedUsername,
+  stopImpersonationPath,
 }) => {
   const url = new URL(document.location);
   const [walletConnected, setWalletConnected] = useState(false);
@@ -215,6 +216,12 @@ export const TopBar = ({
     />
   );
 
+  const stopImpersonation = () => {
+    destroy(stopImpersonationPath).then(() => {
+      window.location.replace("/");
+    });
+  };
+
   if (width < 992) {
     return (
       <MobileTopBar
@@ -266,12 +273,24 @@ export const TopBar = ({
             type="white"
             active={activeTab === "/messages"}
             className="mr-4"
+            disabled={isUserImpersonated}
           />
           {hasUnreadMessages && <UnreadMessagesIndicator />}
           <EarnMenu />
         </div>
         <div className="d-flex" style={{ height: 34 }}>
-          { isUserImpersonated && (<P2 className="mr-2 p-1">Impersonating {impersonatedUsername}</P2>) }
+          {isUserImpersonated && (
+            <>
+              <P2 className="mr-2 p-1">Impersonating {impersonatedUsername}</P2>
+              <Button
+                onClick={stopImpersonation}
+                type="white-subtle"
+                className="mr-2"
+              >
+                Stop Impersonation
+              </Button>
+            </>
+          )}
           {!showConnectButton() && connectedButton("mr-2")}
           {showConnectButton() && walletConnectButton()}
           <UserMenu

@@ -35,10 +35,6 @@ class User < ApplicationRecord
   # Rewards
   has_many :rewards
 
-  # Impersonation
-  has_many :impersonators, foreign_key: :impersonator_id, class_name: "Impersonation"
-  has_many :impersonations, foreign_key: :impersonated_id, class_name: "Impersonation"
-
   VALID_ROLES = ["admin", "basic"].freeze
 
   enum profile_type: {

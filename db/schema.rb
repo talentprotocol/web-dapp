@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_09_162621) do
+ActiveRecord::Schema.define(version: 2022_06_24_180204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -467,6 +467,8 @@ ActiveRecord::Schema.define(version: 2022_06_09_162621) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "impersonations", "users", column: "impersonated_id"
+  add_foreign_key "impersonations", "users", column: "impersonator_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"

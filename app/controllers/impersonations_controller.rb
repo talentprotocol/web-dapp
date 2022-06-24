@@ -14,6 +14,13 @@ class ImpersonationsController < ApplicationController
     end
   end
 
+  def destroy
+    if is_user_impersonated?
+      cookies.delete :impersonated
+      redirect_to user_root_path
+    end
+  end
+
   private
 
   def set_impersonated_user user

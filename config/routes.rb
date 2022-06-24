@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 
     # Impersonation
     get "/impersonate/:username", to: "impersonations#show"
+    delete "impersonations", to: "impersonations#destroy", as: "stop_impersonation"
 
     namespace :api, defaults: {format: :json} do
       namespace :v1 do

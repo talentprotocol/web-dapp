@@ -21,8 +21,8 @@
     tokenLive: current_acting_user.talent&.token&.contract_id.present?,
     currentTheme: current_acting_user.theme_preference,
   },
-  hasUnreadMessages: current_acting_user&.has_unread_messages?,
-  notifications: current_acting_user.notifications.newest_first.map do |notif|
+  hasUnreadMessages: is_user_impersonated? ? 0 : current_user&.has_unread_messages?,
+  notifications: is_user_impersonated? ? [] : current_user.notifications.newest_first.map do |notif|
     notif = notif.to_notification
     {
       id: notif.record.id,
@@ -37,4 +37,5 @@
   signOutPath: sign_out_path,
   isUserImpersonated: is_user_impersonated?,
   impersonatedUsername: current_impersonated_user&.username,
+  stopImpersonationPath: stop_impersonation_path
 }, prerender: false) %>
