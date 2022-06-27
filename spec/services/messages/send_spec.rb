@@ -35,7 +35,8 @@ RSpec.describe Messages::Send do
     expect(create_notification_class).to have_received(:new)
     expect(create_notification_instance).to have_received(:call).with(
       recipient: receiver,
-      type: MessageReceivedNotification
+      type: MessageReceivedNotification,
+      extras: {sender_id: sender.id}
     )
   end
 

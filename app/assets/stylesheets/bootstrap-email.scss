@@ -40,3 +40,15 @@ $light-grey: #a9acb7 !default;
 .pr-0 {
   padding-right: 0 !important;
 }
+
+.list-marker::marker {
+  color: #676a74;
+}
+
+.body-link {
+  text-decoration: underline;
+}
+
+.rounded-image {
+  border-radius: 50%;
+}

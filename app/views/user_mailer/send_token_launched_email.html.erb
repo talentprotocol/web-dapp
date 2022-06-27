@@ -1,23 +1,15 @@
-<h3 class="ax-center text-center mb-10">Congratulations <%= @user.username%>, you have successfully launched your token!</h3>
-<p class="w-full lh-lg text-lg mb-10">
-  As one of the first 100 talents that registered, we just offered you 2,000 of your own Talent Tokens, worth $200 cUSD.
+<h3 class="mb-10">Hey, you talented human 🤩</h3>
+<p class="w-full lh-lg text-md mb-5 text-secondary">
+  <strong>Your token is now live on Talent Protocol!</strong>
 </p>
-<p class="w-full lh-lg text-lg mb-10">
-  The direct link to your profile is <span class="text-primary"><%= root_url + "talent/#{@user.username}" %></span>
+<p class="w-full lh-lg text-md text-secondary">
+  You’ve also just received 2,000 of your own tokens (worth $200).
+  <br>
+  Here are some great tips to succeed in Talent Protocol:
 </p>
-<p class="w-full lh-lg text-lg mb-10">
-  And this is your personal invite link that you can share with 5 people to signup as supporters.<br>
-  <span class="text-primary"><%= root_url + "sign_up?code=#{@invite.code}" %></span>
-</p>
-<p class="w-full lh-lg text-lg mb-10">
-  We recommend sharing the <a href="https://talentprotocol.notion.site/Supporter-Onboarding-Guide-1b9a378cb8224ba89ea5aff69cbf5735">Supporter Onboarding Guide</a> with your friends to help them create an account, but please bear in mind that this is still a difficult process for non web3 natives.
-</p>
-<p class="w-full lh-lg text-lg mb-10">
-  Remember that, in this season, your supporters will have access to the $TAL token at a discounted price, and can also start earning a high amount of weekly rewards every week.
-</p>
-<p class="w-full lh-lg text-lg mb-10">
-  If you have any questions, feel free to reach out to us on Discord (filmacedo#9596) or at filipe@talentprotocol.com
-</p>
-<p class="w-full lh-lg text-lg mb-10">
-  Let’s do this! 🚀
-</p>
+<ul class="w-full mb-10">
+  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary">Complete your profile and keep it updated. <a class="body-link" href="https://blog.talentprotocol.com/career-goals-guide/">Here are some great tips for that.</a></span></li>
+  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary"><a class="body-link" href="<%= root_url + "u/#{@user.username}/edit_profile?tab=Perks"%>">Great perks = Great supporters.</a> Take some time to come up with some great benefits for those who believe in you the most.</span></li>
+  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary">Let people know they can invest in your career! <a class="body-link" href="https://talentprotocol.notion.site/Promote-Your-Token-on-Social-Media-e629939ed41c48a99c4b28006b64bd94">Create a customized image</a> and spread the news across your friends and connections.</span></li>
+</ul>
+<%= link_to "Go to my Talent Protocol profile", talent_profile_url(@user.username), class: "btn btn-primary fw-800 py-4 mb-10 w-full" %>

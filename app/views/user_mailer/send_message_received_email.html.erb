@@ -1,0 +1,8 @@
+<div>
+  <img class="img-fluid h-8 w-8 mx-auto rounded-image d-inline ay-middle" src=<%= @sender&.talent&.profile_picture_url || @sender&.investor&.profile_picture_url %> alt="User profile picture" />
+  <p class="fw-700 text-base lh-8 ay-middle d-inline">
+    &nbsp;&nbsp;<%= @sender&.display_name || @sender&.username %>
+  </p>
+</div>
+<h2 class="mb-10 fw-700 mt-5">Has sent you a new message!</h2>
+<%= link_to "Check my inbox", messages_url(user: @sender.id), class: "btn btn-primary fw-800 text-5xl py-4 mb-10 w-full" %>
