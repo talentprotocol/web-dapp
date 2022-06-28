@@ -157,6 +157,10 @@ class User < ApplicationRecord
     TalentSupporter.where(supporter_wallet_id: wallet_id).present?
   end
 
+  def profile_picture_url
+    talent&.profile_picture_url || investor&.profile_picture_url
+  end
+
   private
 
   def validate_notification_preferences
