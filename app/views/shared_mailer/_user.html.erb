@@ -1,6 +1,8 @@
 <div>
-  <img class="img-fluid h-8 w-8 mx-auto rounded-image d-inline ay-middle" src=<%= user.profile_picture_url %> alt="User profile picture" />
-  <p class="fw-700 text-base lh-8 ay-middle d-inline">
-    &nbsp;&nbsp;<%= user.display_name || user.username %>
+  <% if profile_picture_url %>
+    <img class="img-fluid h-8 w-8 mx-auto rounded-image d-inline ay-middle" src=<%= profile_picture_url %> alt="User profile picture" />
+  <% end %>
+  <p class="ay-middle d-inline user-title">
+    &nbsp;&nbsp; <%= user.display_name || user.username %>
   </p>
 </div>
