@@ -105,7 +105,6 @@ const TalentShow = ({
           isFollowing: false,
           followersCount: followersCount - 1
         }));
-        // return followersCount
       }
     } else {
       const response = await post(`/api/v1/follows`, {
@@ -118,7 +117,6 @@ const TalentShow = ({
           isFollowing: true,
           followersCount: followersCount + 1
         }));
-        // return followersCount
       }
     }
     setChangingFollow(false);
@@ -155,7 +153,6 @@ const TalentShow = ({
   };
 
   useEffect(() => {
-    console.log(sharedState.talent)
     if (searchParams.get("tab")) {
       setPageInDisplay(searchParams.get("tab"));
     } else {
@@ -239,7 +236,7 @@ const TalentShow = ({
           {sharedState.isFollowing ? (
             <><FontAwesomeIcon icon={faStar} className="text-warning" /><span> &nbsp; Starred&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount}</span></>
           ) : (
-            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span> &nbsp; Star&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount == -1 ? 0 : sharedState.followersCount}</span> </>
+            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span> &nbsp; Star&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount == -1 ? 0 : sharedState.followersCount}</span></>
           )}
         </Button>
       )
