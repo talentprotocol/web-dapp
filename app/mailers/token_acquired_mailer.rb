@@ -32,7 +32,7 @@ class TokenAcquiredMailer < ApplicationMailer
   def set_profile_picture_attachment(user)
     return unless user.profile_picture_url
 
-    attachments.inline["profile_picture"] = Down.download(user.profile_picture_url).read
+    attachments.inline["profile_picture.png"] = Down.download(user.profile_picture_url).read
   rescue => e
     Rollbar.error(e, "Error downloading picture of user_id: ##{user.id}")
   end
