@@ -103,7 +103,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: false,
-          followersCount: followersCount - 1
+          followersCount: sharedState.followersCount - 1
         }));
       }
     } else {
@@ -115,7 +115,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: true,
-          followersCount: followersCount + 1
+          followersCount: sharedState.followersCount + 1
         }));
       }
     }
@@ -234,9 +234,9 @@ const TalentShow = ({
           className={cx(talentIsFromCurrentUser && "mr-2")}
         >
           {sharedState.isFollowing ? (
-            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span> &nbsp; Starred&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount}</span></>
+            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span className="badge ml-2 rounded-circle bg-light visually-hidden">{sharedState.followersCount}</span></>
           ) : (
-            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span> &nbsp; Star&nbsp; &nbsp;</span><span class="badge bg-light rounded-pill visually-hidden">{sharedState.followersCount == -1 ? 0 : sharedState.followersCount}</span></>
+            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span className="badge ml-2 rounded-circle bg-light visually-hidden">{sharedState.followersCount}</span></>
           )}
         </Button>
       )
