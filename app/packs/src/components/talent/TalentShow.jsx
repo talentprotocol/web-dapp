@@ -26,6 +26,7 @@ import { Chat } from "src/components/icons";
 import { H2, H5, P3 } from "src/components/design_system/typography";
 import Tooltip from "src/components/design_system/tooltip";
 
+import { railsContextStore } from "src/contexts/state";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
 
@@ -47,6 +48,12 @@ const TalentShow = ({
   isFollowing,
   railsContext,
 }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
+
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
+
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
 
@@ -185,28 +192,14 @@ const TalentShow = ({
           Approve
         </Button>
       ) : (
-        <Tooltip
-          body="For security reasons buying talent tokens is currently disabled, we're working to solve this and apologize for any inconvenience."
-          popOverAccessibilityId={"disable_tooltip"}
-          placement="top"
-          trigger={["hover", "click"]}
+        <Button
+          onClick={() => setShow(true)}
+          disabled={!sharedState.token.contract_id}
+          type={currentUserId == user.id ? "white-subtle" : "primary-default"}
+          className="mr-2"
         >
-          <span className="py-1">
-            <Button
-              onClick={() => setShow(true)}
-              disabled={
-                !sharedState.token.contract_id ||
-                railsContext.disableSmartContracts == "true"
-              }
-              type={
-                currentUserId == user.id ? "white-subtle" : "primary-default"
-              }
-              className="mr-2"
-            >
-              Buy {ticker() || "Token"}
-            </Button>
-          </span>
-        </Tooltip>
+          Buy {ticker() || "Token"}
+        </Button>
       )}
       {sharedState.token.contract_id && (
         <StakeModal
@@ -218,7 +211,6 @@ const TalentShow = ({
           talentUserId={talent.user_id}
           talentName={displayName({ withLink: false })}
           ticker={ticker()}
-          railsContext={railsContext}
           mode={theme.mode()}
           talentIsFromCurrentUser={talentIsFromCurrentUser}
         />
