@@ -21,6 +21,7 @@ import {
 import { OnChain } from "src/onchain";
 import { useWindowDimensionsHook } from "src/utils/window";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
+import { railsContextStore } from "src/contexts/state";
 
 import RewardsModal from "./components/RewardsModal";
 import Supporting from "./components/Supporting";
@@ -145,6 +146,12 @@ const NewPortfolio = ({
   memberNFT,
   railsContext,
 }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
+
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
+
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState("");
 
