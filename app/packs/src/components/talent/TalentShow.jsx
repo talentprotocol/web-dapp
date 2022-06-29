@@ -185,14 +185,28 @@ const TalentShow = ({
           Approve
         </Button>
       ) : (
-        <Button
-          onClick={() => setShow(true)}
-          disabled={!sharedState.token.contract_id}
-          type={currentUserId == user.id ? "white-subtle" : "primary-default"}
-          className="mr-2"
+        <Tooltip
+          body="For security reasons buying talent tokens is currently disabled, we're working to solve this and apologize for any inconvenience."
+          popOverAccessibilityId={"disable_tooltip"}
+          placement="top"
+          trigger={["hover", "click"]}
         >
-          Buy {ticker() || "Token"}
-        </Button>
+          <span className="py-1">
+            <Button
+              onClick={() => setShow(true)}
+              disabled={
+                !sharedState.token.contract_id ||
+                railsContext.disableSmartContracts == "true"
+              }
+              type={
+                currentUserId == user.id ? "white-subtle" : "primary-default"
+              }
+              className="mr-2"
+            >
+              Buy {ticker() || "Token"}
+            </Button>
+          </span>
+        </Tooltip>
       )}
       {sharedState.token.contract_id && (
         <StakeModal

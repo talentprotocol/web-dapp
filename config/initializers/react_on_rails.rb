@@ -8,7 +8,8 @@ module RenderingExtension
     {
       contractsEnv: ENV["CONTRACTS_ENV"],
       transakApiKey: ENV["TRANSAK_API_KEY"],
-      emailRegexWithoutAliases: ENV["EMAIL_REGEX_WITHOUT_ALIASES"]
+      emailRegexWithoutAliases: ENV["EMAIL_REGEX_WITHOUT_ALIASES"],
+      disableSmartContracts: ENV["DISABLE_SMART_CONTRACTS"]
     }
   end
 end
