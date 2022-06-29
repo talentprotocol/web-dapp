@@ -26,6 +26,7 @@ import { Chat } from "src/components/icons";
 import { H2, H5, P3 } from "src/components/design_system/typography";
 import Tooltip from "src/components/design_system/tooltip";
 
+import { railsContextStore } from "src/contexts/state";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
 
@@ -48,6 +49,12 @@ const TalentShow = ({
   followersCount,
   railsContext,
 }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
+
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
+
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
 
@@ -208,7 +215,6 @@ const TalentShow = ({
           talentUserId={talent.user_id}
           talentName={displayName({ withLink: false })}
           ticker={ticker()}
-          railsContext={railsContext}
           mode={theme.mode()}
           talentIsFromCurrentUser={talentIsFromCurrentUser}
         />

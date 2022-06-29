@@ -11,11 +11,9 @@ import {
   client,
 } from "src/utils/thegraph";
 
-import { H3, Caption } from "src/components/design_system/typography";
 import { Spinner } from "src/components/icons";
 import HighlightsCard from "src/components/design_system/highlights_card";
-import Button from "src/components/design_system/button";
-import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
+import DiscoveryBanners from "src/components/design_system/banners/DiscoveryBanners";
 
 import DiscoveryRows from "./discovery_rows";
 import DiscoveryMarketingArticles from "./discovery_marketing_articles";
@@ -26,8 +24,6 @@ const Discovery = ({ discoveryRows, marketingArticles, user }) => {
   const { mobile } = useWindowDimensionsHook();
   const [localDiscoveryRows, setLocalDiscoveryRows] = useState(discoveryRows);
   const [loading, setLoading] = useState(true);
-  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
-    useState(false);
 
   const talentIdsPerRow = useMemo(
     () =>
@@ -157,31 +153,7 @@ const Discovery = ({ discoveryRows, marketingArticles, user }) => {
 
   return (
     <div className="d-flex flex-column">
-      {!mobile && (
-        <div className="talent-background">
-          <div className="talent-background-text permanent-text-white">
-            <div className="col-1"></div>
-            <div style={{ width: "450px" }}>
-              <Caption
-                className="mb-2 text-yellow"
-                text="TALENT TOKEN APPLICATION"
-                bold
-              />
-              <H3
-                className="pb-4"
-                text="Launch your own token and create your on-chain resume."
-                bold
-              />
-              <Button
-                type="primary-default"
-                size="extra-big"
-                onClick={() => setShowApplyToLaunchTokenModal(true)}
-                text="Apply Now"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {!mobile && <DiscoveryBanners user={user} />}
       <div
         className={cx(
           "w-100 d-flex flex-wrap mt-6 mb-6",
@@ -219,12 +191,6 @@ const Discovery = ({ discoveryRows, marketingArticles, user }) => {
           <DiscoveryMarketingArticles marketingArticles={marketingArticles} />
         </div>
       )}
-      <ApplyToLaunchTokenModal
-        show={showApplyToLaunchTokenModal}
-        hide={() => setShowApplyToLaunchTokenModal(false)}
-        investorId={user.investorId}
-        username={user.username}
-      />
     </div>
   );
 };

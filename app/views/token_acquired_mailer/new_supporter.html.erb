@@ -1,0 +1,9 @@
+<%= render "shared_mailer/user", profile_picture_url: attachments['profile_picture.png']&.url, user: @staking_user %>
+<h2 class="mb-6 main-title mt-4">Has invested in your journey!</h2>
+<h3 class="w-full mb-6 sub-title">
+  <%= @user.display_name || @user.username %>, you have a new supporter, congrats! <%= @staking_user.display_name || @staking_user.username %> has just bought $<%= @user.talent&.token&.ticker %> for the first time.
+</h3>
+<p class="w-full mb-10 primary-3 paragraph">
+  Here's some free advice: send a message and say 'hi' to your new supporter and don't forget to keep them updated on your career progress.
+</p>
+<%= link_to "Message my new supporter", messages_url(user: @staking_user.id), class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>

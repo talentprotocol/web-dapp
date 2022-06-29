@@ -8,61 +8,50 @@
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   </head>
   <body>
-    <div class="row my-10">
-      <div class="col-3"></div>
-      <div class="col-6 bg-white rounded-xl pr-0">
-        <div class="container py-8">
-          <div class="row">
-            <div class="col-6 ay-middle text-left">
-              <img class="img-fluid h-7 w-auto" src="https://beta.talentprotocol.com/email_assets/logo.png" alt="Talent Protocol Logo" />
-            </div>
-            <div class="col-6 ay-middle">
-              <p class="text-primary text-right text-sm">Success is Colective.</p>
-            </div>
+    <div class="container bg-white rounded-xl main-content my-10">
+      <div class="container py-8 sub-content">
+        <div class="row">
+          <div class="col-6 ay-middle text-left">
+            <img class="img-fluid h-5 w-auto" src="https://beta.talentprotocol.com/email_assets/logo.png" alt="Talent Protocol Logo" />
           </div>
-        </div>
-        <div class="border-bottom border-primary mb-5">
-        </div>
-        <div class="container my-5">
-          <%= yield %>
-        </div>
-        <div class="mb-5 border-bottom footer-border"></div>
-        <div class="container pb-5">
-          <div class="row my-5">
-            <div class="col-3"> </div>
-            <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/twitter.png" alt="Twitter Logo" />
-            </div>
-            <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/telegram.png" alt="Telegram Logo" />
-            </div>
-            <div class="col-2 ay-middle text-center">
-              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/discord.png" alt="Discord Logo" />
-            </div>
-            <div class="col-3"> </div>
-          </div>
-          <div class="row my-5">
-            <p class="text-center text-secondary">The Talent Protocol community is here to help you. You can help us improve by providing feedback and also back other talents by supporting them!</p>
-          </div>
-          <div class="row mt-5 mb-2">
-            <p class="text-center text-xs">© 2022 Talent Protocol MTU</p>
-          </div>
-          <div class="row">
-            <div class="col-3"> </div>
-            <div class="col-3 ay-middle text-center">
-              <a class="text-xs footer-link" href="https://help.talentprotocol.com/">FAQ</a>
-            </div>
-            <div class="col-3 ay-middle text-center">
-              <a class="text-xs footer-link" href="https://drive.google.com/file/d/1Pcf_sa6fvUItxVMiUzuOt41aCbRRFVrh/view">Terms of Service</a>
-            </div>
-            <div class="col-3 ay-middle text-center">
-              <a class="text-xs footer-link" href="https://drive.google.com/file/d/1Cts7FcmstLa_IISHFeO6vizy8Um5rKZE/view">Privacy Policy</a>
-            </div>
-            <div class="col-3"> </div>
+          <div class="col-6 ay-middle">
+            <p class="text-right header">Success is Colective.</p>
           </div>
         </div>
       </div>
-      <div class="col-3"></div>
+      <div class="border-bottom border-primary mb-5">
+      </div>
+      <div class="container my-5 sub-content">
+        <%= yield %>
+      </div>
+      <div class="mb-5 border-bottom footer-border"></div>
+      <div class="container pb-5 sub-content">
+        <div class="row my-5 mx-0">
+          <div class="col-3"> </div>
+          <div class="col-2 ay-middle text-center">
+            <a href="https://twitter.com/talentprotocol" target="_blank">
+              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/twitter.png" alt="Twitter Logo" />
+            </a>
+          </div>
+          <div class="col-2 ay-middle text-center">
+            <a href="https://t.me/talentprotocol" target="_blank">
+              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/telegram.png" alt="Telegram Logo" />
+            </a>
+          </div>
+          <div class="col-2 ay-middle text-center">
+            <a href="https://discord.gg/talentprotocol" target="_blank">
+              <img class="img-fluid h-6 w-auto" src="https://beta.talentprotocol.com/email_assets/discord.png" alt="Discord Logo" />
+            </a>
+          </div>
+          <div class="col-3"> </div>
+        </div>
+        <div class="my-5">
+          <p class="text-center footer-paragraph">The Talent Protocol community is here to help you. You can help us improve by providing feedback and also back other talents by supporting them!</p>
+        </div>
+        <div class="mt-5 mb-2">
+          <p class="text-center text-xs">© 2022 Talent Protocol MTU</p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

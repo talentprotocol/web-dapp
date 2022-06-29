@@ -40,7 +40,7 @@ class Notion::SyncTalent
             }
           ]
         },
-        Status: {
+        "User Status": {
           select: {
             name: talent_status(talent)
           }
@@ -141,10 +141,10 @@ class Notion::SyncTalent
         "Has Perks?": {
           checkbox: talent.perks.any?
         },
-        "Total TAL Invested": {
+        "TAL Invested": {
           number: total_tal_invested(talent)
         },
-        "User Referrals": {
+        Referrals: {
           number: users_invited_by(talent)
         },
         "Talents Invited": {
