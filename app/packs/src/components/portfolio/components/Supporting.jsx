@@ -3,8 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import currency from "currency.js";
 
 import { parseAndCommify } from "src/onchain/utils";
+
 import { get } from "src/utils/requests";
-import { railsContextStore } from "src/contexts/state";
 
 import {
   H4,
@@ -18,7 +18,6 @@ import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import Table from "src/components/design_system/table";
 import Link from "src/components/design_system/link";
 import { OrderBy } from "src/components/icons";
-import Tooltip from "src/components/design_system/tooltip";
 
 import { parsedVariance } from "src/utils/viewHelpers";
 
@@ -99,8 +98,6 @@ const Supporting = ({
   talentTokensInTAL,
   loading,
 }) => {
-  const railsContext = railsContextStore((state) => state.railsContext);
-
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
   const [talentProfileUsernames, setTalentProfileUsernames] = useState({});
   const [selectedSort, setSelectedSort] = useState("Alphabetical Order");
@@ -328,11 +325,7 @@ const Supporting = ({
             {sortedTalents().map((talent) => (
               <Table.Tr
                 key={`talent-${talent.contract_id}`}
-                onClick={() =>
-                  railsContext.disableSmartContracts == "true"
-                    ? null
-                    : onClaim(talent.contract_id)
-                }
+                onClick={() => onClaim(talent.contract_id)}
                 className="px-2"
               >
                 <Table.Td>
@@ -481,40 +474,12 @@ const Supporting = ({
                 </div>
               </Table.Td>
               <Table.Td className="pr-3">
-                {railsContext.disableSmartContracts == "true" ? (
-                  <Tooltip
-                    body={
-                      "For security reasons buying talent tokens is currently disabled, we're working to solve this and apologize for any inconvenience."
-                    }
-                    popOverAccessibilityId={"disable_tooltip"}
-                    placement="top"
-                    trigger={["hover", "click"]}
-                  >
-                    <span className="p-1">
-                      <button
-                        onClick={() => onClaim(talent.contract_id)}
-                        disabled={railsContext.disableSmartContracts == "true"}
-                        className="mr-2 button-link remove-background"
-                      >
-                        <Link
-                          disabled={
-                            railsContext.disableSmartContracts == "true"
-                          }
-                          text="Claim rewards"
-                          bold
-                        />
-                      </button>
-                    </span>
-                  </Tooltip>
-                ) : (
-                  <button
-                    onClick={() => onClaim(talent.contract_id)}
-                    disabled={disableSmartContracts == "true"}
-                    className="mr-2 button-link remove-background"
-                  >
-                    <Link text="Claim rewards" bold />
-                  </button>
-                )}
+                <button
+                  onClick={() => onClaim(talent.contract_id)}
+                  className="mr-2 button-link remove-background"
+                >
+                  <Link text="Claim rewards" bold />
+                </button>
               </Table.Td>
             </Table.Tr>
           ))}
