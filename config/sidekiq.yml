@@ -16,3 +16,9 @@
     cron: "0 * * * *" # Runs every hour
     class: TriggerTalentSupportersRefreshJob
     enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
+  send_token_launch_reminder:
+    cron: "0 10 * * *" # Runs once every day at 10am
+    class: SendTokenLaunchReminderJob
+  send_token_purchase_reminder:
+    cron: "0 10 * * *" # Runs once every day at 10am
+    class: SendTokenPurchaseReminderJob

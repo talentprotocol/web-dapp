@@ -37,4 +37,9 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     bootstrap_mail(to: @user.email, subject: "You’re missing out on $TAL rewards!")
   end
+
+  def send_talent_upgrade_email
+    @user = params[:user]
+    bootstrap_mail(to: @user.email, subject: "Hey, you can now launch your token 🚀")
+  end
 end
