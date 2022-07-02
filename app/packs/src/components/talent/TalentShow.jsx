@@ -26,6 +26,7 @@ import { Chat } from "src/components/icons";
 import { H2, H5, P3 } from "src/components/design_system/typography";
 import Tooltip from "src/components/design_system/tooltip";
 
+import { railsContextStore } from "src/contexts/state";
 import ThemeContainer, { ThemeContext } from "src/contexts/ThemeContext";
 import cx from "classnames";
 
@@ -45,8 +46,15 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
+  followersCount,
   railsContext,
 }) => {
+  const setRailsContext = railsContextStore((state) => state.setRailsContext);
+
+  useEffect(() => {
+    setRailsContext(railsContext);
+  }, []);
+
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
 
@@ -69,6 +77,7 @@ const TalentShow = ({
     profilePictureUrl,
     tags,
     isFollowing,
+    followersCount,
     careerGoal,
     goals,
     posts,
@@ -101,6 +110,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: false,
+          followersCount: sharedState.followersCount - 1
         }));
       }
     } else {
@@ -112,6 +122,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: true,
+          followersCount: sharedState.followersCount + 1
         }));
       }
     }
@@ -204,7 +215,6 @@ const TalentShow = ({
           talentUserId={talent.user_id}
           talentName={displayName({ withLink: false })}
           ticker={ticker()}
-          railsContext={railsContext}
           mode={theme.mode()}
           talentIsFromCurrentUser={talentIsFromCurrentUser}
         />
@@ -230,12 +240,13 @@ const TalentShow = ({
           className={cx(talentIsFromCurrentUser && "mr-2")}
         >
           {sharedState.isFollowing ? (
-            <FontAwesomeIcon icon={faStar} className="text-warning" />
+            <><FontAwesomeIcon icon={faStar} className="text-warning" /><span className="badge ml-2 rounded-circle bg-light visually-hidden">{sharedState.followersCount}</span></>
           ) : (
-            <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+            <><FontAwesomeIcon icon={faStarOutline} className="icon-bar" /><span className="badge ml-2 rounded-circle bg-light visually-hidden">{sharedState.followersCount}</span></>
           )}
         </Button>
-      )}
+      )
+      }
       {talentIsFromCurrentUser && (
         <Button
           onClick={() =>
