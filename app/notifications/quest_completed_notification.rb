@@ -1,6 +1,5 @@
 class QuestCompletedNotification < BaseNotification
-  deliver_by :email, mailer: "NotificationMailer", method: :immediate,
-                     delay: 15.minutes, if: :should_deliver_immediate_email?
+  deliver_by :email, mailer: "NotificationMailer", method: :immediate, delay: 15.minutes, if: :should_deliver_immediate_email?
 
   def should_deliver_immediate_email?
     false

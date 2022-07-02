@@ -22,7 +22,7 @@ module Messages
       CreateNotification.new.call(
         recipient: receiver,
         type: MessageReceivedNotification,
-        extras: {sender_id: sender.id}
+        extra_params: {sender_id: sender.id}
       )
     end
 
