@@ -23,4 +23,10 @@ class SessionsController < Clearance::SessionsController
       render json: {error: "wrong email or password"}, status: :unauthorized
     end
   end
+
+  def destroy
+    cookies.delete :impersonated
+    sign_out
+    redirect_to url_after_destroy
+  end
 end

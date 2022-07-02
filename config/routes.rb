@@ -55,10 +55,6 @@ Rails.application.routes.draw do
     # Quests
     resources :quests, only: [:show]
 
-    # Impersonation
-    get "/impersonate/:username", to: "impersonations#show"
-    delete "impersonations", to: "impersonations#destroy", as: "stop_impersonation"
-
     namespace :api, defaults: {format: :json} do
       namespace :v1 do
         resources :tokens, only: [:show]
@@ -86,6 +82,7 @@ Rails.application.routes.draw do
         resources :supporters do
           patch :upgrade_profile_to_talent
         end
+        resources :impersonations, only: [:create, :destroy]
       end
     end
   end

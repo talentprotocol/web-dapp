@@ -1,23 +1,25 @@
-class ImpersonationsController < ApplicationController
-  def show
+class API::V1::ImpersonationsController < ApplicationController
+  def create
     if current_user.admin?
       user_to_impersonate = User.find_by(username: params[:username])
       if user_to_impersonate
         Impersonation.create!(impersonated: user_to_impersonate, impersonator: current_user, ip: request.remote_ip)
         set_impersonated_user(user_to_impersonate)
-        redirect_to user_path(user_to_impersonate.username)
+        render json: {success: "Impersonation started successfully"}, status: :created
       else
-        redirect_to user_root_path, flash: {error: "User to impersonate not found."}
+        render json: {error: "User to impersonate not found."}, status: :not_found
       end
     else
-      redirect_to user_root_path, flash: {error: "Unauthorized."}
+      render json: {error: "Unauthorized."}, status: :unauthorized
     end
   end
 
   def destroy
-    if is_user_impersonated?
+    if current_user.admin? && is_user_impersonated?
       cookies.delete :impersonated
-      redirect_to user_root_path
+      render json: {success: "Impersonation ended successfully"}, status: :ok
+    else
+      render json: {error: "Unauthorized."}, status: :unauthorized
     end
   end
 

@@ -4,7 +4,7 @@
   portfolioPath: portfolio_path,
   messagesPath: messages_path,
   rewardsPath: earn_path,
-  hasUnreadMessages: current_acting_user&.has_unread_messages?,
+  hasUnreadMessages: is_user_impersonated? ? false : current_acting_user&.has_unread_messages?,
 }, prerender: false) %>
 
 <%= react_component("TopBar", props: {
@@ -21,7 +21,7 @@
     tokenLive: current_acting_user.talent&.token&.contract_id.present?,
     currentTheme: current_acting_user.theme_preference,
   },
-  hasUnreadMessages: is_user_impersonated? ? 0 : current_user&.has_unread_messages?,
+  hasUnreadMessages: is_user_impersonated? ? false : current_user&.has_unread_messages?,
   notifications: is_user_impersonated? ? [] : current_user.notifications.newest_first.map do |notif|
     notif = notif.to_notification
     {
@@ -37,5 +37,5 @@
   signOutPath: sign_out_path,
   isUserImpersonated: is_user_impersonated?,
   impersonatedUsername: current_impersonated_user&.username,
-  stopImpersonationPath: stop_impersonation_path
+  stopImpersonationPath: api_v1_impersonation_path(current_acting_user.id)
 }, prerender: false) %>

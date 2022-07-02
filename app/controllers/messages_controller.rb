@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
   before_action :set_user, only: [:index]
-  before_action :check_user_impersonation
+  before_action :prevent_user_impersonation
 
   def index
     user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)

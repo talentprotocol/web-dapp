@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def check_user_impersonation
+  def prevent_user_impersonation
     redirect_to user_root_path, flash: {error: "Unauthorized."} if is_user_impersonated?
   end
 
@@ -77,6 +77,6 @@ class ApplicationController < ActionController::Base
   end
 
   def user_from_impersonated_cookie
-    User.where(username: cookies.signed[:impersonated]).first
+    User.find_by(username: cookies.signed[:impersonated])
   end
 end

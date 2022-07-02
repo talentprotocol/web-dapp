@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(version: 2022_06_24_180204) do
     t.string "ip_bidx"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "ended_at"
     t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
