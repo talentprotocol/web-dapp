@@ -32,9 +32,8 @@ RSpec.describe "Impersonations", type: :request do
 
       it "should expire after 30 minutes" do
         create_impersonation_request
-        Timecop.freeze(30.minutes.from_now) do
-          expect(cookie_jar.signed[:impersonate]).to be_nil
-        end
+        travel_to 30.minutes.from_now
+        expect(cookie_jar.signed[:impersonate]).to be_nil
       end
     end
 

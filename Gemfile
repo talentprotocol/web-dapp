@@ -120,5 +120,4 @@ group :test do
   gem "webdrivers"
   gem "simplecov"
   gem "codecov"
-  gem "timecop"
 end
