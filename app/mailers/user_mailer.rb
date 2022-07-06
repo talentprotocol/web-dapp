@@ -39,7 +39,7 @@ class UserMailer < ApplicationMailer
 
   def send_message_received_email
     @user = params[:recipient]
-    @sender = User.find(params["sender_id"])
+    @sender = User.find(params[:sender_id])
     @notification = params[:record].to_notification
     @notification.record.mark_as_emailed
 
