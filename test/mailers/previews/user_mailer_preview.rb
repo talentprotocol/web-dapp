@@ -18,7 +18,7 @@ class UserMailerPreview < ActionMailer::Preview
     notification = Notification.create(
       type: "MessageReceivedNotification",
       params: {
-        "sender_id" => sender_id,
+        "sender_id" => sender_id
       },
       recipient: recipient
     )
