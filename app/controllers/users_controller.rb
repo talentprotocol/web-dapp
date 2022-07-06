@@ -18,6 +18,10 @@ class UsersController < ApplicationController
   end
 
   def show
+    if @user.talent&.hide_profile && current_user.role != "admin" && current_user.id != @user.id
+      redirect_to root_url
+    end
+
     talent = @user.talent
     investor = @user.investor
 
