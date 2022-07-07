@@ -4,9 +4,11 @@ export const PRIVACY_HREF =
   "https://drive.google.com/file/d/1Cts7FcmstLa_IISHFeO6vizy8Um5rKZE/view";
 
 export const THE_GRAPH_ENDPOINTS = {
-  development: "https://api.studio.thegraph.com/query/8098/mvp/v0.0.23",
+  development:
+    "https://api.thegraph.com/subgraphs/name/talent-protocol/new-staking-non-upgradable",
   production: "https://api.thegraph.com/subgraphs/name/talent-protocol/prod",
-  staging: "https://api.thegraph.com/subgraphs/name/talent-protocol/dev",
+  staging:
+    "https://api.thegraph.com/subgraphs/name/talent-protocol/new-staking-non-upgradable",
 };
 
 export const SUPPORTER_GUIDE =
