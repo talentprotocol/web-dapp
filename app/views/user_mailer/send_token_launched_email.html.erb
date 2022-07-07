@@ -1,15 +1,14 @@
-<h3 class="mb-10">Hey, you talented human 🤩</h3>
-<p class="w-full lh-lg text-md mb-5 text-secondary">
-  <strong>Your token is now live on Talent Protocol!</strong>
+<h3 class="mb-10 main-title mt-4">Hey, you talented human 🤩</h3>
+<p class="w-full mb-6 sub-title">
+  Your token is now live on Talent Protocol!
 </p>
-<p class="w-full lh-lg text-md text-secondary">
+<p class="w-full mb-3 primary-3 paragraph">
   You’ve also just received 2,000 of your own tokens (worth $200).
   <br>
   Here are some great tips to succeed in Talent Protocol:
 </p>
-<ul class="w-full mb-10">
-  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary">Complete your profile and keep it updated. <a class="content-link" href="https://blog.talentprotocol.com/career-goals-guide/">Here are some great tips for that.</a></span></li>
-  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary"><a class="content-link" href="<%= root_url + "u/#{@user.username}/edit_profile?tab=Perks"%>">Great perks = Great supporters.</a> Take some time to come up with some great benefits for those who believe in you the most.</span></li>
-  <li class="list-marker"><span class="w-full lh-lg text-md text-secondary">Let people know they can invest in your career! <a class="content-link" href="https://talentprotocol.notion.site/Promote-Your-Token-on-Social-Media-e629939ed41c48a99c4b28006b64bd94">Create a customized image</a> and spread the news across your friends and connections.</span></li>
+<ul class="w-full primary-3 paragraph content-list mb-5">
+  <li>Complete your profile and keep it updated. <a class="content-link" href="https://blog.talentprotocol.com/career-goals-guide/">Here are some great tips for that.</a></li>
+  <li><a class="content-link" href="<%= root_url + "u/#{@user.username}/edit_profile?tab=Perks"%>">Great perks = Great supporters.</a> Take some time to come up with some great benefits for those who believe in you the most.</li>
+  <li>Let people know they can invest in your career! <a class="content-link" href="https://talentprotocol.notion.site/Promote-Your-Token-on-Social-Media-e629939ed41c48a99c4b28006b64bd94">Create a customized image</a> and spread the news across your friends and connections.</li>
 </ul>
-<%= link_to "Go to my Talent Protocol profile", talent_profile_url(@user.username), class: "btn btn-primary fw-800 py-4 mb-10 w-full" %>
