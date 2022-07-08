@@ -33,6 +33,7 @@ const TalentTableCardMode = ({
             marketCap={talent.marketCap}
             supporterCount={talent.supporterCounter}
             publicPageViewer={publicPageViewer}
+            isVerified={talent.isVerified}
           />
         </div>
       ))}

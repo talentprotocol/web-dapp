@@ -103,6 +103,10 @@ class API::UpdateTalent
       @talent.open_to_job_offers = params[:open_to_job_offers]
     end
 
+    if params.key?(:is_verified)
+      @talent.is_verified = params[:is_verified]
+    end
+
     if params[:banner_data]
       @talent.banner = params[:banner_data].as_json
       @talent.banner_derivatives! if @talent.banner_changed?
