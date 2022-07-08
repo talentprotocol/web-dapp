@@ -14,7 +14,6 @@ import LoadingButton from "src/components/button/LoadingButton";
 import { H3, P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
-import { railsContextStore } from "src/contexts/state";
 import { useWindowDimensionsHook } from "src/utils/window";
 
 const StakeModal = ({
@@ -28,8 +27,8 @@ const StakeModal = ({
   talentName,
   mode,
   talentIsFromCurrentUser,
+  railsContext,
 }) => {
-  const railsContext = railsContextStore((state) => state.railsContext);
   const { mobile } = useWindowDimensionsHook();
 
   const [amount, setAmount] = useState("");
@@ -229,8 +228,6 @@ const StakeModal = ({
     setAmount(value);
   };
 
-  console.log(railsContext);
-
   return (
     <>
       <WalletConnectionError
@@ -260,8 +257,9 @@ const StakeModal = ({
           <Modal.Header closeButton className="pt-4 px-4 pb-0">
             <P1
               text={`BUY ${ticker} ${
-                railsContext.disableSmartContracts == "true" &&
-                "(currently unavailable)"
+                railsContext.disableSmartContracts == "true"
+                  ? "(currently unavailable)"
+                  : ""
               }`}
               bold
               className="text-black mb-3"

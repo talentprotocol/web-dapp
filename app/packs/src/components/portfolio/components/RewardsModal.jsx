@@ -11,7 +11,6 @@ import { H3, P1, P2, P3 } from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
 import { useWindowDimensionsHook } from "../../../utils/window";
 import { ArrowLeft } from "src/components/icons";
-import { railsContextStore } from "src/contexts/state";
 
 const RewardsModal = ({
   show,
@@ -22,11 +21,11 @@ const RewardsModal = ({
   rewardValues,
   supportedTalents,
   mode,
+  railsContext,
 }) => {
   if (!activeContract) {
     return null;
   }
-  const railsContext = railsContextStore((state) => state.railsContext);
 
   const { width } = useWindowDimensionsHook();
   const mobile = width < 992;
@@ -63,8 +62,9 @@ const RewardsModal = ({
           <P1
             className="text-black"
             text={`Claim rewards ${
-              railsContext.disableSmartContracts == "true" &&
-              "(currently unavailable)"
+              railsContext.disableSmartContracts == "true"
+                ? "(currently unavailable)"
+                : ""
             }`}
             bold
           />
