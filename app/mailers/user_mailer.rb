@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
 
   def send_password_reset_email
     @user = params[:user]
-    bootstrap_mail(to: @user.email, subject: "Talent Protocol - Password reset")
+    bootstrap_mail(to: @user.email, subject: "Talent Protocol - Did you forget your password?")
   end
 
   def send_invite_email
@@ -29,12 +29,23 @@ class UserMailer < ApplicationMailer
 
   def send_token_launched_email
     @user = params[:user]
-    @invite = @user.invite
-    bootstrap_mail(to: @user.email, subject: "Your Talent Token is live! 💫")
+    bootstrap_mail(to: @user.email, subject: "Congrats, your Talent Token is now live!")
   end
 
   def send_token_purchase_reminder_email
     @user = params[:user]
     bootstrap_mail(to: @user.email, subject: "You're missing out on TAL rewards 💸")
+  end
+
+  def send_message_received_email
+    @user = params[:recipient]
+    @sender = User.find(params[:sender_id])
+    @notification = params[:record].to_notification
+    @notification.record.mark_as_emailed
+
+    # we need to check if the user has unread messages
+    should_sent = @user.has_unread_messages?
+
+    bootstrap_mail(to: @user.email, subject: "You’ve got a new message") if should_sent
   end
 end
