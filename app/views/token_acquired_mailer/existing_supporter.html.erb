@@ -1,0 +1,9 @@
+<%= render "shared_mailer/user", profile_picture_url: attachments['profile_picture.png']&.url, user: @staking_user %>
+<h2 class="mb-6 mt-5 main-title">Has bought more $<%= @user.talent&.token&.ticker %></h2>
+<h3 class="w-full mb-6 sub-title">
+  Congratulations <%= @user.display_name || @user.username %>! <%= @staking_user.display_name || @staking_user.username %> has just increased their stake in your career journey.
+</h3>
+<p class="w-full mb-10 primary-3 paragraph">
+  Don't forget to <%= link_to "say 'thank you' 🙂", messages_url(user: @staking_user.id), class: "content-link" %>
+</p>
+<%= link_to "Check my supporters", user_url(username: @user.username, tab: "supporters"), class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>

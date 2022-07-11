@@ -76,6 +76,10 @@ class User < ApplicationRecord
     investor.present?
   end
 
+  def public_displayable?
+    profile_type == "talent"
+  end
+
   def display_wallet_id
     wallet_id ? "#{wallet_id[0..10]}..." : ""
   end
@@ -149,6 +153,14 @@ class User < ApplicationRecord
     supporters = User.where(wallet_id: supporters_wallet_ids)
 
     including_self ? supporters : supporters.where.not(id: id)
+  end
+
+  def active_supporter?
+    TalentSupporter.where(supporter_wallet_id: wallet_id).present?
+  end
+
+  def profile_picture_url
+    talent&.profile_picture_url || investor&.profile_picture_url
   end
 
   private

@@ -117,7 +117,7 @@ Rails.application.routes.draw do
 
   get "/u/:username" => "users#show", :as => "user"
   # redirect /talent to /u so we have the old route still working
-  get "/talent/:username", to: redirect("/u/%{username}")
+  get "/talent/:username", to: redirect("/u/%{username}"), as: "talent_profile"
 
   constraints Routes::FormatConstraints.new(:html) do
     root to: "sessions#new", as: :root

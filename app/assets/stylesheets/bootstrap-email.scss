@@ -1,17 +1,23 @@
 // Override all colors to black
 $font-family-sans-serif: "Plus Jakarta Sans", sans-serif !default;
 
-$body-bg: #FFFFFF;
+$body-bg: #e5e5e5;
 
 $primary: #7a55ff !default;
 $secondary: #676a74 !default;
-$info: #EEEAFF !default;
+$info: #eeeaff !default;
 $danger: #ef4444 !default;
-$warning: #FFB200 !default;
+$warning: #ffb200 !default;
 $success: #10b981 !default;
-$light: #FAFAFB !default;
+$light: #fafafb !default;
 $blue: #2797fe !default;
 $black: #000 !default;
+
+$primary-01: #1c2126;
+$primary-02: #37434b;
+$primary-03: #536471;
+$primary-04: #697f8f;
+$primary-text: #9577ff;
 
 // pagination variables
 $pagination-color: #a9acb7 !default;
@@ -26,5 +32,116 @@ $pagination-disabled-bg: none !default;
 $primary-light: #f2eeff !default;
 $light-grey: #a9acb7 !default;
 
-
 //= @import bootstrap-email;
+
+.main-content {
+  width: 600px;
+  margin: auto;
+  td {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+.sub-content {
+  width: 520px;
+  margin: auto;
+}
+
+.header {
+  font-size: 14px;
+  line-height: 165%;
+  color: $primary-text;
+}
+
+.main-title {
+  color: $primary-01;
+  font-size: 24px;
+  line-height: 140%;
+  font-weight: 700;
+}
+
+.sub-title {
+  color: $primary-02;
+  font-size: 16px;
+  line-height: 165%;
+  font-weight: 700;
+}
+
+.user-title {
+  font-size: 14px;
+  line-height: 165%;
+  font-weight: 700;
+}
+
+.paragraph {
+  line-height: 165%;
+  font-size: 14px;
+}
+
+.footer-link {
+  color: $black;
+  text-decoration: underline;
+}
+
+.content-link {
+  text-decoration: underline;
+}
+
+.footer-border {
+  border-color: #ebedf0;
+}
+
+.footer-paragraph {
+  color: $primary-04;
+  font-size: 14px;
+  width: 430px;
+  line-height: 150%;
+  margin: auto;
+}
+
+.pr-0 {
+  padding-right: 0 !important;
+}
+
+.list-marker::marker {
+  color: #676a74;
+}
+
+.mx-0 {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.primary-3 {
+  color: #536471;
+}
+
+.rounded-image {
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 600px) {
+  .main-content {
+    width: 340px !important;
+  }
+
+  .sub-content {
+    width: 310px !important;
+  }
+
+  .footer-paragraph {
+    width: 290px !important;
+  }
+
+  .header {
+    display: none;
+  }
+}
+
+.content-list {
+  padding-inline-start: 30px;
+  li {
+    margin-right: 40px;
+  }
+}

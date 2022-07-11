@@ -67,13 +67,6 @@ export const taskDescription = (type) => {
           />
         </P2>
       );
-    case "Tasks::PublicProfile":
-      return (
-        <P2
-          className="text-primary-03"
-          text="Complete your profile until it reaches 100% and set it to public, so everyone can see it."
-        />
-      );
     case "Tasks::LaunchToken":
       return (
         <P2
@@ -147,13 +140,6 @@ export const taskReward = (type, disabled) => {
           href={COMMUNITY_S01_NFT_AIRDROP}
           target="_blank"
           disabled={disabled}
-        />
-      );
-    case "Tasks::PublicProfile":
-      return (
-        <P2
-          className={cx(disabled ? "text-primary-04" : "text-black")}
-          text="Unlimited user invites"
         />
       );
     case "Tasks::LaunchToken":

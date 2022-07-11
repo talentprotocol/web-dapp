@@ -41,6 +41,7 @@
           currentUserId: current_user&.id,
           tokenLive: @talent["token"]["deployed"],
           isFollowing: @talent["is_following"],
+          followersCount: @talent["followers_count"],
           admin: current_user ? current_user.admin? : false,
           isCurrentUserImpersonated: is_user_impersonated?,
           user: {

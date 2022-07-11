@@ -118,5 +118,26 @@
   .display-messages {
     min-height: 200px;
   }
-  
+}
+
+.dark-body .new-message-user-list button {
+  &:hover {
+    background: #2d2f32 !important;
+    border-radius: 4px;
+  }
+
+  .link-container.white:hover > p {
+    color: #ffffff !important;
+  }
+}
+
+.new-message-user-list button {
+  &:hover {
+    background: #eeeeef !important;
+    border-radius: 4px;
+  }
+
+  .link-container.white:hover > p {
+    color: #2d2f32 !important;
+  }
 }

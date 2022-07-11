@@ -11,9 +11,10 @@ import { post, patch } from "src/utils/requests";
 import { WalletConnectionError } from "../login/Web3ModalConnect";
 
 import LoadingButton from "src/components/button/LoadingButton";
-import { P1, P2 } from "src/components/design_system/typography";
+import { H3, P1, P2 } from "src/components/design_system/typography";
 import TextInput from "src/components/design_system/fields/textinput";
 import Button from "src/components/design_system/button";
+import { useWindowDimensionsHook } from "src/utils/window";
 
 const StakeModal = ({
   show,
@@ -21,13 +22,15 @@ const StakeModal = ({
   ticker,
   tokenAddress,
   tokenId,
-  railsContext,
   userId,
   talentUserId,
   talentName,
   mode,
   talentIsFromCurrentUser,
+  railsContext,
 }) => {
+  const { mobile } = useWindowDimensionsHook();
+
   const [amount, setAmount] = useState("");
   const [showWalletConnectionError, setShowWalletConnectionError] =
     useState(false);
@@ -242,132 +245,165 @@ const StakeModal = ({
       />
       <Modal
         scrollable={true}
-        fullscreen={"md-down"}
         show={show}
-        centered
+        centered={mobile ? false : true}
         onHide={() => setShow(false)}
-        dialogClassName="remove-background"
+        dialogClassName={
+          mobile ? "mw-100 mh-100 m-0" : "remove-background rewards-modal"
+        }
+        fullscreen={"md-down"}
       >
-        <Modal.Body className="show-grid p-4">
-          <div className="container-fluid">
-            <div className="row d-flex flex-column">
-              <P1 text={`BUY ${ticker}`} bold className="text-black mb-3" />
-              <P2>
-                Please insert the amount of cUSD (Celo's stablecoin) you wish to
-                use to buy Talent Tokens.
-              </P2>
-              <P2 className="my-2">
-                Check the{" "}
-                <a
-                  target="self"
-                  href="https://talentprotocol.notion.site/Top-Up-Your-Account-b4c96000187442daa126cb843e87ab1d"
-                >
-                  guide
-                </a>{" "}
-                if you need help to top up your account.
-              </P2>
-              <div className="d-flex flex-column">
-                <div className="form-group position-relative m-0">
-                  <TextInput
-                    title={"Total Amount"}
-                    mode={mode}
-                    type={"number"}
-                    topCaption={
-                      currentAccount
-                        ? `Available amount: ${parseAndCommify(
-                            availableAmount
-                          )} cUSD`
-                        : ""
-                    }
-                    placeholder={"0.0"}
-                    onChange={(e) => setValidAmount(e.target.value)}
-                    value={amount}
+        <>
+          <Modal.Header closeButton className="pt-4 px-4 pb-0">
+            <P1
+              text={`BUY ${ticker} ${
+                railsContext.disableSmartContracts == "true"
+                  ? "(currently unavailable)"
+                  : ""
+              }`}
+              bold
+              className="text-black mb-3"
+            />
+          </Modal.Header>
+          <Modal.Body className="show-grid p-4">
+            <div className="container-fluid">
+              <div className="row d-flex flex-column">
+                {railsContext.disableSmartContracts == "true" ? (
+                  <P2
+                    className="my-2"
+                    text="For security reasons buying talent tokens is currently disabled, we're working
+                  to solve this and apologize for any inconvenience."
                   />
-                  <div className={`divider ${mode} my-3`}></div>
-                  <div className="d-flex flex-row justify-content-between w-100">
-                    <P2>{ticker} tokens still available</P2>
-                    <P2>{maxMinting}</P2>
-                  </div>
-                  <div className="d-flex flex-row justify-content-between w-100 mt-2">
-                    <P2>{ticker} Price</P2>
-                    <P2>$0.1</P2>
-                  </div>
-                  <div className={`divider ${mode} my-3`}></div>
-                  <div className="d-flex flex-row justify-content-between w-100">
-                    <P1 bold className="text-black">
-                      You will receive
-                    </P1>
-                    <P1 bold className="text-black">
-                      {amount * 10} {ticker}
-                    </P1>
-                  </div>
-                  <div className={`divider ${mode} mt-3`}></div>
-                  <div className="d-flex flex-row justify-content-between align-items-center mt-6">
-                    {step() == "Connect" && (
-                      <Button
-                        className="w-100"
-                        type="primary-default"
-                        size="big"
-                        onClick={connectWallet}
-                      >
-                        Connect Wallet
-                      </Button>
-                    )}
-                    {step() == "Change network" && (
-                      <Button
-                        className="w-100"
-                        type="primary-default"
-                        size="big"
-                        onClick={changeNetwork}
-                      >
-                        Switch Network
-                      </Button>
-                    )}
-                    {step() == "Stake" && (
-                      <>
-                        <LoadingButton
-                          onClick={approve}
-                          type={"primary-default"}
-                          mode={mode}
-                          className="w-100 mr-2"
-                          loading={approving}
-                          disabled={approving || didAllowance}
-                          success={didAllowance}
-                          fillPrimary={"#FFF"}
-                          fillSecondary={"#000"}
-                          opacity={"1"}
-                        >
-                          Approve
-                        </LoadingButton>
-                        <LoadingButton
-                          onClick={onSubmit}
-                          type={"primary-default"}
-                          mode={mode}
-                          className="w-100 ml-2"
-                          disabled={!didAllowance || stage == "Confirm"}
-                          loading={stage == "Confirm"}
-                          success={stage == "Verified"}
-                          fillPrimary={"#FFF"}
-                          fillSecondary={"#000"}
-                          opacity={"1"}
-                        >
-                          Buy
-                        </LoadingButton>
-                      </>
-                    )}
-                  </div>
-
-                  {stage == "Error" && (
-                    <P2 className="text-danger">
-                      There was an issue with the transaction. Check your
-                      metamask and reach out to us if the error persists.
+                ) : (
+                  <>
+                    <P2>
+                      Please insert the amount of cUSD (Celo's stablecoin) you
+                      wish to use to buy Talent Tokens.
                     </P2>
-                  )}
+                    <P2 className="my-2">
+                      Check the{" "}
+                      <a
+                        target="self"
+                        href="https://talentprotocol.notion.site/Top-Up-Your-Account-b4c96000187442daa126cb843e87ab1d"
+                      >
+                        guide
+                      </a>{" "}
+                      if you need help to top up your account.
+                    </P2>
+                  </>
+                )}
+                <div className="d-flex flex-column">
+                  <div className="form-group position-relative m-0">
+                    <TextInput
+                      title={"Total Amount"}
+                      mode={mode}
+                      type={"number"}
+                      disabled={railsContext.disableSmartContracts == "true"}
+                      topCaption={
+                        currentAccount
+                          ? `Available amount: ${parseAndCommify(
+                              availableAmount
+                            )} cUSD`
+                          : ""
+                      }
+                      placeholder={"0.0"}
+                      onChange={(e) => setValidAmount(e.target.value)}
+                      value={amount}
+                    />
+                    <div className={`divider ${mode} my-3`}></div>
+                    <div className="d-flex flex-row justify-content-between w-100">
+                      <P2>{ticker} tokens still available</P2>
+                      <P2>{maxMinting}</P2>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between w-100 mt-2">
+                      <P2>{ticker} Price</P2>
+                      <P2>$0.1</P2>
+                    </div>
+                    <div className={`divider ${mode} my-3`}></div>
+                    <div className="d-flex flex-row justify-content-between w-100">
+                      <P1 bold className="text-black">
+                        You will receive
+                      </P1>
+                      <P1 bold className="text-black">
+                        {amount * 10} {ticker}
+                      </P1>
+                    </div>
+                    <div className={`divider ${mode} mt-3`}></div>
+                    <div className="d-flex flex-row justify-content-between align-items-center mt-6">
+                      {step() == "Connect" && (
+                        <Button
+                          className="w-100"
+                          type="primary-default"
+                          size="big"
+                          onClick={connectWallet}
+                        >
+                          Connect Wallet
+                        </Button>
+                      )}
+                      {step() == "Change network" && (
+                        <Button
+                          className="w-100"
+                          type="primary-default"
+                          size="big"
+                          onClick={changeNetwork}
+                        >
+                          Switch Network
+                        </Button>
+                      )}
+                      {step() == "Stake" && (
+                        <>
+                          <LoadingButton
+                            onClick={approve}
+                            type={"primary-default"}
+                            mode={mode}
+                            className="w-100 mr-2"
+                            loading={approving}
+                            disabled={
+                              approving ||
+                              didAllowance ||
+                              railsContext.disableSmartContracts == "true"
+                            }
+                            success={didAllowance}
+                            fillPrimary={"#FFF"}
+                            fillSecondary={"#000"}
+                            opacity={"1"}
+                          >
+                            Approve
+                          </LoadingButton>
+                          <LoadingButton
+                            onClick={onSubmit}
+                            type={"primary-default"}
+                            mode={mode}
+                            className="w-100 ml-2"
+                            disabled={
+                              !didAllowance ||
+                              stage == "Confirm" ||
+                              railsContext.disableSmartContracts == "true"
+                            }
+                            loading={stage == "Confirm"}
+                            success={stage == "Verified"}
+                            fillPrimary={"#FFF"}
+                            fillSecondary={"#000"}
+                            opacity={"1"}
+                          >
+                            Buy
+                          </LoadingButton>
+                        </>
+                      )}
+                    </div>
+
+                    {stage == "Error" && (
+                      <P2 className="text-danger">
+                        There was an issue with the transaction. Check your
+                        metamask and reach out to us if the error persists.
+                      </P2>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Modal.Body>
+          </Modal.Body>
+        </>
       </Modal>
     </>
   );

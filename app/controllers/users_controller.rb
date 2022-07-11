@@ -18,6 +18,10 @@ class UsersController < ApplicationController
   end
 
   def show
+    if @user.talent&.hide_profile && current_user.role != "admin" && current_user.id != @user.id
+      redirect_to root_url
+    end
+
     talent = @user.talent
     investor = @user.investor
 
@@ -105,6 +109,14 @@ class UsersController < ApplicationController
   end
 
   def should_see_talent_page?(talent)
-    current_user&.admin? || (current_user && current_user.id == talent&.user_id && !talent&.user&.supporter?)
+    admin?(current_user) || talent_owner?(talent, current_user) || talent.user.public_displayable?
+  end
+
+  def admin?(user)
+    user&.admin?
+  end
+
+  def talent_owner?(talent, user)
+    user && user.id == talent&.user_id
   end
 end

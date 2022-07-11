@@ -45,6 +45,7 @@ const TalentShow = ({
   goals,
   posts,
   isFollowing,
+  followersCount,
   railsContext,
   isCurrentUserImpersonated,
 }) => {
@@ -70,6 +71,7 @@ const TalentShow = ({
     profilePictureUrl,
     tags,
     isFollowing,
+    followersCount,
     careerGoal,
     goals,
     posts,
@@ -102,6 +104,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: false,
+          followersCount: sharedState.followersCount - 1,
         }));
       }
     } else {
@@ -113,6 +116,7 @@ const TalentShow = ({
         setSharedState((prev) => ({
           ...prev,
           isFollowing: true,
+          followersCount: sharedState.followersCount + 1,
         }));
       }
     }
@@ -230,9 +234,9 @@ const TalentShow = ({
           talentUserId={talent.user_id}
           talentName={displayName({ withLink: false })}
           ticker={ticker()}
-          railsContext={railsContext}
           mode={theme.mode()}
           talentIsFromCurrentUser={talentIsFromCurrentUser}
+          railsContext={railsContext}
         />
       )}
       {!talentIsFromCurrentUser && (
@@ -256,9 +260,19 @@ const TalentShow = ({
           className={cx(talentIsFromCurrentUser && "mr-2")}
         >
           {sharedState.isFollowing ? (
-            <FontAwesomeIcon icon={faStar} className="text-warning" />
+            <>
+              <FontAwesomeIcon icon={faStar} className="text-warning" />
+              <span className="badge ml-2 rounded-circle bg-light visually-hidden">
+                {sharedState.followersCount}
+              </span>
+            </>
           ) : (
-            <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+            <>
+              <FontAwesomeIcon icon={faStarOutline} className="icon-bar" />
+              <span className="badge ml-2 rounded-circle bg-light visually-hidden">
+                {sharedState.followersCount}
+              </span>
+            </>
           )}
         </Button>
       )}
