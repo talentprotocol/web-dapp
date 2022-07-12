@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_09_162621) do
-
+ActiveRecord::Schema.define(version: 2022_07_12_100355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -402,8 +401,8 @@ ActiveRecord::Schema.define(version: 2022_06_09_162621) do
     t.boolean "welcome_pop_up", default: false
     t.boolean "tokens_purchased", default: false
     t.boolean "token_purchase_reminder_sent", default: false
-    t.string "theme_preference", default: "light"
     t.boolean "disabled", default: false
+    t.string "theme_preference", default: "light"
     t.boolean "messaging_disabled", default: false
     t.jsonb "notification_preferences", default: {}
     t.string "user_nft_address"
@@ -417,6 +416,7 @@ ActiveRecord::Schema.define(version: 2022_06_09_162621) do
     t.bigint "race_id"
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
+    t.datetime "last_access_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
