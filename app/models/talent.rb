@@ -70,6 +70,10 @@ class Talent < ApplicationRecord
     profile_picture(:default)&.url || super
   end
 
+  def verified?
+    is_verified?
+  end
+
   private
 
   def public_key_is_valid
