@@ -6,6 +6,10 @@ RSpec.describe SendTokenPurchaseReminderJob, type: :job do
   subject(:token_purchase_reminder) { SendTokenPurchaseReminderJob.perform_now }
   let(:user) { create :user }
 
+  before do
+    ENV["TOKEN_PURCHASE_REMINDER_DAYS"] = "7"
+  end
+
   context "supporter created 7 days ago" do
     before do
       @investor = create :investor, created_at: 7.days.ago, user: user

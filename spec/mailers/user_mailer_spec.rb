@@ -36,7 +36,7 @@ RSpec.describe UserMailer, type: :mailer do
       let(:user) { create :user, :with_talent }
 
       it "renders the header" do
-        expect(mail.subject).to eql("Invite to launch your token on Talent Protocol 🔑")
+        expect(mail.subject).to eql("Welcome to Talent Protocol")
         expect(mail.to).to eql([user.email])
       end
     end
@@ -45,13 +45,9 @@ RSpec.describe UserMailer, type: :mailer do
       let(:user) { create :user, :with_investor }
 
       it "renders the header" do
-        expect(mail.subject).to eql("Personal invite for Talent Protocol Beta 🔑")
+        expect(mail.subject).to eql("Welcome to Talent Protocol")
         expect(mail.to).to eql([user.email])
       end
-    end
-
-    it "assigns username" do
-      expect(mail.body.encoded).to match(user.username)
     end
   end
 
