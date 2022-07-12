@@ -1,5 +1,7 @@
-<h3 class="ax-center text-center mb-10">Welcome!</h3>
-<p class="w-full lh-lg text-lg mb-10">
-  You are almost done, <%= @user.username %>! To complete the sign-up process, we just need to verify your email address: <%= @user.email %>.
+<h3 class="mb-10 main-title mt-4">Welcome, <%= @user.username %>! 👋</h3>
+<p class="w-full mb-10 primary-3 paragraph">
+  Thank you for joining Talent Protocol.
+  <br/>
+  Please <strong>confirm your email address</strong> to complete your registration.
 </p>
-<%= link_to "Verify my email", confirm_email_url(token: @user.email_confirmation_token), class: "btn btn-primary rounded-full fw-800 text-5xl py-4 ax-center mb-10 w-full w-lg-80" %>
+<%= link_to "Verify my email", confirm_email_url(token: @user.email_confirmation_token), class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>
