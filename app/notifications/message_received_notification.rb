@@ -1,5 +1,5 @@
 class MessageReceivedNotification < BaseNotification
-  deliver_by :email, mailer: "NotificationMailer", method: :immediate, delay: 15.minutes, if: :should_deliver_immediate_email?
+  deliver_by :email, mailer: "UserMailer", method: :send_message_received_email, delay: 15.minutes, if: :should_deliver_immediate_email?
 
   def url
     messages_url

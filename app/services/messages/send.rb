@@ -4,7 +4,7 @@ module Messages
       return if sender.id == receiver.id
 
       message = create_message(sender, receiver, message, sent_to_supporters)
-      create_notification_for(receiver)
+      create_notification_for(receiver, sender)
       broadcast(message)
 
       message
@@ -18,10 +18,11 @@ module Messages
       Message.create!(sender: sender, receiver: receiver, text: message, sent_to_supporters: sent_to_supporters)
     end
 
-    def create_notification_for(receiver)
+    def create_notification_for(receiver, sender)
       CreateNotification.new.call(
         recipient: receiver,
-        type: MessageReceivedNotification
+        type: MessageReceivedNotification,
+        extra_params: {sender_id: sender.id}
       )
     end
 
