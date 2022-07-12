@@ -48,4 +48,9 @@ class UserMailer < ApplicationMailer
 
     bootstrap_mail(to: @user.email, subject: "You’ve got a new message") if should_sent
   end
+
+  def send_complete_profile_reminder_email
+    @user = params[:user]
+    bootstrap_mail(to: @user.email, subject: "Complete your profile and launch your token today 🚀")
+  end
 end

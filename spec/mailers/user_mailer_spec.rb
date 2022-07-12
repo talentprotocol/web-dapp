@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   let(:user) { create :user }
 
-  describe "Sign Up Email" do
+  describe "sign Up Email" do
     let(:mail) { described_class.with(user_id: user.id).send_sign_up_email }
 
     it "renders the header" do
@@ -16,7 +16,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
-  describe "Password reset email" do
+  describe "password reset email" do
     let(:mail) { described_class.with(user: user).send_password_reset_email }
 
     it "renders the header" do
@@ -29,7 +29,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
-  describe "Welcome email" do
+  describe "welcome email" do
     let(:mail) { described_class.with(user: user).send_welcome_email }
 
     context "user is talent" do
@@ -65,6 +65,15 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "assigns profile url" do
       expect { talent_profile_url(user.username) }.not_to raise_error
+    end
+  end
+
+  describe "send complete profile reminder email" do
+    let(:mail) { described_class.with(user: user).send_complete_profile_reminder_email }
+
+    it "renders the header" do
+      expect(mail.subject).to eql("Complete your profile and launch your token today 🚀")
+      expect(mail.to).to eql([user.email])
     end
   end
 end

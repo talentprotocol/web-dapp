@@ -24,4 +24,8 @@ class UserMailerPreview < ActionMailer::Preview
     )
     UserMailer.with(recipient: recipient, record: notification, sender_id: sender_id).send_message_received_email
   end
+
+  def send_complete_profile_reminder_email
+    UserMailer.with(user: User.first).send_complete_profile_reminder_email
+  end
 end
