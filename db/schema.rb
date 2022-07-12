@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_24_180204) do
+ActiveRecord::Schema.define(version: 2022_06_09_162621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,12 +143,14 @@ ActiveRecord::Schema.define(version: 2022_06_24_180204) do
   end
 
   create_table "impersonations", force: :cascade do |t|
-    t.integer "impersonator_id", null: false
-    t.integer "impersonated_id", null: false
+    t.bigint "impersonator_id"
+    t.bigint "impersonated_id"
     t.text "ip_ciphertext", null: false
     t.string "ip_bidx"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["impersonated_id"], name: "index_impersonations_on_impersonated_id"
+    t.index ["impersonator_id"], name: "index_impersonations_on_impersonator_id"
     t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
@@ -467,7 +469,6 @@ ActiveRecord::Schema.define(version: 2022_06_24_180204) do
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
   add_foreign_key "impersonations", "users", column: "impersonated_id"
-  add_foreign_key "impersonations", "users", column: "impersonator_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"
