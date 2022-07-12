@@ -23,7 +23,7 @@ class UserMailerPreview < ActionMailer::Preview
   def send_talent_upgrade_email
     UserMailer.with(user: User.first).send_talent_upgrade_email
   end
-  
+
   def send_password_reset_email
     UserMailer.with(user: User.first).send_password_reset_email
   end

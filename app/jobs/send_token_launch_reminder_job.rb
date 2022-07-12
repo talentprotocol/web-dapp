@@ -2,15 +2,15 @@ class SendTokenLaunchReminderJob < ApplicationJob
   queue_as :default
 
   def perform
-    talents = Talent
-      .where("talent.created_at < ?", 10.days.ago)
-      .joins(:token)
+    users = User
+      .joins(talent: :token)
+      .where(token_launch_reminder_sent_at: nil)
       .where(token: {deployed: false})
-      .select("talent.id, talent.user_id, talent.created_at")
-      .includes(:user)
+      .where("talent.created_at < ?", ENV["TOKEN_LAUNCH_REMINDER_DAYS"].to_i.days.ago)
 
-    talents.each do |talent|
-      UserMailer.with(user: talent.user).send_token_launch_reminder_email.deliver_later
+    users.each do |user|
+      UserMailer.with(user: user).send_token_launch_reminder_email.deliver_later
+      user.update!(token_launch_reminder_sent_at: Time.now)
     end
   end
 end

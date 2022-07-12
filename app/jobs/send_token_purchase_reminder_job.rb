@@ -2,16 +2,16 @@ class SendTokenPurchaseReminderJob < ApplicationJob
   queue_as :default
 
   def perform
-    investors = Investor
-      .where("investors.created_at < ?", 7.days.ago)
-      .joins(:user)
+    users = User
+      .joins(:investor)
       .joins("LEFT JOIN talent_supporters ON talent_supporters.supporter_wallet_id = users.wallet_id")
-      .select("investors.id, investors.user_id, COUNT(talent_supporters.id)")
-      .group("investors.id, investors.user_id")
-      .having("COUNT(talent_supporters.id) = 0")
+      .where(talent_supporters: {id: nil})
+      .where(token_purchase_reminder_sent_at: nil)
+      .where("investors.created_at < ?", ENV["TOKEN_PURCHASE_REMINDER_DAYS"].to_i.days.ago)
 
-    investors.each do |investor|
-      UserMailer.with(user: investor.user).send_token_purchase_reminder_email.deliver_later
+    users.each do |user|
+      UserMailer.with(user: user).send_token_purchase_reminder_email.deliver_later
+      user.update!(token_purchase_reminder_sent_at: Time.now)
     end
   end
 end
