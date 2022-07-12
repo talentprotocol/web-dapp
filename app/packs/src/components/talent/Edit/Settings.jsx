@@ -127,11 +127,12 @@ const Settings = (props) => {
   };
 
   const deleteUser = async () => {
-    const response = await destroy(`/api/v1/users/${user.id}`, {
-      user: { current_password: settings.deletePassword },
-    }).catch(() =>
-      setValidationErrors((prev) => ({ ...prev, deleting: true }))
-    );
+    const response = await patch(
+      `/api/v1/users/${user.id}/delete_account_email`,
+      {
+        user: { current_password: settings.deletePassword },
+      }
+    ).catch(() => setValidationErrors((prev) => ({ ...prev, deleting: true })));
 
     if (response && response.success) {
       window.location.href = "/";

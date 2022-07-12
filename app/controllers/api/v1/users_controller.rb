@@ -1,6 +1,4 @@
 class API::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:update, :destroy]
-
   def index
     @users = search_params[:name].present? ? filtered_users : filtered_users.limit(20)
 
@@ -33,20 +31,20 @@ class API::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.nil? || current_user.nil? || @user.id != current_user.id
+    if user.nil? || current_user.nil? || user.id != current_user.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
-    if @user
+    if user
       if params[:wallet_id]
-        @user.update!(wallet_id: params[:wallet_id]&.downcase)
+        user.update!(wallet_id: params[:wallet_id]&.downcase)
 
-        SendCommunityNFTToUser.perform_later(user_id: @user.id)
-        AddUsersToMailerliteJob.perform_later(@user.id)
+        SendCommunityNFTToUser.perform_later(user_id: user.id)
+        AddUsersToMailerliteJob.perform_later(user.id)
 
         service = Web3::TransferCelo.new
-        service.call(user: @user)
-        UpdateTasksJob.perform_later(type: "Tasks::ConnectWallet", user_id: @user.id)
+        service.call(user: user)
+        UpdateTasksJob.perform_later(type: "Tasks::ConnectWallet", user_id: user.id)
       elsif params[:welcome_pop_up]
         current_user.update!(welcome_pop_up: true)
       elsif params[:first_quest_popup]
@@ -67,12 +65,12 @@ class API::V1::UsersController < ApplicationController
         current_user.update!(user_params)
 
         if investor_params.present?
-          service = API::UpdateInvestor.new(investor: @user.investor)
+          service = API::UpdateInvestor.new(investor: user.investor)
           service.call(investor_params: investor_params, tag_params: tag_params)
         end
       end
 
-      render json: @user, status: :ok
+      render json: user, status: :ok
     else
       render json: {error: "Not found."}, status: :not_found
     end
@@ -87,13 +85,13 @@ class API::V1::UsersController < ApplicationController
   end
 
   def destroy
-    if @user.id != current_user.id
+    if user.id != current_user.id
       return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
 
     if current_user.authenticated?(password_params[:current_password])
       service = DestroyUser.new(user_id: current_user.id)
-      result = service.call
+      # result = service.call
 
       if result
         render json: {success: "User destroyed."}, status: :ok
@@ -105,10 +103,25 @@ class API::V1::UsersController < ApplicationController
     end
   end
 
+  def delete_account_email
+    if user.id != current_user.id
+      return render json: {error: "You don't have access to perform that action"}, status: :unauthorized
+    end
+
+    if current_user.authenticated?(password_params[:current_password])
+      # service = DestroyUser.new(user_id: current_user.id)
+      # # result = service.call
+
+      render json: {success: "Delete account email sent."}, status: :ok
+    else
+      render json: {errors: "Unabled to destroy user"}, status: :conflict
+    end
+  end
+
   private
 
-  def set_user
-    @user = User.find_by(id: params[:id])
+  def user
+    @user ||= User.find_by(id: params[:id] || params[:user_id])
   end
 
   def search_params
