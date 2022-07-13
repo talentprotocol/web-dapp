@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_134121) do
+ActiveRecord::Schema.define(version: 2022_07_13_152311) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -333,6 +334,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
     t.datetime "synced_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_investment_at"
     t.index ["supporter_wallet_id", "talent_contract_id"], name: "talent_supporters_wallet_token_contract_uidx", unique: true
   end
 

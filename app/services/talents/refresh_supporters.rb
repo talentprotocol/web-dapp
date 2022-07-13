@@ -54,11 +54,19 @@ module Talents
           supporter_wallet_id: supporter.supporter.id
         )
 
-        talent_supporter.update!(
+        current_time = Time.zone.now
+
+        update_params = {
           amount: supporter.amount,
           tal_amount: supporter.tal_amount,
-          synced_at: Time.zone.now
-        )
+          synced_at: current_time
+        }
+
+        new_investment = talent_supporter.tal_amount != supporter.tal_amount
+
+        update_params[:last_investment_at] = current_time if new_investment
+
+        talent_supporter.update!(update_params)
       end
     end
 

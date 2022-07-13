@@ -87,25 +87,48 @@ RSpec.describe Talents::RefreshSupporters do
       ]
     end
 
-    let!(:talent_supporter_one) { create :talent_supporter, supporter_wallet_id: "99asn", talent_contract_id: talent_contract_id }
-    let!(:talent_supporter_two) { create :talent_supporter, supporter_wallet_id: "01ksh", talent_contract_id: talent_contract_id }
+    let!(:talent_supporter_one) do
+      create(
+        :talent_supporter,
+        supporter_wallet_id: "99asn",
+        talent_contract_id: talent_contract_id,
+        tal_amount: "300000000000000000000"
+      )
+    end
+    let!(:talent_supporter_two) do
+      create(
+        :talent_supporter,
+        supporter_wallet_id: "01ksh",
+        talent_contract_id: talent_contract_id,
+        tal_amount: "200"
+      )
+    end
 
     it "does not create extra talent supporter records" do
       expect { refresh_supporters }.not_to change(TalentSupporter, :count)
     end
 
     it "updates the talent supporter records data" do
-      refresh_supporters
+      freeze_time do
+        time_now = Time.zone.now
 
-      talent_supporter_one.reload
-      talent_supporter_two.reload
+        talent_supporter_one.update!(last_investment_at: time_now - 2.days)
+        talent_supporter_two.update!(last_investment_at: time_now - 2.days)
 
-      aggregate_failures do
-        expect(talent_supporter_one.amount).to eq "60000000000000000000"
-        expect(talent_supporter_one.tal_amount).to eq "300000000000000000000"
+        refresh_supporters
 
-        expect(talent_supporter_two.amount).to eq "90000000000000000000"
-        expect(talent_supporter_two.tal_amount).to eq "450000000000000000000"
+        talent_supporter_one.reload
+        talent_supporter_two.reload
+
+        aggregate_failures do
+          expect(talent_supporter_one.amount).to eq "60000000000000000000"
+          expect(talent_supporter_one.tal_amount).to eq "300000000000000000000"
+          expect(talent_supporter_one.last_investment_at).to eq(time_now - 2.days)
+
+          expect(talent_supporter_two.amount).to eq "90000000000000000000"
+          expect(talent_supporter_two.tal_amount).to eq "450000000000000000000"
+          expect(talent_supporter_two.last_investment_at).to eq time_now
+        end
       end
     end
   end
