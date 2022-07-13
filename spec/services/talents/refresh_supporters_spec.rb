@@ -76,19 +76,35 @@ RSpec.describe Talents::RefreshSupporters do
           id: SecureRandom.hex,
           supporter: OpenStruct.new(id: "99asn"),
           amount: "60000000000000000000",
-          tal_amount: "300000000000000000000"
+          tal_amount: "300000000000000000000",
+          last_time_bought_at: "1657727823"
         ),
         OpenStruct.new(
           id: SecureRandom.hex,
           supporter: OpenStruct.new(id: "01ksh"),
           amount: "90000000000000000000",
-          tal_amount: "450000000000000000000"
+          tal_amount: "450000000000000000000",
+          last_time_bought_at: "1657564775"
         )
       ]
     end
 
-    let!(:talent_supporter_one) { create :talent_supporter, supporter_wallet_id: "99asn", talent_contract_id: talent_contract_id }
-    let!(:talent_supporter_two) { create :talent_supporter, supporter_wallet_id: "01ksh", talent_contract_id: talent_contract_id }
+    let!(:talent_supporter_one) do
+      create(
+        :talent_supporter,
+        supporter_wallet_id: "99asn",
+        talent_contract_id: talent_contract_id,
+        tal_amount: "300000000000000000000"
+      )
+    end
+    let!(:talent_supporter_two) do
+      create(
+        :talent_supporter,
+        supporter_wallet_id: "01ksh",
+        talent_contract_id: talent_contract_id,
+        tal_amount: "200"
+      )
+    end
 
     it "does not create extra talent supporter records" do
       expect { refresh_supporters }.not_to change(TalentSupporter, :count)
@@ -103,9 +119,11 @@ RSpec.describe Talents::RefreshSupporters do
       aggregate_failures do
         expect(talent_supporter_one.amount).to eq "60000000000000000000"
         expect(talent_supporter_one.tal_amount).to eq "300000000000000000000"
+        expect(talent_supporter_one.last_time_bought_at).to eq Time.at(1657727823)
 
         expect(talent_supporter_two.amount).to eq "90000000000000000000"
         expect(talent_supporter_two.tal_amount).to eq "450000000000000000000"
+        expect(talent_supporter_two.last_time_bought_at).to eq Time.at(1657564775)
       end
     end
   end
