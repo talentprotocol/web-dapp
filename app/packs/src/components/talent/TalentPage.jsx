@@ -9,7 +9,6 @@ import {
   client,
 } from "src/utils/thegraph";
 import {
-  getSupporterCount,
   getMarketCap,
   getProgress,
   getMarketCapVariance,
@@ -129,7 +128,6 @@ const TalentPage = ({ talents, isAdmin }) => {
         id,
         totalSupply,
         maxSupply,
-        supporterCounter,
         tokenDayData,
         createdAtTimestamp,
         ...rest
@@ -150,7 +148,6 @@ const TalentPage = ({ talents, isAdmin }) => {
           token: { contractId: id },
           progress: getProgress(totalSupply, maxSupply),
           marketCap: getMarketCap(totalSupply),
-          supporterCounter: getSupporterCount(supporterCounter),
           marketCapVariance: getMarketCapVariance(
             tokenDayData || [],
             deployDateUTC || 0,
@@ -164,23 +161,12 @@ const TalentPage = ({ talents, isAdmin }) => {
     setLocalTalents((prev) =>
       Object.values(
         [...prev, ...newTalents].reduce(
-          (
-            result,
-            {
-              id,
-              token,
-              marketCap,
-              supporterCounter,
-              marketCapVariance,
-              ...rest
-            }
-          ) => {
+          (result, { id, token, marketCap, marketCapVariance, ...rest }) => {
             result[token.contractId || id] = {
               ...(result[token.contractId || id] || {}),
               id: result[token.contractId || id]?.id || id,
               token: { ...result[token.contractId]?.token, ...token },
               marketCap: marketCap || "-1",
-              supporterCounter: supporterCounter || "-1",
               marketCapVariance: marketCapVariance || 0,
               ...rest,
             };

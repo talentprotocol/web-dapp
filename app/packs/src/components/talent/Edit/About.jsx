@@ -84,7 +84,7 @@ const About = (props) => {
     profile: false,
     public: false,
   });
-  const [opentoJobOffers, setOpentoJobOffers] = useState(
+  const [openToJobOffers, setOpenToJobOffers] = useState(
     props.talent.open_to_job_offers
   );
 
@@ -168,17 +168,16 @@ const About = (props) => {
     }
   };
 
-  const changeOpenToOffersAttribute = (attribute, value) => {
+  const changeOpenToOffersAttribute = (value) => {
     trackChanges(true);
-    validateWebsite(attribute, value);
 
-    setOpentoJobOffers(value);
+    setOpenToJobOffers(value);
 
     changeSharedState((prev) => ({
       ...prev,
       talent: {
-        open_to_job_offers: value,
         ...prev.talent,
+        open_to_job_offers: value,
       },
     }));
   };
@@ -386,8 +385,8 @@ const About = (props) => {
         </P2>
         <Checkbox
           className="form-check-input mt-4"
-          checked={opentoJobOffers}
-          onChange={() => changeOpenToOffersAttribute(!opentoJobOffers)}
+          checked={openToJobOffers}
+          onChange={() => changeOpenToOffersAttribute(!openToJobOffers)}
         >
           <div className="d-flex flex-wrap">
             <P2 className="mr-1" text="I'm open to new job offers" />
