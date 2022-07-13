@@ -3,8 +3,14 @@ import React, { useState } from "react";
 import { H5, P2, Caption } from "src/components/design_system/typography";
 import Button from "src/components/design_system/button";
 import { ArrowLeft, ArrowRight, Check } from "src/components/icons";
+import Divider from "src/components/design_system/other/Divider";
 
-const Invites = ({ invites, mobile, changeTab }) => {
+const Invites = ({
+  invites,
+  mobile,
+  changeTab,
+  setShowApplyToLaunchTokenModal,
+}) => {
   const [copied, setCopied] = useState({});
 
   const addInviteToClipboard = (invite) => {
@@ -48,7 +54,7 @@ const Invites = ({ invites, mobile, changeTab }) => {
               </P2>
               <P2 className="p2 text-left">{`Code: ${invite.code}`}</P2>
             </div>
-            <div>
+            <div className={mobile ? "my-4" : ""}>
               <Button
                 onClick={() => addInviteToClipboard(invite)}
                 type="primary-default"
@@ -65,26 +71,38 @@ const Invites = ({ invites, mobile, changeTab }) => {
         </div>
       ))}
       {mobile && (
-        <div className="d-flex flex-row justify-content-between w-100 my-3">
-          <div className="d-flex flex-column">
-            <Caption text="PREVIOUS" />
-            <div
-              className="text-grey cursor-pointer"
-              onClick={() => changeTab("About")}
-            >
-              <ArrowLeft color="currentColor" /> About
+        <>
+          <div className="d-flex flex-row justify-content-between w-100 my-3">
+            <div className="d-flex flex-column">
+              <Caption text="PREVIOUS" />
+              <div
+                className="text-grey cursor-pointer"
+                onClick={() => changeTab("About")}
+              >
+                <ArrowLeft color="currentColor" /> About
+              </div>
+            </div>
+            <div className="d-flex flex-column">
+              <Caption text="NEXT" />
+              <div
+                className="text-grey cursor-pointer"
+                onClick={() => changeTab("Settings")}
+              >
+                Settings <ArrowRight color="currentColor" />
+              </div>
             </div>
           </div>
-          <div className="d-flex flex-column">
-            <Caption text="NEXT" />
-            <div
-              className="text-grey cursor-pointer"
-              onClick={() => changeTab("Settings")}
-            >
-              Settings <ArrowRight color="currentColor" />
-            </div>
+          <Divider className="my-4" />
+          <div className="w-100">
+            <Button
+              className="w-100"
+              onClick={() => setShowApplyToLaunchTokenModal(true)}
+              type="primary-default"
+              size="big"
+              text="Apply to Launch Token"
+            />
           </div>
-        </div>
+        </>
       )}
     </>
   );

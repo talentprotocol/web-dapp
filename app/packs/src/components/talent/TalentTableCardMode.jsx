@@ -31,7 +31,7 @@ const TalentTableCardMode = ({
             updateFollow={() => updateFollow(talent)}
             talentLink={`/u/${talent.user.username}`}
             marketCap={talent.marketCap}
-            supporterCount={talent.supporterCounter}
+            supporterCount={talent.supportersCount}
             publicPageViewer={publicPageViewer}
           />
         </div>

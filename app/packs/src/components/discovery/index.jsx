@@ -45,12 +45,10 @@ const Discovery = ({ discoveryRows, marketingArticles, user }) => {
         const totalSupply = ethers.utils.formatUnits(
           talentFromChain.totalSupply || 0
         );
-        const supporterCount = talentFromChain.supporterCounter;
 
         return {
           ...talent,
           marketCap: parseAndCommify(totalSupply * 0.1),
-          supporterCount: supporterCount,
         };
       } else {
         return { ...talent };

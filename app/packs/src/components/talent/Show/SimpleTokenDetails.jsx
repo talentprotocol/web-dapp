@@ -23,6 +23,7 @@ const SimpleTokenDetails = ({
   token,
   ticker,
   supportingCount,
+  supportersCount,
   mode,
   railsContext,
 }) => {
@@ -35,7 +36,6 @@ const SimpleTokenDetails = ({
   const [tokenData, setTokenData] = useState({
     price: 0.1,
     totalSupply: 0,
-    supporterCount: 0,
   });
 
   useEffect(() => {
@@ -50,7 +50,6 @@ const SimpleTokenDetails = ({
     setTokenData({
       ...tokenData,
       totalSupply: ethers.utils.formatUnits(data.talentToken.totalSupply || 0),
-      supporterCount: data.talentToken.supporterCounter || 0,
     });
   }, [data, loading]);
 
@@ -94,7 +93,7 @@ const SimpleTokenDetails = ({
           </div>
           <div className="card disabled d-flex flex-column align-items-center justify-content-center mb-4 p-3">
             <P2 className="mb-2 text-primary-04" bold text="Supporters" />
-            <H4 bold text={`${tokenData.supporterCount}`} />
+            <H4 bold text={`${supportersCount}`} />
           </div>
           {token?.contract_id && (
             <div className="card card-no-hover d-flex flex-column align-items-center justify-content-center p-3">

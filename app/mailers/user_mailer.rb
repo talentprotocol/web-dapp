@@ -51,6 +51,11 @@ class UserMailer < ApplicationMailer
     # we need to check if the user has unread messages
     should_sent = @user.has_unread_messages?
 
-    bootstrap_mail(to: @user.email, subject: "You’ve got a new message") if should_sent
+    bootstrap_mail(to: @user.email, subject: "You've got a new message") if should_sent
+  end
+
+  def send_complete_profile_reminder_email
+    user = params[:user]
+    bootstrap_mail(to: user.email, subject: "Complete your profile and launch your token today 🚀")
   end
 end

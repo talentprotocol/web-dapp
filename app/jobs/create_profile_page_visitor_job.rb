@@ -1,5 +1,5 @@
 class CreateProfilePageVisitorJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(ip:, user_id:)
     user = User.find(user_id)

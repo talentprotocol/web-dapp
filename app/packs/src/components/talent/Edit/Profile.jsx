@@ -208,32 +208,34 @@ const Profile = (props) => {
   return (
     <>
       <div className="edit-profile-fixed-bar">
-        <Tooltip
-          body={`You are missing the following fields: ${requiredFields.join(
-            ", "
-          )}`}
-          popOverAccessibilityId={"progressStats"}
-          mode={theme.mode()}
-          hide={requiredFields.length == 0}
-        >
-          <div
-            className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-3`}
+        {progress != 100 && (
+          <Tooltip
+            body={`You are missing the following fields: ${requiredFields.join(
+              ", "
+            )}`}
+            popOverAccessibilityId={"progressStats"}
+            mode={theme.mode()}
+            hide={requiredFields.length == 0}
           >
-            <div className="d-flex flex-row w-100 justify-content-between edit-profile-talent-progress">
-              {/* below is required so the justify-content-between aligns properly */}
-              <P3 text="" />
-              <P3
-                mode={theme.mode()}
-                text={alertBarText()}
-                bold
-                className="current-color"
-              />
-              <P3 mode={theme.mode()} className="current-color">
-                <strong>{progress}</strong>/100%
-              </P3>
+            <div
+              className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-3`}
+            >
+              <div className="d-flex flex-row w-100 justify-content-between edit-profile-talent-progress">
+                {/* below is required so the justify-content-between aligns properly */}
+                <P3 text="" />
+                <P3
+                  mode={theme.mode()}
+                  text={alertBarText()}
+                  bold
+                  className="current-color"
+                />
+                <P3 mode={theme.mode()} className="current-color">
+                  <strong>{progress}</strong>/100%
+                </P3>
+              </div>
             </div>
-          </div>
-        </Tooltip>
+          </Tooltip>
+        )}
         <div className="talent-table-tabs w-100 horizontal-scroll hide-scrollbar">
           <div
             className={cx(
