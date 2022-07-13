@@ -30,7 +30,6 @@ const GET_TALENT_PORTFOLIO = gql`
   query GetTalentList($ids: [String!], $startDate: Int!) {
     talentTokens(first: 500, where: { id_in: $ids }) {
       id
-      supporterCounter
       totalSupply
       maxSupply
       marketCap

@@ -73,7 +73,7 @@ export const compareOccupation = (talent1, talent2) =>
   compareStrings(talent1.occupation, talent2.occupation);
 
 export const compareSupporters = (talent1, talent2) =>
-  compareNumbers(talent1.supporterCounter, talent2.supporterCounter);
+  compareNumbers(talent1.supportersCount, talent2.supportersCount);
 
 export const compareMarketCap = (talent1, talent2) => {
   const talent1Amount = ethers.utils.parseUnits(
