@@ -382,9 +382,9 @@ const Highlights = (props) => {
               <Caption text="NEXT" />
               <div
                 className="text-grey cursor-pointer"
-                onClick={() => changeTab("Goal")}
+                onClick={() => changeTab("Goals")}
               >
-                Goal <ArrowRight color="currentColor" />
+                Goals <ArrowRight color="currentColor" />
               </div>
             </div>
           </div>

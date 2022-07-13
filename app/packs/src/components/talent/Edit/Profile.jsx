@@ -28,7 +28,7 @@ import cx from "classnames";
 const allowedTabs = [
   "About",
   "Highlights",
-  "Goal",
+  "Goals",
   "Token",
   "Perks",
   "Settings",
@@ -268,12 +268,12 @@ const Profile = (props) => {
                 Highlights
               </div>
               <div
-                onClick={() => changeTab("Goal")}
+                onClick={() => changeTab("Goals")}
                 className={`talent-table-tab${
-                  activeTab == "Goal" ? " active-talent-table-tab" : ""
+                  activeTab == "Goals" ? " active-talent-table-tab" : ""
                 }`}
               >
-                Goal
+                Goals
                 {requiredFields.includes("Pitch") && <IncompleteTabIndicator />}
               </div>
               <div
@@ -408,7 +408,7 @@ const Profile = (props) => {
               buttonText={buttonText()}
             />
           )}
-          {activeTab == "Goal" && (
+          {activeTab == "Goals" && (
             <Goal
               {...sharedState}
               mode={theme.mode()}
