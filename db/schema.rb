@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_100355) do
-
+ActiveRecord::Schema.define(version: 2022_07_12_134121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -140,6 +139,16 @@ ActiveRecord::Schema.define(version: 2022_07_12_100355) do
     t.bigint "career_goal_id"
     t.string "title"
     t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
+  end
+
+  create_table "impersonations", force: :cascade do |t|
+    t.integer "impersonator_id", null: false
+    t.integer "impersonated_id", null: false
+    t.text "ip_ciphertext", null: false
+    t.string "ip_bidx"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
   create_table "investors", force: :cascade do |t|
@@ -418,12 +427,24 @@ ActiveRecord::Schema.define(version: 2022_07_12_100355) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
+    t.datetime "complete_profile_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "wait_list", force: :cascade do |t|
@@ -446,6 +467,8 @@ ActiveRecord::Schema.define(version: 2022_07_12_100355) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "impersonations", "users", column: "impersonated_id"
+  add_foreign_key "impersonations", "users", column: "impersonator_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"

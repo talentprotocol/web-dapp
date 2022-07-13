@@ -46,6 +46,8 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
 
+  config.include ActiveSupport::Testing::TimeHelpers
+
   config.include JsonHelper, type: :request
 
   config.infer_spec_type_from_file_location!
