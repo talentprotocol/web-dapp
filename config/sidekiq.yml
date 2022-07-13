@@ -1,3 +1,4 @@
+:concurrency: <%= ENV["SIDEKIQ_CONCURRENCY"] || 10 %>
 :logfile: log/sidekiq.log
 :queues:
   - critical
@@ -5,6 +6,8 @@
   - default
   - mailers
   - low
+:limits:
+  low: 1
 :schedule:
   send_notification_digests:
     cron: "0 10 * * *" # runs once every day at 10am
