@@ -38,6 +38,7 @@ const Settings = ({
   changeTab,
   changeSharedState,
   trackChanges,
+  setShowApplyToLaunchTokenModal,
 }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const [emailValidated, setEmailValidated] = useState(true);
@@ -365,17 +366,29 @@ const Settings = ({
         </Button>
       </div>
       {mobile && (
-        <div className="d-flex flex-row justify-content-between w-100 my-3">
-          <div className="d-flex flex-column">
-            <P3 text="PREVIOUS" />
-            <div
-              className="text-grey cursor-pointer"
-              onClick={() => changeTab("Invites")}
-            >
-              <ArrowLeft color="currentColor" /> Invites
+        <>
+          <div className="d-flex flex-row justify-content-between w-100 my-3">
+            <div className="d-flex flex-column">
+              <P3 text="PREVIOUS" />
+              <div
+                className="text-grey cursor-pointer"
+                onClick={() => changeTab("Invites")}
+              >
+                <ArrowLeft color="currentColor" /> Invites
+              </div>
             </div>
           </div>
-        </div>
+          <Divider className="my-4" />
+          <div className="w-100">
+            <Button
+              className="w-100"
+              onClick={() => setShowApplyToLaunchTokenModal(true)}
+              type="primary-default"
+              size="big"
+              text="Apply to Launch Token"
+            />
+          </div>
+        </>
       )}
     </>
   );

@@ -5,6 +5,7 @@ import { useWindowDimensionsHook } from "src/utils/window";
 
 import Button from "src/components/design_system/button";
 import { P2 } from "src/components/design_system/typography";
+import ApplyToLaunchTokenModal from "src/components/design_system/modals/ApplyToLaunchTokenModal";
 
 import About from "./About";
 import Settings from "./Settings";
@@ -31,6 +32,8 @@ const Profile = (props) => {
     deletePassword: "",
     railsContext: null,
   });
+  const [showApplyToLaunchTokenModal, setShowApplyToLaunchTokenModal] =
+    useState(false);
 
   useEffect(() => {
     if (activeTab != "") {
@@ -93,6 +96,13 @@ const Profile = (props) => {
                 Settings
               </div>
             </div>
+            {!mobile && (
+              <Button
+                onClick={() => setShowApplyToLaunchTokenModal(true)}
+                type="primary-default"
+                text="Apply to Launch Token"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -139,6 +149,7 @@ const Profile = (props) => {
               changeTab={(tab) => changeTab(tab)}
               changeSharedState={setSharedState}
               trackChanges={setTabHasChanges}
+              setShowApplyToLaunchTokenModal={setShowApplyToLaunchTokenModal}
             />
           )}
           {activeTab == "Invites" && (
@@ -146,6 +157,7 @@ const Profile = (props) => {
               mobile={mobile}
               changeTab={(tab) => changeTab(tab)}
               invites={sharedState.invites}
+              setShowApplyToLaunchTokenModal={setShowApplyToLaunchTokenModal}
             />
           )}
           {activeTab == "Settings" && (
@@ -155,10 +167,17 @@ const Profile = (props) => {
               changeTab={(tab) => changeTab(tab)}
               changeSharedState={setSharedState}
               trackChanges={setTabHasChanges}
+              setShowApplyToLaunchTokenModal={setShowApplyToLaunchTokenModal}
             />
           )}
         </div>
       </div>
+      <ApplyToLaunchTokenModal
+        show={showApplyToLaunchTokenModal}
+        hide={() => setShowApplyToLaunchTokenModal(false)}
+        investorId={props.investor.id}
+        username={props.username}
+      />
     </>
   );
 };
