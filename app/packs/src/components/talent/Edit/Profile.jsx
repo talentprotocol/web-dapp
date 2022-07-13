@@ -104,6 +104,8 @@ const Profile = (props) => {
       return "yellow";
     } else if (sharedState.user.profile_type == "approved") {
       return "green";
+    } else {
+      return "primary";
     }
   };
 
@@ -118,6 +120,8 @@ const Profile = (props) => {
         sharedState.user.profile_type == "talent"
       ) {
         return sharedState.talent.public ? "white-subtle" : "positive-default";
+      } else {
+        return "positive-default";
       }
     } else {
       return "positive-subtle";
@@ -293,6 +297,10 @@ const Profile = (props) => {
                 onClick={() => changeTab("Perks")}
                 className={`talent-table-tab${
                   activeTab == "Perks" ? " active-talent-table-tab" : ""
+                } ${
+                  sharedState.user.profile_type !== "approved" &&
+                  sharedState.user.profile_type !== "talent" &&
+                  "disabled-talent-table-tab"
                 }`}
               >
                 Perks
