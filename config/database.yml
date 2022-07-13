@@ -4,7 +4,7 @@ default: &default
   host: <%= ENV.fetch("DATABASE_HOST") { "localhost" }%>
   username: <%= ENV["DATABASE_USERNAME"] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
-  pool: 5
+  pool: <%= ENV["DATABASE_POOL"] || 5 %>
 
 development:
   <<: *default
