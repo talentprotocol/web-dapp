@@ -16,6 +16,7 @@ import TextArea from "src/components/design_system/fields/textarea";
 import TagInput from "src/components/design_system/tag_input";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
+import Button from "src/components/design_system/button";
 import Divider from "src/components/design_system/other/Divider";
 
 import cx from "classnames";
@@ -65,6 +66,7 @@ const About = ({
   mobile,
   trackChanges,
   changeSharedState,
+  setShowApplyToLaunchTokenModal,
 }) => {
   const [errorTracking, setErrorTracking] = useState({});
   const [uploadingFileS3, setUploadingFileS3] = useState(false);
@@ -200,7 +202,9 @@ const About = ({
   };
 
   const cannotSaveProfile =
-    !investor.profile.headline || !investor.profile.occupation || !profilePictureUrl;
+    !investor.profile.headline ||
+    !investor.profile.occupation ||
+    !profilePictureUrl;
 
   return (
     <>
@@ -417,6 +421,13 @@ const About = ({
         >
           Save Profile
         </LoadingButton>
+        {mobile && (
+          <Button
+            onClick={() => setShowApplyToLaunchTokenModal(true)}
+            type="primary-default"
+            text="Apply to Launch Token"
+          />
+        )}
       </div>
     </>
   );
