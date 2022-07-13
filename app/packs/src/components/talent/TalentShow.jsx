@@ -47,6 +47,7 @@ const TalentShow = ({
   posts,
   isFollowing,
   followersCount,
+  supportersCount,
   railsContext,
 }) => {
   const url = new URL(window.location);
@@ -579,6 +580,7 @@ const TalentShow = ({
               ticker={ticker()}
               token={token}
               mode={theme.mode()}
+              supportersCount={supportersCount}
               railsContext={railsContext}
             />
           </div>

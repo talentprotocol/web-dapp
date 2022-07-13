@@ -41,9 +41,9 @@ class API::UpdateTalent
         who_dunnit_id: user.id,
         new_profile_type: params[:profile_type]
       )
-    else
-      @talent.user.update!(params)
     end
+
+    @talent.user.update!(params.except(:profile_type))
   end
 
   def update_talent(params)

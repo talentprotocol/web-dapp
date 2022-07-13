@@ -57,6 +57,7 @@ module Talents
         talent_supporter.update!(
           amount: supporter.amount,
           tal_amount: supporter.tal_amount,
+          last_time_bought_at: Time.at(supporter.last_time_bought_at.to_i),
           synced_at: Time.zone.now
         )
       end
