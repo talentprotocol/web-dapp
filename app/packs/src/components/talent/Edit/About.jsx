@@ -537,7 +537,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4">
+      {/* <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Discord"}
           mode={mode}
@@ -548,7 +548,7 @@ const About = (props) => {
           value={props.talent.profile.discord || ""}
           className="w-100"
         />
-      </div>
+      </div> */}
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Github"}
