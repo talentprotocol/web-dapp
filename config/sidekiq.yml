@@ -22,4 +22,4 @@
   send_complete_profile_reminder:
     cron: "0 10 * * *" # runs once every day at 10am
     class: SendCompleteProfileReminderJob
-    enabled: <%= ENV["EMAIL_REMINDER_DAYS"].present? %>
+    enabled: <%= ENV["EMAIL_REMINDER_DAYS"].to_i > 0 %>
