@@ -20,11 +20,17 @@ const FirstQuestPopup = ({ userId }) => {
     });
   };
 
+  const markAsRead = () => {
+    patch(`/api/v1/users/${userId}`, {
+      first_quest_popup: true,
+    }).then(() => setShow(false));
+  };
+
   return (
     <Modal
       scrollable={true}
       show={show}
-      onHide={() => setShow(false)}
+      onHide={markAsRead}
       centered
       dialogClassName={mobile ? "mw-100 mh-100 m-0" : "remove-background"}
       contentClassName={mobile ? "h-100" : ""}
@@ -48,7 +54,7 @@ const FirstQuestPopup = ({ userId }) => {
         <div className="d-flex mt-6 w-100">
           <Button
             className="mr-2 w-50"
-            onClick={() => setShow(false)}
+            onClick={markAsRead}
             text="Cancel"
             type="white-subtle"
             size="big"
