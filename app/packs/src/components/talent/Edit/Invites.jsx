@@ -129,7 +129,7 @@ const Invites = (props) => {
           </div>
         </div>
       )}
-      {mobile && (
+      {mobile && buttonText != "N/A" && (
         <div
           className={`d-flex flex-row ${
             mobile ? "justify-content-between" : ""

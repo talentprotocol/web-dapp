@@ -132,7 +132,7 @@ const Profile = (props) => {
         return "Cancel Submission";
       case "approved":
       case "talent":
-        return sharedState.talent.public ? "Public" : "Publish Profile";
+        return "N/A";
       default:
         return "Send Profile for Approval";
     }
@@ -314,7 +314,7 @@ const Profile = (props) => {
                 Settings
               </div>
             </div>
-            {!mobile && (
+            {!mobile && buttonText() != "N/A" && (
               <>
                 <LoadingButton
                   onClick={() => onProfileButtonClick()}

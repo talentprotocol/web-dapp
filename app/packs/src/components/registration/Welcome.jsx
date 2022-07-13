@@ -161,7 +161,7 @@ const Welcome = ({
           <label htmlFor="inputCode" className="d-flex mt-4">
             <P2 className="text-black" text="Invite Code" bold />
             <Tooltip
-              body="If you have a referral code insert it here to access additional feature.
+              body="If you have a referral code insert it here to access additional features.
                 If you don't have one, you can leave this blank."
               popOverAccessibilityId={"invite_code_tooltip"}
               placement="top"
@@ -193,13 +193,13 @@ const Welcome = ({
                 <P2 className="mr-1" text="I have read and agree to the" />
                 <Link
                   className="mr-1"
-                  text="Talent Protocol Terms & Conditions"
+                  text="Terms & Conditions"
                   href={TERMS_HREF}
                   target="_blank"
                 />
-                <P2 className="mr-1" text="and the" />
+                <P2 className="mr-1" text="and " />
                 <Link
-                  text="Talent Protocol Privacy Policy"
+                  text="Privacy Policy"
                   href={PRIVACY_HREF}
                   target="_blank"
                 />
