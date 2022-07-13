@@ -61,7 +61,7 @@ module Talents
       elsif filter_params[:status] == "Pending approval" && admin
         talents.where(user: {profile_type: "waiting_for_approval"})
       elsif filter_params[:status] == "Verified"
-        talents.where(is_verified: true)
+        talents.where(verified: true)
       else
         talents
           .select("setseed(0.#{Date.today.jd}), talent.*")

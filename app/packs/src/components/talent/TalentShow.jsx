@@ -151,7 +151,7 @@ const TalentShow = ({
   const verifyTalent = async () => {
     const params = {
       talent: {
-        is_verified: true,
+        verified: true,
       },
       user: {
         id: sharedState.user.id,
@@ -168,7 +168,7 @@ const TalentShow = ({
     if (response && !response.error) {
       setSharedState((prev) => ({
         ...prev,
-        talent: { ...prev.talent, is_verified: true },
+        talent: { ...prev.talent, verified: true },
       }));
 
       return true;
@@ -207,7 +207,7 @@ const TalentShow = ({
 
   const actionButtons = () => (
     <div className="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-center justify-content-lg-start align-items-center mt-4 mt-lg-5 lg-w-100 lg-width-reset">
-      {sharedState.admin && !sharedState.talent.is_verified && (
+      {sharedState.admin && !sharedState.talent.verified && (
         <Button
           onClick={() => verifyTalent()}
           type="primary-default"
@@ -467,7 +467,7 @@ const TalentShow = ({
                 bold
                 className="mr-2 text-break"
               />
-              {sharedState.talent.is_verified && <Verified className="mr-4" />}
+              {sharedState.talent.verified && <Verified className="mr-4" />}
               {ticker() != "" && (
                 <H4 text={`$${ticker()}`} className="text-primary-04" />
               )}

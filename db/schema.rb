@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_07_12_100355) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -309,7 +310,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_100355) do
     t.string "total_supply"
     t.boolean "hide_profile", default: false, null: false
     t.boolean "open_to_job_offers", default: false, null: false
-    t.boolean "is_verified", default: false
+    t.boolean "verified", default: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
