@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { string, bool } from "prop-types";
+
+import { useTheme } from "src/contexts/ThemeContext";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -28,6 +30,7 @@ const NewTalentCard = ({
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const { theme } = useTheme();
 
   const updateFollowing = (e) => {
     e.preventDefault();
@@ -73,7 +76,11 @@ const NewTalentCard = ({
                   bold
                   text={name}
                 />
-                {isVerified && (<Verified />)}
+                {isVerified && (
+                  <Verified
+                    fill={theme.mode() == "light" ? "#9fa3a9" : "#ccced1"}
+                  />
+                )}
               </div>
               <P2
                 className="text-primary-03 talent-card-occupation"
@@ -103,7 +110,11 @@ const NewTalentCard = ({
                       bold
                       text={name}
                     />
-                    {isVerified && (<Verified />)}
+                    {isVerified && (
+                      <Verified
+                        fill={theme.mode() == "light" ? "#9fa3a9" : "#ccced1"}
+                      />
+                    )}
                   </div>
                   <P3
                     className="text-primary-03 talent-card-details-title"

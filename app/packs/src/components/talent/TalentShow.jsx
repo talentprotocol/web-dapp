@@ -215,8 +215,8 @@ const TalentShow = ({
           className="mr-2"
         >
           <>
-          Verify
-          <Verified className="ml-1" fill="#FFFFFF" />
+            Verify
+            <Verified className="ml-1" fill="#FFFFFF" />
           </>
         </Button>
       )}
@@ -468,7 +468,12 @@ const TalentShow = ({
                 bold
                 className="mr-2 text-break"
               />
-              {sharedState.talent.verified && <Verified className="mr-4" />}
+              {sharedState.talent.verified && (
+                <Verified
+                  className="mr-4"
+                  fill={theme.mode() == "light" ? "#9fa3a9" : "#ccced1"}
+                />
+              )}
               {ticker() != "" && (
                 <H4 text={`$${ticker()}`} className="text-primary-04" />
               )}
