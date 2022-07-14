@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { string, bool } from "prop-types";
 
-import { ThemeContext } from "src/contexts/ThemeContext";
+import { useTheme } from "src/contexts/ThemeContext";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -30,7 +30,7 @@ const NewTalentCard = ({
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
-  const theme = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const updateFollowing = (e) => {
     e.preventDefault();

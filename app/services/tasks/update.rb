@@ -28,6 +28,8 @@ module Tasks
         user.invites.where(talent_invite: false).update_all(max_uses: nil)
       elsif type == "Tasks::Register"
         Reward.create!(user: user, amount: 1500, category: "quest", reason: "Got 5 people to register")
+      elsif type == "Quests::VerifiedProfile"
+        Reward.create!(user: user, amount: 100, category: "quest", reason: "Got verified")
       end
     end
 
