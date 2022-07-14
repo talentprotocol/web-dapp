@@ -18,7 +18,7 @@ export const questDescription = (type) => {
     case "Quests::TalentProfile":
       return "Complete the mandatory fields of your profile and share it with your network.";
     case "Quests::VerifiedProfile":
-      return "Get your profile verified by a member of Talent Protocol core team.";
+      return "Schedule a call with a member of Talent Protocol’s core team. Get verified and earn your badge.";
     case "Quests::TalentToken":
       return "Complete the mandatory fields of your profile and apply to be verified.";
     case "Quests::Ambassador":

@@ -3,11 +3,11 @@
 module Quests
   class VerifiedProfile < Quest
     def title
-      "Verified Profile"
+      "Verify Profile"
     end
 
     def subtitle
-      "Verify profile"
+      "Add a Badge to your profile"
     end
   end
 end

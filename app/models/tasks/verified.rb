@@ -7,7 +7,7 @@ module Tasks
     end
 
     def description
-      "Use the link below to schedule an onboarding call with someone from the Talent Protocol core team to be verified"
+      "Schedule an 1:1 onboarding call with a team member and get your profile reviewed and verified."
     end
 
     def link
