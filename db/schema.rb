@@ -310,6 +310,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "total_supply"
     t.boolean "hide_profile", default: false, null: false
     t.boolean "open_to_job_offers", default: false, null: false
+    t.boolean "verified", default: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
