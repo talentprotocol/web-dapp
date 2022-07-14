@@ -30,7 +30,7 @@ const NewTalentCard = ({
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
-  const { theme } = useTheme();
+  const { mode } = useTheme();
 
   const updateFollowing = (e) => {
     e.preventDefault();
@@ -77,9 +77,7 @@ const NewTalentCard = ({
                   text={name}
                 />
                 {isVerified && (
-                  <Verified
-                    fill={theme.mode() == "light" ? "#9fa3a9" : "#ccced1"}
-                  />
+                  <Verified fill={mode == "light" ? "#9fa3a9" : "#ccced1"} />
                 )}
               </div>
               <P2
@@ -112,7 +110,7 @@ const NewTalentCard = ({
                     />
                     {isVerified && (
                       <Verified
-                        fill={theme.mode() == "light" ? "#9fa3a9" : "#ccced1"}
+                        fill={mode == "light" ? "#9fa3a9" : "#ccced1"}
                       />
                     )}
                   </div>
