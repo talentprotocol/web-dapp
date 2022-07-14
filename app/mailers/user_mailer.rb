@@ -54,9 +54,41 @@ class UserMailer < ApplicationMailer
     bootstrap_mail(to: user.email, subject: "Complete your profile and launch your token today 🚀")
   end
 
+  def send_digest_email
+    @user = params[:user]
+    @without_container = true
+
+    digest_email_sent_at = @user.digest_email_sent_at || Date.new(2021, 10, 19)
+
+    messages = Message.where(receiver: @user).where("messages.created_at > ?", digest_email_sent_at)
+    messagees = User.where(id: messages.pluck(:sender_id))
+    @messagee_names = messagees.map { |m| m.display_name || m.username }
+
+    new_supporters = @user.supporters(including_self: false, invested_after: digest_email_sent_at)
+    @new_supporters_names = new_supporters.map { |u| u.display_name || u.username }
+
+    @invested_in_users = @user.portfolio(including_self: false, invested_after: digest_email_sent_at).limit(3)
+    invested_in_talents = Talent.where(user: @invested_in_user).includes(:user)
+    set_talent_profile_pictures_attachments(invested_in_talents)
+
+    @talents = Talent.base.active.where("tokens.deployed_at > ?", digest_email_sent_at).includes(:user).limit(3)
+
+    set_talent_profile_pictures_attachments(@talents)
+
+    bootstrap_mail(to: @user.email, subject: "The latest on Talent Protocol")
+  end
+
   private
 
   def indifferent_access_params
     @indifferent_access_params ||= params.with_indifferent_access
+  end
+
+  def set_talent_profile_pictures_attachments(talents)
+    talents.each do |talent|
+      attachments.inline["profile_picture-#{talent.id}.png"] = Down.download(talent.user.profile_picture_url).read
+    end
+  rescue => e
+    Rollbar.error(e, "Error downloading picture of talents: ##{talents.map(&:id).join(", ")}")
   end
 end

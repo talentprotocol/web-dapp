@@ -104,6 +104,10 @@ $light-grey: #a9acb7 !default;
   padding-right: 0 !important;
 }
 
+.ml-2 {
+  margin-left: 12px !important;
+}
+
 .list-marker::marker {
   color: #676a74;
 }
@@ -113,8 +117,12 @@ $light-grey: #a9acb7 !default;
   margin-left: 0 !important;
 }
 
+.primary-2 {
+  color: $primary-02;
+}
+
 .primary-3 {
-  color: #536471;
+  color: $primary-03;
 }
 
 .rounded-image {
