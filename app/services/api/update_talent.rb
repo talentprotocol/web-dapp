@@ -41,6 +41,10 @@ class API::UpdateTalent
         who_dunnit_id: user.id,
         new_profile_type: params[:profile_type]
       )
+
+      if params[:profile_type] == "approved"
+        @talent.update!(public: true)
+      end
     end
 
     talent.user.update!(params.except(:profile_type))

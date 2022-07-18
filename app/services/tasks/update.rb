@@ -8,10 +8,11 @@ module Tasks
 
           update_model(model: task, status: "done")
           update_model(model: task.quest, status: "doing")
-          give_rewards(type: type, user: user) if normal_update
+          give_rewards_for_task(type: type, user: user) if normal_update
           next unless task.reload.quest.tasks.where.not(status: "done").count == 0
 
           update_model(model: task.quest, status: "done")
+          give_rewards_for_quest(model: task.quest, user: user)
           create_notification(user: user, quest_id: task.quest_id) if normal_update
         end
       end
@@ -23,13 +24,21 @@ module Tasks
       model.update!(status: status)
     end
 
-    def give_rewards(type:, user:)
+    def give_rewards_for_task(type:, user:)
       if type == "Tasks::Watchlist"
         user.invites.where(talent_invite: false).update_all(max_uses: nil)
       elsif type == "Tasks::Register"
         Reward.create!(user: user, amount: 1500, category: "quest", reason: "Got 5 people to register")
       elsif type == "Quests::VerifiedProfile"
         Reward.create!(user: user, amount: 100, category: "quest", reason: "Got verified")
+      end
+    end
+
+    def give_rewards_for_quest(model:, user:)
+      return unless model.done?
+
+      if model.type == "Quests::TalentProfile"
+        user.talent.update!(public: true)
       end
     end
 
