@@ -14,6 +14,10 @@ FactoryBot.define do
       association :talent
     end
 
+    trait :full_profile do
+      association :talent, :full_profile
+    end
+
     trait :with_investor do
       association :investor
     end
