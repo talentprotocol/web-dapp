@@ -12,7 +12,7 @@ module Tasks
           next unless task.reload.quest.tasks.where.not(status: "done").count == 0
 
           update_model(model: task.quest, status: "done")
-          give_rewards_for_quest(task.quest, user: user)
+          give_rewards_for_quest(model: task.quest, user: user)
           create_notification(user: user, quest_id: task.quest_id) if normal_update
         end
       end

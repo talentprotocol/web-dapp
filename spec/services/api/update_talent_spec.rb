@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe API::UpdateTalent do
-  let(:user) { create :user, :full_profile }
+  let(:talent) { create :talent, :full_profile, public: false }
+  let(:user) { create :user, talent: talent }
   subject(:update_talent) { described_class.new(user.talent, user) }
 
   context "when the user is approved" do
@@ -10,7 +11,7 @@ RSpec.describe API::UpdateTalent do
     let(:tag_params) { {} }
 
     it "the talent becomes public" do
-      update_talent.call(user_params, talent_params, tag_params)
+      update_talent.call(talent_params, user_params, tag_params)
 
       expect(user.talent.public).to eq true
     end
