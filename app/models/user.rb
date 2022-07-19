@@ -75,7 +75,7 @@ class User < ApplicationRecord
   end
 
   def public_displayable?
-    profile_type == "talent"
+    profile_type == "talent" || profile_type == "approved"
   end
 
   def display_wallet_id

@@ -22,7 +22,7 @@ module Talents
 
         fetched_supporters_count += supporters.count
 
-        break if fetched_supporters_count == talent_supporters_response.talent_token.supporter_counter.to_i
+        break if fetched_supporters_count >= talent_supporters_response.talent_token.supporter_counter.to_i
 
         talent_supporters_response = talent_supporters(offset: fetched_supporters_count)
       end

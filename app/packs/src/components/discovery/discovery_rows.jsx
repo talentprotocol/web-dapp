@@ -158,6 +158,7 @@ const DiscoveryRows = ({ discoveryRows, updateFollow }) => {
                       profilePictureUrl={talent.profilePictureUrl}
                       headline={talent.headline}
                       isFollowing={talent.isFollowing}
+                      isVerified={talent.isVerified}
                       updateFollow={() => updateFollow(talent)}
                       talentLink={`/u/${talent.username}`}
                       marketCap={talent.marketCap}
