@@ -13,10 +13,11 @@ const TalentFilters = ({ status, setStatus, filter, isAdmin = false }) => {
         "Latest added",
         "Launching soon",
         "Pending approval",
+        "Verified"
       ];
     }
 
-    return ["All", "Trending", "Latest added", "Launching soon"];
+    return ["All", "Trending", "Latest added", "Launching soon", "Verified"];
   }, []);
 
   const selectedClass = (option) =>

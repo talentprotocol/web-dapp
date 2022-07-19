@@ -377,7 +377,7 @@ const About = ({
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4">
+      {/* <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Discord"}
           placeholder={"#"}
@@ -385,7 +385,7 @@ const About = ({
           value={investor.profile.discord || ""}
           className="w-100"
         />
-      </div>
+      </div> */}
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Github"}

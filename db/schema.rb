@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_134121) do
+ActiveRecord::Schema.define(version: 2022_07_13_152311) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -139,16 +140,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
     t.bigint "career_goal_id"
     t.string "title"
     t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
-  end
-
-  create_table "impersonations", force: :cascade do |t|
-    t.integer "impersonator_id", null: false
-    t.integer "impersonated_id", null: false
-    t.text "ip_ciphertext", null: false
-    t.string "ip_bidx"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
   create_table "investors", force: :cascade do |t|
@@ -319,6 +310,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
     t.string "total_supply"
     t.boolean "hide_profile", default: false, null: false
     t.boolean "open_to_job_offers", default: false, null: false
+    t.boolean "verified", default: false
     t.index ["activity_count"], name: "index_talent_on_activity_count"
     t.index ["ito_date"], name: "index_talent_on_ito_date"
     t.index ["public_key"], name: "index_talent_on_public_key", unique: true
@@ -333,6 +325,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
     t.datetime "synced_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_time_bought_at"
     t.index ["supporter_wallet_id", "talent_contract_id"], name: "talent_supporters_wallet_token_contract_uidx", unique: true
   end
 
@@ -436,17 +429,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
   end
 
-  create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "object"
-    t.datetime "created_at"
-    t.text "object_changes"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
-  end
-
   create_table "wait_list", force: :cascade do |t|
     t.boolean "approved", default: false
     t.string "email", null: false
@@ -467,8 +449,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_134121) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
-  add_foreign_key "impersonations", "users", column: "impersonated_id"
-  add_foreign_key "impersonations", "users", column: "impersonator_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"

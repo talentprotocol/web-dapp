@@ -326,7 +326,7 @@ const Perks = (props) => {
           mobile ? "justify-content-between" : ""
         } w-100 pb-4`}
       >
-        {mobile && (
+        {mobile && buttonText != "N/A" && (
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}

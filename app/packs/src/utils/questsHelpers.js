@@ -17,6 +17,8 @@ export const questDescription = (type) => {
       return "Add 3 talent to your Watchlist and buy at least 1 Talent Token";
     case "Quests::TalentProfile":
       return "Complete the mandatory fields of your profile and share it with your network.";
+    case "Quests::VerifiedProfile":
+      return "Schedule a call with a member of Talent Protocol’s core team. Get verified and earn your badge.";
     case "Quests::TalentToken":
       return "Complete the mandatory fields of your profile and apply to be verified.";
     case "Quests::Ambassador":
@@ -163,6 +165,20 @@ export const taskReward = (type, disabled) => {
           text="250 TAL"
         />
       );
+    case "Tasks::InviteTokenLaunch":
+      return (
+        <P2
+          className={cx(disabled ? "text-primary-04" : "text-black")}
+          text="250 TAL"
+        />
+      );
+    case "Tasks::Verified":
+      return (
+        <P2
+          className={cx(disabled ? "text-primary-04" : "text-black")}
+          text="100 TAL"
+        />
+      );
     default:
       return "";
   }
@@ -191,6 +207,13 @@ export const questRewards = (type, disabled) => {
         <P2
           className={cx(disabled ? "text-primary-04" : "text-black")}
           text="1 Talent Invite (and get extra invites once every time your friends launch a token)"
+        />,
+      ];
+    case "Quests::VerifiedProfile":
+      return [
+        <P2
+          className={cx(disabled ? "text-primary-04" : "text-black")}
+          text="Verified badge"
         />,
       ];
     default:

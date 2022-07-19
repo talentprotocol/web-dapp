@@ -382,9 +382,9 @@ const Highlights = (props) => {
               <Caption text="NEXT" />
               <div
                 className="text-grey cursor-pointer"
-                onClick={() => changeTab("Goal")}
+                onClick={() => changeTab("Goals")}
               >
-                Goal <ArrowRight color="currentColor" />
+                Goals <ArrowRight color="currentColor" />
               </div>
             </div>
           </div>
@@ -396,7 +396,7 @@ const Highlights = (props) => {
           mobile ? "justify-content-between" : ""
         } w-100 pb-4`}
       >
-        {mobile && (
+        {mobile && buttonText != "N/A" && (
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}
