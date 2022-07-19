@@ -420,6 +420,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
+    t.datetime "token_launch_reminder_sent_at"
+    t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"

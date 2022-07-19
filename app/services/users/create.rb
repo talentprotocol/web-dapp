@@ -27,6 +27,8 @@ module Users
         create_invite(user)
         create_tasks(user)
 
+        UserMailer.with(user: user).send_welcome_email.deliver_later(wait: 5.seconds)
+
         @result[:user] = user
         @result[:success] = true
         @result
