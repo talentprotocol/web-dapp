@@ -3,6 +3,7 @@ import Uppy from "@uppy/core";
 import { FileInput } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
 import AsyncCreatableSelect from "react-select/async-creatable";
+import { components } from "react-select";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
@@ -186,7 +187,11 @@ const About = ({
 
   const getTags = (tagName) => {
     return get(`/api/v1/tags?description=${tagName}`).then((response) => {
-      return response.map((tag) => ({ value: tag.id, label: tag.description }));
+      return response.map((tag) => ({
+        value: tag.id,
+        label: tag.description,
+        count: tag.user_count,
+      }));
     });
   };
 
@@ -223,6 +228,17 @@ const About = ({
     !investor.profile.headline ||
     !investor.profile.occupation ||
     !profilePictureUrl;
+
+  const Option = (props) => {
+    return (
+      <components.Option {...props}>
+        <div className="d-flex justify-content-between">
+          {props.children}
+          <P2 text={props.data.count} />
+        </div>
+      </components.Option>
+    );
+  };
 
   return (
     <>
@@ -332,6 +348,7 @@ const About = ({
           defaultOptions
           value={selectedTags}
           loadOptions={getTags}
+          components={{ Option }}
         />
         <p className="short-caption">
           Add keywords that define you. Skills, industries, roles, passions,

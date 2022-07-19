@@ -7,6 +7,6 @@ class API::V1::TagsController < ApplicationController
         .where("description ilike ?", "%#{params[:description]}%")
         .limit(7)
 
-    render json: TagBlueprint.render(tags), status: :ok
+    render json: TagBlueprint.render(tags, view: :normal), status: :ok
   end
 end
