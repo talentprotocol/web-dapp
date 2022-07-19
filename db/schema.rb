@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 2022_07_13_152311) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "blazer_audits", force: :cascade do |t|

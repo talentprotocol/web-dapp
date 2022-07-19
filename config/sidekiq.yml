@@ -21,5 +21,9 @@
     enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
   send_complete_profile_reminder:
     cron: "0 10 * * *" # runs once every day at 10am
-    class: SendCompleteProfileReminderJob
+    class: EmailReminders::SendCompleteProfileReminderJob
     enabled: <%= ENV["EMAIL_REMINDER_DAYS"].to_i > 0 %>
+  send_digest_email:
+    cron: "0 8 * * *" # runs once every day at 8am
+    class: EmailReminders::SendDigestEmailJob
+    enabled: <%= ENV["DIGEST_EMAIL_DAYS"].to_i > 0 %>
