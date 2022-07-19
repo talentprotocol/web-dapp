@@ -7,7 +7,7 @@ RSpec.describe SendTokenPurchaseReminderJob, type: :job do
   let(:user) { create :user }
 
   before do
-    ENV["TOKEN_PURCHASE_REMINDER_DAYS"] = "7"
+    ENV["EMAIL_REMINDER_DAYS"] = "7"
   end
 
   context "supporter created 7 days ago" do

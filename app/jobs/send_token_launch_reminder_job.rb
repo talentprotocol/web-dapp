@@ -6,7 +6,7 @@ class SendTokenLaunchReminderJob < ApplicationJob
       .joins(talent: :token)
       .where(token_launch_reminder_sent_at: nil)
       .where(token: {deployed: false})
-      .where("talent.created_at < ?", ENV["TOKEN_LAUNCH_REMINDER_DAYS"].to_i.days.ago)
+      .where("talent.created_at < ?", ENV["EMAIL_REMINDER_DAYS"].to_i.days.ago)
 
     users.each do |user|
       UserMailer.with(user: user).send_token_launch_reminder_email.deliver_later
