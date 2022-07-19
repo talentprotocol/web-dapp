@@ -110,6 +110,10 @@ const Perks = ({
     return "mx-auto";
   };
 
+  if (sortedPerks.length == 0) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">

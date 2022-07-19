@@ -13,6 +13,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cx from "classnames";
 
 const SocialRow = ({ profile, className }) => {
+  const telegramLink = () => {
+    if (profile.telegram.length > 0 && profile.telegram[0] == "@") {
+      const link = "https://t.me/" + profile.telegram.substring(1);
+      return link;
+    } else if (
+      profile.telegram.length > 0 &&
+      (profile.telegram.includes("https:://") ||
+        profile.telegram.includes("http://"))
+    ) {
+      return profile.telegram;
+    } else {
+      return "https://t.me/" + profile.telegram;
+    }
+  };
   return (
     <div
       className={cx(
@@ -67,13 +81,14 @@ const SocialRow = ({ profile, className }) => {
       )}
       {profile.telegram && (
         <a
-          href={profile.telegram}
+          href={telegramLink()}
           target="self"
           className="mr-4 text-reset hover-primary"
         >
           <FontAwesomeIcon icon={faTelegram} />
         </a>
       )}
+      {/* discord links are actually broken
       {profile.discord && (
         <a
           href={profile.discord}
@@ -82,7 +97,7 @@ const SocialRow = ({ profile, className }) => {
         >
           <FontAwesomeIcon icon={faDiscord} />
         </a>
-      )}
+      )} */}
     </div>
   );
 };

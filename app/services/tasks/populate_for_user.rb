@@ -9,48 +9,54 @@ module Tasks
     private
 
     def populate_quests_and_tasks_for_user(user:)
-      quest1 = Quests::User.find_or_create_by!(user: user)
+      beginner_quest = Quests::User.find_or_create_by!(user: user)
 
-      Tasks::FillInAbout.find_or_create_by!(quest: quest1)
-      Tasks::ConnectWallet.find_or_create_by!(quest: quest1)
-
-      # ---------------------------------------------------
-
-      quest2 = Quests::Supporter.find_or_create_by!(user: user)
-
-      Tasks::Watchlist.find_or_create_by!(quest: quest2)
-      Tasks::BuyTalentToken.find_or_create_by!(quest: quest2)
+      Tasks::FillInAbout.find_or_create_by!(quest: beginner_quest)
+      Tasks::ConnectWallet.find_or_create_by!(quest: beginner_quest)
 
       # ---------------------------------------------------
 
-      quest3 = Quests::TalentProfile.find_or_create_by!(user: user)
+      new_supporter_quest = Quests::Supporter.find_or_create_by!(user: user)
 
-      Tasks::Highlights.find_or_create_by!(quest: quest3)
-      Tasks::Goals.find_or_create_by!(quest: quest3)
+      Tasks::Watchlist.find_or_create_by!(quest: new_supporter_quest)
+      Tasks::BuyTalentToken.find_or_create_by!(quest: new_supporter_quest)
 
       # ---------------------------------------------------
 
-      quest4 = Quests::TalentToken.find_or_create_by!(user: user)
+      complete_profile_quest = Quests::TalentProfile.find_or_create_by!(user: user)
 
-      Tasks::ApplyTokenLaunch.find_or_create_by!(quest: quest4)
+      Tasks::Highlights.find_or_create_by!(quest: complete_profile_quest)
+      Tasks::Goals.find_or_create_by!(quest: complete_profile_quest)
+
+      # ---------------------------------------------------
+
+      launch_token_quest = Quests::TalentToken.find_or_create_by!(user: user)
+
+      Tasks::ApplyTokenLaunch.find_or_create_by!(quest: launch_token_quest)
 
       service = Tasks::Update.new
       service.call(type: "Tasks::ApplyTokenLaunch", user: user) unless user.profile_type == "supporter"
 
-      Tasks::LaunchToken.find_or_create_by!(quest: quest4)
-      Tasks::Perks.find_or_create_by!(quest: quest4)
+      Tasks::LaunchToken.find_or_create_by!(quest: launch_token_quest)
+      Tasks::Perks.find_or_create_by!(quest: launch_token_quest)
 
       # ---------------------------------------------------
 
-      quest5 = Quests::Ambassador.find_or_create_by!(user: user)
+      ambassador_quest = Quests::Ambassador.find_or_create_by!(user: user)
 
-      Tasks::Register.find_or_create_by!(quest: quest5)
+      Tasks::Register.find_or_create_by!(quest: ambassador_quest)
 
       # ---------------------------------------------------
 
-      quest6 = Quests::Scout.find_or_create_by!(user: user)
+      scout_quest = Quests::Scout.find_or_create_by!(user: user)
 
-      Tasks::InviteTokenLaunch.find_or_create_by!(quest: quest6)
+      Tasks::InviteTokenLaunch.find_or_create_by!(quest: scout_quest)
+
+      # ---------------------------------------------------
+
+      verify_profile_quest = Quests::VerifiedProfile.find_or_create_by!(user: user)
+
+      Tasks::Verified.find_or_create_by!(quest: verify_profile_quest)
     end
   end
 end
