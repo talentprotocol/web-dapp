@@ -2,10 +2,12 @@ class API::V1::TagsController < ApplicationController
   def index
     tags =
       Tag
-        .order(:id)
-        .where(hidden: false)
+        .visible
+        .joins(:user_tags)
+        .order("user_tags.count DESC")
         .where("description ilike ?", "%#{params[:description]}%")
-        .limit(7)
+        .group(:id)
+        .limit(15)
 
     render json: TagBlueprint.render(tags, view: :normal), status: :ok
   end
