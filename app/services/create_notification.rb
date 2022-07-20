@@ -8,6 +8,7 @@ class CreateNotification
     )
 
     if notification.present? && notification.unread_for_more_than_a_week?
+      notification.update!(params: notification_params(source_id, model_id, extra_params))
       send(notification.to_notification, recipient)
 
       notification.mark_as_read!

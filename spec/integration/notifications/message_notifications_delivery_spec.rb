@@ -53,6 +53,16 @@ RSpec.describe "Message notifications delivery" do
       expect { send_message }.to change(Notification, :count).from(1).to(2)
     end
 
+    it "creates the new notification with the correct params" do
+      send_message
+
+      new_notification = Notification.last
+
+      expect(new_notification.params).to eq({
+        "sender_id" => sender.id
+      })
+    end
+
     it "marks the old notification as read" do
       send_message
 
