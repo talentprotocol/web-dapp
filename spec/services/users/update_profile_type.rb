@@ -8,7 +8,7 @@ RSpec.describe Users::UpdateProfileType do
 
   let(:params) {
     {
-      user_id: user_id,
+      user: user,
       new_profile_type: new_profile_type,
       who_dunnit_id: who_dunnit_id
     }

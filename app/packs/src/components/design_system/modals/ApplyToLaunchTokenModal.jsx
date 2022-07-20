@@ -12,7 +12,7 @@ const ApplyToLaunchTokenModal = ({ show, hide, investorId, username }) => {
   const upgradeToTalent = () => {
     patch(`/api/v1/supporters/${investorId}/upgrade_profile_to_talent`)
       .then(() => window.location.replace(`/u/${username}/edit_profile`))
-      .catch(() => setLoading(false));
+      .catch((e) => console.log("error", e));
   };
 
   return (
