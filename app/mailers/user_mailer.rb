@@ -24,7 +24,7 @@ class UserMailer < ApplicationMailer
 
   def send_token_launch_reminder_email
     @user = indifferent_access_params[:user]
-    bootstrap_mail(to: @user.email, subject: "All set - It’s time to launch your token!")
+    bootstrap_mail(to: @user.email, subject: "All set - It's time to launch your token!")
   end
 
   def send_token_launched_email
@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
 
   def send_token_purchase_reminder_email
     @user = indifferent_access_params[:user]
-    bootstrap_mail(to: @user.email, subject: "You’re missing out on $TAL rewards!")
+    bootstrap_mail(to: @user.email, subject: "You're missing out on $TAL rewards!")
   end
 
   def send_talent_upgrade_email
@@ -55,8 +55,8 @@ class UserMailer < ApplicationMailer
   end
 
   def send_complete_profile_reminder_email
-    user = indifferent_access_params[:user]
-    bootstrap_mail(to: user.email, subject: "Complete your profile and launch your token today 🚀")
+    @user = indifferent_access_params[:user]
+    bootstrap_mail(to: @user.email, subject: "Complete your profile and launch your token today 🚀")
   end
 
   def send_digest_email
