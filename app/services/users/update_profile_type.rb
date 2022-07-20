@@ -3,7 +3,9 @@ module Users
     def call(user:, new_profile_type:, who_dunnit_id: nil)
       previous_profile_type = user.profile_type
 
-      user.update!(profile_type: new_profile_type) unless previous_profile_type == "approved"
+      return if previous_profile_type == new_profile_type || previous_profile_type === "talent"
+
+      user.update!(profile_type: new_profile_type)
       UserMailer.with(user: user).send_talent_upgrade_email.deliver_later(wait: 5.seconds) if new_profile_type == "approved"
 
       UserProfileTypeChange.create!(
