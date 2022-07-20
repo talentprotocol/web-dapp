@@ -16,7 +16,7 @@ RSpec.describe EmailReminders::SendCompleteProfileReminderJob, type: :job do
   let!(:user_4) { create :user, talent: talent_4, complete_profile_reminder_sent_at: 3.days.ago }
   let(:talent_4) { create :talent }
 
-  let!(:user_5) { create :user, talent: talent_4, created_at: 1.days.ago }
+  let!(:user_5) { create :user, talent: talent_5, created_at: 1.days.ago }
   let(:talent_5) { create :talent }
 
   subject(:send_complete_profile_reminder_email) { described_class.perform_now }
