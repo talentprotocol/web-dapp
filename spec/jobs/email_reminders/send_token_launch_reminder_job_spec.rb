@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe SendTokenLaunchReminderJob, type: :job do
+RSpec.describe EmailReminders::SendTokenLaunchReminderJob, type: :job do
   include ActiveJob::TestHelper
 
-  subject(:token_launch_reminder) { SendTokenLaunchReminderJob.perform_now }
+  subject(:token_launch_reminder) { described_class.perform_now }
   let(:user) { create :user }
 
   before do

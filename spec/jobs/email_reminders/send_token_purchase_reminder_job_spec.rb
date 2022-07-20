@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe SendTokenPurchaseReminderJob, type: :job do
+RSpec.describe EmailReminders::SendTokenPurchaseReminderJob, type: :job do
   include ActiveJob::TestHelper
 
-  subject(:token_purchase_reminder) { SendTokenPurchaseReminderJob.perform_now }
+  subject(:token_purchase_reminder) { described_class.perform_now }
   let(:user) { create :user }
 
   before do
