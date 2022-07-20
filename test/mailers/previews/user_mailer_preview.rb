@@ -48,4 +48,8 @@ class UserMailerPreview < ActionMailer::Preview
   def send_complete_profile_reminder_email
     UserMailer.with(user: User.first).send_complete_profile_reminder_email
   end
+
+  def send_digest_email
+    UserMailer.with(user: User.last).send_digest_email
+  end
 end

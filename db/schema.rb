@@ -423,6 +423,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.datetime "token_launch_reminder_sent_at"
     t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
+    t.datetime "digest_email_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
