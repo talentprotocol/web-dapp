@@ -13,7 +13,7 @@ class API::UpdateTalent
 
     if tag_params[:tags]
       all_tags = tag_params[:tags]
-      @talent
+      talent
         .user
         .user_tags
         .joins(:tag)
@@ -23,7 +23,7 @@ class API::UpdateTalent
 
       all_tags.each do |description|
         tag = Tag.find_or_create_by(description: description.downcase)
-        user_tag = UserTag.find_or_initialize_by(user: @talent.user, tag: tag)
+        user_tag = UserTag.find_or_initialize_by(user: talent.user, tag: tag)
 
         user_tag.save! unless user_tag.persisted?
       end
@@ -37,13 +37,13 @@ class API::UpdateTalent
   def update_user(params)
     if params[:profile_type]
       Users::UpdateProfileType.new.call(
-        user_id: talent.user.id,
+        user: talent.user,
         who_dunnit_id: user.id,
         new_profile_type: params[:profile_type]
       )
 
       if params[:profile_type] == "approved"
-        @talent.update!(public: true)
+        talent.update!(public: true)
       end
     end
 
