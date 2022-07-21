@@ -18,4 +18,23 @@ class Chat < ApplicationRecord
       receiver_id: receiver.id
     ).take
   end
+
+  def self.of_user(user)
+    Chat.where(
+      "(sender_id = :user_id OR receiver_id = :user_id)",
+      user_id: user.id
+    )
+  end
+
+  def unread_messages_of(user)
+    return sender_unread_messages_count if sender_id == user.id
+
+    receiver_unread_messages_count
+  end
+
+  def receiver_of(user)
+    return receiver if sender_id == user.id
+
+    sender
+  end
 end

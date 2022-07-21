@@ -6,6 +6,9 @@ class CreateChats < ActiveRecord::Migration[6.1]
       t.references :sender, foreign_key: {to_table: "users"}, null: false
       t.references :receiver, foreign_key: {to_table: "users"}, null: false
 
+      t.integer :sender_unread_messages_count, default: 0
+      t.integer :receiver_unread_messages_count, default: 0
+
       t.timestamps
     end
     add_column :chats, :last_message_text_ciphertext, :text

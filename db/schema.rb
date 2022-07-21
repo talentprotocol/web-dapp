@@ -86,8 +86,11 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.datetime "last_message_at", null: false
     t.bigint "sender_id", null: false
     t.bigint "receiver_id", null: false
+    t.integer "sender_unread_messages_count", default: 0
+    t.integer "receiver_unread_messages_count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "last_message_text_ciphertext"
     t.index ["receiver_id"], name: "index_chats_on_receiver_id"
     t.index ["sender_id", "receiver_id"], name: "index_chats_on_sender_id_and_receiver_id", unique: true
     t.index ["sender_id"], name: "index_chats_on_sender_id"
@@ -196,7 +199,6 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.text "text_ciphertext"
     t.boolean "is_read", default: false, null: false
     t.boolean "sent_to_supporters", default: false
-    t.text "last_message_text_ciphertext"
     t.bigint "chat_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
@@ -343,11 +345,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "reward"
     t.string "status", default: "pending"
-    t.string "link"
+    t.string "type"
     t.bigint "quest_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -436,10 +435,10 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
-    t.datetime "token_launch_reminder_sent_at"
-    t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
     t.datetime "digest_email_sent_at"
+    t.datetime "token_launch_reminder_sent_at"
+    t.datetime "token_purchase_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"

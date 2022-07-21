@@ -11,6 +11,16 @@ namespace :chat do
       )
 
       message.update!(chat: chat)
+
+      unless message.is_read?
+        if chat.sender_id == message.sender_id
+          chat.receiver_unread_messages_count += 1
+        else
+          chat.sender_unread_messages_count += 1
+        end
+
+        chat.save!
+      end
     end
   end
 end

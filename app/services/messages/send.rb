@@ -33,6 +33,12 @@ module Messages
 
       chat ||= Chat.new(sender: sender, receiver: receiver)
 
+      if chat.sender_id == sender.id
+        chat.receiver_unread_messages_count += 1
+      else
+        chat.sender_unread_messages_count += 1
+      end
+
       chat.update!(last_message_at: Time.zone.now, last_message_text: message)
 
       chat
