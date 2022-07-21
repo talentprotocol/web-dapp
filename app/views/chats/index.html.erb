@@ -1,0 +1,34 @@
+<main class="main-content">
+<%= react_component("Chat",
+  props: {
+    pagination: {
+      totalItems: @pagy.count,
+      currentPage: @pagy.page,
+      lastPage: @pagy.last,
+      recordsPerPage: @pagy.vars[:items]
+    },
+    users: @chats.map { |chat|
+      {
+        id: chat["receiver_id"],
+        username: chat["receiver_username"],
+        ticker: chat["receiver_ticker"],
+        withTalent: chat["receiver_with_talent"],
+        lastOnline: chat["receiver_last_online"],
+        last_message: chat["last_message_text"],
+        last_message_date: chat["last_message_at"],
+        profilePictureUrl: chat["receiver_profile_picture_url"],
+        unreadMessagesCount: chat["unread_messages_count"],
+        messagingDisabled: chat["receiver_messaging_disabled"]
+      }
+    },
+    user: {
+      id: current_user.id,
+      username: current_user.username,
+      profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
+      messagingDisabled: current_user.messaging_disabled,
+      withTalent: current_user.talent.present?,
+      supportersCount: current_user.talent&.supporters_count,
+    }
+  }, prerender: false, html_options: { class: "h-100" })
+%>
+</main>

@@ -39,6 +39,8 @@ Rails.application.routes.draw do
       post :send_to_all_supporters, on: :collection
       get :send_to_all_supporters_status, on: :collection
     end
+    resources :chats, only: [:index]
+
     mount ActionCable.server => "/cable"
 
     # Rewards

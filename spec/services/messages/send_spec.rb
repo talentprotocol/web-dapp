@@ -19,8 +19,30 @@ RSpec.describe Messages::Send do
     allow(ActionCable).to receive(:server).and_return(action_cable_server)
   end
 
-  it "creates two messages" do
+  it "creates a message" do
     expect { send_message }.to change(Message, :count).from(0).to(1)
+  end
+
+  it "creates a chat" do
+    expect { send_message }.to change(Chat, :count).from(0).to(1)
+  end
+
+  it "creates a chat with the correct params" do
+    time = Time.zone.now
+
+    travel_to time do
+      send_message
+
+      created_chat = Chat.last
+
+      aggregate_failures do
+        expect(created_chat.sender).to eq sender
+        expect(created_chat.receiver).to eq receiver
+        expect(created_chat.last_message_at.iso8601).to eq time.iso8601
+        expect(created_chat.receiver_unread_messages_count).to eq 1
+        expect(created_chat.sender_unread_messages_count).to eq 0
+      end
+    end
   end
 
   it "returns the message sent" do
@@ -51,6 +73,36 @@ RSpec.describe Messages::Send do
 
     it "does not send a new message" do
       expect { send_message }.not_to change(Message, :count)
+    end
+  end
+
+  context "when the chat already exists" do
+    let!(:chat) { create :chat, sender: receiver, receiver: sender, last_message_at: 2.days.ago }
+
+    it "creates a new message" do
+      expect { send_message }.to change(Message, :count).from(0).to(1)
+    end
+
+    it "does not create a new chat" do
+      expect { send_message }.not_to change(Chat, :count)
+    end
+
+    it "updates the chat with the correct params" do
+      time = Time.zone.now
+
+      travel_to time do
+        send_message
+
+        chat.reload
+
+        aggregate_failures do
+          expect(chat.sender).to eq receiver
+          expect(chat.receiver).to eq sender
+          expect(chat.last_message_at.iso8601).to eq time.iso8601
+          expect(chat.receiver_unread_messages_count).to eq 0
+          expect(chat.sender_unread_messages_count).to eq 1
+        end
+      end
     end
   end
 end

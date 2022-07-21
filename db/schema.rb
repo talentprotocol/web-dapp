@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_07_13_152311) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +80,20 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "pitch"
     t.string "challenges"
     t.index ["talent_id"], name: "index_career_goals_on_talent_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "last_message_at", null: false
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.integer "sender_unread_messages_count", default: 0
+    t.integer "receiver_unread_messages_count", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "last_message_text_ciphertext"
+    t.index ["receiver_id"], name: "index_chats_on_receiver_id"
+    t.index ["sender_id", "receiver_id"], name: "index_chats_on_sender_id_and_receiver_id", unique: true
+    t.index ["sender_id"], name: "index_chats_on_sender_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -186,6 +199,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.text "text_ciphertext"
     t.boolean "is_read", default: false, null: false
     t.boolean "sent_to_supporters", default: false
+    t.bigint "chat_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -420,10 +435,10 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
-    t.datetime "token_launch_reminder_sent_at"
-    t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
     t.datetime "digest_email_sent_at"
+    t.datetime "token_launch_reminder_sent_at"
+    t.datetime "token_purchase_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
@@ -443,6 +458,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   end
 
   add_foreign_key "career_goals", "talent"
+  add_foreign_key "chats", "users", column: "receiver_id"
+  add_foreign_key "chats", "users", column: "sender_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "discovery_rows", "partnerships"
@@ -454,6 +471,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   add_foreign_key "goals", "career_goals"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
+  add_foreign_key "messages", "chats"
   add_foreign_key "milestones", "talent"
   add_foreign_key "partnerships", "invites"
   add_foreign_key "perks", "talent"
