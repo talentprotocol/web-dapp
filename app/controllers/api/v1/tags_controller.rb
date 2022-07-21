@@ -3,7 +3,7 @@ class API::V1::TagsController < ApplicationController
     tags =
       Tag
         .visible
-        .joins(:user_tags)
+        .left_joins(:user_tags)
         .order("user_tags.count DESC")
         .where("description ilike ?", "%#{params[:description]}%")
         .group(:id)
