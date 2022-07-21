@@ -10,9 +10,8 @@ module EmailReminders
         users = users.where(role: "admin")
       end
 
-      users.each do |user|
+      users.find_each do |user|
         UserMailer.with(user: user).send_digest_email.deliver_later
-        user.update!(digest_email_sent_at: Time.zone.now)
       end
     end
   end

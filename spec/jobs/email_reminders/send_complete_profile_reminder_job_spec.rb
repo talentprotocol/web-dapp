@@ -41,10 +41,14 @@ RSpec.describe EmailReminders::SendCompleteProfileReminderJob, type: :job do
   end
 
   it "sets the timestamp when the complete profile reminder was sent to the user" do
-    freeze_time do
-      send_complete_profile_reminder_email
+    Sidekiq::Testing.inline! do
+      freeze_time do
+        send_complete_profile_reminder_email
 
-      expect(user_1.reload.complete_profile_reminder_sent_at).to eq(Time.zone.now)
+        perform_enqueued_jobs
+
+        expect(user_1.reload.complete_profile_reminder_sent_at).to eq(Time.zone.now)
+      end
     end
   end
 end
