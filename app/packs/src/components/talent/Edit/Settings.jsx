@@ -330,7 +330,7 @@ const Settings = (props) => {
           mobile ? "justify-content-between" : "mt-4"
         } w-100 pb-4`}
       >
-        {mobile && (
+        {mobile && buttonText != "N/A" && (
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}

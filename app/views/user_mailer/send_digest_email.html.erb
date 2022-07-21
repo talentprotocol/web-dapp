@@ -1,0 +1,68 @@
+
+<div class="container mt-5 mb-10 sub-content">
+  <h3 class="main-title">Hey, <%= @user.display_name || @user.username %>! 👋 <br/> Here's your Talent Protocol summary</h3>
+</div>
+
+<% if @messagee_names.any? %>
+  <div class="container mb-5 sub-content">
+    <p class="w-full lh-lg text-lg mb-5 sub-title">
+      New Messages
+    </p>
+    <p class="w-full lh-lg text-lg mb-5 primary-3 paragraph">
+      You've received new messages from <%= @messagee_names.join(", ") %>
+    </p>
+    <%= link_to "Check my inbox", messages_url, class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>
+  </div>
+  <div class="mb-5 border-bottom footer-border"></div>
+<% end %>
+
+<% if @new_supporters_names.any? %>
+  <div class="container mb-5 sub-content">
+    <p class="w-full lh-lg text-lg mb-5 sub-title">
+      New Supporters
+    </p>
+    <p class="w-full lh-lg text-lg mb-5 primary-3 paragraph">
+      You rock! <%= @new_supporters_names.join(", ") %> bought your token in the past two weeks. Go say 'hi', if you haven't already.
+    </p>
+    <%= link_to "Check my supporters", user_url(username: @user.username, tab: "supporters"), class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>
+  </div>
+  <div class="mb-5 border-bottom footer-border"></div>
+<% end %>
+
+<% if @invested_in_talents.any? %>
+  <div class="container mb-5 sub-content">
+    <p class="w-full lh-lg text-lg mb-5 sub-title">
+      Keep an eye on your Talent porfolio
+    </p>
+    <% @invested_in_talents.each do |talent| %>
+      <%= render "shared_mailer/talent", talent: talent %>
+    <% end %>
+  </div>
+  <div class="mb-5 border-bottom footer-border"></div>
+<% end %>
+
+<div class="container mb-5 sub-content">
+  <p class="w-full lh-lg text-lg mb-5 sub-title">
+    Your rewards in Talent Protocol
+  </p>
+  <p class="w-full lh-lg text-lg mb-10 primary-3 paragraph">
+    You have accumulated <%= @tal_amount %> $TAL worth <%= @usd_amount %> $USD since you've joined by supporting others.
+  </p>
+  <%= link_to "Check my reward balance", portfolio_url, class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>
+</div>
+<div class="mb-5 border-bottom footer-border"></div>
+
+<% if @talents.any? %>
+  <div class="container mb-5 sub-content">
+    <p class="w-full lh-lg text-lg mb-5 sub-title">
+      The freshest Talent in Talent Protocol
+    </p>
+    <% @talents.each do |talent| %>
+      <%= render "shared_mailer/talent", talent: talent %>
+    <% end %>
+    <p class="w-full lh-lg text-lg mb-10 primary-3 paragraph">
+      have just launched their tokens! Check out their profiles and let's make collective success a reality.
+    </p>
+    <%= link_to "Find new Talent", talent_index_url(status: "Latest Added"), class: "btn btn-primary fw-800 text-5xl py-4 mb-5 w-full" %>
+  </div>
+<% end %>

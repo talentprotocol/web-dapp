@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
 
   def track_user_activity
     # safe navigation is required for non-auth users (sign_up, login)
-    current_user&.touch
+    current_user&.update_column(:last_access_at, Time.zone.now)
   end
 
   def id_param

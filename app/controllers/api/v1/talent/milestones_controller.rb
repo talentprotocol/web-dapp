@@ -22,7 +22,7 @@ class API::V1::Talent::MilestonesController < ApplicationController
     @milestone.talent = talent
 
     if @milestone.save
-      UpdateTasksJob.perform_later(type: "Tasks::Highlights", user_id: current_user.id) if talent.milestones.length == 1
+      UpdateTasksJob.perform_later(type: "Tasks::Highlights", user_id: current_user.id) if talent.milestones.length >= 1
       render json: @milestone, status: :created
     else
       render json: {error: "Unable to create milestone"}, status: :unprocessable_entity

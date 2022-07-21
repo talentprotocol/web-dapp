@@ -352,9 +352,9 @@ const Token = (props) => {
               <Caption text="PREVIOUS" />
               <div
                 className="text-grey cursor-pointer"
-                onClick={() => changeTab("Goal")}
+                onClick={() => changeTab("Goals")}
               >
-                <ArrowLeft color="currentColor" /> Goal
+                <ArrowLeft color="currentColor" /> Goals
               </div>
             </div>
             <div className="d-flex flex-column">
@@ -469,9 +469,9 @@ const Token = (props) => {
             <Caption text="PREVIOUS" />
             <div
               className="text-grey cursor-pointer"
-              onClick={() => changeTab("Goal")}
+              onClick={() => changeTab("Goals")}
             >
-              <ArrowLeft color="currentColor" /> Goal
+              <ArrowLeft color="currentColor" /> Goals
             </div>
           </div>
           <div className="d-flex flex-column">

@@ -3,6 +3,8 @@ class Token < ApplicationRecord
   validates :ticker, length: {in: 3..8}, if: :ticker_exists?
 
   TAL_VALUE = 2
+  TAL_DECIMALS = 10**18
+  TAL_VALUE_IN_USD = 0.02
 
   def display_ticker
     "$#{ticker}"

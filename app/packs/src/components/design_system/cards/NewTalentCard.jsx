@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { string, bool } from "prop-types";
+
+import { useTheme } from "src/contexts/ThemeContext";
 import currency from "currency.js";
 
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
@@ -9,6 +11,7 @@ import { H5, P1, P2, P3 } from "src/components/design_system/typography";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { Star } from "src/components/icons";
 import { func } from "prop-types";
+import { Verified } from "../../icons";
 
 const NewTalentCard = ({
   name,
@@ -23,9 +26,11 @@ const NewTalentCard = ({
   marketCap,
   supporterCount,
   publicPageViewer,
+  isVerified,
 }) => {
   const { mobile } = useWindowDimensionsHook();
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const { mode } = useTheme();
 
   const updateFollowing = (e) => {
     e.preventDefault();
@@ -65,11 +70,16 @@ const NewTalentCard = ({
           <div className="talent-card-title">
             <div className="d-flex flex-column align-items-center">
               <TalentProfilePicture src={profilePictureUrl} height={120} />
-              <H5
-                className="text-black mt-3 talent-card-name"
-                bold
-                text={name}
-              />
+              <div className="d-inline-flex align-items-baseline">
+                <H5
+                  className="text-black mt-3 talent-card-name mr-2"
+                  bold
+                  text={name}
+                />
+                {isVerified && (
+                  <Verified fill={mode == "light" ? "#9fa3a9" : "#ccced1"} />
+                )}
+              </div>
               <P2
                 className="text-primary-03 talent-card-occupation"
                 text={occupation}
@@ -92,11 +102,18 @@ const NewTalentCard = ({
               <div className="d-flex align-items-center">
                 <TalentProfilePicture src={profilePictureUrl} height={32} />
                 <div className="d-flex flex-column ml-3">
-                  <P2
-                    className="text-black talent-card-details-title"
-                    bold
-                    text={name}
-                  />
+                  <div className="d-inline-flex align-items-baseline">
+                    <P2
+                      className="text-black talent-card-details-title mr-2"
+                      bold
+                      text={name}
+                    />
+                    {isVerified && (
+                      <Verified
+                        fill={mode == "light" ? "#9fa3a9" : "#ccced1"}
+                      />
+                    )}
+                  </div>
                   <P3
                     className="text-primary-03 talent-card-details-title"
                     text={occupation}

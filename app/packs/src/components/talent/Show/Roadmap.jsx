@@ -48,6 +48,10 @@ const Roadmap = ({ goals, width, mode, mobile }) => {
     return "mx-auto";
   };
 
+  if (goals.length == 0) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="d-flex flex-row justify-content-between align-items-center mt-4">

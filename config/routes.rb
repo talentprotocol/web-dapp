@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     end
 
     # Edit profile
-    get "/u/:username/edit_profile", to: "users#edit_profile"
+    get "/u/:username/edit_profile", to: "users#edit_profile", as: "edit_profile"
 
     # Quests
     resources :quests, only: [:show]

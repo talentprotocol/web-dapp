@@ -77,7 +77,7 @@ class User < ApplicationRecord
   end
 
   def public_displayable?
-    profile_type == "talent"
+    profile_type == "talent" || profile_type == "approved"
   end
 
   def display_wallet_id
@@ -146,13 +146,28 @@ class User < ApplicationRecord
       notification_preferences[type.name] == Delivery::IMMEDIATE
   end
 
-  def supporters(including_self: true)
-    return User.none unless talent&.token
+  def supporters(including_self: true, invested_after: nil)
+    return User.none unless talent&.token&.deployed?
 
-    supporters_wallet_ids = TalentSupporter.where(talent_contract_id: talent.token.contract_id).pluck(:supporter_wallet_id)
+    talent_supporters = TalentSupporter.where(talent_contract_id: talent.token.contract_id)
+    talent_supporters = talent_supporters.where("last_time_bought_at > ?", invested_after) if invested_after
+
+    supporters_wallet_ids = talent_supporters.pluck(:supporter_wallet_id)
     supporters = User.where(wallet_id: supporters_wallet_ids)
 
     including_self ? supporters : supporters.where.not(id: id)
+  end
+
+  def portfolio(including_self: true, invested_after: nil)
+    return User.none unless wallet_id
+
+    talent_supporters = TalentSupporter.where(supporter_wallet_id: wallet_id)
+    talent_supporters = talent_supporters.where("last_time_bought_at > ?", invested_after) if invested_after
+
+    token_contract_ids = talent_supporters.pluck(:talent_contract_id)
+    supporting_users = User.joins(talent: :token).where(tokens: {contract_id: token_contract_ids})
+
+    including_self ? supporting_users : supporting_users.where.not(id: id)
   end
 
   def active_supporter?

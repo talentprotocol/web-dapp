@@ -163,7 +163,7 @@ const TalentTableListMode = ({
     const contractId = talent.token.contractId;
     switch (selectedSort) {
       case "Supporters":
-        return contractId ? talent.supporterCounter : "-";
+        return contractId ? talent.supportersCount : "-";
       case "Occupation":
         return talent.occupation;
       case "Market Cap":
@@ -368,7 +368,7 @@ const TalentTableListMode = ({
               <P2
                 text={
                   talent.token.contractId
-                    ? `${talent.supporterCounter || 0}`
+                    ? `${talent.supportersCount || 0}`
                     : "-"
                 }
               />

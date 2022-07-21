@@ -21,9 +21,13 @@
       </div>
       <div class="border-bottom border-primary mb-5">
       </div>
-      <div class="container my-5 sub-content">
+      <% if @without_container %>
         <%= yield %>
-      </div>
+      <% else %>
+        <div class="container my-5 sub-content">
+          <%= yield %>
+        </div>
+      <% end %>
       <div class="mb-5 border-bottom footer-border"></div>
       <div class="container pb-5 sub-content">
         <div class="row my-5 mx-0">

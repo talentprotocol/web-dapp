@@ -20,7 +20,7 @@ class API::V1::CareerGoals::GoalsController < ApplicationController
     @goal.career_goal = career_goal
 
     if @goal.save
-      UpdateTasksJob.perform_later(type: "Tasks::Goals", user_id: current_user.id) if career_goal.goals.length == 1
+      UpdateTasksJob.perform_later(type: "Tasks::Goals", user_id: current_user.id) if career_goal.goals.length >= 1
       render json: @goal, status: :created
     else
       render json: {error: "Unable to create goal"}, status: :unprocessable_entity

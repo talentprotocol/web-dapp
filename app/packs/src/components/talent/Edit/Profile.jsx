@@ -28,7 +28,7 @@ import cx from "classnames";
 const allowedTabs = [
   "About",
   "Highlights",
-  "Goal",
+  "Goals",
   "Token",
   "Perks",
   "Settings",
@@ -104,6 +104,8 @@ const Profile = (props) => {
       return "yellow";
     } else if (sharedState.user.profile_type == "approved") {
       return "green";
+    } else {
+      return "primary";
     }
   };
 
@@ -118,6 +120,8 @@ const Profile = (props) => {
         sharedState.user.profile_type == "talent"
       ) {
         return sharedState.talent.public ? "white-subtle" : "positive-default";
+      } else {
+        return "positive-default";
       }
     } else {
       return "positive-subtle";
@@ -132,7 +136,7 @@ const Profile = (props) => {
         return "Cancel Submission";
       case "approved":
       case "talent":
-        return sharedState.talent.public ? "Public" : "Publish Profile";
+        return "N/A";
       default:
         return "Send Profile for Approval";
     }
@@ -208,32 +212,34 @@ const Profile = (props) => {
   return (
     <>
       <div className="edit-profile-fixed-bar">
-        <Tooltip
-          body={`You are missing the following fields: ${requiredFields.join(
-            ", "
-          )}`}
-          popOverAccessibilityId={"progressStats"}
-          mode={theme.mode()}
-          hide={requiredFields.length == 0}
-        >
-          <div
-            className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-3`}
+        {progress != 100 && (
+          <Tooltip
+            body={`You are missing the following fields: ${requiredFields.join(
+              ", "
+            )}`}
+            popOverAccessibilityId={"progressStats"}
+            mode={theme.mode()}
+            hide={requiredFields.length == 0}
           >
-            <div className="d-flex flex-row w-100 justify-content-between edit-profile-talent-progress">
-              {/* below is required so the justify-content-between aligns properly */}
-              <P3 text="" />
-              <P3
-                mode={theme.mode()}
-                text={alertBarText()}
-                bold
-                className="current-color"
-              />
-              <P3 mode={theme.mode()} className="current-color">
-                <strong>{progress}</strong>/100%
-              </P3>
+            <div
+              className={`edit-profile-talent-progress-container-${alertBarColor()} py-2 px-3`}
+            >
+              <div className="d-flex flex-row w-100 justify-content-between edit-profile-talent-progress">
+                {/* below is required so the justify-content-between aligns properly */}
+                <P3 text="" />
+                <P3
+                  mode={theme.mode()}
+                  text={alertBarText()}
+                  bold
+                  className="current-color"
+                />
+                <P3 mode={theme.mode()} className="current-color">
+                  <strong>{progress}</strong>/100%
+                </P3>
+              </div>
             </div>
-          </div>
-        </Tooltip>
+          </Tooltip>
+        )}
         <div className="talent-table-tabs w-100 horizontal-scroll hide-scrollbar">
           <div
             className={cx(
@@ -262,12 +268,12 @@ const Profile = (props) => {
                 Highlights
               </div>
               <div
-                onClick={() => changeTab("Goal")}
+                onClick={() => changeTab("Goals")}
                 className={`talent-table-tab${
-                  activeTab == "Goal" ? " active-talent-table-tab" : ""
+                  activeTab == "Goals" ? " active-talent-table-tab" : ""
                 }`}
               >
-                Goal
+                Goals
                 {requiredFields.includes("Pitch") && <IncompleteTabIndicator />}
               </div>
               <div
@@ -291,6 +297,10 @@ const Profile = (props) => {
                 onClick={() => changeTab("Perks")}
                 className={`talent-table-tab${
                   activeTab == "Perks" ? " active-talent-table-tab" : ""
+                } ${
+                  sharedState.user.profile_type !== "approved" &&
+                  sharedState.user.profile_type !== "talent" &&
+                  "disabled-talent-table-tab"
                 }`}
               >
                 Perks
@@ -312,7 +322,7 @@ const Profile = (props) => {
                 Settings
               </div>
             </div>
-            {!mobile && (
+            {!mobile && buttonText() != "N/A" && (
               <>
                 <LoadingButton
                   onClick={() => onProfileButtonClick()}
@@ -398,7 +408,7 @@ const Profile = (props) => {
               buttonText={buttonText()}
             />
           )}
-          {activeTab == "Goal" && (
+          {activeTab == "Goals" && (
             <Goal
               {...sharedState}
               mode={theme.mode()}

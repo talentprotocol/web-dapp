@@ -2,7 +2,7 @@ class TalentBlueprint < Blueprinter::Base
   fields :id, :profile_picture_url
 
   view :normal do
-    fields :occupation, :headline, :user_id
+    fields :occupation, :headline, :user_id, :verified, :supporters_count
     association :token, blueprint: TokenBlueprint, view: :normal
     association :user, blueprint: UserBlueprint, view: :normal
 
@@ -13,7 +13,7 @@ class TalentBlueprint < Blueprinter::Base
 
   view :extended do
     include_view :normal
-    fields :banner_url, :profile, :public
+    fields :banner_url, :profile, :public, :supporters_count
     association :user, blueprint: UserBlueprint, view: :extended
     association :perks, blueprint: PerkBlueprint
     association :tags, blueprint: TagBlueprint do |talent, options|

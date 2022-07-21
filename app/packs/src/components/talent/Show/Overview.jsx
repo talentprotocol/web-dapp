@@ -4,6 +4,10 @@ import ReactPlayer from "react-player/youtube";
 import Divider from "../../design_system/other/Divider";
 import { P1, P2, H5, Caption } from "src/components/design_system/typography";
 
+const emptyProfile = (profile, careerGoal) => {
+  return !profile.headline && !careerGoal?.pitch && !careerGoal?.challenges;
+};
+
 const Overview = ({ user, profile, careerGoal, mode }) => {
   return (
     <>
@@ -16,6 +20,15 @@ const Overview = ({ user, profile, careerGoal, mode }) => {
         )}
       </section>
       <section className="d-flex flex-column mt-3 mr-lg-5">
+        {emptyProfile(profile, careerGoal) && (
+          <>
+            <H5>Oops, nothing here yet!</H5>
+            <P2
+              mode={mode}
+              text={`It looks like ${user.username} is still working on it.`}
+            />
+          </>
+        )}
         {profile.headline && (
           <H5 bold className="text-black">
             {profile.headline}

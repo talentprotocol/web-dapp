@@ -83,6 +83,7 @@ class API::V1::TalentController < ApplicationController
       :public,
       :disable_messages,
       :open_to_job_offers,
+      :verified,
       profile: [
         :pronouns,
         :occupation,

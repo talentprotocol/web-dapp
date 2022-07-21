@@ -55,6 +55,8 @@ export const getMarketCapVariance = (
 };
 
 export const parsedVariance = (variance) => {
+  if (!variance) return "0%";
+
   if (Math.abs(variance) < 0.01) return "0%";
 
   const percentageVariance = variance * 100;

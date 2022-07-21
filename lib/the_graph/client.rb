@@ -14,6 +14,7 @@ module TheGraph
         ) {
           id
           amount
+          lastTimeBoughtAt
           supporter {
             id
           }

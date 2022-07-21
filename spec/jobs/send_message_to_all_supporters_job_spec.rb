@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SendMessageToAllSupportersJob, type: :job do
   let(:sender) { create :user, talent: talent }
   let(:talent) { create :talent }
-  let(:token) { create :token, talent: talent }
+  let(:token) { create :token, talent: talent, deployed: true }
 
   let(:message) { "Thanks for your support!" }
 

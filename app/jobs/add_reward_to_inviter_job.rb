@@ -5,7 +5,9 @@ class AddRewardToInviterJob < ApplicationJob
     token = Token.find token_id
 
     if token.contract_id.present?
-      invite = Invite.find(token.talent.user.invite_id)
+      invite = Invite.find_by(id: token.talent.user.invite_id)
+      return unless invite
+
       user = invite.user
 
       return if user.admin?

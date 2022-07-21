@@ -1,3 +1,4 @@
+:concurrency: <%= ENV["SIDEKIQ_CONCURRENCY"] || 10 %>
 :logfile: log/sidekiq.log
 :queues:
   - critical
@@ -5,6 +6,8 @@
   - default
   - mailers
   - low
+:limits:
+  low: 1
 :schedule:
   send_notification_digests:
     cron: "0 10 * * *" # runs once every day at 10am
@@ -16,3 +19,19 @@
     cron: "0 * * * *" # Runs every hour
     class: TriggerTalentSupportersRefreshJob
     enabled: <%= ENV["ENABLE_THE_GRAPH_JOBS"] %>
+  send_token_launch_reminder:
+    cron: "0 10 * * *" # Runs once every day at 10am
+    class: EmailReminders::SendTokenLaunchReminderJob
+    enabled: <%= ENV["EMAIL_REMINDER_DAYS"].to_i > 0 %>
+  send_token_purchase_reminder:
+    cron: "0 10 * * *" # Runs once every day at 10am
+    class: EmailReminders::SendTokenPurchaseReminderJob
+    enabled: <%= ENV["EMAIL_REMINDER_DAYS"].to_i > 0 %>
+  send_complete_profile_reminder:
+    cron: "0 10 * * *" # runs once every day at 10am
+    class: EmailReminders::SendCompleteProfileReminderJob
+    enabled: <%= ENV["EMAIL_REMINDER_DAYS"].to_i > 0 %>
+  send_digest_email:
+    cron: "0 8 * * *" # runs once every day at 8am
+    class: EmailReminders::SendDigestEmailJob
+    enabled: <%= ENV["DIGEST_EMAIL_DAYS"].to_i > 0 %>

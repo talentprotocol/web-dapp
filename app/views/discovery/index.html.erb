@@ -15,9 +15,11 @@
             headline: talent["headline"],
             ticker: talent["token"]["ticker"],
             isFollowing: talent["is_following"],
+            isVerified: talent["verified"],
             name: talent["user"]["name"],
             username: talent["user"]["username"],
             userId: talent["user_id"],
+            supportersCount: talent["supporters_count"],
           }}
         }},
         marketingArticles: @marketing_articles.map { |article| {

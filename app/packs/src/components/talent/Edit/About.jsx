@@ -84,7 +84,7 @@ const About = (props) => {
     profile: false,
     public: false,
   });
-  const [opentoJobOffers, setOpentoJobOffers] = useState(
+  const [openToJobOffers, setOpenToJobOffers] = useState(
     props.talent.open_to_job_offers
   );
 
@@ -168,17 +168,16 @@ const About = (props) => {
     }
   };
 
-  const changeOpenToOffersAttribute = (attribute, value) => {
+  const changeOpenToOffersAttribute = (value) => {
     trackChanges(true);
-    validateWebsite(attribute, value);
 
-    setOpentoJobOffers(value);
+    setOpenToJobOffers(value);
 
     changeSharedState((prev) => ({
       ...prev,
       talent: {
-        open_to_job_offers: value,
         ...prev.talent,
+        open_to_job_offers: value,
       },
     }));
   };
@@ -386,8 +385,8 @@ const About = (props) => {
         </P2>
         <Checkbox
           className="form-check-input mt-4"
-          checked={opentoJobOffers}
-          onChange={() => changeOpenToOffersAttribute(!opentoJobOffers)}
+          checked={openToJobOffers}
+          onChange={() => changeOpenToOffersAttribute(!openToJobOffers)}
         >
           <div className="d-flex flex-wrap">
             <P2 className="mr-1" text="I'm open to new job offers" />
@@ -538,7 +537,7 @@ const About = (props) => {
           className="w-100"
         />
       </div>
-      <div className="d-flex flex-row w-100 justify-content-between mt-4">
+      {/* <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Discord"}
           mode={mode}
@@ -549,7 +548,7 @@ const About = (props) => {
           value={props.talent.profile.discord || ""}
           className="w-100"
         />
-      </div>
+      </div> */}
       <div className="d-flex flex-row w-100 justify-content-between mt-4">
         <TextInput
           title={"Github"}
@@ -576,7 +575,7 @@ const About = (props) => {
           mobile ? "justify-content-between" : ""
         } w-100 pb-4`}
       >
-        {mobile && (
+        {mobile && buttonText != "N/A" && (
           <LoadingButton
             onClick={() => onTogglePublic()}
             type={publicButtonType}
