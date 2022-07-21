@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "src/components/design_system/button";
+import LoadingButton from "src/components/button/LoadingButton";
 import { useWindowDimensionsHook } from "src/utils/window";
 import { patch } from "src/utils/requests";
 import { H5, P2 } from "src/components/design_system/typography";
 import { Alert } from "src/components/icons";
 
 const ApplyToLaunchTokenModal = ({ show, hide, investorId, username }) => {
+  const [loading, setLoading] = useState(false);
   const { mobile } = useWindowDimensionsHook();
 
   const upgradeToTalent = () => {
+    setLoading(true);
     patch(`/api/v1/supporters/${investorId}/upgrade_profile_to_talent`)
       .then(() => window.location.replace(`/u/${username}/edit_profile`))
-      .catch((e) => console.log("error", e));
+      .catch((e) => console.log("error", e))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -50,13 +54,15 @@ const ApplyToLaunchTokenModal = ({ show, hide, investorId, username }) => {
             type="white-subtle"
             size="big"
           />
-          <Button
+          <LoadingButton
             className="w-100"
             onClick={upgradeToTalent}
-            text="Let's do this!"
             type="primary-default"
             size="big"
-          />
+            loading={loading}
+          >
+            Let's do this!
+          </LoadingButton>
         </div>
       </Modal.Body>
     </Modal>
