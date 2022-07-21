@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import debounce from "lodash/debounce";
 import Uppy from "@uppy/core";
 import { FileInput } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
@@ -185,15 +186,19 @@ const About = ({
     changeSharedState((prev) => ({ ...prev, [attribute]: value }));
   };
 
-  const getTags = (tagName) => {
-    return get(`/api/v1/tags?description=${tagName}`).then((response) => {
-      return response.map((tag) => ({
-        value: tag.id,
-        label: tag.description,
-        count: tag.user_count,
-      }));
+  const getTags = (query, callback) => {
+    get(`/api/v1/tags?description=${query}`).then((response) => {
+      return callback(
+        response.map((tag) => ({
+          value: tag.description,
+          label: tag.description,
+          count: tag.user_count,
+        }))
+      );
     });
   };
+
+  const debouncedGetTags = debounce(getTags, 300);
 
   const onChangeTags = (newTags) => {
     trackChanges(true);
@@ -347,7 +352,7 @@ const About = ({
           onChange={(tags) => onChangeTags(tags)}
           defaultOptions
           value={selectedTags}
-          loadOptions={getTags}
+          loadOptions={debouncedGetTags}
           components={{ Option }}
         />
         <p className="short-caption">
