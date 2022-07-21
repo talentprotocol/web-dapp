@@ -44,12 +44,16 @@ RSpec.describe EmailReminders::SendDigestEmailJob, type: :job do
     end
 
     it "sets the timestamp when the complete profile reminder was sent to the user" do
-      freeze_time do
-        send_digest_email
+      Sidekiq::Testing.inline! do
+        freeze_time do
+          send_digest_email
 
-        expect(user_1.reload.digest_email_sent_at).to eq(Time.zone.now)
-        expect(user_2.reload.digest_email_sent_at).to eq(Time.zone.now)
-        expect(user_5.reload.digest_email_sent_at).to eq(Time.zone.now)
+          perform_enqueued_jobs
+
+          expect(user_1.reload.digest_email_sent_at).to eq(Time.zone.now)
+          expect(user_2.reload.digest_email_sent_at).to eq(Time.zone.now)
+          expect(user_5.reload.digest_email_sent_at).to eq(Time.zone.now)
+        end
       end
     end
   end
@@ -75,10 +79,14 @@ RSpec.describe EmailReminders::SendDigestEmailJob, type: :job do
     end
 
     it "sets the timestamp when the complete profile reminder was sent to the user" do
-      freeze_time do
-        send_digest_email
+      Sidekiq::Testing.inline! do
+        freeze_time do
+          send_digest_email
 
-        expect(user_1.reload.digest_email_sent_at).to eq(Time.zone.now)
+          perform_enqueued_jobs
+
+          expect(user_1.reload.digest_email_sent_at).to eq(Time.zone.now)
+        end
       end
     end
   end
