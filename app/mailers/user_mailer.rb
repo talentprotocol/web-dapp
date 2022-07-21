@@ -24,6 +24,8 @@ class UserMailer < ApplicationMailer
 
   def send_token_launch_reminder_email
     @user = indifferent_access_params[:user]
+    @user.update!(token_launch_reminder_sent_at: Time.now)
+
     bootstrap_mail(to: @user.email, subject: "All set - It's time to launch your token!")
   end
 
@@ -34,6 +36,8 @@ class UserMailer < ApplicationMailer
 
   def send_token_purchase_reminder_email
     @user = indifferent_access_params[:user]
+    @user.update!(token_purchase_reminder_sent_at: Time.now)
+
     bootstrap_mail(to: @user.email, subject: "You're missing out on $TAL rewards!")
   end
 
@@ -56,6 +60,7 @@ class UserMailer < ApplicationMailer
 
   def send_complete_profile_reminder_email
     @user = indifferent_access_params[:user]
+    @user.update!(complete_profile_reminder_sent_at: Time.zone.now)
     bootstrap_mail(to: @user.email, subject: "Complete your profile and launch your token today 🚀")
   end
 
@@ -76,7 +81,7 @@ class UserMailer < ApplicationMailer
     @invested_in_talents = Talent.where(user: invested_in_users).includes(:user)
     set_talent_profile_pictures_attachments(@invested_in_talents)
 
-    @talents = Talent.base.active.where("tokens.deployed_at > ?", digest_email_sent_at).includes(:user).limit(3)
+    @talents = Talent.base.active.where("tokens.deployed_at > ?", 2.weeks.ago).includes(:user).limit(3)
 
     set_talent_profile_pictures_attachments(@talents)
 
@@ -84,6 +89,8 @@ class UserMailer < ApplicationMailer
 
     @tal_amount = user_talent_supporters.map { |t| t.tal_amount.to_i }.sum / Token::TAL_DECIMALS
     @usd_amount = @tal_amount * Token::TAL_VALUE_IN_USD
+
+    @user.update!(digest_email_sent_at: Time.zone.now)
 
     bootstrap_mail(to: @user.email, subject: "The latest on Talent Protocol")
   end
