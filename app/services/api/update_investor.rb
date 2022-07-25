@@ -60,7 +60,7 @@ module API
     end
 
     def update_user_tags(params:)
-      if params[:tags].present?
+      if params[:tags]
         all_tags = params[:tags]
         investor
           .user
