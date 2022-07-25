@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_07_21_163639) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -393,6 +392,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_163639) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_profile_type_changes_on_user_id"
     t.index ["who_dunnit_id"], name: "index_user_profile_type_changes_on_who_dunnit_id"
+    t.check_constraint "(previous_profile_type)::text <> (new_profile_type)::text", name: "profile_types_check_constraint"
   end
 
   create_table "user_tags", force: :cascade do |t|
