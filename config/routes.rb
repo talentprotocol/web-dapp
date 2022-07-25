@@ -82,6 +82,7 @@ Rails.application.routes.draw do
         resources :supporters do
           patch :upgrade_profile_to_talent
         end
+        resources :tags, only: [:index]
       end
     end
   end
