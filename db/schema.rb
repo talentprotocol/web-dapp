@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_152311) do
+ActiveRecord::Schema.define(version: 2022_07_21_163639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,29 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.bigint "post_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "daily_metrics", force: :cascade do |t|
+    t.date "date", null: false
+    t.integer "total_users"
+    t.integer "total_connected_wallets"
+    t.integer "total_active_users"
+    t.integer "total_dead_accounts"
+    t.integer "total_talent_profiles"
+    t.integer "total_engaged_users"
+    t.integer "total_advocates"
+    t.integer "total_scouts"
+    t.integer "talent_applications"
+    t.integer "total_beginner_quests_completed"
+    t.integer "total_complete_profile_quests_completed"
+    t.integer "total_ambassador_quests_completed"
+    t.integer "total_supporter_quests_completed"
+    t.integer "total_celo_tokens"
+    t.integer "total_celo_supporters"
+    t.integer "total_polygon_tokens"
+    t.integer "total_polygon_supporters"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "discovery_rows", force: :cascade do |t|
@@ -420,10 +443,10 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
-    t.datetime "token_launch_reminder_sent_at"
-    t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
     t.datetime "digest_email_sent_at"
+    t.datetime "token_launch_reminder_sent_at"
+    t.datetime "token_purchase_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
