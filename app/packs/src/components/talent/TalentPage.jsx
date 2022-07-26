@@ -32,9 +32,6 @@ import {
 } from "src/components/talent/utils/talent";
 
 import cx from "classnames";
-import { toast } from 'react-toastify';
-import { StyledToastContainer, ToastBody } from "../design_system/toasts";
-import { ToastWarning } from "src/components/icons";
 
 const TalentPage = ({ talents, isAdmin }) => {
   const theme = useContext(ThemeContext);
@@ -58,13 +55,6 @@ const TalentPage = ({ talents, isAdmin }) => {
   const changeTab = (tab) => {
     setWatchlistOnly(tab === "Watchlist" ? true : false);
   };
-
-  // toast.success(<ToastBody heading="Your success message - make it short" body="Describe the event and give further instructions if needed, including links to to other pages" link="/talent" mode={theme}/>);
-  // toast.error(<ToastBody heading="Your critical message - make it short" body="Describe the event and give further instructions if needed, including links to to other pages" link="/talent" mode={theme}/>);
-  // toast.warning(<ToastBody heading="Your warning message - make it short" body="Describe the event and give further instructions if needed, including links to to other pages" mode={theme}/>, {
-  //   icon: ToastWarning
-  // });
-  // toast.info(<ToastBody heading="Your info message - make it short" body="Describe the event and give further instructions if needed, including links to to other pages" link="/talent" mode={theme}/>);
 
   const updateFollow = async (talent) => {
     const newLocalTalents = localTalents.map((currTalent) => {
@@ -191,7 +181,6 @@ const TalentPage = ({ talents, isAdmin }) => {
 
   return (
     <div className={cx("pb-6", mobile && "p-4")}>
-      <StyledToastContainer mode={theme} />
       <div className="mb-5 talent-list-header d-flex flex-column justify-content-center">
         <H3 className="text-black mb-3" bold text="Explore All Talent" />
         <P1

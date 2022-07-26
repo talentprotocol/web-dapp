@@ -40,6 +40,7 @@ import Rewards from "src/components/rewards";
 import QuestShow from "src/components/rewards/quests/show";
 import Footer from "src/components/design_system/footer";
 import FirstQuestPopup from "src/components/one_time_popups/FirstQuestPopup";
+import FlashMessages from "src/components/FlashMessages";
 
 import "stylesheets/application.scss";
 
@@ -73,6 +74,7 @@ ReactOnRails.register({
   Web3ModalConnect,
   WelcomePopup,
   FirstQuestPopup,
+  FlashMessages,
 });
 
 Rails.start();

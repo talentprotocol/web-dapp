@@ -8,7 +8,7 @@ const StyledToastContainer = ({ mode }) => (
     newestOnTop={false}
     closeOnClick
     hideProgressBar={true}
-    theme={mode.theme == "light-body" ? "light" : "dark"}
+    theme={mode}
   />
 );
 

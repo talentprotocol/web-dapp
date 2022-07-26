@@ -2,7 +2,7 @@ import React from "react";
 import { P1, P2 } from "src/components/design_system/typography";
 import cx from "classnames";
 
-const Error = ({ heading, body, link, mode }) => (
+const ToastBody = ({ heading, body, link, mode }) => (
   <div className={cx("toast-content", mode?.theme)}>
     <P1 bold className="toast-heading">
       {heading}
@@ -16,4 +16,4 @@ const Error = ({ heading, body, link, mode }) => (
   </div>
 );
 
-export default Error;
+export default ToastBody;

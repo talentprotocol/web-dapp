@@ -58,3 +58,4 @@ export { default as GreenCheck } from "src/components/icons/GreenCheck";
 export { default as ChatLight } from "src/components/icons/ChatLight";
 export { default as ChatDark } from "src/components/icons/ChatDark";
 export { default as ToastWarning } from "src/components/icons/ToastWarning";
+export { default as Verified } from "src/components/icons/Verified";
