@@ -1,4 +1,6 @@
 class API::V1::NotificationsController < ApplicationController
+  before_action :prevent_user_impersonation
+
   def mark_all_as_read
     current_user.notifications.where(read_at: nil).update_all(read_at: Time.current)
 

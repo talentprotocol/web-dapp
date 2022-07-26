@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
+import debounce from "lodash/debounce";
 import Uppy from "@uppy/core";
 import { FileInput } from "@uppy/react";
 import AwsS3Multipart from "@uppy/aws-s3-multipart";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import { components } from "react-select";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/file-input/dist/style.css";
 
 import { getAuthToken } from "src/utils/requests";
-import { patch } from "src/utils/requests";
+import { get, patch } from "src/utils/requests";
 
 import { H5, P2, Caption } from "src/components/design_system/typography";
 import TalentProfilePicture from "src/components/talent/TalentProfilePicture";
 import TextInput from "src/components/design_system/fields/textinput";
 import TextArea from "src/components/design_system/fields/textarea";
-import TagInput from "src/components/design_system/tag_input";
 import { ArrowRight } from "src/components/icons";
 import LoadingButton from "src/components/button/LoadingButton";
 import Button from "src/components/design_system/button";
@@ -76,6 +78,12 @@ const About = ({
     profile: false,
     public: false,
   });
+  const [selectedTags, setSelectedTags] = useState(
+    tags.map((tag) => ({
+      value: tag,
+      label: tag,
+    }))
+  );
 
   useEffect(() => {
     uppyProfile.on("upload-success", (file, response) => {
@@ -178,11 +186,31 @@ const About = ({
     changeSharedState((prev) => ({ ...prev, [attribute]: value }));
   };
 
-  const changeTags = (tags) => {
+  const getTags = (query, callback) => {
+    get(`/api/v1/tags?description=${query}`).then((response) => {
+      return callback(
+        response.map((tag) => ({
+          value: tag.description,
+          label: tag.description,
+          count: tag.user_count,
+        }))
+      );
+    });
+  };
+
+  const debouncedGetTags = debounce(getTags, 300);
+
+  const onChangeTags = (newTags) => {
     trackChanges(true);
+    setSelectedTags(
+      newTags.map((tag) => ({
+        value: tag.value,
+        label: tag.label.toLowerCase(),
+      }))
+    );
     changeSharedState((prev) => ({
       ...prev,
-      tags,
+      tags: newTags.map((tag) => tag.label.toLowerCase()),
     }));
   };
 
@@ -205,6 +233,17 @@ const About = ({
     !investor.profile.headline ||
     !investor.profile.occupation ||
     !profilePictureUrl;
+
+  const Option = (props) => {
+    return (
+      <components.Option {...props}>
+        <div className="d-flex justify-content-between">
+          {props.children}
+          <P2 text={props.data.count} />
+        </div>
+      </components.Option>
+    );
+  };
 
   return (
     <>
@@ -305,16 +344,20 @@ const About = ({
         />
       </div>
       <div className="d-flex flex-column w-100 justify-content-between mt-4">
-        <TagInput
-          label={"Tags"}
-          onTagChange={(newTags) => changeTags(newTags)}
-          tags={tags}
-          className="w-100"
+        <P2 className="text-black mb-2" bold text="Tags" />
+        <AsyncCreatableSelect
+          classNamePrefix="select"
+          isMulti
+          cacheOptions
+          onChange={(tags) => onChangeTags(tags)}
+          defaultOptions
+          value={selectedTags}
+          loadOptions={debouncedGetTags}
+          components={{ Option }}
         />
         <p className="short-caption">
           Add keywords that define you. Skills, industries, roles, passions,
-          hobbies. Press Enter to create a tag. Do not use commas or dots in the
-          tags
+          hobbies.
         </p>
       </div>
       <div className="d-flex flex-row w-100 justify-content-between mt-4">

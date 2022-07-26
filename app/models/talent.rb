@@ -1,4 +1,6 @@
 class Talent < ApplicationRecord
+  has_paper_trail
+
   include ::ProfilePictureUploader::Attachment(:profile_picture)
   include ::BannerUploader::Attachment(:banner)
 

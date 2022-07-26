@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_152311) do
-
+ActiveRecord::Schema.define(version: 2022_07_21_163639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,6 +92,29 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "daily_metrics", force: :cascade do |t|
+    t.date "date", null: false
+    t.integer "total_users"
+    t.integer "total_connected_wallets"
+    t.integer "total_active_users"
+    t.integer "total_dead_accounts"
+    t.integer "total_talent_profiles"
+    t.integer "total_engaged_users"
+    t.integer "total_advocates"
+    t.integer "total_scouts"
+    t.integer "talent_applications"
+    t.integer "total_beginner_quests_completed"
+    t.integer "total_complete_profile_quests_completed"
+    t.integer "total_ambassador_quests_completed"
+    t.integer "total_supporter_quests_completed"
+    t.integer "total_celo_tokens"
+    t.integer "total_celo_supporters"
+    t.integer "total_polygon_tokens"
+    t.integer "total_polygon_supporters"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "discovery_rows", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -140,6 +162,18 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.bigint "career_goal_id"
     t.string "title"
     t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
+  end
+
+  create_table "impersonations", force: :cascade do |t|
+    t.bigint "impersonator_id"
+    t.bigint "impersonated_id"
+    t.text "ip_ciphertext", null: false
+    t.string "ip_bidx"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["impersonated_id"], name: "index_impersonations_on_impersonated_id"
+    t.index ["impersonator_id"], name: "index_impersonations_on_impersonator_id"
+    t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
   end
 
   create_table "investors", force: :cascade do |t|
@@ -370,6 +404,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_profile_type_changes_on_user_id"
     t.index ["who_dunnit_id"], name: "index_user_profile_type_changes_on_who_dunnit_id"
+    t.check_constraint "(previous_profile_type)::text <> (new_profile_type)::text", name: "profile_types_check_constraint"
   end
 
   create_table "user_tags", force: :cascade do |t|
@@ -420,16 +455,27 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
     t.string "profile_type", default: "supporter", null: false
     t.boolean "first_quest_popup", default: false, null: false
     t.datetime "last_access_at"
-    t.datetime "token_launch_reminder_sent_at"
-    t.datetime "token_purchase_reminder_sent_at"
     t.datetime "complete_profile_reminder_sent_at"
     t.datetime "digest_email_sent_at"
+    t.datetime "token_launch_reminder_sent_at"
+    t.datetime "token_purchase_reminder_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invite_id"], name: "index_users_on_invite_id"
     t.index ["race_id"], name: "index_users_on_race_id"
     t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "wait_list", force: :cascade do |t|
@@ -452,6 +498,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_152311) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "impersonations", "users", column: "impersonated_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"

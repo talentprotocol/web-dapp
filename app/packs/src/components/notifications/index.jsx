@@ -106,6 +106,7 @@ const Notifications = ({ notifications, mode, hideBackground = false }) => {
               onClick={() => markAllAsRead()}
               type="white-ghost"
               className="d-flex align-items-center text-primary ml-auto"
+              disabled={currentNotifications.length == 0}
             >
               Mark all as read
             </Button>

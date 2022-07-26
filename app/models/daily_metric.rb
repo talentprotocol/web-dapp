@@ -1,0 +1,2 @@
+class DailyMetric < ApplicationRecord
+end

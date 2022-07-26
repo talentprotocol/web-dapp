@@ -84,6 +84,9 @@ gem "newrelic_rpm"
 # Slug generation
 gem "friendly_id", "~> 5.4.0"
 
+# Audits
+gem "paper_trail"
+
 # Data analytics
 gem "blazer"
 

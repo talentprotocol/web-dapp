@@ -35,3 +35,6 @@
     cron: "0 8 * * *" # runs once every day at 8am
     class: EmailReminders::SendDigestEmailJob
     enabled: <%= ENV["DIGEST_EMAIL_DAYS"].to_i > 0 %>
+  daily_metrics:
+    cron: "1 0 * * *" # runs once every day at 8am
+    class: DailyMetricsJob
