@@ -129,3 +129,176 @@
   color: $gray-400 !important;
   font-size: 0.9rem;
 }
+
+.select {
+  &__control {
+    background: $surface-hover !important;
+    color: $gray-800 !important;
+    border: 1px solid $surface-hover !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background: $surface-hover !important;
+      border: 1px solid $primary-400 !important;
+      box-sizing: border-box !important;
+      border-radius: 4px !important;
+    }
+
+    &:active {
+      background-color: $surface-hover !important;
+    }
+
+    &:focus {
+      background-color: $surface-hover !important;
+      border: 1px solid $primary-400 !important;
+    }
+
+    &:disabled {
+      color: $primary-outline-disabled !important;
+      background: $surface-hover !important;
+      border: 1px solid $surface-hover !important;
+      color: $gray-800 !important;
+    }
+  }
+
+  &__menu {
+    background-color: $white !important;
+    color: $black !important;
+    padding: 8px 8px !important;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 4px !important;
+    border: none !important;
+  }
+
+  &__option {
+    padding: 8px 32px 8px 8px !important;
+    border-radius: 4px !important;
+    background-color: inherit !important;
+
+    &:hover {
+      background-color: $surface-hover !important;
+    }
+
+    &.select__option--is-focused {
+      background-color: $surface-hover !important;
+    }
+  }
+
+  &__input-container {
+    color: $gray-800 !important;
+  }
+
+  &__indicator {
+    color: $gray-primary !important;
+
+    &:hover {
+      color: $gray-800 !important;
+      cursor: pointer !important;
+    }
+  }
+
+  &__multi-value {
+    background-color: $gray !important;
+    border-radius: 4px !important;
+
+    &:hover {
+      background-color: $light-gray-200 !important;
+    }
+
+    .select__multi-value__label {
+      color: $gray-800 !important;
+    }
+
+    .select__multi-value__remove {
+      background-color: inherit !important;
+      color: $gray-primary !important;
+      border-radius: 0 4px 4px 0 !important;
+
+      &:hover {
+        color: $gray-800 !important;
+      }
+    }
+  }
+}
+
+.dark-body .select {
+  &__control {
+    background: $gray-800 !important;
+    color: $white !important;
+    border: 1px solid $gray-800 !important;
+
+    ::placeholder {
+      color: $gray-400 !important;
+    }
+
+    &:hover {
+      background: $gray-800 !important;
+      border: 1px solid $primary !important;
+      box-sizing: border-box !important;
+      border-radius: 4px !important;
+    }
+
+    &:active {
+      background: $gray-800 !important;
+    }
+
+    &:focus {
+      background: $gray-800 !important;
+    }
+
+    &:disabled {
+      color: $primary-outline-disabled !important;
+      background: $gray-800 !important;
+      border: 1px solid $gray-800 !important;
+      color: $gray-600 !important;
+    }
+  }
+
+  &__menu {
+    color: $white !important;
+    background-color: $gray-800 !important;
+    box-shadow: none !important;
+  }
+
+  &__option {
+    &:hover {
+      background-color: $surface-hover-02 !important;
+    }
+
+    &.select__option--is-focused {
+      background-color: $surface-hover-02 !important;
+    }
+  }
+
+  &__input-container {
+    color: $white !important;
+  }
+
+  &__indicator {
+    color: $gray-200 !important;
+
+    &:hover {
+      color: $white !important;
+    }
+  }
+
+  &__multi-value {
+    background-color: $gray-400 !important;
+
+    &:hover {
+      background-color: $gray-300 !important;
+    }
+
+    .select__multi-value__label {
+      color: $white !important;
+    }
+
+    .select__multi-value__remove {
+      color: $gray-200 !important;
+
+      &:hover {
+        color: $white !important;
+      }
+    }
+  }
+}

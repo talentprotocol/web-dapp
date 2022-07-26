@@ -83,6 +83,7 @@ Rails.application.routes.draw do
           patch :upgrade_profile_to_talent
         end
         resources :impersonations, only: [:create, :destroy]
+        resources :tags, only: [:index]
       end
     end
   end
