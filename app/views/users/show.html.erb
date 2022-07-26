@@ -44,6 +44,7 @@
           followersCount: @talent["followers_count"],
           supportersCount: @talent["supporters_count"],
           admin: current_user ? current_user.admin? : false,
+          isCurrentUserImpersonated: is_user_impersonated?,
           user: {
             id: @talent["user_id"],
             email: @talent["user"]["email"],

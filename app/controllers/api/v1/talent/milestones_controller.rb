@@ -67,7 +67,7 @@ class API::V1::Talent::MilestonesController < ApplicationController
   end
 
   def validate_access
-    if talent.id != current_user.talent.id
+    if !current_user.admin? && talent.id != current_acting_user.talent&.id
       render json: {error: "You don't have access to perform that action"}, status: :unauthorized
     end
   end

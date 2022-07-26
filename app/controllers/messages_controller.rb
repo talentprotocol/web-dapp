@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_action :set_receiver, only: [:show, :create]
   before_action :set_user, only: [:index]
+  before_action :prevent_user_impersonation
 
   def index
     user_ids = Message.where(sender_id: current_user.id).pluck(:receiver_id)
@@ -65,7 +66,7 @@ class MessagesController < ApplicationController
       }, status: :bad_request
     end
 
-    job = SendMessageToAllSupportersJob.perform_later(current_user.id, message_params[:message])
+    job = SendMessageToAllSupportersJob.perform_later(current_acting_user.id, message_params[:message])
 
     render json: {job_id: job.provider_job_id}
   end

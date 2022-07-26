@@ -144,6 +144,7 @@ const NewPortfolio = ({
   userNFT,
   memberNFT,
   railsContext,
+  isCurrentUserImpersonated,
 }) => {
   // --- On chain variables ---
   const [localAccount, setLocalAccount] = useState("");
@@ -376,8 +377,10 @@ const NewPortfolio = ({
   };
 
   const onClaim = (contract_id) => {
-    setActiveContract(contract_id);
-    setShow(true);
+    if (contract_id && !isCurrentUserImpersonated) {
+      setActiveContract(contract_id);
+      setShow(true);
+    }
   };
 
   const networkChange = async () => {
@@ -609,6 +612,7 @@ const NewPortfolio = ({
           talents={supportedTalents}
           returnValues={returnValues}
           onClaim={onClaim}
+          isCurrentUserImpersonated={isCurrentUserImpersonated}
           loading={loading}
         />
       )}

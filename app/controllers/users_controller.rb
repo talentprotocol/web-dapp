@@ -72,7 +72,7 @@ class UsersController < ApplicationController
   end
 
   def edit_profile
-    if @user.id != current_user.id
+    if @user.id != current_acting_user.id
       redirect_to root_url
     end
 

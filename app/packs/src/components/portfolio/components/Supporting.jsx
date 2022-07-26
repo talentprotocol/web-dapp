@@ -97,6 +97,7 @@ const Supporting = ({
   talentTokensInCUSD,
   talentTokensInTAL,
   loading,
+  isCurrentUserImpersonated,
 }) => {
   const [talentProfilePictures, setTalentProfilePictures] = useState({});
   const [talentProfileUsernames, setTalentProfileUsernames] = useState({});
@@ -478,7 +479,7 @@ const Supporting = ({
                   onClick={() => onClaim(talent.contract_id)}
                   className="mr-2 button-link remove-background"
                 >
-                  <Link text="Claim rewards" bold />
+                  <Link text="Claim rewards" bold disabled={isCurrentUserImpersonated} />
                 </button>
               </Table.Td>
             </Table.Tr>

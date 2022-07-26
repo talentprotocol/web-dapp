@@ -164,6 +164,18 @@ ActiveRecord::Schema.define(version: 2022_07_21_163639) do
     t.index ["career_goal_id"], name: "index_goals_on_career_goal_id"
   end
 
+  create_table "impersonations", force: :cascade do |t|
+    t.bigint "impersonator_id"
+    t.bigint "impersonated_id"
+    t.text "ip_ciphertext", null: false
+    t.string "ip_bidx"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["impersonated_id"], name: "index_impersonations_on_impersonated_id"
+    t.index ["impersonator_id"], name: "index_impersonations_on_impersonator_id"
+    t.index ["ip_bidx"], name: "index_impersonations_on_ip_bidx"
+  end
+
   create_table "investors", force: :cascade do |t|
     t.string "description"
     t.string "public_key"
@@ -455,6 +467,17 @@ ActiveRecord::Schema.define(version: 2022_07_21_163639) do
     t.index ["wallet_id"], name: "index_users_on_wallet_id", unique: true
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   create_table "wait_list", force: :cascade do |t|
     t.boolean "approved", default: false
     t.string "email", null: false
@@ -475,6 +498,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_163639) do
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "goals", "career_goals"
+  add_foreign_key "impersonations", "users", column: "impersonated_id"
   add_foreign_key "invites", "users"
   add_foreign_key "marketing_articles", "users"
   add_foreign_key "milestones", "talent"

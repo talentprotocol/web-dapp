@@ -54,6 +54,7 @@ const LaunchTokenModal = ({ mode, ticker, setTicker, deployToken, error }) => (
         {error?.tickerTaken && (
           <P2 className="text-danger">Your ticker is already taken.</P2>
         )}
+        {error?.message && <P2 className="text-danger">{error?.message}</P2>}
         <div className={`divider ${mode} my-3`}></div>
         <P2 className="mb-2">
           In order to deploy a Talent Token you'll need to have CELO in your
@@ -275,19 +276,18 @@ const Token = (props) => {
       setShow(false);
     });
 
-    if (response) {
-      if (!response.error) {
-        changeSharedState((prev) => ({
-          ...prev,
-          token: {
-            ...prev.token,
-            ticker,
-          },
-        }));
-        return true;
-      }
+    if (response && !response.error) {
+      changeSharedState((prev) => ({
+        ...prev,
+        token: {
+          ...prev.token,
+          ticker,
+        },
+      }));
+      return true;
     }
 
+    setError((prev) => ({ ...prev, message: response?.error }));
     return false;
   };
 
@@ -303,7 +303,7 @@ const Token = (props) => {
       return;
     }
 
-    const result = saveTicker();
+    const result = await saveTicker();
 
     if (result) {
       const deployed = await createToken();
