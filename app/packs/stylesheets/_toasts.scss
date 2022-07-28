@@ -1,0 +1,94 @@
+:root {
+  --toastify-color-light: #FFFFFF;
+  --toastify-color-dark: #2D2F32;
+  --toastify-color-info: #FFFFFF;
+  --toastify-color-success: #FFFFFF;
+  --toastify-color-warning: #FFFFFF;
+  --toastify-color-error: #FFFFFF;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: #7A55FF;
+  --toastify-icon-color-success: #1DB954;
+  --toastify-icon-color-warning: #FFD166;
+  --toastify-icon-color-error: #FF2222;
+
+  --toastify-toast-width: 320px;
+  --toastify-toast-background: #FFFFFF;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: sans-serif;
+  --toastify-z-index: 9999;
+
+  --toastify-text-color-light: #536471;
+  --toastify-text-color-dark: #AAADB3;
+
+  //Used only for colored theme
+  --toastify-text-color-info: #fff;
+  --toastify-text-color-success: #fff;
+  --toastify-text-color-warning: #fff;
+  --toastify-text-color-error: #fff;
+
+  --toastify-spinner-color: #616161;
+  --toastify-spinner-color-empty-area: #e0e0e0;
+
+  // Used when no type is provided
+  // toast("**hello**")
+  --toastify-color-progress-light: linear-gradient(
+    to right,
+    #4cd964,
+    #5ac8fa,
+    #007aff,
+    #34aadc,
+    #5856d6,
+    #ff2d55
+  );
+  // Used when no type is provided
+  --toastify-color-progress-dark: #bb86fc;
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+  --toastify-toast-width: 450px;
+  --toastify-font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.Toastify__toast-body {
+  align-items: baseline;
+}
+
+.Toastify__toast-icon {
+  height: 16px;
+  width: 16px;
+}
+
+.toast-content {
+  padding-left: 0.75rem;
+
+  .toast-heading {
+    color: #000;
+    line-height: 165%;
+    margin-bottom: 4px;
+  }
+
+  .toast-body {
+    padding: 0;
+    color: $light-primary-03;
+    margin-bottom: 8px;
+  }
+}
+
+.toast-content.dark-body {
+  background-color: $gray-800 !important;
+
+  .toast-heading {
+    color: #FFF;
+  }
+
+  .toast-body {
+    color: $gray-300;
+  }
+}
+
+.toast-content.light-body {
+  background-color: #FFF !important;
+}

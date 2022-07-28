@@ -44,6 +44,7 @@
           <%= yield %>
         </div>
         <%= render "shared/footer" %>
+        <%= react_component('FlashMessages', props: {messages: flash_messages, mode: current_user&.active_theme || "light"}) %>
       </div>
     </body>
   <% else %>
