@@ -1,6 +1,6 @@
 <main class="main-content">
   <div class="container-grid">
-    <% if current_user.talent.present? %>
+    <% if current_acting_user.talent.present? %>
       <%= react_component("EditTalent", props:
         {
           talent: @talent.as_json,
@@ -12,32 +12,40 @@
           career_goal: @talent.career_goal.as_json,
           goals: @talent.career_goal.present? ? @talent.career_goal&.goals.order(:due_date) : [],
           milestones: @talent.milestones.as_json,
-          current_user_id: current_user.id,
+          current_user_id: current_acting_user.id,
           token_live: @talent.token.deployed?,
-          user: { id: current_user.id, email: current_user.email, username: current_user.username, display_name: current_user.display_name, messaging_disabled: current_user.messaging_disabled, wallet_id: current_user.wallet_id, profile_type: current_user.profile_type },
+          user: { 
+            id: current_acting_user.id,
+            email: current_acting_user.email,
+            username: current_acting_user.username,
+            display_name: current_acting_user.display_name,
+            messaging_disabled: current_acting_user.messaging_disabled,
+            wallet_id: current_acting_user.wallet_id,
+            profile_type: current_acting_user.profile_type 
+          },
           notificationPreferences: User::Delivery::TYPES.map do |type|
             [type, @talent.user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
           end.to_h,
           posts: @talent.user.posts.as_json,
-          invites: current_user.invites.as_json,
+          invites: current_acting_user.invites.as_json,
         }, prerender: false)
       %>
     <% else %>
       <%= react_component("EditSupporter", props:
         {
-          id: current_user.id,
+          id: current_acting_user.id,
           investor: @investor.as_json,
-          username: current_user.username,
-          email: current_user.email,
-          displayName: current_user.display_name,
-          walletId: current_user.wallet_id,
-          messagingDisabled: current_user.messaging_disabled,
-          invites: current_user.invites.as_json,
-          tags: current_user.tags.where(hidden: false).map(&:description),
+          username: current_acting_user.username,
+          email: current_acting_user.email,
+          displayName: current_acting_user.display_name,
+          walletId: current_acting_user.wallet_id,
+          messagingDisabled: current_acting_user.messaging_disabled,
+          invites: current_acting_user.invites.as_json,
+          tags: current_acting_user.tags.where(hidden: false).map(&:description),
           profilePictureUrl: @investor.profile_picture_url,
           bannerUrl: @investor.banner_url,
           notificationPreferences: User::Delivery::TYPES.map do |type|
-              [type, current_user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
+              [type, current_acting_user.notification_preferences[type].presence || User::Delivery::IMMEDIATE]
             end.to_h
         }, prerender: false)
       %>

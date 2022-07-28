@@ -1,18 +1,20 @@
 <% profile_picture_url = attachments["profile_picture-#{talent.id}.png"]&.url %>
 <% user = talent.user %>
 
-<div class="row mb-5 border rounded-xl mx-0 gap-2">
-  <% if profile_picture_url %>
-    <div class="col-1 py-3">
-      <img class="img-fluid w-lg-9 h-lg-9 my-auto rounded-image ay-middle ml-3 mt-1" src=<%= profile_picture_url %> alt="User profile picture" />
+<%= link_to edit_profile_url(username: @user.username) do %>
+  <div class="row mb-5 border rounded-xl mx-0 gap-2">
+    <% if profile_picture_url %>
+      <div class="col-1 py-3">
+        <img class="w-lg-8 h-lg-8 w-7 h-7 my-auto rounded-image ay-middle ml-3 mt-1 talent-image" src=<%= profile_picture_url %> alt="User profile picture" />
+      </div>
+    <% end %>
+    <div class="col-11 py-3">
+      <p class="ay-middle user-title primary-2 ml-1">
+        &nbsp;&nbsp; <%= user.display_name || user.username %>
+      </p>
+      <p class="ay-middle primary-3 text-xs ml-1">
+        &nbsp;&nbsp; <%= talent.occupation %>
+      </p>
     </div>
-  <% end %>
-  <div class="col-11 py-3">
-    <p class="ay-middle user-title primary-2 ml-1">
-      &nbsp;&nbsp; <%= user.display_name || user.username %>
-    </p>
-    <p class="ay-middle primary-3 text-xs ml-1">
-      &nbsp;&nbsp; <%= talent.occupation %>
-    </p>
   </div>
-</div>
+<% end %>

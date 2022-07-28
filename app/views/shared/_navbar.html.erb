@@ -4,25 +4,25 @@
   portfolioPath: portfolio_path,
   messagesPath: messages_path,
   rewardsPath: earn_path,
-  hasUnreadMessages: current_user&.has_unread_messages?,
+  hasUnreadMessages: is_user_impersonated? ? false : current_acting_user&.has_unread_messages?,
 }, prerender: false) %>
 
 <%= react_component("TopBar", props: {
   mode: current_user&.theme_preference || "light",
   user: {
-    id: current_user.id,
-    profilePictureUrl: current_user.talent&.profile_picture_url || current_user.investor&.profile_picture_url,
-    talentId: current_user.talent&.id,
-    investorId: current_user.investor&.id,
-    isTalent: current_user.talent.present?,
-    displayWalletId: current_user.display_wallet_id,
-    walletId: current_user.wallet_id,
-    username: current_user.username,
-    tokenLive: current_user.talent&.token&.contract_id.present?,
-    currentTheme: current_user.theme_preference,
+    id: current_acting_user.id,
+    profilePictureUrl: current_acting_user.talent&.profile_picture_url || current_acting_user.investor&.profile_picture_url,
+    talentId: current_acting_user.talent&.id,
+    investorId: current_acting_user.investor&.id,
+    isTalent: current_acting_user.talent.present?,
+    displayWalletId: current_acting_user.display_wallet_id,
+    walletId: current_acting_user.wallet_id,
+    username: current_acting_user.username,
+    tokenLive: current_acting_user.talent&.token&.contract_id.present?,
+    currentTheme: current_acting_user.theme_preference,
   },
-  hasUnreadMessages: current_user&.has_unread_messages?,
-  notifications: current_user.notifications.newest_first.map do |notif|
+  hasUnreadMessages: is_user_impersonated? ? false : current_user&.has_unread_messages?,
+  notifications: is_user_impersonated? ? [] : current_user.notifications.newest_first.map do |notif|
     notif = notif.to_notification
     {
       id: notif.record.id,
@@ -34,5 +34,8 @@
       created_at: notif.record.created_at
     }
   end,
-  signOutPath: sign_out_path
+  signOutPath: sign_out_path,
+  isUserImpersonated: is_user_impersonated?,
+  impersonatedUsername: current_impersonated_user&.username,
+  stopImpersonationPath: api_v1_impersonation_path(current_acting_user.id)
 }, prerender: false) %>

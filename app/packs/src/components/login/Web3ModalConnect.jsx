@@ -81,7 +81,7 @@ const Web3ModalConnect = ({
         setError(true);
       });
 
-      if (result.errors) {
+      if (result.errors || result.error) {
         setError(true);
         setRequestingWalletConnection(false);
       } else {
