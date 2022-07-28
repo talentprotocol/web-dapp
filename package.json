@@ -4,7 +4,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.15",
     "@babel/preset-react": "^7.13.13",
-    "@celo/contractkit": "1.5.1",
+    "@celo/contractkit": "2.0.0",
     "@fontsource/plus-jakarta-sans": "^4.5.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
