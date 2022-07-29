@@ -4,8 +4,22 @@ services:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
     environment:
       POSTGRES_PASSWORD: password
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./tmp/redis:/data
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: minio server /data --console-address :9001
   web:
     build:
       context: .
@@ -15,7 +29,6 @@ services:
       - /mvp/node_modules
     ports:
       - "3000:3000"
-      - "3035:3035"
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
       DATABASE_HOST: "db"
@@ -23,3 +36,5 @@ services:
       DATABASE_PASSWORD: "password"
     depends_on:
       - db
+      - redis
+      - minio
